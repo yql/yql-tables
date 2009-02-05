@@ -17,6 +17,7 @@
       <inputs>
         <key id="nickname" type="xs:string" paramType="path" required="true" batchable="true" maxBatchItems="10"/>
         <key id="service" type="xs:string" paramType="query"/>
+        <!-- Basic base64(nickname:remotekey) -->
         <key id="authorization" type="xs:string" paramType="header"/>
       </inputs>
     </select>
