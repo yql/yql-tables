@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://developer.nytimes.com/docs/article_search_api/</documentationURL>
+    <sampleQuery>select * from {table} where query='yahoo' and apikey='...' and begin_date='19990112' and end_date='19993112'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="JSON" itemPath="json.facets">
+      <urls>
+        <url>http://api.nytimes.com/svc/search/v1/article?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="10" id="size"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="query" type="xs:string" paramType="query" required="true"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="facets" type="xs:string" paramType="query" required="true"/>
+        <key id="begin_date" type="xs:number" paramType="query"/>
+        <key id="end_date" type="xs:number" paramType="query"/>
+        <key id="fields" type="xs:string" paramType="query"/>
+        <key id="format" type="xs:string" paramType="query" const="true" default="json"/>
+        <key id="rank" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="JSON" itemPath="json.results">
+      <urls>
+        <url>http://api.nytimes.com/svc/search/v1/article?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="10" id="size"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="query" type="xs:string" paramType="query" required="true"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="begin_date" type="xs:number" paramType="query"/>
+        <key id="end_date" type="xs:number" paramType="query"/>
+        <key id="fields" type="xs:string" paramType="query"/>
+        <key id="format" type="xs:string" paramType="query" const="true" default="json"/>
+        <key id="rank" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
