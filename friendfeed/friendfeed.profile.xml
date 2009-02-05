@@ -7,6 +7,22 @@
   <bindings>
     <select produces="JSON" itemPath="">
       <urls>
+        <url>http://friendfeed.com/api/user/{nickname}/profile</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="100" id="num"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="nickname" type="xs:string" paramType="path" required="true"/>
+        <key id="service" type="xs:string" paramType="query"/>
+        <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="JSON" itemPath="">
+      <urls>
         <url>http://friendfeed.com/api/profiles?nickname={-listjoin|,|nickname}</url>
       </urls>
       <paging model="offset">
@@ -15,7 +31,7 @@
         <total default="10"/>
       </paging>
       <inputs>
-        <key id="nickname" type="xs:string" paramType="path" required="true" batchable="true" maxBatchItems="10"/>
+        <key id="nicknames" type="xs:string" paramType="path" required="true" batchable="true" maxBatchItems="10"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
       </inputs>
@@ -33,6 +49,7 @@
         <key id="room" type="xs:string" paramType="path" required="true"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -48,6 +65,7 @@
         <key id="list" type="xs:string" paramType="path" required="true"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
   </bindings>

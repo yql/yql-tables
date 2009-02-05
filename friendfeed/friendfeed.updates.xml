@@ -21,6 +21,7 @@
         <key id="token" type="xs:string" paramType="query" required="true"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -39,6 +40,7 @@
         <key id="token" type="xs:string" paramType="query" required="true"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -57,6 +59,7 @@
         <key id="token" type="xs:string" paramType="query" required="true"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -74,6 +77,7 @@
         <key id="token" type="xs:string" paramType="query" required="true"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -89,6 +93,7 @@
         <key id="format" type="xs:string" paramType="query" default="xml" const="true"/>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
   </bindings>

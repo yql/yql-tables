@@ -17,6 +17,7 @@
       <inputs>
         <key id="service" type="xs:string" paramType="query"/>
         <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
       </inputs>
     </select>
   </bindings>

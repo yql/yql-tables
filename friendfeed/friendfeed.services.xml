@@ -7,7 +7,7 @@
   <bindings>
     <select produces="JSON" itemPath="json.entries">
       <urls>
-        <url>http://friendfeed.com/api/feed/rooms</url>
+        <url>http://friendfeed.com/api/services</url>
       </urls>
       <paging model="offset">
         <start default="0" id="start"/>
