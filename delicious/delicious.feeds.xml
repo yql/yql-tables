@@ -3,7 +3,6 @@
   <meta>
     <author>Yahoo! Inc.</author>
     <documentationURL>http://delicious.com/</documentationURL>
-    <sampleQuery>select * from {table} where popular="true"</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="rss.channel.item" produces="XML">

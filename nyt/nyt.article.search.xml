@@ -3,7 +3,6 @@
   <meta>
     <author>Sam Pullara</author>
     <documentationURL>http://developer.nytimes.com/docs/article_search_api/</documentationURL>
-    <sampleQuery>select * from {table} where query='yahoo' and apikey='...' and begin_date='19990112' and end_date='19993112'</sampleQuery>
   </meta>
   <bindings>
     <select produces="JSON" itemPath="json.facets">
