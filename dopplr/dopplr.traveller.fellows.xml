@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://dopplr.pbwiki.com/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>https://www.dopplr.com/api/fellows?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="traveller" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

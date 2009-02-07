@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://dopplr.pbwiki.com/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="location_on_date.location">
+      <urls>
+        <url>https://www.dopplr.com/api/location_on_date?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="date" type="xs:string" paramType="query" required="true"/>
+        <key id="traveller" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="search.traveller">
+      <urls>
+        <url>https://www.dopplr.com/api/traveller_search?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="q" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="traveller_info.traveller">
+      <urls>
+        <url>https://www.dopplr.com/api/traveller_info?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="traveller" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

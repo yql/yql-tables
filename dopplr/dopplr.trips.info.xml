@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://dopplr.pbwiki.com/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="tag.trip">
+      <urls>
+        <url>https://www.dopplr.com/api/tag?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="tag" type="xs:string" paramType="query" required="true"/>
+        <key id="traveller" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="trip_info.trip">
+      <urls>
+        <url>https://www.dopplr.com/api/trip_info?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="trip_id" type="xs:number" paramType="query" required="true"/>
+        <key id="traveller" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="trips_info.trip">
+      <urls>
+        <url>https://www.dopplr.com/api/trips_info?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="traveller" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

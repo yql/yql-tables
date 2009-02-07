@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://dopplr.pbwiki.com/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>https://www.dopplr.com/api/city_info?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="geoname_id" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>https://www.dopplr.com/api/city_info?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="woeid" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>https://www.dopplr.com/api/city_search?format=xml</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+        <key id="q" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
