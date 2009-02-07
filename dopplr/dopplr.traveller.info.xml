@@ -15,7 +15,7 @@
         <key id="traveller" type="xs:string" paramType="query"/>
       </inputs>
     </select>
-    <select produces="XML" itemPath="search.traveller">
+    <select produces="XML" itemPath="traveller_search.traveller">
       <urls>
         <url>https://www.dopplr.com/api/traveller_search?format=xml</url>
       </urls>

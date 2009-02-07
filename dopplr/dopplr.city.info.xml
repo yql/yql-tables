@@ -5,7 +5,7 @@
     <documentationURL>http://dopplr.pbwiki.com/</documentationURL>
   </meta>
   <bindings>
-    <select produces="XML" itemPath="">
+    <select produces="XML" itemPath="city_info.city">
       <urls>
         <url>https://www.dopplr.com/api/city_info?format=xml</url>
       </urls>
@@ -14,7 +14,7 @@
         <key id="geoname_id" type="xs:string" paramType="query" required="true"/>
       </inputs>
     </select>
-    <select produces="XML" itemPath="">
+    <select produces="XML" itemPath="city_info.city">
       <urls>
         <url>https://www.dopplr.com/api/city_info?format=xml</url>
       </urls>
@@ -23,7 +23,7 @@
         <key id="woeid" type="xs:string" paramType="query" required="true"/>
       </inputs>
     </select>
-    <select produces="XML" itemPath="">
+    <select produces="XML" itemPath="city_search.city">
       <urls>
         <url>https://www.dopplr.com/api/city_search?format=xml</url>
       </urls>
