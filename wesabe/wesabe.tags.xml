@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>https://www.wesabe.com/page/api</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>https://www.wesabe.com/tags/{tag}.xml</url>
+      </urls>
+      <inputs>
+        <key id="tag" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
