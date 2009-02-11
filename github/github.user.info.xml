@@ -5,7 +5,7 @@
     <documentationURL></documentationURL>
   </meta>
   <bindings>
-    <select itemPath="feed.entry" produces="XML">
+    <select itemPath="user" produces="XML">
       <urls>
         <url>http://github.com/api/v1/xml/{id}</url>
       </urls>
