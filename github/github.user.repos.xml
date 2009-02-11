@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Dav Glass</author>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="user.repositories.repository" produces="XML">
+      <urls>
+        <url>http://github.com/api/v1/xml/{id}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
