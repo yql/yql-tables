@@ -5,7 +5,7 @@
     <documentationURL></documentationURL>
   </meta>
   <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="commits" produces="XML">
       <urls>
         <url>http://github.com/api/v1/xml/{id}/{repo}/commits/master</url>
       </urls>
