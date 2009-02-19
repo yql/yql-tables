@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Rasmus Lerdorf</author>
-    <documentationURL>http://geoip.pidgets.com/doc.html</documentationURL>
+    <documentationURL>http://geoip.pidgets.com</documentationURL>
     <description>Geoip lookup</description>
     <sampleQuery>select * from {table} where ip='128.100.100.128'</sampleQuery>
   </meta>
