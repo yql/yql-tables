@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rasmus Lerdorf</author>
+    <documentationURL>http://geoip.pidgets.com/doc.html</documentationURL>
+    <description>Geoip lookup</description>
+    <sampleQuery>select * from {table} where ip='128.100.100.128'</sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="Result" produces="XML">
+      <urls>
+        <url env="all">http://geoip.pidgets.com/</url>
+      </urls>
+      <inputs>
+        <key id="ip" type="xs:string" paramType="query" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
