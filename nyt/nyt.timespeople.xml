@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>New York Times</author>
+    <description>NYT TimesPeople social network.</description>
+    <documentationURL>http://developer.nytimes.com/docs/timespeople_api/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="JSON" itemPath="profiles">
+      <urls>
+        <url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/profile.js?api-key={apikey}</url>
+      </urls>
+      <inputs>
+        <key id="user-id" type="xs:string" paramType="path" required="true"/>
+        <key id="version" type="xs:string" paramType="path" default="v1"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+
+    <select produces="JSON" itemPath="ids">
+      <urls>
+        <url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{email-hash}/id.js?api-key={apikey}</url>
+      </urls>
+      <inputs>
+        <key id="email-hash" type="xs:string" paramType="path" required="true"/>
+        <key id="version" type="xs:string" paramType="path" default="v1"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+
+    <select produces="JSON" itemPath="newsfeed.items">
+      <urls>
+        <url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/newsfeed.js?api-key={apikey}</url>
+      </urls>
+      <inputs>
+        <key id="user-id" type="xs:string" paramType="path" required="true"/>
+        <key id="version" type="xs:string" paramType="path" default="v1"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+
+    <select produces="JSON" itemPath="profiles.followers">
+      <urls>
+        <url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/followers.js?api-key={apikey}</url>
+      </urls>
+      <inputs>
+        <key id="user-id" type="xs:string" paramType="path" required="true"/>
+        <key id="version" type="xs:string" paramType="path" default="v1"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+
+    <select produces="JSON" itemPath="profiles.followed">
+      <urls>
+        <url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/following.js?api-key={apikey}</url>
+      </urls>
+      <inputs>
+        <key id="user-id" type="xs:string" paramType="path" required="true"/>
+        <key id="version" type="xs:string" paramType="path" default="v1"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+
+    <select produces="JSON" itemPath="activities">
+      <urls>
+        <url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/activity.js?api-key={apikey}</url>
+      </urls>
+      <inputs>
+        <key id="user-id" type="xs:string" paramType="path" required="true"/>
+        <key id="version" type="xs:string" paramType="path" default="v1"/>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+
+  </bindings>
+</table>
