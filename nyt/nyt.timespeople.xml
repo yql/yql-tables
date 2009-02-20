@@ -13,7 +13,7 @@
       <inputs>
         <key id="user-id" type="xs:string" paramType="path" required="true"/>
         <key id="version" type="xs:string" paramType="path" default="v1"/>
-        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
 
@@ -24,7 +24,7 @@
       <inputs>
         <key id="email-hash" type="xs:string" paramType="path" required="true"/>
         <key id="version" type="xs:string" paramType="path" default="v1"/>
-        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
 
@@ -35,7 +35,7 @@
       <inputs>
         <key id="user-id" type="xs:string" paramType="path" required="true"/>
         <key id="version" type="xs:string" paramType="path" default="v1"/>
-        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
 
@@ -46,7 +46,7 @@
       <inputs>
         <key id="user-id" type="xs:string" paramType="path" required="true"/>
         <key id="version" type="xs:string" paramType="path" default="v1"/>
-        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
 
@@ -57,7 +57,7 @@
       <inputs>
         <key id="user-id" type="xs:string" paramType="path" required="true"/>
         <key id="version" type="xs:string" paramType="path" default="v1"/>
-        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
 
@@ -68,7 +68,7 @@
       <inputs>
         <key id="user-id" type="xs:string" paramType="path" required="true"/>
         <key id="version" type="xs:string" paramType="path" default="v1"/>
-        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
 
