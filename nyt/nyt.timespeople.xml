@@ -50,7 +50,7 @@
       </inputs>
     </select>
 
-    <select produces="JSON" itemPath="profiles.followed">
+    <select produces="JSON" itemPath="profiles.following">
       <urls>
         <url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/following.js?api-key={apikey}</url>
       </urls>
