@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+	<author>New York Times</author>
+	<description>NYT TimesPeople social network - following</description>
+	<documentationURL>http://developer.nytimes.com/docs/timespeople_api/</documentationURL>
+  </meta>
+  <bindings>
+	<select produces="JSON" itemPath="results">
+	  <urls>
+		<url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/following.js?api-key={apikey}</url>
+	  </urls>
+	  <inputs>
+		<key id="user-id" type="xs:string" paramType="path" required="true"/>
+		<key id="version" type="xs:string" paramType="path" default="v1"/>
+		<key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
+	  </inputs>
+	</select>
+		<select produces="XML" itemPath="result_set.results">
+	  <urls>
+		<url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/following.xml?api-key={apikey}</url>
+	  </urls>
+	  <inputs>
+		<key id="user-id" type="xs:string" paramType="path" required="true"/>
+		<key id="version" type="xs:string" paramType="path" default="v1"/>
+		<key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
+	  </inputs>
+	</select>
+
+  </bindings>
+</table>
+
