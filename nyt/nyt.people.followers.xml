@@ -13,7 +13,7 @@
 	  <inputs>
 		<key id="user-id" type="xs:string" paramType="path" required="true"/>
 		<key id="version" type="xs:string" paramType="path" default="v1"/>
-		<key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
+		<key id="apikey" type="xs:string" paramType="path" required="true"/>
 	  </inputs>
 	</select>
 	<select produces="XML" itemPath="result_set.results">
@@ -23,7 +23,7 @@
 	  <inputs>
 		<key id="user-id" type="xs:string" paramType="path" required="true"/>
 		<key id="version" type="xs:string" paramType="path" default="v1"/>
-		<key id="apikey" private="true" type="xs:string" paramType="path" required="true"/>
+		<key id="apikey" type="xs:string" paramType="path" required="true"/>
 	  </inputs>
 	</select>
   </bindings>
