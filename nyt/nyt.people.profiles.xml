@@ -6,7 +6,7 @@
 	<documentationURL>http://developer.nytimes.com/docs/timespeople_api/</documentationURL>
   </meta>
   <bindings>
-	<select produces="XML" itemPath="result_set.results">
+	<select produces="XML" itemPath="result_set.results.profile">
 	  <urls>
 		<url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{user-id}/profile.xml?api-key={apikey}</url>
 	  </urls>
