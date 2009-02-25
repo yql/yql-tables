@@ -8,7 +8,7 @@
   <bindings>
 	<select produces="XML" itemPath="result_set.results">
 	  <urls>
-		<url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{email-hash}/id.js?api-key={apikey}</url>
+		<url>http://api.nytimes.com/svc/timespeople/api/{version}/user/{email-hash}/id.xml?api-key={apikey}</url>
 	  </urls>
 	  <inputs>
 		<key id="email-hash" type="xs:string" paramType="path" required="true"/>
