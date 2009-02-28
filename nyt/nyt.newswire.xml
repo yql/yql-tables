@@ -8,7 +8,7 @@
   <bindings>
 	<select produces="XML" itemPath="result_set.results">
 	  <urls>
-		<url>http://api.nytimes.com/svc/news/{version}/all/{time-period}.xml?api-key={your-API-key}</url>
+		<url>http://api.nytimes.com/svc/news/{version}/all/{time-period}.xml?api-key={apikey}</url>
 	  </urls>
 	  <paging model="offset">
 		<start default="0" id="offset"/>
