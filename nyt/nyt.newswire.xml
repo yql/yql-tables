@@ -6,7 +6,7 @@
 	<documentationURL>http://developer.nytimes.com/docs/times_newswire_api/</documentationURL>
   </meta>
   <bindings>
-	<select produces="XML" itemPath="result_set.results">
+	<select produces="XML" itemPath="result_set.results.news_item">
 	  <urls>
 		<url>http://api.nytimes.com/svc/news/{version}/all/{time-period}.xml?api-key={apikey}</url>
 	  </urls>
