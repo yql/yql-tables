@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Chirag Shah</author>
+    <description>Last.fm tag API</description>
+    <documentationURL>http://www.last.fm/api/</documentationURL>
+    <sampleQuery>select * from {table} where tag='jazz' and api_key='INSERT_API_KEY'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=tag.getsimilar</url>
+      </urls>
+      <inputs>
+        <key id="tag" type="xs:string" paramType="query" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
