@@ -4,9 +4,10 @@
     <author>Francisco Jordano</author>
     <documentationURL>http://www.nestoria.co.uk/help/api-tech</documentationURL>
     <sampleQuery>select * from {table} where place_name="Chelsea"</sampleQuery>
+    <description>Search the Nestoria database for listings. By default it search for listings to buy</description>
   </meta>
   <bindings>
-    <select produces="XML" itemPath="opt.response.listings"">
+    <select produces="XML" itemPath="opt.response.listings">
       <urls>
         <url>http://api.nestoria.{country}/api?action=search_listings&amp;encoding=xml</url>
       </urls>
