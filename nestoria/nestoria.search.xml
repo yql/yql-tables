@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Francisco Jordano</author>
+    <documentationURL>http://www.nestoria.co.uk/help/api-tech</documentationURL>
+    <sampleQuery>select * from {table} where place_name="Chelsea"</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="opt.response.listings"">
+      <urls>
+        <url>http://api.nestoria.{country}/api?action=search_listings&amp;encoding=xml</url>
+      </urls>
+      <paging model="page"> 
+        <start id="page" default="0" /> 
+        <pagesize id="number_of_results" max="20"/> 
+        <total default="20" /> 
+      </paging>
+      <inputs>
+        <key id="country" type="xs:string" paramType="path" required="true" default="co.uk"/>
+	<key id="place_name" type="xs:string" paramType="query" required="true"/>
+	<key id="south_west" type="xs:string" paramType="query"/>
+	<key id="north_east" type="xs:string" paramType="query"/>
+	<key id="radius" type="xs:string" paramType="query"/>
+	<key id="guid" type="xs:string" paramType="query"  batchable="true" maxBatchItems="5"/>
+	<key id="listing_type" type="xs:string" paramType="query"/>
+	<key id="property_type" type="xs:string" paramType="query"/>
+	<key id="price_max" type="xs:string" paramType="query"/>
+	<key id="price_min" type="xs:string" paramType="query"/>
+	<key id="bedroom_max" type="xs:string" paramType="query"/>
+	<key id="bedroom_min" type="xs:string" paramType="query"/>
+	<key id="size_max" type="xs:string" paramType="query"/>
+	<key id="size_min" type="xs:string" paramType="query"/>
+	<key id="sort" type="xs:string" paramType="query"/>
+	<key id="has_photo" type="xs:int" paramType="query" default="1"/>
+	<key id="update_min" type="xs:long" paramType="query"/>
+	<key id="keywords" type="xs:string" paramType="query" batchable="true"/>
+	<key id="keywords_exclude" type="xs:string" paramType="query" batchable="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
