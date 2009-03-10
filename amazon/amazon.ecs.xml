@@ -7,16 +7,12 @@
   <bindings>
     <select itemPath="feed.entry" produces="XML">
       <urls>
-        <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=17TNYV4CMN45GDPCXHR2&Operation=ItemSearch&SearchIndex=Books&Version=2008-08-19</url>
+        <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId={api_key}&Operation=ItemSearch&SearchIndex=Books&Version=2008-08-19</url>
       </urls>
-      <paging model="page">
-        <start default="0" id="page"/>
-        <pagesize max="200" id="count"/>
-        <total default="20"/>
-      </paging>
       <inputs>
         <key id="Title" type="xs:string" paramType="query" required="true"/>
-       </inputs>
+        <key id="api_key" type="xs:string" paramType="path" required="true"/>
+      </inputs>
     </select>
   </bindings>
 </table>
