@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Nagesh Susarla</author>
-    <documentationURL>http://docs.amazonwebservices.com/AWSECommerceService/2009-01-06/GSG/<documentationURL>
+    <documentationURL>http://docs.amazonwebservices.com/AWSECommerceService/2009-01-06/GSG/</documentationURL>
   </meta>
   <bindings>
     <select itemPath="feed.entry" produces="XML">
