@@ -3,6 +3,8 @@
   <meta>
     <author>Paul Tarjan</author>
     <documentationURL>http://developer.yahoo.com/search/siteexplorer/V1/pageData.html</documentationURL>
+    <sampleQuery>SELECT * FROM {table} WHERE query="http://siteexplorer.search.yahoo.com/de/"</sampleQuery>
+    <description>Input: URL prefix  Output: Known pages in that prefix</description>
   </meta>
   <bindings>
     <select produces="XML" itemPath="ResultSet.Result">
