@@ -16,9 +16,9 @@
       </paging>
       <inputs>
         <key id="appid" type="xs:string" paramType="query" required="true" default="iFN_2SLV34EYsnvO75SUTqisdhf29Kkq4kEqoraCQwmjSPl14fUbLE7RI1QSYg--" />
-	<key id="query" type="xs:string" paramType="query" required="true" />
-	<key id="domain_only" type="xs:boolean" paramType="query"  default="" />
-	<key id="output" type="xs:string" paramType="query"  default="xml" />
+        <key id="query" type="xs:string" paramType="query" required="true" />
+        <key id="domain_only" type="xs:boolean" paramType="query"  default="" />
+        <key id="output" type="xs:string" paramType="query"  default="xml" />
       </inputs>
     </select>
   </bindings>
