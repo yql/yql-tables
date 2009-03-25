@@ -66,11 +66,6 @@
       <urls>
         <url env="all">http://beta-api.etsy.com/v1/listings/{listing_id}</url>
       </urls>
-      <paging model="offset">
-        <start id="offset" default="0" />
-        <pagesize id="limit" max="50" />
-        <total default="10" />
-      </paging>
       <inputs>
         <key id="api_key" type="xs:string" paramType="query" required="true" />
         <key id="listing_id" type="xs:number" paramType="path" required="true"/>
@@ -80,7 +75,7 @@
 
    <select itemPath="json.results" produces="JSON">
       <urls>
-        <url env="all">http://beta-api.etsy.com/v1/listings/{-prefix|color/|color}{-prefix|keywords/|search_terms}{-neg|all|color,search_terms}</url>
+        <url env="all">http://beta-api.etsy.com/v1/listings/color/{color}{-prefix|/keywords/|search_terms}</url>
       </urls>
       <paging model="offset">
         <start id="offset" default="0" />
@@ -89,9 +84,25 @@
       </paging>
       <inputs>
         <key id="api_key" type="xs:string" paramType="query" required="true" />
-        <key id="color" type="xs:string" paramType="path" />
+        <key id="color" type="xs:string" paramType="path" required="true" />
         <key id="search_terms" type="xs:string" paramType="path" />
         <key id="wiggle" type="xs:number" paramType="query" />
+        <key id="detail_level" type="xs:string" paramType="query" />
+      </inputs>
+   </select>
+
+   <select itemPath="json.results" produces="JSON">
+      <urls>
+        <url env="all">http://beta-api.etsy.com/v1/listings/{-prefix|keywords/|search_terms}{-neg|all|search_terms}</url>
+      </urls>
+      <paging model="offset">
+        <start id="offset" default="0" />
+        <pagesize id="limit" max="50" />
+        <total default="10" />
+      </paging>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        <key id="search_terms" type="xs:string" paramType="path" required="true" />
         <key id="detail_level" type="xs:string" paramType="query" />
         <key id="min_price" type="xs:float" paramType="query" />
         <key id="max_price" type="xs:float" paramType="query" />
