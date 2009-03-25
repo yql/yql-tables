@@ -10,6 +10,41 @@
 
    <select itemPath="json.results" produces="JSON">
       <urls>
+        <url env="all">http://beta-api.etsy.com/v1/users/{user_id}/favorites/listings</url>
+      </urls>
+      <paging model="offset">
+        <start id="offset" default="0" />
+        <pagesize id="limit" max="50" />
+        <total default="10" />
+      </paging>
+      <inputs>
+        <key id="user_id" type="xs:string" paramType="path" required="true" />
+        <key id="favorite_listings" type="xs:boolean" paramType="header" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        <key id="detail_level" type="xs:string" paramType="query" />
+      </inputs>
+   </select>
+
+   <select itemPath="json.results" produces="JSON">
+      <urls>
+        <url env="all">http://beta-api.etsy.com/v1/users/{user_id}/favorites/shops</url>
+      </urls>
+      <paging model="offset">
+        <start id="offset" default="0" />
+        <pagesize id="limit" max="50" />
+        <total default="10" />
+      </paging>
+      <inputs>
+        <key id="user_id" type="xs:string" paramType="path" required="true" />
+        <key id="favorite_shops" type="xs:boolean" paramType="header" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        <key id="detail_level" type="xs:string" paramType="query" />
+      </inputs>
+   </select>
+
+
+   <select itemPath="json.results" produces="JSON">
+      <urls>
         <url env="all">http://beta-api.etsy.com/v1/users/{user_id}</url>
       </urls>
       <inputs>
