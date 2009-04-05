@@ -3,6 +3,7 @@
   <meta>
     <author>Dav Glass</author>
     <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where id='spullara' and repo='yql-tables'</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="user" produces="XML">
