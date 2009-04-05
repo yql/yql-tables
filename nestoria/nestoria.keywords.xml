@@ -3,7 +3,7 @@
   <meta>
     <author>Francisco Jordano</author>
     <documentationURL>http://www.nestoria.co.uk/help/api-tech</documentationURL>
-    <sampleQuery>select * from {table}"</sampleQuery>
+    <sampleQuery>select * from {table}</sampleQuery>
     <description>Returns a sorted list of valid keywords.</description>
   </meta>
   <bindings>
