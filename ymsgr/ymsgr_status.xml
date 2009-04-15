@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where u='joemplumber';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://opi.yahoo.com/online?m=t</url>
+      </urls>
+      <inputs>
+        <key id='u' type='xs:string' paramType='query' required="true" />
+      </inputs>
+      <execute><![CDATA[
+          url = request.url;
+          
+          var myReq = y.rest(url);
+          
+          //get plain text back from OPI endpoint
+          rawStatus = myReq.get().response;
+
+          //check if users is not offline
+          if (!rawStatus.match("NOT ONLINE")) {
+              status = "online";
+          } else {
+              status = "offline";
+          }
+
+          //return results as XML
+          response.object = 
+          <messengerstatus>
+             <yahoo_id>{u}</yahoo_id>
+             <status>{status}</status>
+          </messengerstatus>
+      ]]></execute>
+    </select> 
+  </bindings>
+</table>
+
+
+
+
