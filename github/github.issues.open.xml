@@ -6,7 +6,7 @@
     <sampleQuery>select * from {table} where id='spullara' and repo='yql-tables'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="repository" produces="XML">
+    <select itemPath="issues" produces="XML">
       <urls>
         <url>http://github.com/api/v2/xml/issues/list/{id}/{repo}/open</url>
       </urls>
