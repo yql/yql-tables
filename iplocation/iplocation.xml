@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Josh Gordineer</author>
+    <description>Location lookup by IP Address</description>
+    <documentationURL>http://iplocationtools.com/ip_location_api.php</documentationURL>
+    <sampleQuery>select * from {table} where ip='209.131.62.113'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="Response" produces="XML">
+      <urls>
+        <url>http://iplocationtools.com/ip_query.php</url>
+      </urls>
+      <inputs>
+        <key id="ip" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
