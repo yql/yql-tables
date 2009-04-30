@@ -12,12 +12,8 @@
         <key id='u' type='xs:string' paramType='query' required="true" />
       </inputs>
       <execute><![CDATA[
-          url = request.url;
-          
-          var myReq = y.rest(url);
-          
           //get plain text back from OPI endpoint
-          rawStatus = myReq.get().response;
+          rawStatus = request.get().response;
 
           //check if users is not offline
           if (!rawStatus.match("NOT ONLINE")) {
