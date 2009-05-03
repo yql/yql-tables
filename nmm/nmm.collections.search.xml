@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jim O'Donnell</author>
+    <documentationURL>http://www.nmm.ac.uk/collections/</documentationURL>
+	<sampleQuery>select * from nmm.collections.search where category = 'art' and searchterm = '"tower bridge"'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="rss.channel.item">
+      <urls>
+		<url>http://www.nmm.ac.uk/collections/requestHandlers/doQuickSearch.cfm?searchterm={searchterm}&amp;authority={authority}&amp;category={category}&amp;format=rss</url>
+      </urls>
+      <paging model="offset">
+		<start id="startrow" default="1"/>
+		<pagesize id="per_page" max="20"/>
+		<total default="20"/>
+	  </paging>
+	  <inputs>
+        <key id="searchterm" type="xs:string" paramType="path" required="true"/>
+        <key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
+        <key id="category" type="xs:string" paramType="path" required="false" default=""/>
+      </inputs>
+	  
+    </select>
+  </bindings>
+</table>
