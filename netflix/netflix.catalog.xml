@@ -5,7 +5,7 @@
         <documentationURL>http://developer.netflix.com/docs/REST_API_Reference#0_52696</documentationURL>
     </meta>
       <bindings>
-        <select itemPath="" produces="XML" >
+        <select itemPath="catalog_titles.catalog_title" produces="XML" >
           <urls>
             <url env="all">http://api.netflix.com/catalog/titles/</url>
           </urls>
