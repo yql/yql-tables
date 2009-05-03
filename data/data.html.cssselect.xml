@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where url="www.yahoo.com" and css="#news a"</sampleQuery>
+  </meta>
+  <bindings>
+  <select itemPath="" produces="XML">
+    <urls>
+      <url></url>
+    </urls>
+    <inputs>
+      <key id="url" type="xs:string" paramType="variable" required="true" />
+      <key id="css" type="xs:string" paramType="variable" />
+    </inputs>
+      <execute><![CDATA[
+   //include css to xpath convert function
+   y.include("http://james.padolsey.com/scripts/javascript/css2xpath.js");
+   var query = null;
+   if (css) {
+      var xpath = CSS2XPATH(css);
+      y.log("xpath "+xpath);
+      query = y.query("select * from html where url=@url and xpath=\""+xpath+"\"",{url:url});
+   } else {
+      query = y.query("select * from html where url=@url",{url:url});
+   }
+   response.object = query.results;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
