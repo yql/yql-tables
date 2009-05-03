@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+  <meta>
+    <sampleQuery> select * from opensocial.auth</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="rsp" produces="XML">
+      <urls>
+        <url>http://sandbox.orkut.com/social/rest/people/</url>
+      </urls>
+      <inputs>
+        <key id='method' type='xs:string' paramType='variable' const="true" default="opensocial.people" />
+        <key id='ck' type='xs:string' paramType='variable' required="false" />
+        <key id='cks' type='xs:string' paramType='variable' required="false" />
+        <key id='guid' type='xs:string' paramType='variable' required="true" />
+        <key id='selector' type='xs:string' paramType='variable' required="true" />
+        <key id='count' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        // Include the signing library
+        y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+        y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+
+        var encodedurl = 'http://sandbox.orkut.com/social/rest/people/' + guid + '/@' + selector;
+
+        // Slightly modified version of http://paul.donnelly.org/2008/10/31/2-legged-oauth-javascript-function-for-yql/
+        var accessor = { consumerSecret: cks, tokenSecret: ""};
+        var message = { action: encodedurl, method: "GET", parameters: [
+            ["oauth_version", "1.0"],
+            ["oauth_consumer_key", ck],
+            ["fields", "aboutMe"],
+            ["count", count],
+            ["xoauth_requestor_id", guid]
+        ]};
+
+        OAuth.setTimestampAndNonce(message);
+        OAuth.SignatureMethod.sign(message, accessor);
+
+        var parameterMap = OAuth.getParameterMap(message);
+        var baseStr = OAuth.decodeForm(OAuth.SignatureMethod.getBaseString(message));           
+        var sig = "";
+
+        if (parameterMap.parameters) {
+            for (var item in parameterMap.parameters) {
+                for (var subitem in parameterMap.parameters[item]) {
+                    if (parameterMap.parameters[item][subitem] == "oauth_signature") {
+                        sig = parameterMap.parameters[item][1];                    
+                        break;                      
+                    }
+                }
+            }
+        }
+
+        var paramList = baseStr[2][0].split("&");
+        paramList.push("oauth_signature="+encodeURIComponent(sig));
+        paramList.sort(function(a,b) {
+        if (a[0] < b[0]) return -1;
+        if (a[0] > b[0]) return 1;
+        if (a[1] < b[1]) return  -1;
+        if (a[1] > b[1]) return 1;
+        return 0;
+        });
+
+        var locString = "";
+        for (var x in paramList) {
+            locString += paramList[x] + "&";                
+        }
+
+        var signedRequestUrl = baseStr[1][0] + "?" + locString.slice(0,locString.length - 1);
+        response.object = y.rest(signedRequestUrl).get().response();
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
