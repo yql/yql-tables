@@ -26,8 +26,8 @@ for each (var div in dealhtml.div) {
     deal.price += <price>{compress(div.strong.a.text())}</price>;
     deal.shipping += <shipping>{compress(div.em.text())}</shipping>;
     deal.description += <description>{compress(div.p[0].*)}</description>;
-    deal.status += <status>compress({div.p[1].*})</status>;
-    deal.logo += <logo>compress({div.div[1].*})</logo>;
+   deal.status += <status>{compress(div.p[1].*)}</status>;
+    deal.logo += <logo>{compress(div.div[1].*)}</logo>;
     deals.deal += deal;
 }
 
