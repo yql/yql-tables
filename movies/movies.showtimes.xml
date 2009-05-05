@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="showtimes.theater">
+      <urls>
+        <url>http://movies.yahoo.com/showtimes-tickets/</url>
+      </urls>
+      <paging model="offset">
+        <start default="1" id="start"/>
+        <pagesize max="50" id="results"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="name" type="xs:string" paramType="variable" required="true"/>
+        <key id="location" type="xs:string" paramType="variable" required="true"/>
+        <key id="date" type="xs:string" paramType="variable"/>
+      </inputs>
+      <execute><![CDATA[
+		var YAHOO = {Media:{WowSearch:{}}};
+		y.include("http://movies.yahoo.com/dynamic-js/showtimes-movie-list.js");
+
+		var movies=<movies/>;
+		var object = new YAHOO.Media.WowSearch.setData;
+
+		response.object = <error>Not found</error>;
+
+		for each (var m in object.topMovies.movieArray) {
+		    if (m.t == name) {
+		        var url = "http://movies.yahoo.com/showtimes-tickets/movies/" + m.i + "-";
+		        url += "?location=" + encodeURI(location);
+		        if (date) {
+		            url += "&" + encodeURI(date);
+		        }
+		        var moviepage = y.query("select * from html where url=@url and xpath='//div[@id=\"movie_times\"]' ", {url:url}).results
+		        var showtimes = <showtimes/>;
+		        for each (var sts in moviepage..tr) {
+		            if (sts.td[2].span.text().toString() == "online ticketing not available") {
+		                continue;
+		            }
+		            var theater = <theater/>;
+		            theater.name += <name>{sts.td[0].a}</name>;
+		            for each (var st in sts.td[1].ul.li) {
+		                theater.showtime += <showtime>{st.a}</showtime>;
+		            }
+		            showtimes.theater += theater;
+		        }
+		        response.object = showtimes;
+		        break;
+		    }
+		}
+    ]]></execute>
+    </select>
+  </bindings>
+</table>

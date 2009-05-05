@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="deals.deal">
+      <urls>
+        <url>http://deals.yahoo.com</url>
+      </urls>
+      <execute><![CDATA[
+var dealhtml = y.query("select * from html where url='http://deals.yahoo.com' and xpath='//div[contains(@class, \"product-display\")]'").results;
+
+var deals = <deals/>;
+
+function compress(object) {
+    if (!object) return "";
+    return object.toString().replace(/\s+/, " ")
+}
+
+for each (var div in dealhtml.div) {
+    var deal = <deal/>;
+    deal.name += <name>{compress(div.h3.a.text())}</name>;
+    deal.link += <link>{div.div[0].a.@href}</link>;
+    deal.image += <image><src>{div.div[0].a.img.@src}</src></image>;
+    deal.price += <price>{compress(div.strong.a.text())}</price>;
+    deal.shipping += <shipping>{compress(div.em.text())}</shipping>;
+    deal.description += <description>{compress(div.p[0].*)}</description>;
+   deal.status += <status>{compress(div.p[1].*)}</status>;
+    deal.logo += <logo>{compress(div.div[1].*)}</logo>;
+    deals.deal += deal;
+}
+
+response.object = deals;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
