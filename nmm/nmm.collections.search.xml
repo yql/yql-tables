@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Jim O'Donnell</author>
-    <documentationURL>http://www.nmm.ac.uk/collections/</documentationURL>
+    <documentationURL>http://www.nmm.ac.uk/collections/feeds/docs/</documentationURL>
 	<sampleQuery description="search the art collection for pictures of Tower Bridge">select * from {table} where category = 'art' and searchterm = '"tower bridge"'</sampleQuery>
 	<sampleQuery description="get everything by Charles Pears (entry 162452 in the people authority)">select * from {table} where authority = 'people' and category = '162452' and searchterm = ''</sampleQuery>
 	<sampleQuery description="get 100 records related to the Aquitania (entry 292109 in the vessels authority)">select * from {table}(100) where authority = 'vessels' and category = '292109' and searchterm = ''</sampleQuery>
