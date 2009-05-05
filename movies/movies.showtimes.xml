@@ -42,7 +42,6 @@
 		            }
 		            var theater = <theater/>;
 		            theater.name += <name>{sts.td[0].a}</name>;
-                            theater.address += <address>{
 		            for each (var st in sts.td[1].ul.li) {
 		                theater.showtime += <showtime>{st.a}</showtime>;
 		            }
