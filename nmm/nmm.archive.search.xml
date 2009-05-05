@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Jim O'Donnell</author>
-    <documentationURL>http://www.nmm.ac.uk/collections/archive/catalogue/</documentationURL>
+    <documentationURL>http://www.nmm.ac.uk/collections/feeds/docs/</documentationURL>
 	<sampleQuery>select * from nmm.archive.search(100) where searchterm = '"horatio nelson"'</sampleQuery>
   </meta>
   <bindings>
