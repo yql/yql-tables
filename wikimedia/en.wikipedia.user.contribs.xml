@@ -2,13 +2,13 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Mike Dillon</author>
-    <sampleQuery>select * from {table} where username = 'Jimbo Wales'</sampleQuery>
+    <sampleQuery>select * from {table} where user = 'Jimbo Wales'</sampleQuery>
     <!--<documentationURL></documentationURL>-->
   </meta>
   <bindings>
     <select itemPath="api.query.usercontribs.item" produces="XML">
       <urls>
-        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={username}</url>
+        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={user}</url>
       </urls>
 <!--
       <paging model="offset">
@@ -18,7 +18,7 @@
       </paging>
 -->
       <inputs>
-        <key id="username" type="xs:string" paramType="path" required="true"/>
+        <key id="user" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
   </bindings>
