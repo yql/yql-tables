@@ -8,7 +8,7 @@
   <bindings>
     <select itemPath="api.query.recentchanges.rc" produces="XML">
       <urls>
-        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user&amp;rcnamespace={-listjoin|%7C|ns}</url>
+        <url>http://{site}/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user&amp;rcnamespace={-listjoin|%7C|ns}</url>
       </urls>
       <!--
       <paging model="offset">
@@ -18,12 +18,13 @@
       </paging>
       -->
       <inputs>
+        <key id="site" type="xs:string" paramType="path" required="true" default="en.wikipedia.org"/>
         <key id="ns" type="xs:integer" paramType="path" batchable="true" required="true"/>
       </inputs>
     </select>
     <select itemPath="api.query.recentchanges.rc" produces="XML">
       <urls>
-        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user</url>
+        <url>http://{site}/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user</url>
       </urls>
       <!--
       <paging model="offset">
@@ -33,6 +34,7 @@
       </paging>
       -->
       <inputs>
+        <key id="site" type="xs:string" paramType="path" required="true" default="en.wikipedia.org"/>
       </inputs>
     </select>
   </bindings>

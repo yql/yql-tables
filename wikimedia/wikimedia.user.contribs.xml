@@ -8,7 +8,7 @@
   <bindings>
     <select itemPath="api.query.usercontribs.item" produces="XML">
       <urls>
-        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={user}&amp;ucnamespace={-listjoin|%7C|ns}</url>
+        <url>http://{site}/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={user}&amp;ucnamespace={-listjoin|%7C|ns}</url>
       </urls>
 <!--
       <paging model="offset">
@@ -18,13 +18,14 @@
       </paging>
 -->
       <inputs>
+        <key id="site" type="xs:string" paramType="path" required="true" default="en.wikipedia.org"/>
         <key id="user" type="xs:string" paramType="path" required="true"/>
         <key id="ns" type="xs:integer" paramType="path" batchable="true" required="true"/>
       </inputs>
     </select>
     <select itemPath="api.query.usercontribs.item" produces="XML">
       <urls>
-        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={user}</url>
+        <url>http://{site}/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={user}</url>
       </urls>
 <!--
       <paging model="offset">
@@ -34,6 +35,7 @@
       </paging>
 -->
       <inputs>
+        <key id="site" type="xs:string" paramType="path" required="true" default="en.wikipedia.org"/>
         <key id="user" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
