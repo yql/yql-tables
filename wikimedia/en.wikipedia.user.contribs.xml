@@ -8,6 +8,22 @@
   <bindings>
     <select itemPath="api.query.usercontribs.item" produces="XML">
       <urls>
+        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={user}&amp;ucnamespace={-listjoin|%7C|ns}</url>
+      </urls>
+<!--
+      <paging model="offset">
+        <start default="0" id="dummy"/>
+        <pagesize max="10000" id="count"/>
+        <total default="10"/>
+      </paging>
+-->
+      <inputs>
+        <key id="user" type="xs:string" paramType="path" required="true"/>
+        <key id="ns" type="xs:integer" paramType="path" batchable="true" required="true"/>
+      </inputs>
+    </select>
+    <select itemPath="api.query.usercontribs.item" produces="XML">
+      <urls>
         <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=usercontribs&amp;ucuser={user}</url>
       </urls>
 <!--

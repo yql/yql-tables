@@ -8,6 +8,21 @@
   <bindings>
     <select itemPath="api.query.recentchanges.rc" produces="XML">
       <urls>
+        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user&amp;rcnamespace={-listjoin|%7C|ns}</url>
+      </urls>
+      <!--
+      <paging model="offset">
+        <start default="0" id="dummy"/>
+        <pagesize max="500" id="rclimit"/>
+        <total default="10"/>
+      </paging>
+      -->
+      <inputs>
+        <key id="ns" type="xs:integer" paramType="path" batchable="true" required="true"/>
+      </inputs>
+    </select>
+    <select itemPath="api.query.recentchanges.rc" produces="XML">
+      <urls>
         <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user</url>
       </urls>
       <!--
@@ -16,10 +31,8 @@
         <pagesize max="500" id="rclimit"/>
         <total default="10"/>
       </paging>
-      </paging>
       -->
       <inputs>
-        <!--<key id="namespace" type="xs:integer" paramType="path" batchable="true"/>-->
       </inputs>
     </select>
   </bindings>
