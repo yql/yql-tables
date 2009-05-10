@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Mike Dillon</author>
+    <sampleQuery>select * from {table} where username = 'Jimbo Wales'</sampleQuery>
+    <!--<documentationURL></documentationURL>-->
+    <description>Wikipedia users</description>
+  </meta>
+  <bindings>
+    <select itemPath="api.query.users.user" produces="XML">
+      <urls>
+        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=users&amp;ususers={-listjoin|%7C|username}&amp;usprop=blockinfo|groups|editcount|registration|emailable</url>
+      </urls>
+      <inputs>
+        <key id="username" type="xs:string" paramType="path" batchable="true" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
