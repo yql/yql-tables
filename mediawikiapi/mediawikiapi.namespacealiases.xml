@@ -6,9 +6,9 @@
     <!--<documentationURL></documentationURL>-->
   </meta>
   <bindings>
-    <select itemPath="api.query.recentchanges.rc" produces="XML">
+    <select itemPath="api.query.namespacealiases.ns" produces="XML">
       <urls>
-        <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user</url>
+        <url>http://{site}/w/api.php?action=query&amp;format=xml&amp;meta=siteinfo&amp;siprop=namespacealiases</url>
       </urls>
       <!--
       <paging model="offset">
@@ -19,7 +19,7 @@
       </paging>
       -->
       <inputs>
-        <!--<key id="namespace" type="xs:integer" paramType="path" batchable="true"/>-->
+        <key id="site" type="xs:string" paramType="path" required="true" default="en.wikipedia.org"/>
       </inputs>
     </select>
   </bindings>
