@@ -28,7 +28,6 @@
 		default xml namespace = '';
 		var respdata = <photos/>;
 		for each (var photo in photos) {
-		y.log(photo.id);
 			
 			respdata.photos += <photo>
 								<id>{photo.id}</id>
