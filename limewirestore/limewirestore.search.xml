@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Michael Nutt</author>
+    <sampleQuery>select * from {table} where search="green monsters" and type="album"</sampleQuery> 
+    <documentationURL>http://store.limewire.com</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://www.store.limewire.com/store/app/pages/search/SearchResultsAlbum/searchQuery/{id}/</url>
+      </urls>
+      <paging model="page">
+        <start default="0" id="page"/>
+        <pagesize max="200" id="count"/>
+        <total default="20"/>
+      </paging>
+      <inputs>
+        <key id="type" type="xs:string" paramType="variable" />
+        <key id="search" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+        if(type == undefined) { type = "all" }
+        type = type.charAt(0).toUpperCase() + type.substr(1).toLowerCase();
+
+        var baseURL = "http://www.store.limewire.com/store/app/pages/search/SearchResults"+type+"/searchQuery/"
+        var sanitizedSearch = search.replace(/\s*/i, '+');
+        var url = baseURL + sanitizedSearch;
+        y.log("URL: "+url);
+
+        var xpath = "'//div[@class=\"item_horiz_left\"]'";
+        y.log("XPATH: "+xpath);
+
+        var query = y.query("select * from html where url=@url and xpath=@xpath", {url:url, xpath:xpath});
+      
+        response.object = query.results;
+        ]]
+      </execute>
+    </select>
+  </bindings>
+</table>
