@@ -34,7 +34,7 @@
         var query = y.query("select * from html where url=@url and xpath=@xpath", {url:url, xpath:xpath});
       
         response.object = query.results;
-        ]]
+        ]]>
       </execute>
     </select>
   </bindings>
