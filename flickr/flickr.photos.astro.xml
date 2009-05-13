@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Jim O'Donnell</author>
-    <documentationURL>Celestial location for flickr photos.</documentationURL>
+    <documentationURL>http://eatyourgreens.org.uk/archives/2009/05/searching-the-sky-with-yql-execute.html</documentationURL>
   </meta>
   <bindings>
     <select produces="XML" itemPath="photos.photo">
