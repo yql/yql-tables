@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where url="http://www.slideshare.net/cheilmann/fuel-for-a-great-web-experience"</sampleQuery>
+    <author>Christian Heilmann</author>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://fake.url/{a}</url>
+      </urls>
+      <inputs>
+        <key id='url' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var x = y.query('select * from html where url="'+url+'" and xpath="//ol"');
+        var ts = x.results.ol;
+        response.object = <item>
+          <url>{url}</url>
+          <transcript>{ts}</transcript>
+        </item>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
