@@ -18,29 +18,39 @@
       <inputs>
       </inputs>
 	  <execute><![CDATA[
-		//grab photos + machine tags from flickr.photos.info
 		var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='astro:RA=')";
 		var data = y.query(querystring);
-		//do some machine tag magic
 		var photos = parseAstrotags(data);
-		
-		//output astrotagged coordinates as XML
+
 		default xml namespace = '';
 		var respdata = <photos/>;
 		for each (var photo in photos) {
-			
-			respdata.photos += <photo>
-								<id>{photo.id}</id>
-								<title>{photo.title}</title>
-								<imgroot>{photo.imgroot}</imgroot>
-								<username>{photo.username}</username>
-								<ra>{photo.RA}</ra>
-								<dec>{photo.Dec}</dec>
-							</photo>;
+
+			var node = <photo>
+						<id>{photo.id}</id>
+						<title>{photo.title}</title>
+						<url>{photo.url}</url>
+						<imgroot>{photo.imgroot}</imgroot>
+						<username>{photo.username}</username>
+						<ra>{photo.RA}</ra>
+						<dec>{photo.Dec}</dec>
+						<orientation>{photo.orientation}</orientation>
+					</photo>;
+			if(photo.fov) {
+				node.photo += <fov>
+								<x>{photo.fov.x}</x>
+								<y>{photo.fov.y}</y>
+							</fov>;
+
+			}
+			for(i=0; i<photo.name.length; i++) {
+				node.photo += <name>{photo.name[i]}</name>;
+			}
+			respdata.photos += node;
 		}
-		
+
 		response.object = respdata;
-		
+
 		function parseAstrotags(data) {
 
 			var tag; 
