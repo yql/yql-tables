@@ -10,11 +10,16 @@
 
         <url></url>
       </urls>
+	  <paging model="offset">
+		<start id="start" default="0"/>
+		<pagesize id="count" max="50"/>
+		<total default="20"/>
+	  </paging>
       <inputs>
       </inputs>
 	  <execute><![CDATA[
 		//grab photos + machine tags from flickr.photos.info
-		var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search where machine_tags='astro:RA=')";
+		var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='astro:RA=')";
 		var data = y.query(querystring);
 		//do some machine tag magic
 		var photos = parseAstrotags(data);
