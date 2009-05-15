@@ -68,12 +68,12 @@
 				if (!o[id]) { 
 					o[id] = {};
 					o[id]['name'] = [];
+					o[id]['id'] = id;
+					o[id]['title']=photo.title.toString();
+					o[id]['url'] = photo.urls.url.toString();
+					o[id]['username'] = photo.owner.@['username'].toString();
+					o[id]['imgroot'] = 'http://farm'+photo.@['farm'].toString()+'.static.flickr.com/'+photo.@['server'].toString()+'/'+id+'_'+photo.@['secret'].toString();					
 				}
-				o[id]['id'] = id;
-				o[id]['title']=photo.title.toString();
-				o[id]['url'] = photo.urls.url.toString();
-				o[id]['username'] = photo.owner.@['username'].toString();
-				o[id]['imgroot'] = 'http://farm'+photo.@['farm'].toString()+'.static.flickr.com/'+photo.@['server'].toString()+'/'+id+'_'+photo.@['secret'].toString();
 				tag = photo.tags.tag.@['raw'].toString();
 				//split machine tag name and value
 				tmp = tag.split('=');
