@@ -10,9 +10,20 @@
       </urls>
       <inputs>
         <key id='q' type='xs:string' paramType='query' required="true" />
-        <key id='key' type='xs:string' paramType='query' />
+        <key id='referer' type='xs:string' paramType='header'/>
+        <key id='key' type='xs:string' paramType='query' default="notsupplied"/>
         <key id='source' type='xs:string' paramType='path' default="en" />
         <key id='target' type='xs:string' paramType='path' required="true" />
+      </inputs>
+    </select>
+    <select itemPath="json.responseData.language" produces="JSON">
+      <urls>
+        <url>http://www.google.com/uds/GlangDetect?context=22&amp;v=1.0</url>
+      </urls>
+      <inputs>
+        <key id='q' type='xs:string' paramType='query' required="true" />
+        <key id='referer' type='xs:string' paramType='header'/>
+        <key id='key' type='xs:string' paramType='query' default="notsupplied"/>
       </inputs>
     </select>
   </bindings>
