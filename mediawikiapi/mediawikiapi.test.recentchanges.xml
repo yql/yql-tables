@@ -11,7 +11,8 @@
         <url>http://en.wikipedia.org/w/api.php?action=query&amp;format=xml&amp;list=recentchanges&amp;rcprop=title|timestamp|ids|comment|flags|sizes|redirect|user</url>
       </urls>
       <paging model="offset">
-        <pagesize max="1000" id="_rclimit"/>
+        <start default="0" id="dummy"/>
+        <pagesize max="30" id="_rclimit"/>
         <total default="10"/>
       </paging>
       <inputs>
@@ -19,7 +20,14 @@
         <key id="_rclimit" type="xs:integer" paramType="variable" private="true"/>
       </inputs>
       <execute><![CDATA[
+        if (typeof(rcstart) != 'undefined') {
+            y.log("Restoring rcstart=" + rcstart);
+            request.query('rcstart', rcstart);
+        }
+
         delete request.queryParams['_rclimit'];
+
+        y.log('dummy='+dummy+', _rclimit='+_rclimit);
 
         if (ns) {
           var namespaces = ns.join ? ns : [ ns ];
@@ -36,7 +44,7 @@
           var rsp = request.get().response;
           data.data += y.xpath(rsp, '/api/query/recentchanges/rc');
 
-          var rcstart = y.xpath(rsp, '/api/query-continue/recentchanges/@rcstart');
+          rcstart = y.xpath(rsp, '/api/query-continue/recentchanges/@rcstart');
           if (!rcstart) {
             break;
           }
