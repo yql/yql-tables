@@ -36,20 +36,21 @@
 
         var data = <data/>;
 
-        var batch_size = 500;
+        var batch_size = 15;
         request.query('rclimit', Math.min(_rclimit, batch_size));
 
         var to_fetch = _rclimit;
         while (to_fetch > 0) {
           var rsp = request.get().response;
-          data.data += y.xpath(rsp, '/api/query/recentchanges/rc');
+          var changes = y.xpath(rsp, '/api/query/recentchanges/rc');
+          data.data += changes;
 
           rcstart = y.xpath(rsp, '/api/query-continue/recentchanges/@rcstart');
           if (!rcstart) {
             break;
           }
 
-          to_fetch -= batch_size;
+          to_fetch -= changes.length();
 
           if (to_fetch > 0) {
             y.log('Fetching additional data from rcstart=' + rcstart);
