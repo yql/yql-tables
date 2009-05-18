@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Gang Wang</author>
+        <description>Intuit QuickBase table</description>
+        <documentationURL>http://member.developer.intuit.com/MyIDN/technical_resources/quickbase/framework/httpapiref/HTML_API_Programmers_Guide.htm</documentationURL>
+        <sampleQuery>select * from {table} where qid='qbase_table_id(not app id)' and ticket='qbase ticket'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="qdbapi.record" produces="XML">
+            <urls>
+                <url>https://www.quickbase.com/db/{qid}</url>
+            </urls>
+            <inputs>
+                <key id="act" type="xs:string" paramType="query" required="false" default="API_DoQuery" const="true"/>
+                <key id="qid" type="xs:string" paramType="path" required="true"/>
+		<key id="ticket" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+        </select>
+    </bindings>
+</table>
