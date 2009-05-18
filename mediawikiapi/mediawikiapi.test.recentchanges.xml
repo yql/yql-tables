@@ -37,10 +37,10 @@
         var data = <data/>;
 
         var batch_size = 15;
-        request.query('rclimit', Math.min(_rclimit, batch_size));
-
         var to_fetch = _rclimit;
         while (to_fetch > 0) {
+          request.query('rclimit', Math.min(to_fetch, batch_size));
+
           var rsp = request.get().response;
           var changes = y.xpath(rsp, '/api/query/recentchanges/rc');
           data.data += changes;
