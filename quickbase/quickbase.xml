@@ -15,6 +15,7 @@
                 <key id="act" type="xs:string" paramType="query" required="false" default="API_DoQuery" const="true"/>
                 <key id="qid" type="xs:string" paramType="path" required="true"/>
 		<key id="ticket" type="xs:string" paramType="query" required="true"/>
+		<key id="apptoken" type="xs:string" paramType="query" required="false"/>
             </inputs>
         </select>
     </bindings>
