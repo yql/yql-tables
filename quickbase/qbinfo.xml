@@ -9,10 +9,10 @@
     <bindings>
         <select itemPath="qdbapi.table.fields.field" produces="XML">
             <urls>
-                <url>https://{domain}.intuit.com/db/{qid}</url>
+                <url>https://{domain}/db/{qid}</url>
             </urls>
             <inputs>
-                <key id="domain" type="xs:string" paramType="path" required="false" default="quickbase"/>
+                <key id="domain" type="xs:string" paramType="path" required="false" default="quickbase.com"/>
                 <key id="act" type="xs:string" paramType="query" required="false" default="API_DoQuery" const="true"/>
                 <key id="fmt" type="xs:string" paramType="query" required="false" default="structured" const="true"/>
                 <key id="qid" type="xs:string" paramType="path" required="true"/>
