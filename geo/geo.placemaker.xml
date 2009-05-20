@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Balaji Narayanan</author>
+        <author>Tom Hughes-Croucher</author>
+        <description>Placemaker</description>
+        <sampleQuery>select * from {table} where documentContent="I+live+in+Sunnyvale,+CA" and documentType="text/plain"</sampleQuery>
+    </meta>
+    <bindings>
+
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://wherein.yahooapis.com/v1/document</url>
+            </urls>
+            <inputs>
+                <key id="documentURL" type="xs:string" required="true" paramType="variable"/>
+                <key id="documentType" type="xs:string" required="true" paramType="variable"/>
+                <key id="appid" type="xs:string" required="true" paramType="variable"/>
+        		<key id="documentTitle" type="xs:string" paramType="variable"/>
+        		<key id="inputLanguage" type="xs:string" paramType="variable" />
+        		<key id="autoDisambiguate" type="xs:string" paramType="variable" />
+        		<key id="focusWoeid" type="xs:string" paramType="variable" />
+            </inputs>
+            <execute>
+            <![CDATA[
+            content = "documentURL=" + documentURL + "&documentType=" + documentType + "&appid=" + appid;
+    	    if (documentTitle) { content += "&documentTitle=" + documentTitle; }
+    	    if (inputLanguage) { content += "&inputLanguage=" + inputLanguage; }
+    	    if (autoDisambiguate) { content += "&autoDisambiguate=" + autoDisambiguate; }
+    	    if (focusWoeid) { content += "&focusWoeid=" + focusWoeid; }
+            
+            postResponse = request.accept("application/xml").contentType("application/x-www-form-urlencoded").post(content).response;    
+            
+            default xml namespace = "http://wherein.yahooapis.com/v1/schema";
+            
+            places = Array();
+            for each (var place in postResponse.document.placeDetails.place) {
+                places.push(place);
+            }
+            
+            references = Array();
+            for each (var reference in postResponse.document.referenceList.reference) {
+                references.push(reference);
+            }
+            
+            default xml namespace = "";
+            
+            var output = <matches></matches>;
+
+            for(var i=0;i<places.length;i++) {
+                match = <match></match>;
+                match.node += places[i];
+                match.node += references[i];
+                
+                output.node += match;
+            }
+
+            response.object = output;
+            ]]>
+            </execute>
+        </select> 
+        <select itemPath="" produces="XML">
+
+            <urls>
+                <url>http://wherein.yahooapis.com/v1/document</url>
+            </urls>
+            <inputs>
+                <key id="documentContent" type="xs:string" required="true" paramType="variable"/>
+                <key id="documentType" type="xs:string" required="true" paramType="variable"/>
+                <key id="appid" type="xs:string" required="true" paramType="variable"/>
+        		<key id="documentTitle" type="xs:string" paramType="variable"/>
+        		<key id="inputLanguage" type="xs:string" paramType="variable" />
+        		<key id="autoDisambiguate" type="xs:string" paramType="variable" />
+        		<key id="focusWoeid" type="xs:string" paramType="variable" />
+	    </inputs>
+            <execute>
+            <![CDATA[
+            content = "documentContent=" + documentContent + "&documentType=" + documentType + "&appid=" + appid;
+            if (documentTitle) { content += "&documentTitle=" + documentTitle; }
+    	    if (inputLanguage) { content += "&inputLanguage=" + inputLanguage; }
+    	    if (autoDisambiguate) { content += "&autoDisambiguate=" + autoDisambiguate; }
+    	    if (focusWoeid) { content += "&focusWoeid=" + focusWoeid; }
+
+            postResponse = request.accept("application/xml").contentType("application/x-www-form-urlencoded").post(content).response;    
+            
+            default xml namespace = "http://wherein.yahooapis.com/v1/schema";
+            places = Array();
+            for each (var place in postResponse.document.placeDetails.place) {
+                places.push(place);
+            }
+            references = Array();
+            for each (var reference in postResponse.document.referenceList.reference) {
+                references.push(reference);
+            }
+            default xml namespace = "";
+            
+            var output = <matches></matches>;
+
+            for(var i=0;i<places.length;i++) {
+                match = <match></match>;
+                match.node += places[i];
+                match.node += references[i];
+                
+                output.node += match;
+            }
+
+            response.object = output;
+            ]]>
+            </execute>
+        </select> 
+    </bindings>
+
+</table>
