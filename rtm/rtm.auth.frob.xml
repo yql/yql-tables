@@ -1,4 +1,3 @@
-
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
 	<meta>
 		<author>Vipul Bhasin</author>
@@ -21,7 +20,6 @@
 			</inputs>
 			<execute><![CDATA[
 				// Include the md5 library and the rtm signing library
-				y.include("http://vipulb.com/yql/md5.js");
 				y.include("http://vipulb.com/yql/rtm.js");
 				
 				// Sign the URL and return the frob
