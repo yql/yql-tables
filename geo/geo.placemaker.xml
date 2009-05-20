@@ -5,6 +5,7 @@
         <author>Tom Hughes-Croucher</author>
         <description>Placemaker</description>
         <sampleQuery>select * from {table} where documentContent="I+live+in+Sunnyvale,+CA" and documentType="text/plain"</sampleQuery>
+        <documentationURL>http://developer.yahoo.com/geo/placemaker/</documentationURL>
     </meta>
     <bindings>
 
