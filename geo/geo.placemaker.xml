@@ -4,7 +4,7 @@
         <author>Balaji Narayanan</author>
         <author>Tom Hughes-Croucher</author>
         <description>Placemaker</description>
-        <sampleQuery>select * from {table} where documentContent="I+live+in+Sunnyvale,+CA" and documentType="text/plain"</sampleQuery>
+        <sampleQuery>SELECT * FROM {table} WHERE documentContent = "They followed him to deepest Africa and found him there, in Timbuktu" AND documentType="text/plain" AND appid = ""</sampleQuery>
         <documentationURL>http://developer.yahoo.com/geo/placemaker/</documentationURL>
     </meta>
     <bindings>
@@ -24,6 +24,7 @@
             </inputs>
             <execute>
             <![CDATA[
+            
             content = "documentURL=" + documentURL + "&documentType=" + documentType + "&appid=" + appid;
     	    if (documentTitle) { content += "&documentTitle=" + documentTitle; }
     	    if (inputLanguage) { content += "&inputLanguage=" + inputLanguage; }
@@ -32,31 +33,44 @@
             
             postResponse = request.accept("application/xml").contentType("application/x-www-form-urlencoded").post(content).response;    
             
-            default xml namespace = "http://wherein.yahooapis.com/v1/schema";
-            
-            places = Array();
-            for each (var place in postResponse.document.placeDetails.place) {
-                places.push(place);
-            }
-            
-            references = Array();
-            for each (var reference in postResponse.document.referenceList.reference) {
-                references.push(reference);
-            }
-            
-            default xml namespace = "";
-            
-            var output = <matches></matches>;
+            if (postResponse != null) {
 
-            for(var i=0;i<places.length;i++) {
-                match = <match></match>;
-                match.node += places[i];
-                match.node += references[i];
+                default xml namespace = "http://wherein.yahooapis.com/v1/schema";
                 
-                output.node += match;
+                matches = Array();
+                
+                for each (var place in postResponse.document.placeDetails.place) {
+                    if (matches[place.woeId]) {
+                        matches[place.woeId].place = place;
+                    } else {
+                        matches[place.woeId] = Array();
+                        matches[place.woeId].place = place;
+                    }
+                }
+                for each (var reference in postResponse.document.referenceList.reference) {
+                    if (matches[reference.woeIds]) {
+                        matches[reference.woeIds].reference = reference;
+                    } else {
+                        matches[reference.woeIds] = Array();
+                        matches[reference.woeIds].reference = reference;
+                    }
+                }
+                default xml namespace = "";
+            
+                var output = <matches></matches>;
+
+                for each (var match in matches) {
+                    var matchXML = <match></match>;
+                    matchXML.node += match.place;
+                    matchXML.node += match.reference;
+                
+                    output.node += matchXML;
+                }
+
+                response.object = output;
+            
             }
 
-            response.object = output;
             ]]>
             </execute>
         </select> 
@@ -76,36 +90,52 @@
 	    </inputs>
             <execute>
             <![CDATA[
+            
             content = "documentContent=" + documentContent + "&documentType=" + documentType + "&appid=" + appid;
             if (documentTitle) { content += "&documentTitle=" + documentTitle; }
     	    if (inputLanguage) { content += "&inputLanguage=" + inputLanguage; }
     	    if (autoDisambiguate) { content += "&autoDisambiguate=" + autoDisambiguate; }
     	    if (focusWoeid) { content += "&focusWoeid=" + focusWoeid; }
-
+            
             postResponse = request.accept("application/xml").contentType("application/x-www-form-urlencoded").post(content).response;    
             
-            default xml namespace = "http://wherein.yahooapis.com/v1/schema";
-            places = Array();
-            for each (var place in postResponse.document.placeDetails.place) {
-                places.push(place);
-            }
-            references = Array();
-            for each (var reference in postResponse.document.referenceList.reference) {
-                references.push(reference);
-            }
-            default xml namespace = "";
-            
-            var output = <matches></matches>;
+            if (postResponse != null) {
 
-            for(var i=0;i<places.length;i++) {
-                match = <match></match>;
-                match.node += places[i];
-                match.node += references[i];
+                default xml namespace = "http://wherein.yahooapis.com/v1/schema";
                 
-                output.node += match;
-            }
+                matches = Array();
+                
+                for each (var place in postResponse.document.placeDetails.place) {
+                    if (matches[place.woeId]) {
+                        matches[place.woeId].place = place;
+                    } else {
+                        matches[place.woeId] = Array();
+                        matches[place.woeId].place = place;
+                    }
+                }
+                for each (var reference in postResponse.document.referenceList.reference) {
+                    if (matches[reference.woeIds]) {
+                        matches[reference.woeIds].reference = reference;
+                    } else {
+                        matches[reference.woeIds] = Array();
+                        matches[reference.woeIds].reference = reference;
+                    }
+                }
+                default xml namespace = "";
+            
+                var output = <matches></matches>;
 
-            response.object = output;
+                for each (var match in matches) {
+                    var matchXML = <match></match>;
+                    matchXML.node += match.place;
+                    matchXML.node += match.reference;
+                
+                    output.node += matchXML;
+                }
+
+                response.object = output;
+            
+            }
             ]]>
             </execute>
         </select> 
