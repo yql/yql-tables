@@ -1,3 +1,4 @@
+
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
 	<meta>
 		<author>Vipul Bhasin</author>
@@ -20,11 +21,11 @@
 			</inputs>
 			<execute><![CDATA[
 				// Include the md5 library and the rtm signing library
-				y.include("http://vipulb.com/yql/rtm.js");
+				y.include("http://rtmapihelper.googlecode.com/files/rtm-0.1.js");
 				
 				// Sign the URL and return the frob
 				var rtmSign = new RTMSigner(api_key, secret);
-				response.object = y.rest(rtmSign.createURL({method:method})).get().response;				
+				response.object = y.xmlToJson(y.rest(rtmSign.createURL({method:method})).get().response);
 				
 				]]>				
 			</execute>
