@@ -1,18 +1,21 @@
-
-
+<?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
 	<meta>
 		<author>Vipul Bhasin</author>
 		<documentationURL>http://www.rememberthemilk.com/services/api</documentationURL>
-		<sampleQuery>select * from {table} where api_key="your_api_key" and secret="my_api_secret" and 
-					auth_token="3-legged-oAuth_auth_token" and method="method_to_call" and 
-					and list_id="id" and last_sync="date" and format="json"</sampleQuery>
+		<sampleQuery>
+			select * from {table} where api_key="your_api_key" and secret="my_api_secret" and auth_token="oAuth_auth_token"  
+		</sampleQuery>
+		<sampleQuery>
+			use 'rtm.auth.token.xml' as token_table;
+			select * from {table} where api_key="your_api_key" and secret="my_api_secret"
+			and auth_token in (select auth.token from token_table where api_key="api_key" and secret="secret" and frob="frob") 
+		</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="rsp" produces="XML">
 			<urls>
-				<url>
-				</url>
+				<url>http://api.rememberthemilk.com/services/rest</url>
 			</urls>
 			<inputs>
 				<key id="api_key" type="xs:string" paramType="variable" required="true"/>
@@ -21,30 +24,29 @@
 				<key id="secret" type="xs:string" paramType="variable" required="true"/>
 				<key id="auth_token" type="xs:string" paramType="variable" required="true"/>
 				<key id="method" type="xs:string" paramType="variable" const="true" default="rtm.tasks.getList" />
-				<key id="format" type="xs:string" paramType="variable" default="xml" />
 			</inputs>
 			<execute><![CDATA[
 				// Include the RTM file for signing URLs
-				y.include("http://rtmapihelper.googlecode.com/files/rtm-0.1.js");
+				y.include("http://rtmapihelper.googlecode.com/files/rtm-0.2.js");
 				
 				var signer = new RTMSigner(api_key, secret);
 				
 				var params = {
 					"auth_token":auth_token,
 					"api_key":api_key,
-					"method":method		
+					"method":method	
 				};
-				if(list_id) {
-					params["list_id"] = list_id;
-				}
+
+				if(!!list_id) {params["list_id"] = list_id;}
+				if(!!last_sync) {params["last_sync"] = last_sync;}
+				
 				var url = signer.createURL(params);
 				
 				var resp = y.rest(url).get().response;
 				
-				response.object = (format == "json") ? y.xmlToJson(resp) : resp;
+				response.object = resp;
 				]]>
 			</execute>
 		</select>
 	</bindings>
-
 </table>

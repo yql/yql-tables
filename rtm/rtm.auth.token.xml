@@ -3,10 +3,10 @@
 	<meta>
 		<author>Vipul Bhasin</author>
 		<documentationURL>
-			http://www.rememberthemilk.com/services/api/authentication.rtm
+			http://www.rememberthemilk.com/services/api/
 		</documentationURL>
 		<sampleQuery>
-			select * from {table} where api_key="api_key" and secret="secret";
+			select * from {table} where api_key="api_key" and secret="secret" and frob="frob";
 		</sampleQuery>
 	</meta>
 	<bindings>
@@ -17,7 +17,8 @@
 			<inputs>
 				<key id="api_key" type="xs:string" paramType="variable" required="true" />
 				<key id="secret" type="xs:string" paramType="variable" required="true" />
-				<key id="method" type="xs:string" paramType="variable" const="true" default="rtm.auth.getFrob" />
+				<key id="frob" type="xs:string" paramType="variable" required="true" />
+				<key id="method" type="xs:string" paramType="variable" const="true" default="rtm.auth.getToken" />
 			</inputs>
 			<execute><![CDATA[
 				// Include the md5 library and the rtm signing library
@@ -26,11 +27,17 @@
 				// Sign the URL and return the frob
 				var rtmSign = new RTMSigner(api_key, secret);
 
-				var resp = y.rest(rtmSign.createURL({method:method})).get().response; 
+				var params = {
+						"api_key": api_key,
+						"method" : method,
+						"frob" : frob
+					     };
+				
+				var resp = y.rest(rtmSign.createURL(params)).get().response; 
 				
 				response.object = resp;
 				
-				]]>				
+				]]>
 			</execute>
 		</select>
 	</bindings>

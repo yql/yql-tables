@@ -6,30 +6,42 @@
 			http://www.rememberthemilk.com/services/api/authentication.rtm
 		</documentationURL>
 		<sampleQuery>
-			select * from {table} where api_key="api_key" and secret="secret";
+			select * from {table} where api_key="api_key" and secret="secret" and frob="frob";
+		</sampleQuery>
+		<sampleQuery>
+			use "rtm.auth.frob.xml" as frob_table;
+			select * from {table} where api_key="api_key" and secret="secret" and 
+			frob in (select frob from frob_table where api_key="api_key" and secret="secret")
 		</sampleQuery>
 	</meta>
 	<bindings>
-		<select itemPath="rsp" produces="XML">
+		<select itemPath="" produces="XML">
 			<urls>
 				<url>http://api.rememberthemilk.com/services/rest</url>
 			</urls>
 			<inputs>
 				<key id="api_key" type="xs:string" paramType="variable" required="true" />
 				<key id="secret" type="xs:string" paramType="variable" required="true" />
-				<key id="method" type="xs:string" paramType="variable" const="true" default="rtm.auth.getFrob" />
+				<key id="frob" type="xs:string" paramType="variable" required="true" />
+				<key id="perms" type="xs:string" paramType="variable" const="true" default="read" />
 			</inputs>
 			<execute><![CDATA[
 				// Include the md5 library and the rtm signing library
-				y.include("http://rtmapihelper.googlecode.com/files/rtm-0.2.js");
-				
+				y.include("http://vipulb.com/yql/rtm-0.2.js");
+
 				// Sign the URL and return the frob
 				var rtmSign = new RTMSigner(api_key, secret);
 
-				var resp = y.rest(rtmSign.createURL({method:method})).get().response; 
-				
+				var params = {
+					"api_key":api_key,
+					"perms" : perms,
+					"frob" : frob,
+				};
+
+				var resp = rtmSign.createURL(params, {webAuth: true});
+
 				response.object = resp;
-				
+
 				]]>				
 			</execute>
 		</select>
