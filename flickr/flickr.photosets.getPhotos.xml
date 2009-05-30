@@ -8,7 +8,7 @@
     <sampleQuery>select * from {table} where photoset_id="72157618922983148"</sampleQuery>
   </meta>
   <bindings>
-   <select itemPath="rsp.photoset.photo" produces="XML">
+   <select itemPath="rsp.photoset" produces="XML">
       <urls>
         <url env="all">http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos</url>
       </urls>
