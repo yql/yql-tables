@@ -13,8 +13,8 @@
         <url env="all">http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos</url>
       </urls>
       <paging model="page">
-        <start id="page" default="0" />
-        <pagesize id="per_page" max="500" />
+        <start id="page" default="1" />
+        <pagesize id="per_page" max="250" />
         <total default="10" />
       </paging>
       <inputs>
