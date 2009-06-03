@@ -21,8 +21,6 @@
       <execute><![CDATA[
 		var YAHOO = {Media:{WowSearch:{}}};
 		y.include("http://movies.yahoo.com/dynamic-js/showtimes-movie-list.js");
-
-		var movies=<movies/>;
 		var object = new YAHOO.Media.WowSearch.setData;
 
 		response.object = <error>Not found</error>;
@@ -51,6 +49,31 @@
 		        break;
 		    }
 		}
+    ]]></execute>
+    </select>
+    <select produces="XML" itemPath="movies.movie">
+      <urls>
+        <url>http://movies.yahoo.com/showtimes-tickets/</url>
+      </urls>
+      <paging model="offset">
+        <start default="1" id="start"/>
+        <pagesize max="50" id="results"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+      </inputs>
+      <execute><![CDATA[
+		var YAHOO = {Media:{WowSearch:{}}};
+		y.include("http://movies.yahoo.com/dynamic-js/showtimes-movie-list.js");
+
+		var movies=<movies/>;
+		var object = new YAHOO.Media.WowSearch.setData;
+
+		for each (var m in object.topMovies.movieArray) {
+		    movies.movie += <movie>{m.t}</movie>;
+		}
+		
+		response.object = movies;
     ]]></execute>
     </select>
   </bindings>
