@@ -3,21 +3,27 @@
     <meta>
         <author>Nagesh Susarla</author>
         <documentationURL>See search.web and search.images for more details</documentationURL>
+        <sampleQuery>select * from {table} where query='pizza'</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="results.result" produces="XML">
             <urls>
                 <url></url>
             </urls>
+            <paging model="offset">
+              <start id="start" default="0" />
+              <pagesize id="count" max="50" />
+              <total default="10"/>
+            </paging>
             <inputs>
                 <key id="query" type="xs:string" paramType="variable" required="true"/>
             </inputs>
-
             <execute><![CDATA[
 
             var qs = query;
+            var webquery = 'select * from search.web(' + start + ',' + count + ') where query=@query';
 
-            var search = y.query('select * from search.web(50) where query=@query', {query: qs}).results;
+            var search = y.query(webquery, {query: qs}).results;
             var images = [];
             default xml namespace='http://www.inktomi.com/';
 
