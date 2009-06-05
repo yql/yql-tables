@@ -20,8 +20,18 @@
             var search = y.query('select * from search.web(50) where query=@query', {query: qs}).results;
             var images = [];
             default xml namespace='http://www.inktomi.com/';
-            for each (var result in search.result) {
-              images.push(y.query('select * from search.images(1) where query=@query and url=@url', {url:result.url, query:qs}));
+
+            for each (var result in search.result) {             
+              var theUrl = result.url;
+              // For any given URL from search only get the domain 
+              // and use that as part of the search for images. This makes 
+              // imagesearch much more richer
+              var idx = theUrl.indexOf("/", "http://".length);
+              if (idx > 0) {
+                theUrl = theUrl.substring(0, idx);
+              }
+
+              images.push(y.query('select * from search.images(1) where query=@query and url=@url', {url:theUrl, query:qs}));
             }
 
             var i = 0;
