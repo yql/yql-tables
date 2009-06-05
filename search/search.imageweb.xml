@@ -10,7 +10,7 @@
                 <url></url>
             </urls>
             <inputs>
-                <key id="query" type="xs:string" paramType="query" required="true"/>
+                <key id="query" type="xs:string" paramType="variable" required="true"/>
             </inputs>
 
             <execute><![CDATA[
