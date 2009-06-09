@@ -21,6 +21,6 @@ files.each {
 fw.flush();
 fw.close();
 
-Runtime.runtime.exec(["sh", "-c", "scp -r * sam@buildandtest.com:/opt/sites/datatables"].toArray(new String[0]));
+Runtime.runtime.exec(["sh", "-c", "scp -r * sam@buildandtest.com:/opt/sites/javarants"].toArray(new String[0]));
 
 
