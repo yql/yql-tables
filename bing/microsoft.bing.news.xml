@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<sampleQuery>
+			select * from {table} where query="washington"
+		</sampleQuery>
+	</meta>
+	<bindings>
+		<!-- SearchResponse.News.RelatedSearches.NewsRelatedSearch -->
+		<select itemPath="SearchResponse.News.Results.NewsResult" produces="XML">				
+			<urls><url>http://api.search.live.net/xml.aspx</url></urls>
+	      	<paging model="offset">
+	        	<start id="news.offset" default="0" />
+	        	<pagesize id="news.count" max="50" />
+	        	<total default="10" />
+	      	</paging>
+			<inputs>
+				<key id='appid' type='xs:string' private="true" default='5061CD1C64F6015A128E51FE1FDFDC3B18D0610A' paramType='query' />
+				<key id="sources" type="xs:string" paramType="query" const="true" default="news" />
+				<key id='query' type='xs:string' required='true' paramType="query" />
+			</inputs>
+		</select>
+	</bindings>
+</table>
