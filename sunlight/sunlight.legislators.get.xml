@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery></sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="response.legislators.legislator" produces="XML">
+            <urls>
+                <url>http://services.sunlightlabs.com/api/legislators.get.xml</url>
+            </urls>
+            <inputs>
+                <key id='title' type='xs:string' paramType='query' />
+                <key id='firstname' type='xs:string' paramType='query' />
+                <key id='middlename' type='xs:string' paramType='query' />
+                <key id='lastname' type='xs:string' paramType='query' />
+                <key id='name_suffix' type='xs:string' paramType='query' />
+                <key id='nickname' type='xs:string' paramType='query' />
+                <key id='party' type='xs:string' paramType='query' />
+                <key id='state' type='xs:string' paramType='query' />
+                <key id='district' type='xs:string' paramType='query' />
+                <key id='in_office' type='xs:string' paramType='query' />
+                <key id='gender' type='xs:string' paramType='query' />
+                <key id='phone' type='xs:string' paramType='query' />
+                <key id='fax' type='xs:string' paramType='query' />
+                <key id='website' type='xs:string' paramType='query' />
+                <key id='webform' type='xs:string' paramType='query' />
+                <key id='email' type='xs:string' paramType='query' />
+                <key id='congress_office' type='xs:string' paramType='query' />
+                <key id='bioguide_id' type='xs:string' paramType='query' />
+                <key id='votesmart_id' type='xs:string' paramType='query' />
+                <key id='fec_id' type='xs:string' paramType='query' />
+                <key id='govtrack_id' type='xs:string' paramType='query' />
+                <key id='crp_id' type='xs:string' paramType='query' />
+                <key id='eventful_id' type='xs:string' paramType='query' />
+                <key id='sunlight_old_id' type='xs:string' paramType='query' />
+                <key id='congresspedia_url' type='xs:string' paramType='query' />
+                <key id='twitter_id' type='xs:string' paramType='query' />
+                <key id='youtube_url' type='xs:string' paramType='query' />
+                <key id='apikey' type='xs:string' paramType='query' required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
