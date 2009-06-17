@@ -4,7 +4,7 @@
     <author>Tom Hughes-Croucher</author>
   </meta>
   <bindings>
-    <select itemPath="response.legislators.legislator" produces="XML">
+    <select itemPath="response.results.result" produces="XML">
       <urls>
         <url>http://services.sunlightlabs.com/api/legislators.search.xml</url>
       </urls>
