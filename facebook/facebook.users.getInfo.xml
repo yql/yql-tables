@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sam Pullara</author>
+        <documentationURL>http://wiki.developers.facebook.com/index.php/Users.getInfo</documentationURL>
+        <sampleQuery>select * from {table} where uids=@fb_sig_user and session_key=@fb_sig_session_key and api_key=@fb_sig_api_key</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="Users_getInfo_response.user" produces="XML">
+            <urls>
+                <url>http://api.facebook.com/restserver.php</url>
+            </urls>
+            <inputs>
+                <key id="uids" required="true" type="xs:string" paramType="variable"/>
+                <key id="fields" default="uid,first_name,last_name,name,locale,affiliations,pic_square,profile_url" required="true" type="xs:string" paramType="variable"/>
+				<key id="secret" required="true" type="xs:string" paramType="variable"/>
+				<key id="session_key" required="true" type="xs:string" paramType="variable"/>
+				<key id="api_key" required="true" type="xs:string" paramType="variable"/>
+            </inputs>
+            <execute><![CDATA[
+				y.include("http://www.javarants.com/facebook/facebook.js");
+				var params = {
+					// Standard for most calls
+					call_id: "" + new Date().getTime(),
+					v: "1.0",
+					api_key: api_key,
+					session_key: session_key,
+					format: "xml",
+					// Method specific
+					method: "Users.getInfo",
+					uids: uids,
+					fields: fields
+				}
+				response.object = y.rest("http://api.facebook.com/restserver.php").contentType("application/x-www-form-urlencoded").post(sign(params)).response;
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
+
