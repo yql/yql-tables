@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true"> 
+   <meta>
+      <author>Stephen Matthew</author>
+		<documentationURL>http://my.amee.com/developers</documentationURL>
+		<sampleQuery>select * from amee.data.item where username="foo" and password="bar" and category="transport/car/generic" itemuid="5F5887BCF726"</sampleQuery>	
+   </meta>
+   <bindings>
+     <select produces="JSON" itemPath="">
+       <urls>
+         <url></url>
+       </urls>
+       <inputs>
+         <key id="username" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="category" type="xs:string" paramType="variable" required="true"/>
+			<key id="itemuid" type="xs:string" paramType="variable" required="true/>"		
+       </inputs>
+       <execute><![CDATA[
+y.include("http://www.javarants.com/yss/base64.js");
+var auth = "Basic " + Base64.encode(username + ":" + password);
+var url = "https://live.co2.dgen.net/data/" + category + "/" + itemuid + ".json";
+response.object = y.rest(url).header("Authorization", auth).get().response;
+]]></execute>
+     </select>
+   </bindings>
+</table>

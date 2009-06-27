@@ -3,11 +3,12 @@
   <meta>
     <author>Dav Glass</author>
     <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where id='spullara'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="user.repositories.repository" produces="XML">
+    <select itemPath="repositories" produces="XML">
       <urls>
-        <url>http://github.com/api/v1/xml/{id}</url>
+        <url>http://github.com/api/v2/xml/repos/show/{id}</url>
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true"/>

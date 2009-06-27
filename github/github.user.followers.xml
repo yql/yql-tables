@@ -8,7 +8,7 @@
   <bindings>
     <select itemPath="user" produces="XML">
       <urls>
-        <url>http://github.com/api/v2/xml/user/show/{id}</url>
+        <url>http://github.com/api/v2/xml/user/show/{id}/followers</url>
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true"/>

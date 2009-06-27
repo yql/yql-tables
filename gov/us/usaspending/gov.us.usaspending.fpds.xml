@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Tom Hughes-Croucher (croucher@yahoo-inc.com)</author>
+        <sampleQuery>select * from {table} where detail = "-1" and state = "AL"</sampleQuery>
+        <documentationURL>http://www.usaspending.gov/api_fpds.php</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="usaspendingSearchResults.data.record" produces="XML">
+            <urls>
+                <url>http://www.usaspending.gov/fpds/fpds.php</url>
+            </urls>
+            <paging model="page"> 
+                <start id="records_from" default="0" /> 
+                <pagesize id="max_records" max="1000" /> 
+                <total default="10" /> 
+            </paging>
+            <inputs>
+                <key id='detail' type='xs:string' paramType='query' required="false" />
+                <key id='sortby' type='xs:string' paramType='query' required="false" />
+                <key id='fiscal_year' type='xs:string' paramType='query' required="false" />
+                <key id='first_year_range' type='xs:string' paramType='query' required="false" />
+                <key id='last_year_range' type='xs:string' paramType='query' required="false" />
+                <key id='company_name' type='xs:string' paramType='query' required="false" />
+                <key id='city' type='xs:string' paramType='query' required="false" />
+                <key id='state' type='xs:string' paramType='query' required="false" />
+                <key id='ZIPCode' type='xs:string' paramType='query' required="false" />
+                <key id='vendorCountryCode' type='xs:string' paramType='query' required="false" />
+                <key id='vendor_cd' type='xs:string' paramType='query' required="false" />
+                <key id='pop_cd' type='xs:string' paramType='query' required="false" />
+                <key id='stateCode' type='xs:string' paramType='query' required="false" />
+                <key id='placeOfPerformanceZIPCode' type='xs:string' paramType='query' required="false" />
+                <key id='placeOfPerformanceCountryCode' type='xs:string' paramType='query' required="false" />
+                <key id='mod_agency' type='xs:string' paramType='query' required="false" />
+                <key id='maj_agency_cat' type='xs:string' paramType='query' required="false" />
+                <key id='psc_cat' type='xs:string' paramType='query' required="false" />
+                <key id='psc_sub' type='xs:string' paramType='query' required="false" />
+                <key id='descriptionOfContractRequirement' type='xs:string' paramType='query' required="false" />
+                <key id='PIID' type='xs:string' paramType='query' required="false" />
+                <key id='compete_cat' type='xs:string' paramType='query' required="false" />
+                <key id='duns_number' type='xs:string' paramType='query' required="false" />
+                <key id='program_source_agency_code' type='xs:string' paramType='query' required="false" />
+                <key id='program_source_account_code' type='xs:string' paramType='query' required="false" />
+                <key id='program_source_desc' type='xs:string' paramType='query' required="false" />
+                <key id='datype' type='xs:string' paramType='query' default="X" const="true" private="true" />
+            </inputs>
+        </select> 
+    </bindings>
+</table>

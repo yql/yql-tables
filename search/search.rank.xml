@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Nagesh Susarla</author>
+        <documentationURL>My Search Rank</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="results.result" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <paging model="offset">
+              <start id="start" default="0" />
+              <pagesize id="count" max="50" />
+              <total default="10"/>
+            </paging>
+            <inputs>
+                <key id="query" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+                    var theQuery = 'select * from search.web(' + start + ',' + count + ') where query=@query '
+                    var search = y.query(theQuery, {query:query}).results;
+                    var rank = 0 + start;
+                    //y.log("initing rank");
+                    default xml namespace = 'http://www.inktomi.com/';
+                    for each (var result in search.result) {
+                        rank++;
+                        //y.log("rank for " + rank);
+                        result.rank += <rank>{rank}</rank>;
+                    }
+                    response.object = search;
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
