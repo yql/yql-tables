@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Paul Tarjan</author>
+    <documentationURL>http://code.google.com/apis/socialgraph/docs/lookup.html</documentationURL>
+    <sampleQuery>select * from {table} where q = "friendfeed.com/ptarjan" AND edo = "1"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://socialgraph.apis.google.com/lookup</url>
+      </urls>
+      <inputs>
+        <key id='q' type='xs:string' paramType='query' />
+        <key id='edo' type='xs:boolean' paramType='query' />
+        <key id='edi' type='xs:boolean' paramType='query' />
+        <key id='fme' type='xs:boolean' paramType='query' />
+        <key id='sgn' type='xs:boolean' paramType='query' />
+        <key id='jme' type='xs:boolean' paramType='query' />
+      </inputs>
+    </select>
+  </bindings>
+</table>
