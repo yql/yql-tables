@@ -36,6 +36,9 @@ var addAlias = function (url) {
     var json = JSON.parse(r);
 
     var canonical = json.canonical_mapping[url];
+    // Trust the cannonical form
+    if (ret.indexOf(canonical) == -1)
+        ret.push(canonical);
 
     // Look at inlinks to the cannonical URI
     var nodes = json.nodes[canonical].nodes_referenced_by;
