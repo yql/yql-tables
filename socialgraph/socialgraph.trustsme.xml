@@ -28,10 +28,11 @@ var addAlias = function (url) {
     }).get().response;
     var json = JSON.parse(r);
 
-    var nodes = json.nodes;
+    var canonical = json.canonical_mapping[url];
+    var nodes = json.nodes[canonical].nodes_referenced_by;
     for (var i in nodes) {
         var node = nodes[i];
-        if (ret.indexOf(i) == -1)
+        if (node.types.indexOf("me") != -1 && ret.indexOf(i) == -1)
             ret.push(i);
     }
 }
