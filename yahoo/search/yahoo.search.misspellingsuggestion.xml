@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Paul Tarjan</author>
+    <documentationURL>http://www.ysearchblog.com/2005/04/01/announcing-yahoo-slacker/</documentationURL>
+    <description>Misspelling Suggestions</description>
+    <sampleQuery><![CDATA[select * from {table} where query="O Romeo, Romeo, wherefore art thou Romeo?"]]></sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="ReslutSet.Reslut" produces="XML">
+      <urls>
+        <url>http://api.search.yahoo.com/WebSearchService/V1/misspellingSuggestion?appid=yahoo&amp;query=O+Romeo%2C+Romeo%2C+wherefore+art+thou+Romeo%3F</url>
+      </urls>
+      <inputs>
+        <key id="query" type="xs:string" paramType="query" required="true" />
+        <key id="appid" type="xs:string" paramType="query" default="yahoo" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
