@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where domain='test' and name='test' and access=@access and secret=@secret
+    </sampleQuery>
+    <documentationURL>http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/</documentationURL>
+  </meta>
+  <bindings>
+    <update itemPath="" produces="XML">
+      <urls>
+        <url>https://sdb.amazonaws.com/?Action=PutAttributes</url>
+      </urls>
+      <inputs>
+        <key id="access" type="xs:string" paramType="variable" required="true"/>
+        <key id="secret" type="xs:string" paramType="variable" required="true"/>
+        <key id="domain" type="xs:string" paramType="variable" required="true"/>
+        <key id="name" type="xs:string" paramType="variable" required="true"/>
+        <map id="attr" type="xs:string" paramType="variable"/>
+      </inputs>
+      <execute><![CDATA[
+// Include support
+y.include("http://www.javarants.com/yql/aws.simpledb.js");
+
+// Set the Action
+awsparams.push(["Action", "PutAttributes"]);
+awsparams.push(["DomainName", domain]);
+awsparams.push(["ItemName", name]);
+var i = 0;
+for (var key in attr) {
+  var value = attr[key];
+  awsparams.push(["Attribute." + i + ".Name", key]);
+  awsparams.push(["Attribute." + i + ".Value", value]);
+  awsparams.push(["Attribute." + i + ".Replace", "true"]);
+  i++;
+}
+// Call the web service
+response.object = y.rest(signparams(secret, awsparams)).get().response;
+      ]]></execute>
+    </update>
+    <insert itemPath="" produces="XML">
+      <urls>
+        <url>https://sdb.amazonaws.com/?Action=PutAttributes</url>
+      </urls>
+      <inputs>
+        <key id="access" type="xs:string" paramType="variable" required="true"/>
+        <key id="secret" type="xs:string" paramType="variable" required="true"/>
+        <key id="domain" type="xs:string" paramType="variable" required="true"/>
+        <key id="name" type="xs:string" paramType="variable" required="true"/>
+        <map id="attr" type="xs:string" paramType="variable"/>
+      </inputs>
+      <execute><![CDATA[
+// Include support
+y.include("http://www.javarants.com/yql/aws.simpledb.js");
+
+// Set the Action
+awsparams.push(["Action", "PutAttributes"]);
+awsparams.push(["DomainName", domain]);
+awsparams.push(["ItemName", name]);
+var i = 0;
+for (var key in attr) {
+  var value = attr[key];
+  awsparams.push(["Attribute." + i + ".Name", key]);
+  awsparams.push(["Attribute." + i + ".Value", value]);
+  i++;
+}
+// Call the web service
+response.object = y.rest(signparams(secret, awsparams)).get().response;
+      ]]></execute>
+    </insert>
+    <delete itemPath="" produces="XML">
+      <urls>
+        <url>https://sdb.amazonaws.com/?Action=DeleteAttributes</url>
+      </urls>
+      <inputs>
+        <key id="access" type="xs:string" paramType="variable" required="true"/>
+        <key id="secret" type="xs:string" paramType="variable" required="true"/>
+        <key id="domain" type="xs:string" paramType="variable" required="true"/>
+        <key id="name" type="xs:string" paramType="variable" required="true"/>
+        <map id="attr" type="xs:string" paramType="variable"/>
+      </inputs>
+      <execute><![CDATA[
+// Include support
+y.include("http://www.javarants.com/yql/aws.simpledb.js");
+
+// Set the Action
+awsparams.push(["Action", "DeleteAttributes"]);
+awsparams.push(["DomainName", domain]);
+awsparams.push(["ItemName", name]);
+var i = 0;
+for (var key in attr) {
+  var value = attr[key];
+  awsparams.push(["Attribute." + i + ".Name", key]);
+  awsparams.push(["Attribute." + i + ".Value", value]);
+  i++;
+}
+// Call the web service
+response.object = y.rest(signparams(secret, awsparams)).get().response;
+      ]]></execute>
+    </delete>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>https://sdb.amazonaws.com/?Action=GetAttributes</url>
+      </urls>
+      <inputs>
+        <key id="access" type="xs:string" paramType="variable" required="true"/>
+        <key id="secret" type="xs:string" paramType="variable" required="true"/>
+        <key id="domain" type="xs:string" paramType="variable" required="true"/>
+        <key id="name" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+// Include support
+y.include("http://www.javarants.com/yql/aws.simpledb.js");
+
+// Set the Action
+awsparams.push(["Action", "GetAttributes"]);
+awsparams.push(["DomainName", domain]);
+awsparams.push(["ItemName", name]);
+
+// Call the web service
+response.object = y.rest(signparams(secret, awsparams)).get().response;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
