@@ -21,7 +21,7 @@
       </inputs>
       <execute><![CDATA[
 // Include support
-y.include("http://www.javarants.com/yql/aws.simpledb.js");
+y.include("http://www.datatables.org/amazon/aws.simpledb.js");
 
 // Set the Action
 awsparams.push(["Action", "QueryWithAttributes"]);
@@ -52,7 +52,7 @@ response.object = y.rest(signparams(secret, awsparams)).get().response;
       </inputs>
       <execute><![CDATA[
 // Include support
-y.include("http://www.javarants.com/yql/aws.simpledb.js");
+y.include("http://www.datatables.org/amazon/aws.simpledb.js");
 
 // Set the Action
 awsparams.push(["Action", "Query"]);
