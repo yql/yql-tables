@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>insert into {table} (title, description, blogurl, username, password) values ("Test Title", "This is a test body", "http://yqltest.wordpress.com", "yqltest", "password")</sampleQuery>
+    </meta>
+    <bindings>
+        <insert itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id='username' type='xs:string' paramType='variable' required="true" />
+                <key id='password' type='xs:string' paramType='variable' required="true" />
+                <key id='blogurl' type='xs:string' paramType='variable' required="true" />
+                <value id='allow_comments' type='xs:string' paramType='variable' required="false" default="1" />
+                <value id='tags' type='xs:string' paramType='variable' required="false"/>
+                <value id='keywords' type='xs:string' paramType='variable' required="false"/>
+                <value id='convert_breaks' type='xs:string' paramType='variable' required="false" default="0" />
+                <value id='title' type='xs:string' paramType='variable' required="true" />
+                <value id='excerpt' type='xs:string' paramType='variable' required="false"/>
+                <value id='description' type='xs:string' paramType='variable' required="true"/>
+                <value id='moretext' type='xs:string' paramType='variable' required="false"/>
+                <value id='allow_pings' type='xs:string' paramType='variable' required="false" default= "0" />
+                <value id='publish' type='xs:string' paramType='variable' required="false" default= "1" />
+            </inputs>
+            <execute><![CDATA[
+
+                if (allow_comments == "true") {
+                    allow_comments = 1;
+                } else if (allow_comments == "false") {
+                    allow_comments = 0;
+                }
+
+                if (convert_breaks == "true") {
+                    conver_tbreaks = 1;
+                } else if (convert_breaks == "false") {
+                    convert_breaks = 0;
+                }
+
+                if (allow_pings == "true") {
+                    allow_pings = 1;
+                } else if (allow_pings == "false") {
+                    allow_pings = 0;
+                }
+        
+                postData = <methodCall>
+                    <methodName>metaWeblog.newPost</methodName>
+                    <params>
+                        <param>
+                            <value>
+                                <string>1</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{username}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{password}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <struct>
+                                    <member>
+                                        <name>mt_allow_comments</name>
+                                        <value>
+                                            <int>{allow_comments}</int>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>mt_convert_breaks</name>
+                                        <value>
+                                            <string>{convert_breaks}</string>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>title</name>
+                                        <value>
+                                            <string>{title}</string>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>description</name>
+                                        <value>
+                                            <string>{description}</string>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>mt_allow_pings</name>
+                                        <value>
+                                            <string>{allow_pings}</string>
+                                        </value>
+                                    </member>
+                                </struct>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <boolean>{publish}</boolean>
+                            </value>
+                        </param>
+                    </params>
+                </methodCall>;
+        
+                if (tags) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_tags</name>
+                        <value>
+                            <string>{tags}</string>
+                        </value>
+                    </member>;            
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_tags</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }
+        
+                if (moretext) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_text_more</name>
+                        <value>
+                            <string>{moretext}</string>
+                        </value>;
+                    </member>         
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_text_more</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }
+
+                if (excerpt) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_excerpt</name>
+                        <value>
+                            <string>{excerpt}</string>
+                        </value>
+                    </member>;
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_excerpt</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }
+        
+                if (keywords) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_keywords</name>
+                        <value>
+                            <string>{keywords}</string>
+                        </value>
+                    </member>;
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_keywords</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }        
+
+
+                url = blogurl + "/xmlrpc.php";
+                myRequest = y.rest(url);
+                myRequest.contentType("text/xml");
+                //myRequest.accept("text/xml");
+                myRequest.header("Connection", "close");
+                results = myRequest.post('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
+        
+                postId = results.params.param.value.string.toString();
+        
+                //response.object = results;
+                response.object = <postid>{postId}</postid>;
+
+             ]]></execute>
+            </insert>
+            <update itemPath="" produces="XML">
+                <urls>
+                    <url></url>
+                </urls>
+                <inputs>
+                    <key id='username' type='xs:string' paramType='variable' required="true" />
+                    <key id='password' type='xs:string' paramType='variable' required="true" />
+                    <key id='blogurl' type='xs:string' paramType='variable' required="true" />
+                    <key id='postid' type='xs:string' paramType='variable' required="true" />
+                    <value id='allow_comments' type='xs:string' paramType='variable' required="true" />
+                    <value id='tags' type='xs:string' paramType='variable' required="true"/>
+                    <value id='keywords' type='xs:string' paramType='variable' required="true"/>
+                    <value id='convert_breaks' type='xs:string' paramType='variable' required="true" />
+                    <value id='title' type='xs:string' paramType='variable' required="true" />
+                    <value id='excerpt' type='xs:string' paramType='variable' required="true"/>
+                    <value id='description' type='xs:string' paramType='variable' required="true"/>
+                    <value id='moretext' type='xs:string' paramType='variable' required="true"/>
+                    <value id='allow_pings' type='xs:string' paramType='variable' required="true" />
+                    <value id='publish' type='xs:string' paramType='variable' required="true"/>
+                </inputs>
+                <execute><![CDATA[
+                if (allow_comments == "true") {
+                    allow_comments = 1;
+                } else if (allow_comments == "false") {
+                    allow_comments = 0;
+                }
+
+                if (convert_breaks == "true") {
+                    conver_tbreaks = 1;
+                } else if (convert_breaks == "false") {
+                    convert_breaks = 0;
+                }
+
+                if (allow_pings == "true") {
+                    allow_pings = 1;
+                } else if (allow_pings == "false") {
+                    allow_pings = 0;
+                }
+    
+                postData = <methodCall>
+                    <methodName>metaWeblog.newPost</methodName>
+                    <params>
+                        <param>
+                            <value>
+                                <string>1</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{username}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{password}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <struct>
+                                    <member>
+                                        <name>mt_allow_comments</name>
+                                        <value>
+                                            <int>{allow_comments}</int>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>mt_convert_breaks</name>
+                                        <value>
+                                            <string>{convert_breaks}</string>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>title</name>
+                                        <value>
+                                            <string>{title}</string>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>description</name>
+                                        <value>
+                                            <string>{description}</string>
+                                        </value>
+                                    </member>
+                                    <member>
+                                        <name>mt_allow_pings</name>
+                                        <value>
+                                            <string>{allow_pings}</string>
+                                        </value>
+                                    </member>
+                                </struct>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <boolean>{publish}</boolean>
+                            </value>
+                        </param>
+                    </params>
+                </methodCall>;
+    
+                if (tags) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_tags</name>
+                        <value>
+                            <string>{tags}</string>
+                        </value>
+                    </member>;            
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_tags</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }
+    
+                if (moretext) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_text_more</name>
+                        <value>
+                            <string>{moretext}</string>
+                        </value>;
+                    </member>         
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_text_more</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }
+
+                if (excerpt) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_excerpt</name>
+                        <value>
+                            <string>{excerpt}</string>
+                        </value>
+                    </member>;
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_excerpt</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }
+    
+                if (keywords) {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_keywords</name>
+                        <value>
+                            <string>{keywords}</string>
+                        </value>
+                    </member>;
+                } else {
+                    postData.params.param..struct.member +=
+                    <member>
+                        <name>mt_keywords</name>
+                        <value>
+                            <string></string>
+                        </value>
+                    </member>;
+                }
+            ]]></execute>
+        </update> 
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id='postid' type='xs:string' paramType='variable' required="true" />
+                <key id='blogurl' type='xs:string' paramType='variable' required="true" />
+                <key id='username' type='xs:string' paramType='variable' required="true" />
+                <key id='password' type='xs:string' paramType='variable' required="true" />
+            </inputs>
+            <execute><![CDATA[
+            postData = <methodCall>
+                <methodName>metaWeblog.getPost</methodName>
+                    <params>
+                        <param>
+                            <value>
+                                <string>{postid}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{username}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{password}</string>
+                            </value>
+                        </param>
+                    </params>
+                </methodCall>;
+                
+                url = blogurl + "/xmlrpc.php";
+                myRequest = y.rest(url);
+                myRequest.contentType("text/xml");
+                //myRequest.accept("text/xml");
+                myRequest.header("Connection", "close");
+                results = myRequest.post('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
+                response.object = results;
+            ]]></execute>
+        </select> 
+    </bindings>
+</table>
