@@ -11,7 +11,7 @@
       <inputs>
         <key id='q' type='xs:string' paramType='query' required="true" />
         <key id='referer' type='xs:string' paramType='header'/>
-        <key id='key' type='xs:string' paramType='query' default=""/>
+        <key id='key' type='xs:string' paramType='query' default="notsupplied"/>
         <key id='source' type='xs:string' paramType='path' default="" />
         <key id='target' type='xs:string' paramType='path' required="true" />
       </inputs>
