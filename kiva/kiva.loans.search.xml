@@ -10,7 +10,7 @@
 
    <select itemPath="json.loans" produces="JSON">
       <urls>
-        <url env="all">http://api.kivaws.org/v1/loans/search.json?</url>
+        <url env="all">http://api.kivaws.org/v1/loans/search.json</url>
       </urls>
       <paging model="page">
         <start id="page" default="1" />
