@@ -10,7 +10,7 @@
   <bindings>
     <select produces="XML" itemPath="rss.channel.item">
       <urls>
-		<url>http://www.nmm.ac.uk/collections/requestHandlers/doQuickSearch.cfm?searchterm={searchterm}&amp;authority={authority}&amp;category={category}&amp;format=rss</url>
+		<url>http://www.nmm.ac.uk/collections/requestHandlers/doQuickSearch.cfm?searchterm={searchterm}&amp;authority={authority}&amp;category={category}&Amp;sortby={sortby}&amp;format=rss</url>
       </urls>
       <paging model="offset">
 		<start id="startrow" default="1"/>
@@ -21,6 +21,7 @@
         <key id="searchterm" type="xs:string" paramType="path" required="true"/>
         <key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
         <key id="category" type="xs:string" paramType="path" required="false" default=""/>
+		<key id="sortby" type="xs:string" paramType="path" required="false" default="rank"/>
       </inputs>
 	  
     </select>
