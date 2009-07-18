@@ -9,7 +9,7 @@
   <bindings>
     <select itemPath="Response" produces="XML">
       <urls>
-        <url>http://iplocationtools.com/ip_query.php</url>
+        <url>http://ipinfodb.com/ip_query.php</url>
       </urls>
       <inputs>
         <key id="ip" type="xs:string" paramType="query" required="true" />

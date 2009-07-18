@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  </meta>
+  <bindings>
+
+   <select itemPath="json.lenders" produces="JSON">
+      <urls>
+        <url env="all">http://api.kivaws.org/v1/lenders/newest.json</url>
+      </urls>
+      <paging model="page">
+        <start id="page" default="1" />
+        <pagesize id="page_size" max="20" />
+        <total default="20" />
+      </paging>
+      <inputs>
+      </inputs>
+   </select>
+
+  </bindings>
+</table>
