@@ -19,7 +19,7 @@
 	  <execute><![CDATA[ 
 	      var content = "status="+workflow_key; 
 	      response.object = 
-	request.post(content).response; 
+	request.query("key",workflow_key).post(content).response; 
 	      ]]></execute>  
 	</insert>
   </bindings>
