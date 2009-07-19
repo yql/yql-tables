@@ -8,7 +8,7 @@
   <bindings>
 	<insert itemPath="" produces="XML">  
 	  <urls>  
-	    <url></url>  
+	    <url>http://api.tarpipe.net/1.0/</url>  
 	  </urls>  
 	  <inputs>  
 	    <value id="workflow_key" type="xs:string" required="true" paramType="variable"/>  
@@ -17,7 +17,6 @@
 		<value id="image" type="xs:string" required="false" paramType="variable" />
 	  </inputs>  
 	  <execute><![CDATA[ 
-	      y.include("http://yqlblog.net/samples/base64.js"); 
 	      var content = "status="+workflow_key; 
 	      response.object = 
 	request.post(content).response; 
