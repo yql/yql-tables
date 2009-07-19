@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ethan Jewett</author>
+    <documentationURL>http://github.com/esjewett/yql-tables/blob/2d3af2ae9f57956977b3836bf0cfa39d5058d23a/tarpipe/tarpipe_workflow.xml</documentationURL>
+	<sampleQuery>insert into {table} (workflow_key,title,body,image) VALUES ("workflow_key","title","body","image")</sampleQuery>
+  </meta>
+  <bindings>
+	<insert itemPath="" produces="XML">  
+	  <urls>  
+	    <url></url>  
+	  </urls>  
+	  <inputs>  
+	    <value id="workflow_key" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="title" type="xs:string" required="false" paramType="variable"/>  
+	    <value id="body" type="xs:string" required="false" paramType="variable"/>  
+		<value id="image" type="xs:string" required="false" paramType="variable" />
+	  </inputs>  
+	  <execute><![CDATA[ 
+	      y.include("http://yqlblog.net/samples/base64.js"); 
+	      var content = "status="+workflow_key; 
+	      response.object = 
+	request.post(content).response; 
+	      ]]></execute>  
+	</insert>
+  </bindings>
+</table>
