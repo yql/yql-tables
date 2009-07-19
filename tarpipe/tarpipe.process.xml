@@ -14,8 +14,7 @@
 	    <value id="workflow_key" type="xs:string" required="true" paramType="variable"/>  
 	    <value id="title" type="xs:string" required="false" paramType="variable"/>  
 	    <value id="body" type="xs:string" required="false" paramType="variable"/>  
-		<value id="image" type="xs:string" required="false" paramType="variable" />
-	  </inputs>  
+          </inputs>  
 	  <execute><![CDATA[ 
 	      var content = "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\n"+title;
               content += "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"body\"\r\n\r\n"+body+"\r\n--AaB03x--\r\n";
