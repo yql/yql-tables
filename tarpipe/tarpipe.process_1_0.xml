@@ -3,7 +3,7 @@
   <meta>
     <author>Ethan Jewett</author>
     <documentationURL>http://github.com/esjewett/yql-tables/blob/2d3af2ae9f57956977b3836bf0cfa39d5058d23a/tarpipe/tarpipe_workflow.xml</documentationURL>
-	<sampleQuery>insert into {table} (workflow_key,title,body,image) VALUES ("workflow_key","title","body","image")</sampleQuery>
+	<sampleQuery>insert into {table} (workflow_key,title,body) VALUES ("workflow_key","title","body")</sampleQuery>
   </meta>
   <bindings>
 	<insert itemPath="" produces="XML">  
