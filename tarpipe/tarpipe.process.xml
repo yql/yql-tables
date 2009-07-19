@@ -17,9 +17,10 @@
 		<value id="image" type="xs:string" required="false" paramType="variable" />
 	  </inputs>  
 	  <execute><![CDATA[ 
-	      var content = "status="+workflow_key; 
+	      var content = "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\n"+title;
+              content += "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"body\"\r\n\r\n"+body+"\r\n--AaB03x--\r\n";
 	      response.object = 
-	request.query("key",workflow_key).post(content).response; 
+	request.contentType("multipart/form-data; boundary=AaB03x").query("key",workflow_key).post(content).response; 
 	      ]]></execute>  
 	</insert>
   </bindings>
