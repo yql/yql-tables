@@ -6,6 +6,7 @@
 	<sampleQuery description="search the art collection for pictures of Tower Bridge">select * from {table} where category = 'art' and searchterm = '"tower bridge"'</sampleQuery>
 	<sampleQuery description="get everything by Charles Pears (entry 162452 in the people authority)">select * from {table} where authority = 'people' and category = '162452' and searchterm = ''</sampleQuery>
 	<sampleQuery description="get 100 records related to the Aquitania (entry 292109 in the vessels authority)">select * from {table}(100) where authority = 'vessels' and category = '292109' and searchterm = ''</sampleQuery>
+	<sampleQuery description="get recently updated art records">select * from {table}(50) where category = 'art' and searchterm = '' and sortby = 'updated'</sampleQuery>
   </meta>
   <bindings>
     <select produces="XML" itemPath="rss.channel.item">
