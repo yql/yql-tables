@@ -33,7 +33,6 @@ OAuth.setTimestampAndNonce(message);
 OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
 OAuth.setParameter(message, "oauth_signature_method", oauth_signature_method);
 OAuth.setParameter(message, "oauth_version", oauth_version);
-OAuth.setParameter(message, "oauth_callback", oauth_callback);
 OAuth.setParameter(message, "oauth_verifier", oauth_verifier);
 OAuth.setParameter(message, "oauth_token", oauth_token);
 OAuth.SignatureMethod.sign(message, local_accessor);
