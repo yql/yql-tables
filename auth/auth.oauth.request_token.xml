@@ -10,6 +10,7 @@
     </urls>
     <inputs>
       <key id="get_request_token_url" type="xs:string" paramType="variable" required="true" />
+      <key id="consumer_secret" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_signature_method" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_version" type="xs:string" paramType="variable" required="true" />
@@ -21,9 +22,16 @@ y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
 y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js"); 
 
 var get_url = get_request_token_url;
+var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, token:'', tokenSecret:'' }
 var message = {};
 
 OAuth.setTimestampAndNonce(message);
+OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
+OAuth.setParameter(message, "oauth_signature_method", oauth_signature_method);
+OAuth.setParameter(message, "oauth_version", oauth_version);
+OAuth.setParameter(message, "xoauth_language_pref", xoauth_language_pref);
+OAuth.setParameter(message, "oauth_callback", oauth_callback);
+OAuth.SignatureMethod.sign(message, local_accessor)
 
 get_url = OAuth.addToURL(get_url, message.parameters); 
 
