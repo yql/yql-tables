@@ -9,11 +9,9 @@
       <url></url>
     </urls>
     <inputs>
-      <key id="oauth_get_request_token_url" type="xs:string" paramType="variable" required="true" />
+      <key id="get_request_token_url" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true" />
-      <key id="oauth_nonce" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_signature_method" type="xs:string" paramType="variable" required="true" />
-      <key id="oauth_timestamp" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_version" type="xs:string" paramType="variable" required="true" />
       <key id="xoauth_language_pref" type="xs:string" paramType="variable" required="false" />
       <key id="oauth_callback" type="xs:string" paramType="variable" required="true" />
@@ -22,9 +20,14 @@
 y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
 y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js"); 
 
-var url = oauth_get_request_token_url + "?";
+var get_url = get_request_token_url;
+var message = {};
 
-response.object = y.rest(url).get().response;
+OAuth.setTimestampAndNonce(message);
+
+get_url = OAuth.addToURL(get_url, message.parameters); 
+
+response.object = y.rest(get_url).get().response;
       ]]></execute>
     </select>
   </bindings>
