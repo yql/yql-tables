@@ -25,7 +25,7 @@ var get_url = get_request_token_url;
 var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, token:'yadayada', tokenSecret:'blahblah' };
 var message = {};
 
-OAuth.setParameter(message, "action", get_request_token_url);
+message.action = get_request_token_url;
 OAuth.setTimestampAndNonce(message);
 OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
 OAuth.setParameter(message, "oauth_signature_method", oauth_signature_method);
