@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <sampleQuery></sampleQuery>
+    <sampleQuery>select * from auth.oauth.access_token where oauth_version="1.0" and oauth_signature_method="HMAC-SHA1" and oauth_consumer_key="a90dd5cb7136513d" and get_access_token_url="http://oauth-sandbox.sevengoslings.net/access_token" and consumer_secret="0e5ab8a0d69451a8a8d58d1b6d8c" and oauth_token="a2c439d89de274d3" and token_secret="c05368a3ad0f26db16fb0f820249" and oauth_verifier="9e7ade813a3089a5";</sampleQuery>
   </meta>
   <bindings>
   <select itemPath="" produces="XML">
