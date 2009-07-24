@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery></sampleQuery>
+  </meta>
+  <bindings>
+  <select itemPath="" produces="XML">
+    <urls>
+      <url></url>
+    </urls>
+    <inputs>
+      <key id="oauth_get_request_token_url" type="xs:string" paramType="variable" required="true" />
+      <key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true" />
+      <key id="oauth_nonce" type="xs:string" paramType="variable" required="true" />
+      <key id="oauth_signature_method" type="xs:string" paramType="variable" required="true" />
+      <key id="oauth_timestamp" type="xs:string" paramType="variable" required="true" />
+      <key id="oauth_version" type="xs:string" paramType="variable" required="true" />
+      <key id="xoauth_language_pref" type="xs:string" paramType="variable" required="false" />
+      <key id="oauth_callback" type="xs:string" paramType="variable" required="true" />
+    </inputs>
+      <execute><![CDATA[
+y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
+y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js"); 
+
+var url = oauth_get_request_token_url + "?";
+
+response.object = y.rest(url).get().response;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
