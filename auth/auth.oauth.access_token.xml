@@ -27,7 +27,7 @@ var get_url = get_access_token_url;
 var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, token:oauth_token, tokenSecret:token_secret};
 var message = {};
 
-message.action = get_request_token_url;
+message.action = get_access_token_url;
 message.method = "GET";
 OAuth.setTimestampAndNonce(message);
 OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
