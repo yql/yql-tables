@@ -10,21 +10,20 @@
   </meta>
   <bindings>
     <select produces="XML" itemPath="rss.channel.item">
-      <urls>
+		<urls>
 		<url>http://www.nmm.ac.uk/collections/requestHandlers/doQuickSearch.cfm?searchterm={searchterm}&amp;authority={authority}&amp;category={category}&Amp;sortby={sortby}&amp;format=rss</url>
-      </urls>
-      <paging model="offset">
-		<start id="startrow" default="1"/>
-		<pagesize id="per_page" max="20"/>
-		<total default="20"/>
-	  </paging>
-	  <inputs>
-        <key id="searchterm" type="xs:string" paramType="path" required="true"/>
-        <key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
-        <key id="category" type="xs:string" paramType="path" required="false" default=""/>
-		<key id="sortby" type="xs:string" paramType="path" required="false" default="rank"/>
-      </inputs>
-	  
-    </select>
+		</urls>
+		<paging model="offset">
+			<start id="startrow" default="1"/>
+			<pagesize id="per_page" max="20"/>
+			<total default="20"/>
+		</paging>
+		<inputs>
+			<key id="searchterm" type="xs:string" paramType="path" required="true"/>
+			<key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
+			<key id="category" type="xs:string" paramType="path" required="false" default=""/>
+			<key id="sortby" type="xs:string" paramType="path" required="false" default="rank"/>
+		</inputs>
+	</select>
   </bindings>
 </table>
