@@ -14,7 +14,7 @@
          <key id="username" type="xs:string" paramType="variable" required="true"/>
          <key id="password" type="xs:string" paramType="variable" required="true"/>
          <key id="category" type="xs:string" paramType="variable" required="true"/>
-			<key id="itemuid" type="xs:string" paramType="variable" required="true/>"		
+         <key id="itemuid" type="xs:string" paramType="variable" required="true"/>		
        </inputs>
        <execute><![CDATA[
 y.include("http://www.javarants.com/yss/base64.js");
