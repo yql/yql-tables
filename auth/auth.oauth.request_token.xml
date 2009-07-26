@@ -14,7 +14,6 @@
       <key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_signature_method" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_version" type="xs:string" paramType="variable" required="true" />
-      <key id="xoauth_language_pref" type="xs:string" paramType="variable" required="false" />
       <key id="oauth_callback" type="xs:string" paramType="variable" required="true" />
     </inputs>
       <execute><![CDATA[
