@@ -17,7 +17,6 @@
       <key id="oauth_version" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_token" type="xs:string" paramType="variable" required="true" />
       <key id="oauth_verifier" type="xs:string" paramType="variable" required="true" />
-      <key id="xoauth_language_pref" type="xs:string" paramType="variable" required="false" />
     </inputs>
       <execute><![CDATA[
 y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
