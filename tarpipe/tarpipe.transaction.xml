@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ethan Jewett</author>
+    <documentationURL></documentationURL>
+	<sampleQuery></sampleQuery>
+  </meta>
+  <bindings>
+	<select itemPath="" produces="XML">
+      <urls>http://api.tarpipe.net/2.0/activity/workflow</urls>
+      <inputs>
+	  	<value id="tid" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="oauth_token" type="xs:string" required="true" paramType="variable"/>
+	    <value id="oauth_token_secret" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="oauth_consumer_key" type="xs:string" required="true" paramType="variable"/>
+	  	<value id="oauth_consumer_secret" type="xs:string" required="true" paramType="variable"/>
+	  </inputs
+	  <execute><![CDATA[
+		  y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
+		  y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+		
+		  var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, 
+									token:oauth_token, tokenSecret:token_secret};
+		  var message = {};
+
+		  message.action = request.path(tid);
+		  message.method = "GET";
+		  OAuth.setTimestampAndNonce(message);
+		  OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
+		  OAuth.setParameter(message, "oauth_signature_method", "HMAC-SHA1");
+		  OAuth.setParameter(message, "oauth_version", "1.0");
+		  OAuth.setParameter(message, "oauth_token", oauth_token);
+		  OAuth.SignatureMethod.sign(message, local_accessor);
+
+		  get_url = OAuth.addToURL(get_url, message.parameters);
+
+		  response.object = y.rest(get_url).get().response;
+		
+		]]>
+	  </execute>
+	</select>
+	<insert itemPath="" produces="XML">  
+	  <urls>  
+	    <url>http://api.tarpipe.net/2.0//workflow</url>
+	  </urls>  
+	  <inputs>
+	    <value id="_workflow" type="xs:string" required="false" paramType="variable"/>
+	    <value id="workflow_id" type="xs:string" required="false" paramType="variable"/>  
+	    <value id="oauth_token" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="oauth_token_secret" type="xs:string" required="true" paramType="variable"/>
+	    <value id="oauth_consumer_key" type="xs:string" required="true" paramType="variable"/>
+	  	<value id="oauth_consumer_secret" type="xs:string" required="true" paramType="variable"/>
+      </inputs>  
+	  <execute><![CDATA[ 
+		    y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
+		    y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+
+		    var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, 
+									token:oauth_token, tokenSecret:token_secret};
+		    var message = {};
+			message.method = "POST";
+			
+			OAuth.setTimestampAndNonce(message);
+			OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
+			OAuth.setParameter(message, "oauth_signature_method", "HMAC-SHA1");
+			OAuth.setParameter(message, "oauth_version", "1.0");
+			OAuth.setParameter(message, "oauth_token", oauth_token);
+		
+	        if(_workflow.length > 0){
+		      message.action = request.path("adhoc").path("start");
+		      OAuth.SignatureMethod.sign(message, local_accessor);
+	
+	          var content = "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\n"+_workflow+"\r\n--AaB03x--\r\n";
+	
+			  var local_request = request.path("adhoc").path("start").contentType("multipart/form-data; boundary=AaB03x");
+	
+			  var list = message.getParameterList(parameters);
+			  for (var p = 0; p < list.length; ++p) {
+			    var parameter = list[p];
+			    var name = parameter[0];
+			    if (name.indexOf("oauth_") == 0) {
+			      local_request = local_request.header(OAuth.percentEncode(name), OAuth.percentEncode(parameter[1]));
+			    }
+			  }
+	
+			  response.object = local_request.post(content).response;
+			} else {
+			
+			  message.action = request.path("start").path(workflow_id);
+			  OAuth.SignatureMethod.sign(message, local_accessor);
+			
+			  var local_request = request.path("start").path(workflow_id);
+
+			  var list = message.getParameterList(parameters);
+			  for (var p = 0; p < list.length; ++p) {
+			    var parameter = list[p];
+			    var name = parameter[0];
+			    if (name.indexOf("oauth_") == 0) {
+			      local_request = local_request.header(OAuth.percentEncode(name), OAuth.percentEncode(parameter[1]));
+			    }
+			  }
+
+			  response.object = local_request.post().response;
+			}
+	      ]]></execute>  
+	</insert>
+	<update>
+	</update>
+  </bindings>
+</table>
