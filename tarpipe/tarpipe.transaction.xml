@@ -14,7 +14,7 @@
 	    <value id="oauth_token_secret" type="xs:string" required="true" paramType="variable"/>  
 	    <value id="oauth_consumer_key" type="xs:string" required="true" paramType="variable"/>
 	  	<value id="oauth_consumer_secret" type="xs:string" required="true" paramType="variable"/>
-	  </inputs
+	  </inputs>
 	  <execute><![CDATA[
 		  y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
 		  y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
