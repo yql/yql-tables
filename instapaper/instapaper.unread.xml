@@ -23,10 +23,10 @@
 	      request.query("url",url);
 	      request.query("password",password);
 	      request.query("title",title);
-		  request.query("selection",selection);
-		  request.query("auto-title",autotitle);
+          request.query("selection",selection);
+          request.query("auto-title",autotitle);
 		
-		  response.object = request.post().response;
+          response.object = request.post().response;
 	      ]]></execute>  
 	</insert>
   </bindings>
