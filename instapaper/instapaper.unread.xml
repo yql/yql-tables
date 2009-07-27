@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ethan Jewett</author>
+    <documentationURL></documentationURL>
+	<sampleQuery>insert into instapaper.unread (username,url) VALUES ("username_here","url_here")</sampleQuery>
+  </meta>
+  <bindings>
+	<insert itemPath="" produces="XML">  
+	  <urls>  
+	    <url>https://www.instapaper.com/api/add</url>  
+	  </urls>  
+	  <inputs>
+	    <value id="username" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="password" type="xs:string" required="false" paramType="variable" default=""/>  
+	    <value id="url" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="title" type="xs:string" required="false" paramType="variable"/>
+		<value id="selection" type="xs:string" required="false" paramType="variable"/>
+		<value id="autotitle" type="xs:string" required="false" paramType="variable"/>
+      </inputs>  
+	  <execute><![CDATA[ 
+	      request.query("username",username);
+	      request.query("url",url);
+	      request.query("password",password);
+	      request.query("title",title);
+		  request.query("selection",selection);
+		  request.query("auto-title",autotitle);
+		
+		  response.object = request.post().response;
+	      ]]></execute>  
+	</insert>
+  </bindings>
+</table>
