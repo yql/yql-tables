@@ -10,7 +10,7 @@
 		<url>http://www.nmm.ac.uk/collections/feeds/authorityXML.cfm?authority={authority}&amp;title={title}</url>
 		</urls>
 		<inputs>
-			<key id="authority" type="xs:string" paramType="path" required="true" default="category"/>
+			<key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
 			<key id="title" type="xs:string" paramType="path" required="false" default=""/>
 		</inputs>
 	</select>
