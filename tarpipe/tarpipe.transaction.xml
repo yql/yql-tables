@@ -43,7 +43,7 @@
 	</select>
 	<insert itemPath="" produces="XML">  
 	  <urls>  
-	    <url>http://api.tarpipe.net/2.0//workflow</url>
+	    <url>http://api.tarpipe.net/2.0/workflow</url>
 	  </urls>  
 	  <inputs>
 	    <value id="_workflow" type="xs:string" required="false" paramType="variable"/>
@@ -74,7 +74,7 @@
 	
         var content = "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\n"+_workflow+"\r\n--AaB03x--\r\n";
 	
-			  var local_request = request.path("adhoc").path("start").contentType("multipart/form-data; boundary=AaB03x");
+			  var local_request = request.contentType("multipart/form-data; boundary=AaB03x");
 	
 			  var list = OAuth.getParameterList(message.parameters);
 			  for (var p = 0; p < list.length; ++p) {
@@ -91,7 +91,7 @@
 			  message.action = request.path("start").path(workflow_id).url;
 			  OAuth.SignatureMethod.sign(message, local_accessor);
 			
-			  var local_request = request.path("start").path(workflow_id);
+			  var local_request = request;
  
 			  var list = OAuth.getParameterList(message.parameters);
 			  for (var p = 0; p < list.length; ++p) {
