@@ -87,6 +87,9 @@
 	
 			  response.object = local_request.post(content).response;
 			} else {
+
+                          var content = "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\n"+"title test";
+                          content += "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"body\"\r\n\r\n"+"body test"+"\r\n--AaB03x--\r\n";
 			
 			  message.action = request.path("start").path(workflow_id).url;
 			  OAuth.SignatureMethod.sign(message, local_accessor);
@@ -102,7 +105,7 @@
 			    }
 			  }
  
-			  response.object = local_request.contentType("multipart/form-data; boundary=AaB03x").header("Content-Length",0).post().response;
+			  response.object = local_request.contentType("multipart/form-data; boundary=AaB03x").header("Content-Length",content.length).post(content).response;
                     }
 	      ]]></execute>  
 	</insert>
