@@ -76,7 +76,7 @@
 	
 			  var local_request = request.path("adhoc").path("start").contentType("multipart/form-data; boundary=AaB03x");
 	
-			  var list = message.getParameterList(parameters);
+			  var list = OAuth.getParameterList(message.parameters);
 			  for (var p = 0; p < list.length; ++p) {
 			    var parameter = list[p];
 			    var name = parameter[0];
@@ -93,7 +93,7 @@
 			
 			  var local_request = request.path("start").path(workflow_id);
  
-			  var list = message.getParameterList(parameters);
+			  var list = OAuth.getParameterList(message.parameters);
 			  for (var p = 0; p < list.length; ++p) {
 			    var parameter = list[p];
 			    var name = parameter[0];
