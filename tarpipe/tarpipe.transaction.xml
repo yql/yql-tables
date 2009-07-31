@@ -102,7 +102,7 @@
 			    }
 			  }
  
-			  response.object = local_request.post().response;
+			  response.object = local_request.contentType("multipart/form-data; boundary=AaB03x").post().response;
                     }
 	      ]]></execute>  
 	</insert>
