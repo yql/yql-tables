@@ -25,7 +25,7 @@
 									token:oauth_token, tokenSecret:token_secret};
 		  var message = {};
 
-		  message.action = request.path(tid);
+		  message.action = request.path(tid).url;
 		  message.method = "GET";
 		  OAuth.setTimestampAndNonce(message);
 		  OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
@@ -69,7 +69,7 @@
 			OAuth.setParameter(message, "oauth_token", oauth_token);
 		
 	        if(_workflow != null){
-        message.action = request.path("adhoc").path("start");
+        message.action = request.path("adhoc").path("start").url;
         OAuth.SignatureMethod.sign(message, local_accessor);
 	
         var content = "\r\n--AaB03x\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\n"+_workflow+"\r\n--AaB03x--\r\n";
@@ -88,7 +88,7 @@
 			  response.object = local_request.post(content).response;
 			} else {
 			
-			  message.action = request.path("start").path(workflow_id);
+			  message.action = request.path("start").path(workflow_id).url;
 			  OAuth.SignatureMethod.sign(message, local_accessor);
 			
 			  var local_request = request.path("start").path(workflow_id);
