@@ -106,7 +106,5 @@
 			}
 	      ]]></execute>  
 	</insert>
-	<update>
-	</update>
   </bindings>
 </table>
