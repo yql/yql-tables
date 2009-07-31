@@ -68,7 +68,7 @@
 			OAuth.setParameter(message, "oauth_version", "1.0");
 			OAuth.setParameter(message, "oauth_token", oauth_token);
 		
-	        if(_workflow AND _workflow.length > 0){
+	        if(_workflow != null AND _workflow.length > 0){
 		      message.action = request.path("adhoc").path("start");
 		      OAuth.SignatureMethod.sign(message, local_accessor);
 	
