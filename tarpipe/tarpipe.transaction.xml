@@ -49,9 +49,9 @@
 	    <value id="_workflow" type="xs:string" required="false" paramType="variable"/>
 	    <value id="workflow_id" type="xs:string" required="false" paramType="variable"/>  
 	    <value id="oauth_token" type="xs:string" required="true" paramType="variable"/>  
-	    <value id="oauth_token_secret" type="xs:string" required="true" paramType="variable"/>
+	    <value id="token_secret" type="xs:string" required="true" paramType="variable"/>
 	    <value id="oauth_consumer_key" type="xs:string" required="true" paramType="variable"/>
-	  	<value id="oauth_consumer_secret" type="xs:string" required="true" paramType="variable"/>
+	  	<value id="consumer_secret" type="xs:string" required="true" paramType="variable"/>
       </inputs>  
 	  <execute><![CDATA[ 
 		    y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
