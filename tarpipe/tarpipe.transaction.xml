@@ -11,12 +11,12 @@
         <url>http://api.tarpipe.net/2.0/activity/workflow</url>
       </urls>
       <inputs>
-	  	<value id="tid" type="xs:string" required="true" paramType="variable"/>  
-	    <value id="oauth_token" type="xs:string" required="true" paramType="variable"/>
-	    <value id="oauth_token_secret" type="xs:string" required="true" paramType="variable"/>  
-	    <value id="oauth_consumer_key" type="xs:string" required="true" paramType="variable"/>
-	  	<value id="oauth_consumer_secret" type="xs:string" required="true" paramType="variable"/>
-	  </inputs>
+	    <key id="tid" type="xs:string" required="true" paramType="variable"/>  
+	    <key id="oauth_token" type="xs:string" required="true" paramType="variable"/>
+	    <key id="oauth_token_secret" type="xs:string" required="true" paramType="variable"/>  
+	    <key id="oauth_consumer_key" type="xs:string" required="true" paramType="variable"/>
+	    <key id="oauth_consumer_secret" type="xs:string" required="true" paramType="variable"/>
+      </inputs>
 	  <execute><![CDATA[
 		  y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
 		  y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
