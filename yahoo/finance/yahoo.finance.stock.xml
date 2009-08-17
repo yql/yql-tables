@@ -31,6 +31,12 @@
 	return str.slice(0, i + 1);
     }
 
+    String.prototype.toInt = function () {
+	//remove leading 0's because otherwise str can be interpreted as Octal
+	var str = this.replace(/^0+/, '');
+	return parseInt(str);
+    }
+
     function getQuoteInfo() {
 	// Get company name & market from Yahoo Quotes Summary page
 	var results = quoteQuery.results;
@@ -52,12 +58,16 @@
 	// Get the Historical Price Range
 	var results = historicalQuery.results;
 	elements = results.*.length();
-	if (elements < 6)
+	if (elements < 6) {
+	    y.log("not enough elements");
 	    return false;
-	startMonth = String(parseInt(results.option[0].@value)+1).pad("0", 2);
+	}
+	startMonth = String(results.option[0].@value.toString().toInt() + 1)
+	    .pad("0", 2);
 	startDay = results.input[0].@value.toString().pad("0", 2);
 	startYear = results.input[1].@value.toString();
-	endMonth = String(parseInt(results.option[1].@value)+1).pad("0", 2);
+	endMonth = String(results.option[1].@value.toString().toInt() + 1)
+	    .pad("0", 2);
 	endDay = results.input[2].@value.toString().pad("0", 2);
 	endYear = results.input[3].@value.toString();
 
