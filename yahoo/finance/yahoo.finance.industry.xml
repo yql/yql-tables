@@ -15,15 +15,6 @@
       </inputs>
 <execute><![CDATA[
 
-    // pad string with leading char
-    String.prototype.pad = function (padchar, padlen) {
-	s = this
-	while (s.length < padlen) {
-	    s = padchar + s;
-	}
-	return s;
-    }
-
     String.prototype.trim = function () {
 	var	str = this.replace(/^\s\s*/, ''),
 	        ws = /\s/,
@@ -32,8 +23,7 @@
 	return str.slice(0, i + 1);
     }
 
-    // Queue the queries
-//        "//table[@width=\"100%\"]/tbody/tr/td/font[@size=\"-1\"]/b'",
+    // Queue the query
     var industryQuery = y.query(
 	"select * from html " +
 	"where url=@url and " + 
@@ -52,8 +42,8 @@
 	    companyName = a.text().toString().trim();
 	    companyName = companyName.replace(/\s+/g, " ");
 	} else {
-	    ticker = match[1];
-	    company = <company symbol={ticker} name={companyName} />
+	    symbol = match[1];
+	    company = <company symbol={symbol} name={companyName} />
 	    industry.appendChild(company);
 	}
     }
