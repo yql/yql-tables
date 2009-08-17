@@ -3,15 +3,15 @@
   <meta>
     <author>Tom Powers</author>
     <description>Yahoo Finance Industry Index - Industry + Stock Symbols</description>
-    <sampleQuery>select * from {table} where industryID="112"</sampleQuery>
+    <sampleQuery>select * from {table} where id="112"</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-       <url>http://biz.yahoo.com/ic/{industryID}_cl_pub.html</url>
+       <url>http://biz.yahoo.com/ic/{id}_cl_pub.html</url>
       </urls>
       <inputs>
-	<key id="industryID" type='xs:string' paramType='path' required='true'/>
+	<key id="id" type='xs:string' paramType='path' required='true'/>
       </inputs>
 <execute><![CDATA[
 
@@ -28,13 +28,13 @@
 	"select * from html " +
 	"where url=@url and " + 
 	"xpath='" +
-        "//table[@width=\"100%\"]/tr/td/font[@size=\"-1\"]/strong | " +
+	"//table[@width=\"100%\"]/tr/td/font[@size=\"-1\"]/strong | " +
 	"//td[@width=\"50%\"]//font[@size=\"-1\"]/a'",
 	{url:request.url});
     var results = industryQuery.results;
 
     var name = results.strong.a[1].text().toString().trim().replace(/\s+/g, " ");
-    var industry = <industry id={industryID} name={name}/>;
+    var industry = <industry id={id} name={name}/>;
 
     for each (var a in results.a){
 	match = a.@href.toString().match(/q\?s=(.*)$/);
