@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <documentationURL>http://craigslist.org/</documentationURL>
+    <sampleQuery>select * from {table} where location="sfbay" and type="sss" and query="schwinn mountain bike"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://{location}.craigslist.org/search/{type}?format=rss</url>
+      </urls>
+      <inputs>
+        <key id="location" type="xs:string" paramType="path" required="true" />
+        <key id="type" type="xs:string" paramType="path" required="true" />
+        <key id="query" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

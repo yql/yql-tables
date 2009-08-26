@@ -4,7 +4,7 @@
     <author>Dan Theurer</author>
     <documentationURL>http://build.kiva.org/docs/</documentationURL>
     <description>Kiva.org Loans API</description>
-    <sampleQuery>select * from kiva.loans.newest</sampleQuery>
+    <sampleQuery>select * from kiva.loans.recent</sampleQuery>
   </meta>
   <bindings>
 
