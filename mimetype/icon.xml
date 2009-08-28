@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Tarjan</author>
+        <description>Mimetype translations</description>
+        <sampleQuery>SELECT * FROM {table} WHERE mimetype = "application/pdf"</sampleQuery>
+        <sampleQuery>SELECT * FROM {table} WHERE file = "monkey.mp3"</sampleQuery>
+        <sampleQuery>SELECT * FROM {table} WHERE extension = "txt"</sampleQuery>
+        <sampleQuery>SELECT * FROM {table} WHERE extension = "html" AND iconset="apache"</sampleQuery>
+        <documentationURL>http://stdicon.com/</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://stdicon.com/{iconset}/{mimetype}</url>
+            </urls>
+            <inputs>
+        		<key id="mimetype" type="xs:string" paramType="path" required="true" />
+        		<key id="iconset" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+response.object = request.url.toString();
+]]>
+            </execute>
+        </select> 
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://stdicon.com/{iconset}/{file}</url>
+            </urls>
+            <inputs>
+        		<key id="file" type="xs:string" paramType="path" required="true" />
+        		<key id="iconset" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+response.object = request.url.toString();
+]]>
+            </execute>
+        </select> 
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://stdicon.com/{iconset}/{extension}</url>
+            </urls>
+            <inputs>
+        		<key id="extension" type="xs:string" paramType="path" required="true" />
+        		<key id="iconset" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+response.object = request.url.toString();
+]]>
+            </execute>
+        </select> 
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://stdicon.com/{mimetype}</url>
+            </urls>
+            <inputs>
+        		<key id="mimetype" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+response.object = request.url.toString();
+]]>
+            </execute>
+        </select> 
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://stdicon.com/{file}</url>
+            </urls>
+            <inputs>
+        		<key id="file" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+response.object = request.url.toString();
+]]>
+            </execute>
+        </select> 
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://stdicon.com/{extension}</url>
+            </urls>
+            <inputs>
+        		<key id="extension" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+response.object = request.url.toString();
+]]>
+            </execute>
+        </select> 
+    </bindings>
+</table>
