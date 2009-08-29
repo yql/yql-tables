@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ethan Jewett</author>
+    <documentationURL></documentationURL>
+	<sampleQuery>insert into {table} (esme_api_endpoint,token) VALUES ("","token_value")</sampleQuery>
+  </meta>
+  <bindings>
+	<insert itemPath="" produces="XML">  
+	  <urls>  
+	    <url>http://esmecloudserverapache.dickhirsch.staxapps.net/api/login?token=ROT1RG3LNLPEHK0MZTOQ0S0EN0GQBAJE</url>  
+	  </urls>  
+	  <inputs>  
+	    <value id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="token" type="xs:string" required="true" paramType="variable"/>  
+      </inputs>  
+	  <execute><![CDATA[ 
+	       response.object = request.header("Content-Length",1).post(" ").response;
+	      ]]></execute>  
+	</insert>
+  </bindings>
+</table>
