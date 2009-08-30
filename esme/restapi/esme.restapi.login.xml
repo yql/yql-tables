@@ -3,20 +3,44 @@
   <meta>
     <author>Ethan Jewett</author>
     <documentationURL></documentationURL>
-	<sampleQuery>insert into {table} (esme_api_endpoint,token) VALUES ("","token_value")</sampleQuery>
+	<sampleQuery>insert into esme.restapi.login (esme_api_endpoint,token) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","token_value")</sampleQuery>
+	<sampleQuery>delete from esme.restapi.login WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
   </meta>
   <bindings>
 	<insert itemPath="" produces="XML">  
 	  <urls>  
-	    <url>http://esmecloudserverapache.dickhirsch.staxapps.net/api/login?token=ROT1RG3LNLPEHK0MZTOQ0S0EN0GQBAJE</url>  
+	    <url></url>  
 	  </urls>  
 	  <inputs>  
 	    <value id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
 	    <value id="token" type="xs:string" required="true" paramType="variable"/>  
       </inputs>  
 	  <execute><![CDATA[ 
-	       response.object = request.header("Content-Length",1).post(" ").response;
-	      ]]></execute>  
+	       response.object = y.rest(esme_api_endpoint)
+								.path("login")
+								.query("token",token)
+								.header("Content-Length",1)
+								.post(" ")
+								.headers;
+	      ]]>
+	  </execute>  
 	</insert>
+	<delete itemPath="" produces="XML">  
+	  <urls>  
+	    <url></url>  
+	  </urls>  
+	  <inputs>  
+	    <key id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
+	    <key id="cookie" type="xs:string" required="true" paramType="variable"/>  
+      </inputs>  
+	  <execute><![CDATA[ 
+	       response.object = y.rest(esme_api_endpoint)
+								.path("logout")
+								.header("Cookie",cookie)	
+								.get()
+								.response;
+	      ]]>
+	  </execute>  
+	</delete>
   </bindings>
 </table>
