@@ -4,6 +4,7 @@
     <author>Ethan Jewett</author>
     <documentationURL></documentationURL>
 	<sampleQuery>select * from esme.restapi.messages WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
+	<sampleQuery>insert into esme.restapi.messages (esme_api_endpoint,cookie,message,via,tags,metadata,replyto) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/","Test message","YQL","yql,test","","")</sampleQuery>
   </meta>
   <bindings>
 	<select itemPath="" produces="XML">  
@@ -23,5 +24,33 @@
 	      ]]>
 	  </execute>  
 	</select>
+	<insert itemPath="" produces="XML">  
+	  <urls>  
+	    <url></url>  
+	  </urls>  
+	  <inputs>  
+	    <value id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="cookie" type="xs:string" required="true" paramType="variable"/>
+	    <value id="message" type="xs:string" required="true" paramType="variable"/>
+	    <value id="via" type="xs:string" required="false" paramType="variable"/>
+	    <value id="tags" type="xs:string" required="false" paramType="variable"/>
+	    <value id="metadata" type="xs:string" required="false" paramType="variable"/>
+	    <value id="replyto" type="xs:string" required="false" paramType="variable"/>
+      </inputs>  
+	  <execute><![CDATA[ 
+	       response.object = y.rest(esme_api_endpoint)
+								.path("send_msg")
+								.query("message",message)
+								.query("via",via)
+								.query("tags",tags)
+								.query("metadata",metadata)
+								.query("replyto",replyto)
+								.header("Content-Length",1)
+								.header("Cookie",cookie)
+								.post(" ")
+								.response;
+	      ]]>
+	  </execute>  
+	</insert>
   </bindings>
 </table>
