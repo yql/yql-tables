@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ethan Jewett</author>
+    <documentationURL></documentationURL>
+	  <sampleQuery>select * from esme.users.followees WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
+	  <sampleQuery>insert into esme.users.followees (esme_api_endpoint,cookie,user_to_follow) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/","1234")</sampleQuery>
+    <sampleQuery>delete from esme.users.followees WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/" AND user="1234"</sampleQuery>
+  </meta>
+  <bindings>
+	<select itemPath="" produces="XML">  
+	  <urls>  
+	    <url></url>  
+	  </urls>  
+	  <inputs>  
+	    <key id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
+	    <key id="cookie" type="xs:string" required="true" paramType="variable"/>  
+      </inputs>  
+	  <execute><![CDATA[ 
+	       response.object = y.rest(esme_api_endpoint)
+								.path("")
+								.header("Cookie",cookie)	
+								.get()
+								.response;
+	      ]]>
+	  </execute>  
+	</select>
+	<insert itemPath="" produces="XML">  
+	  <urls>  
+	    <url></url>  
+	  </urls>  
+	  <inputs>  
+	    <value id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
+	    <value id="cookie" type="xs:string" required="true" paramType="variable"/>
+	    <value id="user" type="xs:string" required="true" paramType="variable"/>
+	  <execute><![CDATA[ 
+	       response.object = y.rest(esme_api_endpoint)
+								.path("")
+								.query("user",user)
+								.header("Content-Length",1)
+								.header("Cookie",cookie)
+								.post(" ")
+								.response;
+	      ]]>
+	  </execute>  
+	</insert>
+  <delete itemPath="" produces="XML">  
+	  <urls>  
+	    <url></url>  
+	  </urls>  
+	  <inputs>  
+	    <key id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
+	    <key id="cookie" type="xs:string" required="true" paramType="variable"/> 
+       <key id="user" type="xs:string" required="true" paramType="variable"/>
+     </inputs>  
+	  <execute><![CDATA[ 
+	       response.object = y.rest(esme_api_endpoint)
+								.path("")
+                    .query("user",user)
+								.header("Cookie",cookie)	
+								.post()
+								.response;
+	      ]]>
+	  </execute>  
+	</delete>
+  </bindings>
+</table>
