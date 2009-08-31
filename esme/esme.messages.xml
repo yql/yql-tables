@@ -3,8 +3,8 @@
   <meta>
     <author>Ethan Jewett</author>
     <documentationURL></documentationURL>
-	<sampleQuery>select * from esme.restapi.messages WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
-	<sampleQuery>insert into esme.restapi.messages (esme_api_endpoint,cookie,message,via,tags,metadata,replyto) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/","Test message","YQL","yql,test","","")</sampleQuery>
+	<sampleQuery>select * from esme.messages WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
+	<sampleQuery>insert into esme.messages (esme_api_endpoint,cookie,message,via,tags,metadata,replyto) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/","Test message","YQL","yql,test","","")</sampleQuery>
   </meta>
   <bindings>
 	<select itemPath="" produces="XML">  

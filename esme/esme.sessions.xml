@@ -3,9 +3,9 @@
   <meta>
     <author>Ethan Jewett</author>
     <documentationURL></documentationURL>
-	<sampleQuery>insert into esme.restapi.sessions (esme_api_endpoint,token) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","token_value")</sampleQuery>
-	<sampleQuery>delete from esme.restapi.sessions WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
-	<sampleQuery>select * from esme.restapi.sessions WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
+	<sampleQuery>insert into esme.sessions (esme_api_endpoint,token) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","token_value")</sampleQuery>
+	<sampleQuery>delete from esme.sessions WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
+	<sampleQuery>select * from esme.sessions WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
   </meta>
   <bindings>
 	<select itemPath="" produces="XML">  
