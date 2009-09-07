@@ -60,7 +60,7 @@
                                 .query("user",user)
                                 .header("Content-Length",1)
 								.header("Cookie",cookie)	
-								.post()
+								.post()	
 								.response;
 	      ]]>
 	  </execute>  
