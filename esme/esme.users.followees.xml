@@ -4,7 +4,7 @@
     <author>Ethan Jewett</author>
     <documentationURL></documentationURL>
 	  <sampleQuery>select * from esme.users.followees WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/"</sampleQuery>
-	  <sampleQuery>insert into esme.users.followees (esme_api_endpoint,cookie,user_to_follow) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/","1234")</sampleQuery>
+	  <sampleQuery>insert into esme.users.followees (esme_api_endpoint,cookie,user) VALUES ("http://esmecloudserverapache.dickhirsch.staxapps.net/api/","JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/","1234")</sampleQuery>
     <sampleQuery>delete from esme.users.followees WHERE esme_api_endpoint="http://esmecloudserverapache.dickhirsch.staxapps.net/api" AND cookie="JSESSIONID=EAD4C83F772A3FF6252BA5C4C4910CF8; Path=/" AND user="1234"</sampleQuery>
   </meta>
   <bindings>
@@ -58,6 +58,7 @@
 	       response.object = y.rest(esme_api_endpoint)
 								.path("unfollow")
                                 .query("user",user)
+                                .header("Content-Length",1)
 								.header("Cookie",cookie)	
 								.post()
 								.response;
