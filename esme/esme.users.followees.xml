@@ -18,7 +18,7 @@
       </inputs>  
 	  <execute><![CDATA[ 
 	       response.object = y.rest(esme_api_endpoint)
-								.path("")
+								.path("get_following")
 								.header("Cookie",cookie)	
 								.get()
 								.response;
@@ -33,9 +33,10 @@
 	    <value id="esme_api_endpoint" type="xs:string" required="true" paramType="variable"/>  
 	    <value id="cookie" type="xs:string" required="true" paramType="variable"/>
 	    <value id="user" type="xs:string" required="true" paramType="variable"/>
+	  </inputs>
 	  <execute><![CDATA[ 
 	       response.object = y.rest(esme_api_endpoint)
-								.path("")
+								.path("follow")
 								.query("user",user)
 								.header("Content-Length",1)
 								.header("Cookie",cookie)
@@ -55,8 +56,8 @@
      </inputs>  
 	  <execute><![CDATA[ 
 	       response.object = y.rest(esme_api_endpoint)
-								.path("")
-                    .query("user",user)
+								.path("unfollow")
+                                .query("user",user)
 								.header("Cookie",cookie)	
 								.post()
 								.response;

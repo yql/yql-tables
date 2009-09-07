@@ -16,7 +16,7 @@
       </inputs>  
 	    <execute><![CDATA[ 
 	       response.object = y.rest(esme_api_endpoint)
-								.path("")
+								.path("get_followers")
 								.header("Cookie",cookie)	
 								.get()
 								.response;
