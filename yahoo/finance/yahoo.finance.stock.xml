@@ -4,6 +4,7 @@
     <author>Tom Powers</author>
     <description>Yahoo Finance Stock Summary Information</description>
     <sampleQuery>select * from {table} where symbol="yhoo"</sampleQuery>
+    <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL> 
   </meta>
   <bindings>
     <select itemPath="" produces="XML">

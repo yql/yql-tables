@@ -4,6 +4,7 @@
     <author>Tom Powers</author>
     <description>Yahoo Finance Industry Index - Industry + Stock Symbols</description>
     <sampleQuery>select * from {table} where id="112"</sampleQuery>
+    <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL> 
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
