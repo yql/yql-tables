@@ -74,7 +74,7 @@ function signparams(secret, params) {
     url += "=";
     url += percentEncode(param[1]);
   }
-  var sign = y.crypto.hmacSHA256(secret, "GET\nsdb.amazonaws.com\n/\n" + url);
+  var sign = y.crypto.encodeHmacSHA256(secret, "GET\nsdb.amazonaws.com\n/\n" + url);
   // Calculate the 28 character signature
   while (sign.length < 28) {
     sign += "=";
