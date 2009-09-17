@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where account='sam@sampullara.com'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://webfinger/</url>
+      </urls>
+      <inputs>
+        <key id='account' type='xs:string' paramType='variable' required='true'/>
+      </inputs>
+      <execute><![CDATA[
+// Remove the acct: if present
+account = account.replace(/^acct:/, "");
+// Get the domain, later we can support more types
+var split = account.split("@");
+if (split.length != 2) {
+  response.object = <error>must provide a valid account address</error>;
+  y.exit();
+}
+var id = split[0];
+var domain = split[1];
+// Check for the host-meta
+var hostmeta = y.rest("http://" + domain + "/.well-known/host-meta").contentType("application/xml").get();
+if (hostmeta.status != 200) {
+  response.object = <error>status: {hostmeta.status}</error>;
+  y.exit();
+}
+hostmeta = hostmeta.response;
+if (!(hostmeta.respo instanceof XML)) {
+  hostmeta = hostmeta.substring(hostmeta.indexOf("?>") + 2).replace("{", "<![CDATA[{]" + "]>");
+  hostmeta = eval("var a__ = " + hostmeta + ";a__;");
+}
+default xml namespace = 'http://host-meta.net/xrd/1.0';
+var host = hostmeta..Host;
+if (!host) {
+  response.object = <error><message>Host not found</message><hostmeta>{hostmeta.response}</hostmeta></error>;
+  y.exit();
+}
+if (host != domain) {
+  response.object = <error><message>Domain mismatch</message><hostmeta>{hostmeta.response}</hostmeta></error>;
+  y.exit();
+}
+default xml namespace = 'http://docs.oasis-open.org/ns/xri/xrd-1.0';
+var links = hostmeta.Link;
+for (var i in links) {
+  var link = links[i];
+  var rels = link.Rel;
+  for (var j in rels) {
+    var rel = rels[j];
+    if (rel.toLowerCase() == "http://webfinger.info/rel/service" || rel.toLowerCase() == "describedby") {
+      var url = link.URITemplate.toString().replace("{%id}", encodeURI(account));
+      url = url.replace("{%uri}", encodeURI("acct:" + account));
+      url = url.replace("{id}", account);
+      url = url.replace("{uri}", "acct:" + account);
+      response.object = y.rest(url).get().response;
+      y.exit();
+    }
+  }  
+}
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
