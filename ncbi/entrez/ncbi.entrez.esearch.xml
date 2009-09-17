@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<description>ESearch:  Searches and retrieves primary IDs (for use in EFetch, ELink and ESummary) and term translations, and optionally retains results for future use in the user's environment.</description>
+  	<sampleQuery>SELECT * FROM {table} WHERE term in ("stem","cells")</sampleQuery>
+    <documentationURL>http://www.ncbi.nlm.nih.gov/corehtml/query/static/esearch_help.html</documentationURL>
+  	<author>Michael Chelen http://mikechelen.com</author>
+  </meta>
+  <bindings>
+    <select itemPath="eSearchResult" produces="XML">
+      <urls><url>http://www.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?tool={tool}&amp;email={email}&amp;db={db}&amp;WebEnv={WebEnv}&amp;query_key={query_key}&amp;tool={tool}&amp;email={email}&amp;term={-listjoin|+|term}&amp;field={field}&amp;reldate={reldate}&amp;mindate={mindate}&amp;maxdate={maxdate}&amp;datetype={datetype}&amp;retstart={retstart}&amp;retmax={retmax}&amp;retmode={retmode}&amp;rettype={rettype}&amp;sort={sort}</url></urls>
+      <inputs>
+        <key id='tool' type='xs:string' paramType='path' />
+        <key id='email' type='xs:string' paramType='path' />
+        <key id='db' type='xs:string' paramType='path' />
+        <key id='WebEnv' type='xs:string' paramType='path' />
+        <key id='query_key' type='xs:string' paramType='path' />
+        <key id='tool' type='xs:string' paramType='path' />
+        <key id='email' type='xs:string' paramType='path' />
+        <key id='term' type='xs:string' paramType='path' required='true' batchable="true" />
+        <key id='field' type='xs:string' paramType='path' />
+        <key id='reldate' type='xs:string' paramType='path' />
+        <key id='mindate' type='xs:string' paramType='path' />
+        <key id='maxdate' type='xs:string' paramType='path' />
+        <key id='datetype' type='xs:string' paramType='path' />
+        <key id='retstart' type='xs:string' paramType='path' />
+        <key id='retmax' type='xs:string' paramType='path' />
+        <key id='retmode' type='xs:string' paramType='path' />
+        <key id='rettype' type='xs:string' paramType='path' />
+        <key id='sort' type='xs:string' paramType='path' />
+      </inputs>
+    </select>
+  </bindings>
+</table>
