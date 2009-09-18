@@ -55,6 +55,10 @@ for (var i in links) {
       url = url.replace("{%uri}", encodeURI("acct:" + account));
       url = url.replace("{id}", account);
       url = url.replace("{uri}", "acct:" + account);
+      url = url.replace("{userInfo}", id);
+      url = url.replace("{%userInfo}", encodeURI(id));
+      url = url.replace("{host}", domain);
+      url = url.replace("{%host}", encodeURI(domain));
       response.object = y.rest(url).get().response;
       y.exit();
     }
