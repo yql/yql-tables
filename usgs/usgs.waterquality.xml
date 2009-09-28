@@ -7,7 +7,7 @@
   	<author>Michael Chelen http://mikechelen.com</author>
   </meta>
   <bindings>
-    <select itemPath="Result.eGQueryResult.ResultItem" produces="XML">
+    <select itemPath="WQX.Organization" produces="XML">
       <urls><url>http://qwwebservices.usgs.gov/{service}/search?bBox={-listjoin|,|bBox}&amp;lat={lat}&amp;long={long}&amp;within={within}&amp;siteType={-listjoin|;|siteType}&amp;organization={organization}&amp;statecode={statecode}&amp;countycode={countycode}&amp;siteid={-listjoin|;|siteid}&amp;huc={-listjoin|;|huc}&amp;sampleMedia={-listjoin|;|sampleMedia}&amp;characteristicType={-listjoin|;|characteristicType}&amp;characteristicName={-listjoin|;|characteristicName}&amp;pCode={-listjoin|;|pCode}&amp;startDateLo={startDateLo}&amp;startDateHi={startDateHi}&amp;mimeType={mimeType}&amp;zip={zip}</url></urls>
       <inputs>
         <key id='service' type='xs:string' paramType='path' /> 
