@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
   	<description>National Water Information System (NWIS) Water-Quality Web Services </description>
-  	<sampleQuery>select * from {table} where service='Station' and countyCode='40%3A109' and characteristicName='Atrazine' and startDateLo='01-01-2009'</sampleQuery>
+  	<sampleQuery>select * from {table} where service='Station' and countycode='40:109' and characteristicName='Atrazine' and startDateLo='01-01-2009'</sampleQuery>
     <documentationURL>http://qwwebservices.usgs.gov/technical-documentation.html</documentationURL>
   	<author>Michael Chelen http://mikechelen.com</author>
   </meta>
