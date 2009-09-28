@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<description>National Water Information System (NWIS) Water-Quality Web Services </description>
+  	<sampleQuery>select * from {table} where service='Station' and countyCode='40%3A109' and characteristicName='Atrazine' and startDateLo='01-01-2009'</sampleQuery>
+    <documentationURL>http://qwwebservices.usgs.gov/technical-documentation.html</documentationURL>
+  	<author>Michael Chelen http://mikechelen.com</author>
+  </meta>
+  <bindings>
+    <select itemPath="Result.eGQueryResult.ResultItem" produces="XML">
+      <urls><url>http://qwwebservices.usgs.gov/{service}/search?bBox={-listjoin|,|bBox}&amp;lat={lat}&amp;long={long}&amp;within={within}&amp;siteType={-listjoin|;|siteType}&amp;organization={organization}&amp;statecode={statecode}&amp;countycode={countycode}&amp;siteid={-listjoin|;|siteid}&amp;huc={-listjoin|;|huc}&amp;sampleMedia={-listjoin|;|sampleMedia}&amp;characteristicType={-listjoin|;|characteristicType}&amp;characteristicName={-listjoin|;|characteristicName}&amp;pCode={-listjoin|;|pCode}&amp;startDateLo={startDateLo}&amp;startDateHi={startDateHi}&amp;mimeType={mimeType}&amp;zip={zip}</url></urls>
+      <inputs>
+        <key id='service' type='xs:string' paramType='path' /> 
+        <key id='bBox' type='xs:string' paramType='path' batchable="true" />
+        <key id='lat' type='xs:string' paramType='path' />        
+        <key id='long' type='xs:string' paramType='path' />        
+        <key id='within' type='xs:string' paramType='path' />        
+        <key id='siteType' type='xs:string' paramType='path' batchable="true" />        
+        <key id='organization' type='xs:string' paramType='path' />        
+        <key id='statecode' type='xs:string' paramType='path' />
+        <key id='countycode' type='xs:string' paramType='path' />
+        <key id='siteid' type='xs:string' paramType='path' batchable="true" />
+        <key id='huc' type='xs:string' paramType='path' batchable="true" />
+        <key id='sampleMedia' type='xs:string' paramType='path' batchable="true" />
+        <key id='characteristicType' type='xs:string' paramType='path' batchable="true" />
+        <key id='characteristicName' type='xs:string' paramType='path' batchable="true" />
+        <key id='pCode' type='xs:string' paramType='path' batchable="true" />
+        <key id='startDateLo' type='xs:string' paramType='path' />
+        <key id='startDateHi' type='xs:string' paramType='path' />
+        <key id='mimeType' type='xs:string' paramType='path' default='xml' />
+        <key id='zip' type='xs:string' paramType='path' />
+      </inputs>
+    </select>
+  </bindings>
+</table>
