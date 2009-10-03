@@ -3,7 +3,7 @@
   <meta>
     <author>Erik Eldridge</author>
     <documentationURL>http://talks.php.net/show/hacku/34</documentationURL>
-    <sampleQuery>select * from {table} where q='40.714224,-73.961452'</sampleQuery>
+    <sampleQuery>select * from {table} where q="40.714224,-73.961452" gflags="R"</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="JSON">
@@ -156,7 +156,7 @@
             * 'A': Return data in AMF format
             * 'P': Return data in Serialized PHP format
         -->
-        <key id='flags' type='xs:string' default="TWGJ" paramType='query' />
+        <key id='flags' type='xs:string' default="J" paramType='query' />
         
         <!--
         geocoding flags
@@ -166,7 +166,7 @@
             * ‘R’: Reverse geocode coordinates for each result
             * ‘C’: Look up cross streets for each result
         -->
-        <key id='gflags' type='xs:string' default="R" paramType='query' />
+        <key id='gflags' type='xs:string' paramType='query' />
       </inputs>
     </select>
   </bindings>
