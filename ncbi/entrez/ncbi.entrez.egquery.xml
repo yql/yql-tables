@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<description>"EGQuery:  Provides Entrez database counts in XML for a single search using Global Query"</description>
+  	<sampleQuery>select * from {table} where term in ("stem","cells")</sampleQuery>
+    <documentationURL>http://www.ncbi.nlm.nih.gov/corehtml/query/static/egquery_help.html</documentationURL>
+    <documentationURL>http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi</documentationURL>
+  	<author>Michael Chelen http://mikechelen.com</author>
+  </meta>
+  <bindings>
+    <select itemPath="Result.eGQueryResult.ResultItem" produces="XML">
+      <urls><url>http://www.ncbi.nlm.nih.gov/entrez/eutils/egquery.fcgi?term={-listjoin|+|term}%26tool={tool}%26email={email}</url></urls>
+      <inputs>
+        <key id='term' type='xs:string' paramType='path' required='true' batchable="true" />
+        <key id='tool' type='xs:string' paramType='path' />
+        <key id='email' type='xs:string' paramType='path' />
+      </inputs>
+    </select>
+  </bindings>
+</table>

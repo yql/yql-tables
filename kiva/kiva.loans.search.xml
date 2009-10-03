@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Dan Theurer</author>
+    <documentationURL>http://build.kiva.org/docs/</documentationURL>
+    <description>Kiva.org Loans API</description>
+    <sampleQuery>select * from kiva.loans.search where status="fundraising"</sampleQuery>
+  </meta>
+  <bindings>
+
+   <select itemPath="json.loans" produces="JSON">
+      <urls>
+        <url env="all">http://api.kivaws.org/v1/loans/search.json</url>
+      </urls>
+      <paging model="page">
+        <start id="page" default="1" />
+        <pagesize id="page_size" max="20" />
+        <total default="20" />
+      </paging>
+      <inputs>
+        <key id="app_id" type="xs:string" paramType="query" required="false"/>
+        <key id="partner" type="xs:string" paramType="query" required="false" />
+        <key id="status" type="xs:number" paramType="query" required="false"/>
+      </inputs>
+   </select>
+
+  </bindings>
+</table>

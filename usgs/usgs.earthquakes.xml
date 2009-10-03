@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+	<author>Erik Eldridge</author>
+	<description></description>
+	<sampleQuery>select entry from usgs.earthquakes</sampleQuery>
+	<sampleQuery>select entry.title, entry.updated, entry.link from usgs.earthquakes</sampleQuery>
+	<sampleQuery>select entry.summary from usgs.earthquakes where entry.summary.type = "xml" and entry.summary.depth.km > 99</sampleQuery>
+
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+		<urls>
+			<url>http://earthquake.usgs.gov/eqcenter/catalogs/7day-M2.5.xml?11d</url>
+		</urls>
+		<execute><![CDATA[
+			default xml namespace = "http://www.w3.org/2005/Atom";
+			
+			var xml = request.get().response,//call the url defined above
+			 	entries = <entries></entries>,//prep the output object 
+				entry = null,//individual entry in xml obj. used in loop below.
+				magnitude = null,//magnitude of quake.  used in loop below
+				re = '<img '//img tag opening bracket (note: trailing spaces here and below)
+					+ 'src="(http://earthquake\\.usgs\\.gov/images/globes/[\\d_-]+\\.jpg)" '//img src - capture
+					+ 'alt="([\\d\\.]+&#176;(?:N|S) [\\d\\.]+&#176;(?:W|E))" '//img alt - ignore (we already have coords from georss)
+					+ 'align="(left|right)" '//img align - ignore
+					+ 'hspace="(\\d+)" '//img hspace - ignore
+					+ '/>'//img tag closing bracket
+					+ '<p>'//opening p tag
+					+ '(\\w+, \\w+\\s+\\d+, \\d+ [\\d:]+) UTC'//utc date - capture (note: variable amt of whitespace btwn month and day)
+					+ '<br>'//br tag
+					+ '(\\w+, \\w+\\s+\\d+, \\d+ [\\d:]+ (?:AM|PM)) at epicenter'//local date at epicenter - capture
+					+ '</p>'//closing p tag
+					+ '<p>'//opening p tag
+					+ '<strong>Depth</strong>: '//descriptive text w/ strong tags
+					+ '([\\d\\.]+) km '//depth in kilometers - capture
+					+ '\\(([\\d\\.]+) mi\\)'//depth in miles (enclosed in parenthesis) - capture
+					+ '</p>',//closing p tag
+				cdata = null,
+				summary = null;
+			
+			for each(entry in xml.entry){
+				magnitude = 
+					entry.title//eg M 3.0, Puerto Rico region
+					.split(' ')[1]//eg --> 3.0,
+					.replace(',', '');//eg --> 3.0
+				entry.appendChild( <magnitude>{magnitude}</magnitude> );
+				
+				cdata = new RegExp(re).exec(entry.summary);
+				summary = <summary type="xml"><!-- differentiate this summary obj from native summary obj w/ type 'html' -->
+					<img alt={cdata[2]} align={cdata[3]} hspace={cdata[4]} src={cdata[1]} />
+					<date>
+						<utc>{cdata[5]}</utc>
+						<local>{cdata[6]}</local>
+					</date>
+					<depth>
+						<km>{cdata[7]}</km>
+						<mi>{cdata[8]}</mi>
+					</depth>
+				</summary>;
+				entry.appendChild(summary);
+				
+				entries.appendChild(entry);
+				
+			}
+			response.object = entries;
+		]]></execute>
+    </select>
+
+  </bindings>
+</table>

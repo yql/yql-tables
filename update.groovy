@@ -3,11 +3,13 @@ def files = [];
 
 def delClos
 delClos = { it.eachDir( delClos );
+          if (!it.getName().startsWith("WEB-INF")) {
             it.eachFile {
 	        if (it.getName().endsWith(".xml")) {
 		    files.add(it);
 		}
             }
+          }
     }
 
 delClos( new File(".") )
@@ -21,6 +23,6 @@ files.each {
 fw.flush();
 fw.close();
 
-Runtime.runtime.exec(["sh", "-c", "scp -r * sam@buildandtest.com:/opt/sites/datatables"].toArray(new String[0]));
+Runtime.runtime.exec(["sh", "-c", "scp -r * sam@buildandtest.com:/opt/sites/javarants"].toArray(new String[0]));
 
 
