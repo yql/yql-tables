@@ -13,11 +13,86 @@
       <inputs>
           
           <!-- 
+          * this is a mysterious, undocumented api.  
+          * please clarify the details below if you discover something
+          
           input:
-            q = "latitude, longitude"             
+            q, 
+            location
+                * format: latitude, longitude
+                * string
+            line1,
+            addr
+                * 1st line of typical US street address
+                * string
+                * format: street address or intersection, eg 701 First Street
+                * disregarded if location or name are defined
+            line2,
+            csz
+                * 2nd line of typical US street address
+                * string
+                * format: city-state-zip format, eg Sunnyvale, CA
+                * disregarded if location or name are defined
+            line3
+                * 3rd line of typical US address, or postal code in UK
+                * string
+                * disregarded if location or name are defined
+            name
+                * POI/AOI name or 3-letter Airport code
+                * string
+                * disregarded if location is defined
+            house
+                * the numeric part of a street address
+                * string
+                * ignored if location, name, or line1 parameter is defined
+            street
+                * The street name in a street address
+                * string
+                * ignored if location, name, or line1 parameter is defined
+            unittype
+                * any ideas?
+                * string
+                * ignored if location, name, or line1 parameter is defined
+            unit
+                * unit/suite/apartment/box
+                * string
+                * ignored if location, name, or line1 parameter is defined
+            xstreet
+                * cross-street name
+                * string
+                * ignored if location, name, or line1 parameter is defined
+            postal
+                * postal/zip code
+                * string
+                * ignored if location or line2 parameter is defined
+            neighborhood,
+            level4
+                * Level 4 administrative name, ie neighborhood
+                * string
+                * ignored if location or line2 or valid postal code are defined
+            level3,
+            city
+                * level 3 Administrative name, ie city/town/locality
+                * string
+                * ignored if location or line2 or valid postal code are defined
+            level2,
+            county
+                * level 2 administrative name, ie county
+                * string
+                * ignored if location or line2 or valid postal code are defined
+            level1,
+            state
+                * level 1 administrative name, ie state/province, or abbreviation (US only)
+                * string
+                * ignored if location or line2 or valid postal code are defined
+            level0,
+            country
+                * WOE (WhereOnEarth) id
+                * integer
+                * ignored if location or name is defined
             -->
         <key id='q' type='xs:string' paramType='query' required="true" />
-        
+        <key id='line1' type='xs:string' paramType='query' />
         <key id='flags' type='xs:string' default="QT" paramType='query' />
         <key id='gflags' type='xs:string' default="R" paramType='query' />
       </inputs>
