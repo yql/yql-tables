@@ -3,7 +3,7 @@
   <meta>
     <author>Erik Eldridge</author>
     <documentationURL>http://talks.php.net/show/hacku/34</documentationURL>
-    <sampleQuery>select * from {table} where q="40.714224,-73.961452" gflags="R"</sampleQuery>
+    <sampleQuery>select * from {table} where q="40.714224,-73.961452" and gflags="R"</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="JSON">
