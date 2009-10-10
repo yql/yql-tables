@@ -20,7 +20,7 @@
         		<key id="documentTitle" type="xs:string" paramType="variable"/>
         		<key id="inputLanguage" type="xs:string" paramType="variable" />
         		<key id="autoDisambiguate" type="xs:string" paramType="variable" />
-        		<key id="focusWoeid" type="xs:string" paramType="variable" />
+        		<key id="focusWoeId" type="xs:string" paramType="variable" />
             </inputs>
             <execute>
             <![CDATA[
@@ -29,7 +29,7 @@
     	    if (documentTitle) { content += "&documentTitle=" + documentTitle; }
     	    if (inputLanguage) { content += "&inputLanguage=" + inputLanguage; }
     	    if (autoDisambiguate) { content += "&autoDisambiguate=" + autoDisambiguate; }
-    	    if (focusWoeid) { content += "&focusWoeid=" + focusWoeid; }
+    	    if (focusWoeId) { content += "&focusWoeId=" + focusWoeId; }
             
             postResponse = request.accept("application/xml").contentType("application/x-www-form-urlencoded").post(content).response;    
             
@@ -86,7 +86,7 @@
         		<key id="documentTitle" type="xs:string" paramType="variable"/>
         		<key id="inputLanguage" type="xs:string" paramType="variable" />
         		<key id="autoDisambiguate" type="xs:string" paramType="variable" />
-        		<key id="focusWoeid" type="xs:string" paramType="variable" />
+        		<key id="focusWoeId" type="xs:string" paramType="variable" />
 	    </inputs>
             <execute>
             <![CDATA[
@@ -95,7 +95,7 @@
             if (documentTitle) { content += "&documentTitle=" + documentTitle; }
     	    if (inputLanguage) { content += "&inputLanguage=" + inputLanguage; }
     	    if (autoDisambiguate) { content += "&autoDisambiguate=" + autoDisambiguate; }
-    	    if (focusWoeid) { content += "&focusWoeid=" + focusWoeid; }
+    	    if (focusWoeId) { content += "&focusWoeId=" + focusWoeId; }
             
             postResponse = request.accept("application/xml").contentType("application/x-www-form-urlencoded").post(content).response;    
             
