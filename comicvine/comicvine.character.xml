@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>CaptPhunkosis</author>
+		<description>YQL data table for comicvine comic db. Given a character id returns characters information.</description>
+		<documentationURL>http://api.comicvine.com/documentation/#concept/</documentationURL>
+	</meta>
+	<bindings>
+		<select produces="XML" itemPath="response.results">
+			<urls>
+				<url>http://api.comicvine.com/character/{id}/?api_key=21fb4b59ffea36d508882dc0373060477d6d9e6e&amp;format=xml</url>
+			</urls>
+			<inputs>
+				<key id="id" type="xs:string" paramType="path" required="true"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>
