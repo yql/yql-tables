@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>
+      select * from {table} where path in ("Creative Commons","videos") and command="publicFiles"
+    </sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="result.publicFiles.items.item" produces="XML">
+      <urls><url>http://api.wuala.com/{command}/{-listjoin|/|path}</url></urls>
+      <inputs>
+        <key id='command' type='xs:string' paramType='path' const='true' default='publicFiles'/>
+        <key id='path' type='xs:string' paramType='path' required='true' batchable="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
