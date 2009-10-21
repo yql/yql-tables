@@ -18,7 +18,7 @@
 y.include("http://www.yqlblog.net/samples/flickr.js");
 // GET the flickr result using a signed url
 var fs = new flickrSigner(api_key,secret);
-response.object = y.rest(fs.createUrl({method:method, format:""})).get().response();
+response.object = y.rest(fs.createUrl({method:method, format:""})).get().response;
       ]]></execute>
     </select>
   </bindings>
