@@ -10,9 +10,13 @@
 			<urls>
                 <url>http://api.comicvine.com/objects/?format=xml</url>
 			</urls>
-			<inputs>
+            <paging model="offset">
+                <start default="0" id="offset" />
+                <pagesize max="100" />
+                <total default="100" />
+            </paging>
+            <inputs>
                 <key id="api_key" type="xs:string" paramType="query" required="true"/>
-				<key id="offset" type="xs:string" paramType="query" />
 			</inputs>
 		</select>
 	</bindings>

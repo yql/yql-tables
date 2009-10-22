@@ -10,7 +10,7 @@
 			<urls>
                 <url>http://api.comicvine.com/types/?format=xml</url>
 			</urls>
-			<inputs>
+            <inputs>
                 <key id="api_key" type="xs:string" paramType="query" required="true"/>
 			</inputs>
 		</select>
