@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sam Pullara</author>
+        <documentationURL>http://developer.yahoo.com/maps/rest/V1/geocode.html</documentationURL>
+        <description>Geocode an address to a longitude/latitude</description>
+        <sampleQuery>select * from {table} where location='701 first ave, 94089'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://local.yahooapis.com/MapsService/V1/geocode</url>
+            </urls>
+            <inputs>
+                <key id="appid" paramType="query" required="true"/>
+                <key id="street" paramType="query"/>
+                <key id="city" paramType="query"/>
+                <key id="zip" paramType="query"/>
+                <key id="location" paramType="query"/>
+            </inputs>
+        </select>
+    </bindings>
+</table>
