@@ -10,7 +10,7 @@
 
             Include the last time you checked to see only those that have changed since then.
         </description>
-        <sampleQuery>select * from {table}</sampleQuery>
+        <sampleQuery>select * from {table} where route='N'</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="body.vehicle" produces="XML">
