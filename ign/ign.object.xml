@@ -5,7 +5,9 @@
 			<urls>
 				<url>http://websvc.ign.com/objectWebService?format=json</url>
 			</urls>
-			<key id="id" paramType="query" required="true"/>
+			<inputs>
+				<key id="entityid" as="id" paramType="query" required="true"/>
+			</inputs>
 		</select>
 	</bindings>
 </table>
