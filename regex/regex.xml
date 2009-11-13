@@ -17,7 +17,7 @@
           <key id='showempty' type='type' paramType='variable' required="false" />
       </inputs>
 	 <execute><![CDATA[
-
+		var re, match, matches, myResponse;
         if (modifiers) {
             re = new RegExp(expression, modifiers);
         } else {

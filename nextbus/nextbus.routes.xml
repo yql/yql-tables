@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sam Pullara</author>
+        <documentationURL>http://www.sfmta.com/cms/asite/nextmunidata.htm</documentationURL>
+        <description>
+            Using this table you can get information about NextBus routes.
+            Forms:
+              No parameters: List of routes with their route tag names
+              route: List of stops along a route
+              stop with optional direction or route: Prediction for when a bus will reach that stop.
+        </description>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="body.predictions" produces="XML">
+            <urls>
+                <url>http://www.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops</url>
+            </urls>
+            <inputs>
+                <key id="a" paramType="query" as="agency" default="sf-muni"/>
+                <key id="stops" paramType="query" required="true"/>
+                <key id="d" as="direction" paramType="query"/>
+                <key id="routeTag" paramType="query" as="route"/>
+                <key id="useShortTitles" paramType="query" as="terse"/>
+            </inputs>
+        </select>
+        <select itemPath="body.predictions" produces="XML">
+            <urls>
+                <url>http://www.nextbus.com/service/publicXMLFeed?command=predictions</url>
+            </urls>
+            <inputs>
+                <key id="a" paramType="query" as="agency" default="sf-muni"/>
+                <key id="stopId" paramType="query" as="stop" required="true"/>
+                <key id="d" as="direction" paramType="query"/>
+                <key id="routeTag" paramType="query" as="route"/>
+                <key id="useShortTitles" paramType="query" as="terse"/>
+            </inputs>
+        </select>
+        <select itemPath="body.route" produces="XML">
+            <urls>
+                <url>http://www.nextbus.com/service/publicXMLFeed?command=routeConfig</url>
+            </urls>
+            <inputs>
+                <key id="a" paramType="query" as="agency" default="sf-muni"/>
+                <key id="r" paramType="query" as="route" required="true"/>
+            </inputs>
+        </select>
+        <select itemPath="body.route" produces="XML">
+            <urls>
+                <url>http://www.nextbus.com/service/publicXMLFeed?command=routeList</url>
+            </urls>
+            <inputs>
+                <key id="a" paramType="query" as="agency" default="sf-muni"/>
+            </inputs>
+        </select>
+    </bindings>
+</table>
