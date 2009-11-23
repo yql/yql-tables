@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Gang Wang</author>
+        <description>Intuit QuickBase table</description>
+        <documentationURL>http://member.developer.intuit.com/MyIDN/technical_resources/quickbase/framework/httpapiref/HTML_API_Programmers_Guide.htm</documentationURL>
+        <sampleQuery>select * from {table} where qid='qbase_table_id(not app id)' and ticket='qbase ticket'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="qdbapi.record" produces="XML">
+            <urls>
+                <url>https://{domain}/db/{qid}</url>
+            </urls>
+            <inputs>
+                <key id="domain" type="xs:string" paramType="path" required="false" default="www.quickbase.com"/>
+                <key id="act" type="xs:string" paramType="query" required="false" default="API_DoQuery" const="true"/>
+                <key id="qid" type="xs:string" paramType="path" required="true"/>
+		<key id="ticket" type="xs:string" paramType="query" required="true"/>
+		<key id="apptoken" type="xs:string" paramType="query" required="false"/>
+            </inputs>
+        </select>
+        <insert itemPath="qdbapi" produces="XML">
+            <urls>
+                <url>https://{domain}/db/{qid}</url>
+            </urls>
+            <inputs>
+                <key id="domain" type="xs:string" paramType="path" required="false" default="www.quickbase.com"/>
+                <key id="act" type="xs:string" paramType="query" required="false" default="API_AddRecord" const="true"/>
+                <key id="qid" type="xs:string" paramType="path" required="true"/>
+		<key id="ticket" type="xs:string" paramType="query" required="true"/>
+		<key id="apptoken" type="xs:string" paramType="query" required="false"/>
+		<map id="field" paramType="path"/>
+            </inputs>
+	    <execute>
+		<![CDATA[
+			apptoken=(apptoken==null) ? '':apptoken; 
+			var x = <qdbapi><udata>mydata</udata><ticket>{ticket}</ticket><apptoken>{apptoken}</apptoken></qdbapi>; 
+			for (var key in field) {
+			  var value = field[key];
+			  x.qdbapi += <field name={key}>{value}</field>; 
+			}
+			var myRequest = y.rest('https://' + domain + '/db/' + qid); 
+			myRequest.header('Content-Type',     'application/xml'); 
+			myRequest.header('Content-Length',   ''); 
+			myRequest.header('QUICKBASE-ACTION', 'API_AddRecord'); 
+			response.object = myRequest.contentType('application/xml').post(x).response; 
+		 ]]>
+	    </execute>
+        </insert>
+        <delete itemPath="" produces="XML">
+            <urls>
+                <url>https://{domain}/db/{qid}</url>
+            </urls>
+            <inputs>
+                <key id="domain" type="xs:string" paramType="path" required="false" default="www.quickbase.com"/>
+                <key id="act" type="xs:string" paramType="query" required="false" default="API_DeleteRecord" const="true"/>
+                <key id="rid" type="xs:string" paramType="query" required="true"/>
+                <key id="qid" type="xs:string" paramType="path" required="true"/>
+		<key id="ticket" type="xs:string" paramType="query" required="true"/>
+		<key id="apptoken" type="xs:string" paramType="query" required="false"/>
+            </inputs>
+        </delete>
+        <update itemPath="" produces="XML">
+            <urls>
+                <url>https://{domain}/db/{qid}</url>
+            </urls>
+            <inputs>
+                <key id="domain" type="xs:string" paramType="path" required="false" default="www.quickbase.com"/>
+                <key id="act" type="xs:string" paramType="query" required="false" default="API_EditRecord" const="true"/>
+                <key id="rid" type="xs:string" paramType="path" required="true"/>
+                <key id="qid" type="xs:string" paramType="path" required="true"/>
+		<key id="ticket" type="xs:string" paramType="query" required="true"/>
+		<key id="apptoken" type="xs:string" paramType="query" required="false"/>
+		<map id="field" paramType="path"/>
+            </inputs>
+	    <execute>
+		<![CDATA[
+			apptoken=(apptoken==null) ? '':apptoken; 
+			var x = <qdbapi><udata>mydata</udata><ticket>{ticket}</ticket><apptoken>{apptoken}</apptoken><rid>{rid}</rid></qdbapi>; 
+			for (var key in field) {
+			  var value = field[key];
+			  x.qdbapi += <field name={key}>{value}</field>; 
+			}
+			var myRequest = y.rest('https://' + domain + '/db/' + qid); 
+			myRequest.header('Content-Type',     'application/xml'); 
+			myRequest.header('Content-Length',   ''); 
+			myRequest.header('QUICKBASE-ACTION', 'API_EditRecord'); 
+			response.object = myRequest.contentType('application/xml').post(x).response; 
+		 ]]>
+	    </execute>
+        </update>
+    </bindings>
+</table>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Francisco Jordano</author>
+    <documentationURL>http://www.nestoria.co.uk/help/api-tech</documentationURL>
+    <sampleQuery>select * from {table} where place_name="Chelsea"</sampleQuery>
+    <description>Request aggregated information about an area live average house prices. </description>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="opt.response.metadata">
+      <urls>
+        <url>http://api.nestoria.{country}/api?action=metadata&amp;encoding=xml</url>
+      </urls>
+      <inputs>
+        <key id="country" type="xs:string" paramType="path" required="true" default="co.uk"/>
+	<key id="place_name" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

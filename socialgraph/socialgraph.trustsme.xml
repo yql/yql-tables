@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Paul Tarjan</author>
+    <documentationURL>http://code.google.com/apis/socialgraph/docs/lookup.html</documentationURL>
+    <sampleQuery>select * from {table} where q = "friendfeed.com/ptarjan"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://socialgraph.apis.google.com/lookup</url>
+      </urls>
+      <inputs>
+        <key id='q' type='xs:string' paramType='variable' />
+      </inputs>
+      <execute><![CDATA[
+// Needed to parse javascript
+
+y.include("http://www.json.org/json2.js");
+
+// The returned aliases
+var ret = [];
+
+// Things we've already checked
+var checked = [];
+
+/**
+ Checks what other URIs trust the given url and adds them to "ret"
+**/
+var addAlias = function (url) {
+    checked.push(url);
+    var r = y.rest(request.url).query({
+        "q" : url, // query = url
+        "edi" : "1", // edges in == who trusts this uri
+    }).get().response;
+    var json = JSON.parse(r);
+
+    var canonical = json.canonical_mapping[url];
+    // Trust the cannonical form
+    if (ret.indexOf(canonical) == -1)
+        ret.push(canonical);
+
+    // Look at inlinks to the cannonical URI
+    var nodes = json.nodes[canonical].nodes_referenced_by;
+    for (var i in nodes) {
+        var node = nodes[i];
+        // Only follow me links, and make sure if isn't already in the list
+        if (node.types.indexOf("me") != -1 && ret.indexOf(i) == -1)
+            ret.push(i);
+    }
+}
+
+// Start the process with the input URI
+addAlias(q);
+
+// Find an unchecked URI
+var getNext = function() {
+    for (var i in ret) {
+        var url = ret[i];
+        if (checked.indexOf(url) == -1)
+            return url;
+    }
+    return false;
+}
+
+// Go over the whole list until we've checked them all
+while (true) {
+    var next = getNext();
+    if (! next) break;
+    addAlias(next);
+}
+
+response.object = {"trustsme" : ret};
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

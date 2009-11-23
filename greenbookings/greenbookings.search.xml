@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Yvo Schaap</author>
+	<description>Greenbookings.com Hotel Search</description>
+    <documentationURL>http://www.greenbookings.com/faq/</documentationURL>
+	<sampleQuery>select * from {table} where search='times square new york' and currencyCode= 'EUR'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="results.item" produces="JSON">
+      <urls>
+        <url>http://www.greenbookings.com/api/hotelSearchFeed.php</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="50" id="count"/>
+        <total default="20" />
+      </paging>
+      <inputs>
+        <key id="search" type="xs:string" paramType="query" required="true" />
+        <key id="currencyCode" type="xs:string" paramType="query" />
+		<key id="numberOfResults" type="xs:integer" paramType="query" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

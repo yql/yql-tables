@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Chirag Shah</author>
+    <documentationURL>http://code.google.com/p/pubsubhubbub/</documentationURL>
+    <sampleQuery>insert into pubsubhubbub.publisher (hub_url, topic_url) values ('http://pubsubhubbub.appspot.com/publish', 'http://developer.yahoo.com')</sampleQuery>
+  </meta>
+  <bindings>
+    <insert itemPath="" produces="XML">
+      <urls><url></url></urls>
+      <inputs>
+        <value id="hub_url" type="xs:string" required="true" paramType="variable"/>
+        <value id="topic_url" type="xs:string" required="true" paramType="variable"/>
+      </inputs>
+      <execute><![CDATA[
+        var content = "hub.mode=publish&hub.url=" + topic_url;
+        var status = y.rest(hub_url)
+              .header("User-Agent","PubSubHubbub-Publisher-YQL/1.0")
+              .post(content)
+              .status;
+        response.object = (204 == status);
+      ]]></execute>
+    </insert>
+  </bindings>
+</table>

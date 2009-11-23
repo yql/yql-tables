@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Paul Tarjan</author>
+    <documentationURL>http://developer.yahoo.com/search/siteexplorer/V1/inlinkData.html</documentationURL>
+    <sampleQuery>SELECT * FROM {table} WHERE query="http://search.yahoo.com/"</sampleQuery>
+    <description>Input: URL prefix  Output: Known links into that prefix</description>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="ResultSet.Result">
+      <urls>
+        <url>http://search.yahooapis.com/SiteExplorerService/V1/inlinkData</url>
+      </urls>
+      <paging model="offset">
+        <start default="1" id="start"/>
+        <pagesize max="100" id="results"/>
+        <total default="50"/>
+      </paging>
+      <inputs>
+        <key id="appid" type="xs:string" paramType="query" required="true" default="iFN_2SLV34EYsnvO75SUTqisdhf29Kkq4kEqoraCQwmjSPl14fUbLE7RI1QSYg--" />
+        <key id="query" type="xs:string" paramType="query" required="true" />
+        <key id="entire_site" type="xs:boolean" paramType="query"  default="" />
+        <key id="omit_inlinks" type="xs:string" paramType="query"  default="" />
+        <key id="output" type="xs:string" paramType="query"  default="xml" const="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

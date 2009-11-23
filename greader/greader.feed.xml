@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Paul Daniel</author>
+    <documentationURL>http://code.google.com/p/pyrfeed/wiki/GoogleReaderAPI</documentationURL>
+    <description>Unsupported Google Reader API. Fetch feed</description>
+  </meta>
+  <bindings>
+    <select itemPath="feed.entry" produces="XML">
+      <urls>
+        <url>http://www.google.com/reader/public/atom/feed/{url}</url>
+      </urls>
+      <inputs>
+        <key id="n" type="xs:string" paramType="query" default="20" />
+        <key id="r" type="xs:string" paramType="query" />
+        <key id="ot" type="xs:string" paramType="query" />
+        <key id="ck" type="xs:string" paramType="query" />
+        <key id="trans" type="xs:string" paramType="query" />
+        <key id="url" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

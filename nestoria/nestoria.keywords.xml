@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Francisco Jordano</author>
+    <documentationURL>http://www.nestoria.co.uk/help/api-tech</documentationURL>
+    <sampleQuery>select * from {table}</sampleQuery>
+    <description>Returns a sorted list of valid keywords.</description>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="opt.response">
+      <urls>
+        <url>http://api.nestoria.{country}/api?action=keywords&amp;encoding=xml</url>
+      </urls>
+      <inputs>
+        <key id="country" type="xs:string" paramType="path" required="true" default="co.uk"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

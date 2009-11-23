@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Tom Hughes-Croucher</author>
+  </meta>
+  <bindings>
+    <select itemPath="response.districts.district" produces="XML">
+      <urls>
+        <url>http://services.sunlightlabs.com/api/districts.getDistrictsFromZip.xml</url>
+      </urls>
+      <inputs>
+          <key id='zip' type='xs:string' paramType='query' required="true" />
+          <key id='apikey' type='xs:string' paramType='query' required="true" />
+      </inputs>
+    </select> 
+  </bindings>
+</table>
