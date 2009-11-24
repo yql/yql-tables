@@ -3,7 +3,7 @@
   <meta>
     <author>Chirag Shah</author>
     <description>Last.fm tag API</description>
-    <documentationURL>http://www.last.fm/api/</documentationURL>
+    <documentationURL>http://www.last.fm/api/show?service=311</documentationURL>
     <sampleQuery>select * from {table} where tag='jazz' and api_key='INSERT_API_KEY'</sampleQuery>
   </meta>
   <bindings>
