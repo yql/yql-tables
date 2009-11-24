@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>Last.fm geo.getEvents API</description>
+    <documentationURL>http://www.last.fm/api/show?service=270</documentationURL>
+    <sampleQuery>SELECT * FROM {table} WHERE location='Brighton' AND api_key='INSERT_API_KEY'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=geo.getevents</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        <key id="location" type="xs:string" paramType="query" required="false" />
+        <key id="lat" type="xs:string" paramType="query" required="false" /> 
+        <key id="lon" type="xs:string" paramType="query" required="false" /> 
+        <key id="page" type="xs:string" paramType="query" required="false" /> 
+        <key id="distance" type="xs:string" paramType="query" required="false" /> 
+      </inputs>
+    </select>
+  </bindings>
+</table>
