@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm User.getWeeklyArtistChart API method. Get an artist chart for a user profile, for a given date range. If no date range is supplied, it will return the most recent artist chart for this user.</description>
+    <documentationURL>http://www.last.fm/api/show?service=281</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=user.getweeklyartistchart</url>
+      </urls>
+      <inputs>
+        <key id="user" type="xs:string" paramType="query" required="true" />
+        <key id="from" type="xs:string" paramType="query" required="false" />
+        <key id="to" type="xs:string" paramType="query" required="false" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>

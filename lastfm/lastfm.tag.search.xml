@@ -2,15 +2,17 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Jamie Matthews</author>
-    <description>YQL table for Last.fm Tag.getSimilar API method. Search for tags similar to this one. Returns tags ranked by similarity, based on listening data.</description>
-    <documentationURL>http://www.last.fm/api/show?service=311</documentationURL>
+    <description>YQL table for Last.fm Tag.search API method. Search for a tag by name. Returns matches sorted by relevance.</description>
+    <documentationURL>http://www.last.fm/api/show?service=273</documentationURL>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-        <url>http://ws.audioscrobbler.com/2.0/?method=tag.getsimilar</url>
+        <url>http://ws.audioscrobbler.com/2.0/?method=tag.search</url>
       </urls>
       <inputs>
+        <key id="limit" type="xs:string" paramType="query" required="false" />
+        <key id="page" type="xs:string" paramType="query" required="false" />
         <key id="tag" type="xs:string" paramType="query" required="true" />
         <key id="api_key" type="xs:string" paramType="query" required="true" />
         

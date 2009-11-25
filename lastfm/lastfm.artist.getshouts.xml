@@ -2,16 +2,16 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Jamie Matthews</author>
-    <description>YQL table for Last.fm User.getRecentTracks API method. Get a list of the recent tracks listened to by this user. Also includes the currently playing track with the nowplaying=&quot;true&quot; attribute if the user is currently listening.</description>
-    <documentationURL>http://www.last.fm/api/show?service=278</documentationURL>
+    <description>YQL table for Last.fm Artist.getShouts API method. Get shouts for this artist. Also available as an rss feed.</description>
+    <documentationURL>http://www.last.fm/api/show?service=397</documentationURL>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-        <url>http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks</url>
+        <url>http://ws.audioscrobbler.com/2.0/?method=artist.getshouts</url>
       </urls>
       <inputs>
-        <key id="user" type="xs:string" paramType="query" required="true" />
+        <key id="artist" type="xs:string" paramType="query" required="true" />
         <key id="limit" type="xs:string" paramType="query" required="false" />
         <key id="page" type="xs:string" paramType="query" required="false" />
         <key id="api_key" type="xs:string" paramType="query" required="true" />

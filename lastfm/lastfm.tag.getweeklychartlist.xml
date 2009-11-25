@@ -2,13 +2,13 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Jamie Matthews</author>
-    <description>YQL table for Last.fm Tag.getSimilar API method. Search for tags similar to this one. Returns tags ranked by similarity, based on listening data.</description>
-    <documentationURL>http://www.last.fm/api/show?service=311</documentationURL>
+    <description>YQL table for Last.fm Tag.getWeeklyChartList API method. Get a list of available charts for this tag, expressed as date ranges which can be sent to the chart services.</description>
+    <documentationURL>http://www.last.fm/api/show?service=359</documentationURL>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-        <url>http://ws.audioscrobbler.com/2.0/?method=tag.getsimilar</url>
+        <url>http://ws.audioscrobbler.com/2.0/?method=tag.getweeklychartlist</url>
       </urls>
       <inputs>
         <key id="tag" type="xs:string" paramType="query" required="true" />

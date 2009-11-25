@@ -2,17 +2,16 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Jamie Matthews</author>
-    <description>YQL table for Last.fm Album.getInfo API method. Get the metadata for an album on Last.fm using the album name or a musicbrainz id. See playlist.fetch on how to get the album playlist.</description>
-    <documentationURL>http://www.last.fm/api/show?service=290</documentationURL>
+    <description>YQL table for Last.fm Artist.getInfo API method. Get the metadata for an artist on Last.fm. Includes biography.</description>
+    <documentationURL>http://www.last.fm/api/show?service=267</documentationURL>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-        <url>http://ws.audioscrobbler.com/2.0/?method=album.getinfo</url>
+        <url>http://ws.audioscrobbler.com/2.0/?method=artist.getinfo</url>
       </urls>
       <inputs>
         <key id="artist" type="xs:string" paramType="query" required="false" />
-        <key id="album" type="xs:string" paramType="query" required="false" />
         <key id="mbid" type="xs:string" paramType="query" required="false" />
         <key id="username" type="xs:string" paramType="query" required="false" />
         <key id="lang" type="xs:string" paramType="query" required="false" />
