@@ -18,16 +18,18 @@
         var protocol = url.split('://')[0];
         var host = url.split('//').gsub('/', '');
         var urlPath = url.split(host)[1];
-        if ('/' == path[0]) {
+        if (/^http/.test(path)) {
+          response.object = { url: path };
+        } else if ('/' == path[0]) {
           // path is absolute
-          response.object = { url: protocol + '://' + host + path }
+          response.object = { url: protocol + '://' + host + path };
         } else {
           if (/\/$/.test(urlPath)) {
             // url path has a slash on the end
-            response.object = { url: protocol + '://' + host + urlPath + path }
+            response.object = { url: protocol + '://' + host + urlPath + path };
           } else {
             // no slash
-            response.object = { url: protocol + '://' + host + urlPath + '/' + path }
+            response.object = { url: protocol + '://' + host + urlPath + '/' + path };
           }
         }
       ]]></execute>
