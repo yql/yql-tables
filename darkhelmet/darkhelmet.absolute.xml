@@ -16,7 +16,7 @@
         //include css to xpath convert function
         url = url.split('?')[0];
         var protocol = url.split('://')[0];
-        var host = url.split('//').gsub('/', '');
+        var host = url.split('//')[1].gsub('/', '');
         var urlPath = url.split(host)[1];
         if (/^http/.test(path)) {
           response.object = { url: path };
