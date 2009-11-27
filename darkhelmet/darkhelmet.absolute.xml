@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where url="http://foo.bar.com/some/path" and path="images/pickles.jpg"</sampleQuery>
+  </meta>
+  <bindings>
+  <select itemPath="" produces="JSON">
+    <urls>
+      <url></url>
+    </urls>
+    <inputs>
+      <key id="url" type="xs:string" paramType="variable" required="true" />
+      <key id="path" type="xs:string" paramType="variable" required="true" />
+    </inputs>
+      <execute><![CDATA[
+        //include css to xpath convert function
+        var protocol = url.split('://')[0];
+        var host = url.split('//').gsub('/', '');
+        var urlPath = url.split(host)[1];
+        if ('/' == path[0]) {
+          // path is absolute
+          response.object = { url: protocol + '://' + host + path }
+        } else {
+          if (/\/$/.test(urlPath)) {
+            // url path has a slash on the end
+            response.object = { url: protocol + '://' + host + urlPath + path }
+          } else {
+            // no slash
+            response.object = { url: protocol + '://' + host + urlPath + '/' + path }
+          }
+        }
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
