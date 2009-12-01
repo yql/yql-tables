@@ -9,17 +9,16 @@
     <select produces="XML" itemPath="">
       <inputs>
         <key id="location" type="xs:string" paramType="query" required="true"/>
-        <key id="u" type="xs:string" paramType="query"/>
+        <key id="unit" type="xs:string" paramType="query"/>
       </inputs>
         <execute><![CDATA[
-          var x = y.query('select woeid from geo.places(1) where location='+location);
-          y.log(x);
-          var h = y.xpath(x.results,'//@href'); 
-          var id = h.split('id=')[1].split('&')[0];
-          response.object = <user_id>{id}</user_id>;
+          default xml namespace ='http://where.yahooapis.com/v1/schema.rng'; 
+          var x = y.query('select woeid from geo.places(1) where text="'+location+'"');
+          var s = x.results;
+          var woeid = s..woeid;
+          var weather = y.rest('http://weather.yahooapis.com/forecastrss?w='+woeid+'&u='+unit).get().response;
+          response.object = <weather>{weather}</weather>;
         ]]></execute>
-      </select>
-
     </select>
   </bindings>
 </table>
