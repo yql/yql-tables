@@ -11,7 +11,7 @@
         <key id='username' type='xs:string' paramType='variable' required="true" />
       </inputs>
       <execute><![CDATA[
-        var x = y.query('select href from html where url="http://flickr.com/photos/codepo8" and xpath="//link[contains(@href,\'photos_public\')]" limit 1');
+        var x = y.query('select href from html where url="http://flickr.com/photos/'+username+'" and xpath="//link[contains(@href,\'photos_public\')]" limit 1');
         var h = y.xpath(x.results,'//@href'); 
         var id = h.split('id=')[1].split('&')[0];
         response.object = <user_id>{id}</user_id>;
