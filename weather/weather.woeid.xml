@@ -8,10 +8,10 @@
   <bindings>
     <select produces="XML" itemPath="">
       <urls>
-        <url>http://weather.yahooapis.com/forecastrss?w={woeid}&amp;u={unit}</url>
+        <url>http://weather.yahooapis.com/forecastrss?w={w}&amp;u={u}</url>
       </urls>
       <inputs>
-        <key id="woeid" type="xs:string" paramType="query" required="true"/>
+        <key id="w" type="xs:string" paramType="query" required="true"/>
         <key id="u" type="xs:string" paramType="query"/>
       </inputs>
     </select>
