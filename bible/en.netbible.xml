@@ -7,9 +7,9 @@
     <documentationURL></documentationURL>
   </meta>
   <bindings>
-    <select itemPath="/" produces="XML">
+    <select produces="XML" itemPath="bible/item/text">
       <urls>
-        <url>http://labs.bible.org/api/?passage={passage}</url>
+        <url>http://labs.bible.org/api/?passage={passage}&amp;type=xml</url>
       </urls>
       <inputs>
         <key id="passage" type="xs:string" paramType="path" required="true"/>
