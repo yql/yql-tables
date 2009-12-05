@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans/author>
+    <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
+    <sampleQuery>select * from en.netbible where verse='John 3:16'</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="/" produces="XML">
+      <urls>
+        <url>http://labs.bible.org/api/?passage={passage}</url>
+      </urls>
+      <inputs>
+        <key id="passage" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
