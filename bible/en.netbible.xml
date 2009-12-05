@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Vic Mortelmans/author>
+    <author>Vic Mortelmans</author>
     <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
     <sampleQuery>select * from en.netbible where verse='John 3:16'</sampleQuery>
     <documentationURL></documentationURL>
