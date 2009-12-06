@@ -3,16 +3,18 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
-    <sampleQuery>select * from en.netbible where verse='John 3:16'</sampleQuery>
+    <sampleQuery>select * from en.netbible where book='John' and chapter=3 and passage=16</sampleQuery>
     <documentationURL></documentationURL>
   </meta>
   <bindings>
     <select produces="XML" itemPath="bible.item.text">
       <urls>
-        <url>http://labs.bible.org/api/?passage={passage}&amp;type=xml</url>
+        <url>http://labs.bible.org/api/?passage={book} {chapter}:{passage}&amp;type=xml</url>
       </urls>
       <inputs>
-        <key id="passage" type="xs:string" paramType="path" required="true"/>
+        <key id="book" type="xs:string" paramType="path" required="true"/>
+        <key id="chapter" type="xs:integer" paramType="path" required="true"/>
+        <key id="passage" type="xs:integer" paramType="path" required="true"/>
       </inputs>
     </select>
   </bindings>
