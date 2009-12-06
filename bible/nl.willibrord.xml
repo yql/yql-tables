@@ -3,7 +3,7 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
-    <sampleQuery>select * from nl.willibrord where book='John' and chapter=3 and passage=16</sampleQuery>
+    <sampleQuery>select * from nl.willibrord where book='John' and chapter=3 and passage=16 </sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
   </meta>
   <bindings>
