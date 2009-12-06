@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
 		<sampleQuery>
-			select * from {table} where marketsymbol='@^IBEX'
+			select * from {table} where symbol='@^IBEX'
 		</sampleQuery>
 	</meta>
 	<bindings>
