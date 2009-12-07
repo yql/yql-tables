@@ -17,11 +17,7 @@
         <key id="passage" type="xs:integer" paramType="variable" required="true"/>
       </inputs>
       <execute><![CDATA[ 
-        var params = new Hashtable();
-        params.put("book",book);
-        params.put("chapter",chapter);
-        params.put("passage",passage);
-        var page = y.query("select * from html where url='http://www.bijbel.net/wb/?@book+@chapter,@passage'",params);
+        var page = y.query("select * from html where url='http://www.bijbel.net/wb/?@book+@chapter,@passage'",{book:book,chapter:chapter,passage:passage});
         response.object = page.results;
       ]]></execute>
       </select>
