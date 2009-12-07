@@ -7,7 +7,7 @@
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
   </meta>
   <bindings>
-    <select produces="XML" itemPath="bible.item.text">
+    <select produces="XML" itemPath="*">
       <urls>
         <url>http://www.bijbel.net/wb/?{book}+{chapter},{passage}</url>
       </urls>
@@ -17,7 +17,7 @@
         <key id="passage" type="xs:integer" paramType="path" required="true"/>
       </inputs>
       <execute><![CDATA[ 
-        var page = y.query("select * from html where url=@url",{url:request.url});
+        var page = y.query("select * from html where url=@url and xpath='//font[@color=\"red\"]'",{url:request.url});
         response.object = page.results;
       ]]></execute>
       </select>
