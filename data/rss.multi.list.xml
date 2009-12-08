@@ -24,9 +24,7 @@
               q+=',channel.item.description';
             }
             q += ' from xml where url='+f;
-            y.log(q);
             var content = y.query(q);
-            y.log(content.results.rss);
             feed = <feed/>;
             feed.title = content.results.rss[0].channel.title;
             feed.link = content.results.rss[0].channel.link;
