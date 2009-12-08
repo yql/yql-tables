@@ -2,9 +2,10 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Christian Heilmann</author>
-    <description>Weather with woeid</description>
-    <documentationURL>http://developer.yahoo.com/weather/</documentationURL>
-  </meta>
+    <description>Retrieving several RSS feeds and converting them to a HTML list</description>
+    <documentationURL>http://www.wait-till-i.com/2009/12/08/using-yql-to-load-and-convert-rss-feeds-really-really-fast/</documentationURL>
+    <sampleQuery>select * from {table} where feeds="'http://code.flickr.com/blog/feed/rss/','http://feeds.delicious.com/v2/rss/codepo8?count=15'" and html="true"</sampleQuery>
+ </meta>
   <bindings>
     <select produces="XML" itemPath="">
       <inputs>
