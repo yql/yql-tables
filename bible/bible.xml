@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans</author>
+    <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
+    <sampleQuery>select * from nl.willibrord where book='John' and chapter=3 and passage=16 </sampleQuery>
+    <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="*">
+      <urls>
+        <url>http://www.bijbel.net/wb/?{book}+{chapter},{passage}</url>
+      </urls>
+      <inputs>
+        <key id="book" type="xs:string" paramType="path" required="true"/>
+        <key id="chapter" type="xs:integer" paramType="path" required="true"/>
+        <key id="passage" type="xs:integer" paramType="path" required="true"/>
+      </inputs>
+      <execute><![CDATA[ 
+        var page = y.query("select * from html where url=@url and xpath='//font[@color=\"red\"]'",{url:request.url});
+        response.object = page.results;
+      ]]></execute>
+      </select>
+  </bindings>
+</table>
