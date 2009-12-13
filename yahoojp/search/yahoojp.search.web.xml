@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/search/websearch/v1/websearch.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://search.yahooapis.jp/WebSearchService/V1/webSearch?appid={appid}&amp;query={query}&amp;type={type}&amp;results={results}&amp;start={start}&amp;format={format}&amp;adult_ok={adult_ok}&amp;similar_ok={similar_ok}&amp;language={language}&amp;country={country}&amp;site={site}</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="path" required="true" />
+                <key id="query" type="xs:string" paramType="path" required="true" />
+                <key id="type" type="xs:string" paramType="path" required="false" />
+                <key id="results" type="xs:string" paramType="path" required="false" />
+                <key id="start" type="xs:string" paramType="path" required="false" />
+                <key id="format" type="xs:string" paramType="path" required="false" />
+                <key id="adult_ok" type="xs:string" paramType="path" required="false" />
+                <key id="similar_ok" type="xs:string" paramType="path" required="false" />
+                <key id="language" type="xs:string" paramType="path" required="false" />
+                <key id="country" type="xs:string" paramType="path" required="false" />
+                <key id="site" type="xs:string" paramType="path" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
