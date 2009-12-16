@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/jlp/furigana/v1/furigana.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://jlp.yahooapis.jp/FuriganaService/V1/furigana?appid={appid}&amp;sentence={sentence}&amp;grade={grade}</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="path" required="true" />
+                <key id="sentence" type="xs:string" paramType="path" required="true" />
+                <key id="grade" type="xs:string" paramType="path" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

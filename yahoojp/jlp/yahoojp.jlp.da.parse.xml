@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/jlp/da/v1/parse.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://jlp.yahooapis.jp/DAService/V1/parse?appid={appid}&amp;sentence={sentence}</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="path" required="true" />
+                <key id="sentence" type="xs:string" paramType="path" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
