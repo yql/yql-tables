@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/auctions/auction/v2/auctionitem.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://auctions.yahooapis.jp/AuctionWebService/V2/auctionItem?appid={appid}&amp;auctionID={auctionID}</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="path" required="true" />
+                <key id="auctionID" type="xs:string" paramType="path" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
