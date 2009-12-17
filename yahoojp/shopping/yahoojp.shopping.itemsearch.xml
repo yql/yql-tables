@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/shopping/shopping/v1/itemsearch.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/itemSearch?appid={appid}&amp;affiliate_type={affiliate_type}&amp;affiliate_id={affiliate_id}&amp;query={query}&amp;type={type}&amp;jan={jan}&amp;isbn={isbn}&amp;category_id={category_id}&amp;product_id={product_id}&amp;person_id={person_id}&amp;brand_id={brand_id}&amp;store_id={store_id}&amp;price_from={price_from}&amp;price_to={price_to}&amp;hits={hits}&amp;offset={offset}&amp;sort={sort}&amp;affiliate_from={affiliate_from}&amp;affiliate_to={affiliate_to}&amp;module={module}&amp;availability={availability}&amp;discount={discount}&amp;shipping={shipping}</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="path" required="true" />
+                <key id="affiliate_type" type="xs:string" paramType="path" required="false" />
+                <key id="affiliate_id" type="xs:string" paramType="path" required="false" />
+                <key id="query" type="xs:string" paramType="path" required="false" />
+                <key id="type" type="xs:string" paramType="path" required="false" />
+                <key id="jan" type="xs:string" paramType="path" required="false" />
+                <key id="isbn" type="xs:string" paramType="path" required="false" />
+                <key id="category_id" type="xs:string" paramType="path" required="false" />
+                <key id="product_id" type="xs:string" paramType="path" required="false" />
+                <key id="person_id" type="xs:string" paramType="path" required="false" />
+                <key id="brand_id" type="xs:string" paramType="path" required="false" />
+                <key id="store_id" type="xs:string" paramType="path" required="false" />
+                <key id="price_from" type="xs:string" paramType="path" required="false" />
+                <key id="price_to" type="xs:string" paramType="path" required="false" />
+                <key id="hits" type="xs:string" paramType="path" required="false" />
+                <key id="offset" type="xs:string" paramType="path" required="false" />
+                <key id="sort" type="xs:string" paramType="path" required="false" />
+                <key id="affiliate_from" type="xs:string" paramType="path" required="false" />
+                <key id="affiliate_to" type="xs:string" paramType="path" required="false" />
+                <key id="module" type="xs:string" paramType="path" required="false" />
+                <key id="availability" type="xs:string" paramType="path" required="false" />
+                <key id="discount" type="xs:string" paramType="path" required="false" />
+                <key id="shipping" type="xs:string" paramType="path" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
