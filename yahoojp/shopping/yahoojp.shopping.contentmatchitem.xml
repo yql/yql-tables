@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/shopping/shopping/v1/contentmatchitem.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/contentMatchItem?appid={appid}&amp;affiliate_type={affiliate_type}&amp;affiliate_id={affiliate_id}&amp;url={url}&amp;type={type}&amp;hits={hits}&amp;store_id={store_id}&amp;responsegroup={responsegroup}&amp;affiliate_from={affiliate_from}&amp;affiliate_to={affiliate_to}</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="path" required="true" />
+                <key id="affiliate_type" type="xs:string" paramType="path" required="false" />
+                <key id="affiliate_id" type="xs:string" paramType="path" required="false" />
+                <key id="url" type="xs:string" paramType="path" required="true" />
+                <key id="type" type="xs:string" paramType="path" required="false" />
+                <key id="hits" type="xs:string" paramType="path" required="false" />
+                <key id="store_id" type="xs:string" paramType="path" required="false" />
+                <key id="responsegroup" type="xs:string" paramType="path" required="false" />
+                <key id="affiliate_from" type="xs:string" paramType="path" required="false" />
+                <key id="affiliate_to" type="xs:string" paramType="path" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
