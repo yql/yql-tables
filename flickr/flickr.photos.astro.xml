@@ -1,4 +1,4 @@
-< ?xml version = "1.0" ? >
+<?xml version = "1.0"?>
 <table xmlns = "http://query.yahooapis.com/v1/schema/table.xsd" >
 <meta >
 <author > Jim O 'Donnell</author>
@@ -31,6 +31,7 @@
       var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro: %') and photo_id in (select id from flickr.photos.search("+flickr_start+"50) where machine_tags='"+machine_tags+"'"+name_query+")";
       var data = y.query(querystring);
       var photos = parseAstrotags(data);
+      if (photos.length == 0) count = results.length + 1;
       results.concat(photos);
       flickr_start = flickr_start+50;
     }
