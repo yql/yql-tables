@@ -42,15 +42,11 @@
       }
       flickr_start = flickr_start+50;
     }
-    
-    y.log(results);
 
     default xml namespace = '';
     var respdata = <photos/>;
-    for each (var i in results) {
+    for each (var photo in results) {
     
-      var photo = results[i];
-      y.log(i);
       y.log(photo);
 
       var node = <photo>
