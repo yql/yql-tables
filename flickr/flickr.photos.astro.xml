@@ -30,13 +30,13 @@
     if (astro_name && astro_name != '') machine_tags = 'astro: name = "'+astro_name+'"';
     var flickr_start = 0;
 
-    while (results.length < tmp_count) {
+    for (var i=1; i <5; i++) {
       var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro: %') and photo_id in (select id from flickr.photos.search("+flickr_start+",50) where machine_tags='"+machine_tags+"'"+name_query+")";
       var data = y.query(querystring);
       var photos = parseAstrotags(data);
       results = results.concat(photos);
       // Less than 50 results means this is last page.
-      if (photos.length < 50) tmp_count = results.length + 1;
+      if (photos.length < 50) i = 5;
       flickr_start = flickr_start+50;
     }
     if (start) results.splice(0,start-1);
