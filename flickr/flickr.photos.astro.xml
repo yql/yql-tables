@@ -33,7 +33,7 @@
     var flickr_end = 0;
 
     while (results.length < tmp_count) {
-      flickr_end = flickr_start + 50;
+      flickr_end = flickr_start + tmp_count;
       var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+flickr_start+","+flickr_end+") where machine_tags='"+machine_tags+"'"+name_query+")";
       var data = y.query(querystring);
       var photos = parseAstrotags(data);
@@ -41,7 +41,6 @@
         results.push(photos[id]);
         if (results.length < flickr_end) tmp_count = results.length-1;
       }
-      y.log(results.length);
       flickr_start = flickr_start+50;
       if (flickr_start == 200) tmp_count = results.length-1;
     }
@@ -114,7 +113,7 @@
         //We will standardise on a value in degrees.
         if (tmp[0] == 'astro:fieldsize') {
           //convert fieldsize string into a numeric value in degrees, using the width of the photo.
-          tmp = o[id].fieldsize.split('');
+          tmp = o[id].fieldsize.split(' ');
           o[id].fov = {};
           o[id].fov.x = parseFloat(tmp[0]);
           o[id].fov.y = parseFloat(tmp[2]);
