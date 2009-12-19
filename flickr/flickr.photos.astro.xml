@@ -22,7 +22,7 @@
 	  <execute><![CDATA[
 	  var name_query = '';
 	  if (text && text != '') name_query += " and text = '"+text+"'";
-	  if (astro_name && astro_name != '') name_query += " and machine_tags='astro:name="+astro_name+""
+	  if (astro_name && astro_name != '') name_query += " and machine_tags='astro:name="+astro_name+"'";
 		var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='astro:RA='"+name_query+")";
 		var data = y.query(querystring);
 		var photos = parseAstrotags(data);
