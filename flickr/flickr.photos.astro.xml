@@ -37,14 +37,11 @@
       var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+flickr_start+","+flickr_end+") where machine_tags='"+machine_tags+"'"+name_query+")";
       var data = y.query(querystring);
       var photos = parseAstrotags(data);
-      if (photos) {
-        for (var photo in photos) {
-          results.push(photo);
-        }
+      for (var photo in photos) {
+        results.push(photo);
       }
       flickr_start = flickr_start+50;
     }
-    if (start > 0) results.splice(0,start-1);
 
     default xml namespace = '';
     var respdata = <photos/>;
