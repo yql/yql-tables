@@ -7,19 +7,19 @@
     <bindings>
         <select itemPath="ResultSet.ma_result" produces="XML">
             <urls>
-                <url>http://jlp.yahooapis.jp/MAService/V1/parse?appid={appid}&amp;sentence={sentence}&amp;results={results}&amp;response={response}&amp;filter={filter}&amp;ma_response={ma_response}&amp;ma_filter={ma_filter}&amp;uniq_response={uniq_response}&amp;uniq_filter={uniq_filter}&amp;uniq_by_baseform={uniq_by_baseform}</url>
+                <url>http://jlp.yahooapis.jp/MAService/V1/parse</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="sentence" type="xs:string" paramType="path" required="true" />
-                <key id="results" type="xs:string" paramType="path" required="true" />
-                <key id="response" type="xs:string" paramType="path" required="false" />
-                <key id="filter" type="xs:string" paramType="path" required="false" />
-                <key id="ma_response" type="xs:string" paramType="path" required="false" />
-                <key id="ma_filter" type="xs:string" paramType="path" required="false" />
-                <key id="uniq_response" type="xs:string" paramType="path" required="false" />
-                <key id="uniq_filter" type="xs:string" paramType="path" required="false" />
-                <key id="uniq_by_baseform" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="sentence" type="xs:string" paramType="query" required="true" />
+                <key id="results" type="xs:string" paramType="query" required="true" />
+                <key id="response" type="xs:string" paramType="query" required="false" />
+                <key id="filter" type="xs:string" paramType="query" required="false" />
+                <key id="ma_response" type="xs:string" paramType="query" required="false" />
+                <key id="ma_filter" type="xs:string" paramType="query" required="false" />
+                <key id="uniq_response" type="xs:string" paramType="query" required="false" />
+                <key id="uniq_filter" type="xs:string" paramType="query" required="false" />
+                <key id="uniq_by_baseform" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>

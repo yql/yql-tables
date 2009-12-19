@@ -7,12 +7,12 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://auctions.yahooapis.jp/AuctionWebService/V1/BidHistory?appid={appid}&amp;auctionID={auctionID}&amp;page={page}</url>
+                <url>http://auctions.yahooapis.jp/AuctionWebService/V1/BidHistory</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="auctionID" type="xs:string" paramType="path" required="true" />
-                <key id="page" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="auctionID" type="xs:string" paramType="query" required="true" />
+                <key id="page" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>

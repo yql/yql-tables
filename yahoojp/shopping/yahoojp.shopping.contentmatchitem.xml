@@ -7,19 +7,19 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/contentMatchItem?appid={appid}&amp;affiliate_type={affiliate_type}&amp;affiliate_id={affiliate_id}&amp;url={url}&amp;type={type}&amp;hits={hits}&amp;store_id={store_id}&amp;responsegroup={responsegroup}&amp;affiliate_from={affiliate_from}&amp;affiliate_to={affiliate_to}</url>
+                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/contentMatchItem</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="affiliate_type" type="xs:string" paramType="path" required="false" />
-                <key id="affiliate_id" type="xs:string" paramType="path" required="false" />
-                <key id="url" type="xs:string" paramType="path" required="true" />
-                <key id="type" type="xs:string" paramType="path" required="false" />
-                <key id="hits" type="xs:string" paramType="path" required="false" />
-                <key id="store_id" type="xs:string" paramType="path" required="false" />
-                <key id="responsegroup" type="xs:string" paramType="path" required="false" />
-                <key id="affiliate_from" type="xs:string" paramType="path" required="false" />
-                <key id="affiliate_to" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="affiliate_type" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_id" type="xs:string" paramType="query" required="false" />
+                <key id="url" type="xs:string" paramType="query" required="true" />
+                <key id="type" type="xs:string" paramType="query" required="false" />
+                <key id="hits" type="xs:string" paramType="query" required="false" />
+                <key id="store_id" type="xs:string" paramType="query" required="false" />
+                <key id="responsegroup" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_from" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_to" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>

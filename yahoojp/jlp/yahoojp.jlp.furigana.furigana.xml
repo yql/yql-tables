@@ -7,12 +7,12 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://jlp.yahooapis.jp/FuriganaService/V1/furigana?appid={appid}&amp;sentence={sentence}&amp;grade={grade}</url>
+                <url>http://jlp.yahooapis.jp/FuriganaService/V1/furigana</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="sentence" type="xs:string" paramType="path" required="true" />
-                <key id="grade" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="sentence" type="xs:string" paramType="query" required="true" />
+                <key id="grade" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>

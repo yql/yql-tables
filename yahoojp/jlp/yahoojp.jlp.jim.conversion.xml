@@ -7,16 +7,16 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://jlp.yahooapis.jp/JIMService/V1/conversion?appid={appid}&amp;sentence={sentence}&amp;format={format}&amp;mode={mode}&amp;response={response}&amp;dictionary={dictionary}&amp;results={results}</url>
+                <url>http://jlp.yahooapis.jp/JIMService/V1/conversion</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="sentence" type="xs:string" paramType="path" required="true" />
-                <key id="format" type="xs:string" paramType="path" required="false" />
-                <key id="mode" type="xs:string" paramType="path" required="false" />
-                <key id="response" type="xs:string" paramType="path" required="false" />
-                <key id="dictionary" type="xs:string" paramType="path" required="false" />
-                <key id="results" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="sentence" type="xs:string" paramType="query" required="true" />
+                <key id="format" type="xs:string" paramType="query" required="false" />
+                <key id="mode" type="xs:string" paramType="query" required="false" />
+                <key id="response" type="xs:string" paramType="query" required="false" />
+                <key id="dictionary" type="xs:string" paramType="query" required="false" />
+                <key id="results" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>
