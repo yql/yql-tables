@@ -7,11 +7,11 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://auctions.yahooapis.jp/AuctionWebService/V2/categoryTree?appid={appid}&amp;category={category}</url>
+                <url>http://auctions.yahooapis.jp/AuctionWebService/V2/categoryTree</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="category" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="category" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>

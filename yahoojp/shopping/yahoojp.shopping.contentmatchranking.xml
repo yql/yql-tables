@@ -7,13 +7,13 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/contentMatchRanking?appid={appid}&amp;affiliate_type={affiliate_type}&amp;affiliate_id={affiliate_id}&amp;url={url}</url>
+                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/contentMatchRanking</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="affiliate_type" type="xs:string" paramType="path" required="false" />
-                <key id="affiliate_id" type="xs:string" paramType="path" required="false" />
-                <key id="url" type="xs:string" paramType="path" required="true" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="affiliate_type" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_id" type="xs:string" paramType="query" required="false" />
+                <key id="url" type="xs:string" paramType="query" required="true" />
             </inputs>
         </select>
     </bindings>

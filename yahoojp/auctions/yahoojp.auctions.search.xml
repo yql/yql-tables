@@ -7,34 +7,34 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://auctions.yahooapis.jp/AuctionWebService/V2/search?appid={appid}&amp;query={query}&amp;page={page}&amp;sort={sort}&amp;order={order}&amp;store={store}&amp;aucminprice={aucminprice}&amp;aucmaxprice={aucmaxprice}&amp;aucmin_bidorbuy_price={aucmin_bidorbuy_price}&amp;aucmax_bidorbuy_price={aucmax_bidorbuy_price}&amp;loc_cd={loc_cd}&amp;escrow={escrow}&amp;easypayment={easypayment}&amp;ybank={ybank}&amp;new={new}&amp;freeshipping={freeshipping}&amp;wrappingicon={wrappingicon}&amp;buynow={buynow}&amp;thumbnail={thumbnail}&amp;attn={attn}&amp;english={english}&amp;point={point}&amp;gift_icon={gift_icon}&amp;item_status={item_status}&amp;offer={offer}</url>
+                <url>http://auctions.yahooapis.jp/AuctionWebService/V2/search</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="query" type="xs:string" paramType="path" required="true" />
-                <key id="page" type="xs:string" paramType="path" required="false" />
-                <key id="sort" type="xs:string" paramType="path" required="false" />
-                <key id="order" type="xs:string" paramType="path" required="false" />
-                <key id="store" type="xs:string" paramType="path" required="false" />
-                <key id="aucminprice" type="xs:string" paramType="path" required="false" />
-                <key id="aucmaxprice" type="xs:string" paramType="path" required="false" />
-                <key id="aucmin_bidorbuy_price" type="xs:string" paramType="path" required="false" />
-                <key id="aucmax_bidorbuy_price" type="xs:string" paramType="path" required="false" />
-                <key id="loc_cd" type="xs:string" paramType="path" required="false" />
-                <key id="escrow" type="xs:string" paramType="path" required="false" />
-                <key id="easypayment" type="xs:string" paramType="path" required="false" />
-                <key id="ybank" type="xs:string" paramType="path" required="false" />
-                <key id="new" type="xs:string" paramType="path" required="false" />
-                <key id="freeshipping" type="xs:string" paramType="path" required="false" />
-                <key id="wrappingicon" type="xs:string" paramType="path" required="false" />
-                <key id="buynow" type="xs:string" paramType="path" required="false" />
-                <key id="thumbnail" type="xs:string" paramType="path" required="false" />
-                <key id="attn" type="xs:string" paramType="path" required="false" />
-                <key id="english" type="xs:string" paramType="path" required="false" />
-                <key id="point" type="xs:string" paramType="path" required="false" />
-                <key id="gift_icon" type="xs:string" paramType="path" required="false" />
-                <key id="item_status" type="xs:string" paramType="path" required="false" />
-                <key id="offer" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="query" type="xs:string" paramType="query" required="true" />
+                <key id="page" type="xs:string" paramType="query" required="false" />
+                <key id="sort" type="xs:string" paramType="query" required="false" />
+                <key id="order" type="xs:string" paramType="query" required="false" />
+                <key id="store" type="xs:string" paramType="query" required="false" />
+                <key id="aucminprice" type="xs:string" paramType="query" required="false" />
+                <key id="aucmaxprice" type="xs:string" paramType="query" required="false" />
+                <key id="aucmin_bidorbuy_price" type="xs:string" paramType="query" required="false" />
+                <key id="aucmax_bidorbuy_price" type="xs:string" paramType="query" required="false" />
+                <key id="loc_cd" type="xs:string" paramType="query" required="false" />
+                <key id="escrow" type="xs:string" paramType="query" required="false" />
+                <key id="easypayment" type="xs:string" paramType="query" required="false" />
+                <key id="ybank" type="xs:string" paramType="query" required="false" />
+                <key id="new" type="xs:string" paramType="query" required="false" />
+                <key id="freeshipping" type="xs:string" paramType="query" required="false" />
+                <key id="wrappingicon" type="xs:string" paramType="query" required="false" />
+                <key id="buynow" type="xs:string" paramType="query" required="false" />
+                <key id="thumbnail" type="xs:string" paramType="query" required="false" />
+                <key id="attn" type="xs:string" paramType="query" required="false" />
+                <key id="english" type="xs:string" paramType="query" required="false" />
+                <key id="point" type="xs:string" paramType="query" required="false" />
+                <key id="gift_icon" type="xs:string" paramType="query" required="false" />
+                <key id="item_status" type="xs:string" paramType="query" required="false" />
+                <key id="offer" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>

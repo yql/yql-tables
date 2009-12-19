@@ -7,14 +7,14 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/itemLookup?appid={appid}&amp;affiliate_type={affiliate_type}&amp;affiliate_id={affiliate_id}&amp;itemcode={itemcode}&amp;responsegroup={responsegroup}</url>
+                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/itemLookup</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="affiliate_type" type="xs:string" paramType="path" required="false" />
-                <key id="affiliate_id" type="xs:string" paramType="path" required="false" />
-                <key id="itemcode" type="xs:string" paramType="path" required="true" />
-                <key id="responsegroup" type="xs:string" paramType="path" required="false" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="affiliate_type" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_id" type="xs:string" paramType="query" required="false" />
+                <key id="itemcode" type="xs:string" paramType="query" required="true" />
+                <key id="responsegroup" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>

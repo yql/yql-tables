@@ -7,11 +7,11 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://jlp.yahooapis.jp/KeyphraseService/V1/extract?appid={appid}&amp;sentence={sentence}</url>
+                <url>http://jlp.yahooapis.jp/KeyphraseService/V1/extract</url>
             </urls>
             <inputs>
-                <key id="appid" type="xs:string" paramType="path" required="true" />
-                <key id="sentence" type="xs:string" paramType="path" required="true" />
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="sentence" type="xs:string" paramType="query" required="true" />
             </inputs>
         </select>
     </bindings>
