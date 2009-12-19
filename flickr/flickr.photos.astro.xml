@@ -32,22 +32,22 @@
     var flickr_start = 0;
     var flickr_end = 0;
 
-    for (var i=1; i < 2; i++) {
+    while (results.length < tmp_count) {
       flickr_end = flickr_start + 50;
       var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+flickr_start+","+flickr_end+") where machine_tags='"+machine_tags+"'"+name_query+")";
       var data = y.query(querystring);
       var photos = parseAstrotags(data);
       for (var id in photos) {
         results.push(photos[id]);
+        if (results.length < flickr_end) tmp_count = results.length+1;
       }
       flickr_start = flickr_start+50;
     }
+    if (start > 0) results.splice(0,start);
 
     default xml namespace = '';
     var respdata = <photos/>;
     for each (var photo in results) {
-    
-      y.log(photo);
 
       var node = <photo>
             <id>{photo.id}</id>
@@ -110,7 +110,7 @@
         }
         //fieldsize is a string in degrees, arcminutes or arcseconds.
         //We will standardise on a value in degrees.
-        if (tmp[0] == 'astro:fieldsize ') {
+        if (tmp[0] == 'astro:fieldsize') {
           //convert fieldsize string into a numeric value in degrees, using the width of the photo.
           tmp = o[id].fieldsize.split('');
           o[id].fov = {};
