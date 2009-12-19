@@ -23,8 +23,7 @@
     var name_query = '';
     if (text && text != '') name_query += " and text = '"+text+"'";
     var machine_tags = 'astro:RA = ';
-    var results = {};
-    var result_count = 0;
+    var results = [];
     var tmp_count = 20;
     if (count) tmp_count = count;
     
@@ -40,17 +39,18 @@
       var photos = parseAstrotags(data);
       if (photos) {
         for (var photo in photos) {
-          results[photo.id] = photo;
-          result_count++;
+          results.push(photo);
         }
       }
       flickr_start = flickr_start+50;
     }
-    if (start) results.splice(0,start-1);
+    if (start > 0) results.splice(0,start-1);
 
     default xml namespace = '';
     var respdata = <photos/>;
-    for each (var photo in results) {
+    for each (var i in results) {
+    
+      var photo = results[i];
 
       var node = <photo>
             <id>{photo.id}</id>
