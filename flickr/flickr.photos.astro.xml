@@ -39,10 +39,10 @@
       var photos = parseAstrotags(data);
       for (var id in photos) {
         results.push(photos[id]);
+        // kill the loop if this last page of results
         if (results.length < flickr_end) tmp_count = results.length-1;
       }
       flickr_start = flickr_start+50;
-      if (flickr_start == 200) tmp_count = results.length-1;
     }
     if (start > 0) results.splice(0,start);
 
