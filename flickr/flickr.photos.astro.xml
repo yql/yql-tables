@@ -25,14 +25,15 @@
     var machine_tags = 'astro: RA = ';
     var results = [];
     if (astro_name && astro_name != '') machine_tags = 'astro: name = "'+astro_name+'"';
-    var flickr_start = 1;
+    var flickr_start = 0;
 
     while (results.length < count) {
-      var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro: %') and photo_id in (select id from flickr.photos.search("+flickr_start+"50) where machine_tags='"+machine_tags+"'"+name_query+")";
+      var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro: %') and photo_id in (select id from flickr.photos.search("+flickr_start+",50) where machine_tags='"+machine_tags+"'"+name_query+")";
       var data = y.query(querystring);
       var photos = parseAstrotags(data);
-      if (photos.length == 0) count = results.length + 1;
       results.concat(photos);
+      // Less than 50 results means this is last page.
+      if (photos.length < 50) count = results.length + 1;
       flickr_start = flickr_start+50;
     }
     if (start) results.splice(0,start-1);
