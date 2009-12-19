@@ -27,14 +27,14 @@
     var tmp_count = 20;
     if (count) tmp_count = count;
     
-    if (astro_name && astro_name != '') machine_tags = 'astro:name = "'+astro_name+'"';
+    if (astro_name && astro_name != '') machine_tags = 'astro:name="'+astro_name+'"';
     
     var flickr_start = 0;
     var flickr_end = 0;
 
     for (var i=1; i < 2; i++) {
       flickr_end = flickr_start + 50;
-      var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro: %') and photo_id in (select id from flickr.photos.search("+flickr_start+","+flickr_end+") where machine_tags='"+machine_tags+"'"+name_query+")";
+      var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+flickr_start+","+flickr_end+") where machine_tags='"+machine_tags+"'"+name_query+")";
       var data = y.query(querystring);
       var photos = parseAstrotags(data);
       if (photos) {
