@@ -39,11 +39,11 @@
       var photos = parseAstrotags(data);
       for (var id in photos) {
         results.push(photos[id]);
-        if (results.length < flickr_end) tmp_count = results.length+1;
+        if (results.length < flickr_end) tmp_count = results.length-1;
       }
       y.log(results.length);
       flickr_start = flickr_start+50;
-      if (flickr_start == 200) tmp_count = results.length+1;
+      if (flickr_start == 200) tmp_count = results.length-1;
     }
     if (start > 0) results.splice(0,start);
 
