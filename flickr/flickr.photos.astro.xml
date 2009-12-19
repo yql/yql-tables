@@ -76,7 +76,7 @@
 
       /* Walk through the returned data and build an associative array of
       photos, o, keyed on photo id. (yeah, I know JavaScript doesn't really use
- associative arrays). * /
+ associative arrays). */
       for each (var photo in data.results.photo) {
         id = photo.@['id'].toString();
 
