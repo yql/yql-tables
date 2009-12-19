@@ -22,7 +22,7 @@
     <execute><![CDATA[
     var name_query = '';
     if (text && text != '') name_query += " and text = '"+text+"'";
-    var machine_tags = 'astro:RA = ';
+    var machine_tags = 'astro:RA=';
     var results = [];
     var tmp_count = 20;
     if (count) tmp_count = count;
