@@ -16,6 +16,7 @@
 		<total default="20"/>
 	  </paging>
       <inputs>
+        <key id="text" type="xs:string" paramType="variable" />
       </inputs>
 	  <execute><![CDATA[
 	  var name_query = '';
