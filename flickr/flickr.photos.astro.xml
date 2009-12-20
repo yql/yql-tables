@@ -24,32 +24,15 @@
     var name_query = '';
     if (text && text != '') name_query += " and text = '"+text+"'";
     var machine_tags = 'astro:RA=';
-    var results = [];
-    var tmp_count = 20;
-    if (count) tmp_count = parseInt(count);
-    
     if (astro_name && astro_name != '') machine_tags = 'astro:name="'+astro_name+'"';
-    
-    var flickr_start = 0;
-    if (start && start > 0) flickr_start = parseInt(start);
-    var flickr_end = 0;
 
-    while (results.length < tmp_count) {
-      flickr_end = flickr_end + tmp_count;
-      var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+flickr_start+","+flickr_end+") where machine_tags='"+machine_tags+"'"+name_query+")";
-      var data = y.query(querystring);
-      var photos = parseAstrotags(data);
-      for (var id in photos) {
-        results.push(photos[id]);
-        // kill the loop if this last page of results
-        if (results.length < flickr_end) tmp_count = results.length-1;
-      }
-      flickr_end = flickr_end+50;
-    }
+    var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='"+machine_tags+"'"+name_query+")";
+    var data = y.query(querystring);
+    var photos = parseAstrotags(data);
 
     default xml namespace = '';
     var respdata = <photos/>;
-    for each (var photo in results) {
+    for each (var photo in photos) {
 
       var node = <photo>
             <id>{photo.id}</id>
