@@ -69,6 +69,7 @@
       var photo;
       var id;
       var o = {};
+      o.id = '';
       var photos = [];
 
       /* Walk through the returned data and build an array of
@@ -76,7 +77,8 @@
       for each (var photo in data.results.photo) {
         id = photo.@['id'].toString();
 
-        if (!o['id']) {
+        if (o.id != id) {
+          o = {};
           photos.push(o);
           o['name'] = [];
           o['id'] = id;
