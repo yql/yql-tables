@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/news/news/v1/heading.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://news.yahooapis.jp/NewsWebService/V1/heading</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="startdate" type="xs:string" paramType="query" required="false" />
+                <key id="enddate" type="xs:string" paramType="query" required="false" />
+                <key id="unit" type="xs:string" paramType="query" required="false" />
+                <key id="topicname" type="xs:string" paramType="query" required="false" />
+                <key id="category" type="xs:string" paramType="query" required="false" />
+                <key id="query" type="xs:string" paramType="query" required="false" />
+                <key id="sort" type="xs:string" paramType="query" required="false" />
+                <key id="results" type="xs:string" paramType="query" required="false" />
+                <key id="start" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
