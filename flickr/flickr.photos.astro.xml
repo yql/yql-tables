@@ -107,12 +107,12 @@
           o.fov.x = parseFloat(tmp[0]);
           o.fov.y = parseFloat(tmp[2]);
           if (tmp[3] == 'arcminutes') {
-            o.fov.x = o[id].fov.x/60;
-            o.fov.y = o[id].fov.y/60;
+            o.fov.x = o.fov.x/60;
+            o.fov.y = o.fov.y/60;
           }
           if (tmp[3] == 'arcseconds') {
-            o.fov.x = o[id].fov.x/3600;
-            o.fov.y = o[id].fov.y/3600;
+            o.fov.x = o.fov.x/3600;
+            o.fov.y = o.fov.y/3600;
           }
         }
       }
