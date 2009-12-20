@@ -25,7 +25,7 @@
     var machine_tags = 'astro:RA=';
     var results = [];
     var tmp_count = 20;
-    if (count) tmp_count = count;
+    if (count) tmp_count = parseInt(count);
     
     if (astro_name && astro_name != '') machine_tags = 'astro:name="'+astro_name+'"';
     
