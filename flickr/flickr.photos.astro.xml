@@ -56,9 +56,12 @@
       }
       respdata.photos += node;
     }
-
+    
+    // try extending cache time as these
+    // results don't change very often.
+    response.maxAge = 600;
     response.object = respdata;
-
+    
     function parseAstrotags(data) {
 
       var tag; 
