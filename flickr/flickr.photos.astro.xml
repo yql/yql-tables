@@ -13,8 +13,8 @@
       </urls>
     <paging model="page">
     <start id="page" default="1"/>
-    <pagesize id="per_page" max="250"/>
-    <total default="250"/>
+    <pagesize id="per_page" max="100"/>
+    <total default="20"/>
     </paging>
       <inputs>
         <key id="text" type="xs:string" paramType="variable" />
@@ -26,7 +26,7 @@
     var machine_tags = 'astro:RA=';
     if (astro_name && astro_name != '') machine_tags = 'astro:name="'+astro_name.replace("'","\'")+'"';
 
-    var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search(0) where machine_tags='"+machine_tags+"'"+name_query+" and page = "+page+" and per_page="+per_page+")";
+    var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search where machine_tags='"+machine_tags+"'"+name_query+")";
     var data = y.query(querystring);
     var photos = parseAstrotags(data);
 
