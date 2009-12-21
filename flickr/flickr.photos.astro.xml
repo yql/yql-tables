@@ -59,7 +59,7 @@
     
     // try extending cache time as these
     // results don't change very often.
-    response.maxAge = 600;
+    response.maxAge = 1800;
     response.object = respdata;
     
     function parseAstrotags(data) {
