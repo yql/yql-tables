@@ -19,8 +19,15 @@
       <key id="oauth_verifier" type="xs:string" paramType="variable" required="true" />
     </inputs>
       <execute><![CDATA[
-y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
-y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js"); 
+
+var document = {
+    getElementsByTagName: function(value) {
+        return null;
+    }
+};
+
+y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
 
 var get_url = get_access_token_url;
 var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, token:oauth_token, tokenSecret:token_secret};
@@ -36,9 +43,10 @@ OAuth.setParameter(message, "oauth_verifier", oauth_verifier);
 OAuth.setParameter(message, "oauth_token", oauth_token);
 OAuth.SignatureMethod.sign(message, local_accessor);
 
-get_url = OAuth.addToURL(get_url, message.parameters); 
+get_url = OAuth.addToURL(get_url, message.parameters);
 
 response.object = y.rest(get_url).get().response;
+
       ]]></execute>
     </select>
   </bindings>
