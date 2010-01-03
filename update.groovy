@@ -3,11 +3,13 @@ def files = [];
 
 def delClos
 delClos = { it.eachDir( delClos );
+          if (!it.getName().startsWith("WEB-INF")) {
             it.eachFile {
 	        if (it.getName().endsWith(".xml")) {
 		    files.add(it);
 		}
             }
+          }
     }
 
 delClos( new File(".") )

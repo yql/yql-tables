@@ -8,7 +8,7 @@
   <bindings>
     <select itemPath="commits" produces="XML">
       <urls>
-        <url>http://github.com/api/v2/xml/commits/list/{id}/{repo}/commits/{branch}</url>
+        <url>http://github.com/api/v2/xml/commits/list/{id}/{repo}/{branch}</url>
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true"/>

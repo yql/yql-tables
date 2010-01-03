@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Christian Taylor</author>
+        <documentationURL>http://www.payvment.com/developer/</documentationURL>
+		<description>Shopping Cart can be used with products from affiliate programs. Compatible with all retailer affiliate programs including Yahoo Shopping, Amazon.com, Best Buy, shopping.com and many others. "Select" returns shopping cart, "Insert" adds an item to the cart and "Delete" removes an item.</description>
+		<sampleQuery>select * from {table} where apiKey="{apiKey}" and cartID="{cartID}"</sampleQuery>
+		<sampleQuery>insert into {table} (apiKey,cartID,payvmentID,itemRetailer,itemName,itemURL,itemUrlType) values ("9872", "3333", "1234", "Amazon","True Blood: The Complete First Season","http://www.amazon.com/True-Blood-Complete-First-Season/dp/B001FB4W0W/","2")</sampleQuery>
+		<sampleQuery>delete from {table} where apiKey="{apiKey}" and cartID="{cartID}" and itemID="{itemID}"</sampleQuery>
+    </meta>
+      <bindings>
+        <select itemPath="cartfeed" produces="XML" >
+          <urls>
+            <url env="all">https://api.payvment.com/v1.2/rest/get/</url>
+          </urls>
+          <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />
+				<key id="cartID" type="xs:string" paramType="query" required="false" />
+          </inputs>
+        </select>
+		<insert itemPath="cartfeed" produces="XML" >
+          <urls>
+            <url env="all">https://api.payvment.com/v1.2/rest/post/?command=addAffiliateItem</url>
+          </urls>
+          <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />
+				<key id="cartID" type="xs:string" paramType="query" required="true" />
+				<value id="payvmentID" type="xs:string" paramType="query" required="true" />
+				<value id="itemRetailer" type="xs:string" paramType="query" required="true" />
+				<value id="itemName" type="xs:string" paramType="query" required="true" />
+				<value id="itemURL" type="xs:string" paramType="query" required="true" />
+				<value id="itemUrlType" type="xs:string" paramType="query" required="true" />
+          </inputs>
+        </insert>
+		<delete itemPath="cartfeed" produces="XML" >
+          <urls>
+            <url env="all">https://api.payvment.com/v1.2/rest/post/?command=deleteAffiliateItem</url>
+          </urls>
+          <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />
+				<key id="cartID" type="xs:string" paramType="query" required="true" />
+				<key id="itemID" type="xs:string" paramType="query" required="true" />
+          </inputs>
+        </delete>
+      </bindings>
+</table>
