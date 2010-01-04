@@ -17,10 +17,10 @@ var result = <result/>;
 var page = 1;
 while (true) {
 
-    var html = y.query("select * from html where url='http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Pagesize=100&Page=" + page + "' and xpath='//form[@name=\"formProductListDataGrid\"]//tr[count(td) = 4]'").results;
+    var html = y.query("select * from html where url='http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Pagesize=100&Page=" + page + "' and xpath='//form[@name=\"formProductListDataGrid\"]//tr[count(td) = 4] | //*[@class=\"redtop1\"]'").results;
 
     if (html.tr.length() == 0) break;
-    if (html..h3.(@['class'] == "redtop1")) break;
+    if (html..h3.(@['class'] == "redtop1").length() != 0) break;
     page += 1;
 
     for each (var node in html.tr) {
