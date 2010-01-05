@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Erik Vold</author>
+		<description></description>
+		<documentationURL></documentationURL>
+		<sampleQuery> select * from {table} where username = {username}</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url></url>
+			</urls>
+			<inputs>
+				<key id="username" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute><![CDATA[
+
+var userQuery = y.query(
+		"select * from html " +
+		"where url='http://jetpackgallery.mozillalabs.com/contributors/"+username+"' and " + 
+		"xpath='//h5'"
+	),
+	jetpackQuery = y.query(
+		"select * from html " +
+		"where url='http://jetpackgallery.mozillalabs.com/contributors/"+username+"/jetpacks' and " + 
+		"xpath='//h2/span[contains(@class,\"count\")]'"
+	),
+	rtnObj,
+	jetpack_count=jetpackQuery.results.span.text().toString().replace(/[^\d]/gi,''),
+	name=null,
+	location=null,
+	web_site=null,
+	temp=null,
+	tempStr,
+	i=0;
+
+for each (var e in userQuery.results.h5){
+	if(name!=null && location!=null && web_site!=null) break;
+	tempStr=e.text().toString();
+	if(tempStr.match(/^\s*(User Since)/gi)) continue;
+	i++;
+	if(name==null){
+		temp = /^\s*Name:\s*(.*)$/gi.exec(tempStr);
+		if(temp){
+			name = temp[1];
+			continue;
+		}
+	}
+	if(location==null){
+		temp = /^\s*Location:\s*(.*)$/gi.exec(tempStr);
+		if(temp){
+			location = e.span.text().toString();
+			continue;
+		}
+	}
+	if(web_site==null){
+		temp = /^\s*Website:/gi.exec(tempStr);
+		if(temp){
+			web_site = e.a.@href;
+			continue;
+		}
+	}
+}
+
+rtnObj = <user username={username} name={name} />;
+temp = <location>{location}</location>;
+rtnObj.appendChild(temp);
+temp = <website>{web_site}</website>;
+rtnObj.appendChild(temp);
+temp = <jetpacks count={jetpack_count} />;
+rtnObj.appendChild(temp);
+
+response.object = rtnObj;
+
+			]]></execute>
+		</select>
+	</bindings>
+</table>
