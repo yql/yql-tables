@@ -12,6 +12,7 @@
         		<key id="query" type="xs:string" paramType="query" required="true" />
         		<key id="order" type="xs:string" paramType="query" default="PRICE" />
         		<key id="subcategory" type="xs:string" paramType="query" default=""/>
+        		<key id="category" type="xs:string" paramType="query" default=""/>
             </inputs>
             <execute><![CDATA[
 var result = <result/>;
@@ -42,7 +43,7 @@ function fixItem(item) {
 
 while (true) {
 
-    var html = y.query("select * from html where url='http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Subcategory=" + subcategory + "&Pagesize=100&Page=" + page + "' and xpath='//form[@name=\"formProductListDataGrid\"]//tr[count(td) = 4] | //*[@class=\"redtop1\"] | //div[@id=\"bcaProductContainer\"]'").results;
+    var html = y.query("select * from html where url='http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Subcategory=" + subcategory + "&Category=" + category + "&Pagesize=100&Page=" + page + "' and xpath='//form[@name=\"formProductListDataGrid\"]//tr[count(td) = 4] | //*[@class=\"redtop1\"] | //div[@id=\"bcaProductContainer\"]'").results;
 
     if (html..div.(@id == "bcaProductContainer").length() != 0) {
         var root = html..div.(@id == "bcaProductContainer");
