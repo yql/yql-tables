@@ -43,7 +43,7 @@ function fixItem(item) {
 
 while (true) {
 
-    var html = y.query("select * from html where url='http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Subcategory=" + subcategory + "&Category=" + category + "&Pagesize=100&Page=" + page + "' and xpath='//form[@name=\"formProductListDataGrid\"]//tr[count(td) = 4] | //*[@class=\"redtop1\"] | //div[@id=\"bcaProductContainer\"]'").results;
+    var html = y.query("select * from html where url='http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Subcategory=" + subcategory + "&Category=" + category + "&Pagesize=100&Page=" + page + "' and xpath='//form[@name=\"formProductListDataGrid\"]//tr[count(td) = 4] | //*[@class=\"redtop1\"] | //div[@id=\"bcaProductContainer\"]'").timeout(20000).results;
 
     if (html..div.(@id == "bcaProductContainer").length() != 0) {
         var root = html..div.(@id == "bcaProductContainer");
