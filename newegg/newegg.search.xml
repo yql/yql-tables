@@ -19,14 +19,14 @@ var result = <result/>;
 var page = 1;
 
 function fixItem(item) {
-    var price = parseFloat(item.price.toString().replace("$", ""));
+    var price = parseFloat(item.price.toString().replace("$", "").replace(",", ""));
     item.price = <price>{price.toFixed(2)}</price>;
 
     var shipping = item.shipping.toString();
     if (! /.*Free Shipping.*/.test(shipping)) {
         shipping = shipping.match(/\$[0-9,]\.[0-9]{2}/);
         if (shipping) {
-            shipping = shipping.toString().replace("$", "");
+            shipping = shipping.toString().replace("$", "").replace(",", "");
             shipping = parseFloat(shipping);
         } else {
             shipping = 0;
