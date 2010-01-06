@@ -32,14 +32,12 @@ var userQuery = y.query(
 	location=null,
 	web_site=null,
 	temp=null,
-	tempStr,
-	i=0;
+	tempStr;
 
 for each (var e in userQuery.results.h5){
 	if(name!=null && location!=null && web_site!=null) break;
 	tempStr=e.text().toString();
 	if(tempStr.match(/^\s*(User Since)/gi)) continue;
-	i++;
 	if(name==null){
 		temp = /^\s*Name:\s*(.*)$/gi.exec(tempStr);
 		if(temp){
