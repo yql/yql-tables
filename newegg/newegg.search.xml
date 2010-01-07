@@ -16,7 +16,6 @@
             </inputs>
             <execute><![CDATA[
 var result = <result/>;
-var page = 1;
 
 function fixItem(item) {
     var price = parseFloat(item.price.toString().replace("$", "").replace(",", ""));
@@ -35,46 +34,63 @@ function fixItem(item) {
         shipping = 0;
     }
 
+    var itemCode = item.itemCode.toString();
+    var link = "";
+    if (itemCode) {
+        link = "http://www.newegg.com/Product/Product.aspx?Item=" + itemCode.toString() + "&pid=3775901&aid=10440897";
+    }
+    item.link = <link>{link}</link>;
+
     item.shipping = <shipping>{shipping.toFixed(2)}</shipping>;
     var totalPrice = price + shipping;
     item.totalPrice = <totalPrice>{totalPrice.toFixed(2)}</totalPrice>;
     return item;
 }
 
-while (true) {
+var url = "http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Subcategory=" + subcategory + "&Category=" + category + "&Pagesize=100&Page=1";
 
-    var html = y.query("select * from html where url='http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Subcategory=" + subcategory + "&Category=" + category + "&Pagesize=100&Page=" + page + "' and xpath='//form[@name=\"formProductListDataGrid\"]//tr[count(td) = 4] | //*[@class=\"redtop1\"] | //div[@id=\"bcaProductContainer\"]'").timeout(20000).results;
-
-    if (html..div.(@id == "bcaProductContainer").length() != 0) {
-        var root = html..div.(@id == "bcaProductContainer");
-        var item = <item/>;
-        item.name = <name>{root..div.(@id=="bcapcHeaderArea").h1.text()}</name>;
-
-        var link = root..div.(@id=="pcraProductReview").h3..a[0].@href.toString();
-        var itemCode = link.match(/Item=[^&]+/);
-        if (itemCode) {
-            link = "http://www.newegg.com/Product/Product.aspx?" + itemCode.toString();
-        } else {
-            link = "";
-        }
-        item.link = <link>{link}</link>;
-        item.price = <price>{root..h3.(@['class']=="zmp").text()}</price>;
-        item.shipping = <shipping>{root..dd.(@['class']=="shipping").p.text()}</shipping>;
-        item.image = <image>{root..img.(@id=="pclaImagePreview").@src}</image>;
-
-        result.item += fixItem(item);
+var tries = 0;
+while (tries < 4) {
+    var html = y.rest(url).accept("text/html").timeout(5000).get().response;
+    if (typeof(html) == "undefined")
+        tries ++;
+    else
         break;
-    }
-    
-    if (html.tr.length() == 0) break;
-    if (html..h3.(@['class'] == "redtop1").length() != 0) break;
+}
+if (tries == 4)
+    y.exit();
 
-    page += 1;
+html = y.xpath(html, "//form[@name='formProductListDataGrid']//tr[count(td) = 4] | //*[@class='redtop1'] | //div[@id='bcaProductContainer']");
 
-    for each (var node in html.tr) {
+var good = true;
+if (html.(@id == "bcaProductContainer").length() != 0) {
+    var root = html.(@id == "bcaProductContainer");
+    var item = <item/>;
+    item.name = <name>{root..div.(@id=="bcapcHeaderArea").h1.text()}</name>;
+
+    var link = root..div.(@id=="pcraProductReview").h3..a[0].@href.toString();
+
+    var itemCode = link.match(/Item=[^&]+/)[0].replace("Item=", "");
+    item.itemCode = <itemCode>{itemCode}</itemCode>
+    item.price = <price>{root..h3.(@['class']=="zmp").text()}</price>;
+    item.shipping = <shipping>{root..dd.(@['class']=="shipping").p.text()}</shipping>;
+    item.image = <image>{root..img.(@id=="pclaImagePreview").@src}</image>;
+
+    result.item += fixItem(item);
+    good = false;
+}
+
+if (html.length() == 0) good = false;
+if (html.(@['class'] == "redtop1").length() != 0) good = false;
+
+if (good) {
+    for each (var node in html) {
         var item = <item/>;
         item.name = <name>{node..h3.a.text()}</name>;
-        item.link = <link>{node..h3.a.@href}</link>;
+
+        var link = node..h3.a.@href;
+        var itemCode = link.match(/Item=[^&]+/)[0].replace("Item=", "");
+        item.itemCode = <itemCode>{itemCode}</itemCode>
         
         var price = node..li.(@['class'] == "ckoutAmt").p.text().toString().replace("Your Price:", "");
         item.price = <price>{price}</price>;
@@ -83,11 +99,10 @@ while (true) {
         item.shipping = <shipping>{shipping}</shipping>;
         item.image = <image>{node..a.img.(@width == 125).@src}</image>;
 
+        if (item.name.length() == 0 || item.itemCode.length() == 0) continue;
+
         result.item += fixItem(item);
     }
-
-    // I was always running out of time. Don't do pagination
-    break;
 }
 
 response.maxAge = 60 * 60 * 24; // 1 day cache
