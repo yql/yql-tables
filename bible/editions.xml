@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<editions>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id6</biblija_net>
+		<switch_id>ASV</switch_id>
+		<input>ASV</input>
+		<default>true</default>
+		<language>en</language>
+		<copyright>Copyright status: Public domain</copyright>
+		<input type="name">American Standard Version</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id32</biblija_net>
+		<switch_id>CEV</switch_id>
+		<input>CEV</input>
+		<language>en</language>
+		<copyright>Copyright: © 1999 American Bible Society</copyright>
+		<input type="name">Contemporary English Version</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id33</biblija_net>
+		<switch_id>GNB</switch_id>
+		<input>GNB</input>
+		<language>en</language>
+		<copyright>Copyright: © 1992 American Bible Society</copyright>
+		<input type="name">Good News Bible</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id14</biblija_net>
+		<switch_id>WEB</switch_id>
+		<input>WEB</input>
+		<language>en</language>
+		<copyright>Copyright status: Public domain</copyright>
+		<input type="name">World English Bible</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id7</biblija_net>
+		<switch_id>KJV</switch_id>
+		<input>KJV</input>
+		<language>en</language>
+		<copyright>Copyright status: Crown copyright (UK)</copyright>
+		<input type="name">King James Version</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id22</biblija_net>
+		<switch_id>DHH</switch_id>
+		<input>DHH</input>
+		<language>es</language>
+		<default>true</default>
+		<copyright>Copyright © 2002 United Bible Societies and Sociedad Bíblica de España (Bible Society of Spain)</copyright>
+		<input type="name">“Dios Habla Hoy” Version</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id20</biblija_net>
+		<switch_id>RVR95</switch_id>
+		<input>RVR95</input>
+		<language>es</language>
+		<copyright>Copyright © 1995 United Bible Societies</copyright>
+		<input type="name">“Reina Valera” Version</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id9</biblija_net>
+		<switch_id>SEG</switch_id>
+		<input>SEG</input>
+		<language>fr</language>
+		<default>true</default>
+		<copyright>Copyright status: Public domain</copyright>
+		<input type="name">Louis Segond</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id10</biblija_net>
+		<switch_id>RUS</switch_id>
+		<input>RUS</input>
+		<language>ru</language>
+		<default>true</default>
+		<copyright>Copyright status: Public domain. Distribution: Bible Society of Russia</copyright>
+		<input type="name">Russian Synodal Version</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id8</biblija_net>
+		<switch_id>VUL</switch_id>
+		<input>VUL</input>
+		<language>lat</language>
+		<default>true</default>
+		<copyright>Copyright © 1969 Deutsche Bibelgesellschaft (German Bible Society)</copyright>
+		<input type="name">Vulgate (Latin Bible)</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id35</biblija_net>
+		<switch_id>WV95</switch_id>
+		<input>WV95</input>
+		<language>nl</language>
+		<default>true</default>
+		<copyright>Copyright © 1995 Katholieke Bijbelstichting (Catholic Bible Foundation)</copyright>
+		<input type="name">Willibrordvertaling revised edition</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id37</biblija_net>
+		<switch_id>SV-J</switch_id>
+		<input>SV-J</input>
+		<language>nl</language>
+		<copyright>Copyright status: Public domain</copyright>
+		<input type="name">Statenvertaling (Jongbloed edition)</input>
+	</edition>
+	<edition>
+		<service>biblija_net</service>
+		<biblija_net>id18</biblija_net>
+		<switch_id>NBV</switch_id>
+		<input>NBV</input>
+		<language>nl</language>
+		<copyright>Copyright © 2004/2007 Nederlands Bijbelgenootschap (Netherlands Bible Society)</copyright>
+		<input type="name">De Nieuwe Bijbelvertaling</input>
+	</edition>
+</editions>
