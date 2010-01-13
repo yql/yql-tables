@@ -20,9 +20,16 @@
       </inputs>
       <execute><![CDATA[ 
         if (!edition) {
-          var editionsquery = 'select edition from xml where url="http://www.dezuidelijkenederlanden.org/editions.xml" and edition.language like "$language%" and edition.default="true"';
+          /* var editionsquery = 'select edition from xml where url="http://www.dezuidelijkenederlanden.org/editions.xml" and edition.language like "$language%" and edition.default="true"';
           editionsquery = editionsquery.replace("$language",language);
-          var editions = y.query(editionsquery).results.editions;
+          var editions = y.query(editionsquery).results.editions;*/
+		  var editionsquery = 'select * from yql.storage where name="store://ebp9EyaaXYfGCTz5Ow1gWW"'
+		  var editionsxmlstring = y.query(editionsquery).results.result.value.toString();
+		  y.log(editionsxmlstring);
+		  editions = eval("var a = " + editionsxmlstring + ";a");
+	      y.log(stringValue(editions));
+		  editionlist = editions.edition.(language )
+			
           if (editions.edition.length() < 1) {
             var supported_languagesquery = 'select edition.language from xml where url="http://www.dezuidelijkenederlanden.org/editions.xml" and edition.default="true"';
             var supported_languages = y.query(supported_languagesquery).results.editions.edition.language;
