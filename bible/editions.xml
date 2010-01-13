@@ -3,7 +3,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id6</biblija_net>
-		<switch_id>ASV</switch_id>
 		<input>ASV</input>
 		<default>true</default>
 		<language>en</language>
@@ -13,7 +12,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id32</biblija_net>
-		<switch_id>CEV</switch_id>
 		<input>CEV</input>
 		<language>en</language>
 		<copyright>Copyright: © 1999 American Bible Society</copyright>
@@ -22,7 +20,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id33</biblija_net>
-		<switch_id>GNB</switch_id>
 		<input>GNB</input>
 		<language>en</language>
 		<copyright>Copyright: © 1992 American Bible Society</copyright>
@@ -31,7 +28,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id14</biblija_net>
-		<switch_id>WEB</switch_id>
 		<input>WEB</input>
 		<language>en</language>
 		<copyright>Copyright status: Public domain</copyright>
@@ -40,7 +36,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id7</biblija_net>
-		<switch_id>KJV</switch_id>
 		<input>KJV</input>
 		<language>en</language>
 		<copyright>Copyright status: Crown copyright (UK)</copyright>
@@ -49,7 +44,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id22</biblija_net>
-		<switch_id>DHH</switch_id>
 		<input>DHH</input>
 		<language>es</language>
 		<default>true</default>
@@ -59,7 +53,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id20</biblija_net>
-		<switch_id>RVR95</switch_id>
 		<input>RVR95</input>
 		<language>es</language>
 		<copyright>Copyright © 1995 United Bible Societies</copyright>
@@ -68,7 +61,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id9</biblija_net>
-		<switch_id>SEG</switch_id>
 		<input>SEG</input>
 		<language>fr</language>
 		<default>true</default>
@@ -78,7 +70,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id10</biblija_net>
-		<switch_id>RUS</switch_id>
 		<input>RUS</input>
 		<language>ru</language>
 		<default>true</default>
@@ -88,7 +79,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id8</biblija_net>
-		<switch_id>VUL</switch_id>
 		<input>VUL</input>
 		<language>lat</language>
 		<default>true</default>
@@ -98,7 +88,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id35</biblija_net>
-		<switch_id>WV95</switch_id>
 		<input>WV95</input>
 		<language>nl</language>
 		<default>true</default>
@@ -108,7 +97,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id37</biblija_net>
-		<switch_id>SV-J</switch_id>
 		<input>SV-J</input>
 		<language>nl</language>
 		<copyright>Copyright status: Public domain</copyright>
@@ -117,7 +105,6 @@
 	<edition>
 		<service>biblija_net</service>
 		<biblija_net>id18</biblija_net>
-		<switch_id>NBV</switch_id>
 		<input>NBV</input>
 		<language>nl</language>
 		<copyright>Copyright © 2004/2007 Nederlands Bijbelgenootschap (Netherlands Bible Society)</copyright>
