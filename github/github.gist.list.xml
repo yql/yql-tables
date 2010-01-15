@@ -18,8 +18,8 @@
 
         for (var i = 0; i < list.gist.length(); i++) {
           var repo = list.gist[i].repo;
-          var q = y.query('use "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.content.xml" as ghc; select * from ghc where gist=' + repo);
-          var content = q.results.gist;
+          var q = y.query('use "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.content.xml" as ghc; select * from ghc where repo=' + repo);
+          var content = q.results.content;
           list.gist[i].node += content
         }
 
