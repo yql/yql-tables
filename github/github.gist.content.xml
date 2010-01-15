@@ -4,19 +4,19 @@
     <author>Martin Wittemann</author>
     <author>Fabian Jakobs</author>
     <documentationURL></documentationURL>
-    <sampleQuery>select * from {table} where gist='276994'</sampleQuery>
+    <sampleQuery>select * from {table} where repo='276994'</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="content" produces="XML">
       <urls>
-        <url>http://gist.github.com/{gist}.txt</url>
+        <url>http://gist.github.com/{repo}.txt</url>
       </urls>
       <inputs>
-        <key id="gist" type="xs:string" paramType="path" required="true"/>
+        <key id="repo" type="xs:string" paramType="path" required="true"/>
       </inputs>
       <execute><![CDATA[
-	      var gist = request.get().response;
-        response.object = <content>{gist}</content>;
+	      var content = request.get().response;
+        response.object = <content>{content}</content>;
       ]]></execute>
     </select>
   </bindings>
