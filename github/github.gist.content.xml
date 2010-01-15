@@ -14,10 +14,10 @@
       <inputs>
         <key id="gist" type="xs:string" paramType="path" required="true"/>
       </inputs>
-        <execute><![CDATA[
-	  var gist = request.get().response;
-          response.object = <gist>{gist}</gist>;
-	]]></execute>
+      <execute><![CDATA[
+	      var gist = request.get().response;
+        response.object = <content>{gist}</content>;
+      ]]></execute>
     </select>
   </bindings>
 </table>

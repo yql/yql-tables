@@ -13,6 +13,18 @@
       <inputs>
         <key id="user" type="xs:string" paramType="path" required="true"/>
       </inputs>
+      <execute><![CDATA[
+        var list = request.get().response;
+
+        for (var i = 0; i < list.gist.length(); i++) {
+          var repo = list.gist[i].repo;
+          var q = y.query('use "http://github.com/wittemann/yql-tables/raw/master/github/github.gist.content.xml" as ghc; select * from ghc where gist=' + repo);
+          var content = q.results.gist;
+          list.gist[i].node += content
+        }
+
+        response.object = list;
+      ]]></execute>
     </select>
   </bindings>
 </table>
