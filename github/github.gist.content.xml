@@ -12,7 +12,7 @@
         <url>http://gist.github.com/{gist}.txt</url>
       </urls>
       <inputs>
-        <key id="gist" type="xs:string" paramType="path" required="true"/>
+        <key id="content" type="xs:string" paramType="path" required="true"/>
       </inputs>
       <execute><![CDATA[
 	      var gist = request.get().response;
