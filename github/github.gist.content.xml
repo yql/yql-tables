@@ -7,12 +7,12 @@
     <sampleQuery>select * from {table} where gist='276994'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="gist" produces="XML">
+    <select itemPath="content" produces="XML">
       <urls>
         <url>http://gist.github.com/{gist}.txt</url>
       </urls>
       <inputs>
-        <key id="content" type="xs:string" paramType="path" required="true"/>
+        <key id="gist" type="xs:string" paramType="path" required="true"/>
       </inputs>
       <execute><![CDATA[
 	      var gist = request.get().response;
