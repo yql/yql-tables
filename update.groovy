@@ -2,8 +2,9 @@
 def files = [];
 
 def delClos
-delClos = { it.eachDir( delClos );
-          if (!it.getName().startsWith("WEB-INF")) {
+delClos = { 
+          if (!it.getName().startsWith("WEB-INF") && !it.getName().startsWith(".idea")) {
+            it.eachDir( delClos );
             it.eachFile {
 	        if (it.getName().endsWith(".xml")) {
 		    files.add(it);

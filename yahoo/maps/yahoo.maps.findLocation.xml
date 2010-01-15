@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Erik Eldridge</author>
+    <documentationURL>http://talks.php.net/show/hacku/34</documentationURL>
+    <sampleQuery>select * from {table} where q="40.714224,-73.961452" and gflags="R"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://gws.maps.yahoo.com/FindLocation</url>
+      </urls>
+      <inputs>
+        <!-- 
+        q, 
+        location
+            * format: latitude, longitude
+            * string 
+        -->
+        <key id='q' type='xs:string' paramType='query' required="true" />
+        
+        <!--         
+        line1,
+        addr
+            * 1st line of typical US street address
+            * format: street address or intersection, eg 701 First Street
+            * disregarded if location or name are defined 
+        -->
+        <key id='line1' type='xs:string' paramType='query' />
+        
+        <!--
+        line2,
+        csz
+            * 2nd line of typical US street address
+            * format: city-state-zip format, eg Sunnyvale, CA
+            * disregarded if location or name are defined  
+        -->
+        <key id='line2' type='xs:string' paramType='query' />
+        
+        <!--
+        line3
+            * 3rd line of typical US address, or postal code in UK
+            * disregarded if location or name are defined
+        -->
+        <key id='line3' type='xs:string' paramType='query' />
+        
+        <!--
+        name
+            * POI/AOI name or 3-letter Airport code
+            * disregarded if location is defined
+        -->
+        <key id='name' type='xs:string' paramType='query' />
+        
+        <!--
+        house
+            * the numeric part of a street address
+            * ignored if location, name, or line1 parameter is defined
+        -->
+        <key id='house' type='xs:string' paramType='query' />
+        
+        <!--
+        street
+            * The street name in a street address
+            * ignored if location, name, or line1 parameter is defined
+        -->
+        <key id='street' type='xs:string' paramType='query' />
+        
+        <!--
+        unittype
+            * any ideas?
+            * ignored if location, name, or line1 parameter is defined
+        -->
+        <key id='unittype' type='xs:string' paramType='query' />
+        
+        <!--
+        unit
+            * unit/suite/apartment/box
+            * ignored if location, name, or line1 parameter is defined
+        -->
+        <key id='unit' type='xs:string' paramType='query' />
+        
+        <!--
+        xstreet
+            * cross-street name
+            * string
+            * ignored if location, name, or line1 parameter is defined
+        -->
+        <key id='xstreet' type='xs:string' paramType='query' />
+        
+        <!--
+        postal
+            * postal/zip code
+            * ignored if location or line2 parameter is defined
+        -->
+        <key id='postal' type='xs:string' paramType='query' />
+        
+        <!--
+        neighborhood,
+        level4
+            * Level 4 administrative name, ie neighborhood
+            * ignored if location or line2 or valid postal code are defined
+        -->
+        <key id='level4' type='xs:string' paramType='query' />
+        
+        <!--
+        level3,
+        city
+            * level 3 Administrative name, ie city/town/locality
+            * ignored if location or line2 or valid postal code are defined
+        -->
+        <key id='level3' type='xs:string' paramType='query' />
+        
+        <!--
+        level2,
+        county
+            * level 2 administrative name, ie county
+            * ignored if location or line2 or valid postal code are defined
+        -->
+        <key id='level2' type='xs:string' paramType='query' />
+        
+        <!--
+        level1,
+        state
+            * level 1 administrative name, ie state/province, or abbreviation (US only)
+            * ignored if location or line2 or valid postal code are defined
+        -->
+        <key id='level1' type='xs:string' paramType='query' />
+        
+        <!--
+        level0,
+        country
+            * WOE (WhereOnEarth) id
+            * ignored if location or name is defined
+        -->
+        <key id='level0' type='xs:integer' paramType='query' />
+        
+        <!--
+        flags
+            * multiple characters are concatenated together
+            * 'B': Return business information element for each point result (match quality is 80 or greater)
+            * 'W': Return WOE information element for each result
+            * 'I': Only return WOE Ids
+            * 'M': Return maplink element for each result
+            * 'D': Return DMA information element for each result
+            * 'T': Return Timezone information element for each result
+            * 'Q': Return nearest commercial airport code element for each result
+            * 'R': Return telephone area code element for each result
+            * 'K': Return location key element for each result
+            * 'H': Return v4 hash code
+            * 'S': Return detailed street attributes (Prefix, Body, Suffix, etc)
+            * 'C': Only return coordinate data and match quality elements; do not return address data elements
+            * 'G': Return global area elements instead of US-specific elements
+            * 'X': Return bounding box element for each area result (match quality less than 70)
+            * 'Y': Return area level names element for each result
+            * 'J': Return data in JSON format
+            * 'A': Return data in AMF format
+            * 'P': Return data in Serialized PHP format
+        -->
+        <key id='flags' type='xs:string' default="J" paramType='query' />
+        
+        <!--
+        geocoding flags
+            * concatenate multiple characters, eg LXRC
+            * ‘L’: Limit results to the locale country            
+            * ‘X’: Return exit coordinates (if known) for each result
+            * ‘R’: Reverse geocode coordinates for each result
+            * ‘C’: Look up cross streets for each result
+        -->
+        <key id='gflags' type='xs:string' paramType='query' />
+      </inputs>
+    </select>
+  </bindings>
+</table>

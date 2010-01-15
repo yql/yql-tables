@@ -1,0 +1,210 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sam Pullara</author>
+        <description>Discover and process forms on a page</description>
+        <sampleQuery>select * from {table} where url='http://www.javarants.com/'</sampleQuery>
+        <sampleQuery>update {table} set input.s = 'yql' where url='http://www.javarants.com/'</sampleQuery>
+        <sampleQuery>select * from form where input.s = 'yql' and url='http://www.javarants.com/' | xpath(pattern='//div[@class="searchresults"]/div[1]/div[1]')</sampleQuery>
+    </meta>
+
+    <execute><![CDATA[
+var cookie = "";
+function getcookie(headers, cookie) {
+  var cookies = headers['set-cookie'];
+  if (cookies instanceof Array) {
+    for (c in cookies) {
+      cookie += cookies[c].split(';')[0] + "; "
+    }
+  } else {
+    if (cookies) {
+      cookie = cookies.split(';')[0] + "; ";
+    }
+  }
+  return cookie;
+}
+function handleRedirect(request) {
+  while (request.status == 301 || request.status == 302) {
+    cookie = getcookie(request.headers, cookie);
+    request = y.rest(request.headers.location).accept("text/html");
+    if (cookie != "") {
+      request = request.header("Cookie", cookie);
+    }
+    request = request.get();
+  }
+  return request;
+}
+var request = y.rest(url).followRedirects(false).accept("text/html").get();
+request = handleRedirect(request);
+var headers = request.headers;
+var result = request.response..form;
+var forms = <result/>;
+for (var f in result) {
+    var form = result[f];
+    var formname = form.@name;
+    var action = form.@action;
+    var method = form.@method;
+    var inputs = form..input + form..textarea;
+    forms.form +=
+      <form action={action} name={formname} method={method}>
+        {inputs}
+      </form>
+    ;
+}
+    ]]></execute>
+    <bindings>
+        <select>
+            <inputs>
+                <key id="url" paramType="variable" required="true"/>
+                <key id="name" paramType="variable"/>
+                <map id="input" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+forms = forms.form;
+var form = null;
+if (name != null) {
+  for (f in forms) {
+    form = forms[f];
+    if (form.@name == name) {
+      break;
+    } else {
+      form = null;
+    }
+  }
+} else {
+  if (forms instanceof Array) {
+    for (f in forms) {
+      form = forms[f];
+      break;
+    }
+  } else {
+    form = forms;
+  }
+}
+if (form == null) {
+  response.object = <error>form not found</error>;
+  y.exit();
+}
+var action = form.@action.toString();
+if (!action.match(/^https?:\/\//)) {
+  if (action.match(/^\//)) {
+    action = url.match(/^(https?:\/\/[^\/]+)\/.*$/)[1] + action;
+  } else {
+    action = url.match(/^(.*\/)[^\/]*$/)[1] + action;
+  }
+}
+var method = form.@method.toString().toLowerCase();
+var params = "";
+var submit = y.rest(action).accept("text/html").followRedirects(false);
+if (cookie != "") {
+  submit = submit.header('Cookie', cookie);
+}
+var length = form.input.length();
+for (i in form.input) {
+  var inp = form.input[i];
+  var type = inp.@type;
+  var name = inp.@name;
+  var value = inp.@value;
+  if (type != "hidden") {
+    var inputvalue = input[name];
+    if (inputvalue) {
+      value = inputvalue;
+    }
+  }
+  if (method == "post") {
+    params += encodeURIComponent(name) + "=" + encodeURIComponent(value) + (i == length - 1 ? "" : "&");
+  } else {
+    submit = submit.query(name, value);
+  }
+}
+if (method == "post") {
+  submit = submit.contentType("application/x-www-form-urlencoded").post(params);
+} else {
+  submit = submit.get();
+}
+submit = handleRedirect(submit);
+response.object = submit.response;
+            ]]></execute>
+        </select>
+        <select itemPath="result.form">
+            <inputs>
+                <key id="url" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+response.object = forms;
+            ]]></execute>
+        </select>
+        <update>
+            <inputs>
+                <key id="url" paramType="variable" required="true"/>
+                <key id="name" paramType="variable"/>
+                <map id="input" paramType="variable"/>
+            </inputs>
+            <execute><![CDATA[
+forms = forms.form;
+var form = null;
+if (name != null) {
+  for (f in forms) {
+    form = forms[f];
+    if (form.@name == name) {
+      break;
+    } else {
+      form = null;
+    }
+  }
+} else {
+  if (forms instanceof Array) {
+    for (f in forms) {
+      form = forms[f];
+      break;
+    }
+  } else {
+    form = forms;
+  }
+}
+if (form == null) {
+  response.object = <error>form not found</error>;
+  y.exit();
+}
+var action = form.@action.toString();
+if (!action.match(/^https?:\/\//)) {
+  if (action.match(/^\//)) {
+    action = url.match(/^(https?:\/\/[^\/]+)\/.*$/)[1] + action;
+  } else {
+    action = url.match(/^(.*\/)[^\/]*$/)[1] + action;
+  }
+}
+var method = form.@method.toString().toLowerCase();
+var params = "";
+var submit = y.rest(action).accept("text/html").followRedirects(false);
+if (cookie != "") {
+  submit = submit.header('Cookie', cookie);
+}
+var length = form.input.length();
+for (i in form.input) {
+  var inp = form.input[i];
+  var type = inp.@type;
+  var name = inp.@name;
+  var value = inp.@value;
+  if (type != "hidden") {
+    var inputvalue = input[name];
+    if (inputvalue) {
+      value = inputvalue;
+    }
+  }
+  if (method == "post") {
+    params += encodeURIComponent(name) + "=" + encodeURIComponent(value) + (i == length - 1 ? "" : "&");
+  } else {
+    submit = submit.query(name, value);
+  }
+}
+if (method == "post") {
+  submit = submit.contentType("application/x-www-form-urlencoded").post(params);
+} else {
+  submit = submit.get();
+}
+submit = handleRedirect(submit);
+response.object = submit.response;
+            ]]></execute>
+        </update>
+    </bindings>
+</table>

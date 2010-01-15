@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/search/imagesearch/v1/imagesearch.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://search.yahooapis.jp/ImageSearchService/V1/imageSearch</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="query" type="xs:string" paramType="query" required="true" />
+                <key id="type" type="xs:string" paramType="query" required="false" />
+                <key id="results" type="xs:string" paramType="query" required="false" />
+                <key id="start" type="xs:string" paramType="query" required="false" />
+                <key id="format" type="xs:string" paramType="query" required="false" />
+                <key id="adult_ok" type="xs:string" paramType="query" required="false" />
+                <key id="coloration" type="xs:string" paramType="query" required="false" />
+                <key id="site" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

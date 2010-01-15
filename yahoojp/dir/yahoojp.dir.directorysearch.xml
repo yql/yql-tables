@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/dir/category/v1/directorysearch.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet" produces="XML">
+            <urls>
+                <url>http://dir.yahooapis.jp/Category/V1/directorySearch</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="query" type="xs:string" paramType="query" required="true" />
+                <key id="type" type="xs:string" paramType="query" required="false" />
+                <key id="results" type="xs:string" paramType="query" required="false" />
+                <key id="start" type="xs:string" paramType="query" required="false" />
+                <key id="adult_ok" type="xs:string" paramType="query" required="false" />
+                <key id="path" type="xs:string" paramType="query" required="false" />
+                <key id="new" type="xs:string" paramType="query" required="false" />
+                <key id="picks" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
