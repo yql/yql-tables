@@ -53,9 +53,9 @@
             var normalized = normalizeIdentifier(id);
                 
             if (!normalized) {
-                response.object = <id state="error" details="domain required, eg example.com"/>
+                response.object = { state : "error", details : "domain required, eg example.com" };
             } else {
-                response.object = <id state="success">{normalized}</id>
+                response.object = { "state" : "success", "id" : normalized };
             }
             
         ]]></execute>
