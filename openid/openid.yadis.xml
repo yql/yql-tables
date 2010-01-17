@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-fetch a XRDS document via yadis
-http://openid.net/specs/openid-authentication-2_0.html#discovery
- -->
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-<meta>
-   <sampleQuery>select XRD.Service.URI from {table} where uri="http://www.yahoo.com/"</sampleQuery>
-</meta>
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            fetch an XRDS document via yadis.  For more info see
+            http://openid.net/specs/openid-authentication-2_0.html#discovery
+        </description>
+        <sampleQuery>select XRD.Service.URI from {table} where uri="http://www.yahoo.com/"</sampleQuery>
+    </meta>
     <bindings>
         <select itemPath="" produces="XML">
             <inputs>
-               <key id="uri" type="xs:string" paramType="variable" required="true" /> 
+                <key id="uri" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
                 var req = y.rest(uri),

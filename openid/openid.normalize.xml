@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-normalize url for openid usage as per 
-http://openid.net/specs/openid-authentication-2_0.html#normalization
- -->
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-<meta>
-   <sampleQuery>select * from {table} where id='yahoo.com'</sampleQuery>
-</meta>
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            Normalize url for openid usage as per 
+            http://openid.net/specs/openid-authentication-2_0.html#discovery
+        </description>
+        <sampleQuery>select * from {table} where id='yahoo.com'</sampleQuery>
+    </meta>
     <bindings>
         <select itemPath="" produces="XML">
-        <urls><url></url></urls>
-        <inputs>
-           <key id="identifier" type="xs:string" paramType="variable" required="true" /> 
-        </inputs>
-        <execute><![CDATA[
+            <inputs>
+                <key id="identifier" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
             
             //ref: http://openid.net/specs/openid-authentication-2_0.html#normalization_example
             
