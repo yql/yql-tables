@@ -9,7 +9,7 @@
         <sampleQuery>select * from {table} where uri="http://www.yahoo.com/"</sampleQuery>
     </meta>
     <bindings>
-        <select produces="JSON">
+        <select produces="XML">
             <inputs>
                 <key id="id" type="xs:string" paramType="variable" required="true"/>
             </inputs>
