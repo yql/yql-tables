@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            perform html-based discovery.  For more info see
+            http://openid.net/specs/openid-authentication-2_0.html#html_disco
+        </description>
+        <sampleQuery>select * from {table} where uri="http://www.yahoo.com/"</sampleQuery>
+    </meta>
+    <bindings>
+        <select produces="JSON">
+            <inputs>
+                <key id="id" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+                
+                var query = 'select * from html where url="'+id+'" '
+                        + 'and xpath=\'//link[@rel="openid2.provider"]\'',
+                    results = y.xmlToJson(y.query(query).results);
+                
+                if (results.results) {
+                    response.object = { 
+                        "status" : "success", 
+                        "uri" : results.results.link.href 
+                    };
+                } else {
+                    response.object = {
+                        status : 'error',
+                        details : 'no openid2 provider defined in html for id: ' + id
+                    };
+                }
+                
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
