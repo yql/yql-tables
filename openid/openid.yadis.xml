@@ -6,15 +6,15 @@
             fetch an XRDS document via yadis.  For more info see
             http://openid.net/specs/openid-authentication-2_0.html#discovery
         </description>
-        <sampleQuery>select XRD.Service.URI from {table} where uri="http://www.yahoo.com/"</sampleQuery>
+        <sampleQuery>select * from {table} where uri="http://www.yahoo.com/"</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select produces="JSON">
             <inputs>
-                <key id="uri" type="xs:string" paramType="variable" required="true"/>
+                <key id="id" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
-                var req = y.rest(uri),
+                var req = y.rest(id),
                     headers = req.accept('application/xrds+xml').get().headers,
                     xrdsUri = headers['x-xrds-location'],
                     xrdsReq = y.rest(xrdsUri).get().response;
