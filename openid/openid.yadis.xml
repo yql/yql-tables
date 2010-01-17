@@ -14,12 +14,37 @@
                 <key id="id" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
-                var req = y.rest(id),
-                    headers = req.accept('application/xrds+xml').get().headers,
-                    xrdsUri = headers['x-xrds-location'],
-                    xrdsReq = y.rest(xrdsUri).get().response;
                 
-                response.object = xrdsReq;
+                // try requesting xrds via header 
+                var xrdsReq = y.rest(id),
+                    headers = xrdsReq.accept('application/xrds+xml').get().headers,
+                    xrdsUri = headers['x-xrds-location'];
+                    
+                if (xrdsUri) {
+                    response.object = {
+                        "status" : "success",
+                        "uri" : y.xmlToJson(y.rest(xrdsUri).get().response).XRDS.XRD.Service.URI
+                    };
+                    exit;
+                } 
+                    
+                // try looking for it in the html
+                var query = 'select * from html where url="'+id+'" '
+                        + 'and xpath=\'//meta[@http-equiv="X-XRDS-Location"]\'',
+                    results = y.xmlToJson(y.query(query).results);
+                
+                if (results) {
+                    response.object  = { 
+                        "status" : "success", 
+                        "uri" : results.results.meta.content 
+                    };
+                    exit;
+                } 
+                
+                response.object  = {
+                    status : 'error',
+                    details : 'no openid2 provider defined via yadis for id: ' + id
+                };
             ]]></execute>
         </select>
     </bindings>
