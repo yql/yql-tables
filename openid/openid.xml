@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            generate an openid auth url from an identifier.  For more info see
+            http://openid.net/specs/openid-authentication-2_0.html
+        </description>
+        <sampleQuery>select * from {table} where identifier="yahoo.com" and return_to="http://example.com"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+                <key id="id" type="xs:string" paramType="variable" required="true"/>
+                <key id="return_to" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+                
+                function getRealmFromUri (uri) {
+
+                    var pattern = '^([^:?#/]+'  //scheme
+                            + ':\/\/'           //separator
+                            +'[^:?#/]+)',       //domain
+
+                        match = uri.match(new RegExp(pattern));
+
+                    if (match) {
+                        var realm = match[0];
+                    } else {
+                        
+                        // if a bad uri is given, return an empty string to avoid breaking the auth url
+                        var realm = '';
+                    }
+                    
+                    return realm;
+                }
+                
+                var normTableUri = 'http://test.erikeldridge.com/yql/openid.normalize.xml',
+                    normQuery = 'use "'+normTableUri+'" as norm;'
+                        + 'select * from norm where identifier = "'+id+'"',
+                    normResults = y.query(normQuery).results,
+                    normId = y.xmlToJson(normResults).results.normalized.content;
+                    
+                    yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml',
+                    yadisQuery = 'use "'+yadisTableUri+'" as yadis;'
+                        +'select * from yadis where uri ="'+normId+'"',
+                    yadisResults = y.query(yadisQuery).results,
+                    baseUri = y.xmlToJson(yadisResults).results.XRDS.XRD.Service.URI;
+                    
+                    params = {
+                        'openid.ns' : 'http://specs.openid.net/auth/2.0',
+                        'openid.realm' : getRealmFromUri(return_to),
+                        'openid.mode' : 'checkid_setup',
+                        'openid.return_to' : return_to,
+                        'openid.identity' : 'http://specs.openid.net/auth/2.0/identifier_select',
+                        'openid.claimed_id' : 'http://specs.openid.net/auth/2.0/identifier_select'
+                    },
+                    
+                    pairs = [],
+                    authUri = null;
+                    
+                    for (var key in params) {
+                        pairs.push(key + '=' + encodeURIComponent(params[key]));
+                    }
+                    
+                    authUri = baseUri + '?' + pairs.join('&');
+                    
+                response.object = authUri;
+                
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
