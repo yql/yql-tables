@@ -36,16 +36,16 @@
                 }
                 
                 var normTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml',
-                    normQuery = 'use "'+normTableUri+'" as norm;'
-                        + 'select * from norm where id = "'+id+'"',
-                    normResults = y.query(normQuery).results,
-                    normId = y.xmlToJson(normResults).results.id.content;
-                    
                     yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml',
-                    yadisQuery = 'use "'+yadisTableUri+'" as yadis;'
-                        +'select * from yadis where id ="'+normId+'"',
-                    yadisResults = y.query(yadisQuery).results,
-                    baseUri = y.xmlToJson(yadisResults).results.XRDS.XRD.Service.URI;
+                    
+                    query = 'use "'+normTableUri+'" as norm;'
+                        + 'use "'+yadisTableUri+'" as yadis;'
+                        + 'select XRD.Service.URI from yadis where id in '
+                        + '(select id from norm where id = "'+id+'")',
+                        
+                    results = y.query(normQuery).results,
+                    
+                    baseUri = results.results.XRDS.XRD.Service.URI,
                     
                     params = {
                         'openid.ns' : 'http://specs.openid.net/auth/2.0',
