@@ -35,7 +35,7 @@
                     return realm;
                 }
                 
-                var normTableUri = 'http://test.erikeldridge.com/yql/openid.normalize.xml',
+                var normTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml',
                     normQuery = 'use "'+normTableUri+'" as norm;'
                         + 'select * from norm where id = "'+id+'"',
                     normResults = y.query(normQuery).results,
