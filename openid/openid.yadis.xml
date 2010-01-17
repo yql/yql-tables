@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+fetch a XRDS document via yadis
+http://openid.net/specs/openid-authentication-2_0.html#discovery
+ -->
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+   <sampleQuery>select XRD.Service.URI from {table} where uri="http://www.yahoo.com/"</sampleQuery>
+</meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+               <key id="uri" type="xs:string" paramType="variable" required="true" /> 
+            </inputs>
+            <execute><![CDATA[
+                var req = y.rest(uri),
+                    headers = req.accept('application/xrds+xml').get().headers,
+                    xrdsUri = headers['x-xrds-location'],
+                    xrdsReq = y.rest(xrdsUri).get().response;
+                
+                response.object = xrdsReq;
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
