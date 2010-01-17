@@ -37,13 +37,13 @@
                 
                 var normTableUri = 'http://test.erikeldridge.com/yql/openid.normalize.xml',
                     normQuery = 'use "'+normTableUri+'" as norm;'
-                        + 'select * from norm where identifier = "'+id+'"',
+                        + 'select * from norm where id = "'+id+'"',
                     normResults = y.query(normQuery).results,
-                    normId = y.xmlToJson(normResults).results.normalized.content;
+                    normId = y.xmlToJson(normResults).results.id.content;
                     
                     yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml',
                     yadisQuery = 'use "'+yadisTableUri+'" as yadis;'
-                        +'select * from yadis where uri ="'+normId+'"',
+                        +'select * from yadis where id ="'+normId+'"',
                     yadisResults = y.query(yadisQuery).results,
                     baseUri = y.xmlToJson(yadisResults).results.XRDS.XRD.Service.URI;
                     

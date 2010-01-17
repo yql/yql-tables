@@ -9,9 +9,9 @@
         <sampleQuery>select * from {table} where id='yahoo.com'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select produces="JSON">
             <inputs>
-                <key id="identifier" type="xs:string" paramType="variable" required="true"/>
+                <key id="id" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
             
@@ -50,12 +50,12 @@
                 return normalized;
             }
             
-            var normalized = normalizeIdentifier(identifier);
+            var normalized = normalizeIdentifier(id);
                 
             if (!normalized) {
-                response.object = <normalized state="error" details="domain required, eg example.com"/>
+                response.object = <id state="error" details="domain required, eg example.com"/>
             } else {
-                response.object = <normalized state="success">{normalized}</normalized>
+                response.object = <id state="success">{normalized}</id>
             }
             
         ]]></execute>
