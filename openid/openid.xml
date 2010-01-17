@@ -35,15 +35,15 @@
                     return realm;
                 }
                 
-                var normTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml',
-                    yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml',
+                var normTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml?n=2',
+                    yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml?y=2',
                     
                     query = 'use "'+normTableUri+'" as norm;'
                         + 'use "'+yadisTableUri+'" as yadis;'
-                        + 'select XRD.Service.URI from yadis where id in '
+                        + 'select * from yadis where id in '
                         + '(select id from norm where id = "'+id+'")',
                         
-                    results = y.query(normQuery).results,
+                    results = y.xmlToJson(y.query(query).results),
                     
                     baseUri = results.results.XRDS.XRD.Service.URI,
                     
