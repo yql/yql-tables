@@ -49,7 +49,7 @@ function n() {
   };
 
   this.compare = function(seta, setb) {
-    // compare to cast lists
+    // compare two cast lists
     var list = {};
     for(var s in seta) {
       if(setb[s] && setb[s].toString().length > 3) {
