@@ -16,7 +16,9 @@
 		  googleurl = googleurl.replace('$location',encodeURI(location));
 		  var dapperurl = "http://www.dapper.net/RunDapp?dappName=FrostAlert&v=1&applyToUrl=$googleurl";
 		  dapperurl = dapperurl.replace('$googleurl',encodeURI(googleurl));
-          var x = y.query(dapperurl).results;
+		  var query = "select * from xml where url='$dapperurl'";
+		  query = query.replace('$dapperurl',dapperurl);
+          var x = y.query(query).results;
           response.object = <weather>{x}</weather>;
   ]]> 
   </execute>
