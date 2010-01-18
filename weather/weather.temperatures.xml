@@ -19,6 +19,7 @@
 		  var query = "select * from xml where url='$dapperurl'";
 		  query = query.replace('$dapperurl',dapperurl);
           var x = y.query(query).results.elements.days;
+		  //TODO analyse dates and min/max temperatures
           response.object = <weather>{x}</weather>;
   ]]> 
   </execute>
