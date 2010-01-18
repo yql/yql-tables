@@ -2,13 +2,11 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
 		<author>Allan Shone</author>
-		<documentationURL>http://www.cerealboy.com/notes/yql/</documentationURL>
+		<documentationURL>http://wiki.github.com/CerealBoy/yql-tables/</documentationURL>
 		<description>An open table for comparing the cast lists of 2 titles in imdb</description>
 		<sampleQuery>select * from imdb.movie.cast where first_title='The X Files' and second_title='Beverly Hills Cop III'</sampleQuery>
 	</meta>
-
 	<bindings>
-
 		<select itemPath="" produces="JSON">
 			<urls>
 				<url></url>
@@ -16,11 +14,8 @@
 			<inputs>
 				<key id='first_title' type='xs:string' paramType='path' required='true' />
 				<key id='second_title' type='xs:string' paramType='path' required='true' />
-
 			</inputs>
 			<execute><![CDATA[
-
-// using short names so things don't look HUGE
 function n() {
   this.titlea = '';
   this.titleb = '';
@@ -30,6 +25,7 @@ function n() {
   this.com = {};
 
   this.getCast = function(id) {
+    // retrieve a cast listing using the other table for a given id
     var query = "select * from imdb.movie.cast where imdb_movie_id='"+id+"'";
     var res = this.y.query(query);
 
@@ -53,6 +49,7 @@ function n() {
   };
 
   this.compare = function(seta, setb) {
+    // compare to cast lists
     var list = {};
     for(var s in seta) {
       if(setb[s] && setb[s].toString().length > 3) {
@@ -63,33 +60,40 @@ function n() {
   };
 
   this.getTitle = function(title) {
+    // find an imdb_id for a title string using the other table
     var query = "select imdb_id from imdb.movie.name where movie_name='"+title+"'";
     var res = this.y.query(query);
     return res.results.result.imdb_id;
   };
 };
 
+// load object
 var x = new n();
+// add some base data
 x.y = y;
 x.titlea = first_title;
 x.titleb = second_title;
 
+// retrieve the imdb_id
 var r = x.getTitle(x.titlea);
 x.a.title = x.titlea;
 x.a.id = r.toString();
+// grab the cast for the id
 x.a.list = x.getCast(x.a.id);
 
+// retrieve the imdb_id
 r = x.getTitle(x.titleb);
 x.b.title = x.titleb;
 x.b.id = r.toString();
+// grab the cast for the id
 x.b.list = x.getCast(x.b.id);
 
+// check for overlaps
 x.com = x.compare(x.a.list, x.b.list);
 
+// respond
 response.object = x.com;
-
 			]]></execute>
 		</select>
-
 	</bindings>
 </table>
