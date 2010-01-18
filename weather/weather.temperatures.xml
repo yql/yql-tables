@@ -18,7 +18,7 @@
 		  dapperurl = dapperurl.replace('$googleurl',encodeURI(googleurl));
 		  var query = "select * from xml where url='$dapperurl'";
 		  query = query.replace('$dapperurl',dapperurl);
-          var x = y.query(query).results;
+          var x = y.query(query).results.elements.days;
           response.object = <weather>{x}</weather>;
   ]]> 
   </execute>
