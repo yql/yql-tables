@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
 		<author>Allan Shone</author>
-		<documentationURL>http://www.cerealboy.com/notes/yql/</documentationURL>
+		<documentationURL>http://wiki.github.com/CerealBoy/yql-tables/</documentationURL>
 		<description>A wrapper around finding the imdb title id for a given query string</description>
 		<sampleQuery>select * from imdb.movie.name where movie_name='Beverly Hills Cop II'</sampleQuery>
 	</meta>
