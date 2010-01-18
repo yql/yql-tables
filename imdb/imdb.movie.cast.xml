@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
 		<author>Allan Shone</author>
-		<documentationURL>http://www.cerealboy.com/notes/yql/</documentationURL>
+		<documentationURL>http://wiki.github.com/CerealBoy/yql-tables/</documentationURL>
 		<description>A wrapper around loading the cast list for an imdb title</description>
 		<sampleQuery>select * from imdb.movie.cast where imdb_movie_id='tt0109254'</sampleQuery>
 	</meta>
