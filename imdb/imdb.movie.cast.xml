@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Allan Shone</author>
+		<documentationURL>http://www.cerealboy.com/notes/yql/</documentationURL>
+		<description>A wrapper around loading the cast list for an imdb title</description>
+		<sampleQuery>select * from imdb.movie.cast where imdb_movie_id='tt0109254'</sampleQuery>
+	</meta>
+
+	<bindings>
+
+		<select itemPath="" produces="JSON">
+			<urls>
+				<url></url>
+			</urls>
+			<inputs>
+				<key id='imdb_movie_id' type='xs:string' paramType='path' required='true' />
+			</inputs>
+
+			<execute><![CDATA[
+
+var query = '';
+var url = 'http://www.imdb.com/title/' + imdb_movie_id + '/fullcredits';
+var xpath = "//table[@class='cast']/tr/td[@class='nm']/a";
+
+query = y.query('select * from html where url="' + url + '" and xpath="' + xpath + '"');
+
+var str = query.results.toString();
+str = str.replace(/<\/?results>|<\/?a>/ig, '');
+
+var done = {};
+str = str.replace(/<a href="(.*?)">(\w|\s*)/ig, "$1:$2").split(/ \//ig);
+for(var i=0;i<str.length;i++) {
+  if(str[i].length > 3) {
+    var b = str[i].split(/:/);
+    for(var c=2;c<b.length;c++) {
+      b[1] += ":" + b[c];
+    }
+
+    done['a'+i] = {
+      id: b[0].split('/')[1],
+      name: b[1].replace(/^\s+|\s+$/ig, '')
+    };
+  }
+};
+
+response.object = done;
+
+			]]></execute>
+		</select>
+
+	</bindings>
+</table>
+
