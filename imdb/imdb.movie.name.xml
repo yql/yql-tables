@@ -22,7 +22,6 @@
 function n() {
   this.q = '';
   //this.xp = "//table[@class='outer_body']/tr/td/table/tr/td/table/tr/td/table/tr/td/a[not(img)]";
-  //this.xp = "//p[b='Popular Titles']/table/tr/td/a";
   this.xp = "//div[@id='main']/table/tr/td/a[not(img)]";
 
   this.res = '';
