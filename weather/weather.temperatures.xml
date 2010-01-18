@@ -1,0 +1,25 @@
+<?xml version="1.0" ?> 
+  <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  <author>Vic Mortelmans</author> 
+  <description>Weather temperatures (by google)</description> 
+  <documentationURL></documentationURL> 
+  </meta>
+  <bindings>
+  <select produces="XML" itemPath="">
+  <inputs>
+  <key id="location" type="xs:string" paramType="query" required="true" /> 
+  </inputs>
+  <execute>
+  <![CDATA[ 
+          default xml namespace ='http://where.yahooapis.com/v1/schema.rng'; 
+		  var url = "http://www.dapper.net/RunDapp?dappName=FrostAlert&v=1&applyToUrl=$url";
+		  url.replace('$url',encodeURI("http://www.google.be/search?q=weather%20$location&ie=utf-8&oe=utf-8&aq=t"));
+		  url.replace('$location',location);
+          var x = y.query(url).results;
+          response.object = <weather>{x}</weather>;
+  ]]> 
+  </execute>
+  </select>
+  </bindings>
+  </table>
