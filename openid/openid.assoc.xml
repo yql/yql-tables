@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            generate an openid association.  For more info see
+            http://openid.net/specs/openid-authentication-2_0.html#associations
+        </description>
+        <sampleQuery>select * from {table} where uri="https://open.login.yahooapis.com/openid/op/auth"</sampleQuery>
+    </meta>
+    <bindings>
+        <select produces="JSON">
+            <inputs>
+                <key id="uri" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+                //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
+                var wrapper = function () {
+                        
+                        var params = {
+                                'openid.ns' : 'http://specs.openid.net/auth/2.0',
+                                'openid.mode' : 'associate',
+                                'openid.assoc_type' : 'HMAC-SHA1',
+                                'openid.session_type' : 'no-encryption'
+                            },
+                            pairs = [];
+
+                        for (var key in params) {
+                            pairs.push(key + '=' + encodeURIComponent(params[key]));
+                        }
+                        
+                        var assocUri = uri + '?' + pairs.join('&'),
+                            resp = y.rest(assocUri).get().response;
+                            
+                        return {
+                            "status" : "success",
+                            "assoc" : resp
+                        };
+                    
+                    }();
+                    
+                //output
+                if ('success' === wrapper.status) {
+                    response.object = {
+                        "status" : "success",
+                        "assoc" : wrapper.assoc
+                    };
+                } else {
+                    response.object = {
+                        "status" : "error",
+                        "details" : wrapper.details
+                    };
+                }
+                
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
