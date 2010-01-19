@@ -46,7 +46,7 @@
                         }                    
                     },
                     xrdsUri = getXrdsUri(uri);
-                y.log(xrdsUri);
+                    
                 if (xrdsUri) {
                     response.object = {
                         "status" : "success",
