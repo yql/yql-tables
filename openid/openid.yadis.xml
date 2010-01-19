@@ -3,10 +3,9 @@
     <meta>
         <author>Erik Eldridge</author>
         <description>
-            * Fetches an XRDS document URI via steps described in yadis spec.  
-            * More info:
-                * http://openid.net/specs/openid-authentication-2_0.html#discovery #2
-                * http://yadis.org/wiki/Main_Page
+            fetch an XRDS document via yadis.  For more info see
+            http://openid.net/specs/openid-authentication-2_0.html#discovery
+            http://yadis.org/wiki/Main_Page
         </description>
         <sampleQuery>select * from {table} where uri="http://www.yahoo.com/"</sampleQuery>
     </meta>
@@ -21,14 +20,13 @@
                     
                         //initiate (http://yadis.org/wiki/Yadis_1.0_%28HTML%29#6.2.4_Initiation)
                         var req = y.rest(yadisUri),
-                            resp = req.accept('application/xrds+xml').accept('text/html').get();
-                        
+                            resp = req.accept('application/xrds+xml').get();
                         
                         if (resp.headers) {
                             
                             //yadis 6.2.5 #3
                             if (resp.headers['x-xrds-location']) {
-                                return headers['x-xrds-location'];
+                                return resp.headers['x-xrds-location'];
                             } 
                             
                             //yadis 6.2.5 #4
@@ -48,7 +46,7 @@
                         }                    
                     },
                     xrdsUri = getXrdsUri(uri);
-                
+                y.log(xrdsUri);
                 if (xrdsUri) {
                     response.object = {
                         "status" : "success",
