@@ -29,12 +29,15 @@
                             pairs.push(key + '=' + encodeURIComponent(params[key]));
                         }
                         
+                        y.include('http://github.com/kvz/phpjs/raw/master/functions/strings/trim.js');
+                        
                         var assocUri = uri + '?' + pairs.join('&'),
-                            resp = y.rest(assocUri).get().response;
+                            resp = y.rest(assocUri).get().response,
+                            assoc = trim(resp, '\n').split('\n');
                             
                         return {
                             "status" : "success",
-                            "assoc" : resp
+                            "assoc" : assoc
                         };
                     
                     }();
