@@ -3,48 +3,63 @@
     <meta>
         <author>Erik Eldridge</author>
         <description>
-            fetch an XRDS document via yadis.  For more info see
-            http://openid.net/specs/openid-authentication-2_0.html#discovery
+            * Fetches an XRDS document URI via steps described in yadis spec.  
+            * More info:
+                * http://openid.net/specs/openid-authentication-2_0.html#discovery #2
+                * http://yadis.org/wiki/Main_Page
         </description>
         <sampleQuery>select * from {table} where uri="http://www.yahoo.com/"</sampleQuery>
     </meta>
     <bindings>
-        <select produces="XML">
+        <select produces="JSON">
             <inputs>
-                <key id="id" type="xs:string" paramType="variable" required="true"/>
+                <key id="uri" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
-                
-                // try requesting xrds via header 
-                var xrdsReq = y.rest(id),
-                    headers = xrdsReq.accept('application/xrds+xml').get().headers,
-                    xrdsUri = headers['x-xrds-location'];
                     
+                var getXrdsUri = function (yadisUri) {
+                    
+                        //initiate (http://yadis.org/wiki/Yadis_1.0_%28HTML%29#6.2.4_Initiation)
+                        var req = y.rest(yadisUri),
+                            resp = req.accept('application/xrds+xml').accept('text/html').get();
+                        
+                        
+                        if (resp.headers) {
+                            
+                            //yadis 6.2.5 #3
+                            if (resp.headers['x-xrds-location']) {
+                                return headers['x-xrds-location'];
+                            } 
+                            
+                            //yadis 6.2.5 #4
+                            if (-1 !== resp.headers['content-type'].indexOf('application/xrds+xml')) {
+                                return yadisUri;
+                            }
+                        } 
+                        
+                        //yadis 6.2.5 #1
+                        //use yql's html parser because we don't have html string parser for resp.response :(
+                        var query = 'select * from html where url="'+yadisUri+'" '
+                                + 'and xpath=\'//meta[@http-equiv="X-XRDS-Location"]\'',
+                            results = y.xmlToJson(y.query(query).results);
+                    
+                        if (results.results) {
+                            return results.results.meta.content;
+                        }                    
+                    },
+                    xrdsUri = getXrdsUri(uri);
+                
                 if (xrdsUri) {
                     response.object = {
                         "status" : "success",
-                        "uri" : y.xmlToJson(y.rest(xrdsUri).get().response).XRDS.XRD.Service.URI
+                        "uri" : xrdsUri
                     };
-                    exit;
-                } 
-                    
-                // try looking for it in the html
-                var query = 'select * from html where url="'+id+'" '
-                        + 'and xpath=\'//meta[@http-equiv="X-XRDS-Location"]\'',
-                    results = y.xmlToJson(y.query(query).results);
-                
-                if (results) {
-                    response.object  = { 
-                        "status" : "success", 
-                        "uri" : results.results.meta.content 
+                } else {
+                    response.object = {
+                        "status" : "error"
                     };
-                    exit;
-                } 
-                
-                response.object  = {
-                    status : 'error',
-                    details : 'no openid2 provider defined via yadis for id: ' + id
-                };
+                }              
+                  
             ]]></execute>
         </select>
     </bindings>
