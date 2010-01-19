@@ -9,63 +9,128 @@
         <sampleQuery>select * from {table} where identifier="yahoo.com" and return_to="http://example.com"</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select produces="JSON">
             <inputs>
                 <key id="id" type="xs:string" paramType="variable" required="true"/>
                 <key id="return_to" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
                 
-                function getRealmFromUri (uri) {
-
-                    var pattern = '^([^:?#/]+'  //scheme
-                            + ':\/\/'           //separator
-                            +'[^:?#/]+)',       //domain
-
-                        match = uri.match(new RegExp(pattern));
-
-                    if (match) {
-                        var realm = match[0];
-                    } else {
+                var normalize = function (id) {
+                    
+                        var tableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml',                    
+                            query = 'use "'+tableUri+'" as norm; '
+                                + 'select * from norm where id="'+id+'"',
+                            results = y.xmlToJson(y.query(query).results);
                         
-                        // if a bad uri is given, return an empty string to avoid breaking the auth url
-                        var realm = '';
-                    }
+                        if ('success' == results.results.result.state) {
+                            return results.results.result.id;
+                        } else {
+                            return false;
+                        }
+                    },
+                    discover = function (normId) {
                     
-                    return realm;
-                }
-                
-                var normTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml?n=2',
-                    yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml?y=2',
-                    
-                    query = 'use "'+normTableUri+'" as norm;'
-                        + 'use "'+yadisTableUri+'" as yadis;'
-                        + 'select * from yadis where id in '
-                        + '(select id from norm where id = "'+id+'")',
+                        //try yadis
+                        var yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml',
+                            yadisQuery = 'use "'+yadisTableUri+'" as yadis; '
+                                + 'select * from yadis where uri = "'+normId+'"',
+                            yadisResults = y.xmlToJson(y.query(yadisQuery).results);
                         
-                    results = y.xmlToJson(y.query(query).results),
-                    
-                    baseUri = results.results.XRDS.XRD.Service.URI,
-                    
-                    params = {
-                        'openid.ns' : 'http://specs.openid.net/auth/2.0',
-                        'openid.realm' : getRealmFromUri(return_to),
-                        'openid.mode' : 'checkid_setup',
-                        'openid.return_to' : return_to,
-                        'openid.identity' : 'http://specs.openid.net/auth/2.0/identifier_select',
-                        'openid.claimed_id' : 'http://specs.openid.net/auth/2.0/identifier_select'
+                        //results.result only shows up for success responses. not sure why
+                        if (yadisResults.results.result 
+                            && 'success' === yadisResults.results.result.status) {
+                            var xrdsQuery = 'select * from xml where url="'+yadisResults.results.result.uri+'"',
+                                xrdsResult = y.xmlToJson(y.query(xrdsQuery).results);
+                            return xrdsResult.results.XRDS.XRD.Service.URI;
+                        }
+                        
+                        //try html                    
+                        var htmlQuery = 'select * from html where url="'+normId+'" '
+                                + 'and xpath=\'//link[@rel="openid2.provider"]\'',
+                            htmlResults = y.xmlToJson(y.query(htmlQuery).results);
+                        if (htmlResults.results) {
+                            return htmlResults.results.link.href;
+                        }
+                        
+                        //ok, if yadis and html fail, just give up
+                        return false;                    
                     },
                     
-                    pairs = [],
-                    authUri = null;
+                    //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
+                    wrapper = function (id) {
                     
-                    for (var key in params) {
-                        pairs.push(key + '=' + encodeURIComponent(params[key]));
-                    }
+                        //normalize id
+                        var normId = normalize(id);
                     
-                    authUri = baseUri + '?' + pairs.join('&');
+                        if (!normId) {
+                            return {
+                                'status' : 'error',
+                                'details' : 'invalid id'
+                            };
+                        }
                     
-                response.object = authUri;
+                        //get auth base url
+                        var baseUri = discover(normId);
+                    
+                        if (!baseUri) {
+                            return {
+                                'status' : 'error',
+                                'details' : 'id could not be resolved to an openid provider'
+                            };
+                        }
+                    
+                        //validate return_to and extract realm url
+                        var pattern = '^([^:?#/]+'  //scheme
+                                + ':\/\/'           //separator
+                                +'[^:?#/]+)',       //domain
+
+                            match = return_to.match(new RegExp(pattern));
+
+                        if (match) {
+                            var realm = match[0];
+                        } else {
+                            return {
+                                'status' : 'error',
+                                'details' : 'invalid return_to uri'
+                            };
+                        }
+                    
+                        //construct auth uri
+                        var params = {
+                                'openid.ns' : 'http://specs.openid.net/auth/2.0',
+                                'openid.realm' : realm,
+                                'openid.mode' : 'checkid_setup',
+                                'openid.return_to' : return_to,
+                                'openid.identity' : 'http://specs.openid.net/auth/2.0/identifier_select',
+                                'openid.claimed_id' : 'http://specs.openid.net/auth/2.0/identifier_select'
+                            },
+
+                            pairs = [];
+
+                        for (var key in params) {
+                            pairs.push(key + '=' + encodeURIComponent(params[key]));
+                        }
+                    
+                        return {
+                            "status" : "success",
+                            "uri" : baseUri + '?' + pairs.join('&')
+                        };
+                    
+                    }(id);
+                    
+                //output
+                if ('success' === wrapper.status) {
+                    response.object = {
+                        "status" : "success",
+                        "uri" : wrapper.uri
+                    };
+                } else {
+                    response.object = {
+                        "status" : "error",
+                        "details" : wrapper.details
+                    };
+                }
                 
             ]]></execute>
         </select>
