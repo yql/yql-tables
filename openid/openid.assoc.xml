@@ -67,7 +67,7 @@
                         
                         //incl json to serialize assoc
                         y.include(domain + '/json2.js');
-                        
+                        y.log(JSON.stringify(storeAccessResults.results.result.value));
                         //wrapping json, which double-quotes everything, in single quotes
                         var storeUpdateQuery = 'update yql.storage set value=\''
                                 + JSON.stringify(storeAccessResults.results.result.value)

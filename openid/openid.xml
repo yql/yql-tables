@@ -3,22 +3,26 @@
     <meta>
         <author>Erik Eldridge</author>
         <description>
-            generate an openid auth url from an identifier.  For more info see
-            http://openid.net/specs/openid-authentication-2_0.html
+            - generate an openid auth url from an identifier.  
+            - supports openid 2.0 only, ie is not 1.1 compat
+            - For more info see http://openid.net/specs/openid-authentication-2_0.html
         </description>
         <sampleQuery>select * from {table} where identifier="yahoo.com" and return_to="http://example.com"</sampleQuery>
     </meta>
     <bindings>
-        <select produces="JSON">
+        <select produces="XML">
             <inputs>
                 <key id="id" type="xs:string" paramType="variable" required="true"/>
                 <key id="return_to" type="xs:string" paramType="variable" required="true"/>
+                <key id="assoc_handle" type="xs:string" paramType="variable" />
             </inputs>
             <execute><![CDATA[
                 
-                var normalize = function (id) {
-                    
-                        var tableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml',                    
+                //set this domain to your base uri for testing 
+                var domain = 'http://github.com/erikeldridge/yql-tables/raw/master/openid',
+                
+                    normalize = function (id) {
+                        var tableUri = domain+'/openid.normalize.xml',                    
                             query = 'use "'+tableUri+'" as norm; '
                                 + 'select * from norm where id="'+id+'"',
                             results = y.xmlToJson(y.query(query).results);
@@ -32,10 +36,10 @@
                     discover = function (normId) {
                     
                         //try yadis
-                        var yadisTableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.yadis.xml',
+                        var yadisTableUri = domain+'/openid.yadis.xml?r=5',
                             yadisQuery = 'use "'+yadisTableUri+'" as yadis; '
                                 + 'select * from yadis where uri = "'+normId+'"',
-                            yadisResults = y.xmlToJson(y.query(yadisQuery).results);
+                            yadisResults = y.xmlToJson(y.query(yadisQuery).results);y.log(yadisResults);
                         
                         //results.result only shows up for success responses. not sure why
                         if (yadisResults.results.result 
@@ -53,8 +57,20 @@
                             return htmlResults.results.link.href;
                         }
                         
-                        //ok, if yadis and html fail, just give up
+                        //ok, yadis and html fail, so give up
                         return false;                    
+                    },
+                    associate = function (baseUri) {
+                        var tableUri = domain+'/openid.assoc.xml?w=56',
+                            query = 'use "'+tableUri+'" as table; '
+                                + 'select * from table where uri="'+baseUri+'"',
+                            results = y.xmlToJson(y.query(query).results);
+                        if (results.results.result 
+                            &&'success' == results.results.result.status) {
+                            return results.results.result.assoc;
+                        } else {
+                            return false;
+                        }
                     },
                     
                     //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
@@ -80,6 +96,18 @@
                             };
                         }
                     
+                        //get association
+                        var assoc = associate(baseUri);
+                        
+                        if (!assoc) {
+                            return {
+                                'status' : 'error',
+                                'details' : 'no association could be made'
+                            };
+                        }
+                        
+                        var assoc_handle = assoc[1];
+                        
                         //validate return_to and extract realm url
                         var pattern = '^([^:?#/]+'  //scheme
                                 + ':\/\/'           //separator
@@ -94,8 +122,8 @@
                                 'status' : 'error',
                                 'details' : 'invalid return_to uri'
                             };
-                        }
-                    
+                        }                      
+                        
                         //construct auth uri
                         var params = {
                                 'openid.ns' : 'http://specs.openid.net/auth/2.0',
@@ -107,7 +135,12 @@
                             },
 
                             pairs = [];
-
+                        
+                        
+                        if (assoc_handle) {
+                            params['openid.assoc_handle'] = assoc_handle;
+                        }
+                        
                         for (var key in params) {
                             pairs.push(key + '=' + encodeURIComponent(params[key]));
                         }
