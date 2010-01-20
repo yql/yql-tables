@@ -19,7 +19,7 @@
             </inputs>
             <execute><![CDATA[
                 
-                //change this to make your domain
+                //change this to match your domain
                 var domain = 'http://example.com';
                 y.include(domain+'/config.js');
                 
@@ -55,12 +55,12 @@
                             pairs.push(key + '=' + encodeURIComponent(params[key]));
                         }                        
                         
+                        //fn to trim off empty item resulting trailing \n on resp
+                        y.include('http://github.com/kvz/phpjs/raw/master/functions/strings/trim.js');
+                        
                         var assocUri = uri + '?' + pairs.join('&'),
                             resp = y.rest(assocUri).get().response,
-                            assoc = resp.split('\n');
-                            
-                        //trim off empty item resulting trailing \n on resp
-                        assoc.splice(6,1);
+                            assoc = trim(resp, '\n').split('\n');
                             
                         //cache assoc                        
                         storeAccessResults.results.result.value[storeOpKey] = assoc;
@@ -86,8 +86,6 @@
                                 "assoc" : storeUpdateResults.results
                             };
                         }
-
-                    
                     }();
                     
                 //output
