@@ -1,12 +1,19 @@
+<a id="openid">click</a>
 <script src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
 <script>
     YUI().use('io', 'json-parse', 'cookie', function (Y) {
+        
+        //change this to match test domain
         var domain = 'example.com',
+        
             handleComplete = function (id, o, args) {
                 var json = Y.JSON.parse(o.responseText);
-                Y.log(json);
+                Y.Node.get('#openid').set('href', json.query.results.result.uri);
             },
+            
+            //run test.assoc.html to put assoc fields in cookie in this format
             assocHandle = Y.Cookie.get('openid-assoc').split(',')[1].split(':')[1],
+            
             params = [
                 'q='+encodeURIComponent('use \'http://'+domain+'/openid.xml\' as table; '
                     + 'select * from table where '
