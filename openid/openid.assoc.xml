@@ -3,9 +3,8 @@
     <meta>
         <author>Erik Eldridge</author>
         <description>
-            create an openid association if one's not avail from sherpa cache.
-            For more info see
-            http://openid.net/specs/openid-authentication-2_0.html#associations
+            - generate an openid association for caller to store
+            - For more info see http://openid.net/specs/openid-authentication-2_0.html#associations
         </description>
         <sampleQuery>select * from {table} where uri="https://open.login.yahooapis.com/openid/op/auth"</sampleQuery>
     </meta>
@@ -19,30 +18,9 @@
             </inputs>
             <execute><![CDATA[
                 
-                //change this to match your domain
-                var domain = 'http://example.com';
-                y.include(domain+'/config.js');
-                
                 //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
                 var wrapper = function () {
                         
-                        //check cache
-                        var storeAccessQuery = 'select * from yql.storage where name="'+config.storeAccessKey+'"',
-                            storeAccessResults = y.xmlToJson(y.query(storeAccessQuery).results),
-                            storeOpKey = encodeURIComponent(uri).replace(/%/g, '_');
-                        
-                        //return cached assoc if it exists
-                        if (storeAccessResults.results.result 
-                            && storeAccessResults.results.result.value[storeOpKey]) {
-                                
-                            //note: assoc expiration checking is not yet impl
-                            return {
-                                "status" : "success",
-                                "assoc" : storeAccessResults.results.result.value[storeOpKey]
-                            };
-                        }
-                        
-                        //cache miss, so req assoc
                         var params = {
                                 'openid.ns' : 'http://specs.openid.net/auth/2.0',
                                 'openid.mode' : 'associate',
@@ -53,39 +31,19 @@
 
                         for (var key in params) {
                             pairs.push(key + '=' + encodeURIComponent(params[key]));
-                        }                        
+                        }
                         
-                        //fn to trim off empty item resulting trailing \n on resp
                         y.include('http://github.com/kvz/phpjs/raw/master/functions/strings/trim.js');
                         
                         var assocUri = uri + '?' + pairs.join('&'),
                             resp = y.rest(assocUri).get().response,
                             assoc = trim(resp, '\n').split('\n');
                             
-                        //cache assoc                        
-                        storeAccessResults.results.result.value[storeOpKey] = assoc;
-                        
-                        //incl json to serialize assoc
-                        y.include(domain + '/json2.js');
-                        y.log(JSON.stringify(storeAccessResults.results.result.value));
-                        //wrapping json, which double-quotes everything, in single quotes
-                        var storeUpdateQuery = 'update yql.storage set value=\''
-                                + JSON.stringify(storeAccessResults.results.result.value)
-                                + '\' '
-                                + 'where name="'+config.storeUpdateKey+'"',
-                            storeUpdateResults = y.xmlToJson(y.query(storeUpdateQuery).results);
-                            
-                        if (storeUpdateResults.results.success) {
-                            return {
-                                "status" : "success",
-                                "assoc" : assoc
-                            };
-                        } else {
-                            return {
-                                "status" : "error",
-                                "assoc" : storeUpdateResults.results
-                            };
-                        }
+                        return {
+                            "status" : "success",
+                            "assoc" : assoc
+                        };
+                    
                     }();
                     
                 //output

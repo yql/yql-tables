@@ -60,18 +60,6 @@
                         //ok, yadis and html fail, so give up
                         return false;                    
                     },
-                    associate = function (baseUri) {
-                        var tableUri = domain+'/openid.assoc.xml?w=56',
-                            query = 'use "'+tableUri+'" as table; '
-                                + 'select * from table where uri="'+baseUri+'"',
-                            results = y.xmlToJson(y.query(query).results);
-                        if (results.results.result 
-                            &&'success' == results.results.result.status) {
-                            return results.results.result.assoc;
-                        } else {
-                            return false;
-                        }
-                    },
                     
                     //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
                     wrapper = function (id) {
@@ -95,18 +83,6 @@
                                 'details' : 'id could not be resolved to an openid provider'
                             };
                         }
-                    
-                        //get association
-                        var assoc = associate(baseUri);
-                        
-                        if (!assoc) {
-                            return {
-                                'status' : 'error',
-                                'details' : 'no association could be made'
-                            };
-                        }
-                        
-                        var assoc_handle = assoc[1];
                         
                         //validate return_to and extract realm url
                         var pattern = '^([^:?#/]+'  //scheme
