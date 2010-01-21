@@ -4,7 +4,7 @@
 		<author>Zach Graves (zachg@yahoo-inc.com)</author>
 		<description>Twitter OAuth API</description>
 		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
-		<sampleQuery>select * from {table} where id=@id;</sampleQuery>
+		<sampleQuery>select * from {table} where oauth_consumer_key=@oauth_consumer_key and oauth_consumer_secret=@oauth_consumer_secret;</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="status" produces="XML">
