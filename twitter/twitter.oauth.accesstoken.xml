@@ -7,7 +7,7 @@
 		<sampleQuery>select * from {table} where oauth_verifier=@verifier and oauth_consumer_key=@consumer_key and oauth_consumer_secret=@consumer_secret and oauth_token=@token and oauth_token_secret=@token_secret;</sampleQuery>
 	</meta>
 	<bindings>
-		<select itemPath="status" produces="XML">
+		<select itemPath="" produces="XML">
 			<urls>
 				<url>http://twitter.com/oauth/access_token</url>
 			</urls>
