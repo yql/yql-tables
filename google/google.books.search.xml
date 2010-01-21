@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	    <author>Jonathan LeBlanc</author>
+        <description>Google Books Search API</description>
+		<documentationURL>http://code.google.com/apis/books/docs/gdata/developers_guide_protocol.html#SearchingForBooks</documentationURL>
+        <sampleQuery>SELECT * FROM {table} WHERE query='football+-soccer' AND start-index=5 AND max-results=10 AND min-viewability='noview|partial|full'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML" >
+            <urls>
+                <url env="all">http://books.google.com/books/feeds/volumes?q={query}</url>
+            </urls>
+            <inputs>
+                <key id="query" type="xs:string" paramType="path" required="true" />
+			    <key id="start-index" type="xs:integer" paramType="query" />
+			    <key id="max-results" type="xs:integer" paramType="query" />
+				<key id="min-viewability" type="xs:string" paramType="query" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
