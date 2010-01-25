@@ -6,9 +6,9 @@
     <sampleQuery>select * from {table} where user='wittemann'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="gist" produces="XML">
+    <select itemPath="gists" produces="JSON">
       <urls>
-        <url>http://gist.github.com/api/v1/xml/gists/{user}</url>
+        <url>http://gist.github.com/api/v1/json/gists/{user}</url>
       </urls>
       <inputs>
         <key id="user" type="xs:string" paramType="path" required="true"/>
