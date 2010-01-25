@@ -6,7 +6,7 @@
     <sampleQuery>select * from {table} where user='wittemann'</sampleQuery>
   </meta>
   <bindings>
-    <select produces="JSON">
+    <select itemPath="json.gists" produces="JSON">
       <urls>
         <url>http://gist.github.com/api/v1/json/gists/{user}</url>
       </urls>
