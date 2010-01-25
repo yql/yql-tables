@@ -9,10 +9,10 @@
 	<bindings>
 		<select itemPath="statuses" produces="XML">
 			<urls>
-				<url>http://twitter.com/favorites.{format}</url>
+				<url>http://twitter.com/favorites/{id}.{format}</url>
 			</urls>
 			<inputs>
-				<key id="id" type="xs:string" paramType="query" required="false"/>
+				<key id="id" type="xs:string" paramType="path" required="false"/>
 				<key id="page" type="xs:string" paramType="query" required="false"/>
 				<key id="format" type="xs:string" paramType="path" default="xml"/>
 				
