@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Martin Wittemann</author>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where user='wittemann'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="gists" produces="XML">
+      <urls>
+        <url>http://gist.github.com/api/v1/xml/gists/{user}</url>
+      </urls>
+      <inputs>
+        <key id="user" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
