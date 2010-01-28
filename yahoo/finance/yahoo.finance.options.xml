@@ -122,7 +122,7 @@
 					var optionsChainQuery = y.query(
 						"select * from html " +
 						"where url=@optionsChainURL and " +
-						"xpath=\"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h']]\",
+						"xpath=\"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h']]\"",
 						{url: optionsChainURL}
 					);
 					 
