@@ -71,6 +71,7 @@
 						
 						var strikePrice;
 						var optionSymbol;
+						var optionType;
 						var last;
 						var change;
 						var changeDir;
@@ -78,11 +79,24 @@
 						var ask;
 						var vol;
 						var openInt;
-						
+					
+						var optTypeMatch;
+	
 						for each ( var tr in results.tr )
 						{
 							strikePrice = parseFloat( tr.td[0].strong.a.text() );
 							optionSymbol = tr.td[1].a.text();
+
+							// Check to see what type of option
+							// the current option is
+
+							optTypeMatch = optionSymbol.match( /^[\w]{9}([P|C])/ );
+
+							if ( optTypeMatch != null )
+							{
+								optionType = optTypeMatch[1];
+							}
+
 							lastPrice = tr.td[2].strong.span.text();
 							change = tr.td[3].span.strong.text();
 							changeDir = tr.td[3].span.img.@alt.toString();
@@ -100,7 +114,7 @@
 								change = parseFloat( change );
 							}
 							
-							optionElem = <option symbol={optionSymbol}></option>;
+							optionElem = <option symbol={optionSymbol} type={optionType}></option>;
 							optionElem.appendChild(<strikePrice>{strikePrice}</strikePrice>);
 							optionElem.appendChild(<lastPrice>{lastPrice}</lastPrice>);
 							optionElem.appendChild(<change>{change}</change>);
