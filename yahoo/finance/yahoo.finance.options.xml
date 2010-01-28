@@ -12,7 +12,7 @@
         </sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="sectors.sector" produces="XML">
+        <select itemPath="" produces="XML">
             <urls>
                 <url>
                 </url>
