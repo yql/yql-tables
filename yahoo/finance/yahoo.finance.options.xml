@@ -85,7 +85,7 @@
 							optionSymbol = tr.td[1].a.text();
 							lastPrice = tr.td[2].strong.span.text();
 							change = tr.td[3].span.strong.text();
-							changeDir = tr.td[3].span.image.@alt.toString();
+							changeDir = tr.td[3].span.img.@alt.toString();
 							bid = parseFloat( tr.td[4].span.text() );
 							ask = parseFloat( tr.td[5].span.text() );
 							vol = parseInt( tr.td[6].span.text() );
