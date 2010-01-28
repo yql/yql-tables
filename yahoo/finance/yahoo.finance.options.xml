@@ -85,7 +85,7 @@
 							optionSymbol = tr.td[1].a.text();
 							lastPrice = tr.td[2].strong.span.text();
 							change = tr.td[3].span.strong.text();
-							changeDir = tr.td[3].span.image.@alt;
+							changeDir = tr.td[3].span.image.@alt.toString();
 							bid = parseFloat( tr.td[4].span.text() );
 							ask = parseFloat( tr.td[5].span.text() );
 							vol = parseInt( tr.td[6].span.text() );
@@ -104,6 +104,7 @@
 							optionElem.appendChild(<strikePrice>{strikePrice}</strikePrice>);
 							optionElem.appendChild(<lastPrice>{lastPrice}</lastPrice>);
 							optionElem.appendChild(<change>{change}</change>);
+							optionElem.appendChild(<changeDir>{changeDir}</changeDir>);
 							optionElem.appendChild(<bid>{bid}</bid>);
 							optionElem.appendChild(<ask>{ask}</ask>);
 							optionElem.appendChild(<vol>{vol}</vol>);
