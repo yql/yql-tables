@@ -2,10 +2,10 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>
-            Tom Powers
+            Thomas Fowler
         </author>
         <description>
-            Yahoo Finance Industry Index - Sector + Industries
+            Yahoo Finance Quotes - Options Chain
         </description>
         <sampleQuery>
             select * from {table}
