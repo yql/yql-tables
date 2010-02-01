@@ -11,10 +11,10 @@
       <url>http://thesaurus.altervista.org/thesaurus/v1</url>
       </urls>
       <inputs>
-		<key id="key" type="xs:string" paramType="query" required="true" />
+        <key id="key" type="xs:string" paramType="query" required="true" />
         <key id="word" type="xs:string" paramType="query" required="true" />
-		<key id="language" type="xs:string" paramType="query" required="true" />
-		<key id="output" type="xs:string" default="xml" paramType="query" />
+        <key id="language" type="xs:string" paramType="query" required="true" />
+        <key id="output" type="xs:string" default="xml" paramType="query" />
       </inputs>
     </insert>
   </bindings>
