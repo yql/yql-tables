@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://developer.nytimes.com/docs/best_sellers_api</documentationURL>
+  </meta>
+  <bindings>
+    <!--
+    This API returns the bestseller list published closest to the date given as YYYY-MM-DD but not before.
+    (There doesn't seem to be much data before the middle of 2008)
+    -->
+    <select produces="XML" itemPath="result_set.results.book">
+      <urls>
+        <url>http://api.nytimes.com/svc/books/v2/lists/{date}/{listname}.{responseformat}?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="20" id="size"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="responseformat" type="xs:string" paramType="path" const="true" default="xml"/>
+        <key id="listname" type="xs:string" paramType="path" required="true"/>
+        <key id="date" type="xs:string" paramType="path" required="true"/>
+        <key id="sort_order" type="xs:string" paramType="query"/>
+        <key id="sort_by" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <!--
+    This API retrieves a bestseller list given a listname and optional sortorder and sortby.
+    -->
+    <select produces="XML" itemPath="result_set.results.book">
+      <urls>
+        <url>http://api.nytimes.com/svc/books/v2/lists/{listname}.{responseformat}?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="20" id="size"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="responseformat" type="xs:string" paramType="path" const="true" default="xml"/>
+        <key id="listname" type="xs:string" paramType="path" required="true"/>
+        <key id="sort_order" type="xs:string" paramType="query"/>
+        <key id="sort_by" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <!--
+    This API allows you to get a list of all bestseller list names
+    -->
+    <select produces="XML" itemPath="result_set.results.result.list_name">
+      <urls>
+        <url>http://api.nytimes.com/svc/books/v2/lists/names.xml?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="20" id="size"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

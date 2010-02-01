@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Nagesh Susarla</author>
+        <documentationURL>http://docs.amazonwebservices.com/AWSECommerceService/2009-01-06/GSG/
+        </documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ItemSearchResponse.Items.Item" produces="XML">
+            <urls>
+                <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&amp;Version=2008-08-19</url>
+            </urls>
+            <inputs>
+                <key id="Operation" type="xs:string" paramType="query" required="false"
+                     default="ItemSearch"/>
+                <key id="Title" type="xs:string" paramType="query" required="true"/>
+                <key id="AWSAccessKeyId" type="xs:string" paramType="query" required="true"/>
+                <key id="SearchIndex" type="xs:string" paramType="query" required="false"
+                     default="Books"/>
+                <key id="ResponseGroup" type="xs:string" paramType="query" required="false"/>
+                <key id="AssociateTag" type="xs:string" paramType="query" required="false"/>
+                <key id="Sort" type="xs:string" paramType="query" required="false"/>
+            </inputs>
+        </select>
+        <select itemPath="ItemSearchResponse.Items.Item" produces="XML">
+            <urls>
+                <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&amp;Version=2008-08-19</url>
+            </urls>
+            <inputs>
+                <key id="Operation" type="xs:string" paramType="query" required="false"
+                     default="ItemSearch"/>
+                <key id="Keywords" type="xs:string" paramType="query" required="true"/>
+                <key id="AWSAccessKeyId" type="xs:string" paramType="query" required="true"/>
+                <key id="SearchIndex" type="xs:string" paramType="query" required="false"
+                     default="Books"/>
+                <key id="ResponseGroup" type="xs:string" paramType="query" required="false"/>
+                <key id="AssociateTag" type="xs:string" paramType="query" required="false"/>
+                <key id="Sort" type="xs:string" paramType="query" required="false"/>
+            </inputs>
+        </select>
+    </bindings>
+</table>

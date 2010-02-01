@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/shopping/shopping/v1/itemsearch.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/itemSearch</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="affiliate_type" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_id" type="xs:string" paramType="query" required="false" />
+                <key id="query" type="xs:string" paramType="query" required="false" />
+                <key id="type" type="xs:string" paramType="query" required="false" />
+                <key id="jan" type="xs:string" paramType="query" required="false" />
+                <key id="isbn" type="xs:string" paramType="query" required="false" />
+                <key id="category_id" type="xs:string" paramType="query" required="false" />
+                <key id="product_id" type="xs:string" paramType="query" required="false" />
+                <key id="person_id" type="xs:string" paramType="query" required="false" />
+                <key id="brand_id" type="xs:string" paramType="query" required="false" />
+                <key id="store_id" type="xs:string" paramType="query" required="false" />
+                <key id="price_from" type="xs:string" paramType="query" required="false" />
+                <key id="price_to" type="xs:string" paramType="query" required="false" />
+                <key id="hits" type="xs:string" paramType="query" required="false" />
+                <key id="offset" type="xs:string" paramType="query" required="false" />
+                <key id="sort" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_from" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_to" type="xs:string" paramType="query" required="false" />
+                <key id="module" type="xs:string" paramType="query" required="false" />
+                <key id="availability" type="xs:string" paramType="query" required="false" />
+                <key id="discount" type="xs:string" paramType="query" required="false" />
+                <key id="shipping" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

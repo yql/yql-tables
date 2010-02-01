@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Tomaz Muraus (http://www.tomaz-muraus.info)</author>
+		<description>Find college food providers matching your criteria using dostop.si search engine</description>
+        <sampleQuery>select * from {table} where city = 'Maribor' AND maxPrice = '2.0' AND limit = '10'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://dostop.si/prehrana.aspx</url>
+            </urls>
+            <inputs>
+                <key id='city' type='xs:string' paramType='variable' required="true" />
+				<key id='limit' type='xs:integer' paramType='variable' required="false" />
+                <key id='vegeterian' type='xs:string' paramType='variable' required="false" />
+                <key id='glutenFree' type='xs:string' paramType='variable' required="false" />
+				<key id='special' type='xs:string' paramType='variable' required="false" />
+				<key id='saladBar' type='xs:string' paramType='variable' required="false" />
+				<key id='maxPrice' type='xs:string' paramType='variable' required="false" />
+				<key id='disabled' type='xs:string' paramType='variable' required="false" />
+				<key id='delivery' type='xs:string' paramType='variable' required="false" />
+            </inputs>
+            <execute><![CDATA[
+			
+			// Base URL
+			var baseUrl = "http://dostop.si/prehrana.aspx";
+
+			// Here we store each provider details
+			var providerInfo = function(title, address, price, customMeals, forDisabled)
+			{
+				this.title = title;
+				this.address = address;
+				this.price = price;
+				this.customMeals = customMeals;
+				this.forDisabled = forDisabled;
+			}
+
+			function buildUrl(baseUrl, offset)
+			{
+				url = baseUrl + '?kr=' + city + '&s=' + offset;
+
+				if (vegeterian != null)
+					url += '&veg=' + vegeterian
+					
+				if (glutenFree != null)
+					url += '&cel=' + glutenFree
+					
+				if (special != null)
+					url += '&spe=' + special
+					
+				if (saladBar != null)
+					url += '&sol=' + saladBar
+					
+				if (maxPrice != null)
+					url += '&ce=' + maxPrice
+					
+				if (disabled != null)
+					url += '&inv=' + disabled
+					
+				if (delivery != null)
+					url += '&dos=' + delivery
+
+				return url;
+			}
+
+			getData = function()
+			{
+				var j = 0; // total number of providers
+				var k = 0; // number of providers on current page
+				var offset = 1;
+				var response = '';
+				var results = '';
+				var urls = '';
+				var providers = []	
+
+				// Loop over results while there are any left
+				do
+				{
+					k = 0;
+					url = buildUrl(request.url, offset);
+					response = y.rest(url).accept('text/html').get().response;
+					
+					try
+					{
+						results = y.xpath(response, '//div[@id="rezultati"]//table[@class="oOglasu"]/tr/td/p');
+						urls = y.xpath(response, '//div//a[@class="vec"]/@href');
+
+						// If there are any results
+						if (results)
+						{
+							var i = 0;
+							var title = null;
+							var address = null;
+							var url = null;
+							var price = null;
+							var customMeals = null;
+							var forDisabled = null;
+							
+							for each (var node in results)
+							{
+								if ((limit != null) && (j >= limit))
+								{
+									break;
+								}
+								
+								i++;
+								if (i == 1)
+								{
+									title = node.text();
+								}
+								else if (i == 2)
+								{
+									address = node.text();
+								}
+								else if (i == 3)
+								{
+									price = node.text()
+									price = price.substr(0, price.indexOf(' '));
+								}
+								else if (i == 4)
+								{
+									customMeals = (node.text() == 'Da' ? true : false);
+								}
+								else if (i == 5)
+								{
+									forDisabled = (node.text() == 'Da' ? true : false);
+									
+									url = urls[k];
+									match = url.match(/prehrana_ponudnik\.aspx\?ID=(\d+)/);
+									id = (match != null) ? match[1] : 0;
+
+									providers.push(
+									<provider id={id}>
+										<title>{title}</title>
+										<address>{address}</address>
+										<price>{price}</price>
+										<customMeals>{customMeals}</customMeals>
+										<forDisabled>{forDisabled}</forDisabled>
+									</provider>);
+									j++;
+									k++;
+									i = 0;
+								}
+							}
+							
+							var nextPage = y.xpath(response, '//div//img[@alt="Naprej"]/ancestor::a/@href');
+							var match = nextPage.match(/prehrana\.aspx\?s=(\d+)/);
+
+							if (match != null)
+							{
+								offset = match[1];
+							}
+						}
+					}
+					catch (e)
+					{
+						break;
+					}
+				} while (match != null && (limit == null) || (j < limit));
+
+				var data = <providers></providers>;
+				
+				default xml namespace = '';
+				for each (var provider in providers)
+				{
+					data.appendChild(provider)
+				}
+				
+				return data;
+			}
+
+			response.object = getData(baseUrl);
+            ]]></execute>
+        </select> 
+    </bindings>
+</table>

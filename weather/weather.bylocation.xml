@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Christian Heilmann</author>
+    <description>Weather with woeid</description>
+    <documentationURL>http://developer.yahoo.com/weather/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <inputs>
+        <key id="location" type="xs:string" paramType="query" required="true"/>
+        <key id="unit" type="xs:string" paramType="query"/>
+      </inputs>
+        <execute><![CDATA[
+          default xml namespace ='http://where.yahooapis.com/v1/schema.rng'; 
+          var x = y.query('select woeid from geo.places(1) where text="'+location+'"');
+          var s = x.results;
+          var woeid = s..woeid;
+          var weather = y.rest('http://weather.yahooapis.com/forecastrss?w='+woeid+'&u='+unit).get().response;
+          response.object = <weather>{weather}</weather>;
+        ]]></execute>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Josh Gordineer</author>
+    <description>Guardian Content Search API</description>
+    <sampleQuery>select * from {table} where q='environment'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="search.results.content" produces="XML">
+      <urls>
+        <url>http://api.guardianapis.com/content/search</url>
+      </urls>
+      <paging model="offset">
+        <start id="start-index" default="0" />
+        <pagesize id="count" max="500" />
+        <total default="10" />
+      </paging>
+      <inputs>
+        <key id="q" type="xs:string" paramType="query" />
+        <key id="after" type="xs:string" paramType="query" />
+        <key id="before" type="xs:string" paramType="query" />
+        <key id="content-type" type="xs:string" paramType="query" />
+        <key id="filter" type="xs:string" paramType="query" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

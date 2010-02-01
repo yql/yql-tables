@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where username="codepo8"</sampleQuery>
+    <author>Christian Heilmann</author>
+    <description>Gets the Flickr User ID from a user name</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='username' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var x = y.query('select href from html where url="http://www.flickr.com/photos/'+username+'" and xpath="//link[contains(@href,\'photos_public\')]" limit 1');
+        var h = y.xpath(x.results,'//@href'); 
+        var id = h.split('id=')[1].split('&')[0];
+        response.object = <user_id>{id}</user_id>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

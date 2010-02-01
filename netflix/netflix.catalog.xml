@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Paul Donnelly</author>
+        <documentationURL>http://developer.netflix.com/docs/REST_API_Reference#0_52696</documentationURL>
+    </meta>
+      <bindings>
+        <select itemPath="catalog_titles.catalog_title" produces="XML" >
+          <urls>
+            <url env="all">http://api.netflix.com/catalog/titles/</url>
+          </urls>
+         <paging model="offset">
+           <start id="start_index" default="0" />
+           <pagesize id="max_results" max="100" />
+           <total default="10" />
+         </paging>
+          <inputs>
+                <key id="term" type="xs:string" paramType="query" required="true" />
+                <key id="ck" type="xs:string" paramType="variable" required="true" />
+                <key id="cks" type="xs:string" paramType="variable" required="true" />
+          </inputs>
+          <execute><![CDATA[
+// Get around a bug where oauth.js assumes a browser is running the code
+var document = {getElementsByTagName:function(value) { return null; }};
+// Include the OAuth libraries from oauth.net
+y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+
+// Collect all the parameters
+var encodedurl = request.url;
+var accessor = { consumerSecret: cks, tokenSecret: ""};
+var message = { action: encodedurl, method: "GET", parameters: [["oauth_consumer_key",ck],["oauth_version","1.0"]]};
+OAuth.setTimestampAndNonce(message);
+
+// Sign the request
+OAuth.SignatureMethod.sign(message, accessor);
+
+try {
+   // get the content from service along with the OAuth header, and return the result back out
+   response.object = request.contentType('application/xml').header("Authorization", OAuth.getAuthorizationHeader("netflix.com", message.parameters)).get().response;
+} catch(err) {
+   response.object = {'result':'failure', 'error': err};
+}
+          ]]></execute>
+        </select>
+      </bindings>
+</table>

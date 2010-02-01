@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://dopplr.pbwiki.com/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="JSON" itemPath="">
+      <urls>
+        <url>https://www.dopplr.com/api/AuthSubSessionToken?format=js</url>
+      </urls>
+      <inputs>
+        <key id="token" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

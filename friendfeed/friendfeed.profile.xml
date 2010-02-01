@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://code.google.com/p/friendfeed-api/wiki/ApiDocumentation</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://friendfeed.com/api/user/{nickname}/profile</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="100" id="num"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="nickname" type="xs:string" paramType="path" required="true"/>
+        <key id="format" type="xs:string" paramType="query" const="true" default="xml"/>
+        <key id="service" type="xs:string" paramType="query"/>
+        <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="profiles.profile">
+      <urls>
+        <url>http://friendfeed.com/api/profiles?nickname={-listjoin|,|nicknames}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="100" id="num"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="nicknames" type="xs:string" paramType="path" required="true" batchable="true" maxBatchItems="10"/>
+        <key id="format" type="xs:string" paramType="query" const="true" default="xml"/>
+        <key id="service" type="xs:string" paramType="query"/>
+        <key id="authorization" type="xs:string" paramType="header" required="true"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://friendfeed.com/api/room/{room}/profile</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="100" id="num"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="room" type="xs:string" paramType="path" required="true"/>
+        <key id="format" type="xs:string" paramType="query" const="true" default="xml"/>
+        <key id="service" type="xs:string" paramType="query"/>
+        <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://friendfeed.com/api/list/{list}/profile</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="100" id="num"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="list" type="xs:string" paramType="path" required="true"/>
+        <key id="service" type="xs:string" paramType="query"/>
+        <key id="format" type="xs:string" paramType="query" const="true" default="xml"/>
+        <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

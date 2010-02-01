@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://code.google.com/p/friendfeed-api/wiki/ApiDocumentation</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="JSON" itemPath="json.entries">
+      <urls>
+        <url>http://friendfeed.com/api/feed/home</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="100" id="num"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="service" type="xs:string" paramType="query"/>
+        <key id="authorization" type="xs:string" paramType="header" required="true"/>
+        <key id="include" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

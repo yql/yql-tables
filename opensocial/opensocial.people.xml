@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+  <meta>
+    <author>Chirag Shah</author>
+    <documentationURL>http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/restful-protocol</documentationURL>
+    <sampleQuery>select * from {table} where ck = "orkut.com:623061448914" and cks = "uynAeXiWTisflWX99KU1D2q5" and count = "4" and container = "orkut" and guid = "03067092798963641994" and selector = "friends"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://sandbox.orkut.com/social/rest/people/</url>
+      </urls>
+      <inputs>
+        <key id='method' type='xs:string' paramType='variable' const="true" default="opensocial.people" />
+        <key id='ck' type='xs:string' paramType='variable' required="true" />
+        <key id='cks' type='xs:string' paramType='variable' required="true" />
+        <key id='guid' type='xs:string' paramType='variable' required="true" />
+        <key id='selector' type='xs:string' paramType='variable' required="true" />
+        <key id='count' type='xs:string' paramType='variable' required="true" default="20" />
+        <key id='container' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        // Include the signing library
+        y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+        y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+
+        var base;
+        if(container == 'orkut') 
+            base = 'http://sandbox.orkut.com/social/rest/people/';
+        else if(container == 'friendconnect')
+            base = 'http://www.google.com/friendconnect/api/people/';
+        else
+            base =  '';
+
+        var requestUrl = base + guid + '/@' + selector + '/';
+        var accessor = {consumerSecret: cks};
+        var message = {
+            method: "GET",
+            action: requestUrl,
+            parameters: [
+                ['oauth_signature_method', 'HMAC-SHA1'],
+                ['oauth_consumer_key', ck],
+                ['oauth_version', '1.0'],
+                ['xoauth_requestor_id', guid],
+                ['format', 'json']
+            ]
+        };
+
+        OAuth.setTimestampAndNonce(message);
+        OAuth.setParameter(message, "oauth_timestamp", OAuth.timestamp());
+        OAuth.SignatureMethod.sign(message, accessor);
+        var finalRequestUrl = OAuth.addToURL(message.action, message.parameters);
+        response.object = y.rest(finalRequestUrl).get().response;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

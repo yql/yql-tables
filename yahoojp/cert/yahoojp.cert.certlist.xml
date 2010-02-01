@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/cert/minnacert/v1/certlist.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://cert.yahooapis.jp/MinnaCertWebService/V1/certList</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="userstr" type="xs:string" paramType="query" required="false" />
+                <key id="keyword" type="xs:string" paramType="query" required="false" />
+                <key id="extract" type="xs:string" paramType="query" required="false" />
+                <key id="order" type="xs:string" paramType="query" required="false" />
+                <key id="start" type="xs:string" paramType="query" required="false" />
+                <key id="amount" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

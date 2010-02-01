@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/jlp/kousei/v1/kousei.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://jlp.yahooapis.jp/KouseiService/V1/kousei</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="sentence" type="xs:string" paramType="query" required="true" />
+                <key id="filter_group" type="xs:string" paramType="query" required="false" />
+                <key id="no_filter" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

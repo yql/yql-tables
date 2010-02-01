@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<sampleQuery>select * from {table} where domain='test' and query='["wilma" = "betty"]' and access=@access and secret=@secret</sampleQuery>
+		<sampleQuery>select * from {table} where query='select * from domain' and access=@access and secret=@secret</sampleQuery>
+		<documentationURL>http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/</documentationURL>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>https://sdb.amazonaws.com/?Action=QueryWithAttributes</url>
+			</urls>
+			<inputs>
+				<key id="access" type="xs:string" paramType="variable" required="true"/>
+				<key id="secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="domain" type="xs:string" paramType="variable" required="true"/>
+				<key id="querywithattributes" type="xs:string" paramType="variable" required="true"/>
+				<key id="max" type="xs:integer" paramType="variable"/>
+				<key id="next" type="xs:string" paramType="variable"/>
+			</inputs>
+			<execute><![CDATA[
+// Include support
+y.include("http://www.datatables.org/amazon/aws.simpledb.js");
+
+// Set the Action
+awsparams.push(["Action", "QueryWithAttributes"]);
+awsparams.push(["DomainName", domain]);
+awsparams.push(["QueryExpression", querywithattributes]);
+if (max) {
+  awsparams.push(["MaxNumberOfItems", max]);
+}
+if (next) {
+  awsparams.push(["NextToken", next]);
+}
+
+// Call the web service
+response.object = y.rest(signparams(secret, awsparams)).get().response;
+      ]]></execute>
+		</select>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>https://sdb.amazonaws.com/?Action=Query</url>
+			</urls>
+			<inputs>
+				<key id="access" type="xs:string" paramType="variable" required="true"/>
+				<key id="secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="domain" type="xs:string" paramType="variable" required="true"/>
+				<key id="query" type="xs:string" paramType="variable" required="true"/>
+				<key id="max" type="xs:integer" paramType="variable"/>
+				<key id="next" type="xs:string" paramType="variable"/>
+			</inputs>
+			<execute><![CDATA[
+// Include support
+y.include("http://www.datatables.org/amazon/aws.simpledb.js");
+
+// Set the Action
+awsparams.push(["Action", "Query"]);
+awsparams.push(["DomainName", domain]);
+awsparams.push(["QueryExpression", query]);
+if (max) {
+  awsparams.push(["MaxNumberOfItems", max]);
+}
+if (next) {
+  awsparams.push(["NextToken", next]);
+}
+
+// Call the web service
+response.object = y.rest(signparams(secret, awsparams)).get().response;
+      ]]></execute>
+		</select>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>https://sdb.amazonaws.com/?Action=Select</url>
+			</urls>
+			<inputs>
+				<key id="access" type="xs:string" paramType="variable" required="true"/>
+				<key id="secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="query" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute><![CDATA[
+// Include support
+y.include("http://www.datatables.org/amazon/aws.simpledb.js");
+
+// Set the Action
+awsparams.push(["Action", "Select"]);
+awsparams.push(["SelectExpression", query]);
+
+// Call the web service
+response.object = y.rest(signparams(secret, awsparams)).get().response;
+      ]]></execute>
+		</select>
+	</bindings>
+</table>

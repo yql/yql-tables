@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="user">
+  <meta>
+    <sampleQuery> select * from {table}</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="root.install.app" produces="XML">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id='friendguid' type='xs:string' paramType='variable' />
+      </inputs>
+      <execute><![CDATA[
+      function createInstallElement(update,type) {
+         var bits = update.itemurl.toString().split("/");
+         var appid = bits[bits.length-2].substring(1);//get the appid from the install url
+         var title = update.title.toString();
+         default xml namespace = '';
+         var el =  <app who={type} id={appid}>{title}</app>;
+         default xml namespace = 'http:://social.yahooapis.com/v1/updates/schema.rng';
+         return el;
+      }
+
+      default xml namespace = '';
+      var root = <install/>;
+
+      //get my friends installs from updates
+      var friendapp_installs = null;
+      if (friendguid) {
+         //only do deltas to this friend
+         friendapp_installs = y.query('select title, itemtxt, itemurl from social.updates(1000) where guid=@guid and type="appInstall" | unique(field="itemtxt")',{guid:friendguid});
+      } else {
+         //all friends
+         friendapp_installs = y.query('select title, itemtxt, itemurl from social.updates(1000) where guid in (select guid from social.connections(0) where owner_guid=me) and type="appInstall" | unique(field="itemtxt")');
+      }
+      //get my installs from updates
+      var myapp_installs = y.query('select title, itemtxt, itemurl from social.updates(1000) where guid=me and type="appInstall" | unique(field="itemtxt")');
+      //we're going to keep a collection for each variant of the diff between my installs and my friend(s)
+      var myapp_installs = myapp_installs.results;
+      var friendapp_installs = friendapp_installs.results;
+      default xml namespace = 'http:://social.yahooapis.com/v1/updates/schema.rng';
+      for each (var myupdate in myapp_installs.update) {
+         y.log("myupdate "+myupdate.localName());
+         //use e4x to search for matching node in friendapp with the same itemtxt (appid)
+         var matching = friendapp_installs.update.(itemtxt==myupdate.itemtxt.toString());
+         if (matching.length()>0) {
+            //found, we both have it
+            root.install+=createInstallElement(myupdate,"shared");
+            //y.log("Found "+myupdate.title+" in both");
+            myupdate.@matched = true;
+            matching.@matched = true;
+         } else {
+            //not in my friends apps, so add it to me only list
+            //y.log("Found "+myupdate.title+" in mine only");
+            root.install+=createInstallElement(myupdate,"me");
+            myupdate.@matched = true;
+         }
+      }
+      //anything left in the friends app list that doesnt have a "match" attribute is not installed by me
+      for each (var friendupdate in friendapp_installs.update.(@matched!=true)) {
+         //y.log("Found "+friendupdate.title+" in my friends only");
+         root.install+=createInstallElement(friendupdate,"friend");
+      }
+      //return the three sets of results
+      default xml namespace = '';
+      response.object = <root>{root}</root>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

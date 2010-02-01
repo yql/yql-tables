@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://developer.yahoo.com/shopping/V3/productSearch.html</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="ProductSearch.Products.Product">
+      <urls>
+        <url>http://shopping.yahooapis.com/ShoppingService/V3/productSearch</url>
+      </urls>
+      <paging model="offset">
+        <start default="1" id="start"/>
+        <pagesize max="50" id="results"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="appid" type="xs:string" paramType="query" required="true"/>
+        <key id="query" type="xs:string" paramType="query" required="true"/>
+        <key id="category" type="xs:string" paramType="query"/>
+        <key id="class" type="xs:string" paramType="query"/>
+        <key id="refinement" type="xs:string" paramType="query"/>
+        <key id="department" type="xs:number" paramType="query"/>
+        <key id="highestprice" type="xs:number" paramType="query"/>
+        <key id="lowestprice" type="xs:number" paramType="query"/>
+        <key id="merchantid" type="xs:number" paramType="query"/>
+        <key id="show_numratings" type="xs:number" paramType="query"/>
+        <key id="show_narrowing" type="xs:number" paramType="query"/>
+
+        <!-- very strange requirement -->
+        <key id="User-Agent" type="xs:string" paramType="header" default="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.1) Gecko/20060111 Firefox/1.5.0.1 (for FireFox)"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="ProductSearch.Products.Product">
+      <urls>
+        <url>http://shopping.yahooapis.com/ShoppingService/V3/productSearch</url>
+      </urls>
+      <paging model="offset">
+        <start default="1" id="start"/>
+        <pagesize max="50" id="results"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="appid" type="xs:string" paramType="query" required="true"/>
+        <key id="query" type="xs:string" paramType="query"/>
+        <key id="category" type="xs:string" paramType="query" required="true"/>
+        <key id="class" type="xs:string" paramType="query"/>
+        <key id="refinement" type="xs:string" paramType="query"/>
+        <key id="department" type="xs:number" paramType="query"/>
+        <key id="highestprice" type="xs:number" paramType="query"/>
+        <key id="lowestprice" type="xs:number" paramType="query"/>
+        <key id="merchantid" type="xs:number" paramType="query"/>
+        <key id="show_numratings" type="xs:number" paramType="query"/>
+        <key id="show_narrowing" type="xs:number" paramType="query"/>
+
+        <!-- very strange requirement -->
+        <key id="User-Agent" type="xs:string" paramType="header" default="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.1) Gecko/20060111 Firefox/1.5.0.1 (for FireFox)"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

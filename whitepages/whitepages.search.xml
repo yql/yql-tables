@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://developer.whitepages.com/docs</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/find_person/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="lastname" type="xs:string" paramType="query" required="true"/>
+        <key id="name" type="xs:string" paramType="query"/>
+
+        <key id="firstname" type="xs:string" paramType="query"/>
+        <key id="house" type="xs:string" paramType="query"/>
+        <key id="street" type="xs:string" paramType="query"/>
+        <key id="city" type="xs:string" paramType="query"/>
+        <key id="state" type="xs:string" paramType="query"/>
+        <key id="zip" type="xs:string" paramType="query"/>
+        <key id="areacode" type="xs:string" paramType="query"/>
+        <key id="metro" type="xs:number" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/find_person/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="name" type="xs:string" paramType="query" required="true"/>
+
+        <key id="firstname" type="xs:string" paramType="query"/>
+        <key id="house" type="xs:string" paramType="query"/>
+        <key id="street" type="xs:string" paramType="query"/>
+        <key id="city" type="xs:string" paramType="query"/>
+        <key id="state" type="xs:string" paramType="query"/>
+        <key id="zip" type="xs:string" paramType="query"/>
+        <key id="areacode" type="xs:string" paramType="query"/>
+        <key id="metro" type="xs:number" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/find_business/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="businessname" type="xs:string" paramType="query" required="true"/>
+        <key id="category" type="xs:string" paramType="query"/>
+
+        <key id="house" type="xs:string" paramType="query"/>
+        <key id="street" type="xs:string" paramType="query"/>
+        <key id="city" type="xs:string" paramType="query"/>
+        <key id="state" type="xs:string" paramType="query"/>
+        <key id="zip" type="xs:string" paramType="query"/>
+        <key id="areacode" type="xs:string" paramType="query"/>
+        <key id="metro" type="xs:number" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/find_business/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="category" type="xs:string" paramType="query" required="true"/>
+        <key id="businessname" type="xs:string" paramType="query"/>
+
+        <key id="house" type="xs:string" paramType="query"/>
+        <key id="street" type="xs:string" paramType="query"/>
+        <key id="city" type="xs:string" paramType="query"/>
+        <key id="state" type="xs:string" paramType="query"/>
+        <key id="zip" type="xs:string" paramType="query"/>
+        <key id="areacode" type="xs:string" paramType="query"/>
+        <key id="metro" type="xs:number" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Chirag Shah</author>
+    <documentationURL>http://developer.yahoo.com/yslow/smushit/</documentationURL>
+    <sampleQuery>select * from smushit where url='http://l.yimg.com/a/i/brand/purplelogo/uh/us/news.gif'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url env="all">http://smushit.eperf.vip.ac4.yahoo.com/ysmush.it/ws.php</url>
+      </urls>
+      <inputs><key id='url' type='xs:string' paramType='variable' required="true"/></inputs>
+      <execute><![CDATA[
+        var base = [request.url, '?img=', url].join('');
+        response.object = y.rest(base).get().response;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

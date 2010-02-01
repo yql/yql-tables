@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+  <meta>
+    <sampleQuery> select * from {table}</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="rsp" produces="XML">
+      <urls>
+        <url>http://api.flickr.com/services/rest/</url>
+      </urls>
+      <inputs>
+        <key id='method' type='xs:string' paramType='variable' const="true" default="flickr.auth.getFrob" />
+        <key id='api_key' type='xs:string' paramType='variable' required="true" />
+        <key id='secret' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+// Include the flickr signing library
+y.include("http://www.yqlblog.net/samples/flickr.js");
+// GET the flickr result using a signed url
+var fs = new flickrSigner(api_key,secret);
+response.object = y.rest(fs.createUrl({method:method, format:""})).get().response;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

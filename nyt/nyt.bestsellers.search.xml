@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://developer.nytimes.com/docs/best_sellers_api</documentationURL>
+  </meta>
+  <bindings>
+    <!-- Search the bestsellers list in various ways -->
+    <select produces="XML" itemPath="result_set.results.book">
+      <urls>
+        <url>http://api.nytimes.com/svc/books/v2/lists.{responseformat}?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="20" id=""/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="responseformat" type="xs:string" paramType="path" const="true" default="xml"/>
+        <key id="list" type="xs:string" paramType="query" required="true"/>
+        <key id="sort_order" type="xs:string" paramType="query"/>
+        <key id="sort_by" type="xs:string" paramType="path" default="rank"/>
+        <key id="date" type="xs:string" paramType="query"/>
+        <key id="isbn" type="xs:string" paramType="query"/>
+        <key id="rank" type="xs:string" paramType="query"/>
+        <key id="bestsellers_date" type="xs:string" paramType="query"/>
+        <key id="published_date" type="xs:string" paramType="query"/>
+        <key id="rank_last_week" type="xs:string" paramType="query"/>
+        <key id="weeks_on_list" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

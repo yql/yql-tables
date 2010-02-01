@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>select * from {table} where merchantId = "31665"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="MerchantResponse.Merchants.Merchant" produces="XML">
+            <urls>
+                <url>http://catalog.bizrate.com/services/catalog/v1/us/merchant</url>
+            </urls>
+            <inputs>
+                <key id='apiKey' type='xs:string' paramType='query' required="true" />
+                <key id='publisherId' type='xs:string' paramType='query' required="true" />
+                <key id='merchantId' type='xs:string' paramType='query' required="true" />
+
+                <key id='placementId' type='xs:string' paramType='query' required="false" />
+                <key id='expandDetails' type='xs:string' paramType='query' required="false" />
+            </inputs>
+        </select> 
+    </bindings>
+</table>

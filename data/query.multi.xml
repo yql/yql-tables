@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where queries="show tables;select * from feed where url='http://www.javarants.com/rss'"</sampleQuery>
+    <description>
+	Execute multiple unrelated queries in a single query.  They will be returned in an array of query.
+	You can post the key if they are long by using @ variables. Separate them with a ;
+	</description>
+  </meta>
+  <bindings>
+  <select itemPath="queries.results" produces="XML">
+    <urls>
+      <url></url>
+    </urls>
+    <inputs>
+      <key id="queries" type="xs:string" paramType="variable" required="true" />
+    </inputs>
+      <execute><![CDATA[
+		var queryarray = queries.split(";");
+		var result = new Array(queryarray.length);
+		for (var i in queryarray) {
+		    var query = queryarray[i].replace(/^ +| +$/g, "");
+		    if (query != "") {
+		        result[i] = y.query(query);
+		    }
+		}
+		var querieselement = <queries/>;
+		for (var i in result) {
+		    querieselement.query += result[i].results;
+		}
+		response.object = querieselement;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

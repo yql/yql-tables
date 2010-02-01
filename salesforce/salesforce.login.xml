@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <description>Salesforce Login</description>
+  </meta>
+  <bindings>
+    <select itemPath="Envelope.Body.loginResponse.result" produces="XML">
+      <urls>
+        <url env="all">http://www.salesforce.com/services/Soap/u/15.0</url>
+      </urls>
+      <inputs>
+        <key id='username' type='xs:string' paramType='variable' required="true" />
+        <key id='password' type='xs:string' paramType='variable' required="true" />
+        <key id='token' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+      var login =
+<se:Envelope xmlns:se="http://schemas.xmlsoap.org/soap/envelope/"><se:Body><login xmlns="urn:partner.soap.sforce.com" xmlns:ns1="sobject.partner.soap.sforce.com"><username>{username}</username><password>{password + token}</password></login></se:Body></se:Envelope>
+response.object = y.rest("http://www.salesforce.com/services/Soap/u/15.0").contentType("text/xml").header("SOAPAction", '""').post(login).response;
+]]></execute>
+    </select>
+  </bindings>
+</table>

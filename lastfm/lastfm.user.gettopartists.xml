@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm User.getTopArtists API method. Get the top artists listened to by a user. You can stipulate a time period. Sends the overall chart by default.</description>
+    <documentationURL>http://www.last.fm/api/show?service=300</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=user.gettopartists</url>
+      </urls>
+      <inputs>
+        <key id="user" type="xs:string" paramType="query" required="true" />
+        <key id="period" type="xs:string" paramType="query" required="false" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>
