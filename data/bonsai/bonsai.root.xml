@@ -10,10 +10,11 @@
         <select>
             <inputs>
                 <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="root" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
                 
-                var select = 'store://asd123';
+                var select = root;
                 
                 response.object = function(url) {
                         
@@ -28,8 +29,8 @@
                     queries[1] = [];
                     for each (var branch in results[0].results.result.value) {
                         queries[1].push(
-                            "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
-                            +"select * from tc.branch where key='{key}' and select='{select}'"
+                            "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
+                            +"select * from bonsai.branch where key='{key}' and select='{select}'"
                             .replace('{key}', key)
                             .replace('{select}', branch.select)
                         );
@@ -52,11 +53,12 @@
         <update>
             <inputs>
                 <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="root" type="xs:string" paramType="variable" required="true"/>
                 <value id="val" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
 
-                var select = 'store://asd123';
+                var select = root;
                 
                 response.object = function(url) {
                         
@@ -72,8 +74,8 @@
                     queries[1] = [];
                     for each (var branch in results[0].results.result.value) {
                         queries[1].push(
-                            "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
-                            +"update tc.branch set val='{val}' where key='{key}' and select='{select}'"
+                            "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
+                            +"update bonsai.branch set val='{val}' where key='{key}' and select='{select}'"
                             .replace('{val}', val)
                             .replace('{key}', key)
                             .replace('{select}', branch.select)
@@ -84,7 +86,7 @@
                         +'select * from multi where queries="{queries}"'
                         .replace('{queries}', queries[1].join('-')//note this for query multi
                     );
-                    results[1] = y.xmlToJson(y.query(queries[2]).results);y.log(results[1]);
+                    results[1] = y.xmlToJson(y.query(queries[2]).results);
                     
                     if (results[1].results) {
                         return results[1].results;
@@ -97,11 +99,12 @@
         <insert>
             <inputs>
                 <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="root" type="xs:string" paramType="variable" required="true"/>
                 <value id="val" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
 
-                var select = 'store://asd123';
+                var select = root;
                 
                 response.object = function(url) {
                         
@@ -117,8 +120,8 @@
                     queries[1] = [];
                     for each (var branch in results[0].results.result.value) {
                         queries[1].push(
-                            "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
-                                +"select * from tc.branch where key='{key}' and select='{select}' and update='{update}'"
+                            "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
+                                +"select * from bonsai.branch where key='{key}' and select='{select}' and update='{update}'"
                             .replace('{key}', key)
                             .replace('{select}', branch.select)
                             .replace('{update}', branch.update)
@@ -133,8 +136,8 @@
                     
                     for each (var result in results[1].results.results) {
                         if (result.meta.count < 10) {
-                            queries[3] = "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
-                                +"insert into tc.branch (key, val, select, update) values ('{key}', '{val}', '{select}', '{update}')"
+                            queries[3] = "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
+                                +"insert into bonsai.branch (key, val, select, update) values ('{key}', '{val}', '{select}', '{update}')"
                                 .replace('{key}', key)
                                 .replace('{val}', val)
                                 .replace('{select}', result.meta.select)
