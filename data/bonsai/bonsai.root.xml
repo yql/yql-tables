@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+        </description>
+        <sampleQuery>use 'http://test.erikeldridge.com/yql/bonsai.root.xml' as table; select * from table where key="foo" and root="store://asd123"</sampleQuery>
+    </meta>
+    <bindings>
+        <select>
+            <inputs>
+                <key id="key" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+                
+                var select = 'store://asd123';
+                
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //fetch branches
+                    queries[0] = 'select * from yql.storage where name="{select}"'
+                        .replace('{select}', select);
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    queries[1] = [];
+                    for each (var branch in results[0].results.result.value) {
+                        queries[1].push(
+                            "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
+                            +"select * from tc.branch where key='{key}' and select='{select}'"
+                            .replace('{key}', key)
+                            .replace('{select}', branch.select)
+                        );
+                    }
+                    
+                    queries[2] = 'use "http://test.erikeldridge.com/yql/query.multi.xml" as multi;' 
+                        +'select * from multi where queries="{queries}"'
+                        .replace('{queries}', queries[1].join('-')//note this for query multi
+                    );
+                    results[1] = y.xmlToJson(y.query(queries[2]).results);
+                    
+                    if (results[1].results) {
+                        return results[1].results;
+                    }
+                    
+                    return {"error" : "key doesn't exists"};
+                }();
+            ]]></execute>
+        </select>
+        <update>
+            <inputs>
+                <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <value id="val" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+
+                var select = 'store://asd123';
+                
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //fetch branches
+                    queries[0] = 'select * from yql.storage where name="{select}"'
+                        .replace('{select}', select);
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //construct update queries for branch
+                    queries[1] = [];
+                    for each (var branch in results[0].results.result.value) {
+                        queries[1].push(
+                            "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
+                            +"update tc.branch set val='{val}' where key='{key}' and select='{select}'"
+                            .replace('{val}', val)
+                            .replace('{key}', key)
+                            .replace('{select}', branch.select)
+                        );
+                    }
+                    
+                    queries[2] = 'use "http://test.erikeldridge.com/yql/query.multi.xml" as multi;' 
+                        +'select * from multi where queries="{queries}"'
+                        .replace('{queries}', queries[1].join('-')//note this for query multi
+                    );
+                    results[1] = y.xmlToJson(y.query(queries[2]).results);y.log(results[1]);
+                    
+                    if (results[1].results) {
+                        return results[1].results;
+                    }
+                    
+                    return {"error" : "key doesn't exists"};
+                }();
+            ]]></execute>
+        </update>
+        <insert>
+            <inputs>
+                <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <value id="val" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+
+                var select = 'store://asd123';
+                
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //fetch branches
+                    queries[0] = 'select * from yql.storage where name="{select}"'
+                        .replace('{select}', select);
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //construct select queries for branch
+                    queries[1] = [];
+                    for each (var branch in results[0].results.result.value) {
+                        queries[1].push(
+                            "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
+                                +"select * from tc.branch where key='{key}' and select='{select}' and update='{update}'"
+                            .replace('{key}', key)
+                            .replace('{select}', branch.select)
+                            .replace('{update}', branch.update)
+                        );
+                    }
+                    
+                    queries[2] = 'use "http://test.erikeldridge.com/yql/query.multi.xml" as multi;' 
+                        +'select * from multi where queries="{queries}"'
+                        .replace('{queries}', queries[1].join('-')//note this for query multi
+                    );
+                    results[1] = y.xmlToJson(y.query(queries[2]).results);
+                    
+                    for each (var result in results[1].results.results) {
+                        if (result.meta.count < 10) {
+                            queries[3] = "use 'http://test.erikeldridge.com/yql/tc.branch.xml' as tc.branch;"
+                                +"insert into tc.branch (key, val, select, update) values ('{key}', '{val}', '{select}', '{update}')"
+                                .replace('{key}', key)
+                                .replace('{val}', val)
+                                .replace('{select}', result.meta.select)
+                                .replace('{update}', result.meta.update);
+                            break;
+                        }
+                    }
+                    
+                    if (queries[3]) {
+                        results[2] = y.xmlToJson(y.query(queries[3]).results);
+                        return results[2];
+                    } else {
+                        return {"error" : "branch full"};
+                    }
+                    
+                    return {"error" : "key doesn't exists"};
+                }();
+            ]]></execute>
+        </insert>
+    </bindings>
+</table>

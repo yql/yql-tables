@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+        </description>
+        <sampleQuery>use 'http://test.erikeldridge.com/yql/tc.admin.xml' as tc.admin; insert into tc.admin (root) values("store://Is4R1AolbcX6Jdz7prCxi9")</sampleQuery>
+    </meta>
+    <bindings>
+        <insert>
+            <inputs>
+                <key id="root" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[   
+                
+                y.include('http://test.erikeldridge.com/yql/json2.js');
+                    
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //create leaf
+                    queries[0] = "insert into yql.storage.admin (value) values ('{json}')"
+                        .replace('{json}', JSON.stringify({'1st':'leaf'}));
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                            
+                    //create branch
+                    queries[1] = "insert into yql.storage.admin (value) values ('{json}')"
+                        .replace('{json}', JSON.stringify(results[0].results.inserted));
+                    results[1] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //save branch to root
+                    queries[2] = "update yql.storage set value='{value}' where name='{name}'"
+                        .replace('{value}', JSON.stringify(results[1].results.inserted))
+                        .replace('{name}', root);
+                    results[2] = y.xmlToJson(y.query(queries[2]).results);
+                    
+                    return results[2];
+                }();
+            ]]></execute>
+        </insert>
+    </bindings>
+</table>
