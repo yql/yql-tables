@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+        </description>
+        <sampleQuery>use 'http://test.erikeldridge.com/yql/tc.admin.xml' as tc.admin; insert into tc.admin (root) values("store://Is4R1AolbcX6Jdz7prCxi9")</sampleQuery>
+    </meta>
+    <bindings>
+        <select>
+            <inputs>
+                <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="select" type="xs:string" paramType="variable"/>
+                <key id="update" type="xs:string" paramType="variable"/>
+            </inputs>
+            <execute><![CDATA[   
+                
+                y.include('http://test.erikeldridge.com/yql/json2.js');
+                    
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //get leaves
+                    queries[0] = 'select * from yql.storage where name="{select}"'
+                        .replace('{select}', select);
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //count # leaves to determine if branch is full
+                    var count = 0;
+                    for each (var leaf in results[0].results.result.value) {
+                        count ++;
+                    }
+                    
+                    //key is not in branch
+                    if (!results[0].results.result.value[key]) {
+                        return {
+                            "meta" : {
+                                "count" : count,
+                                "select" : select,
+                                "update" : update,
+                            },
+                            "results" : false
+                        };
+                    }
+                    
+                    //key is in branch, so fetch & return value
+                    queries[1] = "select * from yql.storage where name='{name}'"
+                        .replace('{name}', results[0].results.result.value[key].select);
+                    results[1] = y.xmlToJson(y.query(queries[1]).results);
+                    
+                    return {
+                        "meta" : {
+                            "count" : count,
+                            "select" : select,
+                            "update" : update
+                        },
+                        "results" : results[1].results.result.value
+                    };                    
+                }();
+            ]]></execute>
+        </select>
+        <update>
+            <inputs>
+                <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="select" type="xs:string" paramType="variable" required="true"/>
+                <value id="val" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[      
+                
+                y.include('http://test.erikeldridge.com/yql/json2.js');
+                    
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //get leaves
+                    queries[0] = 'select * from yql.storage where name="{select}"'
+                        .replace('{select}', select);
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //key is not in branch
+                    if (!results[0].results.result.value[key]) {
+                        return {"error":"key could not be found"};
+                    }
+                    
+                    //key is in branch, so update value
+                    queries[1] = "update yql.storage set value='{val}' where name='{update}'"
+                        .replace('{val}', val)
+                        .replace('{update}', results[0].results.result.value[key].update);
+                    results[1] = y.xmlToJson(y.query(queries[1]).results);
+                    
+                }();
+            ]]></execute>
+        </update>
+        <insert>
+            <inputs>
+                <value id="key" type="xs:string" paramType="variable" required="true"/>
+                <value id="val" type="xs:string" paramType="variable" required="true"/>
+                <value id="select" type="xs:string" paramType="variable" required="true"/>
+                <value id="update" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[      
+                
+                y.include('http://test.erikeldridge.com/yql/json2.js');
+                    
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //get leaves
+                    queries[0] = 'select * from yql.storage where name="{select}"'
+                        .replace('{select}', select);
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //key is already in branch
+                    if (results[0].results.result.value[key]) {
+                        return {"error":"key already defined"};
+                    }
+                    
+                    //create leaf
+                    queries[1] = "insert into yql.storage.admin (value) values ('{val}')"
+                        .replace('{val}', val);
+                    results[1] = y.xmlToJson(y.query(queries[1]).results);
+                    
+                    //add leaf to leaves collection
+                    results[0].results.result.value[key] = results[1].results.inserted;
+                    
+                    //save leaves back to branch
+                    queries[2] = "update yql.storage set value='{val}' where name='{update}'"
+                        .replace('{val}', JSON.stringify(results[0].results.result.value))
+                        .replace('{update}', update);
+                        
+                    results[2] = y.xmlToJson(y.query(queries[2]).results);
+                    
+                    return results[2];
+                }();
+            ]]></execute>
+        </insert>
+    </bindings>
+</table>
