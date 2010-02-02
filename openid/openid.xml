@@ -61,6 +61,10 @@
                         return false;                    
                     },
                     
+                    asociate (authUri) {
+                        
+                    },
+                    
                     //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
                     wrapper = function (id) {
                     
@@ -83,6 +87,9 @@
                                 'details' : 'id could not be resolved to an openid provider'
                             };
                         }
+                        
+                        //create association
+                        var assoc = associate();
                         
                         //validate return_to and extract realm url
                         var pattern = '^([^:?#/]+'  //scheme

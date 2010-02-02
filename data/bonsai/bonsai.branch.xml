@@ -92,6 +92,7 @@
                         .replace('{update}', results[0].results.result.value[key].update);
                     results[1] = y.xmlToJson(y.query(queries[1]).results);
                     
+                    return results[1];
                 }();
             ]]></execute>
         </update>
