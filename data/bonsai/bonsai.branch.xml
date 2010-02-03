@@ -9,9 +9,10 @@
     <bindings>
         <select>
             <inputs>
-                <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="key" type="xs:string" paramType="variable" />
                 <key id="select" type="xs:string" paramType="variable"/>
                 <key id="update" type="xs:string" paramType="variable"/>
+                <key id="admin" type="xs:string" paramType="variable" default="false" />
             </inputs>
             <execute><![CDATA[   
                 
@@ -26,6 +27,11 @@
                     queries[0] = 'select * from yql.storage where name="{select}"'
                         .replace('{select}', select);
                     results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //if admin mode, just dump sherpa keys
+                    if ('true' === admin) {
+                        return results[0].results.result.value
+                    }
                     
                     //count # leaves to determine if branch is full
                     var count = 0;
@@ -44,12 +50,12 @@
                             "results" : false
                         };
                     }
-                    
+
                     //key is in branch, so fetch & return value
                     queries[1] = "select * from yql.storage where name='{name}'"
                         .replace('{name}', results[0].results.result.value[key].select);
                     results[1] = y.xmlToJson(y.query(queries[1]).results);
-                    
+
                     return {
                         "meta" : {
                             "count" : count,
@@ -57,7 +63,8 @@
                             "update" : update
                         },
                         "results" : results[1].results.result.value
-                    };                    
+                    };
+                   
                 }();
             ]]></execute>
         </select>

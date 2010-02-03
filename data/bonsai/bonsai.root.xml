@@ -9,8 +9,9 @@
     <bindings>
         <select>
             <inputs>
-                <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="key" type="xs:string" paramType="variable"/>
                 <key id="root" type="xs:string" paramType="variable" required="true"/>
+                <key id="admin" type="xs:string" paramType="variable" default="false"/>
             </inputs>
             <execute><![CDATA[
                 
@@ -26,14 +27,23 @@
                         .replace('{select}', select);
                     results[0] = y.xmlToJson(y.query(queries[0]).results);
                     
+                    //search in parallel for key in each branch
                     queries[1] = [];
                     for each (var branch in results[0].results.result.value) {
-                        queries[1].push(
-                            "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
-                            +"select * from bonsai.branch where key='{key}' and select='{select}'"
-                            .replace('{key}', key)
-                            .replace('{select}', branch.select)
-                        );
+                        if ('true' === admin) {
+                            queries[1].push(
+                                "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
+                                +"select * from bonsai.branch where admin='true' and select='{select}'"
+                                .replace('{select}', branch.select)
+                            );
+                        } else {
+                            queries[1].push(
+                                "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
+                                +"select * from bonsai.branch where key='{key}' and select='{select}'"
+                                .replace('{key}', key)
+                                .replace('{select}', branch.select)
+                            );
+                        }
                     }
                     
                     queries[2] = 'use "http://test.erikeldridge.com/yql/query.multi.xml" as multi;' 
@@ -42,8 +52,16 @@
                     );
                     results[1] = y.xmlToJson(y.query(queries[2]).results);
                     
+                    //note: this only handles a single branch
+                    if ('true' === admin) {
+                        return {
+                            "branch":results[0].results.result.value.branch,
+                            "leaves":results[1].results.results.result
+                        }
+                    }
+                                     
                     if (results[1].results) {
-                        return results[1].results;
+                        return results[1].results.results.result;
                     }
                     
                     return {"error" : "key doesn't exists"};
