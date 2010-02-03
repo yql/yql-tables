@@ -129,13 +129,24 @@
                         return {"error":"key already defined"};
                     }
                     
-                    //create leaf
-                    queries[1] = "insert into yql.storage.admin (value) values ('{val}')"
-                        .replace('{val}', val);
-                    results[1] = y.xmlToJson(y.query(queries[1]).results);
+                    //if this branch has a pool, extract leaf from it
+                    if (results[0].results.result.value['pool']) {
+                        for (var i in results[0].results.result.value['pool']) { 
+                            var leaf = results[0].results.result.value['pool'][i];
+                            delete results[0].results.result.value['pool'][i];
+                            break;
+                        };
+                        
+                    //otherwise, create leaf
+                    } else {
+                        queries[1] = "insert into yql.storage.admin (value) values ('{val}')"
+                            .replace('{val}', val);
+                            results[1] = y.xmlToJson(y.query(queries[1]).results);
+                        var leaf = results[1].results.inserted;
+                    }
                     
                     //add leaf to leaves collection
-                    results[0].results.result.value[key] = results[1].results.inserted;
+                    results[0].results.result.value[key] = leaf;
                     
                     //save leaves back to branch
                     queries[2] = "update yql.storage set value='{val}' where name='{update}'"
@@ -174,6 +185,7 @@
                     }
                     
                     //add leaf to branch pool
+                    //note: i'd love to use an array for the pool, but it seems we're limited to objects
                     if (!results[0].results.result.value['pool']) {
                         results[0].results.result.value['pool'] = {};
                     }
