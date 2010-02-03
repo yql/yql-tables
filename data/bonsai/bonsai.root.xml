@@ -175,5 +175,50 @@
                 }();
             ]]></execute>
         </insert>
+        <delete>
+            <inputs>
+                <key id="key" type="xs:string" paramType="variable" required="true"/>
+                <key id="root" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+
+                var select = root;
+                
+                response.object = function(url) {
+                        
+                    var queries = [],
+                        results = [];
+                        
+                    //fetch branches
+                    queries[0] = 'select * from yql.storage where name="{select}"'
+                        .replace('{select}', select);
+                    results[0] = y.xmlToJson(y.query(queries[0]).results);
+                    
+                    //construct delete queries for branches
+                    queries[1] = [];
+                    for each (var branch in results[0].results.result.value) {
+                        queries[1].push(
+                            "use 'http://test.erikeldridge.com/yql/bonsai.branch.xml' as bonsai.branch;"
+                            +"delete from bonsai.branch where key='{key}' and select='{select}' and update='{update}'"
+                            .replace('{key}', key)
+                            .replace('{select}', branch.select)
+                            .replace('{update}', branch.update)
+                        );
+                    }
+                    
+                    queries[2] = 'use "http://test.erikeldridge.com/yql/query.multi.xml" as multi;' 
+                        +'select * from multi where queries="{queries}"'
+                        .replace('{queries}', queries[1].join('-')//note this for query multi
+                    );
+                    results[1] = y.xmlToJson(y.query(queries[2]).results);
+                    
+                    if (results[1].results) {
+                        return results[1].results;
+                    }
+                    
+                    return {"error" : "key doesn't exists"};
+                }();
+            ]]></execute>
+        </delete>
     </bindings>
 </table>
