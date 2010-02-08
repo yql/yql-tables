@@ -55,8 +55,10 @@
                     //note: this only handles a single branch
                     if ('true' === admin) {
                         return {
-                            "branch":results[0].results.result.value.branch,
-                            "leaves":results[1].results.results.result
+                            "branch":{
+                                "meta":results[0].results.result.value.branch,
+                                "leaves":results[1].results.results.result
+                            }
                         }
                     }
                                      
@@ -116,8 +118,8 @@
         </update>
         <insert>
             <inputs>
-                <key id="key" type="xs:string" paramType="variable" required="true"/>
-                <key id="root" type="xs:string" paramType="variable" required="true"/>
+                <value id="key" type="xs:string" paramType="variable" required="true"/>
+                <value id="root" type="xs:string" paramType="variable" required="true"/>
                 <value id="val" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
@@ -134,7 +136,7 @@
                         .replace('{select}', select);
                     results[0] = y.xmlToJson(y.query(queries[0]).results);
                     
-                    //construct select queries for branch
+                    //construct select queries to find branch w/ space for new record
                     queries[1] = [];
                     for each (var branch in results[0].results.result.value) {
                         queries[1].push(
