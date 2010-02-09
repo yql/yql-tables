@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            format attribute exchange params and append them to an openid auth url.  
+            For more info see:
+            http://openid.net/specs/openid-attribute-exchange-1_0.html
+        </description>
+        <sampleQuery>select * from {table} where uri=@uri and fields=@fields</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <inputs>
+                <key id="params" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+            <execute><![CDATA[
+                
+                var params = {
+                    'uri': 'https://open.login.yahooapis.com/openid/op/auth?openid.return_to=http%3A%2F%2Ftest.erikeldridge.com&openid.mode=checkid_setup&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.realm=http%3A%2F%2Ftest.erikeldridge.com&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select',
+                    'fields':[
+                        {'schema':'http://axschema.org/contact/email', 'alias':'email', 'req':true},
+                        {'schema':'http://axschema.org/namePerson', 'alias':'fullname', 'req':true}
+                    ]
+                };
+                var uri = null,
+                    pair = null,
+                    alias = null,
+                    pairs = [],
+                    required = [];
+                    //params = JSON.parse(params)
+                    
+                pairs.push('openid.ax.mode=fetch_request');                
+                    
+                for (var i in params['fields']) {
+                    
+                    var alias = params['fields'][i]['alias'];
+                    
+                    if (true === params['fields'][i]['req']) {
+                        required.push(alias);
+                    }
+                    
+                    pair = 'openid.ax.type.' + alias + '=' + encodeURIComponent(params['fields'][i]['schema']);
+                    pairs.push(pair);
+                }
+                
+                pairs.push('openid.ax.required=' + required.join(','));
+                
+                uri = params['uri'] + '&' + pairs.join('&');
+                
+                response.object = uri;
+                
+            ]]></execute>
+        </select>
+    </bindings>
+</table>

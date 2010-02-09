@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Allan Shone</author>
+		<documentationURL>http://wiki.github.com/CerealBoy/yql-tables/</documentationURL>
+		<description>A wrapper around finding the imdb title id for a given query string</description>
+		<sampleQuery>select * from imdb.movie.name where movie_name='Beverly Hills Cop II'</sampleQuery>
+	</meta>
+
+	<bindings>
+
+		<select itemPath="" produces="JSON">
+			<urls>
+				<url></url>
+			</urls>
+			<inputs>
+				<key id='movie_name' type='xs:string' paramType='path' required='true' />
+			</inputs>
+
+			<execute><![CDATA[
+
+function n() {
+  this.q = '';
+  //this.xp = "//table[@class='outer_body']/tr/td/table/tr/td/table/tr/td/table/tr/td/a[not(img)]";
+  this.xp = "//div[@id='main']/table/tr/td/a[not(img)]";
+
+  this.res = '';
+  this.fin = {name:'', imdb_id:''};
+  this.orig = '';
+  this.cleaned = '';
+  this.url = 'http://www.imdb.com/find?s=tt&q=';
+
+  this.clean = function(str) {
+    return str.replace(/ /g, '+').toLowerCase();
+  };
+  this.gUrl = function() {
+    var u = this.url + this.cleaned;
+    return u;
+  };
+  this.gQue = function() {
+	if (this.xp == "undefined" || this.xp == "//") {
+      return 'select * from html where url="'+this.gUrl()+'"';
+    }
+    return 'select * from html where url="'+this.gUrl()+'" and xpath="'+this.xp+'"';
+  };
+  this.doR = function(results, other) {
+    var r = results.replace(/<\/?results>|<\/?a>/ig, "");
+    r = r.replace(/<a href="(.*?)" onclick=".*?">/ig, "$1:");
+    r = r.split(/ \//ig);
+
+    for(var res in r) {
+      if(r[res].length > 7) {
+        var b = r[res].split(/:/);
+        var id = b[0].split('/')[1];
+        var t = '';
+        for(var a=1;a<b.length;a++) {
+          t += ':'+b[a];
+        };
+        t = t.substr(1, t.length-1).replace(/^\s+|\s+$/ig, '');
+        return {name:t, id:id};
+      }
+    };
+  };
+  this.doS = function(results) {
+    var r = results.replace(/<\/?results>|<\/?a>/ig,"");
+    r = r.replace(/<a class=".*?" href="(.*?)" onclick=".*?">/ig,"$1:");
+    r = r.split(/ \//ig);
+
+    for(var res in r) {
+      if(r[res].length > 7) {
+        var b = r[res].split(/:/)[0].split(/\//)[1];
+
+        return {name:this.orig, id:b.toString()};
+      }
+    };
+  };
+};
+
+var x = new n();
+x.orig = movie_name;
+x.cleaned = x.clean(movie_name);
+var query = y.query(x.gQue());
+results = query.results.toString();
+
+var finish = {};
+var d = {};
+if(results.length < 10) {
+  y.log(results);
+  x.xp = "//a[@class='link'][text()='trailers and videos']";
+  query = y.query(x.gQue());
+  results = query.results.toString();
+
+  d = x.doS(results);
+} else {
+  d = x.doR(results);
+}
+
+finish.name = d.name;
+finish.imdb_id = d.id;
+
+if(finish.name.length > 1) {
+	response.object = finish;
+} else {
+	y.log('Could not find a definite result, choose one!');
+	response.object = query.results;
+}
+
+			]]></execute>
+		</select>
+
+	</bindings>
+</table>
+
