@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
-	    <author>Jonathan LeBlanc</author>
+        <author>Jonathan LeBlanc</author>
         <description>Google Buzz Updates API</description>
-		<documentationURL>http://code.google.com/apis/buzz/documentation/#syndication</documentationURL>
+	<documentationURL>http://code.google.com/apis/buzz/documentation/#syndication</documentationURL>
         <sampleQuery>SELECT * FROM {table} WHERE user='GOOGLE_USERNAME'</sampleQuery>
     </meta>
     <bindings>
