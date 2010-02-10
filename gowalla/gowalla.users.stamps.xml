@@ -13,7 +13,7 @@
          </urls>
          <inputs>
             <key id="id" type="xs:string" paramType="path" required="true"/>
-            <key id="limit" type="xs:string" paramType="path" required="false"/>
+            <key id="limit" type="xs:string" paramType="query" required="false"/>
             <key id="api_key" type="xs:string" paramType="variable" required="true"/>
          </inputs>
          <execute>
