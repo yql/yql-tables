@@ -4,10 +4,10 @@
       <author>Zach Graves (zachg@yahoo-inc.com)</author>
       <description>Gowalla API</description>
       <documentationURL>http://gowalla.com/api/explorer#/spots/18568/items</documentationURL>
-      <sampleQuery>select * from {table} where api_key='fa574894bddc43aa96c556eb457b4009';</sampleQuery>
+      <sampleQuery>select * from {table} where id=1 api_key='fa574894bddc43aa96c556eb457b4009';</sampleQuery>
    </meta>
    <bindings>
-      <select itemPath="json" produces="JSON">
+      <select itemPath="" produces="JSON">
          <urls>
             <url>http://api.gowalla.com/categories/{id}</url>
          </urls>

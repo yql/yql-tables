@@ -7,7 +7,7 @@
       <sampleQuery>select * from {table} where lat=37.416275 and lng=-122.025092 and radius=50 and api_key='fa574894bddc43aa96c556eb457b4009';</sampleQuery>
    </meta>
    <bindings>
-      <select itemPath="json" produces="JSON">
+      <select itemPath="" produces="JSON">
          <urls>
             <url>http://api.gowalla.com/spots</url>
          </urls>

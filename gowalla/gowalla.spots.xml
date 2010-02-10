@@ -7,7 +7,7 @@
       <sampleQuery>select * from {table} where id=18568 and api_key='fa574894bddc43aa96c556eb457b4009';</sampleQuery>
    </meta>
    <bindings>
-      <select itemPath="json" produces="JSON">
+      <select itemPath="" produces="JSON">
          <urls>
             <url>http://api.gowalla.com/spots/{id}</url>
          </urls>
