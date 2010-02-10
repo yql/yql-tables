@@ -16,7 +16,7 @@
          </inputs>
          <execute>
             <![CDATA[
-response.object = request.header('X-Gowalla-API-Key', api_key).header('Accept', 'application/json').get().response;
+response.object = request.header('X-Gowalla-API-Key', api_key).accept('application/json').get();
             ]]>
          </execute>
       </select>
