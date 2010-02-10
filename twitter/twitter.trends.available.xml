@@ -7,14 +7,14 @@
 		<sampleQuery>select * from {table} where lat='37' and long='-122';</sampleQuery>
 	</meta>
 	<bindings>
-		<select itemPath="json.locations" produces="JSON">
+		<select itemPath="" produces="XML">
 			<urls>
 				<url>http://api.twitter.com/1/trends/available.{format}</url>
 			</urls>
 			<inputs>
 				<key id="lat" type="xs:string" paramType="query"/>
 				<key id="long" type="xs:string" paramType="query"/>
-				<key id="format" type="xs:string" paramType="path" default="json" private="true"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
 			</inputs>
 		</select>
 	</bindings>
