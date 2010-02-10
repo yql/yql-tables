@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            fetch an XRDS document via yadis.  For more info see
+            http://openid.net/specs/openid-authentication-2_0.html#discovery
+            http://yadis.org/wiki/Main_Page
+        </description>
+        <sampleQuery>select * from {table} where uri="http://www.yahoo.com/"</sampleQuery>
+    </meta>
+    <bindings>
+        <select produces="JSON">
+            <inputs>
+                <key id="uri" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+                    
+                var getXrdsUri = function (yadisUri) {
+
+                        if (-1 !== yadisUri.indexOf('google')) {
+                        
+                            //google's header uri points at a doc for portable contacts, so use one from
+                            //http://code.google.com/apis/accounts/docs/OpenID.html#endpoint
+                            return 'https://www.google.com/accounts/o8/id';
+                        }
+                        
+                        //initiate (http://yadis.org/wiki/Yadis_1.0_%28HTML%29#6.2.4_Initiation)
+                        var req = y.rest(yadisUri),
+                            resp = req.accept('application/xrds+xml').get();
+                        
+                        if (resp.headers) {
+                            
+                            //yadis 6.2.5 #3
+                            if (resp.headers['x-xrds-location']) {
+                                return resp.headers['x-xrds-location'];
+                            } 
+                            
+                            //yadis 6.2.5 #4
+                            if (-1 !== resp.headers['content-type'].indexOf('application/xrds+xml')) {
+                                return yadisUri;
+                            }
+                        } 
+                        
+                        //yadis 6.2.5 #1
+                        //use yql's html parser because we don't have html string parser for resp.response :(
+                        var query = 'select * from html where url="'+yadisUri+'" '
+                                + 'and xpath=\'//meta[@http-equiv="X-XRDS-Location"]\'',
+                            results = y.xmlToJson(y.query(query).results);
+                    
+                        if (results.results) {
+                            return results.results.meta.content;
+                        }                    
+                    },
+                    xrdsUri = getXrdsUri(uri);
+                    
+                if (xrdsUri) {
+                    response.object = {
+                        "status" : "success",
+                        "uri" : xrdsUri
+                    };
+                } else {
+                    response.object = {
+                        "status" : "error"
+                    };
+                }              
+                  
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
