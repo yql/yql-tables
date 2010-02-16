@@ -10,7 +10,7 @@
       <urls>
         <url>http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks</url>
       </urls>
-      <paging model="offset">
+      <paging model="page">
         <start id="page" default="1"/>
         <pagesize id="limit" max="50"/>
         <total default="10"/>        
