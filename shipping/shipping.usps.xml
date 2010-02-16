@@ -4,7 +4,7 @@
         <author>César Rodas</author>
         <description>Extract  shipping costs for USPS</description>
         <documentationURL>http://www.marksanborn.net/php/calculating-usps-shipping-rates-with-php/</documentationURL>
-        <sampleQuery>select * from {table} where orig_zip='60606' and dest_zip = '01452' and weight='17.2' and api_id = "1234567";</sampleQuery>  
+        <sampleQuery>select * from {table} where orig_zip='60606' and dest_zip = '01452' and weight='17' and api_id = "1234567";</sampleQuery>  
     </meta>  
     <bindings>
         <select itemPath="RateV2Response.Package.Postage.Rate" produces="XML">  
@@ -38,7 +38,6 @@
             var content = "API=RateV2&XML=<RateV2Request USERID=\"" + api_id + "\" PASSWORD=\"" + password + "\"><Package ID=\"0\"><Service>" + service + "</Service><ZipOrigination>" + orig_zip + "</ZipOrigination><ZipDestination>" + dest_zip + "</ZipDestination><Pounds>" + weight + "</Pounds><Ounces>" + ounces + "</Ounces><Size>" + size + "</Size><Machinable>TRUE</Machinable></Package></RateV2Request>";
 
             var html = request.post(content).response;
-            y.log(html);
             /* Remove <?xml ....?> */
             /* It return a valid XML, but the wrong content type */
             var remove = html.search(/\?\>/);
@@ -47,6 +46,7 @@
                 html = html.substr(i);
             }
             xml = XML(html);
+            y.log(xml);
 
             response.object = xml
             ]]>
