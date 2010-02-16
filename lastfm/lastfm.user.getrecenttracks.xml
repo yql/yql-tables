@@ -6,7 +6,7 @@
     <documentationURL>http://www.last.fm/api/show?service=278</documentationURL>
   </meta>
   <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="/lfm/recentttracks/track" produces="XML">
       <urls>
         <url>http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks</url>
       </urls>
