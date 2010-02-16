@@ -7,7 +7,7 @@
         <sampleQuery>select * from {table} where orig_zip='60606' and dest_zip = '01452' and weight='17' and api_id = "1234567";</sampleQuery>  
     </meta>  
     <bindings>
-        <select itemPath="RateV2Response.Package.Postage.Rate" produces="XML">  
+        <select itemPath="RateV2Response.Package.Postage" produces="XML">  
             <urls>  
                 <url>http://production.ShippingAPIs.com/ShippingAPI.dll</url>
             </urls>
@@ -46,7 +46,6 @@
                 html = html.substr(i);
             }
             xml = XML(html);
-            y.log(xml);
 
             response.object = xml
             ]]>
