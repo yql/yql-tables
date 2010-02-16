@@ -17,10 +17,7 @@
       </paging>
       <inputs>
         <key id="user" type="xs:string" paramType="query" required="true" />
-        <key id="limit" type="xs:string" paramType="query" required="false" />
-        <key id="page" type="xs:string" paramType="query" required="false" />
         <key id="api_key" type="xs:string" paramType="query" required="true" />
-        
       </inputs>
     </select>
   </bindings>
