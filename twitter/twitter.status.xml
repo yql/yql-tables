@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="" produces="XML">
 			<urls>
-				<url>http://twitter.com/statuses/show/{id}.{format}</url>
+				<url>http://api.twitter.com/1/statuses/show/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="true"/>
@@ -28,7 +28,7 @@ if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_sec
    var accessor = {};
    accessor.consumerKey = oauth_consumer_key;
    accessor.consumerSecret = oauth_consumer_secret;
-   accessor.realm = "twitter.com";
+   accessor.realm = request.url;
    accessor.token = oauth_token;
    accessor.tokenSecret = oauth_token_secret;
 
@@ -50,7 +50,7 @@ if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_sec
 		</select>
 		<insert itemPath="status" produces="XML">
 			<urls>
-				<url>http://twitter.com/statuses/update.{format}</url>
+				<url>http://api.twitter.com/1/statuses/update.{format}</url>
 			</urls>
 			<inputs>
 				<key id="status" type="xs:string" paramType="variable" required="true"/>
@@ -71,7 +71,7 @@ y.include("http://www.datatables.org/oauth/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 
@@ -93,7 +93,7 @@ response.object = sendRequest({
 		</insert>
 		<delete>
 			<urls>
-				<url>http://twitter.com/statuses/destroy/{id}.{format}</url>
+				<url>http://api.twitter.com/1/statuses/destroy/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="true"/>
@@ -111,7 +111,7 @@ y.include("http://www.datatables.org/oauth/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 

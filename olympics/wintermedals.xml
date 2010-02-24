@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where country="GBR" and type="Gold";</sampleQuery>
+    <author>Christian Heilmann</author>
+    <documentationURL>http://isithackday.com/hacks/wintermedals</documentationURL>  
+    <description>Allows you to access the database of Winter Olympics medals and filter by all parameters</description>
+  </meta>
+
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='year' type='xs:string' paramType='variable' required="false" />
+        <key id='city' type='xs:string' paramType='variable' required="false" />
+        <key id='sport' type='xs:string' paramType='variable' required="false" />
+        <key id='discipline' type='xs:string' paramType='variable' required="false" />
+        <key id='country' type='xs:string' paramType='variable' required="false" />
+        <key id='event' type='xs:string' paramType='variable' required="false" />
+        <key id='gender' type='xs:string' paramType='variable' required="false" />
+        <key id='type' type='xs:integer' paramType='variable' required="false" />
+      </inputs>
+      <execute><![CDATA[
+        var out = <medals/>;
+        var query = 'select * from csv where url="http://isithackday.com/medals.csv"';
+        if(year){
+         query+= ' and col0 like "%'+year+'%"';
+        }
+        if(city){
+         query+= ' and col1 like "%'+city+'%"';
+        }
+        if(sport){
+         query+= ' and col2 like "%'+sport+'%"';
+        }
+        if(discipline){
+         query+= ' and col3 like "%'+discipline+'%"';
+        }
+        if(country){
+         query+= ' and col4 like "%'+country+'%"';
+        }
+        if(event){
+         query+= ' and col5 like "%'+event+'%"';
+        }
+        if(gender){
+         query+= ' and col6 like "%'+gender+'%"';
+        }
+        if(type){
+         query+= ' and col7 like "%'+type+'%"';
+        }
+        
+        var x = y.query(query);
+        var l = x.results..row;
+        for each(var n in l){
+          n.setName("medal");
+        }
+        var l = x.results..col0;
+        for each(var n in l){
+          n.setName("year");
+        }
+        var l = x.results..col1;
+        for each(var n in l){
+          n.setName("city");
+        }
+        var l = x.results..col2;
+        for each(var n in l){
+          n.setName("sport");
+        }
+        var l = x.results..col3;
+        for each(var n in l){
+          n.setName("discipline");
+        }
+        var l = x.results..col4;
+        for each(var n in l){
+          n.setName("country");
+        }
+        var l = x.results..col5;
+        for each(var n in l){
+          n.setName("event");
+        }
+        var l = x.results..col6;
+        for each(var n in l){
+          n.setName("gender");
+        }
+        var l = x.results..col7;
+        for each(var n in l){
+          n.setName("type");
+        }
+        out.medal = x.results.medal;
+        response.object = out;
+      ]]></execute>
+    </select>
+
+  </bindings>
+</table>
