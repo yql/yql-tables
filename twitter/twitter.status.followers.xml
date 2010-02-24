@@ -12,7 +12,7 @@
 				<url>http://api.twitter.com/1/statuses/followers.{format}</url>
 			</urls>
 			<inputs>
-				<key id="id" type="xs:string" paramType="path" required="true"/>
+				<key id="user_id" type="xs:string" paramType="query"/>
 				<key id="cursor" type="xs:string" paramType="query"/>
 				<key id="format" type="xs:string" paramType="path" default="xml"/>
 				
