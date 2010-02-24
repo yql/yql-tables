@@ -7,9 +7,9 @@
 		<sampleQuery>select * from {table} where id=@id;</sampleQuery>
 	</meta>
 	<bindings>
-		<select itemPath="users" produces="XML">
+		<select itemPath="statuses" produces="XML">
 			<urls>
-				<url>http://twitter.com/statuses/mentions.{format}</url>
+				<url>http://api.twitter.com/1/statuses/mentions.{format}</url>
 			</urls>
 			<inputs>
 				<key id="since_id" type="xs:string" paramType="query" required="false"/>
