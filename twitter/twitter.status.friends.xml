@@ -4,7 +4,7 @@
 		<author>Zach Graves (zachg@yahoo-inc.com)</author>
 		<description>Twitter OAuth API</description>
 		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
-		<sampleQuery>select * from {table} where id=@id;</sampleQuery>
+		<sampleQuery>select * from {table} where user_id=@id;</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="users" produces="XML">
