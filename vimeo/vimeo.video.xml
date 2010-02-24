@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Yahoo! Inc.</author>
+    <author>Zach Graves (zachg@yahoo-inc.com)</author>
     <documentationURL>http://vimeo.com/api/docs/simple-api</documentationURL>
     <sampleQuery>select * from {table} where video_id='4964539'</sampleQuery>
   </meta>
