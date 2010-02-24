@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <documentationURL>http://vimeo.com/api/docs/simple-api</documentationURL>
+    <sampleQuery>select * from {table} where username='basictheory'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://vimeo.com/api/v2/activity/{username}/user_did.xml</url>
+      </urls>
+      <inputs>
+        <key id="username" type="xs:string" paramType="path" required="true" />
+      </inputs>
+    </select> 
+  </bindings>
+</table>
