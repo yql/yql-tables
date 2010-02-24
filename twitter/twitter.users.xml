@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="user" produces="XML">
 			<urls>
-				<url>http://twitter.com/users/show.{format}</url>
+				<url>http://api.twitter.com/1/users/show.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="query"/>
