@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="direct-messages" produces="XML">
 			<urls>
-				<url>http://twitter.com/direct_messages.{format}</url>
+				<url>http://api.twitter.com/1/direct_messages.{format}</url>
 			</urls>
 			<inputs>
 				<key id="since_id" type="xs:string" paramType="query" required="false"/>
@@ -45,7 +45,7 @@ response.object = sendRequest({
 		</select>
 		<insert itemPath="direct_message" produces="XML">
 			<urls>
-				<url>http://twitter.com/direct_messages/new.{format}</url>
+				<url>http://api.twitter.com/1/direct_messages/new.{format}</url>
 			</urls>
 			<inputs>
 				<key id="user" type="xs:string" paramType="variable" required="true"/>
@@ -83,7 +83,7 @@ response.object = sendRequest({
 		</insert>
 		<delete>
 			<urls>
-				<url>http://twitter.com/direct_messages/destroy/{id}.{format}</url>
+				<url>http://api.twitter.com/1/direct_messages/destroy/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="true"/>
