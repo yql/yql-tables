@@ -2,11 +2,11 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>Jonathan LeBlanc (Twitter: @jcleblanc)</author>
-        <description>Global Disasters Alert and Coordination System Feeds (Non-Historic).  The optional feed parameters (earthquakes / cyclones / floods / volcanoes) can be pipe delimited for multiple feeds</description>
+        <description>Global Disasters Alert and Coordination System Feeds (Non-Historic).  The optional feed parameters (earthquakes / cyclones / floods / volcanoes) should be pipe delimited for multiple feeds</description>
         <sampleQuery>SELECT * FROM {table} WHERE query='earthquakes|cyclones|floods|volcanoes'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="queries.results.item" produces="XML" >
+        <select itemPath="queries.results.item" produces="XML">
             <inputs>
                 <key id="query" type="xs:string" paramType="variable" required="true" />
             </inputs>
