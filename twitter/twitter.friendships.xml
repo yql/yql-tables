@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Zach Graves (zachg@yahoo-inc.com)</author>
+		<description>Twitter OAuth API</description>
+		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
+		<sampleQuery>select * from {table};</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="relationship" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/friendships/show.{format}</url>
+			</urls>
+			<inputs>
+				<key id="source_id" type="xs:string" paramType="query" required="false"/>
+				<key id="source_screen_name" type="xs:string" paramType="query" required="false"/>
+				<key id="target_id" type="xs:string" paramType="query" required="false"/>
+				<key id="target_screen_name" type="xs:string" paramType="query" required="false"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="false"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="false"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="false"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="false"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_secret) {
+   y.include("http://zachgrav.es/twitter/yql/oauth.utils.js");
+
+   var accessor = {};
+   accessor.consumerKey = oauth_consumer_key;
+   accessor.consumerSecret = oauth_consumer_secret;
+   accessor.realm = request.url;
+   accessor.token = oauth_token;
+   accessor.tokenSecret = oauth_token_secret;
+
+   response.object = sendRequest({
+     action: request.url,
+     method: 'GET',
+     accessor: accessor,
+     parameters: null
+   });
+} else {
+   try {
+      response.object = request.get().response;
+   } catch(err) {
+      response.object = {'result':'failure', 'error': err};
+   }
+}
+				]]>
+			</execute>
+		</select>
+		<insert itemPath="user" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/friendships/create/{id}.{format}</url>
+			</urls>
+			<inputs>
+				<key id="id" type="xs:string" paramType="path" required="true"/>
+				<key id="follow" type="xs:string" paramType="query" required="false"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+/////////////////////////////////////////////////////////////////
+y.include("http://zachgrav.es/twitter/yql/oauth.utils.js");
+/////////////////////////////////////////////////////////////////
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+response.object = sendRequest({
+   action: request.url,
+   method: "POST",
+   accessor: accessor,
+   parameters: null
+});
+				]]>
+			</execute>
+		</insert>
+		<delete>
+			<urls>
+				<url>http://api.twitter.com/1/friendships/destroy/{id}.{format}</url>
+			</urls>
+			<inputs>
+				<key id="id" type="xs:string" paramType="path" required="true"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+/////////////////////////////////////////////////////////////////
+y.include("http://zachgrav.es/twitter/yql/oauth.utils.js");
+/////////////////////////////////////////////////////////////////
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+response.object = sendRequest({
+   action: request.url,
+   method: "DELETE",
+   accessor: accessor,
+   parameters: null
+});
+				]]>
+			</execute>
+		</delete>
+	</bindings>
+</table>

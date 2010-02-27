@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Urbanesia</author>
+    <description>Urbanesia Search API</description>
+    <documentationURL>http://api.urbanesia.com/search?output_type=array</documentationURL>
+    <sampleQuery>select * from {table} WHERE apikey = '45c19606fab8' AND what='resto'</sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="data.result" produces="XML">
+      <urls>
+        <url>http://api.urbanesia.com/search?output_type=xml</url>
+      </urls>
+      <paging model="offset">
+        <start id="page" default="0" />
+        <pagesize id="row" max="250" />
+        <total default="10" />
+      </paging>
+      <inputs>
+        <key id="apikey" type="xs:string" private="true" paramType="query"/>
+        <key id="ll" type="xs:string" paramType="query" />
+        <key id="what" type="xs:string" paramType="query" />
+        <key id="where" as="near" type="xs:string" paramType="query" />
+        <key id="row" type="xs:string" paramType="query" />
+        <key id="offset" type="xs:string" paramType="query" />
+        <key id="type" type="xs:string" paramType="query" />
+
+        <key id="d" as="distance" type="xs:string" paramType="query" />
+        <key id="s" as="sortby" type="xs:string" paramType="query" />
+        <key id="cat" type="xs:string" paramType="query" />
+        <key id="subcat" type="xs:string" paramType="query" />
+        <key id="compress" type="xs:string" paramType="query" />
+        <key id="partner" type="xs:string" const="true" private="true" paramType="query" default="yql"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

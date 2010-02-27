@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/auctions/auction/v2/categoryleaf.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://auctions.yahooapis.jp/AuctionWebService/V2/categoryLeaf</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="category" type="xs:string" paramType="query" required="true" />
+                <key id="page" type="xs:string" paramType="query" required="false" />
+                <key id="sort" type="xs:string" paramType="query" required="false" />
+                <key id="order" type="xs:string" paramType="query" required="false" />
+                <key id="store" type="xs:string" paramType="query" required="false" />
+                <key id="aucminprice" type="xs:string" paramType="query" required="false" />
+                <key id="aucmaxprice" type="xs:string" paramType="query" required="false" />
+                <key id="aucmin_bidorbuy_price" type="xs:string" paramType="query" required="false" />
+                <key id="aucmax_bidorbuy_price" type="xs:string" paramType="query" required="false" />
+                <key id="escrow" type="xs:string" paramType="query" required="false" />
+                <key id="easypayment" type="xs:string" paramType="query" required="false" />
+                <key id="ybank" type="xs:string" paramType="query" required="false" />
+                <key id="new" type="xs:string" paramType="query" required="false" />
+                <key id="freeshipping" type="xs:string" paramType="query" required="false" />
+                <key id="wrappingicon" type="xs:string" paramType="query" required="false" />
+                <key id="buynow" type="xs:string" paramType="query" required="false" />
+                <key id="thumbnail" type="xs:string" paramType="query" required="false" />
+                <key id="attn" type="xs:string" paramType="query" required="false" />
+                <key id="english" type="xs:string" paramType="query" required="false" />
+                <key id="point" type="xs:string" paramType="query" required="false" />
+                <key id="gift_icon" type="xs:string" paramType="query" required="false" />
+                <key id="item_status" type="xs:string" paramType="query" required="false" />
+                <key id="offer" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

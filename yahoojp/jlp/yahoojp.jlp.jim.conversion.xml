@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/jlp/jim/v1/conversion.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://jlp.yahooapis.jp/JIMService/V1/conversion</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="sentence" type="xs:string" paramType="query" required="true" />
+                <key id="format" type="xs:string" paramType="query" required="false" />
+                <key id="mode" type="xs:string" paramType="query" required="false" />
+                <key id="response" type="xs:string" paramType="query" required="false" />
+                <key id="dictionary" type="xs:string" paramType="query" required="false" />
+                <key id="results" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm User.getEvents API method. Get a list of upcoming events that this user is attending. Easily integratable into calendars, using the ical standard (see &#39;more formats&#39; section below).</description>
+    <documentationURL>http://www.last.fm/api/show?service=291</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=user.getevents</url>
+      </urls>
+      <inputs>
+        <key id="user" type="xs:string" paramType="query" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+      <author>Lawrence Morrisroe (lem@yahoo-inc.com)</author>
+      <description>Social Graph API</description>
+      <documentationURL>http://code.google.com/apis/socialgraph/docs/otherme.html</documentationURL>
+      <sampleQuery>SELECT * FROM {table} WHERE q='bob@example.com,http://example.com/user/bob';</sampleQuery>
+   </meta>
+   <bindings>
+      <select itemPath="json" produces="JSON" >
+         <urls>
+            <url>http://socialgraph.apis.google.com/otherme?</url>
+         </urls>
+         <inputs>
+            <key id="q" type="xs:string" paramType="query" required="true" />
+            <key id="sgn" type="xs:boolean" paramType="query" required="false" />
+         </inputs>
+      </select>
+   </bindings>
+</table>

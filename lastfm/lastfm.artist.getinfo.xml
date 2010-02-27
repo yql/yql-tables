@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm Artist.getInfo API method. Get the metadata for an artist on Last.fm. Includes biography.</description>
+    <documentationURL>http://www.last.fm/api/show?service=267</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=artist.getinfo</url>
+      </urls>
+      <inputs>
+        <key id="artist" type="xs:string" paramType="query" required="false" />
+        <key id="mbid" type="xs:string" paramType="query" required="false" />
+        <key id="username" type="xs:string" paramType="query" required="false" />
+        <key id="lang" type="xs:string" paramType="query" required="false" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>
