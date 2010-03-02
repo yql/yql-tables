@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+    <meta>  
+        <author>César Rodas</author>
+        <description>Check if a comment-text is SPAM</description>
+        <documentationURL>http://akismet.com/development/api/</documentationURL>
+        <sampleQuery>select * from {table} where key='123456' and text in ('enlarge your penis', 'buy free viagra! viagra for free', 'Nice post I agree with you')</sampleQuery>
+    </meta>  
+    <bindings>
+        <select itemPath="" produces="XML">  
+            <urls>  
+                <url></url>
+            </urls>
+            <inputs>
+                <key id='text' type='xs:string' paramType='variable' required="true" />  
+                <key id='key' type='xs:string' paramType='variable' required="true" />  
+                <key id='blog' type='xs:string' paramType='variable' />  
+                <key id='ip' type='xs:string' paramType='variable' />  
+                <key id='author' type='xs:string' paramType='variable' />  
+                <key id='email' type='xs:string' paramType='variable' />  
+            </inputs>
+            <execute><![CDATA[
+            if (!ip) {
+                /* Fake IP */
+                ip = "127.0.0.2";
+            }
+            if (!author) {
+                author = "";
+            }
+            if (!email) {
+                email="";
+            }
+            if (!blog) {
+                blog="";
+            }
+            var url = "http://" + key + ".rest.akismet.com/1.1/comment-check"; 
+            var post = "blog=" + blog + "&user_ip=" + ip + "&comment_author=" + author + "&comment_author_email=" + email + "&comment_author_url=&comment_content=" + text;
+
+            var resp = y.rest(url).post(post).response;
+
+            var spam = resp.substr(0,4) == 'true';
+
+            response.object = <result><text>{text}</text>
+                    <is_spam>{spam}</is_spam></result>;
+
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
