@@ -3,7 +3,7 @@
 	<meta>
 		<author>Sergey Chernyshev</author>
 		<documentationURL>http://www.meetup.com/meetup_api/docs/#readmethods</documentationURL>
-		<sampleQuery>select * from {table} where key="..." and topic="newtech"</sampleQuery>
+		<sampleQuery>select * from {table} where key="..." and group_urlname="Web-Performance-NY"</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="results.items.item" produces="XML">

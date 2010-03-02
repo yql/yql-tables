@@ -3,7 +3,7 @@
 	<meta>
 		<author>Sergey Chernyshev</author>
 		<documentationURL>http://www.meetup.com/meetup_api/docs/#readmethods</documentationURL>
-		<sampleQuery>select * from {table} where key="..." and coutry="USA"</sampleQuery>
+		<sampleQuery>select * from {table} where key="..." and country="USA" and state="NJ"</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="results.items.item" produces="XML">
