@@ -15,6 +15,9 @@
 				<key id="username" type="xs:string" paramType="variable" required="true"/>
 				<key id="password" type="xs:string" paramType="variable" required="true"/>
 				<key id="mode" type="xs:string" paramType="variable" default="client_auth"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
 			</inputs>
 			<execute>
 				<![CDATA[
@@ -25,8 +28,17 @@ parameters.push(["x_auth_username",username]);
 parameters.push(["x_auth_password",password]);
 parameters.push(["x_auth_mode",mode]);
 
-var http = request.post(oAuthBuildContent(parameters));
-response.object = http.response;
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+
+response.object = sendRequest({
+   action: request.url,
+   method: 'POST',
+   accessor: accessor,
+   parameters: parameters
+});
 				]]>
 			</execute>
 		</select>
