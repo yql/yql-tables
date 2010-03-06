@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from thesaurus.thesaurus where key="test_only" and word="peace" and language="en_US"</sampleQuery>
+    <documentationURL>http://thesaurus.altervista.org/</documentationURL> 
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+      <url>http://thesaurus.altervista.org/thesaurus/v1</url>
+      </urls>
+      <inputs>
+        <key id="key" type="xs:string" paramType="query" required="true" />
+        <key id="word" type="xs:string" paramType="query" required="true" />
+        <key id="language" type="xs:string" paramType="query" required="true" />
+        <key id="output" type="xs:string" default="xml" paramType="query" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

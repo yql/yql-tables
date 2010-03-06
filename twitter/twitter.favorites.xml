@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="statuses" produces="XML">
 			<urls>
-				<url>http://twitter.com/favorites/{id}.{format}</url>
+				<url>http://api.twitter.com/1/favorites/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="false"/>
@@ -28,7 +28,7 @@ y.include("http://www.datatables.org/oauth/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 
@@ -43,7 +43,7 @@ response.object = sendRequest({
 		</select>
 		<insert itemPath="status" produces="XML">
 			<urls>
-				<url>http://twitter.com/favorites/create/{id}.{format}</url>
+				<url>http://api.twitter.com/1/favorites/create/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="true"/>
@@ -61,7 +61,7 @@ y.include("http://www.datatables.org/oauth/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 
@@ -76,7 +76,7 @@ response.object = sendRequest({
 		</insert>
 		<delete>
 			<urls>
-				<url>http://twitter.com/favorites/destroy/{id}.{format}</url>
+				<url>http://api.twitter.com/1/favorites/destroy/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="true"/>
@@ -94,7 +94,7 @@ y.include("http://www.datatables.org/oauth/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 

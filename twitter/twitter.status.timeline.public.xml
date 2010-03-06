@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
 	<meta>
 		<author>Zach Graves (zachg@yahoo-inc.com)</author>
 		<description>Twitter OAuth API</description>
@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="statuses" produces="XML">
 			<urls>
-				<url>http://twitter.com/statuses/public_timeline.{format}</url>
+				<url>http://api.twitter.com/1/statuses/public_timeline.{format}</url>
 			</urls>
 			<inputs>
 				<key id="format" type="xs:string" paramType="path" default="xml"/>

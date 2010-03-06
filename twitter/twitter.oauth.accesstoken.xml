@@ -4,7 +4,9 @@
 		<author>Zach Graves (zachg@yahoo-inc.com)</author>
 		<description>Twitter OAuth API</description>
 		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
-		<sampleQuery>select * from {table} where oauth_verifier=@verifier and oauth_consumer_key=@consumer_key and oauth_consumer_secret=@consumer_secret and oauth_token=@token and oauth_token_secret=@token_secret;</sampleQuery>
+		<sampleQuery>select * from {table} where oauth_verifier=@verifier 
+			and oauth_consumer_key=@consumer_key and oauth_consumer_secret=@consumer_secret 
+			and oauth_token=@token and oauth_token_secret=@token_secret;</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="" produces="XML">
@@ -25,7 +27,7 @@ y.include("http://www.datatables.org/oauth/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 

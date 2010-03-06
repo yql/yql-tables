@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Jonathan LeBlanc (Twitter: @jcleblanc)</author>
+        <description>Global Disasters Alert and Coordination System Feeds (Non-Historic).  The optional feed parameters (earthquakes / cyclones / floods / volcanoes) should be pipe delimited for multiple feeds</description>
+        <sampleQuery>SELECT * FROM {table} WHERE query='earthquakes|cyclones|floods|volcanoes'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="queries.results.item" produces="XML">
+            <inputs>
+                <key id="query" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute><![CDATA[
+                var arrQueries = inputs['query'].split('|');
+                var elQueries = <queries/>;
+                for (var i = 0, ql = arrQueries.length; i < ql; i++) {
+                    switch (arrQueries[i]){
+                        case 'earthquakes': elQueries.query += y.query("SELECT * FROM rss WHERE url='http://www.gdacs.org/xml/RSSEQLite.xml'").results; break;
+                        case 'cyclones': elQueries.query += y.query("SELECT * FROM rss WHERE url='http://www.gdacs.org/xml/RSSTC.xml'").results; break;
+                        case 'floods': elQueries.query += y.query("SELECT * FROM rss WHERE url='http://www.gdacs.org/xml/RSSFL2.xml'").results; break;
+                        case 'volcanoes': elQueries.query += y.query("SELECT * FROM rss WHERE url='http://www.gdacs.org/xml/RSSVO_SI.xml'").results; break;
+                        default: break;
+                    }
+                }
+                response.object = elQueries;
+            ]]></execute>
+        </select>
+    </bindings>
+</table>

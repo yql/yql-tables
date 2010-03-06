@@ -4,6 +4,7 @@
     <author>Tom Powers</author>
     <description>Yahoo Finance Stock Summary Information</description>
     <sampleQuery>select * from {table} where symbol="yhoo"</sampleQuery>
+    <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL> 
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
@@ -76,7 +77,78 @@
 
 	stock.appendChild(<start>{startDate}</start>);
 	stock.appendChild(<end>{endDate}</end>);
+	stock.appendChild(<StartDate>{startDate}</StartDate>);
+	stock.appendChild(<EndDate>{endDate}</EndDate>);
 	return true;
+    }
+
+    function getExecutive(executives, tr) {
+	var executive = <Executive></Executive>;
+	executive.node += <Name>{tr.td.strong.text()}</Name>;
+
+	var m = tr.td.p[0].text().toString().match(/^,\s*(\d+)/);
+	if (m) {
+	    executive.node += <Age>{m[1]}</Age>;
+	}
+
+	var titles = tr.td.p[0].small.toString().split(/,\s*|\s+and\s+/i);
+	for (var i=0; i<titles.length; i++)
+	    executive.node += <Title>{titles[i]}</Title>;
+
+	var pay = tr.td[1].p.text().toString().replace(/\s+/g, "");
+	executive.node += <Pay>{pay}</Pay>
+
+	var exercised = tr.td[2].p.text().toString().replace(/\s+/g, "");
+	executive.node += <Exercised>{exercised}</Exercised>
+
+	executives.node += executive;
+    }
+
+    function getAddressInfo(stock, td) {
+	var companyName = td.strong.text().toString().trim();
+	//stock.node += <Name>{companyName}</Name>;
+	
+	var mapref = td.p.a[0].@href;
+	var m = mapref.match(/addr=([^&]+)&csz=([^&]+)&country=(.*)$/i);
+	if (m) {
+	    var address = m[1].replace(/%20/g, " ");
+
+	    csz = m[2].split(/\+/);
+	    var city = csz[0].replace(/%20/g, " ");
+	    var state = csz[1];
+	    var zip = csz[2];
+	    
+	    var country = m[3].replace(/%20/g, " ");
+
+	    var address = 
+		<Address>
+		    <Street>{address}</Street>
+		    <City>{city}</City>
+		    <State>{state}</State>
+		    <Zip>{zip}</Zip>
+		    <Country>{country}</Country>
+		</Address>;
+	    stock.node += address;
+	}
+
+	var firstPara = td.p[0].toString();
+	firstpara = firstPara.replace(/&lt;/, "<");
+	firstpara = firstPara.replace(/&gt;/, ">");
+
+	var lines = firstPara.split(/\s*(<p>|<br\s*\/>)\s*/i);
+	for (var i=0; i<lines.length; i++) {
+	    var colonMatch = lines[i].match(/^([^:]+)\s*:(?!\/)\s*(.*?)\s*$/);
+	    if (colonMatch) {
+		var property = colonMatch[1].replace(/\s/, "");
+		var value = colonMatch[2];
+
+		var aMatch = value.match(/<a\b[^>]+>\s*([^<]+?)\s*<\/a>/i);
+		if (aMatch)
+		    value = aMatch[1];
+
+		stock.node += <{property}>{value}</{property}>;
+	    }
+	}
     }
 
     function getProfileInfo() {
@@ -85,6 +157,11 @@
 	elements = results.*.length();
 	if (elements == 0)
 	    return false;
+
+	getAddressInfo(stock, results.td);
+
+	var executives = <Executives></Executives>
+
 	for each (var tr in results.tr){
 	    //Remove trailing colon, and strip whitespace
 	    var property = tr.td[0].p.text()
@@ -92,6 +169,14 @@
 		.replace(/\s+/g, "");
 	    switch (property.toLowerCase()) {
 	        case 'indexmembership':
+		    var indexes = <Indexes></Indexes>
+		    for each (var a in tr.td[1].a) {
+			var iSymbol = a.@href.match(/=([^&]+)/)[1];
+			iSymbol = iSymbol.replace(/%5E/gi, "^");
+			indexes.node += <Index symbol={iSymbol}>{a.text()}</Index>;
+		    }
+		    if (indexes.length() > 0)
+		        stock.appendChild(indexes);
 		    continue;
 		    break;
 		case 'fulltimeemployees':
@@ -99,12 +184,22 @@
 		    value = tr.td[1].*.text().toString().replace(/,/g, "");
 		    break;
 		default:
+		case 'sector':
+		case 'industry':
 		    //Convert whitespace to single space
 		    value = tr.td[1].*.text().toString().replace(/\s+/g, " ");
+		    break;
+	        default:
+ 		    if (property.match(/^,/))
+			getExecutive(executives, tr);
+		    continue;
 		    break;
 	    }
 	    stock.appendChild(<{property}>{value}</{property}>);
 	}
+	if (executives.length() > 0)
+	    stock.appendChild(executives);
+
 	return true;
     }
 
@@ -115,6 +210,10 @@
 	"where url=@url and " + 
 	"xpath='//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr' " +
 	"limit 4",
+	"xpath='" +
+        "//td[@class=\"yfnc_modtitlew2\"] | " +
+        "//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr" +
+        "'",
 	{url:url});
 
     var url = "http://finance.yahoo.com/q?s="+symbol;
