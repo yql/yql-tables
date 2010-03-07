@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>TheTVDB Get Updates</description>
+    <documentationURL>http://thetvdb.com/wiki/index.php?title=Programmers_API</documentationURL>
+    <sampleQuery>select * from {table} where previoustime='previous_time'</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://www.thetvdb.com/api/Updates.php?type=all&time={previoustime}</url>
+        </urls>
+        <inputs>
+			<key type="xs:string" paramType="path" id="previoustime" />
+		</inputs>
+    </select>
+</bindings>
+</table>
+
