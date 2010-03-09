@@ -4,7 +4,7 @@
     <author>John Tregoning</author>
     <documentationURL>http://www.filemd5.net/api</documentationURL>
     <description>Returns the MD5 hash of any file online</description>
-    <sampleQuery>SELECT * FROM {table} WHERE url="http://l.yimg.com/a/i/ydn/icons/yql.gif"</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE url="http://www.yahoo.com/favicon.ico"</sampleQuery>
   </meta>
   <bindings>
     <select produces="XML">
@@ -12,10 +12,10 @@
         <url env="all">http://api.filemd5.net/{version}/hash</url>
       </urls>
       <inputs>
-		<key id="url" type="xs:string" paramType="query" required="true" batchable="false" />
-		<key id="format" type="xs:string" paramType="query" default="xml" const="true" />
-		<key id="version" type="xs:string" paramType="path" default="v1" const="true" />
-	  </inputs>
+	<key id="url" type="xs:string" paramType="query" required="true" batchable="false" />
+	<key id="format" type="xs:string" paramType="query" default="xml" const="true" />
+	<key id="version" type="xs:string" paramType="path" default="v1" const="true" />
+      </inputs>
     </select>
   </bindings>
 </table>
