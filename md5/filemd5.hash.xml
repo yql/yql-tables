@@ -3,7 +3,7 @@
   <meta>
     <author>John Tregoning</author>
     <documentationURL>http://www.filemd5.net/api</documentationURL>
-    <description>Returns the MD5 hash of any file online</description>
+    <description>Returns the MD5 hash/checksum of any file online</description>
     <sampleQuery>SELECT * FROM {table} WHERE url="http://www.yahoo.com/favicon.ico"</sampleQuery>
   </meta>
   <bindings>
