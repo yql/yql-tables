@@ -4,7 +4,7 @@
         <author>Balaji Narayanan</author>
         <author>Tom Hughes-Croucher</author>
         <description>Placemaker</description>
-        <sampleQuery>SELECT * FROM {table} WHERE documentContent = "They followed him to deepest Africa and found him there, in Timbuktu" AND documentType="text/plain" AND appid = ""</sampleQuery>
+        <sampleQuery>select * from {table} where documentContent = "They followed him to deepest Africa and found him there, in Timbuktu" and documentType="text/plain" anmd appid = ""</sampleQuery>
         <documentationURL>http://developer.yahoo.com/geo/placemaker/</documentationURL>
     </meta>
     <bindings>
