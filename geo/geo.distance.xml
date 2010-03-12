@@ -23,19 +23,6 @@
         var lon1 = res.place.centroid.longitude;
         var lat2 = res2.place.centroid.latitude;
         var lon2 = res2.place.centroid.longitude;
-           // thanks to http://www.johndcook.com/lat_long_distance.html
-          var rho = 3960.0;
-          var phi_1 = (90.0 - lat1) * Math.PI / 180.0;
-          var phi_2 = (90.0 - lat2) * Math.PI / 180.0;
-          var theta_1 = lon1 * Math.PI / 180.0;
-          var theta_2 = lon2 * Math.PI / 180.0;
-          var d = rho * Math.acos( 
-            Math.sin(phi_1) * 
-            Math.sin(phi_2) * 
-            Math.cos(theta_1 - theta_2) +
-            Math.cos(phi_1) * 
-            Math.cos(phi_2) 
-          );
           var d = distVincenty(lat1,lon1,lat2,lon2);
           /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
           /* Vincenty Inverse Solution of Geodesics on the Ellipsoid (c) Chris Veness 2002-2010             */
