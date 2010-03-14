@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : timeout.london.search.xml
+    Created on : March 13, 2010, 12:03 PM
+    Author     : Rob Young <rob@roryoung.co.uk>
+    Description:
+        An Open Data Table for Time Out London's search page.
+
+-->
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rob Young</author>
+    <sampleQuery>USE "http://www.roryoung.co.uk/timeout.london.search.xml" as timeout.london.search; SELECT * FROM timeout.london.search;</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://www.timeout.com/london/search/</url>
+      </urls>
+      <paging model="page">
+        <start default="1"  id="page"/>
+        <pagesize max="200" id="count"/>
+        <total default="20"/>
+      </paging>
+      <inputs>
+        <key id="tag"      type="xs:string" paramType="variable"/>
+        <key id="tag_id"   type="xs:string" paramType="variable"/>
+        <key id="date"     type="xs:string" paramType="variable"/>
+        <key id="type"     type="xs:string" paramType="variable"/>
+        <key id="area"     type="xs:string" paramType="variable"/>
+        <key id="postcode" type="xs:string" paramType="variable"/>
+        <key id="keyword"  type="xs:string" paramType="variable"/>
+      </inputs>
+      <execute><![CDATA[
+        function join(key, value) {
+          return key + '=' + value;
+        }
+
+        function each(map, func) {
+          var out = [];
+          for (key in map) {
+            out.push(func(key, map[key]));
+          }
+          return out;
+        }
+
+        tag_map = {
+          "Alternative Nightlife": 362,
+          "Around Town": 2,
+          "Art": 84,
+          "Bars": 300002,
+          "Books & Poetry": 186,
+          "Cabaret": 411,
+          "Classical Music": 190,
+          "Clubs": 39,
+          "Comedy": 351,
+          "Dance": 197,
+          "Festivals": 384,
+          "Film": 144,
+          "Gay & Lesbian": 79,
+          "Hotels": 4308,
+          "Kids": 129,
+          "Museums & Attractions": 36,
+          "Music": 72,
+          "Restaurants": 4256,
+          "Shopping": 412,
+          "Theatre": 352
+        };
+
+        var params      = [];
+        if (tag != undefined) {
+          params['tag_id'] = tag_map[tag];
+        }
+        if (tag_id != undefined) {
+          params['tag_id'] = tag_id;
+        }
+        if (date != undefined) {
+          params['date'] = date;
+        }
+        if (type != undefined) {
+          params['type'] = type;
+        }
+        if (area != undefined) {
+          params['area'] = area;
+        }
+        if (postcode != undefined) {
+          params['postcode'] = postcode;
+        }
+        if (keyword != undefined) {
+          params['keyword'] = keyword;
+        }
+        params['pageNumber'] = page;
+        params['pageSize']   = count;
+
+        var base_url = "http://www.timeout.com/london/search/";
+        var query    = each(params, join).join('&');
+        var url      = base_url + '?' + query;
+        var xpath    = '//div[@id="result-container"]/div[contains(@class, "result")]/div[@class="left-column"]';
+
+        y.log("URL: " + url);
+
+        var query = y.query("SELECT * FROM html WHERE url=@url AND xpath=@xpath", {url:url, xpath:xpath});
+        var results = <results></results>;
+
+        for each(var result in query.results.div) {
+          var my_result = <result/>
+          my_result.appendChild(<title>{result.h2.a.text()}</title>);
+          my_result.link.@href = result.h2.a.@href;
+
+          var review  = result.*.(@["class"] == "review-container");
+          var details = result.*.(@["class"] == "details");
+          var flags   = result.*.(@["class"] == "flags-container");
+
+          var date = review..strong.text();
+          if (date.length() == 0) {
+            date = details.span.span.text();
+          }
+          my_result.appendChild(<date>{date}</date>);
+          my_result.appendChild(<summary>{review.p.(@["class"] == "review").text()}</summary>);
+
+          if (flags.h4.span.length() != 0) {
+            for (var i in flags.h4.span) {
+              my_result.appendChild(<category>{flags.h4.span[i].text()}</category>);
+            }
+          } else {
+            my_result.appendChild(<category>{flags.h4.text()}</category>);
+          }
+
+          for (var i in flags..span) {
+            var c = flags..span[i].@["class"];
+            if (c.length() && c.match(/^flag /)) {
+              if (flags..span[i].text().length()) {
+                my_result.appendChild(<tag>{flags..span[i].text()}</tag>);
+              }
+            }
+          }
+
+          results.appendChild(my_result);
+        }
+
+        response.object = results;
+
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
