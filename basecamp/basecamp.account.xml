@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table https="true" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <bindings>
+    <select produces="XML">
+      <urls>
+        <url>http://{company}.basecamphq.com/account.xml</url>
+      </urls>
+      <inputs>
+        <key id="company" paramType="path" required="true"/>
+        <key id="apikey" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+response.object = request.header("Authorization", y.crypto.encodeBase64(apikey + ":X")).get().response;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
