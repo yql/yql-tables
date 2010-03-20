@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
   <meta>  
-    <author>Yahoo! Inc.</author>  
+    <author>Fabio Kung &lt;fabio.kung@gmail.com&gt;</author>
     <documentationURL>http://www.flickr.com/services/api/flickr.people.getPhotosOf.html</documentationURL>  
     <sampleQuery>select * from {table} where user_id="26545327@N00"</sampleQuery>  
   </meta>  
   <bindings>  
-   <select itemPath="rsp.photos" produces="XML">  
+   <select itemPath="rsp.photos.photo" produces="XML">  
       <urls>  
         <url env="all">http://api.flickr.com/services/rest/?method=flickr.people.getPhotosOf</url>  
       </urls>  
