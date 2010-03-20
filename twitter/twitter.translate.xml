@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where location="london,UK"</sampleQuery>
+    <author>Christian Heilmann</author>
+    <documentationURL></documentationURL>  
+    <description></description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='language' type='xs:string' paramType='variable' required="true" />
+        <key id='search' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var out = '';
+        var tweets = y.query('select * from json where url="http://search.twitter.com/search.json?q=brhackday&rpp=100"');
+        y.log(tweets.results.json);
+        response.object = <t></t>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
