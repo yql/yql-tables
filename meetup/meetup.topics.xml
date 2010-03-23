@@ -3,7 +3,7 @@
 	<meta>
 		<author>Sergey Chernyshev</author>
 		<documentationURL>http://www.meetup.com/meetup_api/docs/#readmethods</documentationURL>
-		<sampleQuery>select name from topics where key='...' and search='CSS'</sampleQuery>
+		<sampleQuery>select name from {table} where key='...' and search='CSS'</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="results.items.item" produces="XML">

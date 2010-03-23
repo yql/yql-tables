@@ -9,7 +9,7 @@
   </meta>
   <bindings>
     <select itemPath="Result.eGQueryResult.ResultItem" produces="XML">
-      <urls><url>http://www.ncbi.nlm.nih.gov/entrez/eutils/egquery.fcgi?term={-listjoin|+|term}%26tool={tool}%26email={email}</url></urls>
+      <urls><url>http://www.ncbi.nlm.nih.gov/entrez/eutils/egquery.fcgi?term={-listjoin|+|term}&amp;tool={tool}&amp;email={email}</url></urls>
       <inputs>
         <key id='term' type='xs:string' paramType='path' required='true' batchable="true" />
         <key id='tool' type='xs:string' paramType='path' />
