@@ -189,6 +189,7 @@
                      default="ItemSearch"/>
                 <key id="Keywords" type="xs:string" paramType="query" required="true"/>
                 <key id="AWSAccessKeyId" type="xs:string" paramType="query" required="true"/>
+                <key id="secret" type="xs:string" paramType="variable" required="true"/>
                 <key id="SearchIndex" type="xs:string" paramType="query" required="false"
                      default="Books"/>
                 <key id="ResponseGroup" type="xs:string" paramType="query" required="false"/>
