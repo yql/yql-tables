@@ -3,6 +3,9 @@
   <meta>
     <author>Pedro Valente</author>
     <sampleQuery>select * from {table} where airport='CGH' and flight='09541'</sampleQuery>
+    <sampleQuery>select * from {table} where airport='FLN'</sampleQuery>
+    <sampleQuery>select * from {table} where airport='SBSP' and status='Finalizado'</sampleQuery>
+
   </meta>
   <bindings>
     <select itemPath="results.flight" produces="XML">
@@ -10,7 +13,7 @@
         <url>http://yqltables.appspot.com/infraero/arrivals/</url>
       </urls>
       <inputs>
-          <key id='flight' type='xs:string' paramType='query' required="true" />
+          <key id='flight' type='xs:string' paramType='query' required="false" />
 		  <key id='airport' type='xs:string' paramType='query' required="true" />
       </inputs>
     </select>
