@@ -5,7 +5,7 @@
     <sampleQuery>select * from {table} where numero='EC884014459BR'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="correios.encomenda" produces="XML">
+    <select itemPath="results.status" produces="XML">
       <urls>
         <url>http://correios-api.appspot.com/yql</url>
       </urls>
