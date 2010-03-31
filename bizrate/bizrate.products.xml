@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>select * from {table} where keyword = "mens shoes"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="ProductResponse.Products" produces="XML">
+            <urls>
+                <url>http://catalog.bizrate.com/services/catalog/v1/us/product</url>
+            </urls>
+            <inputs>
+                <key id='apiKey' type='xs:string' paramType='query' required="true" />
+                <key id='publisherId' type='xs:string' paramType='query' required="true" />
+                
+                <key id='placementId' type='xs:string' paramType='query' required="false" />
+                <key id='categoryId' type='xs:string' paramType='query' required="false" />
+                <key id='keyword' type='xs:string' paramType='query' required="false" />
+                <key id='productId' type='xs:string' paramType='query' required="false" />
+                <key id='productIdType' type='xs:string' paramType='query' required="false" />
+                <key id='merchantId' type='xs:string' paramType='query' required="false" />
+                <key id='minPrice' type='xs:string' paramType='query' required="false" />
+                <key id='maxPrice' type='xs:string' paramType='query' required="false" />
+                <key id='start' type='xs:string' paramType='query' required="false" />
+                <key id='results' type='xs:string' paramType='query' required="false" />
+                <key id='startOffers' type='xs:string' paramType='query' required="false" />
+                <key id='resultsOffers' type='xs:string' paramType='query' required="false" />
+                <key id='sort' type='xs:string' paramType='query' required="false" />
+                <key id='brandId' type='xs:string' paramType='query' required="false" />
+                <key id='attFilter' type='xs:string' paramType='query' required="false" />
+                <key id='showAttributes' type='xs:string' paramType='query' required="false" />
+                <key id='showProductAttributes' type='xs:string' paramType='query' required="false" />
+                <key id='zipCode' type='xs:string' paramType='query' required="false" />
+                <key id='offersOnly' type='xs:string' paramType='query' required="false" />
+                <key id='biddedOnly' type='xs:string' paramType='query' required="false" />
+                <key id='minRelevancyScore' type='xs:string' paramType='query' required="false" />
+            </inputs>
+        </select> 
+    </bindings>
+</table>

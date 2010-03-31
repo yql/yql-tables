@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Zach Graves (zachg@yahoo-inc.com)</author>
+		<description>Twitter OAuth API</description>
+		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
+		<sampleQuery>select * from {table};</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="hash" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/account/rate_limit_status.{format}</url>
+			</urls>
+			<inputs>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="false"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="false"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="false"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="false"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_secret) {
+   y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+   var accessor = {};
+   accessor.consumerKey = oauth_consumer_key;
+   accessor.consumerSecret = oauth_consumer_secret;
+   accessor.realm = request.url;
+   accessor.token = oauth_token;
+   accessor.tokenSecret = oauth_token_secret;
+
+   response.object = sendRequest({
+     action: request.url,
+     method: 'GET',
+     accessor: accessor,
+     parameters: null
+   });
+} else {
+   try {
+      response.object = request.get().response;
+   } catch(err) {
+      response.object = {'result':'failure', 'error': err};
+   }
+}
+				]]>
+			</execute>
+		</select>
+	</bindings>
+</table>

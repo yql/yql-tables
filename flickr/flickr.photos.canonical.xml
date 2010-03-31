@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Zach Graves (zachg@yahoo-inc.com)</author>
+		<documentationURL>http://www.flickr.com/services/api/</documentationURL>
+		<sampleQuery>select * from {table} where photo_id='3610905755'</sampleQuery>
+		<sampleQuery>select * from {table} where photo_id in (select id from flickr.photos.search where has_geo="true" and text="sfo")</sampleQuery>
+	</meta>
+	<bindings>
+	<select itemPath="" produces="XML">
+		<urls>
+			<url></url>
+		</urls>
+		<inputs>
+	        <key id="photo_id" type="xs:string" paramType="variable" required="true" />
+		</inputs>
+		<execute>
+			<![CDATA[
+				var alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+
+				function fencode(value) {
+					var base58_str = "";
+					var base_len = alphabet.length;
+
+					while(value >= base_len) {
+						var div = Math.floor(value/base_len);
+						var mod = (value - (base_len * div));
+						var base58_str = alphabet.charAt(mod)+base58_str;
+						value = div;
+					}
+					if(value) base58_str = alphabet.charAt(value)+base58_str;
+
+					return base58_str;
+				}
+
+				function fdecode(base58) {
+					var int_val = 0;
+					var base58_len = base58.length;
+					var i=base58_len-1;
+					var j=1;
+					var base_len=alphabet.length;
+					
+					for(i,j,base_len;i>=0;i--,j*=base_len) {
+						int_val += j * alphabet.indexOf(base58.charAt(i));
+					}
+
+					return int_val;
+				}
+
+				function short_url(value) {
+					var url = "http://flic.kr/p/%s";
+					var base58_id = fencode(value);
+					
+					if(base58_id && (fdecode(base58_id) == value)) {
+						url = url.replace(/%s/,base58_id);
+						return url;
+					}
+					
+					return {error:"error encoding photo_id"};
+				}
+
+				function expand_url(value) {
+					var photo_id = fdecode(value);
+					var photo_info = y.query("select urls.url.content from flickr.photos.info where photo_id='"+photo_id+"' limit 1;");
+					var photo_url = photo_info.results.photo.urls.url;
+					return photo_url;
+				}
+				
+				response.object = short_url(photo_id);
+			]]>
+		</execute>
+    </select> 
+  </bindings>
+</table>

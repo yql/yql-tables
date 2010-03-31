@@ -1,0 +1,49 @@
+<a id="openid">click</a>
+<script src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
+<script>
+    YUI().use('io', 'json-parse', 'cookie', function (Y) {
+        
+        //change this to match test domain
+        var domain = 'test.erikeldridge.com/yql',
+        
+            handleComplete = function (id, o, args) {
+                var json = Y.JSON.parse(o.responseText);
+                Y.Node.get('#openid').set('href', json.query.results.result.uri);
+            },
+            
+            //run test.assoc.html to put assoc fields in cookie in this format
+            assocHandle = Y.Cookie.get('openid-assoc').split(',')[1].split(':')[1],
+            
+            params = [
+                'q='+encodeURIComponent('use \'http://'+domain+'/openid.xml\' as table; '
+                    + 'select * from table where '
+                    + 'id="yahoo.com" and '
+                    + 'return_to="http://'+domain+'" and '
+                    + 'assoc_handle="'+assocHandle+'"'),
+                'callback=',
+                'diagnostics=false',
+                'format=json'
+            ],
+            url = "http://query.yahooapis.com/v1/public/yql?"+params.join('&'),
+            ioConfig = {
+                method: 'GET',
+                on: {
+                    success: handleComplete
+                },
+                xdr: {
+                    use: 'flash'
+                }
+            },
+            xdrConfig = {
+                id:'flash',
+                yid: Y.id, 
+                src:'../../io.swf'
+            };
+            
+            Y.io.transport(xdrConfig);
+            
+            Y.on('io:xdrReady', function () {
+                Y.io(url, ioConfig);
+            });
+    });
+</script>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>insert into {table} (to, message, key) values ("+4411111111", "hello world!", "yourkey")</sampleQuery>
+    <author>Ricardo Varela</author>
+    <documentationURL>https://labs.ericsson.com/apis/sms-send-and-receive</documentationURL> 
+  </meta>
+  <bindings>
+    <insert itemPath="" produces="XML">
+      <urls>
+      <url>http://sms.labs.ericsson.net/send</url>
+      </urls>
+      <inputs>
+        <key id='to' type='xs:string' paramType='query' required="true" />
+		<key id='message' type='xs:string' paramType='query' required="true" />
+		<key id='type' type='xs:string' paramType='query' />
+		<key id='key' type='xs:string' paramType='query' required="true" />
+      </inputs>
+    </insert>
+  </bindings>
+</table>

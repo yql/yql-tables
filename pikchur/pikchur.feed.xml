@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Jonathan LeBlanc (Twitter: @jcleblanc)</author>
+        <description>RSS person feed wrapper for Pikchur - obtain a user feed based on the username</description>
+        <documentationURL>http://pikchur.com/api</documentationURL>
+        <sampleQuery>SELECT * FROM pikchur.feed WHERE user='jcleblanc'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="rss.channel.item" produces="XML">
+            <urls>
+                <url>http://pikchur.com/rss/people/{user}</url>
+            </urls>
+            <inputs>
+                <key id="user" type="xs:string" paramType="path" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

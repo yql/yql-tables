@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm Event.getShouts API method. Get shouts for this event. Also available as an rss feed.</description>
+    <documentationURL>http://www.last.fm/api/show?service=399</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=event.getshouts</url>
+      </urls>
+      <inputs>
+        <key id="event" type="xs:string" paramType="query" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>

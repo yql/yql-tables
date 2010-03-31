@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+      <sampleQuery>select * from {table} where id = 1160643</sampleQuery>
+      <author>Tom Hughes-Croucher (@sh1mmer, croucher@yahoo-inc.com)</author>
+   </meta>
+   <bindings>
+      <select itemPath="" produces="XML">
+         <urls>
+            <url></url>
+         </urls>
+         <inputs>
+            <key id='id' type='xs:string' paramType='variable' required="true" />
+         </inputs>
+         <execute><![CDATA[
+         url = "http://news.ycombinator.com/item?id=" + id
+         page = y.query("select * from html where url='" + url + "'").results;
+
+         postInfo = page..table[2];
+         comments = page..table[3]..table;
+
+         values = {}
+         values['id'] = id;
+         values['title'] = y.xpath(postInfo, "//td[@class='title']/a/text()");
+         values['url'] = y.xpath(postInfo, "//td[@class='title']/a/@href");
+
+         //match the numbers in the span
+         values['score'] = /^\d+/.exec(y.xpath(postInfo, "//td[@class='subtext']/span/text()"));
+         values['submitter'] = y.xpath(postInfo, "//td[@class='subtext']//a[1]/text()");
+         //get the age by looking for a number followed by minute/minutes/hour/hours/etc
+         values['age'] = /\d+ (?:minute|hour|day|week|month)s?/.exec(y.xpath(postInfo, "//td[@class='subtext']/p/text()[2]"));
+
+         for(table in comments) {
+            depth = y.xpath(postInfo, "//td//img");
+            if(depth > 0) {
+               //not root comment
+
+            }
+         }
+
+         output = keyValsToXml(values, "story");
+         //output.raw += <raw>{comments}</raw>;
+         response.object = output;
+
+         //take a native object and turn its attributes into a chunk of xml wrapped by a root node with name rootName
+         function keyValsToXml(keyVals, rootName) {
+            output = <{rootName}></{rootName}>;
+
+            for(name in keyVals) {
+               output.node += <{name}>{keyVals[name]}</{name}>;
+            }
+            return output;
+         }
+         ]]></execute>
+      </select> 
+   </bindings>
+</table>

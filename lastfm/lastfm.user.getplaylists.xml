@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm User.getPlaylists API method. Get a list of a user&#39;s playlists on Last.fm.</description>
+    <documentationURL>http://www.last.fm/api/show?service=313</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=user.getplaylists</url>
+      </urls>
+      <inputs>
+        <key id="user" type="xs:string" paramType="query" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>

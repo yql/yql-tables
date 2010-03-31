@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+  <meta>
+  <author>Dustin Whittle (dustin@yahoo-inc.com)</author>
+  <description>SimpleGeo API</description>
+  <documentationURL>http://help.simplegeo.com/faqs/api-documentation/endpoints</documentationURL>
+    <sampleQuery>select * from {table} where location='soma, san francisco, ca' and dayname='fri' and hour='18' and oauth_consumer_key=@key and oauth_consumer_secret=@secret;</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+     <urls>  
+       <url>http://api.simplegeo.com/{version}/density</url>  
+     </urls>  
+      <inputs>
+        <key id="version" type="xs:string" paramType="path" default="0.1" />
+        
+        <key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true" />
+        <key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true" />
+
+        <key id="location" type="xs:string" paramType="variable" required="true" />
+        
+        <key id="dayname" type="xs:string" paramType="variable" required="true" />
+        
+        <key id="hour" type="xs:string" paramType="variable" required="false" />
+        
+        <key id="latitude" type="xs:string" paramType="variable" required="false" />
+        <key id="longitude" type="xs:string" paramType="variable" required="false" />
+      </inputs>
+      <execute>
+      <![CDATA[
+
+        default xml namespace = "http://where.yahooapis.com/v1/schema.rng";
+
+        var location = y.query('select * from geo.places(1) where text="' + location + '"');
+        if(location.results && location.results.place) {
+
+          latitude = location.results.place.centroid.latitude;
+          longitude = location.results.place.centroid.longitude;
+
+          if(hour !== null) {
+            request.path(dayname + '/' + hour + '/' + latitude + ',' + longitude + '.json');
+          }
+          else {
+            request.path(dayname + '/' + latitude + ',' + longitude + '.json');
+          }
+          
+          y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+          response.object = sendRequest({ action: request.url, method: "GET", accessor: { consumerKey: oauth_consumer_key, consumerSecret: oauth_consumer_secret, realm: request.url } });
+          
+        }
+      
+      ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
