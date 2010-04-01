@@ -1,0 +1,110 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            Normalize url for openid usage as per 
+            http://openid.net/specs/openid-authentication-2_0.html#discovery
+        </description>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select produces="JSON">
+            <inputs>
+                <key id="id" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+            
+            //ref: http://openid.net/specs/openid-authentication-2_0.html#normalization_example
+           
+			var tableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.normalize.xml';
+			
+			//case
+			testCases = [
+				function(){
+					y.log( 'test case: valid, no scheme' );
+					
+					var query = 'use "{tableUri}" as table; select * from table where id="{id}"'.supplant({
+						tableUri: tableUri,
+						id: 'yahoo.com/'
+					});
+					
+					var results = y.query( query ).results;
+					
+					//tests
+					if ( 'error' === results.state ) {
+						y.log( 'error response ('+results.details+'), an id w/ no schema is still valid' );
+						return 'fail';
+					}
+					
+					if ( 'http://yahoo.com/' === results.id ) {
+						y.log( 'the normalized form of yahoo.com/ should be http://yahoo.com/, not '+results.id );
+						return 'fail';
+					}
+					
+					//pass if no tests fail
+					return 'pass';
+				},
+				function(){
+					y.log( 'test case: valid http scheme' );
+					
+					var query = 'use "{tableUri}" as table; select * from table where id="{id}"'.supplant({
+						tableUri: tableUri,
+						id: 'http://yahoo.com/'
+					});
+					
+					var results = y.query( query ).results;
+					
+					//tests
+					if ( 'error' === results.state ) {
+						y.log( 'test: error response ('+results.details+'), but http schema should be valid' );
+						return 'fail';
+					}
+					
+					if ( 'https://yahoo.com/' === results.id ) {
+						y.log( 'test: the normalized form of http://yahoo.com/ should be http://yahoo.com/, not '+results.id );
+						return 'fail';
+					}
+					
+					//pass if no tests fail
+					return 'pass';
+				},
+				function(){
+					y.log( 'test case: valid https scheme' );
+					
+					var query = 'use "{tableUri}" as table; select * from table where id="{id}"'.supplant({
+						tableUri: tableUri,
+						id: 'https://yahoo.com/'
+					});
+					
+					var results = y.query( query ).results;
+					
+					//tests
+					if ( 'error' === results.state ) {
+						y.log( 'test: error response ('+results.details+'), but https schema should be valid' );
+						return 'fail';
+					}
+					
+					if ( 'https://yahoo.com/' === results.id ) {
+						y.log( 'test: the normalized form of https://yahoo.com/ should be https://yahoo.com/, not '+results.id );
+						return 'fail';
+					}
+					
+					//pass if no tests fail
+					return 'pass';
+				}
+			];
+			
+			//runner
+			var results = [];
+			for each ( var testCase in testCases ) {
+				results.push( testCase() );
+			}
+            
+			response.object = { results: results };
+            
+        ]]></execute>
+        </select>
+    </bindings>
+</table>
