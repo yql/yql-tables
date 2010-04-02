@@ -3,10 +3,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>Erik Eldridge</author>
-        <description>
-            Normalize url for openid usage as per 
-            http://openid.net/specs/openid-authentication-2_0.html#discovery
-        </description>
+        <description>Unit tests for openid normalization</description>
         <sampleQuery>select * from {table}</sampleQuery>
     </meta>
     <bindings>
@@ -45,7 +42,7 @@
 					
 					//pass if no tests fail
 					return 'pass';
-				},
+				}(),
 				function(){
 					y.log( 'test case: valid http scheme' );
 					
@@ -69,7 +66,7 @@
 					
 					//pass if no tests fail
 					return 'pass';
-				},
+				}(),
 				function(){
 					y.log( 'test case: valid https scheme' );
 					
@@ -93,16 +90,10 @@
 					
 					//pass if no tests fail
 					return 'pass';
-				}
+				}()
 			];
-			
-			//runner
-			var results = [];
-			for each ( var testCase in testCases ) {
-				results.push( testCase() );
-			}
             
-			response.object = { results: results };
+			response.object = { cases: testCases };
             
         ]]></execute>
         </select>
