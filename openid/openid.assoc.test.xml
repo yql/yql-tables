@@ -13,8 +13,9 @@
 			//credit: http://javascript.crockford.com/remedial.html
 			if(!String.prototype.supplant){String.prototype.supplant=function(o){return this.replace(/{([^{}]*)}/g,function(a,b){var r=o[b];return typeof r==='string'||typeof r==='number'?r:a;});};}if(!String.prototype.trim){String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"");};}
 			
-			var tableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.assoc.xml';
-			
+			// var tableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.assoc.xml';
+			var tableUri = 'http://test.erikeldridge.com/yql/openid/openid.assoc.xml';
+						
 			//cases
 			//ref: http://openid.net/specs/openid-authentication-2_0.html#normalization_example
 			testCases = [
@@ -74,24 +75,26 @@
 				}(),
 				function(){
 					var output = {
-						'case': 'valid uri syntax, but 404 response'
+						
+						//https://open.login.yahooapis.com is a valid uri syntax, and will return 200, but not an assoc
+						'case': 'valid uri syntax, 200 response, but invalid response format'
 					};
 					
 					var query = 'use "{tableUri}" as table; select * from table where uri="{uri}"'.supplant({
 						tableUri: tableUri,
-						uri: 'https://open.login.yahooapis.com/openid/op/'
+						uri: 'https://open.login.yahooapis.com'
 					});
 					
-					var results = y.query( query ).results;
+					var results = y.query( query ).results;y.log(results);
 					
 					//tests
 					if ( results.success ) {
-						output['fail'] = 'table should return error for 404 response';
+						output['fail'] = 'table should return error for invalid response format';
 						return output;
 					}
 					
-					if ( '404' !== results.error ) {
-						output['fail'] = 'error message should describe 404 if 404 response';
+					if ( -1 === results.error.indexOf( 'invalid response returned' ) ) {
+						output['fail'] = "error message should specify 'invalid response returned', instead it's: "+results.error;
 						return output;
 					}
 					
