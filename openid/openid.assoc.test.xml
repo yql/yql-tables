@@ -20,7 +20,7 @@
 			testCases = [
 				function(){
 					var output = {
-						'case': 'invalid uri structure'
+						'name': 'invalid uri structure'
 					};
 					
 					var query = 'use "{tableUri}" as table; select * from table where uri="{uri}"'.supplant({
@@ -43,11 +43,12 @@
 					}
 					
 					//pass if no tests fail
-					return 'pass';
+					output['pass'] = ''
+					return output;
 				}(),
 				function(){
 					var output = {
-						'case': 'valid uri, invalid assoc'
+						'name': 'valid uri, valid assoc'
 					};
 					
 					var query = 'use "{tableUri}" as table; select * from table where uri="{uri}"'.supplant({
@@ -63,20 +64,23 @@
 						return output;
 					}
 					
-					var validAssoc = results.success['mac_key'] && results.success['assoc_handle'];
-					if ( !validAssoc ) {
-						output['fail'] = 'assoc should have mac_key, assoc_handle, etc defined';
+					var valid = results.success['ns'] 
+						&& results.success['assoc_handle'] && results.success['session_type']
+						&& results.success['assoc_type'] && results.success['expires_in'];						
+					if ( !valid ) {
+						output['fail'] = 'valid assoc from y! should have elements defined in the spec (ns, assoc_handle, etc)';
 						return output;
 					}
 					
 					//pass if no tests fail
-					return 'pass';
+					output['pass'] = ''
+					return output;
 				}(),
 				function(){
 					var output = {
 						
 						//https://open.login.yahooapis.com is a valid uri syntax, and will return 200, but not an assoc
-						'case': 'valid uri syntax, 200 response, but invalid response format'
+						'name': 'valid uri syntax, 200 response, but invalid response format'
 					};
 					
 					var query = 'use "{tableUri}" as table; select * from table where uri="{uri}"'.supplant({
@@ -84,7 +88,7 @@
 						uri: 'https://open.login.yahooapis.com'
 					});
 					
-					var results = y.query( query ).results;y.log(results);
+					var results = y.query( query ).results;
 					
 					//tests
 					if ( results.success ) {
@@ -98,11 +102,12 @@
 					}
 					
 					//pass if no tests fail
-					return 'pass';
+					output['pass'] = ''
+					return output;
 				}()
 			];
             
-			response.object = { "cases": testCases };
+			response.object = { "case": testCases };
             
         ]]></execute>
         </select>
