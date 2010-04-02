@@ -67,7 +67,7 @@
 						'case': 'invalid assertJson, valid localurl & assocJson'
 					};
 					
-					var query = "use '{tableUri}' as table; select * from table where localUrl='{localUrl}' and assertJson='{assertJson}'".supplant({
+					var query = "use '{tableUri}' as table; select * from table where localUrl='{localUrl}' and assertJson='{assertJson}' and assocJson='{assocJson}'".supplant({
 							tableUri: tableUri,
 							localUrl: 'example.com',
 							assocJson: validAssocJson,
