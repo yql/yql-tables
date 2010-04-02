@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>Unit tests for openid.assoc.xml</description>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select>
+            <inputs></inputs>
+            <execute><![CDATA[
+
+			//credit: http://javascript.crockford.com/remedial.html
+			if(!String.prototype.supplant){String.prototype.supplant=function(o){return this.replace(/{([^{}]*)}/g,function(a,b){var r=o[b];return typeof r==='string'||typeof r==='number'?r:a;});};}if(!String.prototype.trim){String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"");};}
+			
+			var tableUri = 'http://github.com/erikeldridge/yql-tables/raw/master/openid/openid.assoc.xml';
+			
+			//cases
+			//ref: http://openid.net/specs/openid-authentication-2_0.html#normalization_example
+			testCases = [
+				function(){
+					var output = {
+						'case': 'invalid uri structure'
+					};
+					
+					var query = 'use "{tableUri}" as table; select * from table where uri="{uri}"'.supplant({
+						tableUri: tableUri,
+						uri: 'open.login.yahooapis.com/openid/op/auth'
+					});
+					
+					var results = y.query( query ).results;
+					
+					//tests
+					if ( results.success ) {
+						output['fail'] = 'table should return an error for invalid uri';
+						return output;
+					}
+					
+					var validAssoc = results.success['mac_key'] && results.success['assoc_handle'];
+					if ( !validAssoc ) {
+						output['fail'] = 'assoc should have mac_key, assoc_handle, etc defined';
+						return output;
+					}
+					
+					//pass if no tests fail
+					return 'pass';
+				}(),
+				function(){
+					var output = {
+						'case': 'valid uri, invalid assoc'
+					};
+					
+					var query = 'use "{tableUri}" as table; select * from table where uri="{uri}"'.supplant({
+						tableUri: tableUri,
+						uri: 'https://open.login.yahooapis.com/openid/op/auth'
+					});
+					
+					var results = y.query( query ).results;
+					
+					//tests
+					if ( results.error ) {
+						output['fail'] = 'table should return success for a valid uri';
+						return output;
+					}
+					
+					var validAssoc = results.success['mac_key'] && results.success['assoc_handle'];
+					if ( !validAssoc ) {
+						output['fail'] = 'assoc should have mac_key, assoc_handle, etc defined';
+						return output;
+					}
+					
+					//pass if no tests fail
+					return 'pass';
+				}(),
+				function(){
+					var output = {
+						'case': 'valid uri syntax, but 404 response'
+					};
+					
+					var query = 'use "{tableUri}" as table; select * from table where uri="{uri}"'.supplant({
+						tableUri: tableUri,
+						uri: 'https://open.login.yahooapis.com/openid/op/'
+					});
+					
+					var results = y.query( query ).results;
+					
+					//tests
+					if ( results.success ) {
+						output['fail'] = 'table should return error for 404 response';
+						return output;
+					}
+					
+					if ( '404' !== results.error ) {
+						output['fail'] = 'error message should describe 404 if 404 response';
+						return output;
+					}
+					
+					//pass if no tests fail
+					return 'pass';
+				}()
+			];
+            
+			response.object = { "cases": testCases };
+            
+        ]]></execute>
+        </select>
+    </bindings>
+</table>
