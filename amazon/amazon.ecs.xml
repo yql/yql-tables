@@ -201,6 +201,27 @@
             response.object = y.rest(signeduri).get().response;
           ]]></execute>
         </select>
+        <select itemPath="ItemLookupResponse.Items.Item" produces="XML">
+            <urls>
+                <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService</url>
+            </urls>
+            <inputs>
+                <key id="Operation" type="xs:string" paramType="query" required="false"
+                     default="ItemLookup"/>
+                <key id="ItemId" type="xs:string" paramType="query" required="true"/>
+                <key id="MerchantId" type="xs:string" paramType="query" required="false"/>
+                <key id="AWSAccessKeyId" type="xs:string" paramType="query" required="true"/>
+                <key id="secret" type="xs:string" paramType="variable" required="true"/>
+                <key id="ResponseGroup" type="xs:string" paramType="query" required="false"/>
+                <key id="AssociateTag" type="xs:string" paramType="query" required="false"/>
+                <key id="Sort" type="xs:string" paramType="query" required="false"/>
+                <key id="Version" type="xs:string" paramType="query" required="false"
+                     default="2009-03-31"/>
+            </inputs>
+            <execute><![CDATA[
+              var signeduri = getSignedURL(request.url, AWSAccessKeyId, secret);
+              response.object = y.rest(signeduri).get().response;
+            ]]></execute>
+        </select>
     </bindings>
 </table>
-
