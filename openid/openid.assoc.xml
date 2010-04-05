@@ -7,7 +7,7 @@
         </description>
 		<!-- yahoo -->
         <sampleQuery>select * from {table} where uri="https://open.login.yahooapis.com/openid/op/auth"</sampleQuery>
-		<documentationURL>http://wiki.github.com/ydn/yql-openid-support/</documentationURL>
+		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
     </meta>
     <bindings>
         <select produces="JSON">
