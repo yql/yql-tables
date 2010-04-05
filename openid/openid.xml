@@ -5,7 +5,7 @@
         <description>
             Generate an openid auth url from an identifier (openid 2.0 only, ie is not 1.1 compat)
         </description>
-        <sampleQuery>select * from {table} where identifier="yahoo.com" and return_to="http://example.com"</sampleQuery>
+        <sampleQuery>select * from {table} where id="yahoo.com" and return_to="http://example.com"</sampleQuery>
 		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
     </meta>
     <bindings>
