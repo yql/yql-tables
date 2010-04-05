@@ -1,64 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
     <meta>
         <author>Erik Eldridge</author>
         <description>
-            - generate an openid association for caller to store
-            - For more info see http://openid.net/specs/openid-authentication-2_0.html#associations
+            Generate an openid association for caller to store
         </description>
+		<!-- yahoo -->
         <sampleQuery>select * from {table} where uri="https://open.login.yahooapis.com/openid/op/auth"</sampleQuery>
+		<documentationURL>http://wiki.github.com/ydn/yql-openid-support/</documentationURL>
     </meta>
     <bindings>
         <select produces="JSON">
             <inputs>
-            
-                <!-- uri must be a valid auth uri -->
+
+                <!-- uri must be a valid auth uri. get auth endpoint by running openid.xml w/o assoc -->
                 <key id="uri" type="xs:string" paramType="variable" required="true"/>
-                
+				
             </inputs>
             <execute><![CDATA[
-                
-                //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
-                var wrapper = function () {
-                        
-                        var params = {
-                                'openid.ns' : 'http://specs.openid.net/auth/2.0',
-                                'openid.mode' : 'associate',
-                                'openid.assoc_type' : 'HMAC-SHA1',
-                                'openid.session_type' : 'no-encryption'
-                            },
-                            pairs = [];
 
-                        for (var key in params) {
-                            pairs.push(key + '=' + encodeURIComponent(params[key]));
-                        }
-                        
-                        y.include('http://github.com/kvz/phpjs/raw/master/functions/strings/trim.js');
-                        
-                        var assocUri = uri + '?' + pairs.join('&'),
-                            resp = y.rest(assocUri).get().response,
-                            assoc = trim(resp, '\n').split('\n');
-                            
-                        return {
-                            "status" : "success",
-                            "assoc" : assoc
-                        };
-                    
-                    }();
-                    
-                //output
-                if ('success' === wrapper.status) {
-                    response.object = {
-                        "status" : "success",
-                        "assoc" : wrapper.assoc
-                    };
-                } else {
-                    response.object = {
-                        "status" : "error",
-                        "details" : wrapper.details
-                    };
-                }
-                
+				//credit: http://javascript.crockford.com/remedial.html
+				if(!String.prototype.supplant){String.prototype.supplant=function(o){return this.replace(/{([^{}]*)}/g,function(a,b){var r=o[b];return typeof r==='string'||typeof r==='number'?r:a;});};}if(!String.prototype.trim){String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"");};}
+			
+				//json
+				y.include( 'store://pitrYOXYb8vQfiui4rUYPX' );
+			
+				response.object = function() {
+
+					var params = {
+						'openid.ns': 'http://specs.openid.net/auth/2.0',
+						'openid.mode': 'associate',
+						'openid.assoc_type': 'HMAC-SHA1',
+						'openid.session_type': 'no-encryption'
+					};
+					var pairs = [];
+
+					for (var key in params) {
+						pairs.push(key + '=' + encodeURIComponent(params[key]));
+					}
+
+					var assocUri = uri + '?' + pairs.join('&');
+					var req = y.rest(assocUri).get();
+
+					if ( 200 !== req.status ) {
+						return {
+							"error": 'non-200 response status: ' + req.status
+						};
+					}
+
+					var arr = req.response.trim().split('\n');
+					var params = {};
+
+					for (var i in arr) {
+						var pair = arr[i].split(':');
+						params[pair[0]] = pair[1];
+					}
+					
+					if ( params.assoc_handle ) {
+						return {
+							"success": params
+						};
+					} else if ( params.error ) {
+						return {
+							"error": 'unsuccessful response: ' + req.response
+						};
+					} else {
+						return {
+							"error": 'invalid response returned: ' + req.response
+						};
+					}
+
+				} ();
+
             ]]></execute>
         </select>
     </bindings>
