@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Andrew Guyton</author>
+    <documentationURL>http://groups.google.com/group/foursquare-api/web/api-documentation</documentationURL>
+    <sampleQuery>select * from {table} where geolat="33.7772869" and geolong="-84.3976068"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://api.foursquare.com/v1/venues</url>
+      </urls>
+      <inputs>
+        <key id="geolat" type="xs:string" paramType="query" required="true" />
+        <key id="geolong" type="xs:string" paramType="query" required="true" />
+		<key id="l" type="xs:string" paramType="query" required="false" />
+		<key id="q" type="xs:string" paramType="query" required="false" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

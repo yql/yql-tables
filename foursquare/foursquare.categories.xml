@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Andrew Guyton</author>
+    <documentationURL>http://groups.google.com/group/foursquare-api/web/api-documentation</documentationURL>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://api.foursquare.com/v1/categories</url>
+      </urls>
+    </select>
+  </bindings>
+</table>
