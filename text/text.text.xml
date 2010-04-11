@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+      <sampleQuery>select * from {table} where text.key1 = "http://farm" and text.key3 = ".static.flickr.com/" and text.key5 = "/" and text.key7 = "_" and text.key9 = ".jpg" and (text.key2, text.key4, text.key6, text.key8) in (select farm, server, id, secret from flickr.photos.search where text = "fish");</sampleQuery>
+      <author>Tom Hughes-Croucher (@sh1mmer) croucher@yahoo-inc.com</author>
+   </meta>
+   <bindings>
+      <select itemPath="" produces="XML">
+         <urls>
+            <url></url>
+         </urls>
+         <inputs>
+            <map id='text' type='xs:string' paramType='variable' required="true" />
+         </inputs>
+         <execute><![CDATA[
+            var results = "";
+            var keys = [];
+
+            for (k in text) {
+               keys.push(k);
+            }
+            
+            keys.sort();
+            
+            for (var i=0;i<keys.length;i++) {
+               key = keys[i];
+               value = text[key];
+               results += value;
+            }
+
+            results = <text>{results}</text>;            
+            
+            response.object = results;
+         ]]></execute>
+      </select> 
+   </bindings>
+</table>
