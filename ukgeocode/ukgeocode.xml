@@ -3,7 +3,7 @@
   <meta>
     <sampleQuery>select postcode, lat, lon from {table} where postcode = "eh5 2gj";</sampleQuery>
     <author>Max Manders</author>
-    <documentationURL>http://maxmanders.co.uk/uk-geocode/</documentationURL>  
+    <documentationURL>http://maxmanders.co.uk/ukgeocode/</documentationURL>  
     <description>Geocodes UK postcodes to latitude and longitude co-ordinates. Contains Royal Mail data © Royal Mail copyright and database right 2010.</description>
   </meta>
 
