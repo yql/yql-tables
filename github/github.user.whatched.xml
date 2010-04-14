@@ -6,7 +6,7 @@
     <sampleQuery>select * from {table} where id='jtadeulopes'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="users" produces="XML">
+    <select itemPath="repository" produces="XML">
       <urls>
         <url>http://github.com/api/v2/xml/repos/watched/{id}</url>
       </urls>
