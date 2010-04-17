@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
 		<author>Erik Eldridge</author>
-		<sampleQuery>select * from {table} where uri='http://example.com' and consumerKey='asd123' and consumerSecret='zxc456' and callbackUri='http://example.com';</sampleQuery>
+		<sampleQuery>select * from oauth where uri='http://example.com' and consumerKey='asd123' and consumerSecret='zxc456' and callbackUri='http://example.com';</sampleQuery>
 		<documentationURL>http://wiki.github.com/erikeldridge/yql-oauth-support/</documentationURL>
 	</meta>
 	<bindings>
@@ -20,7 +20,9 @@
 			<execute><![CDATA[
 			
 			y.include( "http://github.com/yql/yql-tables/raw/master/oauth/oauth.utils.js" );
-			y.include( 'http://github.com/kvz/phpjs/raw/master/functions/url/parse_url.js' );
+			
+			//http://github.com/kvz/phpjs/raw/master/functions/url/parse_url.js
+			y.include( 'store://G5vGxDjeP712fgg9vHVi5b' );
 			 
 			var parsed = parse_url( uri );
 			var accessor = {
