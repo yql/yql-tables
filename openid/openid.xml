@@ -1,153 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
     <meta>
         <author>Erik Eldridge</author>
         <description>
-            - generate an openid auth url from an identifier.  
-            - supports openid 2.0 only, ie is not 1.1 compat
-            - For more info see http://openid.net/specs/openid-authentication-2_0.html
+            Generate an openid auth url from an identifier (openid 2.0 only, ie is not 1.1 compat)
         </description>
-        <sampleQuery>select * from {table} where identifier="yahoo.com" and return_to="http://example.com"</sampleQuery>
+        <sampleQuery>select * from {table} where id="yahoo.com" and return_to="http://example.com"</sampleQuery>
+		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
     </meta>
     <bindings>
         <select produces="XML">
             <inputs>
+				
+				<!-- the openid to use, eg 'yahoo.com' -->
                 <key id="id" type="xs:string" paramType="variable" required="true"/>
+				
+				<!-- a url to return to after auth, eg http://example.com -->
                 <key id="return_to" type="xs:string" paramType="variable" required="true"/>
+
+				<!-- 
+					json array of attr exchange (http://axschema.org, http://openid.net/specs/openid-attribute-exchange-1_0.html) fields, eg 
+					[{'schema':'http://axschema.org/contact/email','alias':'email','required':true},
+                	{'schema':'http://axschema.org/namePerson','alias':'fullname','required':true}]
+				-->
+				<key id="axJson" type="xs:string" paramType="variable" />
+				
+				<!-- oauth consumer key for hybrid auth (http://developer.yahoo.net/blog/archives/2009/09/yahoo_openid_hybrid.html) -->
+				<key id="oauthKey" type="xs:string" paramType="variable" />
+				
+				<!-- if you have an openid association, pass the handle here -->
                 <key id="assoc_handle" type="xs:string" paramType="variable" />
+
             </inputs>
             <execute><![CDATA[
-                
-                //set this domain to your base uri for testing 
-                var domain = 'http://github.com/erikeldridge/yql-tables/raw/master/openid',
-                
-                    normalize = function (id) {
-                        var tableUri = domain+'/openid.normalize.xml',                    
-                            query = 'use "'+tableUri+'" as norm; '
-                                + 'select * from norm where id="'+id+'"',
-                            results = y.xmlToJson(y.query(query).results);
-                        
-                        if ('success' == results.results.result.state) {
-                            return results.results.result.id;
-                        } else {
-                            return false;
-                        }
-                    },
-                    discover = function (normId) {
-                    
-                        //try yadis
-                        var yadisTableUri = domain+'/openid.yadis.xml?r=5',
-                            yadisQuery = 'use "'+yadisTableUri+'" as yadis; '
-                                + 'select * from yadis where uri = "'+normId+'"',
-                            yadisResults = y.xmlToJson(y.query(yadisQuery).results);y.log(yadisResults);
-                        
-                        //results.result only shows up for success responses. not sure why
-                        if (yadisResults.results.result 
-                            && 'success' === yadisResults.results.result.status) {
-                            var xrdsQuery = 'select * from xml where url="'+yadisResults.results.result.uri+'"',
-                                xrdsResult = y.xmlToJson(y.query(xrdsQuery).results);
-                            return xrdsResult.results.XRDS.XRD.Service.URI;
-                        }
-                        
-                        //try html                    
-                        var htmlQuery = 'select * from html where url="'+normId+'" '
-                                + 'and xpath=\'//link[@rel="openid2.provider"]\'',
-                            htmlResults = y.xmlToJson(y.query(htmlQuery).results);
-                        if (htmlResults.results) {
-                            return htmlResults.results.link.href;
-                        }
-                        
-                        //ok, yadis and html fail, so give up
-                        return false;                    
-                    },
-                    
-                    asociate (authUri) {
-                        
-                    },
-                    
-                    //use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
-                    wrapper = function (id) {
-                    
-                        //normalize id
-                        var normId = normalize(id);
-                    
-                        if (!normId) {
-                            return {
-                                'status' : 'error',
-                                'details' : 'invalid id'
-                            };
-                        }
-                    
-                        //get auth base url
-                        var baseUri = discover(normId);
-                    
-                        if (!baseUri) {
-                            return {
-                                'status' : 'error',
-                                'details' : 'id could not be resolved to an openid provider'
-                            };
-                        }
-                        
-                        //create association
-                        var assoc = associate();
-                        
-                        //validate return_to and extract realm url
-                        var pattern = '^([^:?#/]+'  //scheme
-                                + ':\/\/'           //separator
-                                +'[^:?#/]+)',       //domain
+				
+				//json
+				y.include( 'store://pitrYOXYb8vQfiui4rUYPX' );
+				
+				function normalize (id) {
+						
+					//normalize table
+					var tableUri = 'store://OFvQhcRZIjcRa7F255lKBh';
+					
+					var query = 'use "' + tableUri + '" as norm; ' + 'select * from norm where id="' + id + '"';
+					var results = y.xmlToJson(y.query(query).results);
 
-                            match = return_to.match(new RegExp(pattern));
+					if ('success' == results.results.result.state) {
+						return results.results.result.id;
+					} else {
+						return false;
+					}
+				}
+				
+				function discover (normId) {
+					
+					//try yadis
+					var yadisTableUri = 'store://Hwn5mCBZYB3uN3bVsF9sP1',
+						yadisQuery = 'use "' + yadisTableUri + '" as yadis; ' + 'select * from yadis where uri = "' + normId + '"',
+						yadisResults = y.xmlToJson(y.query(yadisQuery).results);
 
-                        if (match) {
-                            var realm = match[0];
-                        } else {
-                            return {
-                                'status' : 'error',
-                                'details' : 'invalid return_to uri'
-                            };
-                        }                      
-                        
-                        //construct auth uri
-                        var params = {
-                                'openid.ns' : 'http://specs.openid.net/auth/2.0',
-                                'openid.realm' : realm,
-                                'openid.mode' : 'checkid_setup',
-                                'openid.return_to' : return_to,
-                                'openid.identity' : 'http://specs.openid.net/auth/2.0/identifier_select',
-                                'openid.claimed_id' : 'http://specs.openid.net/auth/2.0/identifier_select'
-                            },
+					//results.result only shows up for success responses. not sure why
+					if (yadisResults.results.result && 'success' === yadisResults.results.result.status) {
+						var xrdsQuery = 'select * from xml where url="' + yadisResults.results.result.uri + '"',
+							xrdsResult = y.xmlToJson(y.query(xrdsQuery).results);
+						return xrdsResult.results.XRDS.XRD.Service.URI;
+					}
 
-                            pairs = [];
-                        
-                        
-                        if (assoc_handle) {
-                            params['openid.assoc_handle'] = assoc_handle;
-                        }
-                        
-                        for (var key in params) {
-                            pairs.push(key + '=' + encodeURIComponent(params[key]));
-                        }
-                    
-                        return {
-                            "status" : "success",
-                            "uri" : baseUri + '?' + pairs.join('&')
-                        };
-                    
-                    }(id);
-                    
-                //output
-                if ('success' === wrapper.status) {
-                    response.object = {
-                        "status" : "success",
-                        "uri" : wrapper.uri
-                    };
-                } else {
-                    response.object = {
-                        "status" : "error",
-                        "details" : wrapper.details
-                    };
-                }
-                
+					//try html                    
+					var htmlQuery = 'select * from html where url="' + normId + '" ' + 'and xpath=\'//link[@rel="openid2.provider"]\'',
+						htmlResults = y.xmlToJson(y.query(htmlQuery).results);
+					if (htmlResults.results) {
+						return htmlResults.results.link.href;
+					}
+
+					//ok, yadis and html fail, so give up
+					return false;
+				};
+
+				//use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
+				response.object = function() {
+
+					//normalize id
+					var normId = normalize(id);
+
+					if (!normId) {
+						return {
+							'error': 'invalid id'
+						};
+					}
+
+					//get auth base url
+					var baseUri = discover(normId);
+
+					if (!baseUri) {
+						return {
+							'error': 'id could not be resolved to an openid provider'
+						};
+					}
+
+					//validate return_to and extract realm url
+					var pattern = '^([^:?#/]+' //scheme
+					+ ':\/\/' //separator
+					+ '[^:?#/]+)',
+					//domain
+					match = return_to.match(new RegExp(pattern));
+
+					if (match) {
+						var realm = match[0];
+					} else {
+						return {
+							'error': 'invalid return_to uri'
+						};
+					}
+
+					//construct auth uri
+					var params = {
+						'openid.ns': 'http://specs.openid.net/auth/2.0',
+						'openid.realm': realm,
+						'openid.mode': 'checkid_setup',
+						'openid.return_to': return_to,
+						'openid.identity': 'http://specs.openid.net/auth/2.0/identifier_select',
+						'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select'
+					},
+					pairs = [];
+
+					//add ax, if ax fields passed via yql param
+					if (axJson) {
+						params['openid.ns.ax'] = 'http://openid.net/srv/ax/1.0';
+						params['openid.ax.mode'] = 'fetch_request';
+						var axFields = JSON.parse(axJson);
+						var key = null,
+							required = [];
+						for each ( var field in axFields ) {
+							if (true === field['required']) {
+								required.push(field['alias']);
+							}
+							key = 'openid.ax.type.' + field['alias'];
+							params[key] = field['schema'];
+						}
+						//construct comma-separated list of required fields
+						params['openid.ax.required'] = required.join(',');
+					}
+					
+					//add hybrid auth support, if key passed via yql param
+					if ( oauthKey ) {
+						params['openid.ns.oauth'] = 'http://specs.openid.net/extensions/oauth/1.0';
+						params['openid.oauth.consumer'] = oauthKey;
+					}
+					
+					//use assoc handle, if passed in yql param
+					if (assoc_handle) {
+						params['openid.assoc_handle'] = assoc_handle;
+					}
+
+					for (var key in params) {
+						pairs.push(key + '=' + encodeURIComponent(params[key]));
+					}
+					
+					return {
+						"success": baseUri + '?' + pairs.join('&')
+					};
+				} ();
+
             ]]></execute>
         </select>
     </bindings>

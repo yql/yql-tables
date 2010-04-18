@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
     <meta>
         <author>Erik Eldridge</author>
         <description>
-            fetch an XRDS document via yadis.  For more info see
-            http://openid.net/specs/openid-authentication-2_0.html#discovery
-            http://yadis.org/wiki/Main_Page
+            Fetch an XRDS document via yadis
         </description>
         <sampleQuery>select * from {table} where uri="http://www.yahoo.com/"</sampleQuery>
+		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
     </meta>
     <bindings>
         <select produces="JSON">
