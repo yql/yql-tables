@@ -3,7 +3,7 @@
   <meta>
     <author>Sam Pullara</author>
     <description>Access your Google Analytics accounts</description>
-    <documentationURL>http://code.google.com/apis/analytics/docs/gdata/gdataAuthentication.html</documentationURL>
+    <documentationURL>http://code.google.com/apis/analytics/docs/gdata/gdataDeveloperGuide.html</documentationURL>
   </meta>
   <bindings>
     <select>
@@ -18,12 +18,32 @@
         <key id="source" paramType="variable" default="sampullara-yql-1.0"/>
       </inputs>
       <execute><![CDATA[
-var content = "accountType=" + encodeURIComponent(accountType) + 
+var content = "accountType=" + encodeURIComponent(accountType) +
               "&Email=" + encodeURIComponent(Email) +
               "&Passwd=" + encodeURIComponent(Passwd) +
               "&service=" + encodeURIComponent(service) +
               "&source=" + encodeURIComponent(source);
 response.object = request.contentType("application/x-www-form-urlencoded").header("GData-Version", "2").post(content).response;
+      ]]></execute>
+    </select>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>https://www.google.com/analytics/feeds/data</url>
+      </urls>
+      <inputs>
+        <key id="ids" type="xs:string" paramType="query" required="true"/>
+        <key id="dimensions" type="xs:string" paramType="query"/>
+        <key id="metrics" type="xs:string" paramType="query" required="true"/>
+        <key id="filters" type="xs:string" paramType="query"/>
+        <key id="sort" type="xs:string" paramType="query"/>
+        <key id="start-date" as="start" type="xs:string" paramType="query" required="true"/>
+        <key id="end-date" as="end" type="xs:string" paramType="query" required="true"/>
+        <key id="max-results" as="max" type="xs:string" paramType="query"/>
+        <key id="auth" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+      y.log(request.url);
+response.object = request.header("GData-Version", "2").header("Authorization", "GoogleLogin Auth=" + auth).get().response;
       ]]></execute>
     </select>
     <select>
@@ -34,7 +54,7 @@ response.object = request.contentType("application/x-www-form-urlencoded").heade
         <key id="auth" paramType="variable" required="true"/>
       </inputs>
       <execute><![CDATA[
-response.object = request.header("GData-Version", "2").header("Authorization", "GoogleLogin Auth=" + Auth).get().response;
+response.object = request.header("GData-Version", "2").header("Authorization", "GoogleLogin Auth=" + auth).get().response;
       ]]></execute>
     </select>
   </bindings>
