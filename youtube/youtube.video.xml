@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Guilherme Chapiewski</author>
+    <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
     <sampleQuery>select * from {table} where id='gmvQ1uA202M'</sampleQuery>
   </meta>
   <bindings>
