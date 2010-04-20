@@ -20,7 +20,6 @@
         for each (var result in rows.results){
           var text = result.text.toString();
           var text = text.replace(/\\/,'');
-          // encodeURIComponent(text);
           var trans = y.query('select * from google.translate where q="'+text+'" and target="'+language+'"');
           var trans = trans.results.translatedText.toString();
           var trans = trans.replace(/\\/,'');
