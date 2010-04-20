@@ -5,7 +5,7 @@
     <sampleQuery>select * from {table} where id='gmvQ1uA202M'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="result.video" produces="XML">
+    <select itemPath="results.video" produces="XML">
       <urls>
         <url>http://youtube-api.appspot.com/video</url>
       </urls>
