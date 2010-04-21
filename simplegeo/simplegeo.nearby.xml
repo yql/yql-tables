@@ -26,6 +26,12 @@ var accessor = { consumerSecret:secret, tokenSecret:""};
 			<key id="geohash" type="xs:string" paramType="path" required="true"/>
             <key id="ck" type="xs:string" paramType="variable" required="true"/>
             <key id="secret" type="xs:string" paramType="variable" required="true"/>
+			<key id="radius" paramType="query"/>
+			<key id="layers" paramType="query"/>
+			<key id="types" paramType="query"/>
+			<key id="start" paramType="query"/>
+			<key id="end" paramType="query"/>
+			<key id="limit" paramType="query"/>
         </inputs>
         <execute>
 <![CDATA[
@@ -56,6 +62,12 @@ try {
 				<key id="lon" type="xs:string" paramType="path" required="true"/>
 	            <key id="ck" type="xs:string" paramType="variable" required="true"/>
 	            <key id="secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="radius" paramType="query"/>
+				<key id="layers" paramType="query"/>
+				<key id="types" paramType="query"/>
+				<key id="start" paramType="query"/>
+				<key id="end" paramType="query"/>
+				<key id="limit" paramType="query"/>
 	        </inputs>
 	        <execute>
 	<![CDATA[
