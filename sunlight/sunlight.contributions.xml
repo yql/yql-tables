@@ -7,10 +7,10 @@
   	<author>Michael Chelen http://mikechelen.com</author>
   </meta>
   <bindings>
-    <select itemPath="json" produces="JSON">
+    <select itemPath="json.json" produces="JSON">
       <urls><url>http://transparencydata.com/api/1.0/contributions.json?</url></urls>
       <inputs>
-        <key id='apikey' type='xs:string' paramType='query' private='TRUE'/>
+        <key id='apikey' type='xs:string' paramType='query' private='true' required='true' />
         <key id='page' type='xs:string' paramType='query' />
         <key id='per_page' type='xs:string' paramType='query' />                
         <key id='amount' type='xs:string' paramType='query' />
