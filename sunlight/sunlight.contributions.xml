@@ -1,0 +1,29 @@
+.<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<description></description>
+  	<sampleQuery>SELECT * FROM {table} WHERE key="APIKEY" and state="md|va" and recipient_ft="mikulski" and cycle="2008"</sampleQuery>
+    <documentationURL>http://transparencydata.com/api/</documentationURL>
+  	<author>Michael Chelen http://mikechelen.com</author>
+  </meta>
+  <bindings>
+    <select itemPath="json" produces="JSON">
+      <urls><url>http://transparencydata.com/api/1.0/contributions.json?apikey={apikey}&amp;page={page}&amp;per_page={per_page}&amp;amount={amount}&amp;contributor_ft={contributor_ft}&amp;contributor_state={contributor_state}&amp;cycle={cycle}&amp;date={date}&amp;employer_ft={employer_ft}&amp;recipient_ft={recipient_ft}&amp;recipient_state={recipient_state}&amp;seat={seat}&amp;transaction_namespace={transaction_namespace}</url></urls>
+      <inputs>
+        <key id='apikey' type='xs:string' paramType='path' />
+        <key id='page' type='xs:string' paramType='path' />
+        <key id='per_page' type='xs:string' paramType='path' />                
+        <key id='amount' type='xs:string' paramType='path' />
+        <key id='contributor_ft' type='xs:string' paramType='path' />
+        <key id='contributor_state' type='xs:string' paramType='path' />
+        <key id='cycle' type='xs:string' paramType='path' />
+        <key id='date' type='xs:string' paramType='path' />
+        <key id='employer_ft' type='xs:string' paramType='path' />
+        <key id='recipient_ft' type='xs:string' paramType='path' />
+        <key id='recipient_state' type='xs:string' paramType='path' />
+        <key id='seat' type='xs:string' paramType='path' />
+        <key id='transaction_namespace' type='xs:string' paramType='path' />
+      </inputs>
+    </select>
+  </bindings>
+</table>
