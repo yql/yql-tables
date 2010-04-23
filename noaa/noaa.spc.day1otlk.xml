@@ -37,7 +37,7 @@
         */
 
         // Isolate the percentage fields then strip the new lines
-        rawData=rawData.replace(/([0-9]\.[0-9]{2}|SLGT|TSTM)/mg,'|$1|');
+        rawData=rawData.replace(/([0-9]\.[0-9]{2}|MDT|SLGT|TSTM)/mg,'|$1|');
         rawData=rawData.replace(/\n/mg,'');
 
         // This gives us an array with each type isolated (ie TORNADO, HAIL, WIND)
