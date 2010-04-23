@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            Discovers an openid provider's log-in uri using the normalized openid passed in
+        </description>
+        <sampleQuery>select * from {table} where normalizedId="http://www.yahoo.com/"</sampleQuery>
+		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
+    </meta>
+    <bindings>
+        <select produces="XML">
+            <inputs>
+                <key id="normalizedId" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+				
+				//json
+				y.include( 'store://pitrYOXYb8vQfiui4rUYPX' );
+				
+				//credit: http://javascript.crockford.com/remedial.html
+				if(!String.prototype.supplant){String.prototype.supplant=function(o){return this.replace(/{([^{}]*)}/g,function(a,b){var r=o[b];return typeof r==='string'||typeof r==='number'?r:a;});};}if(!String.prototype.trim){String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"");};}
+				
+				//use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
+				response.object = function() {
+
+					//try yadis
+					var yadisTableUri = 'store://EyZjOZK9SHXU3IGArp7K58';
+					var yadisQuery = 'use "{tableUri}" as yadis; select * from yadis where uri = "{normalizedId}"'.supplant({
+							'tableUri' : yadisTableUri,
+							'normalizedId' : normalizedId
+						});
+					var yadisResults = y.xmlToJson( y.query( yadisQuery ).results );
+
+					//results.result only shows up for success responses. not sure why
+					if ( yadisResults.results.result && 'success' === yadisResults.results.result.status ) {
+						var xrdsQuery = 'select * from xml where url="{url}"'.supplant({
+							'url' : yadisResults.results.result.uri 
+						});
+						var xrdsResult = y.xmlToJson( y.query( xrdsQuery ).results );
+						
+						//kludge: for the orange.fr xrds doc, xmlToJson creates a 'content' node
+						if ( xrdsResult.results.XRDS.XRD.Service.URI.content ) {
+							var xrdsUri = xrdsResult.results.XRDS.XRD.Service.URI.content;
+						} else {
+							var xrdsUri = xrdsResult.results.XRDS.XRD.Service.URI;
+						}
+						
+						return {
+							'success' : xrdsUri
+						};
+					}
+
+					//try scraping w/ the native html table         
+					var htmlQuery = 'select * from html where url="{url}" and xpath=\'//link[@rel="openid2.provider"]\''.supplant({
+						'url' : normalizedId
+					});
+					var htmlResults = y.xmlToJson( y.query( htmlQuery ).results );
+					if ( htmlResults.results ) {
+						return {
+							'success' : htmlResults.results.link.href
+						};
+					}
+
+					//try raw html fetch  
+					var htmlResults = y.rest( normalizedId ).get().response;
+					
+					//this is super brittle, but it works for flickr, so it's a start
+					var matches = htmlResults.match(/<link rel="openid2\.provider" href="([^"]+)"[^>]*>/);
+					
+					if ( matches[1] ) {
+						return {
+							'success' : matches[1]
+						};
+					}
+					
+					//ok, yadis and html fail, so give up
+					return {
+						'error': 'yadis and html fail'
+					};
+				} ();
+
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
