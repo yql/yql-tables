@@ -8,7 +8,7 @@
             Yahoo Finance Quotes - Options Chain
         </description>
         <sampleQuery>
-            select * from {table}
+            SELECT * FROM {table} WHERE symbol='GOOG' AND expiration='2010-05'
         </sampleQuery>
     </meta>
     <bindings>
@@ -19,6 +19,7 @@
             </urls>
             <inputs>
             	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+            	<key id="expiration" type="xs:string" paramType="variable" required="false" />
             </inputs>
             <execute>
                 <![CDATA[
@@ -48,9 +49,13 @@
 					 
 					String.prototype.toInt = function ()
 					{
-						// remove leading 0's because otherwise str can be interpreted as Octal
-						
+						// remove leading 0's because otherwise 
+						// str can be interpreted as Octal
 						var str = this.replace( /^0+/, '' );
+
+						// also the thousands comma was cousing trouble
+						str = str.replace( /\,/g, '' );
+
 						return parseInt( str );
 					}
 					 
@@ -133,16 +138,37 @@
 					// Queue the query
 					 
 					var optionsChainURL = "http://finance.yahoo.com/q/op?s=" + symbol;
-					
+					var queryHasExpiration = false;
+	
+					if ( expiration != undefined )
+					{
+						var expPattern = /^[\d]{4}\-[\d]{2}$/;
+						
+						if ( expPattern.test( expiration ) )
+						{
+							optionsChainURL += "&m=" + expiration;
+							queryHasExpiration = true;
+						}
+					}
+
 					var optionsChainQuery = y.query(
 						"select * from html " +
 						"where url=@url and " +
 						"xpath=\"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or @class='yfnc_tabledata1']]\"",
 						{url: optionsChainURL}
 					);
-					 
-					var optionsChain = <optionsChain symbol={symbol}></optionsChain>;
-					 
+					
+					var optionsChain;
+ 				
+					if ( queryHasExpiration == true )
+					{
+						optionsChain = <optionsChain symbol={symbol} expiration={expiration}></optionsChain>;
+					}
+					else
+					{
+						optionsChain = <optionsChain symbol={symbol}></optionsChain>;
+					}
+
 					getOptionsChain();
 					
 					response.object = optionsChain;
