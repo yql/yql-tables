@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Andrew Guyton</author>
+		<documentationURL>http://groups.google.com/group/foursquare-api/web/api-documentation</documentationURL>
+		<sampleQuery>select * from {table}</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>http://api.foursquare.com/v1/checkin</url>
+			</urls>
+			<inputs>
+				<key id="vid" type="xs:string" paramType="query" required="false" />
+				<key id="venue" type="xs:string" paramType="query" required="false" />
+				<key id="shout" type="xs:string" paramType="query" required="false" />
+				<key id="private" type="xs:string" paramType="query" required="false" />
+				<key id="twitter" type="xs:string" paramType="query" required="false" />
+				<key id="facebook" type="xs:string" paramType="query" required="false" />
+				<key id="geolat" type="xs:string" paramType="query" required="false" />
+				<key id="geolong" type="xs:string" paramType="query" required="false" />
+				<key id="username" type="xs:string" paramType="variable" required="true" />
+				<key id="password" type="xs:string" paramType="variable" required="true" />
+			</inputs>
+			<execute>
+				<![CDATA[ 
+					if(!vid && !venue && !shout){
+						out = <error>I need a vid, venue or shout</error>
+						response.object = out;
+					} else {
+						y.include("http://yqlblog.net/samples/base64.js"); 
+						var authheader = "Basic "+Base64.encode(username+":"+password);
+						response.object = request.header("Authorization",authheader).post(y.queryParams).response;
+					}
+				]]>
+			</execute>
+		</select>
+	</bindings>
+</table>

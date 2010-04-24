@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Andrew Guyton</author>
+		<documentationURL>http://groups.google.com/group/foursquare-api/web/api-documentation</documentationURL>
+		<sampleQuery>select * from {table}</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>http://api.foursquare.com/v1/user</url>
+			</urls>
+			<inputs>
+				<key id="uid" type="xs:string" paramType="query" required="false" />
+				<key id="badges" type="xs:string" paramType="query" required="false" />
+				<key id="mayor" type="xs:string" paramType="query" required="false" />
+				<key id="username" type="xs:string" paramType="variable" required="true" />
+				<key id="password" type="xs:string" paramType="variable" required="true" />
+			</inputs>
+			<execute><![CDATA[ 
+				y.include("http://yqlblog.net/samples/base64.js"); 
+				var authheader = "Basic "+Base64.encode(username+":"+password);
+				response.object = request.header("Authorization",authheader).get().response;
+			  ]]></execute>
+    </select>
+  </bindings>
+</table>
