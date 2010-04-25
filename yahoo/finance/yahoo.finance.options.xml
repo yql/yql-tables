@@ -151,13 +151,15 @@
 						var dateRes = dateRegEx.exec( results[0] );
 
 						var dd;
-						if ( dateRes != undefined &&
-							dateRes[ 1 ] != undefined )
+						if ( dateRes != null &&
+							dateRes[ 1 ] != null )
 						{
 							dd = dateRes[ 1 ];
 						}
 						
-						return dd;
+						//return dd;
+
+						return dateRes;
 						//return results[0].substring(results[0].indexOf(',') + 1).replace( /^\s\s*/, "" );
 					}
 
@@ -208,8 +210,6 @@
 					{
 						optionsChain = <optionsChain symbol={symbol}></optionsChain>;
 					}
-
-					getOptionsChain();
 					
 					response.object = optionsChain;
 					 
