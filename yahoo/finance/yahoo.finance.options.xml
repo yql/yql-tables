@@ -194,15 +194,16 @@
 					);
 					
 					var optionsChain;
- 				
+ 					var expDate = expiration;
+
 					if ( queryHasExpiration == true )
 					{
 						if ( expiryDay != null )
 						{
-							expiration += "-" + expiryDay;
+							expDate += "-" + expiryDay;
 						}
 
-						optionsChain = <optionsChain symbol={symbol} expiration={expiration}></optionsChain>;
+						optionsChain = <optionsChain symbol={symbol} expiration={expDate}></optionsChain>;
 					}
 					else
 					{
