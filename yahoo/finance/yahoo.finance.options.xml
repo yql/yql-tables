@@ -159,9 +159,10 @@
 							dd = dateRes[ 1 ];
 						}
 						
-						//return dd;
+						y.log( "dd: " + dd );
 
-						return dateRes;
+						return dd;
+
 						//return results[0].substring(results[0].indexOf(',') + 1).replace( /^\s\s*/, "" );
 					}
 
