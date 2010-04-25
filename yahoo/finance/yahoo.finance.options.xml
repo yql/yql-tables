@@ -146,7 +146,7 @@
 							return "";
 						}
 
-						var dateRegEx = /.*([\d]{,2}),\s+?[\d]{4}/;
+						var dateRegEx = /.*([\d]{1,2})\,\s+?[\d]{4}/g;
 
 						var dateRes = dateRegEx.exec( results[0] );
 
