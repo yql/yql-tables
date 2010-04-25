@@ -171,7 +171,7 @@
 					var data = myRequest.accept( "text/html" ).get().response;
 
 
-					var expiresQuery = y.xpath( data, "//table/tr[@class='yfnc_modtitle1']/td[last()]/p");
+					var expiresQuery = y.xpath( data, "//table/tr[@class='yfnc_modtitle1']/td[last()]/node()");
 
 					var expiryDay = getExpiration();
 	
