@@ -185,6 +185,10 @@
 					var myRequest = y.rest( optionsChainURL );
 					var data = myRequest.accept( "text/html" ).get().response;
 
+					var expiresQuery = y.xpath( data, "//table/tr[@class='yfnc_modtitle1']/td[last()]/p");
+
+					var expiryDay = getExpiration();
+	
 					var optionsChainQuery = y.query(
 						"select * from html " +
 						"where url=@url and " +
