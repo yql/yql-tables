@@ -8,7 +8,7 @@
             Yahoo Finance Quotes - Options Chain
         </description>
         <sampleQuery>
-            SELECT * FROM {table} WHERE symbol='GOOG' AND expiration='2010-05'
+            SELECT * FROM {table} WHERE symbol='GOOG' AND expiration='2010-06'
         </sampleQuery>
     </meta>
     <bindings>
@@ -146,24 +146,19 @@
 							return "";
 						}
 
-						var dateRegEx = /.*([\d]{1,2})\,\s+?[\d]{4}/g;
+						var dateRegEx = /.*([\d]{2})\,\s+?[\d]{4}/g;
 
 						var dateRes = dateRegEx.exec( results[0] );
 						
-						y.log( "results[0]: " + results[0] );
-
 						var dd;
+
 						if ( dateRes != null &&
 							dateRes[ 1 ] != null )
 						{
 							dd = dateRes[ 1 ];
 						}
-						
-						y.log( "dd: " + dd );
 
 						return dd;
-
-						//return results[0].substring(results[0].indexOf(',') + 1).replace( /^\s\s*/, "" );
 					}
 
 					 
