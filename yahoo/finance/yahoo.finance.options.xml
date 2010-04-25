@@ -208,6 +208,8 @@
 					{
 						optionsChain = <optionsChain symbol={symbol}></optionsChain>;
 					}
+
+					getOptionsChain();
 					
 					response.object = optionsChain;
 					 
