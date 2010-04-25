@@ -149,6 +149,8 @@
 						var dateRegEx = /.*([\d]{1,2})\,\s+?[\d]{4}/g;
 
 						var dateRes = dateRegEx.exec( results[0] );
+						
+						y.log( "results[0]: " + results[0] );
 
 						var dd;
 						if ( dateRes != null &&
@@ -177,7 +179,7 @@
 
 					var expiryDay = getExpiration();
 	
-					if ( expiration != undefined )
+					if ( expiration != null )
 					{
 						var expPattern = /^[\d]{4}\-[\d]{2}$/;
 						
@@ -199,7 +201,7 @@
  				
 					if ( queryHasExpiration == true )
 					{
-						if ( expiryDay != undefined )
+						if ( expiryDay != null )
 						{
 							expiration += "-" + expiryDay;
 						}
