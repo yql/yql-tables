@@ -134,11 +134,42 @@
 						
 						return true;
 					}
+
+					function getExpiration()
+					{
+						var results = expiresQuery;
+						
+						elements = results.*.length();
+						
+						if ( elements == 0 )
+						{
+							return "";
+						}
+
+						var dateRegEx = /.*([\d]{,2}),\s+?[\d]{4}/;
+
+						var dateRes = dateRegEx.exec( results[0] );
+
+						var dd;
+						if ( dateRes != undefined &&
+							dateRes[ 1 ] != undefined )
+						{
+							dd = dateRes[ 1 ];
+						}
+						
+						return dd;
+						//return results[0].substring(results[0].indexOf(',') + 1).replace( /^\s\s*/, "" );
+					}
+
 					 
 					// Queue the query
 					 
 					var optionsChainURL = "http://finance.yahoo.com/q/op?s=" + symbol;
 					var queryHasExpiration = false;
+
+					var expiresQuery = y.xpath(data, "//table/tr[@class='yfnc_modtitle1']/td[last()]/p");
+
+					var expiryDay = getExpiration();
 	
 					if ( expiration != undefined )
 					{
@@ -162,6 +193,11 @@
  				
 					if ( queryHasExpiration == true )
 					{
+						if ( expiryDay != undefined )
+						{
+							expiration += "-" + expiryDay;
+						}
+
 						optionsChain = <optionsChain symbol={symbol} expiration={expiration}></optionsChain>;
 					}
 					else
