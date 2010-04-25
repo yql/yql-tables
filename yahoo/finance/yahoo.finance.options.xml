@@ -167,10 +167,6 @@
 					var optionsChainURL = "http://finance.yahoo.com/q/op?s=" + symbol;
 					var queryHasExpiration = false;
 
-					var expiresQuery = y.xpath( data, "//table/tr[@class='yfnc_modtitle1']/td[last()]/p");
-
-					var expiryDay = getExpiration();
-	
 					if ( expiration != null )
 					{
 						var expPattern = /^[\d]{4}\-[\d]{2}$/;
