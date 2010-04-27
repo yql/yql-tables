@@ -4,7 +4,8 @@
     <author>Paul Tarjan</author>
     <description>Facebook Graph API</description>
     <documentationURL>http://graph.facebook.com</documentationURL>
-    <sampleQuery>SELECT * FROM facebook.graph WHERE id='218471'</sampleQuery>
+    <documentationURL>http://developers.facebook.com/docs/reference/api/page</documentationURL>
+    <sampleQuery>SELECT * FROM facebook.graph WHERE id='paul.tarjan'</sampleQuery>
   </meta>
   <bindings>
     <select produces="JSON" itemPath="">
