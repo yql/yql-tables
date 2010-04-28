@@ -14,8 +14,12 @@
 			<inputs>
 				<key id="user" type="xs:string" paramType="path" required="true"/>
 				<key id="list_id" type="xs:string" paramType="path" required="true"/>
-				<key id="cursor" type="xs:string" paramType="query" required="false"/>
 				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="since_id" type="xs:string" paramType="query" required="false"/>
+				<key id="max_id" type="xs:string" paramType="query" required="false"/>
+				<key id="per_page" type="xs:string" paramType="query" required="false"/>
+				<key id="page" type="xs:string" paramType="query" required="false"/>
 				
 				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
 				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>

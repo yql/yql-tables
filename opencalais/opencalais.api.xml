@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Sam Pullara (TableSaw)</author>
+    <description>OpenCalais will analyze content and return semantic information about the content.</description>
+    <documentationURL>http://www.opencalais.com/documentation/calais-web-service-api</documentationURL>
+    <sampleQuery>select * from {table} where licenseID='your key' and content='Madonna';</sampleQuery>
+</meta>
+<bindings>
+    <select produces="XML">
+        <urls>
+            <url>http://api.opencalais.com/enlighten/rest/</url>
+        </urls>
+        <inputs>
+            <key id="licenseID" type="xs:string" paramType="query" required="true"/>
+            <key id="content" type="xs:string" paramType="variable" required="true"/>
+            <key id="paramsXML" type="xs:string" paramType="query"/>
+        </inputs>
+        <execute><![CDATA[
+var request = request.contentType("application/x-www-form-urlencoded");
+var encoded = encodeURIComponent(content);
+response.object = request.post("content=" + encoded).response;
+        ]]></execute>
+    </select>
+    <select produces="XML">
+        <urls>
+            <url>http://api.opencalais.com/enlighten/rest/</url>
+        </urls>
+        <inputs>
+            <key id="licenseID" type="xs:string" paramType="query" required="true"/>
+            <key id="url" type="xs:string" paramType="variable" required="true"/>
+            <key id="paramsXML" type="xs:string" paramType="query"/>
+        </inputs>
+        <execute><![CDATA[
+var request = request.contentType("application/x-www-form-urlencoded");
+var encoded = encodeURIComponent(y.rest(url).get().response.toString());
+response.object = request.post("content=" + encoded).response;
+        ]]></execute>
+    </select>
+</bindings>
+</table>

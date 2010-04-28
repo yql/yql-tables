@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Paul Tarjan</author>
+    <description>Facebook Graph API</description>
+    <documentationURL>http://graph.facebook.com</documentationURL>
+    <documentationURL>http://developers.facebook.com/docs/reference/api/page</documentationURL>
+    <sampleQuery>SELECT * FROM facebook.graph WHERE id='paul.tarjan'</sampleQuery>
+    <sampleQuery>SELECT * FROM facebook.graph WHERE id='facebook' AND connection='posts'</sampleQuery>
+    <sampleQuery>SELECT * FROM facebook.graph WHERE ids='4,6'</sampleQuery>
+    <sampleQuery>SELECT * FROM facebook.graph WHERE search='conference' AND type='event'</sampleQuery>
+    <sampleQuery>SELECT * FROM facebook.graph WHERE id='yahoo' AND connection='events'</sampleQuery>
+    <sampleQuery>SELECT * FROM facebook.graph(100) WHERE id='331218348435' AND connection='attending' AND access_token='your_magic_string'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="JSON" itemPath="">
+      <urls>
+        <url>http://graph.facebook.com/{id}/{connection}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="9999999999999" id="limit"/>
+      </paging>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+        <key id="connection" type="xs:string" paramType="path" required="true" />
+        <key id="fields" type="xs:string" paramType="query" required="false" />
+        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+      </inputs>
+    </select>
+    <select produces="JSON" itemPath="">
+      <urls>
+        <url>http://graph.facebook.com/</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="9999999999999" id="limit"/>
+      </paging>
+      <inputs>
+        <key id="ids" type="xs:string" paramType="query" required="true" />
+        <key id="fields" type="xs:string" paramType="query" required="false" />
+        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+      </inputs>
+    </select>
+    <select produces="JSON" itemPath="">
+      <urls>
+        <url>http://graph.facebook.com/{id}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="9999999999999" id="limit"/>
+      </paging>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+        <key id="fields" type="xs:string" paramType="query" required="false" />
+        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+      </inputs>
+    </select>
+    <select produces="JSON" itemPath="">
+      <urls>
+        <url>http://graph.facebook.com/search</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="9999999999999" id="limit"/>
+      </paging>
+      <inputs>
+        <key id="q" type="xs:string" paramType="query" required="true" />
+        <key id="type" type="xs:string" paramType="query" required="true" />
+        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
