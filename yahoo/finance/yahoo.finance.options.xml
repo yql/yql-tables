@@ -63,7 +63,7 @@
 			{
 				// Get the Options Chain for the given symbol from the Options page
 				
-				var results = optionsChainQuery.results;
+				var results = optionsChainQuery;
 						
 				elements = results.*.length();
 				
