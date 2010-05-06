@@ -67,6 +67,7 @@
 						
 				elements = results.*.length();
 				
+				y.log( "results: " + results );
 				y.log( "elements: " + elements );
 
 				if ( elements == 0 )
