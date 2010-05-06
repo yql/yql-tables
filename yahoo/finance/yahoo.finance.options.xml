@@ -90,7 +90,8 @@
 					
 				var optTypeMatch;
 	
-				for each ( var tr in results.tr )
+				//for each ( var tr in results.tr )
+				for each ( var tr in results )
 				{
 					strikePrice = parseFloat( tr.td[0].strong.a.text() );
 					optionSymbol = tr.td[1].a.text();
