@@ -67,6 +67,8 @@
 						
 				elements = results.*.length();
 				
+				y.log( "elements: " + elements );
+
 				if ( elements == 0 )
 				{
 					return false;
@@ -193,7 +195,6 @@
 			);
 
 			var expiryDay = getExpiration();
-	
 					
 			var optionsChain;
  			var expDate = expiration;
