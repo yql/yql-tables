@@ -95,7 +95,7 @@
 					// Check to see what type of option
 					// the current option is
 
-					optTypeMatch = optionSymbol.match( /^[\w]{10}([P|C])/ );
+					optTypeMatch = optionSymbol.match( /^[\w]{9,}([P|C])/ );
 
 					if ( optTypeMatch != null )
 					{
