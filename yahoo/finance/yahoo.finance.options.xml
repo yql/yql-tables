@@ -178,16 +178,17 @@
 				}
 			}
 
-			var optionsChainQuery = y.query(
-				"select * from html " +
-				"where url=@url and " +
-				"xpath=\"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
-				"@class='yfnc_tabledata1']]\"",
-				{ url: optionsChainURL }
+			var yQuery = y.rest( optionsChainURL );	
+			var data = yQuery.accept( "text/html" ).get().response;
+			
+			var optionsChainQuery = y.xpath(
+							data, 
+							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
+							"@class='yfnc_tabledata1']]"
 			);
 
 			var expiresQuery = y.xpath( 
-				optionsChainQuery.results, 
+				data,
 				"//table/tr[@class='yfnc_modtitle1']/td[last()]/p"
 			);
 
