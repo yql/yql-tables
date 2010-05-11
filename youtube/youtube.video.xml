@@ -2,15 +2,15 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
-    <sampleQuery>select * from {table} where numero='EC884014459BR'</sampleQuery>
+    <sampleQuery>select * from {table} where id='gmvQ1uA202M'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="results.status" produces="XML">
+    <select itemPath="results.video" produces="XML">
       <urls>
-        <url>http://correios-api.appspot.com/yql</url>
+        <url>http://youtube-api.appspot.com/video</url>
       </urls>
       <inputs>
-          <key id="numero" type="xs:string" paramType="query" required="true" />
+          <key id="id" type="xs:string" paramType="query" required="true" />
       </inputs>
     </select>
   </bindings>

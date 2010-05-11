@@ -5,7 +5,7 @@
         <description>
             Generate an openid auth url from an identifier (openid 2.0 only, ie is not 1.1 compat)
         </description>
-        <sampleQuery>select * from {table} where id="yahoo.com" and return_to="http://example.com"</sampleQuery>
+        <sampleQuery>select * from {table} where identifier="yahoo.com" and return_to="http://example.com"</sampleQuery>
 		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
     </meta>
     <bindings>
@@ -37,6 +37,9 @@
 				//json
 				y.include( 'store://pitrYOXYb8vQfiui4rUYPX' );
 				
+				//credit: http://javascript.crockford.com/remedial.html
+				if(!String.prototype.supplant){String.prototype.supplant=function(o){return this.replace(/{([^{}]*)}/g,function(a,b){var r=o[b];return typeof r==='string'||typeof r==='number'?r:a;});};}if(!String.prototype.trim){String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"");};}
+				
 				function normalize (id) {
 						
 					//normalize table
@@ -51,31 +54,6 @@
 						return false;
 					}
 				}
-				
-				function discover (normId) {
-					
-					//try yadis
-					var yadisTableUri = 'store://Hwn5mCBZYB3uN3bVsF9sP1',
-						yadisQuery = 'use "' + yadisTableUri + '" as yadis; ' + 'select * from yadis where uri = "' + normId + '"',
-						yadisResults = y.xmlToJson(y.query(yadisQuery).results);
-
-					//results.result only shows up for success responses. not sure why
-					if (yadisResults.results.result && 'success' === yadisResults.results.result.status) {
-						var xrdsQuery = 'select * from xml where url="' + yadisResults.results.result.uri + '"',
-							xrdsResult = y.xmlToJson(y.query(xrdsQuery).results);
-						return xrdsResult.results.XRDS.XRD.Service.URI;
-					}
-
-					//try html                    
-					var htmlQuery = 'select * from html where url="' + normId + '" ' + 'and xpath=\'//link[@rel="openid2.provider"]\'',
-						htmlResults = y.xmlToJson(y.query(htmlQuery).results);
-					if (htmlResults.results) {
-						return htmlResults.results.link.href;
-					}
-
-					//ok, yadis and html fail, so give up
-					return false;
-				};
 
 				//use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
 				response.object = function() {
@@ -90,14 +68,21 @@
 					}
 
 					//get auth base url
-					var baseUri = discover(normId);
+					var discoQuery = 'use "{tableUri}" as table; select * from table where normalizedId = "{normalizedId}"'.supplant({
+						
+							//openid.discover.xml
+							'tableUri' : 'store://6KoRrgbEbaLyZ6xK4hjODJ',
+							
+							'normalizedId' : normId
+						});
+					var discoResults = y.query( discoQuery ).results;
 
-					if (!baseUri) {
+					if ( discoResults.error ) {
 						return {
 							'error': 'id could not be resolved to an openid provider'
 						};
 					}
-
+					
 					//validate return_to and extract realm url
 					var pattern = '^([^:?#/]+' //scheme
 					+ ':\/\/' //separator
@@ -158,7 +143,7 @@
 					}
 					
 					return {
-						"success": baseUri + '?' + pairs.join('&')
+						"success": discoResults.success + '?' + pairs.join('&')
 					};
 				} ();
 
