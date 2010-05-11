@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>  
+    <author>Adrian Short</author>  
+    <documentationURL>http://projects.adrianshort.co.uk/yql/</documentationURL>  
+    <sampleQuery>SELECT * from {table} WHERE query="brown" AND member-name LIKE 'rt hon%'</sampleQuery>  
+  </meta>
+  <bindings>  
+    <select itemPath="results.members.constituency" produces="XML">
+      <urls>
+        <url env="all"><![CDATA[http://findyourmp.parliament.uk/api/search?f=xml]]></url>
+      </urls>
+      <inputs>
+        <key id="q" as="query" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
