@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+	<author>Chester</author>
+	<description>Returns each slide from a SlideShare presentation as a separate URL. Works by scraping the main URL (idea from Hasin Hayder, see documentation URL) and may break on non-standard presentations (e.g., the ones with YouTube video) or if SlideShare changes its metadata in the future. Used on SlideMeme (Best Meme Hack on Yahoo! Open Hack Day Brazil 2010).</description>
+	<documentationURL>http://chester.blog.br/archives/2010/03/slidememe.html</documentationURL>
+	<documentationURL>http://hasin.wordpress.com/2008/02/09/hacking-slidesharenet-using-php/</documentationURL>
+    <sampleQuery>select * from {table} where url='http://www.slideshare.net/skytland/participatory-space-exploration-3422969';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://fake.url/{a}</url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+          // Your javascript goes here. We will run it on our servers
+		  var slideShowRequest = y.rest(inputs["url"]);  
+		  var slideShowHtml = slideShowRequest.get().response;
+		  var slideShowName = slideShowHtml.match("doc=([\\w-]+)")[1];
+		  var slideListUrl = "http://s3.amazonaws.com/slideshare/"+slideShowName+".xml";
+		  var slideListRequest = y.rest(slideListUrl);
+		  var xml = slideListRequest.get().response;
+		  response.object = <item>{xml}</item>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
