@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL></documentationURL>
+        <sampleQuery>select * from {table} where asin="0596101996,0596517742"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="methodResponse.params.param.value.struct.member" produces="XML">
+            <urls>
+                <url>http://b.hatena.ne.jp/xmlrpc</url>
+            </urls>
+            <inputs>
+                <key id="asin" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute><![CDATA[
+
+                var content =
+                    <methodCall>
+                        <methodName>bookmark.getAsinCount</methodName>
+                        <params></params>
+                    </methodCall>;
+                var asinList = asin.split(',');
+                asinList.forEach(function(number) {
+                    content.params.appendChild(<value><string>{number}</string></value>);
+                });
+                response.object = request.contentType('application/xml').post(content).response;
+
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
