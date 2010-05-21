@@ -4,7 +4,7 @@
 	<author>Micah Laaker</author>
 	<description>Infochimps Twitter Data - trstrank</description>
 	<documentationURL>http://api.infochimps.com/describe/soc/net/tw/trstrank</documentationURL>
-	<sampleQuery>select * from {table} where screen_name='notrees' and apikey='yourInfochimpsKeyGoesHere';</sampleQuery>
+	<sampleQuery>select * from {table} where screen_name='notrees' and apikey='yqldemoUNViJbe5r1S0uiVvjq69';</sampleQuery>
 </meta>
 <bindings>
 	<select itemPath="" produces="JSON">
