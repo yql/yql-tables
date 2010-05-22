@@ -12,7 +12,7 @@
             <url>http://www.thetvdb.com/api/Updates.php?type=all&time={previoustime}</url>
         </urls>
         <inputs>
-			<key type="xs:string" paramType="path" id="previoustime" />
+			<key type="xs:string" paramType="variable" id="previoustime" />
 		</inputs>
     </select>
 </bindings>
