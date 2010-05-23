@@ -4,15 +4,15 @@
     <author>Micah Laaker (micah@laaker.com)</author>
     <description>TheTVDB Get Series ID</description>
     <documentationURL>http://thetvdb.com/wiki/index.php?title=Programmers_API</documentationURL>
-    <sampleQuery>select * from {table} where series_name='Modern Family'</sampleQuery>
+    <sampleQuery>select * from {table} where seriesname='Modern Family'</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="" produces="XML">
         <urls>
-            <url>http://www.thetvdb.com/api/GetSeries.php?seriesname={series_name}</url>
+            <url>http://www.thetvdb.com/api/GetSeries.php</url>
         </urls>
         <inputs>
-			<key type="xs:string" paramType="path" id="series_name" />
+			<key type="xs:string" paramType="variable" id="seriesname" />
 		</inputs>
     </select>
 </bindings>

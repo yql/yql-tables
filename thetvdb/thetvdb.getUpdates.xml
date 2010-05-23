@@ -4,17 +4,17 @@
     <author>Micah Laaker (micah@laaker.com)</author>
     <description>TheTVDB Get Updates</description>
     <documentationURL>http://thetvdb.com/wiki/index.php?title=Programmers_API</documentationURL>
-    <sampleQuery>select * from {table} where previoustime='previous_time'</sampleQuery>
+    <sampleQuery>select * from {table} where time='1274500928'</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="" produces="XML">
         <urls>
-            <url>http://www.thetvdb.com/api/Updates.php?type=all&time={previoustime}</url>
+            <url>http://www.thetvdb.com/api/Updates.php</url>
         </urls>
         <inputs>
-			<key type="xs:string" paramType="path" id="previoustime" />
+			<key type="xs:string" paramType="variable" id="time" />
+			<key type="xs:string" paramType="variable" id="type" default="all" />
 		</inputs>
     </select>
 </bindings>
 </table>
-
