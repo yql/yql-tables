@@ -12,8 +12,8 @@
             <url>http://www.thetvdb.com/api/Updates.php</url>
         </urls>
         <inputs>
-			<key type="xs:string" paramType="variable" id="time" />
-			<key type="xs:string" paramType="variable" id="type" default="all" />
+			<key type="xs:string" paramType="query" id="time" />
+			<key type="xs:string" paramType="query" id="type" default="all" />
 		</inputs>
     </select>
 </bindings>
