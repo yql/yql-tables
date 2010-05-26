@@ -17,10 +17,11 @@
         <total default='100'/>
       </paging>
       <inputs>
-        <key id='user' type='xs:string' paramType='path' required='true'/>
+        <key id='user'  type='xs:string' paramType='path' required='true'/>
         <key id='album' type='xs:string' paramType='path' required='true'/>
-        <key id='host' type='xs:string' paramType='path' const='true' default='picasaweb.google.com'/>
-        <key id='kind' type='xs:string' paramType='query' default='photo'/>
+        <key id='host'  type='xs:string' paramType='path' const='true' default='picasaweb.google.com'/>
+        <key id='kind'  type='xs:string' paramType='query' default='photo'/>
+        <key id='alt'   type='xs:string' paramType='query' default='atom'/>
       </inputs>
     </select>
   </bindings>
