@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+  <meta>  
+    <author>Jules Cisek</author>  
+    <documentationURL>http://code.google.com/apis/picasaweb/overview.html</documentationURL>  
+    <description>Uses the picasa API to fetch album data including an array of photos</description>
+    <sampleQuery>SELECT * FROM {table} WHERE user='popmonkey' AND album='Cars'</sampleQuery>  
+  </meta>
+  <bindings>
+    <select itemPath='' produces='XML'>
+      <urls>
+        <url>http://{host}/data/feed/api/user/{user}/album/{album}</url>
+      </urls>
+      <paging model='offset'>
+        <start default='1' id='start-index'/>
+        <pagesize max='100' id='max-results'/>
+        <total default='100'/>
+      </paging>
+      <inputs>
+        <key id='user' type='xs:string' paramType='path' required='true'/>
+        <key id='album' type='xs:string' paramType='path' required='true'/>
+        <key id='host' type='xs:string' paramType='path' const='true' default='picasaweb.google.com'/>
+        <key id='kind' type='xs:string' paramType='query' default='photo'/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
