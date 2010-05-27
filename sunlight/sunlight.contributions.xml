@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<description>blank</description>
+  	<sampleQuery>SELECT * FROM {table} WHERE apikey="APIKEY" and contributor_state="md|va" and recipient_ft="mikulski" and cycle="2008"</sampleQuery>
+    <documentationURL>http://transparencydata.com/api/</documentationURL>
+  	<author>Michael Chelen http://mikechelen.com</author>
+  </meta>
+  <bindings>
+    <select itemPath="json.json" produces="JSON">
+      <urls><url>http://transparencydata.com/api/1.0/contributions.json?</url></urls>
+      <inputs>
+        <key id='apikey' type='xs:string' paramType='query' private='true' required='true' />
+        <key id='page' type='xs:string' paramType='query' />
+        <key id='per_page' type='xs:string' paramType='query' />                
+        <key id='amount' type='xs:string' paramType='query' />
+        <key id='contributor_ft' type='xs:string' paramType='query' />
+        <key id='contributor_state' type='xs:string' paramType='query' />
+        <key id='cycle' type='xs:string' paramType='query' />
+        <key id='date' type='xs:string' paramType='query' />
+        <key id='employer_ft' type='xs:string' paramType='query' />
+        <key id='recipient_ft' type='xs:string' paramType='query' />
+        <key id='recipient_state' type='xs:string' paramType='query' />
+        <key id='seat' type='xs:string' paramType='query' />
+        <key id='transaction_namespace' type='xs:string' paramType='query' />
+      </inputs>
+    </select>
+  </bindings>
+</table>
