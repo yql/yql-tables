@@ -37,7 +37,10 @@ function fixItem(item) {
     var itemCode = item.itemCode.toString();
     var link = "";
     if (itemCode) {
-        link = "http://www.newegg.com/Product/Product.aspx?Item=" + itemCode.toString() + "&pid=3775901&aid=10440897";
+        link = "http://www.newegg.com/Product/Product.aspx?Item=" + itemCode.toString() + "&nm_mc=AFC-C8Junction";
+        var affiliate = "http://www.kqzyfj.com/click-3775901-10440897?url=" + encodeURIComponent(link);
+        item.affiliateLink = <affiliateLink>{affiliate}</affiliateLink>;
+        link = "http://www.newegg.com/Product/Product.aspx?Item=" + itemCode.toString();
     }
     item.link = <link>{link}</link>;
 
