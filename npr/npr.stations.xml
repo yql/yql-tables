@@ -3,7 +3,7 @@
   <meta>  
     <author>Lloyd Hilaiel</author>  
     <documentationURL>http://www.npr.org/api/index</documentationURL>  
-    <sampleQuery>select station.name, station.frequency, station.url.content from npr.stations where zip='80210';</sampleQuery>  
+    <sampleQuery>SELECT name, frequency, url.content FROM npr.stations WHERE zip='80210';</sampleQuery>  
   </meta>  
   <bindings>
     <select itemPath="stations.station" produces="XML">
