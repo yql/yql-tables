@@ -20,7 +20,7 @@
         <key id='user'           type='xs:string' paramType='path' required='true'/>
         <key id='album_key_type' type='xs:string' paramType='path' required='true'/> <!-- either 'album' or 'albumid' -->
         <key id='album_key'      type='xs:string' paramType='path' required='true'/>
-        <key id='host'           type='xs:string' paramType='path' const='true' default='picasaweb.google.com'/>
+        <key id='host'           type='xs:string' paramType='path' default='picasaweb.google.com'/>
         <key id='kind'           type='xs:string' paramType='query' default='photo'/>
         <key id='alt'            type='xs:string' paramType='query' default='atom'/>
         <key id='access'         type='xs:string' paramType='query' default='visible'/>
