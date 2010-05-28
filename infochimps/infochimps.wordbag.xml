@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table https="false" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-<meta>
-	<author>Philip (flip) Kromer</author>
-	<description>Infochimps Twitter Data - wordbag</description>
-	<documentationURL>http://api.infochimps.com/describe/soc/net/tw/wordbag</documentationURL>
-	<sampleQuery>select * from {table} where screen_name='infochimps' and apikey='yqldemoUNViJbe5r1S0uiVvjq69';</sampleQuery>
-</meta>
-<bindings>
-	<select itemPath="" produces="JSON">
-		<urls>
-			<url>http://api.infochimps.com/soc/net/tw/wordbag.json</url>
-		</urls>
-		<inputs>
-			<key id="screen_name" type="xs:string" paramType="query"/>
-			<key id="apikey" type="xs:string" paramType="query"/>
-		</inputs>
-	</select>
-</bindings>
+  <meta>
+    <author>Philip (flip) Kromer</author>
+    <description>Infochimps Twitter Data - wordbag</description>
+    <documentationURL>http://api.infochimps.com/describe/soc/net/tw/wordbag</documentationURL>
+    <sampleQuery>select * from {table} where screen_name='infochimps' and apikey='yqldemoUNViJbe5r1S0uiVvjq69';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://api.infochimps.com/soc/net/tw/wordbag.json</url>
+      </urls>
+      <inputs>
+        <key id="user_id"     type="xs:string" paramType="query"/>
+        <key id="screen_name" type="xs:string" paramType="query"/>
+        <key id="apikey"      type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
 </table>
