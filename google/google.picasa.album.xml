@@ -4,12 +4,12 @@
     <author>Jules Cisek</author>  
     <documentationURL>http://code.google.com/apis/picasaweb/overview.html</documentationURL>  
     <description>Uses the picasa API to fetch album data including an array of photos</description>
-    <sampleQuery>SELECT * FROM {table} WHERE user='popmonkey' AND album='Cars'</sampleQuery>  
+    <sampleQuery>SELECT * FROM {table} WHERE user='popmonkey' AND album_key_type='album' AND album_key='Cars'</sampleQuery>  
   </meta>
   <bindings>
     <select itemPath='' produces='XML'>
       <urls>
-        <url>http://{host}/data/feed/api/user/{user}/album/{album}</url>
+        <url>http://{host}/data/feed/api/user/{user}/{album_key_type}/{album_key}</url>
       </urls>
       <paging model='offset'>
         <start    default='1' id='start-index'/>
@@ -17,19 +17,20 @@
         <total    default='100'/>
       </paging>
       <inputs>
-        <key id='user'      type='xs:string' paramType='path' required='true'/>
-        <key id='album'     type='xs:string' paramType='path' required='true'/>
-        <key id='host'      type='xs:string' paramType='path' const='true' default='picasaweb.google.com'/>
-        <key id='kind'      type='xs:string' paramType='query' default='photo'/>
-        <key id='alt'       type='xs:string' paramType='query' default='atom'/>
-        <key id='access'    type='xs:string' paramType='query' default='visible'/>
-        <key id='bbox'      type='xs:string' paramType='query'/>
-        <key id='imgmax'    type='xs:string' paramType='query'/>
-        <key id='l'         type='xs:string' paramType='query'/>
-        <key id='q'         type='xs:string' paramType='query'/>
-        <key id='tag'       type='xs:string' paramType='query'/>
-        <key id='thumbsize' type='xs:string' paramType='query'/>
-        <key id='authkey'   type='xs:string' paramType='query'/>
+        <key id='user'           type='xs:string' paramType='path' required='true'/>
+        <key id='album_key_type' type='xs:string' paramType='path' required='true'/> <!-- either 'album' or 'albumid' -->
+        <key id='album_key       type='xs:string' paramType='path' required='true'/>
+        <key id='host'           type='xs:string' paramType='path' const='true' default='picasaweb.google.com'/>
+        <key id='kind'           type='xs:string' paramType='query' default='photo'/>
+        <key id='alt'            type='xs:string' paramType='query' default='atom'/>
+        <key id='access'         type='xs:string' paramType='query' default='visible'/>
+        <key id='bbox'           type='xs:string' paramType='query'/>
+        <key id='imgmax'         type='xs:string' paramType='query'/>
+        <key id='l'              type='xs:string' paramType='query'/>
+        <key id='q'              type='xs:string' paramType='query'/>
+        <key id='tag'            type='xs:string' paramType='query'/>
+        <key id='thumbsize'      type='xs:string' paramType='query'/>
+        <key id='authkey'        type='xs:string' paramType='query'/>
       </inputs>
     </select>
   </bindings>
