@@ -12,7 +12,7 @@
             <url>http://www.thetvdb.com/api/GetSeries.php</url>
         </urls>
         <inputs>
-			<key type="xs:string" paramType="variable" id="seriesname" />
+			<key type="xs:string" paramType="query" id="seriesname" />
 		</inputs>
     </select>
 </bindings>
