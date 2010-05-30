@@ -63,7 +63,7 @@ while (tries < 4) {
 if (tries == 4)
     y.exit();
 
-html = y.xpath(html, "//form[@name='formProductListDataGrid']//tr[count(td) = 4] | //*[@class='redtop1'] | //div[@id='bcaProductContainer']");
+html = y.xpath(html, "//div[@id='bcaProductCell']//div[@class='itemCell'] | //*[@class='alert'] | //div[@id='bcaProductContainer']");
 
 var good = true;
 if (html.(@id == "bcaProductContainer").length() != 0) {
@@ -84,21 +84,25 @@ if (html.(@id == "bcaProductContainer").length() != 0) {
 }
 
 if (html.length() == 0) good = false;
-if (html.(@['class'] == "redtop1").length() != 0) good = false;
+if (html.(@['class'] == 'alert').length() != 0) {
+  good = false;
+  y.log(html);
+}
 
 if (good) {
     for each (var node in html) {
         var item = <item/>;
-        item.name = <name>{node..h3.a.text()}</name>;
+        item.name = <name>{node..span.(@['class'] == "itemDescription").text().toString()}</name>;
 
-        var link = node..h3.a.@href;
+        var link = node..div.(@['class'] == "itemText").a.@href.text().toString();
         var itemCode = link.match(/Item=[^&]+/)[0].replace("Item=", "");
         item.itemCode = <itemCode>{itemCode}</itemCode>
         
-        var price = node..li.(@['class'] == "ckoutAmt").p.text().toString().replace("Your Price:", "");
+        var price = node..li.(@['class'] == "priceFinal");
+        price = price..strong.toString() + price..sup.toString();
         item.price = <price>{price}</price>;
 
-        var shipping = node..li.(@['class'] == "green").p.text().toString();
+        var shipping = node..span.(@['class'] == "priceShip").text().toString();
         item.shipping = <shipping>{shipping}</shipping>;
         item.image = <image>{node..a.img.(@width == 125).@src}</image>;
 
