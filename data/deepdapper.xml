@@ -32,13 +32,14 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
         dataquery = dataquery.replace("$url",escape(linkitem.@href));
         var newdata = y.query(dataquery).results;
         data += newdata;
-        y.log(data);
       }
+      y.log(data);
       var nextquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
       nextquery = nextquery.replace("$dapper",escape(nextdapper));
       nextquery = nextquery.replace("$url",escape(url));
       var next = y.query(nextquery).results;
-      if (next.item.length > 0) {
+      y.log(next);
+      if (next.item.length() > 0) {
         var deepquery = 'select * from deepdapper where url = "$url" and datadapper = "$datadapper" and nextdapper = "$nextdapper" and listdapper = "$listdapper" ';
         deepquery = deepquery.replace("$nextdapper",escape(nextdapper));
         deepquery = deepquery.replace("$datadapper",escape(datadapper));
