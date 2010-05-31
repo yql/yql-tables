@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get a list of Parliamentary debates</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getDebates</documentationURL>
+    <sampleQuery>select * from {table} where date='2010-05-07' and type="westminsterhall" and key='{key}';</sampleQuery>
+</meta>
+<bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://www.theyworkforyou.com/api/getDebates</url>
+            </urls>
+            <paging model="page"> 
+                <start id="page" default="1" />
+                <pagesize id="per_page" max="20" /> 
+                <total default="20" /> 
+            </paging>
+            <inputs>
+                <key id='key' type='xs:string' paramType='query' required="true" />
+                <key id='type' type='xs:string' paramType='query' required="true" />
+                <key id='date' type='xs:string' paramType='query' required="false" />
+                <key id='search' type='xs:string' paramType='query' required="false" />
+                <key id='person' type='xs:string' paramType='query' required="false" />
+                <key id='gid' type='xs:string' paramType='query' required="false" />
+                <key id='order' type='xs:string' paramType='query' required="false" />
+		<key id='output' type='xs:string' paramType='query' const="true" default="xml" />
+            </inputs>
+        </select> 
+    </bindings>
+</table>

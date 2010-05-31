@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get geometry from theyworkforyou website</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getGeometry</documentationURL>
+    <sampleQuery>select * from {table} where person="10777" and key='{key}';</sampleQuery>
+</meta>
+    <bindings>
+        <select produces="JSON">
+            <urls>
+                <url>http://www.theyworkforyou.com/api/getGeometry</url>
+            </urls>
+            <inputs>
+                <key id='key' type='xs:string' paramType='query' private="true" />
+                <key id='output' type='xs:string' paramType='query' const="true" default="js" />
+                <key id='name' type='xs:string' paramType='query' required="true" />
+            </inputs>
+        </select> 
+    </bindings>
+</table>

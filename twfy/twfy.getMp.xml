@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get MP details</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getMP</documentationURL>
+    <sampleQuery>select * from {table} where id='10900' and constituency='Aberavon' and extra='true' and key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="JSON">
+        <urls>
+            <url>http://www.theyworkforyou.com/api/getMP</url>
+        </urls>
+        <inputs>
+            <key id="id" type="xs:string" paramType="query"/>
+	    <key id="postcode" type="xs:string" paramType="query" />
+            <key id="constituency" type="xs:string" paramType="query"/>
+            <key id="extra" type="xs:string" paramType="query"/>
+            <key id="key" type="xs:string" paramType="query"/>
+        </inputs>
+    </select>
+</bindings>
+</table>

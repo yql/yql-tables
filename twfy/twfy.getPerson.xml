@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get MP details</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getPerson</documentationURL>
+    <sampleQuery>select * from {table} where id='10900' and key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://www.theyworkforyou.com/api/getPerson</url>
+        </urls>
+        <inputs>
+            <key id="id" type="xs:string" paramType="query" required="true"/>
+	    <key id="key" type="xs:string" paramType="query" required="true"/>
+            <key id="output" type="xs:string" paramType="query" const="true" default="xml"/>
+        </inputs>
+    </select>
+</bindings>
+</table>

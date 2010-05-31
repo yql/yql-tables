@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get a list of written answers by parliamentarians</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getWrans</documentationURL>
+    <sampleQuery>select * from {table} where date='2006-01-09'and key='{key}';</sampleQuery>
+</meta>
+<bindings>
+        <select itemPath="twfy.match" produces="XML">
+            <urls>
+                <url>http://www.theyworkforyou.com/api/getWrans</url>
+            </urls>
+            <inputs>
+                <key id='key' type='xs:string' paramType='query' required="true" />
+                <key id='date' type='xs:string' paramType='query' required="false" />
+                <key id='search' type='xs:string' paramType='query' required="false" />
+                <key id='person' type='xs:string' paramType='query' required="false" />
+                <key id='gid' type='xs:string' paramType='query' required="false" />
+                <key id='order' type='xs:string' paramType='query' required="false" />
+		<key id='output' type='xs:string' paramType='query' const="true" default="xml" />
+		<key id='page' type='xs:string' paramType='query' required='false'/>
+		<key id='num' type='xs:string' paramType='query' required='false' />
+		<key id='gid' type='xs:string' paramType='query' required='false' />
+            </inputs>
+        </select> 
+    </bindings>
+</table>
