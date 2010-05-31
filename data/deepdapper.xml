@@ -6,7 +6,7 @@
     <sampleQuery>select * from deepdapper where url = "http://www.kerknet.be/zoek_parochie.php?allbisdom=1"
 and datadapper = "KerknetParochiesdata"
 and nextdapper = "KerknetParochiesdeephtmlnext"
-and listdapper = "kerknetparichieslist" </sampleQuery>
+and listdapper = "kerknetparochieslist" </sampleQuery>
     <documentationURL>http://docs.google.com/document/pub?id=14z2qtxjmGV6TaHyuwz9nFJo-p7TwzezANG-VipAhLPg</documentationURL>
   </meta>
   <bindings>
@@ -25,7 +25,6 @@ and listdapper = "kerknetparichieslist" </sampleQuery>
       listquery = listquery.replace("$dapper",escape(listdapper));
       listquery = listquery.replace("$url",escape(url));
       var list = y.query(listquery).results;
-      y.log(list);
       var data = new XML();
       for each (var linkitem in list.children()) {
         var dataquery = 'select * from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
@@ -33,6 +32,7 @@ and listdapper = "kerknetparichieslist" </sampleQuery>
         dataquery = dataquery.replace("$url",escape(linkitem.@href));
         var newdata = y.query(dataquery).results;
         data += newdata;
+        y.log(data);
       }
       var nextquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
       nextquery = nextquery.replace("$dapper",escape(nextdapper));
@@ -44,6 +44,7 @@ and listdapper = "kerknetparichieslist" </sampleQuery>
         deepquery = deepquery.replace("$datadapper",escape(datadapper));
         deepquery = deepquery.replace("$listdapper",escape(listdapper));
         deepquery = deepquery.replace("$url",escape(next.item.@href));
+        y.log("going recursive");
         var newdata = y.query(deepquery).results;
         data += newdata;
       }
