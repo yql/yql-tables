@@ -47,7 +47,7 @@ and listdapper = "kerknetparichieslist" </sampleQuery>
         var newdata = y.query(deepquery).results;
         data += newdata;
       }
-      return data;
+      response.object = data;
 ]]></execute>
       </select>
   </bindings>
