@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans</author>
+    <description>The table exctracts data from multiple linked webpages using user-provided dapper queries.</description>
+    <sampleQuery>select * from deepdapper where url = "http://www.kerknet.be/zoek_parochie.php?allbisdom=1"
+and datadapper = "KerknetParochiesdata"
+and nextdapper = "KerknetParochiesdeephtmlnext"
+and listdapper = "kerknetparichieslist" </sampleQuery>
+    <documentationURL>http://docs.google.com/document/pub?id=14z2qtxjmGV6TaHyuwz9nFJo-p7TwzezANG-VipAhLPg</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" required="true"/>
+        <key id="datadapper" type="xs:string" paramType="variable" required="true"/>
+        <key id="nextdapper" type="xs:string" paramType="variable" required="false"/>
+        <key id="listdapper" type="xs:integer" paramType="variable" required="false"/>
+      </inputs>
+      <execute><![CDATA[
+      var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
+      listquery = listquery.replace("$dapper",escape(listdapper));
+      listquery = listquery.replace("$url",escape(url));
+      var list = y.query(listquery).results;
+      var data;
+      for each (var linkitem in list.children()) {
+        var dataquery = 'select * from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
+        dataquery = dataquery.replace("$dapper",escape(datadapper));
+        dataquery = dataquery.replace("$url",escape(linkitem.@href));
+        var newdata = y.query(dataquery).results;
+        data += newdata;
+      }
+      var nextquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
+      nextquery = nextquery.replace("$dapper",escape(nextdapper));
+      nextquery = nextquery.replace("$url",escape(url));
+      var next = y.query(nextquery).results;
+      if (next.item.length) > 0 {
+        var deepquery = 'select * from deepdapper where url = "$url" and datadapper = "$datadapper" and nextdapper = "$nextdapper" and listdapper = "$listdapper" ';
+        deepquery = deepquery.replace("$nextdapper",escape(nextdapper));
+        deepquery = deepquery.replace("$datadapper",escape(datadapper));
+        deepquery = deepquery.replace("$listdapper",escape(listdapper));
+        deepquery = deepquery.replace("$url",escape(next.item.@href));
+        var newdata = y.query(deepquery).results;
+        data += newdata;
+      }
+      return data;
+]]></execute>
+      </select>
+  </bindings>
+</table>
