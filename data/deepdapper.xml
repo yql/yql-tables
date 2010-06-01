@@ -45,7 +45,7 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       }
       var data = new XMLList();  // XML list
       for each (var datacall in datacall) {
-        data += datacall.results.*;
+        data += datacall.results;
       }
       response.object = data;
 ]]></execute>
