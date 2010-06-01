@@ -49,7 +49,7 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
         data.appendChild(datacall.results.*);
       }
       y.log(data);
-      response.object = data;
+      response.object = data.*;
 ]]></execute>
       </select>
   </bindings>
