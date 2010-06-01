@@ -43,7 +43,7 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
         y.log("next");
         y.log(next);
       }
-      var data = new XMLList();  // XML list
+      var data = new XML;  // XML
       for each (var datacall in datacalls) {
         y.log(datacall.results.length());
         data += datacall.results;
