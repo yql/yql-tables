@@ -22,7 +22,7 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       </inputs>
       <execute><![CDATA[
       var data = new XMLList();  // XML list
-      var next = <><item href="{url}"/></>;  // XML list
+      var next = <><item href={url}/></>;  // XML list
       while (next.length() > 0) {
         var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
         listquery = listquery.replace("$dapper",escape(listdapper));
