@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Brooklyn Museum's collections database</description>
+    <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.search</documentationURL>
+    <sampleQuery>select * from {table} where date='2010-05-07' and name="health committee" and key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.search&version=1</url>
+        </urls>
+	<inputs>
+            <key id="item_type" type="xs:string" paramType="query" required="false"/>
+            <key id="keyword" type="xs:string" paramType="query" />
+            <key id="date_range_begin" type="xs:string" paramType="query"/>
+ <key id="date_range_end" type="xs:string" paramType="query"/>
+	   <key id="name" type="xs:string" paramType="query" required-"false" />
+ <key id="format" type="xs:string" paramType='query' const="true" default="xml"/>
+	    <key id="api_key" type="xs:string" paramType="query" required="true" private="true" />
+        </inputs>
+    </select>
+</bindings>
+</table>
