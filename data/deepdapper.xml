@@ -26,8 +26,9 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       while (next.length() > 0) {
         var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
         listquery = listquery.replace("$dapper",escape(listdapper));
-        listquery = listquery.replace("$url",escape(next.item.@href));
+        listquery = listquery.replace("$url",escape(next[1].@href));
         var list = y.query(listquery).results.*;  // XML list
+        y.log("list");
         y.log(list);
         for each (var linkitem in list) {
           var dataquery = 'select * from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
@@ -36,11 +37,13 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
           var newdata = y.query(dataquery).results.*;  // XML list
           data += newdata;
         }
+        y.log("data");
         y.log(data);
         var nextquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
         nextquery = nextquery.replace("$dapper",escape(nextdapper));
-        nextquery = nextquery.replace("$url",escape(next.item.@href));
+        nextquery = nextquery.replace("$url",escape(next[1].@href));
         var next = y.query(nextquery).results.*;   // XML list
+        y.log("next");
         y.log(next);
       }
       response.object = data;
