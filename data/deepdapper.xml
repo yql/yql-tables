@@ -47,7 +47,7 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       for each (var datacall in datacall) {
         data += datacall.results;
       }
-      response.object = <item>test</item>;
+      response.object = <>{data}</>;
 ]]></execute>
       </select>
   </bindings>
