@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Vic Mortelmans</author>
-    <description>The table exctracts data from multiple linked webpages using user-provided dapper queries. Where url="the starting page" and linkdapper="the name of a dapper that parses hyperlinks to datapages" and nextdapper="the name of a dapper that parses the link to the next page" and datadapper="the name of a dapper that parses the data the will be returned by the query". Providing nextdapper and listdapper is optional.</description>
+    <description>The table exctracts data from multiple linked webpages using user-provided dapper queries. Where url="the starting page" and listdapper="the name of a dapper that parses hyperlinks to datapages" and nextdapper="the name of a dapper that parses the link to the next page" and nextcount="the maximum number of pages that is accessed" and datadapper="the name of a dapper that parses the data the will be returned by the query". Providing nextdapper, nextcount and listdapper is optional.</description>
     <sampleQuery>select * from deepdapper where url = "http://www.kerknet.be/zoek_parochie.php?allbisdom=1"
 and datadapper = "KerknetParochiesdata"
 and nextdapper = "KerknetParochiesdeephtmlnext"
@@ -26,7 +26,6 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       var next = <><item href={url}/></>;  // XML list
       nextcount = nextcount?nextcount:Number.MAX_VALUE;
       while (next.length() > 0 && nextcount-- > 0) {
-        y.log(nextcount);
         if (listdapper) {
           var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
           listquery = listquery.replace("$dapper",escape(listdapper));
@@ -57,7 +56,6 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       for each (var datacall in datacalls) {
         data.appendChild(datacall.results.*);
       }
-      y.log(data);
       response.object = data;
 ]]></execute>
       </select>
