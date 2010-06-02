@@ -7,15 +7,15 @@
     <sampleQuery>select * from {table} where itemtype="object" and item_id="4174" and version="1" and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
-	<paging model="page">  
+ <select itemPath="response.images" produces="XML">
+        <urls>
+            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getImages</url>
+        </urls>
+<paging model="page">  
   	<start id="page" default="0" />  
 	<pagesize id="results_limit" max="20" />  
 	<total default="10" />  
 	</paging>
-   <select itemPath="response.images" produces="XML">
-        <urls>
-            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getImages</url>
-        </urls>
 	<inputs>
             <key id="item_type" type="xs:string" paramType="query" required="true" />
             <key id="item_id" type="xs:string" paramType="query" required="true" />
