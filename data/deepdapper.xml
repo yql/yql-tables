@@ -9,7 +9,7 @@ and datadapper = "ydnforumdata"
 and nextdapper = "ydnforumnext"
 and listdapper = "ydnforumlist"
 and nextcount = 2</sampleQuery>
-    <documentationURL>http://docs.google.com/document/pub?id=14z2qtxjmGV6TaHyuwz9nFJo-p7TwzezANG-VipAhLPg</documentationURL>
+    <documentationURL>http://docs.google.com/View?id=ddq89pzk_199f54jdwcb</documentationURL>
   </meta>
   <bindings>
     <select produces="XML" itemPath="">
