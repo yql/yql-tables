@@ -24,22 +24,33 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       var datacalls = [];
       var next = <><item href={url}/></>;  // XML list
       while (next.length() > 0) {
-        var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
-        listquery = listquery.replace("$dapper",escape(listdapper));
-        listquery = listquery.replace("$url",escape(next[0].@href));
-        var list = y.query(listquery).results.*;  // XML list
-        y.log("list");
-        y.log(list);
-        for each (var linkitem in list) {
+        if (listdapper) {
+          var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
+          listquery = listquery.replace("$dapper",escape(listdapper));
+          listquery = listquery.replace("$url",escape(next[0].@href));
+          var list = y.query(listquery).results.*;  // XML list
+          y.log("list");
+          y.log(list);
+          for each (var linkitem in list) {
+            var dataquery = 'select * from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
+            dataquery = dataquery.replace("$dapper",escape(datadapper));
+            dataquery = dataquery.replace("$url",escape(linkitem.@href));
+            datacalls.push(y.query(dataquery));
+          }
+        } else {
           var dataquery = 'select * from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
           dataquery = dataquery.replace("$dapper",escape(datadapper));
-          dataquery = dataquery.replace("$url",escape(linkitem.@href));
+          dataquery = dataquery.replace("$url",escape(next[0].@href));
           datacalls.push(y.query(dataquery));
         }
-        var nextquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
-        nextquery = nextquery.replace("$dapper",escape(nextdapper));
-        nextquery = nextquery.replace("$url",escape(next[0].@href));
-        next = y.query(nextquery).results.*;   // XML list
+        if (nextdapper) {
+          var nextquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
+          nextquery = nextquery.replace("$dapper",escape(nextdapper));
+          nextquery = nextquery.replace("$url",escape(next[0].@href));
+          next = y.query(nextquery).results.*;   // XML list
+        } else {
+          next = </>;
+        }
         y.log("next");
         y.log(next);
       }
