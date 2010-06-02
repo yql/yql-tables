@@ -7,14 +7,15 @@
     <sampleQuery>select * from {table} where id='11905' and fields='bbc_profile_url,comments_on_speeches' and key='{key}';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="JSON">
+    <select itemPath="twfy" produces="XML">
         <urls>
             <url>http://www.theyworkforyou.com/api/getMPInfo</url>
         </urls>
         <inputs>
-            <key id="id" type="xs:string" paramType="query"/>
-            <key id="fields" type="xs:string" paramType="query"/>
-            <key id="key" type="xs:string" paramType="query" required="true"/>
+            <key id="id" type="xs:string" paramType="query" required="false" />
+            <key id="fields" type="xs:string" paramType="query" required="false" />
+            <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
+	    <key id="output" type="xs:string" paramType='query' const="true" default="xml"/>
         </inputs>
     </select>
 </bindings>

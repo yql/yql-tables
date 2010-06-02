@@ -2,19 +2,19 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 <meta>
     <author>Daniel Pett</author>
-    <description>Get geometry from theyworkforyou website</description>
+    <description>Get geometry from theyworkforyou website (very loose for NI)</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getGeometry</documentationURL>
     <sampleQuery>select * from {table} where person="10777" and key='{key}';</sampleQuery>
 </meta>
     <bindings>
-        <select produces="JSON">
+        <select itemPath="twfy" produces="XML">
             <urls>
                 <url>http://www.theyworkforyou.com/api/getGeometry</url>
             </urls>
             <inputs>
-                <key id='key' type='xs:string' paramType='query' private="true" />
-                <key id='output' type='xs:string' paramType='query' const="true" default="js" />
-                <key id='name' type='xs:string' paramType='query' required="true" />
+                <key id="name" type="xs:string" paramType="query" required="true" />
+		<key id="key" type="xs:string" paramType="query" required="true" private="true" />
+	        <key id="output" type="xs:string" paramType="query" const="true" default="xml" />
             </inputs>
         </select> 
     </bindings>

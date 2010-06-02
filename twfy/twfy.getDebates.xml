@@ -7,7 +7,7 @@
     <sampleQuery>select * from {table} where date='2010-05-07' and type="westminsterhall" and key='{key}';</sampleQuery>
 </meta>
 <bindings>
-        <select itemPath="" produces="XML">
+        <select itemPath="twfy.match" produces="XML">
             <urls>
                 <url>http://www.theyworkforyou.com/api/getDebates</url>
             </urls>
@@ -17,14 +17,16 @@
                 <total default="20" /> 
             </paging>
             <inputs>
-                <key id='key' type='xs:string' paramType='query' required="true" />
-                <key id='type' type='xs:string' paramType='query' required="true" />
-                <key id='date' type='xs:string' paramType='query' required="false" />
-                <key id='search' type='xs:string' paramType='query' required="false" />
-                <key id='person' type='xs:string' paramType='query' required="false" />
-                <key id='gid' type='xs:string' paramType='query' required="false" />
-                <key id='order' type='xs:string' paramType='query' required="false" />
-		<key id='output' type='xs:string' paramType='query' const="true" default="xml" />
+                <key id="type" type="xs:string" paramType="query" required="true" />
+                <key id="date" type="xs:string" paramType="query" required="false" />
+                <key id="search" type="xs:string" paramType="query" required="false" />
+                <key id="person" type="xs:string" paramType="query" required="false" />
+                <key id="gid" type="xs:string" paramType="query" required="false" />
+		<key id="page" type="xs:string" paramType="query" required="false"/>
+		<key id="num" type="xs:string" paramType="query" required="false" />
+		<key id="order" type="xs:string" paramType="query" required="false" />
+               	<key id="key" type="xs:string" paramType="query" required="true" private="true"/>
+	    	<key id="output" type="xs:string" paramType="query" const="true" default="xml"/>
             </inputs>
         </select> 
     </bindings>

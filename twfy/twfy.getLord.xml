@@ -4,16 +4,17 @@
     <author>Daniel Pett</author>
     <description>Get MP details</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getLord</documentationURL>
-    <sampleQuery>select * from {table} where id='10900' and constituency='Aberavon' and extra='true' and key='{key}';</sampleQuery>
+    <sampleQuery>select * from {table} where id='13375' and key={key}</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="JSON">
+    <select itemPath="twfy.match" produces="XML">
         <urls>
             <url>http://www.theyworkforyou.com/api/getLord</url>
         </urls>
         <inputs>
-            <key id="id" type="xs:string" paramType="query"/>
-	    <key id="key" type="xs:string" paramType="query" required="true"/>
+            <key id="id" type="xs:string" paramType="query" required="true" />
+	    <key id="key" type="xs:string" paramType="query" required="true" private="true" />
+	    <key id="output" type="xs:string" paramType='query' const="true" default="xml" />
         </inputs>
     </select>
 </bindings>

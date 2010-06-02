@@ -2,19 +2,19 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
 <meta>
     <author>Daniel Pett</author>
-    <description>Get MP details</description>
+    <description>Get MP details for a single person</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getPerson</documentationURL>
     <sampleQuery>select * from {table} where id='10900' and key='{key}';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="twfy.match" produces="XML">
         <urls>
             <url>http://www.theyworkforyou.com/api/getPerson</url>
         </urls>
         <inputs>
             <key id="id" type="xs:string" paramType="query" required="true"/>
-	    <key id="key" type="xs:string" paramType="query" required="true"/>
-            <key id="output" type="xs:string" paramType="query" const="true" default="xml"/>
+	    <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
+	    <key id="output" type="xs:string" paramType="query" const="true" default="xml"/>
         </inputs>
     </select>
 </bindings>

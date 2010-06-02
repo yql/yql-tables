@@ -15,7 +15,7 @@
             <key id="id" type="xs:string" paramType="query"/>
 	    <key id="postcode" type="xs:string" paramType="query" />
             <key id="constituency" type="xs:string" paramType="query"/>
-            <key id="key" type="xs:string" paramType="query" required="true"/>
+            <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
 	    <key id="output" type="xs:string" paramType="query" const="true" default="xml" />
         </inputs>
     </select>

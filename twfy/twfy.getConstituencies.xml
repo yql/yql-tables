@@ -2,22 +2,22 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
 <meta>
     <author>Daniel Pett</author>
-    <description>Get a list of Parliamentary Constituencies. The lat/lon/distance function is described as vague on the api docs.</description>
+    <description>Get a list of Parliamentary Constituencies</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getConstituencies</documentationURL>
     <sampleQuery>select * from {table} where date='2010-05-07' and distance='20' and latitude="51.8400534244" and longitude="-1.50292754722" and key='{key}';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="twfy.match" produces="XML">
         <urls>
-            <url>http://www.theyworkforyou.com/api/getMPs</url>
+            <url>http://www.theyworkforyou.com/api/getConstituencies</url>
         </urls>
         <inputs>
             <key id="date" type="xs:string" paramType="query"/>
             <key id="distance" type="xs:string" paramType="query"/>
-	        <key id="latitude" type="xs:string" paramType="query"/>
-            <key id="longitude" type="xs:string" paramType="query" />
+	    <key id="latitude" type="xs:string" paramType="query"/>
+            <key id="longitude" type="xs:double" paramType="query" />
             <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
-	    <key id="output" type="xs:string" paramType='query' const="true" default="xml"/>
+	    <key id="output" type="xs:string" paramType="query" const="true" default="xml"/>
         </inputs>
     </select>
 </bindings>

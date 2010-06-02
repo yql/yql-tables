@@ -4,24 +4,29 @@
     <author>Daniel Pett</author>
     <description>Get a list of written ministerial statements</description>
     <documentationURL>http://www.theyworkforyou.com/api/getWMS</documentationURL>
-    <sampleQuery>select * from {table} where date='2006-01-09'and key='{key}';</sampleQuery>
+    <sampleQuery>select * from {table} where date="2006-01-09"and key="{key}";</sampleQuery>
 </meta>
 <bindings>
         <select itemPath="twfy.match" produces="XML">
             <urls>
                 <url>http://www.theyworkforyou.com/api/getWMS</url>
             </urls>
+  	    <paging model="page"> 
+                <start id="page" default="1" />
+                <pagesize id="per_page" max="20" /> 
+                <total default="20" /> 
+            </paging>
             <inputs>
-                <key id='key' type='xs:string' paramType='query' required="true" />
-                <key id='date' type='xs:string' paramType='query' required="false" />
-                <key id='search' type='xs:string' paramType='query' required="false" />
-                <key id='person' type='xs:string' paramType='query' required="false" />
-                <key id='gid' type='xs:string' paramType='query' required="false" />
-                <key id='order' type='xs:string' paramType='query' required="false" />
-		<key id='output' type='xs:string' paramType='query' const="true" default="xml" />
-		<key id='page' type='xs:string' paramType='query' required='false'/>
-		<key id='num' type='xs:string' paramType='query' required='false' />
-		<key id='gid' type='xs:string' paramType='query' required='false' />
+                <key id="date" type="xs:string" paramType="query" required="false" />
+                <key id="search" type="xs:string" paramType="query" required="false" />
+                <key id="person" type="xs:string" paramType="query" required="false" />
+                <key id="gid" type="xs:string" paramType="query" required="false" />
+                <key id="order" type="xs:string" paramType="query" required="false" />
+		<key id="page" type="xs:string" paramType="query" required="false"/>
+		<key id="num" type="xs:string" paramType="query" required="false" />
+		<key id="gid" type="xs:string" paramType="query" required="false" />
+		<key id="key" type="xs:string" paramType="query" required="true" private="true"/>
+	    	<key id="output" type="xs:string" paramType="query" const="true" default="xml"/>
             </inputs>
         </select> 
     </bindings>

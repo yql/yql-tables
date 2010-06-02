@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get a list of members of the House of Lords</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getLords</documentationURL>
-    <sampleQuery>select * from {table} where date='2010-05-07' and party='Conservative' and key='{key}';</sampleQuery>
+    <sampleQuery>select * from {table} where date='2010-05-07' and party='Conservative' and key='{key}'</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="twfy.match" produces="XML">
@@ -12,11 +12,11 @@
             <url>http://www.theyworkforyou.com/api/getLords</url>
         </urls>
 	<inputs>
-            <key id="date" type="xs:string" paramType="query"/>
-            <key id="party" type="xs:string" paramType="query"/>
-	    <key id="search" type="xs:string" paramType="query"/>
-            <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
-	    <key id="output" type="xs:string" paramType='query' const="true" default="xml"/>
+            <key id="date" type="xs:string" paramType="query" required="false" />
+            <key id="party" type="xs:string" paramType="query" required="false" />
+	    <key id="search" type="xs:string" paramType="query" required="false" />
+            <key id="key" type="xs:string" paramType="query" required="true" private="true" />
+	    <key id="output" type="xs:string" paramType='query' const="true" default="xml" />
         </inputs>
     </select>
 </bindings>

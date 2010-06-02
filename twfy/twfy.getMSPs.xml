@@ -12,11 +12,11 @@
             <url>http://www.theyworkforyou.com/api/getMSPs</url>
         </urls>
         <inputs>
-            <key id="date" type="xs:string" paramType="query"/>
-            <key id="party" type="xs:string" paramType="query"/>
-	    <key id="search" type="xs:string" paramType="query"/>
-            <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
-	    <key id="output" type="xs:string" paramType='query' const="true" default="xml"/>
+            <key id="date" type="xs:string" paramType="query" required="false" />
+            <key id="party" type="xs:string" paramType="query" required="false" />
+	    <key id="search" type="xs:string" paramType="query" required="false" />
+            <key id="key" type="xs:string" paramType="query" required="true" private="true" />
+	    <key id="output" type="xs:string" paramType='query' const="true" default="xml" />
         </inputs>
     </select>
 </bindings>

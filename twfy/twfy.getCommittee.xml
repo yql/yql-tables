@@ -12,8 +12,8 @@
             <url>http://www.theyworkforyou.com/api/getCommittee</url>
         </urls>
 	<inputs>
-            <key id="date" type="xs:string" paramType="query"/>
-            <key id="name" type="xs:string" paramType="query" />
+            <key id="date" type="xs:string" paramType="query" required="false" />
+            <key id="name" type="xs:string" paramType="query" required="false" />
             <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
 	    <key id="output" type="xs:string" paramType='query' const="true" default="xml"/>
         </inputs>

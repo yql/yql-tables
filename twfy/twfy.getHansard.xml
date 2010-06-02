@@ -4,10 +4,10 @@
     <author>Daniel Pett</author>
     <description>Query Hansard for a wide variety of information</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getHansard</documentationURL>
-    <sampleQuery>select * from {table} where person="10777" and key='{key}';</sampleQuery>
+    <sampleQuery>select * from {table} where search="Portable Antiquities Scheme" and person='10291' and key="{key}";</sampleQuery>
 </meta>
     <bindings>
-        <select produces="JSON">
+        <select itemPath="twfy.rows.match" produces="XML">
             <urls>
                 <url>http://www.theyworkforyou.com/api/getHansard</url>
             </urls>
@@ -17,11 +17,13 @@
                 <total default="20" /> 
             </paging>
             <inputs>
-                <key id='key' type='xs:string' paramType='query' private="true" />
-                <key id='output' type='xs:string' paramType='query' const="true" default="js" />
-                <key id='search' type='xs:string' paramType='query' required="false" />
-                <key id='person' type='xs:string' paramType='query' required="false" />
-                <key id='order' type='xs:string' paramType='query' required="false" />
+                <key id="search" type="xs:string" paramType="query" required="false" />
+                <key id="person" type="xs:string" paramType="query" required="false" />
+                <key id="order" type="xs:string" paramType="query" required="false" />
+		<key id="page" type="xs:string" paramType="query" required="false" />
+		<key id="num" type="xs:string" paramType="query" required="false" />
+		<key id="key" type="xs:string" paramType="query" required="true" private="true" />
+	        <key id="output" type="xs:string" paramType="query" const="true" default="xml" />
             </inputs>
         </select> 
     </bindings>

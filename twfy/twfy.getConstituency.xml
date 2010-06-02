@@ -7,15 +7,16 @@
     <sampleQuery>select * from {table} where name='battersea' and postcode='Sw11 3ds' and key='CzhqDaDMAgkMEcjdvuGZeRtR';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="JSON">
+    <select itemPath="" produces="XML">
         <urls>
             <url>http://www.theyworkforyou.com/api/getConstituency</url>
         </urls>
         <inputs>
             <key id="name" type="xs:string" paramType="query"/>
             <key id="postcode" type="xs:string" paramType="query"/>
-            <key id="key" type="xs:string" required="true" paramType="query"/>
-        </inputs>
+            <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
+	    <key id="output" type="xs:string" paramType="query" const="true" default="xml"/>
+	</inputs>
     </select>
 </bindings>
 </table>
