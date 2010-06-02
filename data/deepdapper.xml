@@ -49,7 +49,7 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
           nextquery = nextquery.replace("$url",escape(next[0].@href));
           next = y.query(nextquery).results.*;   // XML list
         } else {
-          next = </>;
+          next = <></>;
         }
         y.log("next");
         y.log(next);
