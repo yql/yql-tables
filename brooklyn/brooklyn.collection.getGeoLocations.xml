@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Brooklyn Museum's collections database for objects by spatial entity</description>
+    <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.getImages</documentationURL>
+    <sampleQuery>select * from {table} where start_index='20'and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+ <select itemPath="response.geolocations" produces="XML">
+        <urls>
+            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getImages</url>
+        </urls>
+	<paging model="offset">
+		<start id="start_index" default="0"/>
+		<pagesize id="results_limit" max="20"/>
+		<total default="20"/>
+	  </paging>
+	<inputs>
+            <key id="specificity" type="xs;string" paramType="query" required="false" />
+	    <key id="start_index" type="xs:string" paramType="query" required="false" />
+	    <key id="results_limit" type="xs:string" paramType="query" required="false" />
+	    <key id="include_image_caption" type="xs:string" paramType="query" required="false" />
+	    <key id="include_item_fields" type="xs:string" paramType="query" required="false" />
+	    <key id="thumb_shape" type="xs:string" paramType="query" required="false" />
+	    <key id="max_thumb_size" type="xs:string" paramType="query" required="false" />
+	    <key id="max_image_size" type="xs:string" paramType="query" required="false" />
+	    <key id="include_html_style_block" type="xs:string" paramType="query" required="false" />
+ 	    <key id="format" type="xs:string" paramType='query' const="true" default="xml"/>
+	    <key id="version" type="xs:string" paramType="query" const="true" default="1" />
+	    <key id="api_key" type="xs:string" paramType="query" required="true" private="true" />
+        </inputs>
+    </select>
+</bindings>
+</table>
