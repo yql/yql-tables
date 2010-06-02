@@ -4,20 +4,35 @@
     <author>Daniel Pett</author>
     <description>Search Brooklyn Museum's collections database</description>
     <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.search</documentationURL>
-    <sampleQuery>select * from {table} where date='2010-05-07' and name="health committee" and key='{key}';</sampleQuery>
+    <sampleQuery>select * from {table} where keyword="Egypt" and version="1" and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+   <select itemPath="response.resultset.items" produces="XML">
         <urls>
-            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.search&version=1</url>
+            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.search</url>
         </urls>
 	<inputs>
             <key id="item_type" type="xs:string" paramType="query" required="false"/>
             <key id="keyword" type="xs:string" paramType="query" />
             <key id="date_range_begin" type="xs:string" paramType="query"/>
- <key id="date_range_end" type="xs:string" paramType="query"/>
-	   <key id="name" type="xs:string" paramType="query" required-"false" />
- <key id="format" type="xs:string" paramType='query' const="true" default="xml"/>
+ 	    <key id="date_range_end" type="xs:string" paramType="query"/>
+	    <key id="name" type="xs:string" paramType="query" required="false" />
+	    <key id="collection_id" type="xs:string" paramType="query" required="false" />
+	    <key id="rights_type" type="xs:string" paramType="query" required="false" />
+	    <key id="geo_location_code" type="xs:string" paramType="query" required="false" />
+	    <key id="start_index" type="xs:string" paramType="query" required="false" />
+	    <key id="results_limit" type="xs:string" paramType="query" required="false" />
+	    <key id="require_image" type="xs:string" paramType="query" required="false" />
+	    <key id="sort_field" type="xs:string" paramType="query" required="false" />
+	    <key id="sort_direction" type="xs:string" paramType="query" required="false" />
+	    <key id="include_image_caption" type="xs:string" paramType="query" required="false" />
+	    <key id="include_item_fields" type="xs:string" paramType="query" required="false" />
+	    <key id="thumb_shape" type="xs:string" paramType="query" required="false" />
+	    <key id="max_thumb_size" type="xs:string" paramType="query" required="false" />
+	    <key id="max_image_size" type="xs:string" paramType="query" required="false" />
+	    <key id="include_html_style_block" type="xs:string" paramType="query" required="false" />
+ 	    <key id="format" type="xs:string" paramType='query' const="true" default="xml"/>
+	    <key id="version" type="xs:string" paramType="query" const="true" default="1" />
 	    <key id="api_key" type="xs:string" paramType="query" required="true" private="true" />
         </inputs>
     </select>
