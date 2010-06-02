@@ -13,7 +13,7 @@
         <key id="id" type="xs:string" paramType="path" required="true" />
       </inputs>
       <execute><![CDATA[
-        default xml namespace = "http://www.w3.org/2005/Atom";
+        var atom = Namespace("http://www.w3.org/2005/Atom");
         var media = Namespace("http://search.yahoo.com/mrss/");
         var gd = Namespace("http://schemas.google.com/g/2005");
         var yt = Namespace("http://gdata.youtube.com/schemas/2007");
@@ -28,9 +28,9 @@
   			
   			video.appendChild( <id>{id}</id> );
         video.appendChild( <url>{xml.media::group.media::player.@url}</url> );
-        video.appendChild( <title>{xml.title.toString()}</title> );
-        video.appendChild( <content>{xml.content.toString()}</content> );
-        video.appendChild( <author>{xml.author.name.toString()}</author> );
+        video.appendChild( <title>{xml.atom::title.toString()}</title> );
+        video.appendChild( <content>{xml.atom::content.toString()}</content> );
+        video.appendChild( <author>{xml.atom::author.atom::name.toString()}</author> );
         video.appendChild( <duration>{xml.media::group.yt::duration.@seconds}</duration> );
         video.appendChild( <comment_count>{xml.gd::comments.gd::feedLink.@countHint}</comment_count> );
         
