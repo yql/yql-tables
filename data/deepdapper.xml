@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Vic Mortelmans</author>
-    <description>The table exctracts data from multiple linked webpages using user-provided dapper queries.</description>
+    <description>The table exctracts data from multiple linked webpages using user-provided dapper queries. Where url="the starting page" and linkdapper="the name of a dapper that parses hyperlinks to datapages" and nextdapper="the name of a dapper that parses the link to the next page" and datadapper="the name of a dapper that parses the data the will be returned by the query". Providing nextdapper and listdapper is optional.</description>
     <sampleQuery>select * from deepdapper where url = "http://www.kerknet.be/zoek_parochie.php?allbisdom=1"
 and datadapper = "KerknetParochiesdata"
 and nextdapper = "KerknetParochiesdeephtmlnext"
@@ -18,19 +18,18 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
         <key id="url" type="xs:string" paramType="variable" required="true"/>
         <key id="datadapper" type="xs:string" paramType="variable" required="true"/>
         <key id="nextdapper" type="xs:string" paramType="variable" required="false"/>
-        <key id="listdapper" type="xs:integer" paramType="variable" required="false"/>
+        <key id="nextcount" type="xs:integer" paramType="variable" required="false"/>
+        <key id="listdapper" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[
       var datacalls = [];
       var next = <><item href={url}/></>;  // XML list
-      while (next.length() > 0) {
+      while (next.length() > 0 && nextcount?(nextcount-- > 0):true) {
         if (listdapper) {
           var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
           listquery = listquery.replace("$dapper",escape(listdapper));
           listquery = listquery.replace("$url",escape(next[0].@href));
           var list = y.query(listquery).results.*;  // XML list
-          y.log("list");
-          y.log(list);
           for each (var linkitem in list) {
             var dataquery = 'select * from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
             dataquery = dataquery.replace("$dapper",escape(datadapper));
@@ -51,12 +50,9 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
         } else {
           next = <></>;
         }
-        y.log("next");
-        y.log(next);
       }
       var data = <data/>;  // XML
       for each (var datacall in datacalls) {
-        y.log(datacall.results.length());
         data.appendChild(datacall.results.*);
       }
       y.log(data);
