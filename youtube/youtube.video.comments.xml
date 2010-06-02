@@ -2,45 +2,37 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
-    <sampleQuery>select * from {table} where video_id='zq4A1uCQ1w0'</sampleQuery>
-    <sampleQuery>select * from {table} where video_id='zq4A1uCQ1w0' and start_index=51 and max_results=10</sampleQuery>
+    <sampleQuery>select * from {table} where id='zq4A1uCQ1w0'</sampleQuery>
+    <sampleQuery>select * from {table} where id='zq4A1uCQ1w0' and start_index=51 and max_results=10</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="results.video" produces="XML">
+    <select itemPath="results.comment" produces="XML">
       <urls>
-        <url>http://gdata.youtube.com/feeds/api/videos/{video_id}/comments</url>
+        <url>http://gdata.youtube.com/feeds/api/videos/{id}/comments</url>
       </urls>
       <inputs>
-        <key id="video_id" type="xs:string" paramType="path" required="true" />
-        <key id="start_index" type="xs:integer" paramType="query" required="false" />
-        <key id="max_results" type="xs:integer" paramType="query" required="false" />
+        <key id="id" type="xs:string" paramType="path" required="true" />
+        <key id="start-index" as="start_index" type="xs:integer" paramType="query" required="false" />
+        <key id="max-results" as="max_results" type="xs:integer" paramType="query" required="false" />
       </inputs>
       <execute><![CDATA[
-        default xml namespace = "http://www.w3.org/2005/Atom";
+        var atom = Namespace("http://www.w3.org/2005/Atom");
         var openSearch = Namespace("http://a9.com/-/spec/opensearchrss/1.0/");
         
     		var xml = request.get().response,
-  			 	results = <results></results>,
-  				comments = <comments></comments>;
-  			
-  			results.appendChild( <video_id>{video_id}</video_id> );
-  			results.appendChild( <title>{xml.title.toString()}</title> );
-  			results.appendChild( <total_comments>{xml.openSearch::totalResults}</total_comments> );
-  			results.appendChild( <start_index>{xml.openSearch::startIndex}</start_index> );
-  			results.appendChild( <items_per_page>{xml.openSearch::itemsPerPage}</items_per_page> );
-  			
-  			for each(entry in xml.entry) {
+  			 	results = <results></results>;
+  				
+  			for each(entry in xml.atom::entry){
   			  var comment = <comment></comment>;
-  			  comment.appendChild( <published>{entry.published}</published> );
-  			  comment.appendChild( <updated>{entry.updated}</updated> );
-  			  comment.appendChild( <title>{entry.title}</title> );
-  			  comment.appendChild( <content>{entry.content}</content> );
-  			  comment.appendChild( <author>{entry.author.name.toString()}</author> );
+  			  comment.appendChild( <published>{entry.atom::published.toString()}</published> );
+  			  comment.appendChild( <updated>{entry.atom::updated.toString()}</updated> );
+  			  comment.appendChild( <title>{entry.atom::title.toString()}</title> );
+  			  comment.appendChild( <content>{entry.atom::content.toString()}</content> );
+  			  comment.appendChild( <author>{entry.atom::author.atom::name.toString()}</author> );
   			  
-  			  comments.appendChild(comment);
+  			  results.appendChild(comment);
   			}
-  			results.appendChild(comments);
-          			
+        
   			response.object = results;
       ]]></execute>
     </select>
