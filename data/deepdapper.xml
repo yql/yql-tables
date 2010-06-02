@@ -25,7 +25,9 @@ and listdapper = "kerknetparochieslist" </sampleQuery>
       var datacalls = [];
       var next = <><item href={url}/></>;  // XML list
       while (next.length() > 0 && nextcount?(nextcount > 0):true) {
-        nextcount?(nextcount--);         
+        if (nextcount) {
+          nextcount--;
+        }
         y.log(nextcount);
         if (listdapper) {
           var listquery = 'select href,content from xml where itemPath="//item" and url="http://www.dapper.net/RunDapp?dappName=$dapper&v=1&applyToUrl=$url"';
