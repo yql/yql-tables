@@ -35,11 +35,7 @@
   			  comment.appendChild( <updated>{entry.updated}</updated> );
   			  comment.appendChild( <title>{entry.title}</title> );
   			  comment.appendChild( <content>{entry.content}</content> );
-  			  
-  			  var author = <author></author>;
-  			  author.appendChild( <name>{entry.author.name}</name> );
-  			  author.appendChild( <uri>{entry.author.uri}</uri> );
-  			  comment.appendChild(author);
+  			  comment.appendChild( <author>{entry.author.name.toString()}</author> );
   			  
   			  comments.appendChild(comment);
   			}
