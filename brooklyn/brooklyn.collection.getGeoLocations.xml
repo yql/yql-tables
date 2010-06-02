@@ -3,15 +3,19 @@
 <meta>
     <author>Daniel Pett</author>
     <description>Search Brooklyn Museum's collections database for objects by spatial entity</description>
-    <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.getImages</documentationURL>
+    <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.getGeoLocations</documentationURL>
     <sampleQuery>select * from {table} where start_index='20'and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
  <select itemPath="response.geolocations" produces="XML">
         <urls>
-            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getImages</url>
+            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getGeoLocations</url>
         </urls>
-	
+	<paging model="offset">
+		<start id="start_index" default="0"/>
+		<pagesize id="results_limit" max="20"/>
+		<total default="20"/>
+	  </paging>
 	<inputs>
             <key id="specificity" type="xs;string" paramType="query" required="false" />
 	    <key id="start_index" type="xs:string" paramType="query" required="false" />
