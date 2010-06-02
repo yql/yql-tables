@@ -3,10 +3,12 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table exctracts data from multiple linked webpages using user-provided dapper queries. Where url="the starting page" and listdapper="the name of a dapper that parses hyperlinks to datapages" and nextdapper="the name of a dapper that parses the link to the next page" and nextcount="the maximum number of pages that is accessed" and datadapper="the name of a dapper that parses the data the will be returned by the query". Providing nextdapper, nextcount and listdapper is optional.</description>
-    <sampleQuery>select * from deepdapper where url = "http://www.kerknet.be/zoek_parochie.php?allbisdom=1"
-and datadapper = "KerknetParochiesdata"
-and nextdapper = "KerknetParochiesdeephtmlnext"
-and listdapper = "kerknetparochieslist" </sampleQuery>
+    <sampleQuery>use 'http://github.com/vicmortelmans/yql-tables/raw/master/data/deepdapper.xml' as deepdapper;
+select * from deepdapper where url = "http://developer.yahoo.net/forum/?s=50b9662690d907227e122678bdf36b1c&showforum=41&cookiecheckonly=1"
+and datadapper = "ydnforumdata"
+and nextdapper = "ydnforumnext"
+and listdapper = "ydnforumlist"
+and nextcount = 2</sampleQuery>
     <documentationURL>http://docs.google.com/document/pub?id=14z2qtxjmGV6TaHyuwz9nFJo-p7TwzezANG-VipAhLPg</documentationURL>
   </meta>
   <bindings>
