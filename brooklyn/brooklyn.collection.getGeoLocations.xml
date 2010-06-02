@@ -11,11 +11,6 @@
         <urls>
             <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getGeoLocations</url>
         </urls>
-	<paging model="offset">
-		<start id="start_index" default="0"/>
-		<pagesize id="results_limit" max="20"/>
-		<total default="250"/>
-	  </paging>
 	<inputs>
             <key id="specificity" type="xs;string" paramType="query" required="false" />
 	    <key id="start_index" type="xs:string" paramType="query" required="false" />
