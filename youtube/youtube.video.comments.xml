@@ -21,15 +21,17 @@
         
     		var xml = request.get().response,
   			 	results = <results></results>;
-  				
-  			for each(entry in xml.atom::entry){
-  			  var comment = <comment></comment>;
-  			  comment.appendChild( <published>{entry.atom::published.toString()}</published> );
-  			  comment.appendChild( <title>{entry.atom::title.toString()}</title> );
-  			  comment.appendChild( <content>{entry.atom::content.toString()}</content> );
-  			  comment.appendChild( <author>{entry.atom::author.atom::name.toString()}</author> );
+  			
+  			if (xml) {
+    			for each(entry in xml.atom::entry){
+    			  var comment = <comment></comment>;
+    			  comment.appendChild( <published>{entry.atom::published.toString()}</published> );
+    			  comment.appendChild( <title>{entry.atom::title.toString()}</title> );
+    			  comment.appendChild( <content>{entry.atom::content.toString()}</content> );
+    			  comment.appendChild( <author>{entry.atom::author.atom::name.toString()}</author> );
   			  
-  			  results.appendChild(comment);
+    			  results.appendChild(comment);
+    			}
   			}
         
   			response.object = results;
