@@ -4,7 +4,8 @@
     <author>Daniel Pett</author>
     <description>Search Victoria and Albert Museum's collections database</description>
     <documentationURL>http://www.vam.ac.uk/api</documentationURL>
-    <sampleQuery>select * from {table} where version="1" and api_key='{key}';</sampleQuery>
+    <sampleQuery description="Search for wine with full description with offset of 100">select * from {table}(100,45) where q='wine' and pad='1';</sampleQuery>
+    <sampleQuery description="Search for 50km radius of Bruges">select * from {table} where latitude='51.208013' and longitude='3.227105' and radius='50';</sampleQuery>
 </meta>
 <bindings>
    <select itemPath="json.records" produces="JSON">
@@ -26,6 +27,11 @@
 	    <key id="materialsearch" type="xs:string" paramType="query" required="false" />
 	    <key id="namesearch" type="xs:string" paramType="query" required="false" />
 	    <key id="objectnamesearch" type="xs:string" paramType="query" required="false" />
+	    <key id="placesearch" type="xs:string" paramType="query" required="false" />
+	    <key id="latitude" type="xs:string" paramType="query" required="false" />
+	    <key id="longitude" type="xs:string" paramType="query" required="false" />
+	    <key id="radius" type="xs:string" paramType="query" required="false" />
+	    <key id="orderby" type="xs;string" paramType="query" required="false" />
         </inputs>
     </select>
 </bindings>
