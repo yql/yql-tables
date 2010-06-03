@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Victoria and Albert Museum's collections database</description>
+    <documentationURL>http://www.vam.ac.uk/api</documentationURL>
+    <sampleQuery>select * from {table} where version="1" and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+   <select itemPath="json.records" produces="JSON">
+        <urls>
+            <url>http://www.vam.ac.uk/api/json/museumobject/search</url>
+        </urls>
+	<paging model="offset">
+		<start id="offset" default="0"/>
+		<pagesize id="limit" max="45"/>
+		<total default="45"/>
+	  </paging>
+	<inputs>
+      	    <key id="after" type="xs:string" paramType="query" required="false" />
+ 	    <key id="before" type="xs:string" paramType="query" required="false" />
+	    <key id="q" type="xs:string" paramType="query" required="false" />
+	    <key id="images" type="xs:string" paramType="query" required="false"  />
+	    <key id="pad" type="xs:string" paramType="query" required="false" />
+            <key id="random" type="xs:string" paramType="query" required="false" />
+	    <key id="materialsearch" type="xs:string" paramType="query" required="false" />
+	    <key id="namesearch" type="xs:string" paramType="query" required="false" />
+	    <key id="objectnamesearch" type="xs:string" paramType="query" required="false" />
+        </inputs>
+    </select>
+</bindings>
+</table>
