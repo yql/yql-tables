@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get constituency details</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getConstituency</documentationURL>
-    <sampleQuery>select * from {table} where name='battersea' and postcode='Sw11 3ds' and key='CzhqDaDMAgkMEcjdvuGZeRtR';</sampleQuery>
+    <sampleQuery description="Find a constituency by name">select * from {table} where name='battersea' and key='{key}';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="" produces="XML">

@@ -4,13 +4,18 @@
     <author>Daniel Pett</author>
     <description>Search Brooklyn Museum's collections database</description>
     <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.search</documentationURL>
-    <sampleQuery>select * from {table} where keyword="Egypt" and version="1" and api_key='{key}';</sampleQuery>
+    <sampleQuery description="Get items from Brooklyn collection for Egypt">select * from {table} where keyword="Egypt"and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
    <select itemPath="response.resultset.items" produces="XML">
         <urls>
             <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.search</url>
         </urls>
+	<paging model="offset">  
+     <start id="start_index" default="0" />  
+     <pagesize id="results_limit" max="20" />  
+     <total default="20" />  
+   </paging>
 	<inputs>
             <key id="item_type" type="xs:string" paramType="query" required="false"/>
             <key id="keyword" type="xs:string" paramType="query" />

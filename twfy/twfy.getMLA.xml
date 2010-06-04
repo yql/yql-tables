@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get MLA details for their terms of office</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getMLA</documentationURL>
-    <sampleQuery>select * from {table} where id='13755' and constituency='Newry and Armagh' and key='{key}';</sampleQuery>
+    <sampleQuery description="Get an MLA member detail by number and constituency">select * from {table} where id='13755' and constituency='Newry and Armagh' and key='{key}';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="twfy.match" produces="XML">

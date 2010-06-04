@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get MP further information (very comprehensive)</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getMPInfo</documentationURL>
-    <sampleQuery>select * from {table} where id='11905' and fields='bbc_profile_url,comments_on_speeches' and key='{key}';</sampleQuery>
+    <sampleQuery description="Get extended information for an MP by id and return only selected fields">select * from {table} where id='11905' and fields='bbc_profile_url,comments_on_speeches' and key='{key}';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="twfy" produces="XML">

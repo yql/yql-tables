@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get a list of Members of Scottish Parliament</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getMSPs</documentationURL>
-    <sampleQuery>select * from {table} where date='2010-05-07' and party='Conservative' and key='{key}';</sampleQuery>
+    <sampleQuery description="Get a list of MSPs by party on a date">select * from {table} where date='2010-05-07' and party='Conservative' and key='{key}';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="twfy.match" produces="XML">

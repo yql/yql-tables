@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get geometry from theyworkforyou website (very loose for NI)</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getGeometry</documentationURL>
-    <sampleQuery>select * from {table} where person="10777" and key='{key}';</sampleQuery>
+    <sampleQuery description="Find spatial coordinates by name of constituency" >select * from {table} where name="battersea" and key='{key}';</sampleQuery>
 </meta>
     <bindings>
         <select itemPath="twfy" produces="XML">

@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get a list of members of a Parliamentary Committee</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getCommittee</documentationURL>
-    <sampleQuery>select * from {table} where date='2010-05-07' and name="health committee" and key='{key}';</sampleQuery>
+    <sampleQuery description="Find all members of the Health Committee on 7th May 2010">select * from {table} where date='2010-05-07' and name="health committee" and key='{key}';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="twfy.members" produces="XML">

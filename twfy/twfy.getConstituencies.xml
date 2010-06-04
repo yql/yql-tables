@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get a list of Parliamentary Constituencies</description>
     <documentationURL>http://www.theyworkforyou.com/api/docs/getConstituencies</documentationURL>
-    <sampleQuery>select * from {table} where date='2010-05-07' and distance='20' and latitude="51.8400534244" and longitude="-1.50292754722" and key='{key}';</sampleQuery>
+    <sampleQuery description="Find constituencies within distance x on date from a spatial point">select * from {table} where date='2010-05-07' and distance='20' and latitude="51.8400534244" and longitude="-1.50292754722" and key='{key}';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="twfy.match" produces="XML">
