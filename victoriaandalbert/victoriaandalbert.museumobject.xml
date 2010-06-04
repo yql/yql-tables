@@ -4,34 +4,15 @@
     <author>Daniel Pett</author>
     <description>Search Victoria and Albert Museum's collections database</description>
     <documentationURL>http://www.vam.ac.uk/api</documentationURL>
-    <sampleQuery description="Search for wine with full description with offset of 100">select * from {table}(100,45) where q='wine' and pad='1';</sampleQuery>
-    <sampleQuery description="Search for 50km radius of Bruges">select * from {table} where latitude='51.208013' and longitude='3.227105' and radius='50';</sampleQuery>
-</meta>
+    <sampleQuery description="Search for object number O12345">select * from {table} where id='O12345';</sampleQuery>
+   </meta>
 <bindings>
-   <select itemPath="json.records" produces="JSON">
+   <select itemPath="json.fields" produces="JSON">
         <urls>
-            <url>http://www.vam.ac.uk/api/json/museumobject/search</url>
+            <url>http://www.vam.ac.uk/api/json/museumobject/{id}</url>
         </urls>
-	<paging model="offset">
-		<start id="offset" default="0"/>
-		<pagesize id="limit" max="45"/>
-		<total default="45"/>
-	  </paging>
 	<inputs>
-      	    <key id="after" type="xs:string" paramType="query" required="false" />
- 	    <key id="before" type="xs:string" paramType="query" required="false" />
-	    <key id="q" type="xs:string" paramType="query" required="false" />
-	    <key id="images" type="xs:string" paramType="query" required="false"  />
-	    <key id="pad" type="xs:string" paramType="query" required="false" />
-            <key id="random" type="xs:string" paramType="query" required="false" />
-	    <key id="materialsearch" type="xs:string" paramType="query" required="false" />
-	    <key id="namesearch" type="xs:string" paramType="query" required="false" />
-	    <key id="objectnamesearch" type="xs:string" paramType="query" required="false" />
-	    <key id="placesearch" type="xs:string" paramType="query" required="false" />
-	    <key id="latitude" type="xs:string" paramType="query" required="false" />
-	    <key id="longitude" type="xs:string" paramType="query" required="false" />
-	    <key id="radius" type="xs:string" paramType="query" required="false" />
-	    <key id="orderby" type="xs;string" paramType="query" required="false" />
+      	    <key id="id" type="xs:string" paramType="path" required="true" />
         </inputs>
     </select>
 </bindings>

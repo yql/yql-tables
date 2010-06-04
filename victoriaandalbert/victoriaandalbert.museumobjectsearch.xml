@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Victoria and Albert Museum's collections database</description>
+    <documentationURL>http://www.vam.ac.uk/api</documentationURL>
+    <sampleQuery description="Search for wine with full description with offset of 100, maximum of 45 objects returned.">select * from {table}(100,45) where q='wine' and pad='1';</sampleQuery>
+    <sampleQuery description="Search for 50km radius of Bruges">select * from {table} where latitude='51.208013' and longitude='3.227105' and radius='50';</sampleQuery>
+</meta>
+<bindings>
+   <select itemPath="json.records" produces="JSON">
+        <urls>
+            <url>http://www.vam.ac.uk/api/json/museumobject/search</url>
+        </urls>
+	<paging model="offset">
+		<start id="offset" default="0"/>
+		<pagesize id="limit" max="45"/>
+		<total default="45"/>
+	  </paging>
+	<inputs>
+      	    <key id="after" type="xs:string" paramType="query" required="false" />
+ 	    <key id="before" type="xs:string" paramType="query" required="false" />
+	    <key id="q" type="xs:string" paramType="query" required="false" />
+	    <key id="images" type="xs:string" paramType="query" required="false"  />
+	    <key id="pad" type="xs:string" paramType="query" required="false" />
+            <key id="random" type="xs:string" paramType="query" required="false" />
+	    <key id="materialsearch" type="xs:string" paramType="query" required="false" />
+	    <key id="namesearch" type="xs:string" paramType="query" required="false" />
+	    <key id="objectnamesearch" type="xs:string" paramType="query" required="false" />
+	    <key id="placesearch" type="xs:string" paramType="query" required="false" />
+	    <key id="latitude" type="xs:string" paramType="query" required="false" />
+	    <key id="longitude" type="xs:string" paramType="query" required="false" />
+	    <key id="radius" type="xs:string" paramType="query" required="false" />
+	    <key id="place" type="xs:string" paramType="query" required="false" />
+	    <key id="orderby" type="xs;string" paramType="query" required="false" />
+        </inputs>
+    </select>
+</bindings>
+</table>
