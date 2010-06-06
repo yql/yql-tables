@@ -67,6 +67,8 @@
         var url = '';
         var finalquery = '';
         for each (var step in service.step) {
+          y.log(step.nr);
+          y.log(service.step.length());
           if (step.nr < service.step.length()) { 
             if (step.@yql.toString() == "true") { // yql query
               var query = step.toString();
