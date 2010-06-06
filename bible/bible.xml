@@ -121,7 +121,7 @@
                 value = node.toString();
             } else {
                 for each (var c in node.children()) {
-                    value += stringValue(c) + ", ";
+                    value += stringValue(c) + " ";
                 }
                 value = value.replace(/, $/,'');
             }
