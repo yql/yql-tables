@@ -12,63 +12,96 @@
         <url></url>
       </urls>
       <inputs>
-        <key id="language" type="xs:string" paramType="variable" required="false" default="en"/>
+        <key id="language" type="xs:string" paramType="variable" required="false"/>
         <key id="edition" type="xs:string" paramType="variable" required="false"/>
         <key id="book" type="xs:string" paramType="variable" required="true"/>
         <key id="chapter" type="xs:integer" paramType="variable" required="true"/>
         <key id="passage" type="xs:integer" paramType="variable" required="true"/>
       </inputs>
       <execute><![CDATA[ 
-        if (!edition) {
-          var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/editions.xml" and edition.language matches "(?i)$language" and edition.default="true"';
-          editionsquery = editionsquery.replace("$language",language);
-          var editions = y.query(editionsquery).results.editions;
-          if (editions.edition.length() < 1) {
-            var supported_languagesquery = 'select edition.language from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/editions.xml" and edition.default="true"';
-            var supported_languages = y.query(supported_languagesquery).results.editions.edition.language;
-            var error_message = 'Language $language is not supported. Supported bible languages : $supported';
-            error_message = error_message.replace("$language",language);
-            error_message = error_message.replace("$supported",stringListValue(supported_languages));
-            y.log(error_message);
-            y.exit();
-          }
+        if (!edition && !language) {
+          language = "en";
+        }
+        var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml" and edition.input matches "(?i)$edition" and edition.language matches "(?i)$language"';
+        editionsquery = editionsquery.replace("$language",language?language:'.*');
+        editionsquery = editionsquery.replace("$edition",edition?edition:'.*');
+        var editions = y.query(editionsquery).results.editions;
+        var edition;
+        if (editions.edition.length() < 1) {
+          var supported_editionsquery = 'select edition.input, edition.language from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/editions.xml"';
+          var supported_editions = y.query(supported_editionsquery).results.editions;
+          y.log('No bible edition found matching query parameters. Supported editions and languages:');
+          y.log(supported_editions);
+          y.exit();
+        } else if (editions.edition.length() > 1) {
+          edition = editions.edition.(default == "true);
         } else {
-          var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/editions.xml" and edition.input matches "(?i)$edition"';
-          editionsquery = editionsquery.replace("$edition",edition);
-          var editions = y.query(editionsquery).results.editions;
-          if (editions.edition.length() < 1) {
-            var supported_editionsquery = 'select edition.input from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/editions.xml" and edition.language matches "(?i)$language"';
-            supported_editionsquery = supported_editionsquery.replace("$language",language);
-            var supported_editions = y.query(supported_editionsquery).results.editions.edition.input;
-            var error_message = 'Edition $edition is not supported. Supported bible editions for language "$language": $supported';
-            error_message = error_message.replace("$edition",edition);
-            error_message = error_message.replace("$language",language);
-            error_message = error_message.replace("$supported",stringListValue(supported_editions));
-            if (supported_editions.length() < 1) {
-              var supported_editionsquery = 'select edition.input from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/editions.xml"';
-              var supported_editions = y.query(supported_editionsquery).results.editions.edition.input;
-              error_message = 'Edition $edition is not supported. Supported bible editions: $supported';
-              error_message = error_message.replace("$edition",edition);
-              error_message = error_message.replace("$supported",stringListValue(supported_editions));
-            }
+          edition = editions.edition;
+        }
+        y.log(edition);
+        var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
+        booksquery = booksquery.replace("$book",book);
+        var books = y.query(booksquery).results.books;
+        if (books.book.length() < 1) {
+            var error_message = '$book is not a bible book. Common bible book abbreviations : $supported';
+            error_message = error_message.replace("$book",book);
+            error_message = error_message.replace("$supported","http://biblewiki.net/books/index");
             y.log(error_message);
             y.exit();
+        }
+        book = books.book;
+        y.log(book);
+        var servicesquery = 'select service from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/services.xml" and service.name matches "(?i)$service"';
+        servicesquery = servicesquery.replace("$service",edition.code.(@default == "true").@service;
+        var services = y.query(servicesquery).results.services;
+        if (services.service.length() < 1) {
+            var error_message = 'Internal error';
+            y.log(error_message);
+            y.exit();
+        }
+        service = services.service;
+        y.log(service);
+        var bookcode = book.code.(@service == service.name);
+        var editioncode = edition.code(@service == service.name);
+        var url = '';
+        var finalquery = '';
+        for (var step in service) {
+          if (step.nr < service.step.length()) { 
+            if (step.@yql == "true") { // yql query
+              var query = step;
+              query = query.replace(/$book/g,bookcode);
+              query = query.replace(/$edition/g,editioncode);
+              query = query.replace(/$chapter/g,chapter);
+              query = query.replace(/$passage/g,passage);
+              query = query.replace(/$url/g,url);
+              var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true'
+              rest = rest.replace("$query",escape(query));
+              url = rest;
+              y.log(url);
+            } else { // rest call
+              var rest = step;
+              rest = rest.replace(/$book/g,escape(bookcode));
+              rest = rest.replace(/$edition/g,escape(editioncode));
+              rest = rest.replace(/$chapter/g,escape(chapter));
+              rest = rest.replace(/$passage/g,escape(passage));
+              rest = rest.replace(/$url/g,escape(url));
+              url = rest;
+              y.log(url);
+            }
+          } else { // last step is always yql query
+              finalquery = step;
+              finalquery.replace(/$book/g,bookcode);
+              finalquery.replace(/$edition/g,editioncode);
+              finalquery.replace(/$chapter/g,chapter);
+              finalquery.replace(/$passage/g,passage);
+              finalquery.replace(/$url/g,url);
+              y.log(finalquery);
           }
         }
-        var service_switch = editions.edition[0].service.toString();
-        var language_switch = editions.edition[0].language.toString();
-        var edition_name = editions.edition[0].input.(@type=="name").toString();
-        
-        switch (service_switch) {
-            case "biblija_net":
-                y.log("using " + edition_name);
-                response.object = biblija_net();
-                break;
-            default:
-                y.log("Internal error - service switch : " + service_switch);
-                y.exit();
-        }
-        
+        var queryoutput = y.query(finalquery).results;
+        return <passage>{stringValue(queryoutput)}</passage>;    
+      
+
         function stringValue(node) {
             var value = "";
             if (node.hasSimpleContent()) {
@@ -92,58 +125,6 @@
                 value = value.replace(/, $/,'');
             }
             return value;
-        }
-
-        function biblija_net() {
-            var edition_api = editions.edition[0].biblija_net.toString();
-            var booksquery = 'select book.biblija_net from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/books.xml" and book.input matches "(?i)$book"';
-            booksquery = booksquery.replace("$book",book);
-            var books = y.query(booksquery).results.books;
-            if (books.book.length() < 1) {
-                var error_message = '$book is not a bible book. Common bible book abbreviations : $supported';
-                error_message = error_message.replace("$book",book);
-                error_message = error_message.replace("$supported","http://biblewiki.net/books/index");
-                y.log(error_message);
-                y.exit();
-            }
-            var book_api = books.book[0].biblija_net.toString();
-            var url = "http://www.biblija.net/biblija.cgi?Bible=Bible&m=$citation&compact=1&$edition_api=1&pos=0&set=1&l=en";
-            url = url.replace("$citation",escape(book_api + " " + chapter + ":" + passage));
-            url = url.replace("$edition_api",escape(edition_api));
-            var yql = "select * from html where url='$url' and xpath='//tr[@class=\"tr-odd\"]'";
-            yql = yql.replace("$url",url);
-            var queryoutput = y.query(yql).results;
-            var i = 0;
-            var nrofitemstodelete = 0;
-            nrofitemstodelete = queryoutput..div.(@["class"] == 'opomba-layer').length(); // tooltip-footnotes
-            for (i=0;i<nrofitemstodelete;i++) {
-                delete queryoutput..div.(@["class"] == 'opomba-layer')[0];
-            }
-            nrofitemstodelete = queryoutput..span.(@["class"] == 'v').length(); // passage numbers
-            for (i=0;i<nrofitemstodelete;i++) {
-                delete queryoutput..span.(@["class"] == 'v')[0];
-            }
-            nrofitemstodelete = queryoutput..span.(@["class"] == 'c').length(); // chapter numbers
-            for (i=0;i<nrofitemstodelete;i++) {
-                delete queryoutput..span.(@["class"] == 'c')[0];
-            }
-            nrofitemstodelete = queryoutput..div.(@["class"] == 's1').length(); // subtitles
-            for (i=0;i<nrofitemstodelete;i++) {
-                delete queryoutput..div.(@["class"] == 's1')[0];
-            }
-            nrofitemstodelete = queryoutput..div.(@["class"] == 's').length(); // subtitles
-            for (i=0;i<nrofitemstodelete;i++) {
-                delete queryoutput..div.(@["class"] == 's')[0];
-            }
-            nrofitemstodelete = queryoutput..div.(@["class"] == 'mt').length(); // chapter titles
-            for (i=0;i<nrofitemstodelete;i++) {
-                delete queryoutput..div.(@["class"] == 'mt')[0];
-            }
-            nrofitemstodelete = queryoutput..script.length(); // google ads 
-            for (i=0;i<nrofitemstodelete;i++) {
-                delete queryoutput..script[0];
-            }
-            return <passage>{stringValue(queryoutput)}</passage>;    
         }
       ]]></execute>
       </select>
