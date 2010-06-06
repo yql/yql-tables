@@ -34,9 +34,9 @@
           y.log(supported_editions);
           y.exit();
         } else if (editions.edition.length() > 1) {
-          edition = editions.edition.(default_ == "true");
+          edition = editions.edition.(default_ == "true")[0];
         } else {
-          edition = editions.edition;
+          edition = editions.edition[0];
         }
         y.log(edition);
         var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
@@ -49,7 +49,7 @@
             y.log(error_message);
             y.exit();
         }
-        book = books.book;
+        book = books.book[0];
         y.log(book);
         var servicesquery = 'select service from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/services.xml" and service.name matches "(?i)$service"';
         servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
@@ -60,15 +60,15 @@
             y.log(error_message);
             y.exit();
         }
-        service = services.service;
+        service = services.service[0];
         y.log(service);
-        var bookcode = book.code.(@service == service.name);
-        var editioncode = edition.code(@service == service.name);
+        var bookcode = book.code.(@service == service.name.toString());
+        var editioncode = edition.code(@service == service.name.toString());
         var url = '';
         var finalquery = '';
         for (var step in service) {
           if (step.nr < service.step.length()) { 
-            if (step.@yql == "true") { // yql query
+            if (step.@yql.toString() == "true") { // yql query
               var query = step;
               query = query.replace(/$book/g,bookcode);
               query = query.replace(/$edition/g,editioncode);
