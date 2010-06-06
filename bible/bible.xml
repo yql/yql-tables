@@ -69,6 +69,7 @@
         for (var step in service.step) {
           if (step.nr < service.step.length()) { 
             if (step.@yql.toString() == "true") { // yql query
+              y.log(step);
               var query = step.toString();
               query = query.replace(/\$book/g,bookcode);
               query = query.replace(/\$edition/g,editioncode);
@@ -80,6 +81,7 @@
               url = rest;
               y.log(url);
             } else { // rest call
+              y.log(step);
               var rest = step.toString();
               rest = rest.replace(/\$book/g,escape(bookcode));
               rest = rest.replace(/\$edition/g,escape(editioncode));
@@ -90,6 +92,7 @@
               y.log(url);
             }
           } else { // last step is always yql query
+              y.log(step);
               finalquery = step.toString();
               finalquery.replace(/\$book/g,bookcode);
               finalquery.replace(/\$edition/g,editioncode);
