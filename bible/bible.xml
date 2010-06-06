@@ -100,7 +100,7 @@
           }
         }
         var queryoutput = y.query(finalquery).results;
-        response.object = <passage>{stringValue(queryoutput)}</passage>;    
+        response.object = <passage>{stringListValue(queryoutput)}</passage>;    
       
 
         function stringValue(node) {
