@@ -34,7 +34,7 @@
           y.log(supported_editions);
           y.exit();
         } else if (editions.edition.length() > 1) {
-          edition = editions.edition.(attribute("default") == "true");
+          edition = editions.edition["default"] == "true";
         } else {
           edition = editions.edition;
         }
