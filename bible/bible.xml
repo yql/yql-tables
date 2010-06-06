@@ -3,7 +3,7 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
-    <sampleQuery>select * from bible where language='en' and edition='king james' and book='Luke' and chapter=11 and passage=10</sampleQuery>
+    <sampleQuery>select * from bible where language='en' and book='Luke' and chapter=11 and passage=10</sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
   </meta>
   <bindings>
@@ -34,7 +34,7 @@
           y.log(supported_editions);
           y.exit();
         } else if (editions.edition.length() > 1) {
-          edition = editions.edition.(default == "true);
+          edition = editions.edition.(attribute("default") == "true");
         } else {
           edition = editions.edition;
         }
@@ -99,7 +99,7 @@
           }
         }
         var queryoutput = y.query(finalquery).results;
-        return <passage>{stringValue(queryoutput)}</passage>;    
+        response.object = <passage>{stringValue(queryoutput)}</passage>;    
       
 
         function stringValue(node) {
