@@ -34,7 +34,7 @@
           y.log(supported_editions);
           y.exit();
         } else if (editions.edition.length() > 1) {
-          edition = editions.edition["default"] == "true";
+          edition = editions.edition.(default_ == "true");
         } else {
           edition = editions.edition;
         }
@@ -52,7 +52,7 @@
         book = books.book;
         y.log(book);
         var servicesquery = 'select service from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/services.xml" and service.name matches "(?i)$service"';
-        servicesquery = servicesquery.replace("$service",edition.code.(attribute("default") == "true").@service);
+        servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service);
         var services = y.query(servicesquery).results.services;
         if (services.service.length() < 1) {
             var error_message = 'Internal error';
