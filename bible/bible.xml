@@ -91,11 +91,11 @@
             }
           } else { // last step is always yql query
               finalquery = step.toString();
-              finalquery.replace(/\$book/g,bookcode);
-              finalquery.replace(/\$edition/g,editioncode);
-              finalquery.replace(/\$chapter/g,chapter);
-              finalquery.replace(/\$passage/g,passage);
-              finalquery.replace(/\$url/g,url);
+              finalquery = finalquery.replace(/\$book/g,bookcode);
+              finalquery = finalquery.replace(/\$edition/g,editioncode);
+              finalquery = finalquery.replace(/\$chapter/g,chapter);
+              finalquery = finalquery.replace(/\$passage/g,passage);
+              finalquery = finalquery.replace(/\$url/g,url);
               y.log(finalquery);
           }
         }
