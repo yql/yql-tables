@@ -63,7 +63,7 @@
         service = services.service[0];
         y.log(service);
         var bookcode = book.code.(@service == service.name.toString());
-        var editioncode = edition.code(@service == service.name.toString());
+        var editioncode = edition.code.(@service == service.name.toString());
         var url = '';
         var finalquery = '';
         for (var step in service) {
