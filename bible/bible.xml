@@ -69,33 +69,33 @@
         for (var step in service) {
           if (step.nr < service.step.length()) { 
             if (step.@yql.toString() == "true") { // yql query
-              var query = step;
-              query = query.replace(/$book/g,bookcode);
-              query = query.replace(/$edition/g,editioncode);
-              query = query.replace(/$chapter/g,chapter);
-              query = query.replace(/$passage/g,passage);
-              query = query.replace(/$url/g,url);
+              var query = step.toString();
+              query = query.replace(/\$book/g,bookcode);
+              query = query.replace(/\$edition/g,editioncode);
+              query = query.replace(/\$chapter/g,chapter);
+              query = query.replace(/\$passage/g,passage);
+              query = query.replace(/\$url/g,url);
               var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true'
               rest = rest.replace("$query",escape(query));
               url = rest;
               y.log(url);
             } else { // rest call
-              var rest = step;
-              rest = rest.replace(/$book/g,escape(bookcode));
-              rest = rest.replace(/$edition/g,escape(editioncode));
-              rest = rest.replace(/$chapter/g,escape(chapter));
-              rest = rest.replace(/$passage/g,escape(passage));
-              rest = rest.replace(/$url/g,escape(url));
+              var rest = step.toString();
+              rest = rest.replace(/\$book/g,escape(bookcode));
+              rest = rest.replace(/\$edition/g,escape(editioncode));
+              rest = rest.replace(/\$chapter/g,escape(chapter));
+              rest = rest.replace(/\$passage/g,escape(passage));
+              rest = rest.replace(/\$url/g,escape(url));
               url = rest;
               y.log(url);
             }
           } else { // last step is always yql query
-              finalquery = step;
-              finalquery.replace(/$book/g,bookcode);
-              finalquery.replace(/$edition/g,editioncode);
-              finalquery.replace(/$chapter/g,chapter);
-              finalquery.replace(/$passage/g,passage);
-              finalquery.replace(/$url/g,url);
+              finalquery = step.toString();
+              finalquery.replace(/\$book/g,bookcode);
+              finalquery.replace(/\$edition/g,editioncode);
+              finalquery.replace(/\$chapter/g,chapter);
+              finalquery.replace(/\$passage/g,passage);
+              finalquery.replace(/\$url/g,url);
               y.log(finalquery);
           }
         }
