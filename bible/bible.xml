@@ -29,9 +29,9 @@
         var edition;
         if (editions.edition.length() < 1) {
           var supported_editionsquery = 'select edition.input.content, edition.language.content from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml"';
-          var supported_editions = y.query(supported_editionsquery).results;
+          var supported_editions = y.query(supported_editionsquery).results.editions;
           y.log('No bible edition found matching query parameters. Supported editions and languages:');
-          y.log(supported_editions);
+          y.log(stringCommaSeparatedListValue(supported_editions));
           y.exit();
         } else if (editions.edition.length() > 1) {
           edition = editions.edition.(default_ == "true")[0];
@@ -122,6 +122,19 @@
             } else {
                 for each (var c in node.children()) {
                     value += stringValue(c) + " ";
+                }
+                value = value.replace(/, $/,'');
+            }
+            return value;
+        }
+
+        function stringCommaSeparatedListValue(node) {
+            var value = "";
+            if (node.hasSimpleContent()) {
+                value = node.toString();
+            } else {
+                for each (var c in node.children()) {
+                    value += stringValue(c) + ", ";
                 }
                 value = value.replace(/, $/,'');
             }
