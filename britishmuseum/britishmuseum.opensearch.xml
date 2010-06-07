@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search the British Museum using their opensearch module</description>
+    <documentationURL>http://www.britishmuseum.org/about_this_site/about_this_site/opensearch.aspx</documentationURL>
+    <sampleQuery description="Get items from Brooklyn collection for Egypt">select * from {table} where keyword="Egypt"and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+   <select itemPath="feed.entry" produces="XML">
+        <urls>
+            <url>http://www.britishmuseum.org/api/opensearch/collection_database.aspx</url>
+        </urls>
+   <paging model="offset">
+	<start id="startRecord" default="1"/>
+	<pagesize id="ItemsPerPage" max="100"/>
+	<total default="25"/>
+   </paging>
+	<inputs>
+            <key id="searchText" type="xs:string" paramType="query" required="false"/>
+            <key id="placeName" type="xs:string" paramType="query" required="false" />
+	    <key id="titleSubject" type="xs:string" paramType="query" const="true" default="on" />
+	    <key id="fromDate" type="xs:string" paramType="query" required="false" />
+	    <key id="toDate" type="xs:string" paramType="query" required="false" />
+	    <key id="fromADBC" type="xs:string" paramType="query" required="false" />
+	    <key id="toADBC" type="xs:string" paramType="query" required="false" />
+	</inputs>
+    </select>
+</bindings>
+</table>
