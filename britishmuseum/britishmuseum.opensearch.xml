@@ -13,7 +13,7 @@
         </urls>
    <paging model="offset">
 	<start id="startIndex" default="1"/>
-	<pagesize id="totalresults" max="9999999"/>
+	<pagesize id="totalResults" max="9999999"/>
 	<total default="25"/>
    </paging>
 	<inputs>
