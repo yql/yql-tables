@@ -12,8 +12,8 @@
             <url>http://www.britishmuseum.org/api/opensearch/collection_database.aspx</url>
         </urls>
    <paging model="offset">
-	<start id="startRecord" default="1"/>
-	<pagesize id="ItemsPerPage" max="100"/>
+	<start id="startIndex" default="1"/>
+	<pagesize id="itemsPerPage" max="100"/>
 	<total default="25"/>
    </paging>
 	<inputs>
