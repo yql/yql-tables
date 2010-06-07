@@ -31,7 +31,6 @@
           var supported_editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml"';
           var supported_editions = y.query(supported_editionsquery).results.editions;
           y.log('No bible edition found matching query parameters. Supported editions and languages:');
-          y.log(supported_editions);
           y.log(listEditions(supported_editions));
           y.exit();
         } else if (editions.edition.length() > 1) {
