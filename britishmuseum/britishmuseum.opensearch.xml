@@ -11,11 +11,11 @@
         <urls>
             <url>http://www.britishmuseum.org/api/opensearch/collection_database.aspx</url>
         </urls>
-   <paging model="page">
-        <start id="currentPage" default="1" />
-        <pagesize id="ItemsPerPage" max="50" />
-        <total default="10" />
-      </paging>
+   <paging model="offset">
+	<start id="startIndex" default="1"/>
+	<pagesize id="totalresults" max="9999999"/>
+	<total default="25"/>
+   </paging>
 	<inputs>
             <key id="searchText" type="xs:string" paramType="query" required="false"/>
             <key id="placeName" type="xs:string" paramType="query" required="false" />
