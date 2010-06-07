@@ -28,10 +28,10 @@
         var editions = y.query(editionsquery).results.editions;
         var edition;
         if (editions.edition.length() < 1) {
-          var supported_editionsquery = 'select edition.input.content, edition.language.content from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml"';
-          var supported_editions = <test>{y.query(supported_editionsquery).results.editions}</test>;
+          var supported_editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml"';
+          var supported_editions = y.query(supported_editionsquery).results.editions;
           y.log('No bible edition found matching query parameters. Supported editions and languages:');
-          y.log(supported_editions);
+          y.log(listEditions(supported_editions));
           y.exit();
         } else if (editions.edition.length() > 1) {
           edition = editions.edition.(default_ == "true")[0];
@@ -128,18 +128,23 @@
             return value;
         }
 
-        function stringCommaSeparatedListValue(node) {
-            var value = "";
-            if (node.hasSimpleContent()) {
-                value = node.toString();
-            } else {
-                for each (var c in node.children()) {
-                    value += stringValue(c) + ", ";
-                }
-                value = value.replace(/, $/,'');
+        function listEditions(node) {
+          var value = "";
+          for each (var edition in node.children()) {
+            value += edition.input.(@name == 'true').toString();
+            value += " - ";
+            value += edition.language.toString();
+            value += " (";
+            for each (var input in edition.input.(@name != 'true)) {
+              value += input.toString();
+              value += ",";
             }
-            return value;
+            value = value.replace(/,$/,'');
+            value += "), ";
+          }
+          value = value.replace(/, $/,'');
         }
+
       ]]></execute>
       </select>
   </bindings>
