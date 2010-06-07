@@ -13,7 +13,7 @@
         </urls>
    <paging model="page">
         <start id="currentPage" default="1" />
-        <pagesize id="itemsPerPage" max="50" />
+        <pagesize id="ItemsPerPage" max="50" />
         <total default="10" />
       </paging>
 	<inputs>
