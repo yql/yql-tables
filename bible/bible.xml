@@ -135,7 +135,7 @@
             value += " - ";
             value += edition.language.toString();
             value += " (";
-            for each (var input in edition.input.(@name != 'true)) {
+            for each (var input in edition.input.(@name != 'true')) {
               value += input.toString();
               value += ",";
             }
