@@ -7,7 +7,7 @@
     <sampleQuery description="Search for record id of 34522">select * from {table} where record_id='34522' and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="mets.dmdSec" produces="XML">
         <urls>
             <url>http://api.digitalnz.org/records/v{version_id}/{record_id}.{format}/</url>
         </urls>
