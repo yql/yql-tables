@@ -7,7 +7,7 @@
     <sampleQuery description="Get a list of content partners">select * from {table} where format='xml' and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="content_partners" produces="XML">
         <urls>
             <url> http://api.digitalnz.org/content_partners/v1.{format}/</url>
         </urls>
