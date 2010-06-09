@@ -7,7 +7,7 @@
     <sampleQuery description="Search for all records attributed to social welfare">select * from {table} where search_text='social welfare' and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="hash.results.result" produces="XML">
         <urls>
             <url>http://api.digitalnz.org/records/v1.xml/</url>
         </urls>
