@@ -13,7 +13,7 @@
         </urls>
 	<inputs>
       	    <key id="include_html_style_block" type="xs:string" paramType="query" required="false" />
- 	    <key id="format" type="xs:string" paramType='query' const="true" default="xml"/>
+ 	    <key id="format" type="xs:string" paramType='query' const="true" default="xml" />
 	    <key id="version" type="xs:string" paramType="query" const="true" default="1" />
 	    <key id="api_key" type="xs:string" paramType="query" required="true" private="true" />
         </inputs>
