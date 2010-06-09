@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Query Museum of London LAARC archive for publications relating to excavated sites</description>
+    <documentationURL>http://www.museumoflondon.org.uk/laarcWS/v1/doc/methods.aspx</documentationURL>
+    <sampleQuery description="Search for Roman knife in the publications archive">select * from {table} where terms='roman knife';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="Resultset.Publication" produces="XML">
+        <urls>
+            <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=SearchPubs</url>
+        </urls>
+      <paging model="page">
+        <start id="pageno" default="1" />
+        <pagesize id="perpage" max="50" />
+        <total default="15" />
+      </paging>
+	<inputs>
+	    <key id="search_type" type="xs:string" paramType="query" const="true" default="keywords" />
+	    <key id="terms" type="xs:string" paramType="query" required="false" />
+	</inputs>
+    </select>
+</bindings>
+</table>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get list of upcoming Museum of London events</description>
+    <documentationURL>http://www.museumoflondon.org.uk/museumoflondon/food/rest.aspx</documentationURL>
+    <sampleQuery description="Search for events between 27/6/2010 and 27/7/2010 and adult audience">select * from {table} where startdate="27/06/2010" and enddate='27/07/2010' and audience='a';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="rss.item" produces="XML">
+        <urls>
+            <url>http://www.museumoflondon.org.uk/MuseumofLondon/food/rest.aspx?source=events</url>
+        </urls>
+      <paging model="page">
+        <start id="page" default="1" />
+        <pagesize id="pagesize" max="50" />
+        <total default="15" />
+      </paging>
+	<inputs>
+            <key id="mode" type="xs:string" paramType="query" required="false" />
+	    <key id="startdate" type="xs:string" paramType="query" required="false" />
+            <key id="enddate" type="xs:string" paramType="query" required="false" />
+	    <key id="audience" type="xs:string" paramType="query" required="false" />
+	    <key id="text" type="xs:string" paramType="query" required="false" />
+	</inputs>
+    </select>
+</bindings>
+</table>
