@@ -7,7 +7,7 @@
     <sampleQuery description="Search for postcode associated with a point">select * from {table} where lat='51.5181' and lon='-0.127115' and format='xml';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="results.result" produces="XML">
+    <select itemPath="result" produces="XML">
         <urls>
             <url>http://www.uk-postcodes.com/latlng/{lat},{lon}.{format}</url>
         </urls>
