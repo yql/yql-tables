@@ -13,8 +13,8 @@
             <url>http://www.vam.ac.uk/api/json/museumobject/search</url>
         </urls>
 	<paging model="offset">
-		<start id="offset" default="0"/>
-		<pagesize id="limit" max="45"/>
+		<start id="offset" default="0" />
+		<pagesize id="limit" max="45" />
 		<total default="45"/>
 	  </paging>
 	<inputs>

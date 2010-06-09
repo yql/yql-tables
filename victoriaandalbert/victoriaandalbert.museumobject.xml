@@ -9,7 +9,7 @@
 <bindings>
    <select itemPath="json.fields" produces="JSON">
         <urls>
-            <url>http://www.vam.ac.uk/api/json/museumobject/{id}</url>
+            <url>http://www.vam.ac.uk/api/json/museumobject/{id}/</url>
         </urls>
 	<inputs>
       	    <key id="id" type="xs:string" paramType="path" required="true" />
