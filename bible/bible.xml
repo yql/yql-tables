@@ -135,8 +135,6 @@
           var value = "";
           for each (var edition in node.children()) {
             value += edition.input.(@name == 'true').toString();
-            value += " - ";
-            value += edition.language.toString();
             if (edition.input.(@name != 'true').length() > 0) {
               value += " (";
               for each (var input in edition.input.(@name != 'true')) {
@@ -146,6 +144,8 @@
               value = value.replace(/,$/,'');
               value += ")";
             }
+            value += " - ";
+            value += edition.language.toString();
             value += ", ";
           }
           value = value.replace(/, $/,'');
