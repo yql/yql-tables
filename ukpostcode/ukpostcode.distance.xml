@@ -8,16 +8,16 @@
     <sampleQuery description="Search for postcodes 2miles from WC1B 3DG">select * from {table} where postcode='WC1B3DG' and format='xml' and distance='2';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="postcodes.postcode" produces="XML">
         <urls>
-            <url>http://www.uk-postcodes.com/distance</url>
+            <url>http://www.uk-postcodes.com/distance.php</url>
         </urls>
 	<inputs>
             <key id="lat" type="xs:string" paramType="query" required="false" />
 	    <key id="lon" type="xs:string" paramType="query" required="false" />
             <key id="format" type="xs:string" paramType="query" required="true" default="xml"/>
 	    <key id="postcode" type="xs:string" paramType="query" required="false" />
-	    <key id="distance" type="xs:string" paramType="query" required="true"/>
+	    <key id="distance" type="xs:string" paramType="query" required="true" />
 	</inputs>
     </select>
 </bindings>
