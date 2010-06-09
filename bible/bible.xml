@@ -41,7 +41,7 @@
           edition = editions.edition[0];
        }
         y.log('Using: ');
-        y.log(listEditions(edition));
+        y.log(listEditions(<editions>{edition}</editions>));
         //y.log(edition);
         var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
         booksquery = booksquery.replace("$book",book);
