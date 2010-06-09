@@ -35,6 +35,9 @@
           y.exit();
         } else if (editions.edition.length() > 1) {
           edition = editions.edition.(default_ == "true")[0];
+          if ( ! edition ) {
+            edition = editions.edition[0];
+          }
           y.log('Multiple bible editions found matching query parameters: ');
           y.log(listEditions(editions));
         } else {
