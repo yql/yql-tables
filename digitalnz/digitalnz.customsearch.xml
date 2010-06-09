@@ -7,7 +7,7 @@
     <sampleQuery description="Search for all records attributed to war">select * from {table} where search_text='war' and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="hash.results.result" produces="XML">
         <urls>
             <url>http://api.digitalnz.org/custom_searches/v{version_id}/{custom_search_title}.{format}/</url>
         </urls>
