@@ -7,7 +7,7 @@
     <sampleQuery description="Search for sitecode ABM97">select * from {table} where terms='ABM97';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="ResultSet.SiteInfo" produces="XML">
+    <select itemPath="SearchResult.ResultSet.SiteInfo" produces="XML">
         <urls>
             <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=GetSite</url>
         </urls>

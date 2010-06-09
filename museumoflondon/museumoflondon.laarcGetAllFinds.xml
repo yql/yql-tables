@@ -8,7 +8,7 @@
     <sampleQuery description="Search for Roman sites">select * from {table} where search_type='bycode' and terms='85BHS90';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="ResultSet.MoLObject" produces="XML">
+    <select itemPath="SearchResult.ResultSet.MoLObject" produces="XML">
         <urls>
             <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=GetAllFinds</url>
         </urls>

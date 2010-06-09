@@ -7,7 +7,7 @@
     <sampleQuery description="Search for Roman knife in the publications archive">select * from {table} where terms='roman knife';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="ResultSet.Publication" produces="XML">
+    <select itemPath="SearchResult.ResultSet.Publication" produces="XML">
         <urls>
             <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=SearchPubs</url>
         </urls>
