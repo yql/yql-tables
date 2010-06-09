@@ -24,7 +24,7 @@
         }
         var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml" and edition.input like "%$edition%" and edition.language matches "(?i)$language"';
         editionsquery = editionsquery.replace("$language",language?language:'.*');
-        editionsquery = editionsquery.replace("$edition",edition?edition:'.*');
+        editionsquery = editionsquery.replace("$edition",edition);
         var editions = y.query(editionsquery).results.editions;
         var edition;
         if (editions.edition.length() < 1) {
