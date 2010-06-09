@@ -22,7 +22,7 @@
         if (!edition && !language) {
           language = "en";
         }
-        var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml" and edition.input matches "(?i)$edition" and edition.language matches "(?i)$language"';
+        var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml" and edition.input like "%$edition%" and edition.language matches "(?i)$language"';
         editionsquery = editionsquery.replace("$language",language?language:'.*');
         editionsquery = editionsquery.replace("$edition",edition?edition:'.*');
         var editions = y.query(editionsquery).results.editions;
@@ -35,9 +35,13 @@
           y.exit();
         } else if (editions.edition.length() > 1) {
           edition = editions.edition.(default_ == "true")[0];
+          y.log('Multiple bible editions found matching query parameters: ');
+          y.log(listEditions(editions));
         } else {
           edition = editions.edition[0];
-        }
+       }
+        y.log('Using: ');
+        y.log(listEditions(edition));
         //y.log(edition);
         var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
         booksquery = booksquery.replace("$book",book);
@@ -133,13 +137,16 @@
             value += edition.input.(@name == 'true').toString();
             value += " - ";
             value += edition.language.toString();
-            value += " (";
-            for each (var input in edition.input.(@name != 'true')) {
-              value += input.toString();
-              value += ",";
+            if (edition.input.(@name != 'true').length() > 0) {
+              value += " (";
+              for each (var input in edition.input.(@name != 'true')) {
+                value += input.toString();
+                value += ",";
+              }
+              value = value.replace(/,$/,'');
+              value += ")";
             }
-            value = value.replace(/,$/,'');
-            value += "), ";
+            value += ", ";
           }
           value = value.replace(/, $/,'');
           return value;
