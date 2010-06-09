@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Get publications from the Museum of London Archaeology Service archive</description>
     <documentationURL>http://www.museumoflondon.org.uk/museumoflondon/food/rest.aspx</documentationURL>
-    <sampleQuery description="Search for publication id 62 in xml format">select * from {table} where pid='62' and format='xml';</sampleQuery>
+    <sampleQuery description="Search for publication id 62 in xml format">select * from {table} where pid='62' and mode='xml';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="NewDataSet.Table" produces="XML">
