@@ -5,7 +5,7 @@
     <description>Get postcodes at a specified distance from lat/lon or postcode</description>
     <documentationURL>http://www.uk-postcodes.com/api.php</documentationURL>
     <sampleQuery description="Search for postcodes 2miles from a  point">select * from {table} where lat='51.5181' and lon='-0.127115' and format='xml' and distance='2';</sampleQuery>
-    <sampleQuery description="Search for postcodes 2miles from a WC1B 3DG">select * from {table} where postcode='WC1B3DG' and format='xml' and distance='2';</sampleQuery>
+    <sampleQuery description="Search for postcodes 2miles from WC1B 3DG">select * from {table} where postcode='WC1B3DG' and format='xml' and distance='2';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="" produces="XML">
@@ -17,7 +17,7 @@
 	    <key id="lon" type="xs:string" paramType="query" required="false" />
             <key id="format" type="xs:string" paramType="query" required="true" default="xml"/>
 	    <key id="postcode" type="xs:string" paramType="query" required="false" />
-	    <key id="distance" type="xs:string" paramType="query" required="true"
+	    <key id="distance" type="xs:string" paramType="query" required="true"/>
 	</inputs>
     </select>
 </bindings>
