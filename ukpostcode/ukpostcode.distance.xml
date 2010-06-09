@@ -8,7 +8,7 @@
     <sampleQuery description="Search for postcodes 2miles from WC1B 3DG">select * from {table} where postcode='WC1B3DG' and format='xml' and distance='2';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="postcodes.postcode" produces="XML">
+    <select itemPath="" produces="XML">
         <urls>
             <url>http://www.uk-postcodes.com/distance.php</url>
         </urls>
