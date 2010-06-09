@@ -7,7 +7,7 @@
     <sampleQuery description="Search for Roman sites">select * from {table} where terms='roman';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="Resultset.Site" produces="XML">
+    <select itemPath="ResultSet.Site" produces="XML">
         <urls>
             <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=SearchSites</url>
         </urls>

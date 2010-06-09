@@ -8,7 +8,7 @@
     <sampleQuery description="Search for publication by key 1716">select * from {table} where search_type='bycode' and terms='1716';</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="Resultset.Publication" produces="XML">
+    <select itemPath="ResultSet.Publication" produces="XML">
         <urls>
             <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=GetPubs</url>
         </urls>
