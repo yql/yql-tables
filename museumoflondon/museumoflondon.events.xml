@@ -22,6 +22,7 @@
             <key id="enddate" type="xs:string" paramType="query" required="false" />
 	    <key id="audience" type="xs:string" paramType="query" required="false" />
 	    <key id="text" type="xs:string" paramType="query" required="false" />
+	    <key id="series" type="xs:string" paramType="query" required="false" />
 	</inputs>
     </select>
 </bindings>
