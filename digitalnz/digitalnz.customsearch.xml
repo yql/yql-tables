@@ -20,10 +20,10 @@
             <key id="search_text" type="xs:string" paramType="query" required="false" />
             <key id="sort" type="xs:string" paramType="query" required="false" />
 	    <key id="direction" type="xs:string" paramType="query" required="false" />
-	    <key id="custom_search_title" type="xs:string" paramType="path" default="coming_home" required="true" />
+	    <key id="custom_search_title" type="xs:string" paramType="path" required="true" />
 	    <key id="jsonp" type="xs:string" paramType="query" required="false" />
-	    <key id="format" type="xs:string" paramType="path" default="xml" required="true" />
-	    <key id="version_id" type="xs:string" paramType="path" default="1" required="true" />
+	    <key id="format" type="xs:string" paramType="path" required="true" />
+	    <key id="version_id" type="xs:string" paramType="path" required="true" />
             <key id="api_key" type="xs:string" paramType="query" required="true" private="true"/>
 	</inputs>
     </select>
