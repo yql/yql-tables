@@ -7,7 +7,7 @@
     <sampleQuery description="Search for events between 27/6/2010 and 27/7/2010 and adult audience">select * from {table} where startdate="27/06/2010" and enddate='27/07/2010' and audience='a' and mode="rss2";</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="rss.item" produces="XML">
+    <select itemPath="" produces="XML">
         <urls>
             <url>http://www.museumoflondon.org.uk/MuseumofLondon/food/rest.aspx?source=events</url>
         </urls>
