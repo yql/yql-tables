@@ -7,7 +7,7 @@
     <sampleQuery>SELECT * FROM {table} WHERE user='popmonkey'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath='feed.entry' produces='XML'>
+    <select itemPath='feed' produces='XML'>
       <urls>
         <url>http://{host}/data/feed/api/user/{user}/contacts?kind=user</url>
       </urls>

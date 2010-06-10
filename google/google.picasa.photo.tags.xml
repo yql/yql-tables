@@ -25,7 +25,7 @@
         <key id='alt'            type='xs:string' paramType='query' default='atom'/>
         <key id='access'         type='xs:string' paramType='query' default='visible'/>
         <key id='authkey'        type='xs:string' paramType='query'/>
-        <key id='kind'           type='xs:string' paramType='query' private='true' const='true' default='tag'/>
+        <key id='kind'           type='xs:string' paramType='query' const='true' default='tag'/>
       </inputs>
     </select>
   </bindings>
