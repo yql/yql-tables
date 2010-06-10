@@ -3,29 +3,26 @@
   <meta>
     <author>Jules Cisek</author>
     <documentationURL>http://code.google.com/apis/picasaweb/overview.html</documentationURL>
-    <description>Uses the picasa API to fetch photo data such as comments or tags</description>
+    <description>Uses the picasa API to fetch data about a photo (see .comments and .tags for arrays of comments and tags respectively)</description>
     <sampleQuery>SELECT * FROM {table} WHERE user='popmonkey' AND album_key_type='album' AND album_key='Cars' AND photoid='5475377020507465458'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath='' produces='XML'>
+    <select itemPath='feed' produces='XML'>
       <urls>
         <url>http://{host}/data/feed/api/user/{user}/{album_key_type}/{album_key}/photoid/{photoid}</url>
       </urls>
-      <paging model='offset'>
-        <start    default='1' id='start-index'/>
-        <pagesize max='100'   id='max-results'/>
-        <total    default='100'/>
-      </paging>
       <inputs>
         <key id='user'           type='xs:string' paramType='path' required='true'/>
         <key id='album_key_type' type='xs:string' paramType='path' required='true'/> <!-- either 'album' or 'albumid' -->
         <key id='album_key'      type='xs:string' paramType='path' required='true'/>
         <key id='photoid'        type='xs:string' paramType='path' required='true'/>
         <key id='host'           type='xs:string' paramType='path' default='picasaweb.google.com'/>
-        <key id='kind'           type='xs:string' paramType='query' default='comment'/> <!-- either 'comment' or 'tag' -->
         <key id='alt'            type='xs:string' paramType='query' default='atom'/>
         <key id='access'         type='xs:string' paramType='query' default='visible'/>
         <key id='authkey'        type='xs:string' paramType='query'/>
+        <key id='kind'           type='xs:string' paramType='query' private='true' const='true' default='comment'/>
+        <key id='start-index'    type='xs:string' paramType='query' private='true' const='true' default='1'/>
+        <key id='max-results'    type='xs:string' paramType='query' private='true' const='true' default='0'/>
       </inputs>
     </select>
   </bindings>
