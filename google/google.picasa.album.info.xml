@@ -3,7 +3,7 @@
   <meta>
     <author>Jules Cisek</author>
     <documentationURL>http://code.google.com/apis/picasaweb/overview.html</documentationURL>
-    <description>Uses the picasa API to fetch album data without the array of photos (use google.picasa.album.photos for that)</description>
+    <description>Uses the picasa API to fetch album data (use google.picasa.album.photos to page through photos)</description>
     <sampleQuery>SELECT * FROM {table} WHERE user='popmonkey' AND album_key_type='album' AND album_key='Cars'</sampleQuery>
   </meta>
   <bindings>
@@ -26,8 +26,8 @@
         <key id='tag'            type='xs:string' paramType='query'/>
         <key id='thumbsize'      type='xs:string' paramType='query'/>
         <key id='authkey'        type='xs:string' paramType='query'/>
-        <key id='start-index'    type='xs:string' paramType='query' const='true' default='1'/>
-        <key id='max-results'    type='xs:string' paramType='query' const='true' default='0'/>
+        <key id='start-index'    type='xs:string' paramType='query' default='1'/>
+        <key id='max-results'    type='xs:string' paramType='query' default='0'/>
       </inputs>
     </select>
   </bindings>
