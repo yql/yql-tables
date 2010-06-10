@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jules Cisek</author>
+    <documentationURL>http://code.google.com/apis/picasaweb/overview.html</documentationURL>
+    <description>Uses the picasa API to fetch user data (use google.picasa.user.contacts to page through contacts)</description>
+    <sampleQuery>SELECT * FROM {table} WHERE user='popmonkey'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath='feed' produces='XML'>
+      <urls>
+        <url>http://{host}/data/feed/api/user/{user}/contacts?kind=user</url>
+      </urls>
+      <inputs>
+        <key id='user'           type='xs:string' paramType='path' required='true'/>
+        <key id='host'           type='xs:string' paramType='path' default='picasaweb.google.com'/>
+        <key id='alt'            type='xs:string' paramType='query' default='atom'/>
+        <key id='access'         type='xs:string' paramType='query' default='visible'/>
+        <key id='authkey'        type='xs:string' paramType='query'/>
+        <key id='start-index'    type='xs:string' paramType='query' default='1'/>
+        <key id='max-results'    type='xs:string' paramType='query' default='0'/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
+
