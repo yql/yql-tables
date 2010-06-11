@@ -45,6 +45,10 @@
        }
         y.log('Using: ');
         y.log(listEditions(<editions>{edition}</editions>));
+        if (edition.copyright) {
+          y.log('Copyright: ');
+          y.log(edition.copyright.toString();
+        }
         //y.log(edition);
         var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
         booksquery = booksquery.replace("$book",book);
