@@ -42,10 +42,10 @@
           y.log(listEditions(editions));
         } else {
           edition = editions.edition[0];
-       }
+        }
         y.log('Using: ');
         y.log(listEditions(<editions>{edition}</editions>));
-        if (edition.copyright) {
+        if (edition.copyright.toString()) {
           y.log('Copyright: ');
           y.log(edition.copyright.toString());
         }
