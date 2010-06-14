@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Search Brooklyn Museum's collections database by item type and number</description>
     <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.getItem</documentationURL>
-    <sampleQuery description="Get item details by type and id">select * from {table} where itemtype="object" and item_id="1687" and version="1" and api_key='{key}';</sampleQuery>
+    <sampleQuery description="Get item details by type and id">select * from {table} where itemtype="object" and item_id="1687" and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
    <select itemPath="response.object" produces="XML">

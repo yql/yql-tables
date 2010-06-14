@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Search Brooklyn Museum's collections database</description>
     <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.getCollections</documentationURL>
-    <sampleQuery>select * from {table} where version="1" and api_key='{key}';</sampleQuery>
+    <sampleQuery>select * from {table} where api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
    <select itemPath="response.collections" produces="XML">
