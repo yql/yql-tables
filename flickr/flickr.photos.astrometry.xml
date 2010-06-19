@@ -64,13 +64,10 @@
       var names = {};
       var parsing_names = false;
 
-
-      y.log(comment);
       for each (var child in comment..*) {
         var text = '';
         text = child.toString();
         text = trim(text);
-        y.log(text);
 
         if (text) {
           if (text.match(/(RA, Dec)/g) && text.match(/degrees/g)) {
