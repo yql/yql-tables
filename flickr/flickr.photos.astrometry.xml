@@ -29,24 +29,13 @@
     var respdata = <photos/>;
 
       var node = <photo>
-            <id>{photo.id}</id>
-            <title>{photo.title}</title>
-            <url>{photo.url}</url>
-            <imgroot>{photo.imgroot}</imgroot>
-            <username>{photo.username}</username>
             <ra>{photo.RA}</ra>
             <dec>{photo.Dec}</dec>
             <orientation>{photo.orientation}</orientation>
+            <fieldsize>{photo.fieldsize}</fieldsize>
           </photo>;
-      if(photo.fov) {
-        node.photo += <fov>
-                <x>{photo.fov.x}</x>
-                <y>{photo.fov.y}</y>
-              </fov>;
-
-      }
-      for(i=0; i<photo.name.length; i++) {
-        node.photo += <name>{photo.name[i]}</name>;
+      for each (name in photo.names) {
+        node.photo += <name>{name}</name>;
       }
       respdata.photos += node;
     
@@ -67,7 +56,7 @@
             comment = text;
           }
         }
-        parseComment(comment);
+        return parseComment(comment);
     }
         
     function parseComment(comment) {
@@ -107,6 +96,9 @@
 
         }
       }
+      astro.names = names;
+      return astro;
+    }
           
    ]]></execute>
     </select>
