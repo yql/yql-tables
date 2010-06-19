@@ -109,7 +109,7 @@
      for (var j in text) {
        var name = text[j];
        name = trim(name);
-       if (name && name !='Your field contains:'){
+       if (name && name !='Your field contains:' && name != 'View in World Wide Telescope'){
          names[name] = name;
        }
      }
