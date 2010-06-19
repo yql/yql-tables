@@ -100,6 +100,27 @@
       astro.names = names;
       return astro;
     }
+    
+    function addNames(names, text) {
+
+     text = trim(text);
+     text = text.split('/');
+     for (var j in text) {
+       var name = text[j];
+       name = trim(name);
+       if (name && name !='Your field contains:'){
+         names[name] = name;
+       }
+     }
+     return names;
+    }
+    
+    function trim(text) {
+      // Trim leading and trailing whitespace from a string.
+      text = text.replace(/^\s+/, '');
+      text = text.replace(/\s+$/,'');
+      return text;
+    }
           
    ]]></execute>
     </select>
