@@ -69,6 +69,7 @@
       for each (var child in comment..*) {
         var text = '';
         text = child.toString();
+        text = trim(text);
         y.log(text);
 
         if (text) {
