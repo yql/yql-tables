@@ -3,7 +3,7 @@
   <meta >
     <author > Jim O 'Donnell</author>
     <documentationURL>http://eatyourgreens.org.uk/archives/2009/05/searching-the-sky-with-yql-execute.html</documentationURL>
-    <sampleQuery description="Get up to 50 photos of M 42 (the Orion Nebula), starting at number 10.">select * from flickr.photos.astro(10,50) where astro_name='M 42'</sampleQuery>
+    <sampleQuery description="Get position info for a specific photo url.">select * from {table} where url = 'http://www.flickr.com/photos/fgligor/4710170538/'</sampleQuery>
   </meta>
   <bindings>
     <select produces="XML" itemPath="photos.photo">
