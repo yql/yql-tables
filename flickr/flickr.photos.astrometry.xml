@@ -65,8 +65,8 @@
       var parsing_names = false;
 
 
-      for (var i in children) {
-        var child = children[i];
+      for (var i in comment) {
+        var child = comment[i];
         var text = '';
         text = child.toString();
 
