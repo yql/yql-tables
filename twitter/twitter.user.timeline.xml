@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Paul Daniel</author>
-    <documentationURL>http://apiwiki.twitter.com/REST+API+Documentation#show</documentationURL>
+    <author>Paul Daniel and Hugo Lopes Tavares</author>
+    <documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
+    <sampleQuery>select * from {table} where screen_name=@screen_name</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="feed.entry" produces="XML">
+    <select itemPath="statuses" produces="XML">
       <urls>
-        <url>http://twitter.com/statuses/user_timeline/{id}.atom</url>
+        <url>http://twitter.com/statuses/user_timeline.{format}</url>
       </urls>
       <paging model="page">
         <start default="0" id="page"/>
@@ -17,7 +18,9 @@
       <inputs>
         <key id="since" type="xs:string" paramType="query" />
         <key id="since_id" type="xs:string" paramType="query" />
-        <key id="id" type="xs:string" paramType="path" required="true"/>
+        <key id="id" type="xs:string" paramType="query" required="false" />
+        <key id="screen_name" type="xs:string" paramType="query" required="false" />
+        <key id="format" type="xs:string" paramType="path" required="false" default="xml"/>
       </inputs>
     </select>
   </bindings>

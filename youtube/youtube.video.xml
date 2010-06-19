@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
+    <sampleQuery>select * from {table} where id='gmvQ1uA202M'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="results.video" produces="XML">
+      <urls>
+        <url>http://gdata.youtube.com/feeds/api/videos/{id}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var atom = Namespace("http://www.w3.org/2005/Atom");
+        var media = Namespace("http://search.yahoo.com/mrss/");
+        var gd = Namespace("http://schemas.google.com/g/2005");
+        var yt = Namespace("http://gdata.youtube.com/schemas/2007");
+        
+    		var xml = request.get().response,
+  			 	results = <results></results>,
+  				video = <video></video>,
+  				categories = <categories></categories>,
+  				tags = <tags></tags>,
+  				thumbnails = <thumbnails></thumbnails>,
+  				files = <files></files>;
+  			
+  			if (xml) {
+  			  video.appendChild( <id>{id}</id> );
+          video.appendChild( <url>{xml.media::group.media::player.@url}</url> );
+          video.appendChild( <title>{xml.atom::title.toString()}</title> );
+          video.appendChild( <content>{xml.atom::content.toString()}</content> );
+          video.appendChild( <author>{xml.atom::author.atom::name.toString()}</author> );
+          video.appendChild( <duration>{xml.media::group.yt::duration.@seconds}</duration> );
+          video.appendChild( <comment_count>{xml.gd::comments.gd::feedLink.@countHint}</comment_count> );
+        
+          for each(category in xml.media::group.media::category){
+            categories.appendChild( <category>{category.@label}</category> );
+          }
+          video.appendChild(categories);
+        
+          for each(tag in xml.media::group.media::keywords.split(',')){
+            tags.appendChild( <tag>{tag}</tag> );
+          }
+          video.appendChild(tags);
+        
+          for each(thumbnail in xml.media::group.media::thumbnail){
+            var t = <thumbnail>{thumbnail.@url}</thumbnail>;
+            t.@height = thumbnail.@height;
+            t.@width = thumbnail.@width;
+            t.@time = thumbnail.@time;
+            thumbnails.appendChild(t);
+          }
+          video.appendChild(thumbnails);
+        
+          for each(file in xml.media::group.media::content){
+            var f = <file>{file.@url}</file>;
+            f.@type = file.@type;
+            files.appendChild(f);
+          }
+          video.appendChild(files);
+        
+          results.appendChild(video);
+        }
+          			
+  			response.object = results;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
