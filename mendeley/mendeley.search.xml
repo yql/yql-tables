@@ -19,7 +19,7 @@
 
         <key id="items" type="xs:string" paramType="query" required="false"/>
 
-        <key id='consumer_key' type='xs:string' paramType='variable' default='d838ad2d90ed761088d24eaf310c1b6804c1ceacc' private='true' />
+        <key id='consumer_key' type='xs:string' paramType='query' default='d838ad2d90ed761088d24eaf310c1b6804c1ceacc'>
 
       </inputs>
     </select>
