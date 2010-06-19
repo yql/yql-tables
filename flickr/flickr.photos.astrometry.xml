@@ -1,0 +1,114 @@
+<?xml version = "1.0"?>
+<table xmlns = "http://query.yahooapis.com/v1/schema/table.xsd" >
+  <meta >
+    <author > Jim O 'Donnell</author>
+    <documentationURL>http://eatyourgreens.org.uk/archives/2009/05/searching-the-sky-with-yql-execute.html</documentationURL>
+    <sampleQuery description="Get up to 50 photos of M 42 (the Orion Nebula), starting at number 10.">select * from flickr.photos.astro(10,50) where astro_name='M 42'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="photos.photo">
+      <urls>
+
+        <url></url>
+      </urls>
+    <paging model="offset">
+    <start id="start" default="0"/>
+    <pagesize id="count" max="250"/>
+    <total default="20"/>
+    </paging>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" />
+      </inputs>
+    <execute><![CDATA[
+
+    var querystring = "select * from html where url='"+url+"' and xpath='//div[@class=\"comment-content\"]/p'";
+    var data = y.query(querystring);
+    var photo = parseAstrotags(data);
+
+    default xml namespace = '';
+    var respdata = <photos/>;
+
+      var node = <photo>
+            <id>{photo.id}</id>
+            <title>{photo.title}</title>
+            <url>{photo.url}</url>
+            <imgroot>{photo.imgroot}</imgroot>
+            <username>{photo.username}</username>
+            <ra>{photo.RA}</ra>
+            <dec>{photo.Dec}</dec>
+            <orientation>{photo.orientation}</orientation>
+          </photo>;
+      if(photo.fov) {
+        node.photo += <fov>
+                <x>{photo.fov.x}</x>
+                <y>{photo.fov.y}</y>
+              </fov>;
+
+      }
+      for(i=0; i<photo.name.length; i++) {
+        node.photo += <name>{photo.name[i]}</name>;
+      }
+      respdata.photos += node;
+    
+    // try extending cache time as these
+    // results don't change very often.
+    response.maxAge = 1800;
+    response.object = respdata;
+    
+    function parseAstrotags(data) {
+
+      var results = data.results;
+
+        var comment = 'Sorry, that photo has not been solved by <a href="http://astrometry.net">astrometry.net</a>.';
+        for (var i in results) {
+          var text = results[i];
+          // Comments left by the solver contain the text 'blind astrometry solver'.
+          if(text.match(/blind astrometry solver/gi)) {
+            comment = text;
+          }
+        }
+        parseComment(comment);
+    }
+        
+    function parseComment(comment) {
+      var astro = {};
+      var names = {};
+      var parsing_names = false;
+
+
+      for (var i in children) {
+        var child = children[i];
+        var text = '';
+        text = child.toString();
+
+        if (text) {
+          if (text.match(/(RA, Dec)/g) && text.match(/degrees/g)) {
+            text=text.match(/[-0-9\.]+/g);
+            astro.RA = text[0];
+            astro.Dec = text[1];
+          } else if (text.match(/Orientation/g)) {
+            text = text.match(/[-0-9\.]+/g);
+            astro.orientation = text[0];
+          } else if (text.match(/Pixel scale/g)) {
+            text = text.match(/[0-9\.]+/g);
+            astro.pixelScale = text[0];
+          } else if(text.match(/Field size/g)) {
+            text = text.match(/[0-9\.]+ x [0-9\.]+ (degrees|arcminutes|arcseconds)/g);
+            astro.fieldsize = text[0];
+          } else if(text.match(/Your field contains:/g)) {
+            parsing_names = true;
+          } else if (text.match(/-----/g)) {
+            parsing_names = false;
+          }
+
+          if (parsing_names) {
+            names = addNames(names, text);
+          }
+
+        }
+      }
+          
+   ]]></execute>
+    </select>
+  </bindings>
+</table>
