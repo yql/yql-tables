@@ -8,7 +8,7 @@
   <bindings>
     <select itemPath="feed.entry" produces="XML">
       <urls>
-        <url>http://export.arxiv.org/api/query?search_query={search_query}&start={start}&max_results={max_results}</url>
+        <url><![CDATA[http://export.arxiv.org/api/query]]></url>
       </urls>
       <inputs>
         <key id='search_query' type='xs:string' paramType='query' />
