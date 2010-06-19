@@ -4,7 +4,7 @@
     <author>Dan Harvey (dan.harvey@mendeley.com)</author>
     <description>Mendeley OAPI</description>
     <documentationURL>http://www.mendeley.com/oapi/methods/</documentationURL>
-    <sampleQuery>select * from mendeley where q = </sampleQuery>
+    <sampleQuery>select * from mendeley where query='red'</sampleQuery>
   </meta>
 
   <bindings>
@@ -19,7 +19,8 @@
 
         <key id="items" type="xs:string" paramType="query" required="false"/>
 
-        <key id='consumer_key' type='xs:string' paramType='variable' default='ABQIAAAAeHT5AZJqD5Xx9uPnCAeATBQlKU5X1qPXe538nLHTe0ksK9Nz0BSYjRoJw4Ss40xXg-aYj4es-iO9Pg' private='true' />
+        <key id='consumer_key' type='xs:string' paramType='variable' default='d838ad2d90ed761088d24eaf310c1b6804c1ceacc' private='true' />
+
       </inputs>
     </select>
   </bindings>
