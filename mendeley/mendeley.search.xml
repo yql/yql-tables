@@ -8,7 +8,7 @@
   </meta>
 
   <bindings>
-    <select itemPath="" produces="JSON">
+    <select itemPath="json" produces="JSON">
       <urls>
         <url>http://www.mendeley.com/oapi/documents/search/{query}</url>
       </urls>
