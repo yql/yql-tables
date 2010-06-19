@@ -50,6 +50,7 @@
 
         var comment = 'Sorry, that photo has not been solved by <a href="http://astrometry.net">astrometry.net</a>.';
         for (var i in results) {
+          y.log(results[i]);
           var text = results[i].toString();
           // Comments left by the solver contain the text 'blind astrometry solver'.
           if(text.match(/blind astrometry solver/gi)) {
@@ -65,7 +66,6 @@
       var parsing_names = false;
 
 
-      y.log(comment);
       for (var i in comment) {
         var child = comment[i];
         var text = '';
