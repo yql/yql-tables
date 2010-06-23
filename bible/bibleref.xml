@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans</author>
+    <description>The table breaks down complex bible references to a list of references to single verses. Also includes the OSISid format of the verse references.</description>
+    <sampleQuery>select * from bible.bibleref where bibleref="Rev 22:7,10,18-19"</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id="bibleref" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[ 
+
+      ]]></execute>
+      </select>
+  </bindings>
+</table>
