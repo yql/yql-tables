@@ -15,7 +15,156 @@
         <key id="bibleref" type="xs:string" paramType="variable" required="true"/>
       </inputs>
       <execute><![CDATA[ 
-
+        var book = "";
+        var osisbook = "";
+        var bookrecord;
+        var bookoutlinerecord;
+        var chapter = 0;
+        var list = new XMLList();
+        parse-reference(bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
+        response.object = list;
+        
+        function split-on-first(string,regex)
+        {
+          split = string.split(regex,1);
+          return {before:split[0],after:split[1]);
+        }
+        function bookquery()
+        {
+          var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
+          booksquery = booksquery.replace("$book",book);
+          var books = y.query(booksquery).results.books;
+          if (books.book.length() < 1) {
+              var error_message = '$book is not a bible book. Common bible book abbreviations : $supported';
+              error_message = error_message.replace("$book",book);
+              error_message = error_message.replace("$supported","http://biblewiki.net/books/index");
+              y.log(error_message);
+              y.exit();
+          }
+          var bookrecord = books.book[0];
+        }
+        function osisbook()
+        {
+          osisbook = bookrecord.code.(@service == 'osis').toString();
+        }
+        function bookoutlinequery()
+        {
+          var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/bible-outline.xml" and book.input matches "(?i)$osisbook"';
+          booksquery = booksquery.replace("$osisbook",osisbook);
+          var books = y.query(booksquery).results.books;
+          if (books.book.length() < 1) {
+              y.log('Internal error (01)');
+              y.exit();
+          }
+          var bookoutlinerecord = books.book[0];          
+        }
+        function number-of-verses(chapter)
+        {
+          return bookoutlinerecord.chapter.(@number=chapter).@number-of-verses;
+        }
+        function list(book,chapter,verse,osisbook)
+        {
+          list += <bibleref>
+          <book>{book}</book>
+          <chapter>{chapter}</chapter>
+          <verse>{verse}</verse>
+          <osisref>{osisbook + '.' + chapter + '.' + verse}</osisref>
+          </bibleref>;
+        }
+        function parse-reference(bibleref)
+        {
+          var split = split-on-first(bibleref,/[ ]/);
+          if (parseInt(split.before))
+          {
+            book = split.before + " ";
+          }
+          else
+          {
+            split.after = bibleref; 
+          }
+          var split = split-on-first(split.after,/[:. ]/);
+          book = book + split.before;
+          bookquery();
+          osisbook();
+          bookoutlinequery()
+          parse-list(split.after);
+        }
+        function parse-list(list)
+        {
+          var split = split-on-first(list,/[,;]/);
+          parse-range(split.before);
+          if (split.after)
+          {
+            parse-range(split.after);
+          }
+        }
+        function parse-range(range)
+        {
+          var split = split-on-first(range,/[-]/);
+          var begin = parse-explicit-location(split.before);
+          if (split.after)
+          {
+            var end = parse-implicit-location(split.after);
+            if (begin.chapter > end.chapter)
+            {
+              y.log("Invalid bible chapter range");
+              y.exit()
+            }
+            for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
+            {
+              var number-of-verses = number-of-verses(chapter);
+              var chapterbeginverse = chapter==begin.chapter?begin.verse:1
+              var chapterendverse = chapter==end.chapter?end.verse:number-of-verses
+              for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
+              {
+                list (book, chapter, verse,osisbook);
+              }
+            }
+          }
+        }
+        function parse-explicit-location(location)
+        {
+          var split = split-on-first(location,/[:\. ]/);
+          var splitlocation = {chapter:split.before,verse:split.after};
+          var number-of-verses = number-of-verses(splitlocation.chapter);
+          if (!number-of-verses)
+          {
+            y.log("Invalid chapter number");
+            y.exit();
+          }          
+          if (!splitlocation.verse || splitlocation.verse > number-of-verses(splitlocation.chapter))
+          {
+            y.log("invalid verse number");
+            y.exit()
+          }
+          return splitlocation;
+        }
+        function parse-implicit-location(location)
+        {
+          var split = split-on-first(location,/[:\. ]/);
+          var splitlocation = {chapter:split.before,verse:split.after};
+          var verse; // chapter is a global variable!
+          if (split.after)
+          {
+            chapter = before
+            verse = after
+          }
+          else
+          {
+            verse = location
+          }
+          if (!number-of-verses)
+          {
+            y.log("Invalid chapter number");
+            y.exit();
+          }          
+          if (!splitlocation.verse || splitlocation.verse > number-of-verses(splitlocation.chapter))
+          {
+            y.log("invalid verse number");
+            y.exit()
+          }
+          return splitlocation;
+        }
       ]]></execute>
       </select>
   </bindings>
