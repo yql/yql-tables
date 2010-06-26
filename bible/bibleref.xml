@@ -122,13 +122,13 @@
           if (begin.chapter > end.chapter)
           {
             y.log("Invalid bible chapter range");
-            y.exit()
+            y.exit();
           }
           for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
           {
             var number_of_verses = get_number_of_verses(chapter);
-            var chapterbeginverse = chapter==begin.chapter?begin.verse:1
-            var chapterendverse = chapter==end.chapter?end.verse:number_of_verses
+            var chapterbeginverse = chapter==begin.chapter?begin.verse:1;
+            var chapterendverse = chapter==end.chapter?end.verse:number_of_verses;
             for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
             {
               list (book, chapter, verse, osisbook);
@@ -139,7 +139,7 @@
         {
           y.log("parse_explicit " + location);
           var split = split_on_first(location,/[:\. ]/);
-          var splitlocation = {chapter:split.before, verse:split.after};
+          var splitlocation = {chapter: split.before, verse: split.after};
           var number_of_verses = get_number_of_verses(splitlocation.chapter);
           if (!number_of_verses)
           {
@@ -149,7 +149,7 @@
           if (!splitlocation.verse || splitlocation.verse > number_of_verses)
           {
             y.log("invalid verse number");
-            y.exit()
+            y.exit();
           }
           y.log("parse_explicit returns");
           return splitlocation;
