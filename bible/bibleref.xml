@@ -41,7 +41,7 @@
               y.log(error_message);
               y.exit();
           }
-          var bookrecord = books.book[0];
+          bookrecord = books.book[0];
         }
         function getosisbook()
         {
