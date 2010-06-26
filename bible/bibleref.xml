@@ -28,6 +28,7 @@
         
         function split_on_first(string,regex)
         {
+          y.log("split " + string);
           split = string.split(regex,1);
           return {before:split[0],after:split[1]};
         }
