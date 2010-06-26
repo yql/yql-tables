@@ -28,7 +28,7 @@
         
         function split_on_first(string,regex)
         {
-          y.log("split " + string);
+          y.log("split " + string + " on " + regex.toString());
           split = string.split(regex,1);
           if (split.length < 2)
           {
