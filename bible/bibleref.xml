@@ -21,7 +21,9 @@
         var bookoutlinerecord;
         var chapter = 0;
         var list = new XMLList();
-        parse_reference(bibleref.replace(/ *([\.,;:\- ]) */g,"$1"));
+        bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
+        y.log(bibleref);
+        parse_reference(bibleref);
         response.object = list;
         
         function split_on_first(string,regex)
@@ -73,6 +75,7 @@
         }
         function parse_reference(bibleref)
         {
+          y.log("parse_reference " + bibleref);
           var split = split_on_first(bibleref,/[ ]/);
           if (parseInt(split.before))
           {
@@ -91,6 +94,7 @@
         }
         function parse_list(list)
         {
+          y.log("parse_list " + list);
           var split = split_on_first(list,/[,;]/);
           parse_range(split.before);
           if (split.after)
@@ -100,6 +104,7 @@
         }
         function parse_range(range)
         {
+          y.log("parse_range " + range);
           var split = split_on_first(range,/[-]/);
           var begin = parse_explicit_location(split.before);
           if (split.after)
@@ -124,6 +129,7 @@
         }
         function parse_explicit_location(location)
         {
+          y.log("parse_explicit " + location);
           var split = split_on_first(location,/[:\. ]/);
           var splitlocation = {chapter:split.before,verse:split.after};
           var number_of_verses = number_of_verses(splitlocation.chapter);
@@ -141,6 +147,7 @@
         }
         function parse_implicit_location(location)
         {
+          y.log("parse_implicit " + location);
           var split = split_on_first(location,/[:\. ]/);
           var splitlocation = {chapter:split.before,verse:split.after};
           var verse; // chapter is a global variable!
