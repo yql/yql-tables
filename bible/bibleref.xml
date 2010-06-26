@@ -82,7 +82,7 @@
         function parse_reference(bibleref)
         {
           y.log("parse_reference " + bibleref);
-          var split = split_on_first(bibleref,/[ ]/);
+          var split = split_on_first(bibleref,/ /);
           if (parseInt(split.before))
           {
             book = split.before + " ";
