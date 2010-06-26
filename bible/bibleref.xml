@@ -21,13 +21,13 @@
         var bookoutlinerecord;
         var chapter = 0;
         var list = new XMLList();
-        parse-reference(bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
+        parse-reference(bibleref.replace(/ *([\.,;:\- ]) */g,"$1"));
         response.object = list;
         
         function split-on-first(string,regex)
         {
           split = string.split(regex,1);
-          return {before:split[0],after:split[1]);
+          return {before:split[0],after:split[1]};
         }
         function bookquery()
         {
