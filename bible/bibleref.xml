@@ -86,12 +86,12 @@
           {
             split.after = bibleref; 
           }
-          split = split_on_first(split.after,/[:\. ]/);
-          book = book + split.before;
+          var split2 = split_on_first(split.after,/[:\. ]/);
+          book = book + split2.before;
           bookquery();
           getosisbook();
           bookoutlinequery();
-          parse_list(split.after);
+          parse_list(split2.after);
         }
         function parse_list(list)
         {
