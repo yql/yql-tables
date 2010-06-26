@@ -29,7 +29,7 @@
         function split_on_first(string,regex)
         {
           y.log("split " + string + " on " + regex.toString());
-          split = string.split(regex,1);
+          split = string.split(regex,2);
           if (split.length < 2)
           {
             split[1] = "";
@@ -82,7 +82,7 @@
         function parse_reference(bibleref)
         {
           y.log("parse_reference " + bibleref);
-          var split = split_on_first(bibleref,/ /);
+          var split = split_on_first(bibleref,/[ ]/);
           if (parseInt(split.before))
           {
             book = split.before + " ";
