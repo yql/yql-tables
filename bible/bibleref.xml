@@ -49,12 +49,12 @@
         }
         function bookoutlinequery()
         {
-          var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/bible-outline.xml" and book.input matches "(?i)$osisbook"';
+          var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/bible-outline.xml" and book.name = "$osisbook"';
           booksquery = booksquery.replace("$osisbook",osisbook);
           var books = y.query(booksquery).results.books;
           if (books.book.length() < 1) {
               y.log('Internal error (01)');
-              y.exit();
+              y.exit(); 
           }
           var bookoutlinerecord = books.book[0];          
         }
