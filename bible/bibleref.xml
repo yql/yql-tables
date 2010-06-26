@@ -86,7 +86,7 @@
           {
             split.after = bibleref; 
           }
-          var split = split_on_first(split.after,/[:. ]/);
+          var split = split_on_first(split.after,/[:\. ]/);
           book = book + split.before;
           bookquery();
           getosisbook();
