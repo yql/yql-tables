@@ -30,6 +30,10 @@
         {
           y.log("split " + string);
           split = string.split(regex,1);
+          if (split.length < 2)
+          {
+            split[1] = "";
+          }
           return {before:split[0],after:split[1]};
         }
         function bookquery()
