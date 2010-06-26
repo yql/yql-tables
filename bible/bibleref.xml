@@ -43,7 +43,7 @@
           }
           var bookrecord = books.book[0];
         }
-        function osisbook()
+        function getosisbook()
         {
           osisbook = bookrecord.code.(@service == 'osis').toString();
         }
@@ -85,7 +85,7 @@
           var split = split_on_first(split.after,/[:. ]/);
           book = book + split.before;
           bookquery();
-          osisbook();
+          getosisbook();
           bookoutlinequery()
           parse_list(split.after);
         }
