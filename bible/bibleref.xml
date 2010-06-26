@@ -139,9 +139,9 @@
         {
           y.log("parse_explicit " + location);
           var split = split_on_first(location,/[:\. ]/);
-          y.log(split.toString());
+          y.log(split.before + split.after);
           var splitlocation = {chapter: split.before, verse: split.after};
-          y.log(splitlocation.toString());
+          y.log(splitlocation.chapter + splitlocation.verse);
           var number_of_verses = get_number_of_verses(splitlocation.chapter);
           if (!number_of_verses)
           {
