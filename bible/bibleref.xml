@@ -67,7 +67,7 @@
           }
           var bookoutlinerecord = books.book[0];          
         }
-        function number_of_verses(chapter)
+        function get_number_of_verses(chapter)
         {
           return bookoutlinerecord.chapter.(@number=chapter).@number-of-verses;
         }
@@ -114,23 +114,24 @@
           y.log("parse_range " + range);
           var split = split_on_first(range,/[-]/);
           var begin = parse_explicit_location(split.before);
+          var end = begin;
           if (split.after)
           {
-            var end = parse_implicit_location(split.after);
-            if (begin.chapter > end.chapter)
+            end = parse_implicit_location(split.after);
+          }
+          if (begin.chapter > end.chapter)
+          {
+            y.log("Invalid bible chapter range");
+            y.exit()
+          }
+          for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
+          {
+            var number_of_verses = get_number_of_verses(chapter);
+            var chapterbeginverse = chapter==begin.chapter?begin.verse:1
+            var chapterendverse = chapter==end.chapter?end.verse:number_of_verses
+            for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
             {
-              y.log("Invalid bible chapter range");
-              y.exit()
-            }
-            for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
-            {
-              var number_of_verses = number_of_verses(chapter);
-              var chapterbeginverse = chapter==begin.chapter?begin.verse:1
-              var chapterendverse = chapter==end.chapter?end.verse:number_of_verses
-              for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
-              {
-                list (book, chapter, verse,osisbook);
-              }
+              list (book, chapter, verse, osisbook);
             }
           }
         }
@@ -139,13 +140,13 @@
           y.log("parse_explicit " + location);
           var split = split_on_first(location,/[:\. ]/);
           var splitlocation = {chapter:split.before,verse:split.after};
-          var number_of_verses = number_of_verses(splitlocation.chapter);
+          var number_of_verses = get_number_of_verses(splitlocation.chapter);
           if (!number_of_verses)
           {
             y.log("Invalid chapter number");
             y.exit();
           }          
-          if (!splitlocation.verse || splitlocation.verse > number_of_verses(splitlocation.chapter))
+          if (!splitlocation.verse || splitlocation.verse > get_number_of_verses(splitlocation.chapter))
           {
             y.log("invalid verse number");
             y.exit()
@@ -172,7 +173,7 @@
             y.log("Invalid chapter number");
             y.exit();
           }          
-          if (!splitlocation.verse || splitlocation.verse > number_of_verses(splitlocation.chapter))
+          if (!splitlocation.verse || splitlocation.verse > get_number_of_verses(splitlocation.chapter))
           {
             y.log("invalid verse number");
             y.exit()
