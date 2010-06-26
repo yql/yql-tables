@@ -28,8 +28,9 @@
         
         function split_on_first(string,regex)
         {
-          y.log("split " + string + " on " + regex.toString());
-          split = string.split(regex,2);
+          string = string.replace(regex,"%");
+          y.log("split " + string + " on " + "'%'");
+          split = string.split(/%/,2);
           if (split.length < 2)
           {
             split[1] = "";
