@@ -139,18 +139,19 @@
         {
           y.log("parse_explicit " + location);
           var split = split_on_first(location,/[:\. ]/);
-          var splitlocation = {chapter:split.before,verse:split.after};
+          var splitlocation = {chapter:split.before, verse:split.after};
           var number_of_verses = get_number_of_verses(splitlocation.chapter);
           if (!number_of_verses)
           {
             y.log("Invalid chapter number");
             y.exit();
           }          
-          if (!splitlocation.verse || splitlocation.verse > get_number_of_verses(splitlocation.chapter))
+          if (!splitlocation.verse || splitlocation.verse > number_of_verses)
           {
             y.log("invalid verse number");
             y.exit()
           }
+          y.log("parse_explicit returns");
           return splitlocation;
         }
         function parse_implicit_location(location)
