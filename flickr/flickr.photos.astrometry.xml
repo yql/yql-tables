@@ -2,7 +2,7 @@
 <table xmlns = "http://query.yahooapis.com/v1/schema/table.xsd" >
   <meta >
     <author > Jim O 'Donnell</author>
-    <documentationURL>http://eatyourgreens.org.uk/archives/2009/05/searching-the-sky-with-yql-execute.html</documentationURL>
+    <documentationURL>http://eatyourgreens.org.uk/archives/2010/06/get-excited-and-make-things-with-science.html</documentationURL>
     <sampleQuery description="Get position info for a specific photo url.">select * from {table} where url = 'http://www.flickr.com/photos/fgligor/4710170538/'</sampleQuery>
   </meta>
   <bindings>
