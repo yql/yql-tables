@@ -152,31 +152,31 @@
           var splitlocation = {chapter:split.before,verse:split.after};
           var number_of_verses = get_number_of_verses(splitlocation.chapter);
           var verse; // chapter is a global variable!
-          if (split.after)
+          if (splitlocation.verse)
           {
-            chapter = before
-            verse = after
+            chapter = splitlocation.chapter;
+            verse = splitlocation.verse;
           }
           else
           {
             if (mode == "explicit")
             {
-              y.log("missing chapter or verse number");
+              y.log("missing chapter or verse number: " + location);
               y.exit();
             }
             else
             {
-              verse = location
+              verse = location;
             }
           }
           if (!number_of_verses)
           {
-            y.log("Invalid chapter number");
+            y.log("Invalid chapter number: " + location);
             y.exit();
           }          
           if (!splitlocation.verse || splitlocation.verse > get_number_of_verses(splitlocation.chapter))
           {
-            y.log("invalid verse number");
+            y.log("invalid verse number: " + location);
             y.exit()
           }
           return splitlocation;
