@@ -28,8 +28,8 @@
         
         function split_on_first(string,regex)
         {
+          y.log("split " + string + " on " + regex);
           string = string.replace(regex,"%");
-          y.log("split " + string + " on " + "'%'");
           split = string.split(/%/,2);
           if (split.length < 2)
           {
@@ -131,6 +131,7 @@
             var chapterendverse = chapter==end.chapter?end.verse:number_of_verses;
             for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
             {
+              y.log("adding " + book + " | " + chapter + " | " + verse + " | " + osisbook);
               list (book, chapter, verse, osisbook);
             }
           }
