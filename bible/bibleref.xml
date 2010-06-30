@@ -69,7 +69,7 @@
         }
         function get_number_of_verses(chapter)
         {
-          return bookoutlinerecord.chapter.(@number=chapter).@number_of_verses;
+          return bookoutlinerecord.chapter.(@number=chapter).@number_of_verses.toString();
         }
         function list(book,chapter,verse,osisbook)
         {
