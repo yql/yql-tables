@@ -71,7 +71,7 @@
         {
           return bookoutlinerecord.chapter.(@number=chapter).@number_of_verses.toString();
         }
-        function list(book,chapter,verse,osisbook)
+        function add_to_list(book,chapter,verse,osisbook)
         {
           list += <bibleref>
           <book>{book}</book>
@@ -132,9 +132,10 @@
             for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
             {
               y.log("adding " + book + " | " + chapter + " | " + verse + " | " + osisbook);
-              list (book, chapter, verse, osisbook);
+              add_to_list (book, chapter, verse, osisbook);
             }
           }
+          y.log("parse_range returns");
         }
         function parse_explicit_location(location)
         {
