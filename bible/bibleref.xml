@@ -174,7 +174,7 @@
             y.log("Invalid chapter number: " + location);
             y.exit();
           }          
-          if (!splitlocation.verse || splitlocation.verse > get_number_of_verses(splitlocation.chapter))
+          if (!verse || verse > get_number_of_verses(chapter))
           {
             y.log("invalid verse number: " + location);
             y.exit()
