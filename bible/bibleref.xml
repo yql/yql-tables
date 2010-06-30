@@ -103,17 +103,25 @@
         {
           y.log("parse_list " + list);
           var split = split_on_first(list,/[,;]/);
-          parse_range(split.before);
+          parse_range("explicit",split.before);
           if (split.after)
           {
-            parse_range(split.after);
+            parse_range("implicit",split.after);
           }
         }
-        function parse_range(range)
+        function parse_range(mode,range)
         {
           y.log("parse_range " + range);
           var split = split_on_first(range,/[-]/);
-          var begin = parse_explicit_location(split.before);
+          var begin;
+          if (mode == "explicit")
+          {
+            begin = parse_explicit_location(split.before);
+          }
+          else
+          {
+            begin = parse_implicit_location(split.before);
+          }
           var end = begin;
           if (split.after)
           {
