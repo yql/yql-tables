@@ -20,7 +20,7 @@
         var bookrecord;
         var bookoutlinerecord;
         var chapter = 0;
-        var list = new XMLList();
+        var list = <biblerefs/>;
         bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
         y.log(bibleref);
         parse_reference(bibleref);
@@ -152,12 +152,7 @@
           var splitlocation = {chapter:split.before,verse:split.after};
           var number_of_verses = get_number_of_verses(splitlocation.chapter);
           var verse; // chapter is a global variable!
-          if (splitlocation.verse)
-          {
-            chapter = splitlocation.chapter;
-            verse = splitlocation.verse;
-          }
-          else
+          if (!parseInt(splitlocation.verse))
           {
             if (mode == "explicit")
             {
@@ -166,7 +161,8 @@
             }
             else
             {
-              verse = location;
+              splitlocation.chapter = chapter;
+              splitlocation.verse = location;
             }
           }
           if (!number_of_verses)
