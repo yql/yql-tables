@@ -35,7 +35,7 @@
           {
             split[1] = "";
           }
-          y.log("returns '" + split[0] + "' and '" + split[1] + "'");
+          y.log("split returns '" + split[0] + "' and '" + split[1] + "'");
           return {before:split[0],after:split[1]};
         }
         function bookquery()
@@ -151,7 +151,6 @@
           var split = split_on_first(location,/[:\. ]/);
           var splitlocation = {chapter:split.before,verse:split.after};
           var number_of_verses = get_number_of_verses(splitlocation.chapter);
-          var verse; // chapter is a global variable!
           if (!parseInt(splitlocation.verse))
           {
             if (mode == "explicit")
@@ -170,7 +169,7 @@
             y.log("Invalid chapter number: " + location);
             y.exit();
           }          
-          if (!verse || verse > get_number_of_verses(chapter))
+          if (!splitlocation.verse || splitlocation.verse > number_of_verses)
           {
             y.log("invalid verse number: " + location);
             y.exit()
