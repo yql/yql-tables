@@ -14,7 +14,7 @@
         <key id='lang' type='xs:string' paramType='variable' required="true" />
       </inputs>
       <execute><![CDATA[
-        var res = y.query("select resultset_web.keyterms from json where url='http://boss.yahooapis.com/ysearch/web/v1/"+encodeURIComponent(term)+"?appid=TX6b4XHV34EnPXW0sYEr51hP1pn5O8KAGs.LQSXer1Z7RmmVrZouz5SvyXkWsVk-&view=keyterms&count=50&region="+region+"&lang="+lang+"' | sanitize()").results;
+        var res = y.query("select resultset_web.keyterms from json where url='http://boss.yahooapis.com/ysearch/web/v1/"+encodeURIComponent(term)+"?appid=IkYa7XfV34G2S776plNLACjN.stDCEY2djrEFc7jzOkw6LGxgN01VrK8jJYyBvs-&view=keyterms&count=50&region="+region+"&lang="+lang+"' | sanitize()").results;
         var terms = res.ysearchresponse.resultset_web.keyterms.terms;
         var t = [];
         for each(i in terms){t.push(i);};
