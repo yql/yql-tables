@@ -41,7 +41,7 @@
           str.push(t);
         };
         str = str.join(',')
-        response.object = <keywords><search>{term}</search><language>{lang}</language><region>{region}</region><terms>{str}</terms></keywords>;
+        response.object = <keywords><search>{term}</search><language>{language}</language><region>{region}</region><terms>{str}</terms></keywords>;
       ]]></execute>
     </select>
   </bindings>
