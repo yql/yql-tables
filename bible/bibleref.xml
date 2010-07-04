@@ -73,7 +73,7 @@
         }
         function add_to_list(book,chapter,verse,osisbook)
         {
-          list += <bibleref>
+          list.biblerefs += <bibleref>
           <book>{book}</book>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
