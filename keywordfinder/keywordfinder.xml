@@ -14,8 +14,8 @@
         <key id='language' type='xs:string' paramType='variable' required="false" />
       </inputs>
       <execute><![CDATA[
-        if(region==''){region = 'us';}
-        if(language==''){language = 'en';}
+        if(!region){region = 'us';}
+        if(!language){language = 'en';}
         var res = y.query("select resultset_web.keyterms from json where url='http://boss.yahooapis.com/ysearch/web/v1/"+encodeURIComponent(term)+"?appid=IkYa7XfV34G2S776plNLACjN.stDCEY2djrEFc7jzOkw6LGxgN01VrK8jJYyBvs-&view=keyterms&count=50&region="+region+"&lang="+language+"' | sanitize()").results;
         var terms = res.ysearchresponse.resultset_web.keyterms.terms;
         var t = [];
