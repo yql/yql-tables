@@ -102,6 +102,10 @@
           {
             book = split.before + " ";
           }
+          if (split.before.match(/^[iv]+$/i))
+          {
+            book = deromanize(split.before) + " ";
+          }
           else
           {
             split.after = bibleref; 
