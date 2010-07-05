@@ -29,6 +29,10 @@
           y.log("split " + string + " on " + regex);
           string = string.replace(regex,"%");
           splitlocation = string.indexOf("%");
+          if (!splitlocation)
+          {
+            splitlocation = string.length;
+          }
           before = string.substring(0,splitlocation);
           after = string.substring(splitlocation+1);
           y.log("split returns '" + before + "' and '" + after + "'");
