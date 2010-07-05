@@ -162,7 +162,7 @@
         {
           var split, chapter, verse, number_of_verses;
           y.log("parse_location " + mode + " " + location);
-          split = split_on_first(location,/[:\. ]/);
+          split = split_on_first(location,/[:\.,; ]/);
           if (mode == "explicit" &&  !split.after)
           {
             y.log("Missing verse number: " + location);
