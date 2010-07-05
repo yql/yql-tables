@@ -21,7 +21,8 @@
         var bookoutlinerecord;
         var openchapter = 0;
         
-        response.object = <biblerefs>{parse_reference(bibleref)}</biblerefs>;
+        response.object = <biblerefs></biblerefs>;
+        response.object += parse_reference(bibleref);
         
         function split_on_first(string,regex)
         {
