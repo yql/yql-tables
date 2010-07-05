@@ -89,7 +89,7 @@
           bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
           y.log("parse_reference " + bibleref);
           split = split_on_first(bibleref,/[ ]/);
-          if (parse_number(split.before))
+          if (split.before.match(/^[0-9]+$/))
           {
             book = split.before + " ";
           }
