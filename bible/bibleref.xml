@@ -29,7 +29,7 @@
           y.log("split " + string + " on " + regex);
           string = string.replace(regex,"%");
           splitlocation = string.indexOf("%");
-          if (!splitlocation)
+          if (splitlocation < 0) 
           {
             splitlocation = string.length;
           }
