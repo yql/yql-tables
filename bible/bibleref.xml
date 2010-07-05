@@ -154,10 +154,10 @@
           var split, chapter, verse, number_of_verses;
           y.log("parse_location " + mode + " " + location);
           split = split_on_first(location,/[:\. ]/);
-          if (mode == "explicit" &&  split.after)
+          if (mode == "explicit" &&  !split.after)
           {
-            chapter = parse_chapter(split.before);
-            verse = parse_verse(split.after);
+            y.log("Missing verse number: " + location);
+            y.exit()
           }
           else if (mode == "explicit" || split.after)
           {
@@ -226,18 +226,3 @@
       </select>
   </bindings>
 </table>
-
-          if (!parseInt(splitlocation.verse))
-          {
-            if (mode == "explicit")
-            {
-              y.log("missing chapter or verse number: " + location);
-              y.exit();
-            }
-            else
-            {
-              splitlocation.chapter = chapter;
-              splitlocation.verse = location;
-            }
-          }
-
