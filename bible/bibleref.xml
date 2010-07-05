@@ -120,7 +120,7 @@
         {
           var split, begin, end, list;
           y.log("parse_range " + range);
-          split = split_on_first(range,/[-]/);
+          split = split_on_first(range,/[\-]/);
           begin = parse_location(mode,split.before);
           if (split.after)
           {
