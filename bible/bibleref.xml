@@ -135,7 +135,7 @@
         {
           var split, list; 
           y.log("parse_list " + string);
-          split = split_on_first(string,listseparator);
+          split = split_on_first(string,listseparatorre);
           list = parse_range(mode,split.before);
           if (split.after)
           {
@@ -180,7 +180,7 @@
         {
           var split, chapter, verse, number_of_verses;
           y.log("parse_location " + mode + " " + location);
-          split = split_on_first(location,chapterseparator);
+          split = split_on_first(location,chapterseparatorre);
           if (mode == "explicit" &&  !split.after)
           {
             y.log("Missing verse number: " + location);
