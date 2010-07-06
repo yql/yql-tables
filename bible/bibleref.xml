@@ -86,8 +86,10 @@
           {
             y.log("Invalid chapter number: " + location);
             y.exit();
-          }          
-          return bookoutlinerecord.chapter.(@number=chapter).@number_of_verses.toString();
+          }
+          var number_of_verses = bookoutlinerecord.chapter.(@number=chapter).@number_of_verses.toString();
+          y.log("Number of verses in chapter " + chapter + " is " + number_of_verses);
+          return number_of_verses;
         }
         function listrecord(book,chapter,verse,osisbook)
         {
