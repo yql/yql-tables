@@ -88,7 +88,7 @@
             y.exit();
           }
           var number_of_verses = bookoutlinerecord.chapter.(@number=chapter).@number_of_verses.toString();
-          y.log(bookoutlinerecord);
+          y.log(bookoutlinerecord.chapter.(@number=chapter));
           y.log("Number of verses in chapter " + chapter + " is " + number_of_verses);
           return number_of_verses;
         }
