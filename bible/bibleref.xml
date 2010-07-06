@@ -80,16 +80,16 @@
           }
           return books.book[0];          
         }
-        function get_number_of_verses(bookoutlinerecord,chapter)
+        function get_number_of_verses(bookoutlinerecord,chapternr)
         {
-          if (!bookoutlinerecord.chapter.(@number=chapter))
+          if (!bookoutlinerecord.chapter.(@number=chapternr))
           {
-            y.log("Invalid chapter number: " + location);
+            y.log("Invalid chapter number: " + chapternr);
             y.exit();
           }
-          var number_of_verses = bookoutlinerecord.chapter.(@number=chapter).@number_of_verses.toString();
-          y.log(bookoutlinerecord.chapter.(@number=chapter));
-          y.log("Number of verses in chapter " + chapter + " is " + number_of_verses);
+          var number_of_verses = bookoutlinerecord.chapter.(@number=chapternr).@number_of_verses.toString();
+          y.log(bookoutlinerecord.chapter.(@number=chapternr));
+          y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses);
           return number_of_verses;
         }
         function listrecord(book,chapter,verse,osisbook)
