@@ -37,7 +37,7 @@
         function split_on_first(string,regex)
         {
           var before, after;
-          y.log("split " + string + " on " + regex);
+          /* y.log("split " + string + " on " + regex); */
           string = string.replace(regex,"%");
           splitlocation = string.indexOf("%");
           if (splitlocation < 0) 
@@ -46,7 +46,7 @@
           }
           before = string.substring(0,splitlocation);
           after = string.substring(splitlocation+1);
-          y.log("split returns '" + before + "' and '" + after + "'");
+          /* y.log("split returns '" + before + "' and '" + after + "'"); */
           return {before:before,after:after};
         }
         function bookquery(book)
@@ -88,8 +88,7 @@
             y.exit();
           }
           var number_of_verses = bookoutlinerecord.chapter.(@number == chapternr).@number_of_verses.toString();
-          y.log(bookoutlinerecord.chapter.(@number == chapternr));
-          y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses);
+          /* y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses); */
           return number_of_verses;
         }
         function listrecord(book,chapter,verse,osisbook)
@@ -107,7 +106,7 @@
           var chapterseparator;
           var listseparator;
           bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
-          y.log("parse_reference " + bibleref);
+          /* y.log("parse_reference " + bibleref); */
           split = split_on_first(bibleref,/[ ]/);
           if (split.before.match(/^[0-9]+$/))
           {
@@ -128,16 +127,16 @@
           bookoutlinerecord = bookoutlinequery(osisbook);
           chapterseparator = split2.after.match(/[:\.,; ]/)[0];
           chapterseparatorre = new RegExp(RegExp.quote(chapterseparator));
-          y.log("chapterseparator: " + chapterseparatorre); 
+          /* y.log("chapterseparator: " + chapterseparatorre);  */
           listseparator = "[:\.,; ]".split(chapterseparator).join('');
           listseparatorre = new RegExp(listseparator);
-          y.log("listseparator: " + listseparatorre);
+          /* y.log("listseparator: " + listseparatorre); */
           return parse_list("explicit",split2.after);
         }
         function parse_list(mode,string)
         {
           var split, list; 
-          y.log("parse_list " + string);
+          /* y.log("parse_list " + string); */
           split = split_on_first(string,listseparatorre);
           list = parse_range(mode,split.before);
           if (split.after)
@@ -149,7 +148,7 @@
         function parse_range(mode,range)
         {
           var split, begin, end, list = new XMLList();
-          y.log("parse_range " + range);
+          /* y.log("parse_range " + range); */
           split = split_on_first(range,/[\-]/);
           begin = parse_location(mode,split.before);
           if (split.after)
@@ -176,13 +175,12 @@
               list += listrecord(book, chapter, verse, osisbook);
             }
           }
-          y.log("parse_range returns");
           return list;
         }
         function parse_location(mode,location)
         {
           var split, chapter, verse, number_of_verses;
-          y.log("parse_location " + mode + " " + location);
+          /* y.log("parse_location " + mode + " " + location); */
           split = split_on_first(location,chapterseparatorre);
           if (mode == "explicit" &&  !split.after)
           {
@@ -211,7 +209,7 @@
         function parse_chapter(string)
         {
           var chapter;
-          y.log("parse_chapter " + string);
+          /* y.log("parse_chapter " + string); */
           if (string.match(/^[0-9]+$/))
           {
             chapter = parseInt(string);
@@ -229,7 +227,7 @@
         }
         function parse_verse(string)
         {
-          y.log("parse_verse " + string);
+          /* y.log("parse_verse " + string); */
           if (!string.match(/^[0-9]+$/))
           {
             y.log("Not a verse number: " + string);
