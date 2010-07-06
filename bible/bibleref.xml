@@ -15,11 +15,17 @@
         <key id="bibleref" type="xs:string" paramType="variable" required="true"/>
       </inputs>
       <execute><![CDATA[ 
+        RegExp.quote = function(str) {
+          return str.replace(/([.?*+^$[\]\\(){}-])/g, "\\$1");
+        };
+
         var book = "";
         var osisbook = "";
         var bookrecord;
         var bookoutlinerecord;
         var openchapter = 0;
+        var chapterseparator;
+        var listseparator;
         
         var biblerefs = <biblerefs/>; // XML
         for each (var bibleref in parse_reference(bibleref)) 
@@ -110,18 +116,22 @@
           {
             split.after = bibleref; 
           }
-          var split2 = split_on_first(split.after,/[:\. ]/);
+          var split2 = split_on_first(split.after,/[:\., ]/);
           book = book + split2.before;
           bookrecord = bookquery(book);
           osisbook = getosisbook(bookrecord);
           bookoutlinerecord = bookoutlinequery(osisbook);
+          chapterseparator = new RegExp(RegExp.quote(split2.after.match(/[:\.,; ]/)[0]));
+          y.log("chapterseparator: " + chapterseparator);
+          listseparator = new RegExp(":\.,; ".match('[^'+new RegExp(RegExp.quote(chapterseparator),'g')+']'));
+          y.log("listseparator: " + listseparator);
           return parse_list("explicit",split2.after);
         }
         function parse_list(mode,string)
         {
           var split, list; 
           y.log("parse_list " + string);
-          split = split_on_first(string,/[,;]/);
+          split = split_on_first(string,listseparator);
           list = parse_range(mode,split.before);
           if (split.after)
           {
@@ -166,7 +176,7 @@
         {
           var split, chapter, verse, number_of_verses;
           y.log("parse_location " + mode + " " + location);
-          split = split_on_first(location,/[:\.,; ]/);
+          split = split_on_first(location,chapterseparator);
           if (mode == "explicit" &&  !split.after)
           {
             y.log("Missing verse number: " + location);
