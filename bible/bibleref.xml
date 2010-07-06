@@ -101,6 +101,8 @@
         function parse_reference(bibleref)
         {
           var split;
+          var chapterseparator;
+          var listseparator;
           bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
           y.log("parse_reference " + bibleref);
           split = split_on_first(bibleref,/[ ]/);
@@ -121,10 +123,10 @@
           bookrecord = bookquery(book);
           osisbook = getosisbook(bookrecord);
           bookoutlinerecord = bookoutlinequery(osisbook);
-          var chapterseparator = split2.after.match(/[:\.,; ]/)[0];
+          chapterseparator = split2.after.match(/[:\.,; ]/)[0];
           chapterseparatorre = new RegExp(RegExp.quote(chapterseparator));
-          y.log("chapterseparator: " + chapterseparatorre);  // e.g. "/\./"
-          var listseparator = ":\.,; ".split(chapterseparator).join('');
+          y.log("chapterseparator: " + chapterseparatorre); 
+          listseparator = ":\.,; ".split(chapterseparator).join('');
           listseparatorre = new RegExp(listseparator);
           y.log("listseparator: " + listseparatorre);
           return parse_list("explicit",split2.after);
