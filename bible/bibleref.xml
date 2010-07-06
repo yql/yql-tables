@@ -24,8 +24,8 @@
         var bookrecord;
         var bookoutlinerecord;
         var openchapter = 0;
-        var chapterseparator;
-        var listseparator;
+        var chapterseparatorre;
+        var listseparatorre;
         
         var biblerefs = <biblerefs/>; // XML
         for each (var bibleref in parse_reference(bibleref)) 
@@ -121,10 +121,12 @@
           bookrecord = bookquery(book);
           osisbook = getosisbook(bookrecord);
           bookoutlinerecord = bookoutlinequery(osisbook);
-          chapterseparator = new RegExp(RegExp.quote(split2.after.match(/[:\.,; ]/)[0]));
-          y.log("chapterseparator: " + chapterseparator);
-          listseparator = new RegExp(":\.,; ".match('[^'+new RegExp(RegExp.quote(chapterseparator),'g')+']'));
-          y.log("listseparator: " + listseparator);
+          var chapterseparator = split2.after.match(/[:\.,; ]/)[0];
+          chapterseparatorre = new RegExp(RegExp.quote(chapterseparator));
+          y.log("chapterseparator: " + chapterseparatorre);  // e.g. "/\./"
+          var listseparator = ":\.,; ".split(chapterseparator).join('');
+          listseparatorre = new RegExp(listseparator);
+          y.log("listseparator: " + listseparatorre);
           return parse_list("explicit",split2.after);
         }
         function parse_list(mode,string)
