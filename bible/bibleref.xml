@@ -126,7 +126,7 @@
           chapterseparator = split2.after.match(/[:\.,; ]/)[0];
           chapterseparatorre = new RegExp(RegExp.quote(chapterseparator));
           y.log("chapterseparator: " + chapterseparatorre); 
-          listseparator = ":\.,; ".split(chapterseparator).join('');
+          listseparator = "[:\.,; ]".split(chapterseparator).join('');
           listseparatorre = new RegExp(listseparator);
           y.log("listseparator: " + listseparatorre);
           return parse_list("explicit",split2.after);
