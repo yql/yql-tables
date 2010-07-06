@@ -171,7 +171,7 @@
             var chapterendverse = chapter==end.chapter?end.verse:number_of_verses;
             for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
             {
-              y.log("adding " + book + " | " + chapter + " | " + verse + " | " + osisbook);
+              /* y.log("adding " + book + " | " + chapter + " | " + verse + " | " + osisbook); */
               list += listrecord(book, chapter, verse, osisbook);
             }
           }
