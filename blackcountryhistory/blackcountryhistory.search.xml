@@ -7,13 +7,13 @@
     <sampleQuery description="Search for paintings in their collection">select * from {table} where q="painting";</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="rss.channel.item" produces="XML">
         <urls>
             <url>http://api.collectionsbase.org.uk/os/</url>
         </urls>
 	<paging model="offset">
 		<start id="start" default="0" />
-		<pagesize id="facet.mincount" max="50" />
+		<pagesize id="?" max="50" />
 		<total default="10"/>
 	  </paging>
       	<inputs>
