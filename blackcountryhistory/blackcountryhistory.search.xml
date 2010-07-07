@@ -12,8 +12,8 @@
             <url>http://api.collectionsbase.org.uk/os/</url>
         </urls>
 	<paging model="offset">
-		<start id="start" default="0" />
-		<pagesize id="?" max="50" />
+		<start id="startPage" default="0" />
+		<pagesize id="count" max="50" />
 		<total default="10"/>
 	  </paging>
       	<inputs>
