@@ -3,8 +3,8 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table breaks down complex bible references to a list of references to single verses. Also includes the OSISid format of the verse references.</description>
-    <sampleQuery>select * from bible.bibleref where bibleref="Rev 22:7,10,18-19"</sampleQuery>
-    <documentationURL></documentationURL>
+    <sampleQuery>use "http://github.com/vicmortelmans/yql-tables/raw/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17"</sampleQuery>
+    <documentationURL>http://docs.google.com/View?id=ddq89pzk_200fmmzdthf</documentationURL>
   </meta>
   <bindings>
     <select produces="XML" itemPath="">
@@ -106,7 +106,7 @@
           var chapterseparator;
           var listseparator;
           bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
-          y.log("parse_reference " + bibleref);
+          /* y.log("parse_reference " + bibleref); */
           split = split_on_first(bibleref,/[ ]/);
           if (split.before.match(/^[0-9]+$/))
           {
@@ -127,10 +127,10 @@
           bookoutlinerecord = bookoutlinequery(osisbook);
           chapterseparator = split2.after.match(/[:\.,; ]/)[0];
           chapterseparatorre = new RegExp(RegExp.quote(chapterseparator));
-          y.log("chapterseparator: " + chapterseparatorre); 
+          /* y.log("chapterseparator: " + chapterseparatorre);  */
           listseparator = "[:\.,; ]".split(chapterseparator).join('');
           listseparatorre = new RegExp(listseparator);
-          y.log("listseparator: " + listseparatorre);
+          /* y.log("listseparator: " + listseparatorre); */
           return parse_list("explicit",split2.after);
         }
         function parse_list(mode,string)
