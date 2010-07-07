@@ -106,13 +106,13 @@
           var chapterseparator;
           var listseparator;
           bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
-          /* y.log("parse_reference " + bibleref); */
+          y.log("parse_reference " + bibleref);
           split = split_on_first(bibleref,/[ ]/);
           if (split.before.match(/^[0-9]+$/))
           {
             book = split.before + " ";
           }
-          if (split.before.match(/^[iv]+$/i))
+          else if (split.before.match(/^[iv]+$/i))
           {
             book = deromanize(split.before) + " ";
           }
@@ -127,10 +127,10 @@
           bookoutlinerecord = bookoutlinequery(osisbook);
           chapterseparator = split2.after.match(/[:\.,; ]/)[0];
           chapterseparatorre = new RegExp(RegExp.quote(chapterseparator));
-          /* y.log("chapterseparator: " + chapterseparatorre);  */
+          y.log("chapterseparator: " + chapterseparatorre); 
           listseparator = "[:\.,; ]".split(chapterseparator).join('');
           listseparatorre = new RegExp(listseparator);
-          /* y.log("listseparator: " + listseparatorre); */
+          y.log("listseparator: " + listseparatorre);
           return parse_list("explicit",split2.after);
         }
         function parse_list(mode,string)
