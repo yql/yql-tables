@@ -17,8 +17,8 @@
 		<total default="10"/>
 	  </paging>
       	<inputs>
-            <key id="queryType" type="xs:string" paramType="query" constant="true" default="lucence" />
-	    <key id="fq" type="xs:string" paramType="query" constant="true" default="dcterms.isPartOf:BCH" />
+            <key id="queryType" type="xs:string" paramType="query" const="true" default="lucence" />
+	    <key id="fq" type="xs:string" paramType="query" const="true" default="dcterms.isPartOf:BCH" />
 	    <key id="q" type="xs:string" paramType="query" required="false" />
 	    <key id="facet" type="xs:string" paramType="query" required="false" />
 	    <key id="facet.mincount" type="xs:string" paramType="query" required="false" />
