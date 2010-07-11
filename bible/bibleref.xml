@@ -105,7 +105,7 @@
           var split;
           var chapterseparator;
           var listseparator;
-          bibleref = bibleref.replace(/ *([\.,;:\- ]) */g,"$1");
+          bibleref = bibleref.replace(/[\.,;:\- ]*([\.,;:\- ]) */g,"$1");
           /* y.log("parse_reference " + bibleref); */
           split = split_on_first(bibleref,/[ ]/);
           if (split.before.match(/^[0-9]+$/))
