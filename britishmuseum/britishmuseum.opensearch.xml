@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Search the British Museum using their opensearch module</description>
     <documentationURL>http://www.britishmuseum.org/about_this_site/about_this_site/opensearch.aspx</documentationURL>
-    <sampleQuery description="Get items from Brooklyn collection for Egypt">select * from {table} where keyword="Egypt" ;</sampleQuery>
+    <sampleQuery description="Get items from British Museum collection for Egypt">select * from {table} where placeName="Egypt";</sampleQuery>
 </meta>
 <bindings>
    <select itemPath="feed.entry" produces="XML">
