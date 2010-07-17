@@ -3,13 +3,14 @@
   <meta>
     <sampleQuery>select * from {table} where place="london,uk"</sampleQuery>
     <author>Christian Heilmann</author>
-    <description>Creates an image of earth with a star at the location you defined. Returns the HTML image tag. If you provide a type parameter of "data" it returns the image as a data URI.</description>
+    <description>Creates an badge of earth with a star at the location you defined. Returns the HTML image tag. If you provide a type parameter of "data" it returns the image as a data URI. If you set the location parameter to true you also get the information about the place.</description>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
       <inputs>
         <key id='place' type='xs:string' paramType='variable' required="true" />
         <key id='type' type='xs:string' paramType='variable' required="false" />
+        <key id='location' type='xs:string' paramType='variable' required="false" />
       </inputs>
       <execute><![CDATA[
         default xml namespace = "http://where.yahooapis.com/v1/schema.rng";        
@@ -19,8 +20,20 @@
         var lon = res.place.centroid.longitude;
         lat = Math.round(parseInt(lat)/5)*5;
         lon = Math.round(parseInt(lon)/5)*5;
+        if(lat === +lat){
         var src='http://earthquake.usgs.gov/images/globes/'+
                  lat+'_'+lon+'.jpg';
+        var loc = '';
+        if(location === 'true'){
+        var loc = <ul class="location">
+                    <li>Name: {res..name.text()}</li>
+                    <li>Placetype: {res..placeTypeName.text()}</li>
+                    <li>Country: {res..country.text()}</li>
+                    <li>Latitude: {res..centroid.latitude.text()}</li>
+                    <li>Longitude: {res..centroid.longitude.text()}</li>
+                    <li>WOEID: {res..woeid.text()}</li>
+                  </ul>;
+        }
         default xml namespace = "";
         if(type === 'data'){
           var data = y.query('select * from data.uri where url="'+
@@ -34,8 +47,13 @@
         img.@src = src;
         img.@alt = place;
         var out = (type === 'data') ? dataimg : img;
-        response.object = <globe>{out}</globe>;
+        response.object = <div class="globe">{out}{loc}</div>;
+        } else {
+          response.object = <error>
+                              No location found for {place}, sorry.
+                            </error>;
+        }
       ]]></execute>
     </select>
-  </bindings>
+  </bindings> 
 </table>
