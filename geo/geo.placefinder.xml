@@ -39,9 +39,9 @@
         <key id="lang" type="xs:string" paramType="path" default="en" />
         <key id="focus" type="xs:string" paramType="path" default="US" />
         <key id="offset" type="xs:integer" paramType="query" default="0" />
-        <key id="flags" type="xs:string" paramType="query" default="QRGSTXP" />
+        <key id="flags" type="xs:string" paramType="query" default="QRGSTX" />
         <key id="gflags" type="xs:string" paramType="query" default="ACR" />
-        <key id="appid" type="xs:string" const="true" private="true" paramType="query" default="YD-bs4vWJU_JXrmPwSfQ8yStcfWoDA5n51J" />
+        <key id="appid" type="xs:string" const="true" paramType="query" default="YD-bs4vWJU_JXrmPwSfQ8yStcfWoDA5n51J" />
 
       </inputs>
     </select>
