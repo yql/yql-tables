@@ -16,8 +16,8 @@
         var out = '';
         var res = y.query('select title from social.updates.search(10) where query="'+search+'" and source="twitter"').results;
         var out = <tweets/>;
-        default xml namespace='';
         for each(i in res.update.title){
+          default xml namespace='';
           var lang = y.query('select * from google.translate where q="'+i+'"').results;
           i.@lang = lang..language;
           out.li += i.text();
