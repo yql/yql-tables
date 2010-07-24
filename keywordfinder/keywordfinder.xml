@@ -4,19 +4,18 @@
     <sampleQuery>select * from {table} where keyword="oil spill" and region="us" and lang="en"</sampleQuery>
     <author>Christian Heilmann</author>
     <documentationURL>http://keywordfinder.org</documentationURL>  
-    <description>Gives you the top 20 keywords for a certain keyword using Yahoo BOSS</description>
+    <description>Returns the 20 best keywords for a certain term by analysing the top 20 results of Yahoo.</description>
   </meta>
+
   <bindings>
     <select itemPath="" produces="JSON">
       <inputs>
         <key id='term' type='xs:string' paramType='variable' required="true" />
-        <key id='region' type='xs:string' paramType='variable' required="false" />
-        <key id='language' type='xs:string' paramType='variable' required="false" />
+        <key id='region' type='xs:string' paramType='variable' required="true" />
+        <key id='lang' type='xs:string' paramType='variable' required="true" />
       </inputs>
       <execute><![CDATA[
-        if(!region){region = 'us';}
-        if(!language){language = 'en';}
-        var res = y.query("select resultset_web.keyterms from json where url='http://boss.yahooapis.com/ysearch/web/v1/"+encodeURIComponent(term)+"?appid=IkYa7XfV34G2S776plNLACjN.stDCEY2djrEFc7jzOkw6LGxgN01VrK8jJYyBvs-&view=keyterms&count=50&region="+region+"&lang="+language+"' | sanitize()").results;
+        var res = y.query("select resultset_web.keyterms from json where url='http://boss.yahooapis.com/ysearch/web/v1/"+encodeURIComponent(term)+"?appid=TX6b4XHV34EnPXW0sYEr51hP1pn5O8KAGs.LQSXer1Z7RmmVrZouz5SvyXkWsVk-&view=keyterms&count=50&region="+region+"&lang="+lang+"' | sanitize()").results;
         var terms = res.ysearchresponse.resultset_web.keyterms.terms;
         var t = [];
         for each(i in terms){t.push(i);};
@@ -41,9 +40,10 @@
           str.push(t);
         };
         str = str.join(',')
-        response.object = <keywords><search>{term}</search><language>{language}</language><region>{region}</region><terms>{str}</terms></keywords>;
+        response.object = <keywords><search>{term}</search><language>{lang}</language><region>{region}</region><terms>{str}</terms></keywords>;
       ]]></execute>
     </select>
+
   </bindings>
 
 </table>
