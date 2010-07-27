@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where user_id="11414938@N00"</sampleQuery>
+    <description>Retrieve the photosets belonging to the specified user.</description>
+    <documentationURL>http://www.flickr.com/services/api/flickr.photosets.getList.html</documentationURL>
+    <author>Peter Cowburn</author>
+  </meta>
+  <bindings>
+   <select itemPath="rsp.photosets.photoset" produces="XML">
+      <urls>
+        <url env="all">http://api.flickr.com/services/rest/?method=flickr.photosets.getList</url>
+      </urls>
+      <inputs>
+        <key id="user_id" type="xs:string" paramType="query" />
+        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="9aae7ac1770fdd8027b7aec220ae6400"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
