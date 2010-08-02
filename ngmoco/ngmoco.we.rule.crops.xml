@@ -3,7 +3,7 @@
   <meta>
     <sampleQuery>select * from {table} where plant='artichokes';</sampleQuery>
     <author>Micah Laaker (micah@laaker.com)</author>
-    <description>Detailed breakdown of the earning value and cost of buildings and crops</description>
+    <description>Detailed breakdown of the earning value and cost of crops in ngmoco's We Rule</description>
     <documentationURL></documentationURL>
   </meta>
 
