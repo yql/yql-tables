@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where plant='artichokes';</sampleQuery>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>Detailed breakdown of the earning value and cost of buildings and crops</description>
+    <documentationURL></documentationURL>
+  </meta>
+
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key paramType='variable' required="false" type='xs:string' id='plant' />
+        <key paramType='variable' required="false" type='xs:integer' id='level' />
+        <key paramType='variable' required="false" type='xs:integer' id='cost' />
+        <key paramType='variable' required="false" type='xs:integer' id='minutes' />
+        <key paramType='variable' required="false" type='xs:integer' id='coins' />
+        <key paramType='variable' required="false" type='xs:integer' id='xp' />
+        <key paramType='variable' required="false" type='xs:integer' id='xp_min' />
+        <key paramType='variable' required="false" type='xs:integer' id='xp_cost' />
+      </inputs>
+      <execute><![CDATA[
+        var out = <crops/>;
+        var query = 'select * from csv where url="http://spreadsheets.google.com/pub?key=tzIkc_R61ROUJ1GLE2Tby4Q&single=true&gid=0&output=csv"';
+        if(plant){
+         query+= ' and col0 like "%'+plant+'%"';
+        }
+        if(level){
+         query+= ' and col1 like "%'+level+'%"';
+        }
+        if(cost){
+         query+= ' and col2 like "%'+cost+'%"';
+        }
+        if(minutes){
+         query+= ' and col3 like "%'+minutes+'%"';
+        }
+        if(coins){
+         query+= ' and col4 like "%'+coins+'%"';
+        }
+        if(xp){
+         query+= ' and col5 like "%'+xp+'%"';
+        }
+        if(xp_min){
+         query+= ' and col6 like "%'+xp_min+'%"';
+        }
+        if(xp_cost){
+         query+= ' and col7 like "%'+xp_cost+'%"';
+        }
+        
+        var x = y.query(query);
+        var l = x.results..row;
+        for each(var n in l){
+          n.setName("crop");
+        }
+        var l = x.results..col0;
+        for each(var n in l){
+          n.setName("plant");
+        }
+        var l = x.results..col1;
+        for each(var n in l){
+          n.setName("level");
+        }
+        var l = x.results..col2;
+        for each(var n in l){
+          n.setName("cost");
+        }
+        var l = x.results..col3;
+        for each(var n in l){
+          n.setName("minutes");
+        }
+        var l = x.results..col4;
+        for each(var n in l){
+          n.setName("coins");
+        }
+        var l = x.results..col5;
+        for each(var n in l){
+          n.setName("xp");
+        }
+        var l = x.results..col6;
+        for each(var n in l){
+          n.setName("xp_min");
+        }
+        var l = x.results..col7;
+        for each(var n in l){
+          n.setName("xp_cost");
+        }
+        out.crop = x.results.crop;
+        response.object = out;
+      ]]></execute>
+    </select>
+
+  </bindings>
+</table>
