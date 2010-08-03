@@ -35,7 +35,7 @@
 				f  End Year  
 				g  Always use the letter d  
 				*/
-
+				
 				var encodedUrl = request.url; 
 				encodedUrl = encodedUrl.replace('a=1','a=' + getMonth(startDate));
 				encodedUrl = encodedUrl.replace('b=1','b=' + getDay(startDate));
