@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
-		<author>Luigi Conti</author>
+		<author>Luigi Conti - iMobile.it</author>
 		<description>Yahoo Finance Stock historical prices</description>
-		<sampleQuery>
-			select * from ydata where symbol = "YHOO" and startDate = "2009-09-11" and endDate = "2010-03-10"
-		</sampleQuery>
+		<sampleQuery>select * from ydata where symbol = "YHOO" and startDate = "2009-09-11" and endDate = "2010-03-10"</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="quotes.quote" produces="XML">
