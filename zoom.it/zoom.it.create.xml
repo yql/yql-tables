@@ -9,7 +9,7 @@
 <bindings>
     <select itemPath="" produces="XML">
         <urls>
-            <url>http://api.zoom.it/v1/content/?format=xml&url={url}</url>
+            <url>http://api.zoom.it/v1/content/?format=xml&url={url};</url>
         </urls>
       	<inputs>
             <key id="url" type="xs:string" paramType="path" required="true" />
