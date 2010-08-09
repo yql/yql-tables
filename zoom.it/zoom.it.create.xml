@@ -9,10 +9,11 @@
 <bindings>
     <select itemPath="" produces="JSON">
         <urls>
-            <url>http://api.zoom.it/v1/content/?url={url}</url>
+            <url>http://api.zoom.it/v1/content/?format={format}&url={url}</url>
         </urls>
       	<inputs>
             <key id="url" type="xs:string" paramType="path" required="true" />
+	    <key id="format" type="xs:string" paramType="path" required="false" default="JSON"/>
 	</inputs>
     </select>
 </bindings>
