@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Create a deep zooming image from the zoom.it service</description>
     <documentationURL>http://zoom.it/pages/api/</documentationURL>
-    <sampleQuery description="Create deep zoom from the Ringlemere gold cup">select * from {table} where url="http://www.finds.org.uk/database/ajax/download/id/6085";</sampleQuery>
+    <sampleQuery description="Create deep zoom from the Ringlemere gold cup (PAS image)">select * from {table} where url="http://www.finds.org.uk/database/ajax/download/id/6085";</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="" produces="JSON">
