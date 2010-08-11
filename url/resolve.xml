@@ -12,8 +12,8 @@
         <key id="base" type="xs:string" paramType="variable" required="true"/>
       </inputs>
       <execute><![CDATA[
-y.include("http://js-uri.googlecode.com/svn/trunk/lib/URI.js");
-response.object = {url: (new URI(href)).resolve(new URI(base)).toString(), href: href, base: base};
+y.include("store://github.com/uris");
+response.object = {url: (new URI(base)).resolveReference(href).toString(), href: href, base: base};
 ]]></execute>
     </select>
   </bindings>
