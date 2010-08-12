@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd"> 
+  <meta> 
+    <author>Rick Pastoor</author>
+	<description>socialmention - Real-time social media search and analysis</description>
+    <documentationURL>http://code.google.com/p/socialmention-api/wiki/APIDocumentation</documentationURL> 
+    <sampleQuery>select * from {table} where q='wrep' and t='microblogs'</sampleQuery> 
+  </meta> 
+  <bindings> 
+    <select itemPath="root.items.item" produces="XML"> 
+      <urls> 
+        <url>http://api2.socialmention.com/search</url> 
+      </urls> 
+      <inputs> 
+        <key id="q" type="xs:string" paramType="query" required="true"/> 
+        <key id="t" type="xs:string" paramType="query" required="true"/> 
+        <key id="lang" type="xs:string" paramType="query" required="true"/> 
+        <key id="f" type="xs:string" paramType="query" required="false" default="xml"/> 
+      </inputs> 
+    </select> 
+  </bindings> 
+</table> 

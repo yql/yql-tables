@@ -18,6 +18,7 @@
                 <key id="generation" type="xs:string" paramType="query" required="false" />
                 <key id="period" type="xs:string" paramType="query" required="false" />
                 <key id="offset" type="xs:string" paramType="query" required="false" />
+                <key id="type" type="xs:string" paramType="query" required="false" />
             </inputs>
         </select>
     </bindings>
