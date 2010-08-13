@@ -66,7 +66,7 @@
 
       for each (var child in comment..*) {
       
-        for each (var t in child) {
+        for each (var t in child..*) {
           var text = '';
           text = t.toString();
           text = trim(text);
