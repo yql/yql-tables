@@ -2,6 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <sampleQuery>select * from {table} where query="sushi"</sampleQuery>
+    <sampleQuery>select * from {table} where query="sushi" and market="en-US"</sampleQuery>
     <documentationURL>http://msdn.microsoft.com/en-us/library/dd250942.aspx</documentationURL>
   </meta>
   <bindings>
