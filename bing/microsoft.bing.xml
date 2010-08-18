@@ -1,34 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-	<meta>
-		<sampleQuery>
-			select * from {table} where query="sushi" and source in ("web","image","phonebook")
-		</sampleQuery>
-	</meta>
-	<bindings>
-		<select itemPath="SearchResponse" produces="XML">				
-		<urls><url>http://api.search.live.net/xml.aspx?sources={-listjoin|+|source}</url></urls>
-			<inputs>
-				<key id='appid' type='xs:string' private="true" default='5061CD1C64F6015A128E51FE1FDFDC3B18D0610A' paramType='query' />
-				<key id="source" type="xs:string" paramType="path" batchable="true" maxBatchItems="8" required="true" />
-				<key id='query' type='xs:string' required='true' paramType="query" />
-				<key id='web.count' type='xs:integer' paramType="query" />
-				<key id='web.offset' type='xs:integer' paramType="query" />
-				<key id='image.count' type='xs:integer' paramType="query" />
-				<key id='image.offset' type='xs:integer' paramType="query" />
-				<key id='news.count' type='xs:integer' paramType="query" />
-				<key id='news.offset' type='xs:integer' paramType="query" />
-				<key id='instantanswer.count' type='xs:integer' paramType="query" />
-				<key id='instantanswer.offset' type='xs:integer' paramType="query" />
-				<key id='spell.count' type='xs:integer' paramType="query" />
-				<key id='spell.offset' type='xs:integer' paramType="query" />
-				<key id='phonebook.count' type='xs:integer' paramType="query" />
-				<key id='phonebook.offset' type='xs:integer' paramType="query" />
-				<key id='relatedsearch.count' type='xs:integer' paramType="query" />
-				<key id='relatedsearch.offset' type='xs:integer' paramType="query" />
-				<key id='ad.count' type='xs:integer' paramType="query" />
-				<key id='ad.offset' type='xs:integer' paramType="query" />
-			</inputs>
-		</select>
-	</bindings>
+  <meta>
+    <sampleQuery>select * from {table} where query="sushi" and source in ("web","image","phonebook")</sampleQuery>
+    <documentationURL>http://msdn.microsoft.com/en-us/library/dd251056.aspx</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="SearchResponse" produces="XML">
+      <urls>
+        <url>http://api.search.live.net/xml.aspx?sources={-listjoin|+|source}</url>
+      </urls>
+      <inputs>
+        <key id="appid" type="xs:string" private="true" default="5061CD1C64F6015A128E51FE1FDFDC3B18D0610A" paramType="query"/>
+        <key id="source" type="xs:string" paramType="path" batchable="true" maxBatchItems="8" required="true"/>
+        <key id="query" type="xs:string" required="true" paramType="query"/>
+        <key id="web.count" type="xs:integer" paramType="query"/>
+        <key id="web.offset" type="xs:integer" paramType="query"/>
+        <key id="image.count" type="xs:integer" paramType="query"/>
+        <key id="image.offset" type="xs:integer" paramType="query"/>
+        <key id="news.count" type="xs:integer" paramType="query"/>
+        <key id="news.offset" type="xs:integer" paramType="query"/>
+        <key id="instantanswer.count" type="xs:integer" paramType="query"/>
+        <key id="instantanswer.offset" type="xs:integer" paramType="query"/>
+        <key id="spell.count" type="xs:integer" paramType="query"/>
+        <key id="spell.offset" type="xs:integer" paramType="query"/>
+        <key id="phonebook.count" type="xs:integer" paramType="query"/>
+        <key id="phonebook.offset" type="xs:integer" paramType="query"/>
+        <key id="relatedsearch.count" type="xs:integer" paramType="query"/>
+        <key id="relatedsearch.offset" type="xs:integer" paramType="query"/>
+        <key id="ad.count" type="xs:integer" paramType="query"/>
+        <key id="ad.offset" type="xs:integer" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
 </table>
