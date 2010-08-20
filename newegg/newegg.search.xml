@@ -63,33 +63,36 @@ while (tries < 4) {
 if (tries == 4)
     y.exit();
 
-html = y.xpath(html, "//div[@id='bcaProductCell']//div[@class='itemCell'] | //*[@class='alert'] | //div[@id='bcaProductContainer']");
+fullpage = html;
+// gcaProductCell == search page and synopsis == item
+html = y.xpath(html, "//div[@id='bcaProductCell']//div[@class='itemCell'] | //*[@class='alert'] | //div[@id='synopsis']");
 
 var good = true;
-if (html.(@id == "bcaProductContainer").length() != 0) {
-    var root = html.(@id == "bcaProductContainer");
-    var item = <item/>;
-    item.name = <name>{root..div.(@id=="bcapcHeaderArea").h1.text()}</name>;
-
-    var link = root..div.(@id=="pcraProductReview").h3..a[0].@href.toString();
-
-    var itemCode = link.match(/Item=[^&]+/)[0].replace("Item=", "");
-    item.itemCode = <itemCode>{itemCode}</itemCode>
-    item.price = <price>{root..h3.(@['class']=="zmp").text()}</price>;
-    item.shipping = <shipping>{root..dd.(@['class']=="shipping").p.text()}</shipping>;
-    item.image = <image>{root..img.(@id=="pclaImagePreview").@src}</image>;
-
-    result.item += fixItem(item);
-    good = false;
-}
-
 if (html.length() == 0) good = false;
 if (html.(@['class'] == 'alert').length() != 0) {
   good = false;
-  y.log(html);
 }
 
-if (good) {
+// For the single product page
+var root = html.(@['id'] == "synopsis");
+if (root.length() != 0) {
+    var item = <item/>;
+    item.name = <name>{root..div.(@['class']=="grpDesc boxConstraint")..h1[0].text()}</name>;
+
+    var link = fullpage..link.(@rel=="canonical").@href.toString();
+
+    var itemCode = link.match(/Item=[^&]+/)[0].replace("Item=", "");
+    item.itemCode = <itemCode>{itemCode}</itemCode>
+    var priceNode = root..div.(@id=="singleFinalPrice").p;
+    item.price = <price>{priceNode.text() + priceNode.span.text()}</price>;
+    item.shipping = <shipping>{root..div.(@id=="synShipping").text()}</shipping>;
+    item.image = <image>{root..img.(@id=="mainSlide_0").@src}</image>;
+    y.log(root..div.(@id=="mainSlide"));
+
+    result.item += fixItem(item);
+
+// For the product search page
+} else if (good) {
     for each (var node in html) {
         var item = <item/>;
         item.name = <name>{node..span.(@['class'] == "itemDescription").text().toString()}</name>;
