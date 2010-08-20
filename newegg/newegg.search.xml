@@ -87,7 +87,6 @@ if (root.length() != 0) {
     item.price = <price>{priceNode.text() + priceNode.span.text()}</price>;
     item.shipping = <shipping>{root..div.(@id=="synShipping").p.text()}</shipping>;
     item.image = <image>{root..img.(@id=="mainSlide_0").@src}</image>;
-    y.log(root..div.(@id=="mainSlide"));
 
     result.item += fixItem(item);
 
