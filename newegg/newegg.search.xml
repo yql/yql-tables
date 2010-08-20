@@ -77,7 +77,7 @@ if (html.(@['class'] == 'alert').length() != 0) {
 var root = html.(@['id'] == "synopsis");
 if (root.length() != 0) {
     var item = <item/>;
-    item.name = <name>{root..div.(@['class']=="grpDesc boxConstraint")..h1[0].text()}</name>;
+    item.name = <name>{root..div.(@['class']=="grpDesc boxConstraint")..h1[0].text().toString().replace(/\W+/g, ' ')}</name>;
 
     var link = fullpage..link.(@rel=="canonical").@href.toString();
 
@@ -85,7 +85,7 @@ if (root.length() != 0) {
     item.itemCode = <itemCode>{itemCode}</itemCode>
     var priceNode = root..div.(@id=="singleFinalPrice").p;
     item.price = <price>{priceNode.text() + priceNode.span.text()}</price>;
-    item.shipping = <shipping>{root..div.(@id=="synShipping").text()}</shipping>;
+    item.shipping = <shipping>{root..div.(@id=="synShipping").p.text()}</shipping>;
     item.image = <image>{root..img.(@id=="mainSlide_0").@src}</image>;
     y.log(root..div.(@id=="mainSlide"));
 
