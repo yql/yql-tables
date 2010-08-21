@@ -33,32 +33,30 @@
 	
 	
 	if (data == null) {
-		y.log("no response from cinetelerevue1");
+		y.log("no response from cinetelerevue");
 		exit(0);
 	}
 
-	var headDiffusionId;
+	var programs = <programs></programs>;
+
+	var headDiffusionId = 0;
+	var headImage;
     var xdata = y.xpath(data, "//div[@class='infos']/a/@href");
-	if (xdata.text()) {
+	if (xdata) {
 	    headDiffusionId = xdata.text().toString().match(/(\d+)/);
 	    if (headDiffusionId) {
 			headDiffusionId=headDiffusionId[1];
 	    }
+	    xdata = y.xpath(data, "//div[@class='grillePtImage']/img/@src");
+	    if (xdata && !xdata.text().toString().equals("")) {
+	        headImage = xdata.text();
+        }
     }
-	else {
-		y.log("no response from cinetelerevue2");
-		exit(0);
-	}
 
     var channel = y.xpath(data, "//div[@class='left']/p").text();
 
     xdata = y.xpath(data, "//div[@class='grilleProg']");
-	
-	var programs = <programs></programs>;
-
 	for each (var h in xdata) {
-
-	    //programs.appendChild(h.toString());
 
 	    var program = <program/>;
 
@@ -75,6 +73,9 @@
 		        diffusionId = diffusionId[1];
 		        if (diffusionId == headDiffusionId) {
 					program.node += <head>true</head>
+					if (headImage) {
+					    program.node += <image>{request.url}{headImage}</image>
+					}
 		        }
 		        program.node += <id>{diffusionId}</id>
 		        program.node += <link>{request.url}/php/fiche/detail.php?f_id_diffusion={diffusionId}</link>;

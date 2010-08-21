@@ -26,7 +26,7 @@
 	while (arrMatch = rePattern.exec(data.toString())) {
 	    var channel = <channel/>;
 	    channel.node += <id>{arrMatch[2]}</id>;
-	    channel.node += <name>{arrMatch[1]}</name>;
+	    channel.node += <name>{arrMatch[1].replace(/\ufffd/g,"é")}</name>;
 	    channel.node += <icon>{request.url}/images_chaines/transparent/32x32/{arrMatch[2]}.gif</icon>;
         channels.node += channel;
 	}

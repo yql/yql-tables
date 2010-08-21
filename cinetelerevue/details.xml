@@ -24,6 +24,10 @@
 	    return str.slice(0, i + 1);
     }
 
+    function multiply (str, num) {
+        return num ? Array(num + 1).join(str) : "";
+    }
+
 	var details = <details/>;
 	details.node += <id>{id}</id>;
 	details.node += <link>{request.url}/php/fiche/detail.php?f_id_diffusion={id}</link>;
@@ -110,7 +114,8 @@
 	   }
 	}
 	if (star > 0) {
-	   details.node += <star>{star}</star>;
+	   details.node += <advise>{star}</advise>;
+	   details.node += <star>{multiply("*",star)}</star>;
     }
 
 	var detail_prog = xdata.div.(@["class"] == "zone_detail_prog").div.(@["class"] == "detail_prog").children().text().toString();
