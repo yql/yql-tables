@@ -18,14 +18,14 @@
 var result = <result/>;
 
 function fixItem(item) {
-    var price = parseFloat(item.price.toString().replace("$", "").replace(",", ""));
+    var price = parseFloat(item.price.toString().replace("$", "").replace(",", "").replace(/[ \t\r\n]*/g, ''));
     item.price = <price>{price.toFixed(2)}</price>;
 
     var shipping = item.shipping.toString();
     if (! /.*Free Shipping.*/.test(shipping)) {
         shipping = shipping.match(/\$[0-9,]\.[0-9]{2}/);
         if (shipping) {
-            shipping = shipping.toString().replace("$", "").replace(",", "");
+            shipping = shipping.toString().replace("$", "").replace(",", "").replace(/[ \t\r\n]*/g, '');
             shipping = parseFloat(shipping);
         } else {
             shipping = 0;
@@ -84,7 +84,7 @@ if (root.length() != 0) {
     var itemCode = link.match(/Item=[^&]+/)[0].replace("Item=", "");
     item.itemCode = <itemCode>{itemCode}</itemCode>
     var priceNode = root..div.(@id=="singleFinalPrice").p;
-    item.price = <price>{priceNode.text() + priceNode.span.text()}</price>;
+    item.price = <price>{priceNode.text() + priceNode.sup.text()}</price>;
     item.shipping = <shipping>{root..div.(@id=="synShipping").p.text()}</shipping>;
     item.image = <image>{root..img.(@id=="mainSlide_0").@src}</image>;
 
