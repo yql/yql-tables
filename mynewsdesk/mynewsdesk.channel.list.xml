@@ -10,7 +10,7 @@
       http://www.mynewsdesk.com/uk/docs/partner_kanaler_1_0
     </documentationURL> 
     <sampleQuery>
-      use "http://github.com/jorkas/yql-tables/raw/master/mynewsdesk/mynewsdesk.partner.list.xml" as channels;
+      use "http://github.com/jorkas/yql-tables/raw/master/mynewsdesk/mynewsdesk.channel.list.xml" as channels;
       select pressroom_name, header, summary, body, url from channels 
       where type_of_media="pressreleases"
       and api_key="API_KEY" 
