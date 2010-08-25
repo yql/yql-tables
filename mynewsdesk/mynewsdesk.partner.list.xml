@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Joakim Westerlund</author>
+    <description>MyNewsdesk Partner API</description>
+    <sampleQuery>select * from {table} where type_of_media='pressreleases'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="items.item" produces="XML">
+      <urls>
+        <url>http://www.mynewsdesk.com/partner/api/1_0/{api_key}/channel/{channel_id}/material/list/</url>
+      </urls>
+      <inputs>
+        <key id="type_of_media" type="xs:string" paramType="path" required="true" />
+        <key id="api_key" type="xs:string" paramType="path" required="true" />
+        <key id="channel_id" type="xs:string" paramType="path" required="true" />
+        <key id="limit" type="xs:string" paramType="query" required="false" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
