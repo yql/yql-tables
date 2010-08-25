@@ -2,8 +2,21 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Joakim Westerlund</author>
-    <description>MyNewsdesk Partner API</description>
-    <sampleQuery>select * from {table} where type_of_media='pressreleases'</sampleQuery>
+    <description>
+      MyNewsdesk Partner API
+      You need to signup and get your API_KEY and Channel ID at http://www.mynewsdesk.com/uk/signup/partner before start using the API
+    </description>
+    <documentationURL>
+      http://www.mynewsdesk.com/uk/docs/partner_kanaler_1_0
+    </documentationURL> 
+    <sampleQuery>
+      use "http://github.com/jorkas/yql-tables/raw/master/mynewsdesk/mynewsdesk.partner.list.xml" as channels;
+      select pressroom_name, header, summary, body, url from channels 
+      where type_of_media="pressreleases"
+      and api_key="API_KEY" 
+      and channel_id="CHANNEL_ID"
+      and limit=3;
+    </sampleQuery>
   </meta>
   <bindings>
     <select itemPath="items.item" produces="XML">
