@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Adriano Almeida</author>
+		<description>Pesquisa na lista de cursos da Caelum</description>
+		<sampleQuery>select * from caelum.proximoscursos</sampleQuery>
+	</meta>
+	
+	<bindings>
+
+		<select itemPath="" produces="XML">
+			<execute><![CDATA[
+				var url = 'http://www.caelum.com.br';
+				var xpath = "//div[@id='calendario']/table/tbody/tr";
+
+				query = y.query('select * from html where url="' + url + '" and xpath="' + xpath + '"');
+				results = query.results;
+				responseXML = <cursos></cursos>;
+				for each (var tr in results.tr) {
+					if(tr.elements('th').length() == 0) {
+						curso = <curso></curso>;
+						for each(var td in tr.td) {
+							if(td.@['class'] == 'curso') {
+								curso.curso += <nome>{td.a.*}</nome>;
+							}
+							if(td.@['class'] == 'data') {
+								curso.curso += <data>{td.p.*}</data>;
+							}
+							if(td.@['class'] == 'periodo') {
+								curso.curso += <periodo>{td.@title}</periodo>;
+							}
+							if(td.@['class'] == 'cidade') {
+								curso.curso += <cidade>{td.p.*}</cidade>;
+							}
+							if(td.@['class'] == 'comentario') {
+								curso.curso += <comentario>{td.p.*}</comentario>;
+							}
+
+						}
+						responseXML.cursos += curso;
+					}
+				}
+				
+				response.object = responseXML;
+			]]></execute>
+
+		</select>
+	</bindings>
+</table>
