@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>  
+    <author>Adrian Short</author>  
+    <documentationURL>http://projects.adrianshort.co.uk/yql/</documentationURL>  
+    <sampleQuery>select * from {table} WHERE id = 3</sampleQuery>  
+  </meta>
+  <bindings>  
+    <select itemPath="meetings.meeting" produces="XML">
+      <urls>
+        <url env="all">http://openlylocal.com/meetings.xml?</url>
+      </urls>
+      <inputs>
+        <key id="council_id" type="xs:string" paramType="query" />
+        <key id="committee_id" type="xs:string" paramType="query" />
+        <key id="include_past" type="boolean" paramType="query" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
