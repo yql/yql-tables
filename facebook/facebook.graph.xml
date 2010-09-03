@@ -25,7 +25,7 @@
         <key id="id" type="xs:string" paramType="path" required="true" />
         <key id="connection" type="xs:string" paramType="path" required="true" />
         <key id="fields" type="xs:string" paramType="query" required="false" />
-        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+        <key id="access_token" type="xs:string" paramType="query" required="false" />
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -39,7 +39,7 @@
       <inputs>
         <key id="ids" type="xs:string" paramType="query" required="true" />
         <key id="fields" type="xs:string" paramType="query" required="false" />
-        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+        <key id="access_token" type="xs:string" paramType="query" required="false" />
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -53,7 +53,7 @@
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true" />
         <key id="fields" type="xs:string" paramType="query" required="false" />
-        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+        <key id="access_token" type="xs:string" paramType="query" required="false" />
       </inputs>
     </select>
     <select produces="JSON" itemPath="">
@@ -67,7 +67,7 @@
       <inputs>
         <key id="q" type="xs:string" paramType="query" required="true" />
         <key id="type" type="xs:string" paramType="query" required="true" />
-        <key id="access_token" type="xs:stirng" paramType="query" required="false" />
+        <key id="access_token" type="xs:string" paramType="query" required="false" />
       </inputs>
     </select>
   </bindings>
