@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm Event.getInfo API method. Get the metadata for an event on Last.fm. Includes attendance and lineup information.</description>
+    <documentationURL>http://www.last.fm/api/show?service=292</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=event.getinfo</url>
+      </urls>
+      <inputs>
+        <key id="event" type="xs:string" paramType="query" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>Allows you to customize and integrate data from SEOmoz\'s dynamic Linkscape Index into your own applications. We have over 54 billion URLs across over 230 million domains. </description>
+    <documentationURL>http://apiwiki.seomoz.org/SEOmoz-Free-API</documentationURL>
+    <sampleQuery>select * from {table} where AccessID='member-90a03fcc84' and Expires='1299912337' and Signature='PSEzjEw+RY/YsXFDuBrTygnKoUs=';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://lsapi.seomoz.com/linkscape/url-metrics/{url}</url>
+        </urls>
+        <inputs>
+            <key id="url" type="xs:string" paramType="query"/>
+	        <key id="AccessID" type="xs:string" paramType="query"/>
+            <key id="Expires" type="xs:string" paramType="query"/>
+            <key id="Signature" type="xs:string" paramType="query"/>
+        </inputs>
+    </select>
+</bindings>
+</table>
+
+
+
+	<key type="xs:string" paramType="path" default="en" id="lang" />
+	<key type="xs:string" paramType="path" default="xml" id="type" />
+	<key type="xs:string" paramType="path" private="true" id="api_key" />
+	<key type="xs:string" paramType="path" id="series" />

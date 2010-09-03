@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/map/openlocalplatform/v1/geocoder.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="YDF" produces="XML">
+            <urls>
+                <url>http://geo.search.olp.yahooapis.jp/OpenLocalPlatform/V1/geoCoder</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="query" type="xs:string" paramType="query" required="false" />
+                <key id="ei" type="xs:string" paramType="query" required="false" />
+                <key id="lat" type="xs:string" paramType="query" required="false" />
+                <key id="lon" type="xs:string" paramType="query" required="false" />
+                <key id="datum" type="xs:string" paramType="query" required="false" />
+                <key id="bbox" type="xs:string" paramType="query" required="false" />
+                <key id="start" type="xs:string" paramType="query" required="false" />
+                <key id="results" type="xs:string" paramType="query" required="false" />
+                <key id="page" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

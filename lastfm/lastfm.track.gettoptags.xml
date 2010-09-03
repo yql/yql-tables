@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm Track.getTopTags API method. Get the top tags for this track on Last.fm, ordered by tag count. Supply either track &amp; artist name or mbid.</description>
+    <documentationURL>http://www.last.fm/api/show?service=289</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=track.gettoptags</url>
+      </urls>
+      <inputs>
+        <key id="track" type="xs:string" paramType="query" required="false" />
+        <key id="artist" type="xs:string" paramType="query" required="false" />
+        <key id="mbid" type="xs:string" paramType="query" required="false" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>

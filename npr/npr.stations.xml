@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any" https="false">  
+  <meta>  
+    <author>Lloyd Hilaiel</author>  
+    <documentationURL>http://www.npr.org/api/index</documentationURL>  
+    <sampleQuery>SELECT name, frequency, url.content FROM npr.stations WHERE zip='80210';</sampleQuery>  
+  </meta>  
+  <bindings>
+    <select itemPath="stations.station" produces="XML">
+      <urls>
+        <url>http://api.npr.org/stations</url>
+      </urls>
+      <inputs> 
+	<key id='apiKey' type='xs:string' default='MDA1MjYzMTI0MDEyNzQ5MDU4OTVkY2IyYw001' paramType='query'/>
+	<key id='state' type='xs:string' required='false' paramType='query' />
+	<key id='city' type='xs:string' required='false' paramType='query' />
+	<key id='zip' type='xs:string' required='false' paramType='query' />
+      </inputs>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+	<meta>  
+		<author>GeekLad</author>
+		<documentationURL>http://geeklad.com</documentationURL>
+		<description>Shorten a URL using Google's URL Shortener (http://goo.gl).</description>
+		<sampleQuery>SELECT * FROM {table} WHERE url='http://www.yahoo.com';</sampleQuery>  
+	</meta>  
+	<bindings>  
+		<select itemPath="" produces="XML">  
+			<urls>  
+				<url></url>
+			</urls>  
+			<inputs>  
+				<key id='url' type='xs:string' paramType='variable' required="true" />
+			</inputs>  
+			<execute><![CDATA[ 
+				// getUrlShorteningRequestParams is a function that came from the Google Toolbar
+				var getUrlShorteningRequestParams = function (b) 
+				{
+					function c() {
+						for (var l = 0, m = 0; m < arguments.length; m++) l = l + arguments[m] & 4294967295;
+						return l
+					}
+	
+					function d(l) {
+						l = l = String(l > 0 ? l : l + 4294967296);
+						var m;
+						m = l;
+						for (var o = 0, n = false, p = m.length - 1; p >= 0; --p) {
+							var q = Number(m.charAt(p));
+							if (n) {
+								q *= 2;
+								o += Math.floor(q / 10) + q % 10
+							} else o += q;
+							n = !n
+						}
+						m = m = o % 10;
+						o = 0;
+						if (m != 0) {
+							o = 10 - m;
+							if (l.length % 2 == 1) {
+								if (o % 2 == 1) o += 9;
+								o /= 2
+							}
+						}
+						m = String(o);
+						m += l;
+						return l = m
+					}
+	
+					function e(l) {
+						for (var m = 5381, o = 0; o < l.length; o++) m = c(m << 5, m, l.charCodeAt(o));
+						return m
+					}
+	
+					function f(l) {
+						for (var m = 0, o = 0; o < l.length; o++) m = c(l.charCodeAt(o), m << 6, m << 16, -m);
+						return m
+					}
+	
+					var h = {
+						byteArray_: b,
+						charCodeAt: function (l) {
+							return this.byteArray_[l]
+						}
+					};
+	
+					h.length = h.byteArray_.length;
+					var i = e(h.byteArray_);
+					i = i >> 2 & 1073741823;
+					i = i >> 4 & 67108800 | i & 63;
+					i = i >> 4 & 4193280 | i & 1023;
+					i = i >> 4 & 245760 | i & 16383;
+					var j = "7";
+					h = f(h.byteArray_);
+					var k = (i >> 2 & 15) << 4 | h & 15;
+					k |= (i >> 6 & 15) << 12 | (h >> 8 & 15) << 8;
+					k |= (i >> 10 & 15) << 20 | (h >> 16 & 15) << 16;
+					k |= (i >> 14 & 15) << 28 | (h >> 24 & 15) << 24;
+					j += d(k);
+					return j;
+					return i
+				};
+
+				// Build the variables needed for the post body
+				var auth_token = getUrlShorteningRequestParams(url);
+				var urlEscaped = escape(url).replace(/\+/g,"%2B");
+
+				// Make the request and output the result
+				var output = y.rest("http://goo.gl/api/url").post("user=toolbar@google.com&url=" + urlEscaped + "&auth_token=" + auth_token);
+				response.object = output.headers.location;
+			]]></execute>  
+		</select>   
+	</bindings>  
+</table>  

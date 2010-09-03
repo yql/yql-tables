@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Erik Vold</author>
+		<description></description>
+		<documentationURL></documentationURL>
+		<sampleQuery> select * from {table} where tag = {tag}</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url></url>
+			</urls>
+			<inputs>
+				<key id="tag" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute><![CDATA[
+
+var tagQuery = y.query(
+		"select * from html " +
+		"where url='http://jetpackgallery.mozillalabs.com/tags/"+tag+"/jetpacks' and " + 
+		"xpath='//h2/span[contains(@class,\"count\")]'"
+	),
+	rtnObj=<tag tag={tag} />,
+	jetpack_count=tagQuery.results.span.text().toString().replace(/[^\d]/gi,''),
+	temp = <jetpacks count={jetpack_count} />;
+
+rtnObj.appendChild(temp);
+
+response.object = rtnObj;
+
+			]]></execute>
+		</select>
+	</bindings>
+</table>

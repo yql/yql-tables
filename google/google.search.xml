@@ -12,13 +12,13 @@
       </urls>
       <paging model="offset">
         <start id="start" default="0" />
-        <pagesize id="size" max="4" />
-        <total default="4" />
+        <pagesize id="size" max="24" />
+        <total default="24" />
       </paging>
       <inputs>
         <key id='q' type='xs:string' paramType='query' />
         <key id="hl" type="xs:string" paramType="query" required="false" default="en"/>
-        <key id="gl" type="xs:string" paramType="query" required="false" default="us"/>
+        <key id="gl" type="xs:string" paramType="query" required="false" default="en"/>
         <key id='apikey' type='xs:string' paramType='variable' default='ABQIAAAAeHT5AZJqD5Xx9uPnCAeATBQlKU5X1qPXe538nLHTe0ksK9Nz0BSYjRoJw4Ss40xXg-aYj4es-iO9Pg' private='true' />
       </inputs>
     </select>

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://weather.livedoor.com/weather_hacks/webservice.html</documentationURL>
+        <sampleQuery>select * from {table} where city="63" and day="tomorrow"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://weather.livedoor.com/forecast/webservice/rest/v1</url>
+            </urls>
+            <inputs>
+                <key id="city" type="xs:string" paramType="query" required="true" />
+                <key id="day" type="xs:string" paramType="query" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

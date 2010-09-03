@@ -19,8 +19,15 @@
       <key id="oauth_verifier" type="xs:string" paramType="variable" required="true" />
     </inputs>
       <execute><![CDATA[
-y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");   
-y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js"); 
+
+var document = {
+    getElementsByTagName: function(value) {
+        return null;
+    }
+};
+
+y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
 
 var get_url = get_access_token_url;
 var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, token:oauth_token, tokenSecret:token_secret};
@@ -36,10 +43,56 @@ OAuth.setParameter(message, "oauth_verifier", oauth_verifier);
 OAuth.setParameter(message, "oauth_token", oauth_token);
 OAuth.SignatureMethod.sign(message, local_accessor);
 
-get_url = OAuth.addToURL(get_url, message.parameters); 
+get_url = OAuth.addToURL(get_url, message.parameters);
 
 response.object = y.rest(get_url).get().response;
+
       ]]></execute>
     </select>
+	  <select itemPath="" produces="XML">
+	    <urls>
+	      <url></url>
+	    </urls>
+	    <inputs>
+	      <key id="get_access_token_url" type="xs:string" paramType="variable" required="true" />
+	      <key id="consumer_secret" type="xs:string" paramType="variable" required="true" />
+	      <key id="token_secret" type="xs:string" paramType="variable" required="true" />
+	      <key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true" />
+	      <key id="oauth_signature_method" type="xs:string" paramType="variable" required="true" />
+	      <key id="oauth_version" type="xs:string" paramType="variable" required="true" />
+	      <key id="oauth_token" type="xs:string" paramType="variable" required="true" />
+	      <key id="oauth_session_handle" type="xs:string" paramType="variable" required="true" />
+	    </inputs>
+	      <execute><![CDATA[
+
+	var document = {
+	    getElementsByTagName: function(value) {
+	        return null;
+	    }
+	};
+
+	y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+	y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+
+	var get_url = get_access_token_url;
+	var local_accessor = { consumerKey:oauth_consumer_key, consumerSecret:consumer_secret, token:oauth_token, tokenSecret:token_secret};
+	var message = {};
+
+	message.action = get_access_token_url;
+	message.method = "GET";
+	OAuth.setTimestampAndNonce(message);
+	OAuth.setParameter(message, "oauth_consumer_key", oauth_consumer_key);
+	OAuth.setParameter(message, "oauth_signature_method", oauth_signature_method);
+	OAuth.setParameter(message, "oauth_version", oauth_version);
+	OAuth.setParameter(message, "oauth_session_handle", oauth_session_handle);
+	OAuth.setParameter(message, "oauth_token", oauth_token);
+	OAuth.SignatureMethod.sign(message, local_accessor);
+
+	get_url = OAuth.addToURL(get_url, message.parameters);
+
+	response.object = y.rest(get_url).get().response;
+
+	      ]]></execute>
+	    </select>
   </bindings>
 </table>

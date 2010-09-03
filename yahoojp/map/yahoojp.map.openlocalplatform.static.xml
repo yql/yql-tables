@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/map/openlocalplatform/v1/static.html</documentationURL>
+        <sampleQuery>select * from {table} where appid="dev.okuryu" and lat="35.665662327484" and lon="139.73091159273" and pin="pin1=35,135,test"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://map.olp.yahooapis.jp/OpenLocalPlatform/V1/static?output=xml</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="lat" type="xs:string" paramType="query" required="false" />
+                <key id="lon" type="xs:string" paramType="query" required="false" />
+                <key id="z" type="xs:string" paramType="query" required="false" />
+                <key id="width" type="xs:string" paramType="query" required="false" />
+                <key id="height" type="xs:string" paramType="query" required="false" />
+                <key id="scalebar" type="xs:string" paramType="query" required="false" />
+                <key id="mode" type="xs:string" paramType="query" required="false" />
+                <key id="l" type="xs:string" paramType="query" required="false" />
+                <key id="p" type="xs:string" paramType="query" required="false" />
+                <key id="e" type="xs:string" paramType="query" required="false" />
+                <key id="pointer" type="xs:string" paramType="query" required="false" />
+                <key id="dx" type="xs:string" paramType="query" required="false" />
+                <key id="dy" type="xs:string" paramType="query" required="false" />
+                <key id="quality" type="xs:string" paramType="query" required="false" />
+                <key id="datum" type="xs:string" paramType="query" required="false" />
+                <key id="autoscale" type="xs:string" paramType="query" required="false" />
+                <key id="icon_label" type="xs:string" paramType="query" required="false" />
+                <key id="icon_label_size" type="xs:string" paramType="query" required="false" />
+                <key id="icon_label_len" type="xs:string" paramType="query" required="false" />
+                <key id="pin" type="xs:string" paramType="variable" required="false" />
+            </inputs>
+            <execute><![CDATA[
+
+                if (pin) {
+                    var pairs = pin.split('&'),
+                        pair;
+                    pairs.forEach(function(value) {
+                        if (value.indexOf('=') !== -1) {
+                            pair = value.split('=');
+                            if (pair[0].length > 0 && pair[1].length > 0) {
+                                request.query(pair[0], pair[1]);
+                            }
+                        }
+                    });
+                }
+
+                response.object = request.get().response;
+
+            ]]></execute>
+        </select>
+    </bindings>
+</table>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where cellid="0008c257" AND mnc="08" AND mcc="240" AND lac="017c"" AND key="yourkey"</sampleQuery>
+    <author>Ricardo Varela</author>
+    <documentationURL>https://labs.ericsson.com/apis/mobile-location</documentationURL> 
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+      <url>http://cellid.labs.ericsson.net/xml/lookup</url>
+      </urls>
+      <inputs>
+        <key id='cellid' type='xs:string' paramType='query' required="true" />
+		<key id='mnc' type='xs:string' paramType='query' required="true" />
+		<key id='mcc' type='xs:string' paramType='query' required="true" />
+		<key id='lac' type='xs:string' paramType='query' required="true" />	
+		<key id='key' type='xs:string' paramType='query' required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
