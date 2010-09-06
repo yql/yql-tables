@@ -91,13 +91,13 @@
           /* y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses); */
           return number_of_verses;
         }
-        function listrecord(book,chapter,verse,osisbook)
+        function listrecord(book,chapter,verse,phrase,osisbook)
         {
           return <bibleref>
           <book>{book}</book>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
-          <osisref>{osisbook + '.' + chapter + '.' + verse}</osisref>
+          <osisref>{osisbook + '.' + chapter + '.' + verse + phrase}</osisref>
           </bibleref>;
         }
         function parse_reference(bibleref)
@@ -167,12 +167,14 @@
           for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
           {
             var number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
-            var chapterbeginverse = chapter==begin.chapter?begin.verse:1;
-            var chapterendverse = chapter==end.chapter?end.verse:number_of_verses;
-            for (verse = chapterbeginverse; verse <= chapterendverse; verse++)
+            var chapterbeginversenumber = chapter==begin.chapter?begin.verse.number:1;
+            var chapterendversenumber = chapter==end.chapter?end.verse.number:number_of_verses;
+            for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
             {
               /* y.log("adding " + book + " | " + chapter + " | " + verse + " | " + osisbook); */
-              list += listrecord(book, chapter, verse, osisbook);
+              var phrase = (chapter==begin.chapter && versenumber==begin.verse.number)?begin.verse.phrase:'';
+              var phrase = (chapter==end.chapter && versenumber==end.verse.number)?end.verse.phrase:phrase;
+              list += listrecord(book, chapter, verse, phrase, osisbook);
             }
           }
           return list;
@@ -198,7 +200,7 @@
             verse = parse_verse(split.before);
           }
           number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
-          if (!verse || verse > number_of_verses)
+          if (!verse || verse.number > number_of_verses)
           {
             y.log("invalid verse number: " + location);
             y.exit()
@@ -228,19 +230,24 @@
         function parse_verse(string)
         {
           /* y.log("parse_verse " + string); */
-          if (!string.match(/^[0-9]+$/))
+          if (!string.match(/^[0-9]+[a-z]?$/))
           {
             y.log("Not a verse number: " + string);
             y.exit();
           }
-          return parseInt(string);
+          if (string.match(/^[0-9]+/)) {
+            return {number:string,phrase:''};
+          } else {
+            var split = string.search([a-z]);
+            return {number:string.substring(1,split-1),phrase:string.substring(split,string.length()-split+1)};
+          }
         }
         function deromanize (str) {
           var	str = str.toUpperCase(),
-            validator = /^M*(?:D?C{0,3}|C[MD])(?:L?X{0,3}|X[CL])(?:V?I{0,3}|I[XV])$/,
-            token = /[MDLV]|C[MD]?|X[CL]?|I[XV]?/g,
-            key = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},
-            num = 0, m;
+          validator = /^M*(?:D?C{0,3}|C[MD])(?:L?X{0,3}|X[CL])(?:V?I{0,3}|I[XV])$/,
+          token = /[MDLV]|C[MD]?|X[CL]?|I[XV]?/g,
+          key = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},
+          num = 0, m;
           if (!(str && validator.test(str)))
           {
             y.log("Not a valid roman number: " + str);
