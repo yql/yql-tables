@@ -201,9 +201,14 @@
             verse = parse_verse(split.before);
           }
           number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
-          if (!verse.number || verse.number > number_of_verses)
+          if (!verse)
           {
             y.log("invalid verse number: " + location);
+            y.exit()
+          }
+          if (verse.number > number_of_verses)
+          {
+            y.log("non-existent verse: " + location);
             y.exit()
           }
           openchapter = chapter;
