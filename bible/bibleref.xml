@@ -169,12 +169,12 @@
             var number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
             var chapterbeginversenumber = chapter==begin.chapter?begin.verse.number:1;
             var chapterendversenumber = chapter==end.chapter?end.verse.number:number_of_verses;
-            y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber);
+            /* y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); */
             for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
             {
               var phrase = (chapter==begin.chapter && versenumber==begin.verse.number)?begin.verse.phrase:'';
               var phrase = (chapter==end.chapter && versenumber==end.verse.number)?end.verse.phrase:phrase;
-              y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook);
+              /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
               list += listrecord(book, chapter, versenumber, phrase, osisbook);
             }
           }
@@ -183,7 +183,7 @@
         function parse_location(mode,location)
         {
           var split, chapter, verse, number_of_verses;
-          y.log("parse_location " + mode + " " + location);
+          /* y.log("parse_location " + mode + " " + location); */
           split = split_on_first(location,chapterseparatorre);
           if (mode == "explicit" &&  !split.after)
           {
@@ -235,14 +235,14 @@
         }
         function parse_verse(string)
         {
-          y.log("parse_verse " + string);
+          /* y.log("parse_verse " + string); */
           if (!string.match(/^[0-9]+[a-z]?$/))
           {
             y.log("Not a verse number: " + string);
             y.exit();
           }
           if (string.match(/[a-z]/)) {
-            y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1));
+            /* y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1)); */
             return {number:string.substring(0,string.length-1),phrase:string.charAt(string.length-1)};
           } else {
             return {number:string,phrase:''};
