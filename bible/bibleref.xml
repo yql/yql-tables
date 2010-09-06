@@ -236,11 +236,10 @@
             y.log("Not a verse number: " + string);
             y.exit();
           }
-          if (string.match(/^[0-9]+/)) {
-            return {number:string,phrase:''};
+          if (string.match(/[a-z]/)) {
+            return {number:string.substring(1,string.length()-1),phrase:string.substring(string.length()-1,1)};
           } else {
-            var split = string.search([a-z]);
-            return {number:string.substring(1,split-1),phrase:string.substring(split,string.length()-split+1)};
+            return {number:string,phrase:''};
           }
         }
         function deromanize (str) {
