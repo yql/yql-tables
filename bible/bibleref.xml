@@ -169,6 +169,7 @@
             var number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
             var chapterbeginversenumber = chapter==begin.chapter?begin.verse.number:1;
             var chapterendversenumber = chapter==end.chapter?end.verse.number:number_of_verses;
+            y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber);
             for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
             {
               var phrase = (chapter==begin.chapter && versenumber==begin.verse.number)?begin.verse.phrase:'';
