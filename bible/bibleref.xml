@@ -173,7 +173,7 @@
             {
               var phrase = (chapter==begin.chapter && versenumber==begin.verse.number)?begin.verse.phrase:'';
               var phrase = (chapter==end.chapter && versenumber==end.verse.number)?end.verse.phrase:phrase;
-              y.log("adding " + book + " | " + chapter + " | " + verse + phrase + " | " + osisbook);
+              y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook);
               list += listrecord(book, chapter, versenumber, phrase, osisbook);
             }
           }
