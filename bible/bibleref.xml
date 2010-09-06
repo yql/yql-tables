@@ -97,6 +97,7 @@
           <book>{book}</book>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
+          <phrase>{phrase}</phrase>
           <osisref>{osisbook + '.' + chapter + '.' + verse + phrase}</osisref>
           </bibleref>;
         }
