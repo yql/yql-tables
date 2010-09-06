@@ -242,6 +242,7 @@
             y.exit();
           }
           if (string.match(/[a-z]/)) {
+            y.log("number " + string.substring(0,string.length-1) + ", phrase " + phrase:string.substring(string.length-2,1));
             return {number:string.substring(0,string.length-1),phrase:string.substring(string.length-2,1)};
           } else {
             return {number:string,phrase:''};
