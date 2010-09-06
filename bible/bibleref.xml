@@ -201,7 +201,7 @@
             verse = parse_verse(split.before);
           }
           number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
-          if (!verse || verse.number > number_of_verses)
+          if (!verse.number || verse.number > number_of_verses)
           {
             y.log("invalid verse number: " + location);
             y.exit()
