@@ -89,7 +89,7 @@
 	
 				for each ( var tr in results )
 				{
-					strikePrice = parseFloat( tr.td[0].strong.a.text() );
+					strikePrice = parseFloat( tr.td[0].a.strong.text() );
 					optionSymbol = tr.td[1].a.text();
 					
 					// Check to see what type of option
