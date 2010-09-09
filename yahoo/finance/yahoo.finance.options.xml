@@ -138,6 +138,8 @@
 			function getExpiration()
 			{
 				var results = expiresQuery;
+
+				y.log( "results: " + results );
 			
 				elements = results.*.length();
 						
