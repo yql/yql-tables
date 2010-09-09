@@ -189,8 +189,7 @@
 
 			var expiresQuery = y.xpath( 
 				data,
-				//"//table/tr[@class='yfnc_modtitle1']/td[last()]/p"
-				"//table[@class='yfnc_mod_table_title1']/tbody/tr/td[last()]"
+				"//table[@class='yfnc_mod_table_title1']/tbody/tr/td[last()]/text()"
 			);
 
 			var expiryDay = getExpiration();
