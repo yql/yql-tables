@@ -139,7 +139,7 @@
 			{
 				var results = expiresQuery;
 
-				y.log( "results: " + results );
+				y.log( "results.length(): " + results.length() );
 			
 				elements = results.*.length();
 						
