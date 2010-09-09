@@ -190,8 +190,6 @@
 							"@class='yfnc_tabledata1']]"
 			);
 			
-			y.log( "data: " + data );
-
 			var expiresQuery = y.xpath( 
 				data,
 				"//table[@class='yfnc_mod_table_title1']/tbody/tr/td[last()]"
