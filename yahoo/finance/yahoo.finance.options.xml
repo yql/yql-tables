@@ -199,7 +199,8 @@
 
 			if ( queryHasExpiration == true )
 			{
-				if ( expiryDay != null )
+				if ( expiryDay != null && 
+					expiryDay != "" )
 				{
 					expDate += "-" + expiryDay;
 				}
