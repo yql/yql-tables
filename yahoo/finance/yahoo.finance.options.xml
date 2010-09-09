@@ -143,6 +143,7 @@
 						
 				if ( elements == 0 )
 				{
+					y.log( "no elements" );
 					return "";
 				}
 
