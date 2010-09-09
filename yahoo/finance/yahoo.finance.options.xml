@@ -189,6 +189,8 @@
 							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
 							"@class='yfnc_tabledata1']]"
 			);
+			
+			y.log( "data: " + data );
 
 			var expiresQuery = y.xpath( 
 				data,
