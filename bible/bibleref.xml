@@ -391,9 +391,9 @@
         function translate(string,charlist,tocharlist)
         {
           var finder = new RegExp(charlist,'g');
-          var replacer = function(char)
+          var replacer = function(character)
           {
-            return tocharlist.charAt(charlist.indexOf(char));
+            return tocharlist.charAt(charlist.indexOf(character));
           }
           return string.replace(finder,replacer);
         }
