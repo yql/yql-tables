@@ -391,11 +391,11 @@
         function translate(string,charlist,tocharlist)
         {
           var finder = new RegExp(charlist,'g');
-          return string.replace(finder,repacer);
-          function repacer(char)
+          var replacer = function(char)
           {
             return tocharlist.charAt(charlist.indexOf(char));
           }
+          return string.replace(finder,replacer);
         }
         function maxValueKey(array)
         {
