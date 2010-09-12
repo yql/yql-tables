@@ -374,11 +374,11 @@
         function getPermutations(string)
         {
           var Permutations = new Array();
+          var usedChars = new Array();
           permute(string);
           return Permutations;
           function permute(input) 
           {
-            var usedChars = new Array();
             var i, ch, chars = input.split("");
             for (i = 0; i < chars.length; i++)
             {
