@@ -334,7 +334,7 @@
         function getOccuringCharacters(string,chars) 
         {
           var occuringCharacters;
-          for ( var i == 0; i < chars.length; i++) 
+          for (i == 0; i < chars.length; i++) 
           {
             if ( string.indexOf(chars.charAt(i)) >= 0 ) 
             {
@@ -390,7 +390,7 @@
         }
         function translate(string,charlist,tocharlist)
         {
-          var finder = new RegExp(charlist,’g’);
+          var finder = new RegExp(charlist,'g');
           return string.replace(finder,repacer);
           function repacer(char)
           {
