@@ -350,7 +350,7 @@
             separators += '#';  
           }
           separatorPermutations = getPermutations(separators);
-          y.log("Permutations # : " + separatorPermutations.length;
+          y.log("Permutations # : " + separatorPermutations.length);
           for each (var separatorPermutation in separatorPermutations)
           {
             separatorPermutationProbability[separatorPermutation] = getProbability(separatorPermutation);
