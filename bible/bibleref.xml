@@ -378,7 +378,7 @@
           return Permutations;
           function permute(input) 
           {
-            var usedChars;
+            var usedChars = new Array();
             var i, ch, chars = input.split("");
             for (i = 0; i < chars.length; i++)
             {
