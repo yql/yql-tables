@@ -315,7 +315,7 @@
             y.log("Invalid bible reference - too many different separators");
             y.exit();
           }
-          for (var i == separators.length; i < 3; i++)
+          for (i == separators.length; i < 3; i++)
           {
             separators += '#';  
           }
