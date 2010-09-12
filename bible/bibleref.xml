@@ -28,8 +28,9 @@
         var listseparatorre;
         var rangeseparatorre;
         
+        var bibleref;
         var biblerefs = <biblerefs/>; // XML
-        for each (var bibleref in parse_reference(bibleref)) 
+        for each (bibleref in parse_reference(bibleref)) 
         {
           biblerefs.appendChild(bibleref);
         }
@@ -105,7 +106,9 @@
         function parse_reference(bibleref)
         {
           var split;
-          var separator;
+          var separatorsOrder;
+          var separatorIndex;
+          var parseResult;
           bibleref = bibleref.replace(/[\.,;:\- ]*([\.,;:\- ]) */g,"$1");
           /* y.log("parse_reference " + bibleref); */
           split = split_on_first(bibleref,/[ ]/);
@@ -127,14 +130,39 @@
           osisbook = getosisbook(bookrecord);
           bookoutlinerecord = bookoutlinequery(osisbook);
           /* determine the functions of the separators being used */
-          separator = getSeparators(split2.after);
-          chapterseparatorre = new RegExp(separator.chapter);
-          /* y.log("chapterseparator: " + chapterseparatorre);  */
-          listseparatorre = new RegExp(separator.list);
-          /* y.log("listseparator: " + listseparatorre); */
-          rangeseparatorre = new RegExp(separator.range);
-          /* y.log("rangeseparator: " + rangeseparatorre); */
-          return parse_list("explicit",split2.after);
+          separatorsOrder = getSeparators(split2.after);
+          separatorIndex = 0;
+          chapterseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(0));
+          y.log("chapterseparator: " + chapterseparatorre); 
+          listseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(1));
+          y.log("listseparator: " + listseparatorre);
+          rangeseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(2));
+          y.log("rangeseparator: " + rangeseparatorre); 
+          while (1)
+          {
+            try
+            {
+              parseResult = parse_list("explicit",split2.after);
+            }
+            catch (error)
+            {
+              if (++separatorIndex < separatorsOrder.length)
+              {
+                chapterseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(0));
+                y.log("chapterseparator: " + chapterseparatorre); 
+                listseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(1));
+                y.log("listseparator: " + listseparatorre);
+                rangeseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(2));
+                y.log("rangeseparator: " + rangeseparatorre);
+              }
+              else
+              {
+                y.log("Invalid bible reference syntax.");
+                y.exit(0);
+              }
+            }
+          }
+          return parseResult;
         }
         function parse_list(mode,string)
         {
@@ -322,16 +350,12 @@
             separators += '#';  
           }
           separatorPermutations = getPermutations(separators);
-          separatorPermutationProbability = new Array();
           for each (var separatorPermutation in separatorPermutations)
           {
             separatorPermutationProbability[separatorPermutation] = getProbability(separatorPermutation,separatorPattern);
           }
-          permutation = maxValueKey(separatorPermutationProbability);
-          separator.chapter = permutation.charAt(0);
-          separator.list = permutation.charAt(1);
-          separator.range = permutation.charAt(2);
-          return separator;
+          separatorPermutationOrder = sort(separatorPermutationProbability);
+          return separatorPermutationOrder;
         }
         function getOccuringCharacters(string,chars) 
         {
@@ -400,21 +424,20 @@
           }
           return string.replace(finder,replacer);
         }
-        function maxValueKey(array)
+        function sort(array)
         { 
+          var newarray;
           var key;
-          var max = 0;
-          var maxkey = '';
-          var len = array.length;
-          for (key in array)
+          for (key in array) 
           {
-            if (array[key] > max)
-            {
-              max = array[key];
-              maxkey = key;
-            }
+            newarray[i++] = key;
           }
-          return maxkey;
+          function sortfunction(key1,key2)
+          {
+            return array(key2) - array(key1);
+          }
+          newarray.sort(sortfunction);
+          return newarray;
         }
       ]]></execute>
       </select>
