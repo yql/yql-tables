@@ -361,7 +361,7 @@
         function getOccuringCharacters(string,chars) 
         {
           var i;
-          var occuringCharacters;
+          var occuringCharacters = '';
           for (i = 0; i < chars.length; i++) 
           {
             if ( string.indexOf(chars.charAt(i)) >= 0 ) 
@@ -369,7 +369,7 @@
               occuringCharacters += chars.charAt(i);
             }
           }
-          return occuringCharacters;
+          return occuringCharacters;  
         }
         function getPermutations(string)
         {
