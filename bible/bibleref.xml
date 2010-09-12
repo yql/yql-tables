@@ -398,6 +398,7 @@
         {
           var probability = 0;
           var separatorProbability = new Array();
+          y.log("Calculating probability for " + separatorPermutation);
           separatorProbability['-'] = {'chapter':1, 'list':4, 'range':9};
           separatorProbability['.'] = {'chapter':8, 'list':5, 'range':1};
           separatorProbability[','] = {'chapter':7, 'list':8, 'range':0};
@@ -410,6 +411,7 @@
           probability = separatorProbability[separatorPermutation.charAt(0)]['chapter']
               + separatorProbability[separatorPermutation.charAt(1)]['list']
               + separatorProbability[separatorPermutation.charAt(2)]['range'];
+          y.log("Probability for " + separatorPermutation + " = " + probability);
           return probability;
         }
         function sort(array)
