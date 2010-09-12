@@ -405,6 +405,7 @@
           separatorProbability[':'] = {'chapter':9, 'list':5, 'range':2};
           separatorProbability['/'] = {'chapter':4, 'list':2, 'range':1};
           separatorProbability[' '] = {'chapter':5, 'list':3, 'range':0};
+          separatorProbability['#'] = {'chapter':0, 'list':0, 'range':0};
           /* calculate probability based on occurring separators */
           probability = separatorProbability[separatorPermutation.charAt(0)]['chapter']
               + separatorProbability[separatorPermutation.charAt(1)]['list']
