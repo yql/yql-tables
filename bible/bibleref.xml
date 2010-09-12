@@ -339,13 +339,14 @@
           var separatorPermutationProbability;
           var separator;
           separators = getOccuringCharacters(string,'-.,;:/ ');
+          y.log("Separators : " + separators);
           separatorPattern = string.replace(/[^-.,;:\/ ]/g,'');
           if (separators.length > 3)
           {
             y.log("Invalid bible reference - too many different separators");
             y.exit();
           }
-          for (i == separators.length; i < 3; i++)
+          for (i = separators.length; i < 3; i++)
           {
             separators += '#';  
           }
@@ -361,7 +362,7 @@
         {
           var i;
           var occuringCharacters;
-          for (i == 0; i < chars.length; i++) 
+          for (i = 0; i < chars.length; i++) 
           {
             if ( string.indexOf(chars.charAt(i)) >= 0 ) 
             {
