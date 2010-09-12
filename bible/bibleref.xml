@@ -193,7 +193,7 @@
           if (begin.chapter > end.chapter)
           {
             y.log("Invalid bible chapter range");
-            y.exit();
+            throw("Fallback");
           }
           for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
           {
@@ -207,7 +207,7 @@
                 if (!begin.verse.phrase != !end.verse.phrase) /* implementation of XOR */ 
                 {
                   y.log("Invalid reference; to indicate a range within a verse: Ester 8:9a-9b");
-                  y.exit();
+                  throw("Fallback");
                 }
                 else if (begin.verse.phrase)
                 {
@@ -251,7 +251,7 @@
           if (mode == "explicit" &&  !split.after)
           {
             y.log("Missing verse number: " + location);
-            y.exit()
+            throw("Fallback");
           }
           else if (mode == "explicit" || split.after)
           {
@@ -267,12 +267,12 @@
           if (!verse)
           {
             y.log("invalid verse number: " + location);
-            y.exit()
+            throw("Fallback");
           }
           if (verse.number > number_of_verses)
           {
             y.log("non-existent verse: " + location);
-            y.exit()
+            throw("Fallback");
           }
           openchapter = chapter;
           return {chapter:chapter, verse:verse};
@@ -292,7 +292,7 @@
           else
           {
             y.log("Not a chapter number: " + string);
-            y.exit();
+            throw("Fallback");
           }
           return chapter;
         }
@@ -302,7 +302,7 @@
           if (!string.match(/^[0-9]+[a-z]?$/))
           {
             y.log("Not a verse number: " + string);
-            y.exit();
+            throw("Fallback");
           }
           if (string.match(/[a-z]/)) {
             /* y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1)); */
@@ -340,7 +340,6 @@
           var separator;
           separators = getOccuringCharacters(string,'-.,;:/ ');
           y.log("Separators : " + separators);
-          separatorPattern = string.replace(/[^-.,;:\/ ]/g,'');
           if (separators.length > 3)
           {
             y.log("Invalid bible reference - too many different separators");
@@ -351,9 +350,10 @@
             separators += '#';  
           }
           separatorPermutations = getPermutations(separators);
+          y.log("Permutations # : " + separatorPermutations.length;
           for each (var separatorPermutation in separatorPermutations)
           {
-            separatorPermutationProbability[separatorPermutation] = getProbability(separatorPermutation,separatorPattern);
+            separatorPermutationProbability[separatorPermutation] = getProbability(separatorPermutation);
           }
           separatorPermutationOrder = sort(separatorPermutationProbability);
           return separatorPermutationOrder;
@@ -394,7 +394,7 @@
             }
           }
         }
-        function getProbability(separatorPermutation,separatorPattern)
+        function getProbability(separatorPermutation)
         {
           var probability = 0;
           var separatorProbability = new Array();
@@ -409,22 +409,7 @@
           probability = separatorProbability[separatorPermutation.charAt(0)]['chapter']
               + separatorProbability[separatorPermutation.charAt(1)]['list']
               + separatorProbability[separatorPermutation.charAt(2)]['range'];
-          /* correct probability based on separator pattern matching */
-          var pattern = translate(separatorPattern,separatorPermutation,'clr');
-          if (pattern.match(/^c?(rc?)*(lc?(rc?)*)*$/))
-          {
-            probability += 10;
-          }
           return probability;
-        }
-        function translate(string,charlist,tocharlist)
-        {
-          var finder = new RegExp(charlist,'g');
-          var replacer = function(character)
-          {
-            return tocharlist.charAt(charlist.indexOf(character));
-          }
-          return string.replace(finder,replacer);
         }
         function sort(array)
         { 
