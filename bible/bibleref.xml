@@ -26,6 +26,7 @@
         var openchapter = 0;
         var chapterseparatorre;
         var listseparatorre;
+        var rangeseparatorre;
         
         var biblerefs = <biblerefs/>; // XML
         for each (var bibleref in parse_reference(bibleref)) 
@@ -98,14 +99,13 @@
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
-          <osisref>{osisbook + '.' + chapter + '.' + verse + phrase}</osisref>
+          <osisref>{osisbook + '.' + chapter + '.' + verse + '!' + phrase}</osisref>
           </bibleref>;
         }
         function parse_reference(bibleref)
         {
           var split;
-          var chapterseparator;
-          var listseparator;
+          var separator;
           bibleref = bibleref.replace(/[\.,;:\- ]*([\.,;:\- ]) */g,"$1");
           /* y.log("parse_reference " + bibleref); */
           split = split_on_first(bibleref,/[ ]/);
@@ -126,12 +126,14 @@
           bookrecord = bookquery(book);
           osisbook = getosisbook(bookrecord);
           bookoutlinerecord = bookoutlinequery(osisbook);
-          chapterseparator = split2.after.match(/[:\.,; ]/)[0];
-          chapterseparatorre = new RegExp(RegExp.quote(chapterseparator));
+          /* determine the functions of the separators being used */
+          separator = getSeparators(split2.after);
+          chapterseparatorre = new RegExp(separator.chapter);
           /* y.log("chapterseparator: " + chapterseparatorre);  */
-          listseparator = "[:\.,; ]".split(chapterseparator).join('');
-          listseparatorre = new RegExp(listseparator);
+          listseparatorre = new RegExp(separator.list);
           /* y.log("listseparator: " + listseparatorre); */
+          rangeseparatorre = new RegExp(separator.range);
+          /* y.log("rangeseparator: " + rangeseparatorre); */
           return parse_list("explicit",split2.after);
         }
         function parse_list(mode,string)
@@ -150,7 +152,7 @@
         {
           var split, begin, end, list = new XMLList();
           /* y.log("parse_range " + range); */
-          split = split_on_first(range,/[\-]/);
+          split = split_on_first(range,rangeseparatorre);
           begin = parse_location(mode,split.before);
           if (split.after)
           {
@@ -173,10 +175,41 @@
             /* y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); */
             for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
             {
-              var phrase = (chapter==begin.chapter && versenumber==begin.verse.number)?begin.verse.phrase:'';
-              var phrase = (chapter==end.chapter && versenumber==end.verse.number)?end.verse.phrase:phrase;
-              /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
-              list += listrecord(book, chapter, versenumber, phrase, osisbook);
+              if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) {
+                if (!begin.verse.phrase != !end.verse.phrase) /* implementation of XOR */ 
+                {
+                  y.log("Invalid reference; to indicate a range within a verse: Ester 8:9a-9b");
+                  y.exit();
+                }
+                else if (begin.verse.phrase)
+                {
+                  phrases = "abcdefghijkl";
+                  for (var i=sentences.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
+                  {
+                    /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
+                    list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook);
+                  }
+                }  
+                else 
+                {
+                  /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
+                  list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook);
+                }
+              }
+              else
+              {
+                var phrase;
+                if (chapter==begin.chapter && versenumber==begin.verse.number)
+                {
+                  phrase = begin.verse.phrase?(begin.verse.phrase + '-'):'';
+                }
+                else if (chapter==end.chapter && versenumber==end.verse.number)
+                {
+                  phrase = end.verse.phrase?('-' + end.verse.phrase):'';
+                }
+                /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
+                list += listrecord(book, chapter, versenumber, phrase, osisbook);
+              }
             }
           }
           return list;
@@ -249,7 +282,8 @@
             return {number:string,phrase:''};
           }
         }
-        function deromanize (str) {
+        function deromanize (str) 
+        {
           var	str = str.toUpperCase(),
           validator = /^M*(?:D?C{0,3}|C[MD])(?:L?X{0,3}|X[CL])(?:V?I{0,3}|I[XV])$/,
           token = /[MDLV]|C[MD]?|X[CL]?|I[XV]?/g,
@@ -263,6 +297,120 @@
           while (m = token.exec(str))
             num += key[m[0]];
           return num;
+        }
+        
+        /* functions for determining the function of separators */
+        
+        function getSeparators(string) 
+        {
+          var separators;
+          var separatorpattern;
+          var separatorPermutations;
+          var separatorPermutationProbability;
+          var separator;
+          separators = getOccuringCharacters(string,'-.,;:/ ');
+          separatorPattern = string.replace(/[^-.,;:\/ ]/g,'');
+          if (separators.length > 3)
+          {
+            y.log("Invalid bible reference - too many different separators");
+            y.exit();
+          }
+          for (var i == separators.length; i < 3; i++)
+          {
+            separators += '#';  
+          }
+          separatorPermutations = getPermutations(separators);
+          separatorPermutationProbability = new Array();
+          for each (var separatorPermutation in separatorPermutations)
+          {
+            separatorPermutationProbability[separatorPermutation] = getProbability(separatorPermutation,separatorPattern);
+          }
+          permutation = maxValueKey(separatorPermutationProbability);
+          separator.chapter = permutation.charAt(0);
+          separator.list = permutation.charAt(1);
+          separator.range = permutation.charAt(2);
+          return separator;
+        }
+        function getOccuringCharacters(string,chars) 
+        {
+          var occuringCharacters;
+          for ( var i == 0; i < chars.length; i++) 
+          {
+            if ( string.indexOf(chars.charAt(i)) >= 0 ) 
+            {
+              occuringCharacters += chars.charAt(i);
+            }
+          }
+          return occuringCharacters;
+        }
+        function getPermutations(string)
+        {
+          var Permutations = new Array();
+          permute(string);
+          return Permutations;
+          function permute(input) 
+          {
+            var i, ch, chars = input.split("");
+            for (i = 0; i < chars.length; i++)
+            {
+              ch = chars.splice(i, 1);
+              usedChars.push(ch);
+              if (chars.length == 0)
+              {
+                Permutations.push(usedChars.join(""));
+              }
+              permute(chars.join(""));
+              chars.splice(i, 0, ch);
+              usedChars.pop();
+            }
+          }
+        }
+        function getProbability(separatorPermutation,separatorPattern)
+        {
+          var probability = 0;
+          var separatorProbability = new Array();
+          separatorProbability['-'] = {'chapter':1, 'list':4, 'range':9};
+          separatorProbability['.'] = {'chapter':8, 'list':5, 'range':1};
+          separatorProbability[','] = {'chapter':7, 'list':8, 'range':0};
+          separatorProbability[';'] = {'chapter':6, 'list':9, 'range':0};
+          separatorProbability[':'] = {'chapter':9, 'list':5, 'range':2};
+          separatorProbability['/'] = {'chapter':4, 'list':2, 'range':1};
+          separatorProbability[' '] = {'chapter':5, 'list':3, 'range':0};
+          /* calculate probability based on occurring separators */
+          probability = separatorProbability[separatorPermutation.charAt(0)]['chapter']
+              + separatorProbability[separatorPermutation.charAt(1)]['list']
+              + separatorProbability[separatorPermutation.charAt(2)]['range'];
+          /* correct probability based on separator pattern matching */
+          var pattern = translate(separatorPattern,separatorPermutation,'clr');
+          if (pattern.match(/^c?(rc?)*(lc?(rc?)*)*$/))
+          {
+            probability += 10;
+          }
+          return probability;
+        }
+        function translate(string,charlist,tocharlist)
+        {
+          var finder = new RegExp(charlist,’g’);
+          return string.replace(finder,repacer);
+          function repacer(char)
+          {
+            return tocharlist.charAt(charlist.indexOf(char));
+          }
+        }
+        function maxValueKey(array)
+        {
+          var max = 0;
+          var maxkey = '';
+          var len = array.length;
+          for (var key in array)
+          {
+            if (array[key] > max)
+            {
+              max = array[key];
+              maxkey = key;
+            }
+          }
+          return maxkey;
         }
       ]]></execute>
       </select>
