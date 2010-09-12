@@ -183,8 +183,9 @@
                 }
                 else if (begin.verse.phrase)
                 {
+                  var i;
                   phrases = "abcdefghijkl";
-                  for (var i=sentences.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
+                  for (i = sentences.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
                   {
                     /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
                     list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook);
@@ -303,6 +304,7 @@
         
         function getSeparators(string) 
         {
+          var i;
           var separators;
           var separatorpattern;
           var separatorPermutations;
@@ -333,6 +335,7 @@
         }
         function getOccuringCharacters(string,chars) 
         {
+          var i;
           var occuringCharacters;
           for (i == 0; i < chars.length; i++) 
           {
@@ -398,11 +401,12 @@
           return string.replace(finder,replacer);
         }
         function maxValueKey(array)
-        {
+        { 
+          var key;
           var max = 0;
           var maxkey = '';
           var len = array.length;
-          for (var key in array)
+          for (key in array)
           {
             if (array[key] > max)
             {
