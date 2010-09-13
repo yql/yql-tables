@@ -65,7 +65,7 @@
          var industryCategory;
          var exchange;
          
-         for each ( var tr in results )
+         for each ( var tr in lookupQuery )
          {
             symbol = tr.td[0].a.text();
             name = tr.td[1].text();
