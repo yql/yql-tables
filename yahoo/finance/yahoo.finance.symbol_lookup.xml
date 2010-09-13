@@ -70,10 +70,10 @@
             industryCategory = tr.td[4].a.text();
             exchange = tr.td[5].p.text();
 
-y.log(tr.td[2]@class);
-y.log(tr.td[2]@class.toString());
+y.log(tr.td[2].@class);
+y.log(tr.td[2].@class.toString());
 
-            changeDir = tr.td[2]@class.toString();
+            changeDir = tr.td[2].@class.toString();
 
             var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
