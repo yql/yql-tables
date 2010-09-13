@@ -336,7 +336,7 @@
           var separators;
           var separatorpattern;
           var separatorPermutations;
-          var separatorPermutationProbability;
+          var separatorPermutationProbability = new Array();
           var separator;
           separators = getOccuringCharacters(string,'-.,;:/ ');
           y.log("Separators : " + separators);
