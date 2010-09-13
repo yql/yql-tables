@@ -78,7 +78,7 @@
             resultElem.appendChild(<industryCategory>{industryCategory}</industryCategory>);
             resultElem.appendChild(<exchange>{exchange}</exchange>);
             
-            lookupResult.appendChild( lookupResult );
+            lookupResult.appendChild( resultElem );
          }
 
 			response.object = lookupResult;
