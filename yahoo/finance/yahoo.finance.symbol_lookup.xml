@@ -52,10 +52,11 @@
 							"//table[@class='yfnc_datamodoutline1']/tbody/tr"
 			);
 
+y.log( "lookupQuery: " + lookupQuery );
+y.log( "lookupQuery.length: " + lookupQuery.*.length() );
+
 			var lookupResult = <lookup desc={desc}></lookup>;
 
-         elements = lookupQuery.*.length();
-         
          var resultElem;
          
          var symbol;
@@ -65,7 +66,7 @@
          var industryCategory;
          var exchange;
          
-         for each ( var tr in results )
+         for each ( var tr in lookupQuery )
          {
             symbol = tr.td[0].a.text();
             name = tr.td[1].text();
