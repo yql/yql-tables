@@ -425,7 +425,7 @@
           }
           function sortfunction(key1,key2)
           {
-            return array(key2) - array(key1);
+            return newarray(key2) - newarray(key1);
           }
           newarray.sort(sortfunction);
           return newarray;
