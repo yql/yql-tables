@@ -64,15 +64,11 @@
          for each ( var tr in lookupQuery )
          {
             symbol = tr.td[0].a.text();
-            name = tr.td[1].span.text();
-            y.log(tr.td[1]);
-            y.log(tr.td[1].span);
-            y.log(tr.td[1].p);
-            y.log(tr.td[1].p.text());
-            lastTrade = parseFloat( tr.td[2].span.text() );
-            type = tr.td[3].span.text();
+            name = tr.td[1].p.text();
+            lastTrade = parseFloat( tr.td[2].p.text() );
+            type = tr.td[3].p.text();
             industryCategory = tr.td[4].a.text();
-            exchange = tr.td[5].span.text();
+            exchange = tr.td[5].p.text();
 
             var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
