@@ -109,6 +109,7 @@
           var separatorsOrder;
           var separatorIndex;
           var parseResult;
+          var parseSuccess;
           bibleref = bibleref.replace(/[\.,;:\- ]*([\.,;:\- ]) */g,"$1");
           /* y.log("parse_reference " + bibleref); */
           split = split_on_first(bibleref,/[ ]/);
@@ -138,11 +139,13 @@
           y.log("listseparator: " + listseparatorre);
           rangeseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(2));
           y.log("rangeseparator: " + rangeseparatorre); 
-          while (1)
+          parseSuccess = 0;
+          while (!parseSuccess)
           {
             try
             {
               parseResult = parse_list("explicit",split2.after);
+              parseSuccess = 1;
             }
             catch (error)
             {
