@@ -49,7 +49,7 @@
 			
 			var lookupQuery = y.xpath(
 							data, 
-							"//table[@class='yfnc_datamodoutline1']/tbody/tr"
+							"//table[@class='yui-dt']/tbody/tr"
 			);
 
 y.log( "lookupQuery: " + lookupQuery );
