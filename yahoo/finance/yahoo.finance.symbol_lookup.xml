@@ -66,24 +66,21 @@
             symbol = tr.td[0].a.text();
             name = tr.td[1].p.text();
             lastTrade = parseFloat( tr.td[2].p.text() );
+            changeDir = tr.td[2].attribute('class');
             type = tr.td[3].p.text();
             industryCategory = tr.td[4].a.text();
             exchange = tr.td[5].p.text();
-
-y.log(tr.td[2].attribute('class'));
-
-            changeDir = tr.td[2].attribute('class');
 
             var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
             resultElem.appendChild(<name>{name}</name>);
             
-            if ( changeDir.toLowerCase() == "ticker_down" ) {
+            if( changeDir == null ){
+               resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
+            else if ( changeDir.toLowerCase() == "ticker_down" ) {
                resultElem.appendChild(<lastTrade dir="down">{lastTrade}</lastTrade>);
             } else if ( changeDir.toLowerCase() == "ticker_up" ) {
                resultElem.appendChild(<lastTrade dir="up">{lastTrade}</lastTrade>);
-            } else {
-               resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
             }
             
             resultElem.appendChild(<type>{type}</type>);
