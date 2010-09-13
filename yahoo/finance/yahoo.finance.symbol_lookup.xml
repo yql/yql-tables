@@ -52,13 +52,8 @@
 							"//table[@class='yui-dt']/tbody/tr"
 			);
 
-y.log( "lookupQuery: " + lookupQuery );
-y.log( "lookupQuery.length: " + lookupQuery.*.length() );
-
 			var lookupResult = <lookup desc={desc}></lookup>;
 
-         var resultElem;
-         
          var symbol;
          var name;
          var lastTrade;
@@ -74,7 +69,8 @@ y.log( "lookupQuery.length: " + lookupQuery.*.length() );
             type = tr.td[3].text();
             industryCategory = tr.td[4].text();
             exchange = tr.td[5].text();
-            
+
+            var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
             resultElem.appendChild(<name>{name}</name>);
             resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
