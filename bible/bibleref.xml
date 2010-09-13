@@ -100,7 +100,7 @@
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
-          <osisref>{osisbook + '.' + chapter + '.' + verse + '!' + phrase}</osisref>
+          <osisref>{osisbook + '.' + chapter + '.' + verse + phrase?'!':'' + phrase}</osisref>
           </bibleref>;
         }
         function parse_reference(bibleref)
