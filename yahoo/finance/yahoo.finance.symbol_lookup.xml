@@ -75,9 +75,9 @@
             resultElem.appendChild(<symbol>{symbol}</symbol>);
             resultElem.appendChild(<name>{name}</name>);
             
-            if( changeDir == null ){
+            if( changeDir == null ) {
                resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
-            else if ( changeDir.toLowerCase() == "ticker_down" ) {
+            } else if ( changeDir.toLowerCase() == "ticker_down" ) {
                resultElem.appendChild(<lastTrade dir="down">{lastTrade}</lastTrade>);
             } else if ( changeDir.toLowerCase() == "ticker_up" ) {
                resultElem.appendChild(<lastTrade dir="up">{lastTrade}</lastTrade>);
