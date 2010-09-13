@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+      <author>
+         Manuel Darveau
+        </author>
+      <description>
+         Yahoo Finance Quotes - Symbol Lookup
+        </description>
+      <sampleQuery>
+         SELECT * FROM {table} WHERE desc='apple'
+        </sampleQuery>
+   </meta>
+   <bindings>
+      <select itemPath="" produces="XML">
+         <urls>
+            <url>
+            </url>
+         </urls>
+         <inputs>
+            <key id="desc" type="xs:string" paramType="variable" required="true" />
+         </inputs>
+         <execute>
+                <![CDATA[
+
+         var stockOnly = true;
+         var usAndCanadaOnly = true;
+         var offset=0;
+
+			// Queue the query
+			var queryURL = "http://finance.yahoo.com/lookup/stocks?s=" + desc;
+			var queryHasExpiration = false;
+
+         // Only stocks?
+         if ( stockOnly ){
+            queryURL += "&t=S";
+         }
+         
+         // Only US and Canada markets?
+         if ( usAndCanadaOnly ){
+            queryURL += "&b=" + offset;
+         }
+         
+         // Add offset
+         queryURL += "&m=US";
+
+			var yQuery = y.rest( queryURL );	
+			var data = yQuery.accept( "text/html" ).get().response;
+			
+			var lookupQuery = y.xpath(
+							data, 
+							"//table[@class='yfnc_datamodoutline1']/tbody/tr"
+			);
+
+			var lookupResult = <lookup desc={desc}></lookup>;
+
+         elements = lookupQuery.*.length();
+         
+         var resultElem;
+         
+         var symbol;
+         var name;
+         var lastTrade;
+         var type;
+         var industryCategory;
+         var exchange;
+         
+         for each ( var tr in results )
+         {
+            symbol = tr.td[0].a.text();
+            name = tr.td[1].text();
+            lastTrade = parseFloat( tr.td[2].text() );
+            type = tr.td[3].text();
+            industryCategory = tr.td[4].text();
+            exchange = tr.td[5].text();
+            
+            resultElem.appendChild(<symbol>{symbol}</symbol>);
+            resultElem.appendChild(<name>{name}</name>);
+            resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
+            resultElem.appendChild(<type>{type}</type>);
+            resultElem.appendChild(<industryCategory>{industryCategory}</industryCategory>);
+            resultElem.appendChild(<exchange>{exchange}</exchange>);
+            
+            lookupResult.appendChild( lookupResult );
+         }
+
+			response.object = lookupResult;
+					 
+		]]>
+         </execute>
+      </select>
+   </bindings>
+</table>
