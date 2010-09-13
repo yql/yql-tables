@@ -75,6 +75,7 @@
             resultElem.appendChild(<symbol>{symbol}</symbol>);
             resultElem.appendChild(<name>{name}</name>);
             
+            y.log("Dir:" + changeDir);
             if( changeDir == null ) {
                resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
             } else if ( changeDir.toLowerCase() == "ticker_down" ) {
