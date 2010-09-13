@@ -416,7 +416,7 @@
         }
         function sort(array)
         { 
-          var newarray;
+          var newarray = new Array();
           var key;
           var i = 0;
           for (key in array) 
