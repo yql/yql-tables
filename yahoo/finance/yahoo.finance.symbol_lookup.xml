@@ -65,11 +65,11 @@
          {
             y.log(tr);
             symbol = tr.td[0].a.text();
-            name = tr.td[1].text();
-            lastTrade = parseFloat( tr.td[2].text() );
-            type = tr.td[3].text();
+            name = tr.td[1].span.text();
+            lastTrade = parseFloat( tr.td[2].span.text() );
+            type = tr.td[3].span.text();
             industryCategory = tr.td[4].a.text();
-            exchange = tr.td[5].text();
+            exchange = tr.td[5].span.text();
 
             var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
