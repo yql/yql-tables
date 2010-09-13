@@ -63,11 +63,12 @@
          
          for each ( var tr in lookupQuery )
          {
+            y.log(tr);
             symbol = tr.td[0].a.text();
             name = tr.td[1].text();
             lastTrade = parseFloat( tr.td[2].text() );
             type = tr.td[3].text();
-            industryCategory = tr.td[4].text();
+            industryCategory = tr.td[4].a.text();
             exchange = tr.td[5].text();
 
             var resultElem = <result></result>;            
