@@ -70,10 +70,19 @@
             industryCategory = tr.td[4].a.text();
             exchange = tr.td[5].p.text();
 
+            changeDir = tr.td[2]@class.toString();
+
             var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
             resultElem.appendChild(<name>{name}</name>);
             resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
+            if ( changeDir.toLowerCase() == "ticker_down" ) {
+               resultElem.appendChild(<lastTrade dir="down">{lastTrade}</lastTrade>);
+            } else if ( changeDir.toLowerCase() == "ticker_up" ) {
+               resultElem.appendChild(<lastTrade dir="up">{lastTrade}</lastTrade>);
+            } else {
+               resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
+            }
             resultElem.appendChild(<type>{type}</type>);
             resultElem.appendChild(<industryCategory>{industryCategory}</industryCategory>);
             resultElem.appendChild(<exchange>{exchange}</exchange>);
