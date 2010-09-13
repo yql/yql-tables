@@ -19,13 +19,12 @@
          </urls>
          <inputs>
             <key id="desc" type="xs:string" paramType="variable" required="true" />
+            <key id="resultOffset" type="xs:string" paramType="variable" required="false" />
          </inputs>
          <execute>
                 <![CDATA[
-
          var stockOnly = true;
          var usAndCanadaOnly = true;
-         var offset=0;
 
 			// Queue the query
 			var queryURL = "http://finance.yahoo.com/lookup/stocks?s=" + desc;
@@ -38,45 +37,48 @@
          
          // Only US and Canada markets?
          if ( usAndCanadaOnly ){
-            queryURL += "&b=" + offset;
+            queryURL += "&m=US";
          }
          
          // Add offset
-         queryURL += "&m=US";
+         if( resultOffset != null ){
+            queryURL += "&b=" + resultOffset;
+         }
 
 			var yQuery = y.rest( queryURL );	
 			var data = yQuery.accept( "text/html" ).get().response;
-			
-			var lookupQuery = y.xpath(
-							data, 
-							"//table[@class='yui-dt']/tbody/tr"
-			);
-
-			var lookupResult = <lookup desc={desc}></lookup>;
-
-         var symbol;
-         var name;
-         var lastTrade;
-         var type;
-         var industryCategory;
-         var exchange;
+	
+         var paginationQuery = y.xpath(
+                     data, 
+                     "//div[@id='pagination']"
+         );
+         var paginationString = paginationQuery.p.text();
+         var page = /Showing (\d*) - (\d*) of (\d*)/.exec(paginationString)
+         var firstResultIndex = page[1];
+         var lastResultIndex = page[2];
+         var totalResults = page[3];
          
+			var lookupResult = <lookup desc={desc} firstResultIndex={firstResultIndex} lastResultIndex={lastResultIndex} totalResults={totalResults}></lookup>;
+
+         var lookupQuery = y.xpath(
+                     data, 
+                     "//table[@class='yui-dt']/tbody/tr"
+         );
          for each ( var tr in lookupQuery )
          {
-            symbol = tr.td[0].a.text();
-            name = tr.td[1].p.text();
-            lastTrade = parseFloat( tr.td[2].p.text() );
-            changeDir = tr.td[2].attribute('class');
-            type = tr.td[3].p.text();
-            industryCategory = tr.td[4].a.text();
-            exchange = tr.td[5].p.text();
+            var symbol = tr.td[0].a.text();
+            var name = tr.td[1].p.text();
+            var lastTrade = parseFloat( tr.td[2].p.text() );
+            var changeDir = tr.td[2].attribute('class').toString();
+            var type = tr.td[3].p.text();
+            var industryCategory = tr.td[4].a.text();
+            var exchange = tr.td[5].p.text();
 
             var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
             resultElem.appendChild(<name>{name}</name>);
             
-            y.log("Dir:" + changeDir);
-            if( changeDir == null ) {
+            if( changeDir == '' ) {
                resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
             } else if ( changeDir.toLowerCase() == "ticker_down" ) {
                resultElem.appendChild(<lastTrade dir="down">{lastTrade}</lastTrade>);
