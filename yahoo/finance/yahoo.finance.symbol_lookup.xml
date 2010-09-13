@@ -75,7 +75,7 @@
             var resultElem = <result></result>;            
             resultElem.appendChild(<symbol>{symbol}</symbol>);
             resultElem.appendChild(<name>{name}</name>);
-            resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
+            
             if ( changeDir.toLowerCase() == "ticker_down" ) {
                resultElem.appendChild(<lastTrade dir="down">{lastTrade}</lastTrade>);
             } else if ( changeDir.toLowerCase() == "ticker_up" ) {
@@ -83,6 +83,7 @@
             } else {
                resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
             }
+            
             resultElem.appendChild(<type>{type}</type>);
             resultElem.appendChild(<industryCategory>{industryCategory}</industryCategory>);
             resultElem.appendChild(<exchange>{exchange}</exchange>);
