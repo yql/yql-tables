@@ -289,7 +289,7 @@
           }
           if (verse.number > number_of_verses)
           {
-            y.log("non-existent verse: " + location);
+            y.log("non-existent verse: " + location + "(chapter has " + number_of_verses + " verses)");
             throw("Fallback");
           }
           openchapter = chapter;
