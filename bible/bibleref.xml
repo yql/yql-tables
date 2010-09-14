@@ -212,8 +212,7 @@
           }
           if (begin.chapter > end.chapter)
           {
-            y.log("Invalid bible chapter range");
-            throw("Fallback");
+            throw("Fallback: Invalid bible chapter range");
           }
           for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
           {
@@ -226,8 +225,7 @@
               if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) {
                 if (!begin.verse.phrase != !end.verse.phrase) /* implementation of XOR */ 
                 {
-                  y.log("Invalid reference; to indicate a range within a verse: Ester 8:9a-9b");
-                  throw("Fallback");
+                  throw("Fallback: Invalid reference; to indicate a range within a verse: Ester 8:9a-9b");
                 }
                 else if (begin.verse.phrase)
                 {
@@ -270,8 +268,7 @@
           split = split_on_first_char(location,chapterseparator);
           if (mode == "explicit" &&  !split.after)
           {
-            y.log("Missing verse number: " + location);
-            throw("Fallback");
+            throw("Fallback: Missing verse number: " + location);
           }
           else if (mode == "explicit" || split.after)
           {
@@ -285,14 +282,12 @@
           }
           if (!verse)
           {
-            y.log("invalid verse number: " + location);
-            throw("Fallback");
+            throw("Fallback: invalid verse number: " + location);
           }
           number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
           if (verse.number > number_of_verses)
           {
-            y.log("non-existent verse: " + verse.number + " (chapter has " + number_of_verses + " verses)");
-            throw("Fallback");
+            throw("Fallback: non-existent verse: " + verse.number + " (chapter has " + number_of_verses + " verses)");
           }
           openchapter = chapter;
           return {chapter:chapter, verse:verse};
@@ -311,8 +306,7 @@
           }
           else
           {
-            y.log("Not a chapter number: " + string);
-            throw("Fallback");
+            throw("Fallback: Not a chapter number: " + string);
           }
           return chapter;
         }
@@ -321,8 +315,7 @@
           debug && y.log("parse_verse " + string);
           if (!string.match(/^[0-9]+[a-z]?$/))
           {
-            y.log("Not a verse number: " + string);
-            throw("Fallback");
+            throw("Fallback: Not a verse number: " + string);
           }
           if (string.match(/[a-z]/)) {
             debug &&  y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1)); 
