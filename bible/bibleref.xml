@@ -428,7 +428,7 @@
           }
           function sortfunction(key1,key2)
           {
-            return newarray[key1] - newarray[key2];
+            return (newarray[key1] - newarray[key2]);
           }
           newarray.sort(sortfunction);
           return newarray;
