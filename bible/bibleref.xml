@@ -431,6 +431,7 @@
             return (newarray[key1] - newarray[key2]);
           }
           newarray.sort(sortfunction);
+          for (key in newarray) {y.log(newarray[key] + " op " + key)};
           return newarray;
         }
       ]]></execute>
