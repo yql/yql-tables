@@ -151,6 +151,7 @@
             {
               if (++separatorIndex < separatorsOrder.length)
               {
+                y.log("Trying another interpretation of separators, because " + error);
                 chapterseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(0));
                 y.log("chapterseparator: " + chapterseparatorre); 
                 listseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(1));
