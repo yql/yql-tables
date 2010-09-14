@@ -171,7 +171,7 @@
         function parse_list(mode,string)
         {
           var split, list; 
-          /* y.log("parse_list " + string); */
+          y.log("parse_list " + string);
           split = split_on_first(string,listseparatorre);
           list = parse_range(mode,split.before);
           if (split.after)
@@ -183,7 +183,7 @@
         function parse_range(mode,range)
         {
           var split, begin, end, list = new XMLList();
-          /* y.log("parse_range " + range); */
+          y.log("parse_range " + range);
           split = split_on_first(range,rangeseparatorre);
           begin = parse_location(mode,split.before);
           if (split.after)
