@@ -217,7 +217,7 @@
                 {
                   var i;
                   phrases = "abcdefghijkl";
-                  for (i = sentences.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
+                  for (i = phrases.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
                   {
                     /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
                     list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook);
