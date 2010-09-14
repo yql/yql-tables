@@ -250,7 +250,7 @@
         function parse_location(mode,location)
         {
           var split, chapter, verse, number_of_verses;
-          /* y.log("parse_location " + mode + " " + location); */
+          y.log("parse_location " + mode + " " + location);
           split = split_on_first(location,chapterseparatorre);
           if (mode == "explicit" &&  !split.after)
           {
@@ -284,7 +284,7 @@
         function parse_chapter(string)
         {
           var chapter;
-          /* y.log("parse_chapter " + string); */
+          y.log("parse_chapter " + string);
           if (string.match(/^[0-9]+$/))
           {
             chapter = parseInt(string);
@@ -302,7 +302,7 @@
         }
         function parse_verse(string)
         {
-          /* y.log("parse_verse " + string); */
+          y.log("parse_verse " + string);
           if (!string.match(/^[0-9]+[a-z]?$/))
           {
             y.log("Not a verse number: " + string);
