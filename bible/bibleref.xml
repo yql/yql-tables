@@ -24,9 +24,9 @@
         var bookrecord;
         var bookoutlinerecord;
         var openchapter = 0;
-        var chapterseparatorre;
-        var listseparatorre;
-        var rangeseparatorre;
+        var chapterseparator;
+        var listseparator;
+        var rangeseparator;
         
         var bibleref;
         var biblerefs = <biblerefs/>; // XML
@@ -36,12 +36,26 @@
         }
         response.object = biblerefs;
 
-        function split_on_first(string,regex)
+        function split_on_first_re(string,regex)
         {
           var before, after;
           /* y.log("split " + string + " on " + regex); */
           string = string.replace(regex,"%");
           splitlocation = string.indexOf("%");
+          if (splitlocation < 0) 
+          {
+            splitlocation = string.length;
+          }
+          before = string.substring(0,splitlocation);
+          after = string.substring(splitlocation+1);
+          /* y.log("split returns '" + before + "' and '" + after + "'"); */
+          return {before:before,after:after};
+        }
+        function split_on_first_char(string,character)
+        {
+          var before, after;
+          /* y.log("split " + string + " on " + character); */
+          splitlocation = string.indexOf(character);
           if (splitlocation < 0) 
           {
             splitlocation = string.length;
@@ -112,7 +126,7 @@
           var parseSuccess;
           bibleref = bibleref.replace(/[\.,;:\- ]*([\.,;:\- ]) */g,"$1");
           /* y.log("parse_reference " + bibleref); */
-          split = split_on_first(bibleref,/[ ]/);
+          split = split_on_first_re(bibleref,/[ ]/);
           if (split.before.match(/^[0-9]+$/))
           {
             book = split.before + " ";
@@ -125,7 +139,7 @@
           {
             split.after = bibleref; 
           }
-          var split2 = split_on_first(split.after,/[:\., ]/);
+          var split2 = split_on_first_re(split.after,/[:\., ]/);
           book = book + split2.before;
           bookrecord = bookquery(book);
           osisbook = getosisbook(bookrecord);
@@ -133,12 +147,12 @@
           /* determine the functions of the separators being used */
           separatorsOrder = getSeparators(split2.after);
           separatorIndex = 0;
-          chapterseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(0));
-          y.log("chapterseparator: " + chapterseparatorre); 
-          listseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(1));
-          y.log("listseparator: " + listseparatorre);
-          rangeseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(2));
-          y.log("rangeseparator: " + rangeseparatorre); 
+          chapterseparator = separatorsOrder[separatorIndex].charAt(0);
+          y.log("chapterseparator: " + chapterseparator); 
+          listseparator = separatorsOrder[separatorIndex].charAt(1);
+          y.log("listseparator: " + listseparator);
+          rangeseparator = separatorsOrder[separatorIndex].charAt(2);
+          y.log("rangeseparator: " + rangeseparator); 
           parseSuccess = 0;
           while (!parseSuccess)
           {
@@ -152,12 +166,12 @@
               if (++separatorIndex < separatorsOrder.length)
               {
                 y.log("Trying another interpretation of separators, because " + error);
-                chapterseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(0));
-                y.log("chapterseparator: " + chapterseparatorre); 
-                listseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(1));
-                y.log("listseparator: " + listseparatorre);
-                rangeseparatorre = new RegExp(separatorsOrder[separatorIndex].charAt(2));
-                y.log("rangeseparator: " + rangeseparatorre);
+                chapterseparator = separatorsOrder[separatorIndex].charAt(0);
+                y.log("chapterseparator: " + chapterseparator); 
+                listseparator = separatorsOrder[separatorIndex].charAt(1);
+                y.log("listseparator: " + listseparator);
+                rangeseparator = separatorsOrder[separatorIndex].charAt(2);
+                y.log("rangeseparator: " + rangeseparator); 
               }
               else
               {
@@ -172,7 +186,7 @@
         {
           var split, list; 
           y.log("parse_list " + string);
-          split = split_on_first(string,listseparatorre);
+          split = split_on_first_char(string,listseparator);
           list = parse_range(mode,split.before);
           if (split.after)
           {
@@ -184,7 +198,7 @@
         {
           var split, begin, end, list = new XMLList();
           y.log("parse_range " + range);
-          split = split_on_first(range,rangeseparatorre);
+          split = split_on_first_char(range,rangeseparator);
           begin = parse_location(mode,split.before);
           if (split.after)
           {
@@ -251,7 +265,7 @@
         {
           var split, chapter, verse, number_of_verses;
           y.log("parse_location " + mode + " " + location);
-          split = split_on_first(location,chapterseparatorre);
+          split = split_on_first_char(location,chapterseparator);
           if (mode == "explicit" &&  !split.after)
           {
             y.log("Missing verse number: " + location);
