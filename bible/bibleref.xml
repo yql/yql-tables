@@ -19,6 +19,8 @@
           return str.replace(/([.?*+^$[\]\\(){}-])/g, "\\$1");
         };
 
+        var debug = 0;
+
         var book = "";
         var osisbook = "";
         var bookrecord;
@@ -39,7 +41,7 @@
         function split_on_first_re(string,regex)
         {
           var before, after;
-          /* y.log("split " + string + " on " + regex); */
+          debug && y.log("split " + string + " on " + regex);
           string = string.replace(regex,"%");
           splitlocation = string.indexOf("%");
           if (splitlocation < 0) 
@@ -48,13 +50,13 @@
           }
           before = string.substring(0,splitlocation);
           after = string.substring(splitlocation+1);
-          /* y.log("split returns '" + before + "' and '" + after + "'"); */
+          debug && y.log("split returns '" + before + "' and '" + after + "'"); 
           return {before:before,after:after};
         }
         function split_on_first_char(string,character)
         {
           var before, after;
-          /* y.log("split " + string + " on " + character); */
+          debug && y.log("split " + string + " on " + character);
           splitlocation = string.indexOf(character);
           if (splitlocation < 0) 
           {
@@ -62,7 +64,7 @@
           }
           before = string.substring(0,splitlocation);
           after = string.substring(splitlocation+1);
-          /* y.log("split returns '" + before + "' and '" + after + "'"); */
+          debug && y.log("split returns '" + before + "' and '" + after + "'"); 
           return {before:before,after:after};
         }
         function bookquery(book)
@@ -104,7 +106,7 @@
             y.exit();
           }
           var number_of_verses = bookoutlinerecord.chapter.(@number == chapternr).@number_of_verses.toString();
-          /* y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses); */
+          debug && y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses); 
           return number_of_verses;
         }
         function listrecord(book,chapter,verse,phrase,osisbook)
@@ -125,7 +127,7 @@
           var parseResult;
           var parseSuccess;
           bibleref = bibleref.replace(/[\.,;:\- ]*([\.,;:\- ]) */g,"$1");
-          /* y.log("parse_reference " + bibleref); */
+          debug && y.log("parse_reference " + bibleref); 
           split = split_on_first_re(bibleref,/[ ]/);
           if (split.before.match(/^[0-9]+$/))
           {
@@ -148,11 +150,11 @@
           separatorsOrder = getSeparators(split2.after);
           separatorIndex = 0;
           chapterseparator = separatorsOrder[separatorIndex].charAt(0);
-          y.log("chapterseparator: " + chapterseparator); 
+          debug && y.log("chapterseparator: " + chapterseparator); 
           listseparator = separatorsOrder[separatorIndex].charAt(1);
-          y.log("listseparator: " + listseparator);
+          debug && y.log("listseparator: " + listseparator);
           rangeseparator = separatorsOrder[separatorIndex].charAt(2);
-          y.log("rangeseparator: " + rangeseparator); 
+          debug && y.log("rangeseparator: " + rangeseparator); 
           parseSuccess = 0;
           while (!parseSuccess)
           {
@@ -165,13 +167,13 @@
             {
               if (++separatorIndex < separatorsOrder.length)
               {
-                y.log("Trying another interpretation of separators, because " + error);
+                debug && y.log("Trying another interpretation of separators, because " + error);
                 chapterseparator = separatorsOrder[separatorIndex].charAt(0);
-                y.log("chapterseparator: " + chapterseparator); 
+                debug && y.log("chapterseparator: " + chapterseparator); 
                 listseparator = separatorsOrder[separatorIndex].charAt(1);
-                y.log("listseparator: " + listseparator);
+                debug && y.log("listseparator: " + listseparator);
                 rangeseparator = separatorsOrder[separatorIndex].charAt(2);
-                y.log("rangeseparator: " + rangeseparator); 
+                debug && y.log("rangeseparator: " + rangeseparator); 
               }
               else
               {
@@ -185,7 +187,7 @@
         function parse_list(mode,string)
         {
           var split, list; 
-          y.log("parse_list " + string);
+          debug && y.log("parse_list " + string);
           split = split_on_first_char(string,listseparator);
           list = parse_range(mode,split.before);
           if (split.after)
@@ -197,7 +199,7 @@
         function parse_range(mode,range)
         {
           var split, begin, end, list = new XMLList();
-          y.log("parse_range " + range);
+          debug && y.log("parse_range " + range);
           split = split_on_first_char(range,rangeseparator);
           begin = parse_location(mode,split.before);
           if (split.after)
@@ -218,7 +220,7 @@
             var number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
             var chapterbeginversenumber = chapter==begin.chapter?begin.verse.number:1;
             var chapterendversenumber = chapter==end.chapter?end.verse.number:number_of_verses;
-            /* y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); */
+            debug &&  y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); 
             for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
             {
               if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) {
@@ -233,13 +235,13 @@
                   phrases = "abcdefghijkl";
                   for (i = phrases.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
                   {
-                    /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
+                    debug &&  y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
                     list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook);
                   }
                 }  
                 else 
                 {
-                  /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
+                  debug &&  y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
                   list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook);
                 }
               }
@@ -254,7 +256,7 @@
                 {
                   phrase = end.verse.phrase?('-' + end.verse.phrase):'';
                 }
-                /* y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); */
+                debug && y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
                 list += listrecord(book, chapter, versenumber, phrase, osisbook);
               }
             }
@@ -264,7 +266,7 @@
         function parse_location(mode,location)
         {
           var split, chapter, verse, number_of_verses;
-          y.log("parse_location " + mode + " " + location);
+          debug && y.log("parse_location " + mode + " " + location);
           split = split_on_first_char(location,chapterseparator);
           if (mode == "explicit" &&  !split.after)
           {
@@ -298,7 +300,7 @@
         function parse_chapter(string)
         {
           var chapter;
-          y.log("parse_chapter " + string);
+          debug && y.log("parse_chapter " + string);
           if (string.match(/^[0-9]+$/))
           {
             chapter = parseInt(string);
@@ -316,14 +318,14 @@
         }
         function parse_verse(string)
         {
-          y.log("parse_verse " + string);
+          debug && y.log("parse_verse " + string);
           if (!string.match(/^[0-9]+[a-z]?$/))
           {
             y.log("Not a verse number: " + string);
             throw("Fallback");
           }
           if (string.match(/[a-z]/)) {
-            /* y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1)); */
+            debug &&  y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1)); 
             return {number:Number(string.substring(0,string.length-1)),phrase:string.charAt(string.length-1)};
           } else {
             return {number:Number(string),phrase:''};
@@ -357,7 +359,7 @@
           var separatorPermutationProbability = new Array();
           var separator;
           separators = getOccuringCharacters(string,'-.,;:/ ');
-          y.log("Separators : " + separators);
+          debug && y.log("Separators : " + separators);
           if (separators.length > 3)
           {
             y.log("Invalid bible reference - too many different separators");
@@ -368,7 +370,7 @@
             separators += '#';  
           }
           separatorPermutations = getPermutations(separators);
-          y.log("Permutations # : " + separatorPermutations.length);
+          debug && y.log("Permutations # : " + separatorPermutations.length);
           for each (var separatorPermutation in separatorPermutations)
           {
             separatorPermutationProbability[separatorPermutation] = getProbability(separatorPermutation);
@@ -416,7 +418,7 @@
         {
           var probability = 0;
           var separatorProbability = new Array();
-          y.log("Calculating probability for " + separatorPermutation);
+          debug && y.log("Calculating probability for " + separatorPermutation);
           separatorProbability['-'] = {'chapter':1, 'list':4, 'range':9};
           separatorProbability['.'] = {'chapter':8, 'list':5, 'range':1};
           separatorProbability[','] = {'chapter':7, 'list':8, 'range':0};
@@ -429,7 +431,7 @@
           probability = separatorProbability[separatorPermutation.charAt(0)]['chapter']
               + separatorProbability[separatorPermutation.charAt(1)]['list']
               + separatorProbability[separatorPermutation.charAt(2)]['range'];
-          y.log("Probability for " + separatorPermutation + " = " + probability);
+          debug && y.log("Probability for " + separatorPermutation + " = " + probability);
           return probability;
         }
         function sort(array)
@@ -446,7 +448,6 @@
             return (array[key2] - array[key1]);
           }
           newarray.sort(sortfunction);
-          for (key in newarray) {y.log(newarray[key] + " on " + key + " at " + array[newarray[key]])};
           return newarray;
         }
       ]]></execute>
