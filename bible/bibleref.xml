@@ -281,15 +281,15 @@
             chapter = openchapter;
             verse = parse_verse(split.before);
           }
-          number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
           if (!verse)
           {
             y.log("invalid verse number: " + location);
             throw("Fallback");
           }
+          number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
           if (verse.number > number_of_verses)
           {
-            y.log("non-existent verse: " + location + "(chapter has " + number_of_verses + " verses)");
+            y.log("non-existent verse: " + verse.number + " (chapter has " + number_of_verses + " verses)");
             throw("Fallback");
           }
           openchapter = chapter;
