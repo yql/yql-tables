@@ -324,9 +324,9 @@
           }
           if (string.match(/[a-z]/)) {
             /* y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1)); */
-            return {number:string.substring(0,string.length-1),phrase:string.charAt(string.length-1)};
+            return {number:Number(string.substring(0,string.length-1)),phrase:string.charAt(string.length-1)};
           } else {
-            return {number:string,phrase:''};
+            return {number:Number(string),phrase:''};
           }
         }
         function deromanize (str) 
