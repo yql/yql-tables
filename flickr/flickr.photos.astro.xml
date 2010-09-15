@@ -19,10 +19,12 @@
       <inputs>
         <key id="text" type="xs:string" paramType="variable" />
         <key id="astro_name" type="xs:string" paramType="variable" />
+        <key id="group_id" type="xs:string" paramType="variable" />
       </inputs>
     <execute><![CDATA[
     var name_query = '';
     if (text && text != '') name_query += " and text = '"+text.replace("'","\'")+"'";
+    if (group_id && group_id != '') name_query += " and group_id = '"+group_id.replace("'","\'")+"'";
     var machine_tags = 'astro:RA=';
     if (astro_name && astro_name != '') machine_tags = 'astro:name="'+astro_name.replace("'","\'")+'"';
 
