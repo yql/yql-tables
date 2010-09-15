@@ -3,7 +3,7 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
-    <sampleQuery>select * from bible.bible where language='en' and book='Luke' and chapter=11 and passage=10</sampleQuery>
+    <sampleQuery>select * from bible.bible where language='en' and bibleref='Luke 11:10'</sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
   </meta>
   <bindings>
@@ -14,9 +14,10 @@
       <inputs>
         <key id="language" type="xs:string" paramType="variable" required="false"/>
         <key id="edition" type="xs:string" paramType="variable" required="false"/>
-        <key id="book" type="xs:string" paramType="variable" required="true"/>
-        <key id="chapter" type="xs:integer" paramType="variable" required="true"/>
-        <key id="passage" type="xs:integer" paramType="variable" required="true"/>
+        <key id="book" type="xs:string" paramType="variable" required="false"/>
+        <key id="chapter" type="xs:integer" paramType="variable" required="false"/>
+        <key id="passage" type="xs:integer" paramType="variable" required="false"/>
+        <key id="bibleref" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
         if (!edition && !language) {
@@ -50,6 +51,30 @@
           y.log(edition.copyright.toString());
         }
         //y.log(edition);
+        var biblerefsxml;
+        if (!bibleref) {
+          if (!book && !chaper) {
+            y.log('At least a book and a chapter number should be provided.');
+            y.exit();
+          }
+          biblerefsxml = <>
+            <bibleref>
+                <book>{book}</book>
+                <chapter>{chapter}</chapter>
+                <verse>{verse}</verse>
+                <phrase/>
+            </bibleref>
+          </>;
+        } else {
+          var biblerefsquery = "use 'http://github.com/vicmortelmans/yql-tables/raw/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref'";
+          biblerefsquery = biblerefsquery.replace("$bibleref",bibleref);
+          biblerefsxml = y.query(biblerefquery).results.biblerefs.*;
+          if (biblerefsxml.length() == 0) {
+            y.log('Invalid bible reference.');
+            y.exit()
+          }
+        }
+        book = biblerefsxml.bibleref[0].book;
         var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
         booksquery = booksquery.replace("$book",book);
         var books = y.query(booksquery).results.books;
@@ -74,42 +99,50 @@
         //y.log(service);
         var bookcode = book.code.(@service == service.name.toString()).toString();
         var editioncode = edition.code.(@service == service.name.toString()).toString();
-        var url = '';
-        var finalquery = '';
-        for each (var step in service.step) {
-          if (step.@nr < service.step.length()) { 
-            if (step.@yql.toString() == "true") { // yql query
-              var query = step.toString();
-              query = query.replace(/\$book/g,bookcode);
-              query = query.replace(/\$edition/g,editioncode);
-              query = query.replace(/\$chapter/g,chapter);
-              query = query.replace(/\$passage/g,passage);
-              query = query.replace(/\$url/g,url);
-              var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true';
-              rest = rest.replace("$query",escape(query));
-              url = rest;
-              //y.log(url);
-            } else { // rest call
-              var rest = step.toString();
-              rest = rest.replace(/\$book/g,escape(bookcode));
-              rest = rest.replace(/\$edition/g,escape(editioncode));
-              rest = rest.replace(/\$chapter/g,escape(chapter));
-              rest = rest.replace(/\$passage/g,escape(passage));
-              rest = rest.replace(/\$url/g,escape(url));
-              url = rest;
-              //y.log(url);
+        var queryoutput = '';
+        var output = '';
+        for each (var biblerefxml in biblerefsxml) {
+          var url = '';
+          var finalquery = '';
+          for each (var step in service.step) {
+            if (step.@nr < service.step.length()) { 
+              if (step.@yql.toString() == "true") { // yql query
+                var query = step.toString();
+                query = query.replace(/\$book/g,bookcode);
+                query = query.replace(/\$edition/g,editioncode);
+                query = query.replace(/\$chapter/g,biblerefxml.chapter);
+                query = query.replace(/\$passage/g,biblerefxml.passage);
+                query = query.replace(/\$url/g,url);
+                var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true';
+                rest = rest.replace("$query",escape(query));
+                url = rest;
+                //y.log(url);
+              } else { // rest call
+                var rest = step.toString();
+                rest = rest.replace(/\$book/g,escape(bookcode));
+                rest = rest.replace(/\$edition/g,escape(editioncode));
+                rest = rest.replace(/\$chapter/g,escape(biblerefxml.chapter));
+                rest = rest.replace(/\$passage/g,escape(biblerefxml.passage));
+                rest = rest.replace(/\$url/g,escape(url));
+                url = rest;
+                //y.log(url);
+              }
+            } else { // last step is always yql query
+                finalquery = step.toString();
+                finalquery = finalquery.replace(/\$book/g,bookcode);
+                finalquery = finalquery.replace(/\$edition/g,editioncode);
+                finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter);
+                finalquery = finalquery.replace(/\$passage/g,biblerefxml.passage);
+                finalquery = finalquery.replace(/\$url/g,url);
+                //y.log(finalquery);
             }
-          } else { // last step is always yql query
-              finalquery = step.toString();
-              finalquery = finalquery.replace(/\$book/g,bookcode);
-              finalquery = finalquery.replace(/\$edition/g,editioncode);
-              finalquery = finalquery.replace(/\$chapter/g,chapter);
-              finalquery = finalquery.replace(/\$passage/g,passage);
-              finalquery = finalquery.replace(/\$url/g,url);
-              //y.log(finalquery);
           }
+          queryoutput = y.query(finalquery).results;
+          if (biblerefxml.phrase != '') {
+            queryoutput = extractPhrase(queryoutput,biblerefxml.phrase);
+          }
+          output += queryoutput + ' ';
         }
-        var queryoutput = y.query(finalquery).results;
         response.object = <passage>{stringListValue(queryoutput)}</passage>;    
       
 
@@ -157,6 +190,37 @@
           }
           value = value.replace(/, $/,'');
           return value;
+        }
+
+        function extractPhrase(passage,phrase) {
+          var before = phrase.match(/^-/);
+          var after = phrase.match(/-$/);
+          phrase = phrase.replace('-','');
+          var phrases = new Array();
+          var remainingpassage = passage;
+          while (remainingpassage.length > 0) {
+            var search = remainingpassage.search(/[.!?][“‘ ,]*[:upper:]|;/);
+            if (search < 0) {
+              phrases.push(remainingpassage);
+              remainingpassage = '';
+            } else {
+              phrases.push(remainingpassage.slice(0,search);
+              remainingpassage = remainingpassage.substr(search+1);
+            }
+          }
+          var index = 'abcdefghijkl'.indexOf(phrase);
+          var i = 0;
+          var result = '';
+          for each (var p in phrases) {
+            var b;
+            b = (i == index);
+            b = b || (before && i < index);
+            b = b || (after && i > index);
+            if (b) {
+              result += p;
+            }
+            i++;
+          }
         }
 
       ]]></execute>
