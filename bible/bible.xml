@@ -112,8 +112,8 @@
                 var query = step.toString();
                 query = query.replace(/\$book/g,bookcode);
                 query = query.replace(/\$edition/g,editioncode);
-                query = query.replace(/\$chapter/g,biblerefxml.chapter);
-                query = query.replace(/\$passage/g,biblerefxml.passage);
+                query = query.replace(/\$chapter/g,biblerefxml.chapter.toString());
+                query = query.replace(/\$passage/g,biblerefxml.passage.toString());
                 query = query.replace(/\$url/g,url);
                 var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true';
                 rest = rest.replace("$query",escape(query));
@@ -123,8 +123,8 @@
                 var rest = step.toString();
                 rest = rest.replace(/\$book/g,escape(bookcode));
                 rest = rest.replace(/\$edition/g,escape(editioncode));
-                rest = rest.replace(/\$chapter/g,escape(biblerefxml.chapter));
-                rest = rest.replace(/\$passage/g,escape(biblerefxml.passage));
+                rest = rest.replace(/\$chapter/g,escape(biblerefxml.chapter.toString()));
+                rest = rest.replace(/\$passage/g,escape(biblerefxml.passage.toString()));
                 rest = rest.replace(/\$url/g,escape(url));
                 url = rest;
                 //y.log(url);
@@ -133,15 +133,15 @@
                 finalquery = step.toString();
                 finalquery = finalquery.replace(/\$book/g,bookcode);
                 finalquery = finalquery.replace(/\$edition/g,editioncode);
-                finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter);
-                finalquery = finalquery.replace(/\$passage/g,biblerefxml.passage);
+                finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter.toString());
+                finalquery = finalquery.replace(/\$passage/g,biblerefxml.passage.toString());
                 finalquery = finalquery.replace(/\$url/g,url);
                 //y.log(finalquery);
             }
           }
-          queryoutput = y.query(finalquery).results;
+          queryoutput = y.query(finalquery).results.toString();
           if (biblerefxml.phrase != '') {
-            queryoutput = extractPhrase(queryoutput,biblerefxml.phrase);
+            queryoutput = extractPhrase(queryoutput,biblerefxml.phrase.toString());
           }
           output += queryoutput + ' ';
         }
