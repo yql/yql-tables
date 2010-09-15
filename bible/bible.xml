@@ -74,6 +74,8 @@
             y.exit()
           }
         }
+        y.log("Bible references: ");
+        y.log(biblerefsxml);
         book = biblerefsxml.bibleref[0].book;
         var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
         booksquery = booksquery.replace("$book",book);
