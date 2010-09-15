@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Query Museum of London LAARC for bulk finds</description>
+    <documentationURL>http://www.museumoflondon.org.uk/laarcWS/v1/doc/methods.aspx</documentationURL>
+    <sampleQuery description="Search by key 377">select * from {table} where search_type='bykey' and terms='377';</sampleQuery>
+    <sampleQuery description="Search for Roman sites">select * from {table} where search_type='bycode' and terms='85BHS90';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="SearchResult.ResultSet.BulkFind" produces="XML">
+        <urls>
+            <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=GetBulkFinds</url>
+        </urls>
+      <paging model="page">
+        <start id="pageno" default="1" />
+        <pagesize id="perpage" max="50" />
+        <total default="15" />
+      </paging>
+	<inputs>
+	    <key id="search_type" type="xs:string" paramType="query" required="true" />
+	    <key id="terms" type="xs:string" paramType="query" required="false" />
+	</inputs>
+    </select>
+</bindings>
+</table>

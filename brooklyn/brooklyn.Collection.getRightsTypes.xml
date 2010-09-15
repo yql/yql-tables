@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Brooklyn Museum's collections database</description>
+    <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.getRightsTypes</documentationURL>
+    <sampleQuery description="Get rights types for Brooklyn objects">select * from {table} where format='xml'  and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="response.rightstypes" produces="XML">
+        <urls>
+            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getRightsType</url>
+        </urls>
+	<inputs>
+	    <key id="format" type="xs:string" paramType="query" required="false" />
+	    <key id="include_html_style_block" paramType="query" required="false" />
+            <key id="version" type="xs:string" paramType="query" const="true" default="1" />
+	    <key id="api_key" type="xs:string" paramType="query" required="true" private="true" />
+        </inputs>
+    </select>
+</bindings>
+</table>

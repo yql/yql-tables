@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get postcodes at a specified distance from lat/lon or postcode</description>
+    <documentationURL>http://www.uk-postcodes.com/api.php</documentationURL>
+    <sampleQuery description="Search for postcodes 2miles from a  point">select * from {table} where lat='51.5181' and lon='-0.127115' and format='xml' and distance='2';</sampleQuery>
+    <sampleQuery description="Search for postcodes 2miles from WC1B 3DG">select * from {table} where postcode='WC1B3DG' and format='xml' and distance='2';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://www.uk-postcodes.com/distance.php</url>
+        </urls>
+	<inputs>
+            <key id="lat" type="xs:string" paramType="query" required="false" />
+	    <key id="lon" type="xs:string" paramType="query" required="false" />
+            <key id="format" type="xs:string" paramType="query" required="true" />
+	    <key id="postcode" type="xs:string" paramType="query" required="false" />
+	    <key id="distance" type="xs:string" paramType="query" required="true" />
+	</inputs>
+    </select>
+</bindings>
+</table>

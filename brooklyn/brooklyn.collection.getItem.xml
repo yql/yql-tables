@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Brooklyn Museum's collections database by item type and number</description>
+    <documentationURL>http://www.brooklynmuseum.org/opencollection/api/docs/request/collection.getItem</documentationURL>
+    <sampleQuery description="Get item details by type and id">select * from {table} where itemtype="object" and item_id="1687" and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+   <select itemPath="response.object" produces="XML">
+        <urls>
+            <url>http://www.brooklynmuseum.org/opencollection/api/?method=collection.getItem</url>
+        </urls>
+	<inputs>
+            <key id="item_type" type="xs:string" paramType="query" required="true" />
+            <key id="item_id" type="xs:string" paramType="query" required="true" />
+            <key id="image_start_index" type="xs:string" paramType="query" required="false" />
+	    <key id="image_results_limit" type="xs:string" paramType="query" required="false" />
+	    <key id="include_image_caption" type="xs:string" paramType="query" required="false" />
+	    <key id="include_item_fields" type="xs:string" paramType="query" required="false" />
+	    <key id="thumb_shape" type="xs:string" paramType="query" required="false" />
+	    <key id="max_thumb_size" type="xs:string" paramType="query" required="false" />
+	    <key id="max_image_size" type="xs:string" paramType="query" required="false" />
+	    <key id="include_html_style_block" type="xs:string" paramType="query" required="false" />
+ 	    <key id="format" type="xs:string" paramType='query' const="true" default="xml"/>
+	    <key id="version" type="xs:string" paramType="query" const="true" default="1" />
+	    <key id="api_key" type="xs:string" paramType="query" required="true" private="true" />
+        </inputs>
+    </select>
+</bindings>
+</table>

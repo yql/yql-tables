@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get MP details</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getMP</documentationURL>
+    <sampleQuery description="Get an MP by ID and constituency">select * from {table} where id='10900' and constituency='Aberavon' and extra='true' and key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="twfy.match" produces="XML">
+        <urls>
+            <url>http://www.theyworkforyou.com/api/getMP</url>
+        </urls>
+        <inputs>
+            <key id="id" type="xs:string" paramType="query" required="false" />
+	    <key id="postcode" type="xs:string" paramType="query" required="false" />
+            <key id="constituency" type="xs:string" paramType="query" required="false" />
+            <key id="extra" type="xs:string" paramType="query" required="false" />
+            <key id="key" type="xs:string" paramType="query" required="true" private="true"/>
+	    <key id="output" type="xs:string" paramType='query' const="true" default="xml"/>
+        </inputs>
+    </select>
+</bindings>
+</table>
