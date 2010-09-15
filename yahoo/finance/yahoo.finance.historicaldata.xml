@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Luigi Conti - iMobile.it</author>
+		<description>Yahoo Finance Stock historical prices</description>
+		<sampleQuery>select * from ydata where symbol = "YHOO" and startDate = "2009-09-11" and endDate = "2010-03-10"</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="quotes.quote" produces="XML">
+			<urls><url>http://ichart.finance.yahoo.com/table.csv</url></urls>
+			<inputs>
+				<key id='s' as='symbol' type='xs:string' paramType='query' required='true'/>
+				<key id="startDate" type='xs:string' paramType='variable' required='true' />
+				<key id="endDate" type='xs:string' paramType='variable' required='true' />
+				<key id='a' as="startMonth" type='xs:string' paramType='query' required='false' default='1' />
+				<key id='b' as="startDay" type='xs:string' paramType='query' required='false' default='1' />
+				<key id='c' as="startYear" type='xs:string' paramType='query' required='false' default='2010' />
+				<key id='d' as="endMonth" type='xs:string' paramType='query' required='false' default='1' />
+				<key id='e' as="endDay" type='xs:string' paramType='query' required='false' default='30' />
+				<key id='f' as="endYear" type='xs:string' paramType='query' required='false' default='2010' />
+				<key id='g' type='xs:string'  paramType='query' required='false' const='true' default='d' />
+			</inputs>
+			<execute>
+                <![CDATA[
+				/*			
+				Parameter  Value  
+				s  Stock Ticker (for example, MSFT)  
+				a  Start Month (0-based; 0=January, 11=December)  
+				b  Start Day  
+				c  Start Year  
+				d  End Month (0-based; 0=January, 11=December)  
+				e  End Day  
+				f  End Year  
+				g  Always use the letter d  
+				*/
+				
+				var encodedUrl = request.url; 
+				encodedUrl = encodedUrl.replace('a=1','a=' + getMonth(startDate));
+				encodedUrl = encodedUrl.replace('b=1','b=' + getDay(startDate));
+				encodedUrl = encodedUrl.replace('c=2010','c=' + getYear(startDate));
+				encodedUrl = encodedUrl.replace('d=1','d=' + getMonth(endDate));
+				encodedUrl = encodedUrl.replace('e=30','e=' + getDay(endDate));
+				encodedUrl = encodedUrl.replace('f=2010','f=' + getYear(endDate));
+				
+				var results = y.query("select * from csv(0,1) where url=@url",{url:encodedUrl});
+				var colNames=''; 
+				var rows=results.results.row;
+				for each (var row in rows) {					
+					for each (var item in row.*) {
+						var txt = item.text().toString();
+						colNames=colNames + ',' + txt.replace(' ', '_');
+					}
+				}
+				colNames = colNames.substring(1);
+				results = y.query("select * from csv(2,0) where url=@url and columns=@columnsNames",{url:encodedUrl,columnsNames:colNames});
+				var quotes = <quotes/>;
+				rows=results.results.row;
+				for each (var row in rows) {
+					quotes.quote += <quote date={row.Date.text().toString()}>{row.*}</quote>;
+				}
+				response.object = quotes;
+				
+				function getDay(date) {
+					var n = date.substr(8,2);
+					if (n.substr(0, 1)=="0")				
+					{
+						n = n.substr(1, 1);
+					}
+					return '' + (parseInt(n));
+				}
+				function getMonth(date) {
+					var n = date.substr(5,2);
+					if (n.substr(0, 1)=="0")				
+					{
+						n = n.substr(1, 1);
+					}
+					return '' + (parseInt(n)-1);
+				}
+				function getYear(date) {
+					return date.substr(0,4)
+				}
+				
+      ]]></execute>
+		</select>
+	</bindings>
+</table>
