@@ -204,7 +204,7 @@
               phrases.push(remainingpassage);
               remainingpassage = '';
             } else {
-              phrases.push(remainingpassage.slice(0,search);
+              phrases.push(remainingpassage.slice(0,search));
               remainingpassage = remainingpassage.substr(search+1);
             }
           }
