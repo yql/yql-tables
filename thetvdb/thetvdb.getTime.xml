@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>TheTVDB Get Time</description>
+    <documentationURL>http://thetvdb.com/wiki/index.php?title=Programmers_API</documentationURL>
+    <sampleQuery>select * from {table}</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://www.thetvdb.com/api/Updates.php?type=none</url>
+        </urls>
+        <inputs>
+		</inputs>
+    </select>
+</bindings>
+</table>
+
