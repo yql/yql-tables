@@ -12,13 +12,11 @@
 			<url>http://api.infochimps.com/soc/net/tw/wordbag.json</url>
 		</urls>
 		<inputs>
+        <key id="user_id"     type="xs:string"  paramType="query"/>
 			<key id="screen_name" type="xs:string" paramType="query"/>
 			<key id="apikey" type="xs:string" paramType="query"/>
+        <key id="apikey"      type="xs:integer" paramType="query"/>
 		</inputs>
 	</select>
 </bindings>
-<<<<<<< HEAD
 </table>
-=======
-</table>
->>>>>>> mlaaker/master
