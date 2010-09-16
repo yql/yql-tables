@@ -92,12 +92,15 @@
         debug && y.log(book);
         var servicesquery = 'select service from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/services.xml" and service.name matches "(?i)$service"';
         servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
+        y.log("1");
         var services = y.query(servicesquery).results.services;
+        y.log("2");
         if (services.service.length() < 1) {
             var error_message = 'Internal error';
             y.log(error_message);
             y.exit();
         }
+        y.log("3");
         service = services.service[0];
         debug && y.log(service);
         var bookcode = book.code.(@service == service.name.toString()).toString();
