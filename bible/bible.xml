@@ -147,7 +147,7 @@
             queryoutput = extractPhrase(queryoutput,biblerefxml.phrase.toString());
           }
           debug && y.log(queryoutput);
-          output += queryoutput + ' ';
+          output += (queryoutput + ' ');
         }
         response.object = <passage>{output}</passage>;    
       
@@ -212,6 +212,7 @@
               phrases.push(remainingpassage.slice(0,search));
               remainingpassage = remainingpassage.substr(search+1);
             }
+            debug && y.log(phrases[phrases.length-1]);
           }
           var index = "abcdefghijkl".indexOf(phrase);
           var i = 0;
