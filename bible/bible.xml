@@ -92,15 +92,12 @@
         debug && y.log(book);
         var servicesquery = 'select service from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/services.xml" and service.name matches "(?i)$service"';
         servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
-        y.log("1");
         var services = y.query(servicesquery).results.services;
-        y.log("2");
         if (services.service.length() < 1) {
             var error_message = 'Internal error';
             y.log(error_message);
             y.exit();
         }
-        y.log("3");
         service = services.service[0];
         debug && y.log(service);
         var bookcode = book.code.(@service == service.name.toString()).toString();
@@ -118,7 +115,7 @@
                 query = query.replace(/\$book/g,bookcode);
                 query = query.replace(/\$edition/g,editioncode);
                 query = query.replace(/\$chapter/g,biblerefxml.chapter.toString());
-                query = query.replace(/\$passage/g,biblerefxml.passage.toString());
+                query = query.replace(/\$passage/g,biblerefxml.verse.toString());
                 query = query.replace(/\$url/g,url);
                 var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true';
                 rest = rest.replace("$query",escape(query));
@@ -129,7 +126,7 @@
                 rest = rest.replace(/\$book/g,escape(bookcode));
                 rest = rest.replace(/\$edition/g,escape(editioncode));
                 rest = rest.replace(/\$chapter/g,escape(biblerefxml.chapter.toString()));
-                rest = rest.replace(/\$passage/g,escape(biblerefxml.passage.toString()));
+                rest = rest.replace(/\$passage/g,escape(biblerefxml.verse.toString()));
                 rest = rest.replace(/\$url/g,escape(url));
                 url = rest;
                 debug && y.log(url);
@@ -139,7 +136,7 @@
                 finalquery = finalquery.replace(/\$book/g,bookcode);
                 finalquery = finalquery.replace(/\$edition/g,editioncode);
                 finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter.toString());
-                finalquery = finalquery.replace(/\$passage/g,biblerefxml.passage.toString());
+                finalquery = finalquery.replace(/\$passage/g,biblerefxml.verse.toString());
                 finalquery = finalquery.replace(/\$url/g,url);
                 debug && y.log(finalquery);
             }
