@@ -224,7 +224,7 @@
 			if ((uneval(request.queryParams) == '{"stpos":"0"}') && (MPAA === null)) {
 				for each (var m in source.results.*) {
 					m.movie.title = m.tr.td.p.(@['class'] == 't11bold').a.toString().normalizeSpace();
-					m.movie.link = m.tr.td.p.(@['class'] == 't11bold').a.@href;
+					m.movie.link = "http://www.kids-in-mind.com/" + m.tr.td.p.(@['class'] == 't11bold').a.@href;
 				}
 			} else {
 				for each (var m in source.results..a) {
