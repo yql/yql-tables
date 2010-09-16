@@ -206,11 +206,14 @@
           var after = phrase.match(/-$/);
           phrase = phrase.replace('-','');
           var phrases = new Array();
-          var remainingpassage = passage;
+          var remainingpassage = passage.trim();
           while (remainingpassage.length > 0) {
+            y.log(remainingpassage.length);
+            y.log(remainingpassage);
             var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|;/);
+            y.log(search);
             if (search < 0) {
-              phrases.push(remainingpassage.trim());
+              phrases.push(remainingpassage);
               remainingpassage = "";
             } else {
               phrases.push(remainingpassage.slice(0,search).trim());
