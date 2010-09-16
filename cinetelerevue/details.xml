@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>fred.ac</author>
+        <description>Cinetelerevue program details</description>
+        <sampleQuery><![CDATA[
+            select * from details where id=17881845;
+        ]]></sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://cinetelerevue.lesagencestv.com</url>
+            </urls>
+            <inputs>
+                <key id="id" type="xs:long" required="true" paramType="variable"/>
+            </inputs>
+            <execute><![CDATA[
+    String.prototype.trim = function () {
+	    var	str = this.replace(/^\s\s*/, ''),
+	    ws = /\s/,
+	    i = str.length;
+	    while (ws.test(str.charAt(--i)));
+	    return str.slice(0, i + 1);
+    }
+
+    function multiply (str, num) {
+        return num ? Array(num + 1).join(str) : "";
+    }
+
+	var details = <details/>;
+	details.node += <id>{id}</id>;
+	details.node += <link>{request.url}/php/fiche/detail.php?f_id_diffusion={id}</link>;
+	
+	var xdata = y.query("select * from html where url='" + request.url + "/php/fiche/detail.php?f_id_diffusion=" + id + "' and xpath='//div[@class=\"global\"]'").results.children();
+
+	var zone_fiche_prog = xdata.div.(@["class"] == "zone_fiche_prog");
+
+	var titre_haut = zone_fiche_prog.div.(@["class"] == "titre_haut").p.text().match(/ à (.+) - (.+)/);
+	details.node += <time>{titre_haut[1]}</time>
+	details.node += <channel>{titre_haut[2]}</channel>
+
+	var fiche_prog = zone_fiche_prog.div.(@["class"] == "fiche_prog");
+
+	var img = fiche_prog.div.(@["class"] == "image").img.@src;
+   	if (img.length() != 0) {
+	    details.node += <image>{request.url + img}</image>;
+	}
+
+	var intro = fiche_prog.div.(@["intro"]).p.(@["class"] == "titre").text();
+	details.title += <title>{intro}</title>
+
+	var shortDescription;
+	if (fiche_prog.p[3] || fiche_prog.p[2]) {
+	    if (fiche_prog.p[3]) {
+            shortDescription = fiche_prog.p[3];
+            var description = fiche_prog.p[4]
+            if (description) {
+                details.node += <longDescription>{description.text().toString().replace(/\n/g," ")}</longDescription>;
+            }
+	    }
+	    else {
+	        shortDescription = fiche_prog.p[2];
+	    }
+	    var actors = fiche_prog.p[0]
+        if (actors) {
+            var actors_ = <actors/>;
+            actors = actors.substr(7).split(/,/);
+            for (var i=0; i<actors.length; i++) {
+                actors_.node += <actor>{actors[i].trim().replace(/\n/," ")}</actor>;
+            }
+            details.node += actors_;
+	    }
+	}
+	else if (fiche_prog.p[1]) {
+	    shortDescription = fiche_prog.p[1];
+	}
+	else if (fiche_prog.p[0]) {
+	    shortDescription = fiche_prog.p[0];
+	}
+	if (shortDescription) {
+	    details.node += <shortDescription>{shortDescription.text().toString().replace(/\n/g," ")}</shortDescription>;
+	}
+
+	info = fiche_prog.div.(@["class"] == "intro").p[1].text().toString().replace(/\n/g," ");
+	info = info.replace(/\ufffd/g,"é"); // Fix incorrect encoding for durée 
+	
+    details.node += <info>{info}</info>
+    if (info.indexOf("16/9") > 0) {
+        details.node += <ratio>16:9</ratio>;
+    }
+    if (info.indexOf("Stéréo") > 0) {
+        details.node += <stereo>true</stereo>;
+    }
+    if (info.indexOf("Dolby") > 0) {
+        details.node += <dolby>true</dolby>;
+    }
+    var rating = info.match(/Interdit aux moins de (\d+) ans[.]/)
+    if (rating) {
+        details.node += <rating>{rating[1]}</rating>;
+    }
+    var duree = info.match(/(\d+) mn[.]/)
+    if (duree) {
+        details.node += <runtime>{duree[1]}</runtime>;
+    }
+	
+	var star = 0;
+	var zone_avis_prog = zone_fiche_prog.div.(@["class"] == "zone_avis_prog")
+	if (zone_avis_prog) {
+	   for each (var img in zone_avis_prog.div.p.img) {
+			if (img.@src.match(/.*on.*/)) {
+				star++;
+			}
+	   }
+	}
+	if (star > 0) {
+	   details.node += <advise>{star}</advise>;
+	   details.node += <star>{multiply("*",star)}</star>;
+    }
+
+	var detail_prog = xdata.div.(@["class"] == "zone_detail_prog").div.(@["class"] == "detail_prog").children().text().toString();
+	
+	var year = detail_prog.match(/Année : (\d+)\n/);
+	if (year) {
+		details.node += <year>{year[1]}</year>;
+	}
+	
+	var country = detail_prog.match(/Origine : (.+)\n/);
+	if (country) {
+		details.node += <country>{country[1]}</country>;
+	}
+	
+	var director = detail_prog.match(/Réalisateur : (.+)\n/);
+	if (director) {
+		details.node += <director>{director[1]}</director>;
+	}
+	
+	var originalTitle = detail_prog.match(/Titre original : (.+)\n/);
+	if (originalTitle) {
+		details.node += <originalTitle>{originalTitle[1]}</originalTitle>;
+	}
+
+	//details.node += <debug>{xdata}</debug>;
+
+	response.object = details;
+]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
+

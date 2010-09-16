@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>fred.ac</author>
+        <description>Cinetelerevue programs</description>
+        <sampleQuery><![CDATA[
+        select * from programs where channel=164 and date="2010-08-15";
+        ]]></sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="programs.program" produces="XML">
+            <urls>
+                <url>http://cinetelerevue.lesagencestv.com</url>
+            </urls>
+            <inputs>
+                <key id="date" type="xs:string" required="true" paramType="variable"/>
+                <key id="channel" type="xs:int" required="true" paramType="variable"/>
+            </inputs>
+            <execute><![CDATA[
+    String.prototype.trim = function () {
+	    var	str = this.replace(/^\s\s*/, ''),
+	    ws = /\s/,
+	    i = str.length;
+	    while (ws.test(str.charAt(--i)));
+	    return str.slice(0, i + 1);
+    }
+
+	var data = y.rest(request.url + "/php/grille/ajaxGrille.php")
+	        .accept('text/html')
+	        .contentType("application/x-www-form-urlencoded")
+	        .post("f_ChoixJour="+ date + "&grille[listeChaine]=" + channel)
+	        .response;
+	
+	
+	if (data == null) {
+		y.log("no response from cinetelerevue");
+		exit(0);
+	}
+
+	var programs = <programs></programs>;
+
+	var headDiffusionId = 0;
+	var headImage;
+    var xdata = y.xpath(data, "//div[@class='infos']/a/@href");
+	if (xdata) {
+	    headDiffusionId = xdata.text().toString().match(/(\d+)/);
+	    if (headDiffusionId) {
+			headDiffusionId=headDiffusionId[1];
+	    }
+	    xdata = y.xpath(data, "//div[@class='grillePtImage']/img/@src");
+	    if (xdata && !xdata.text().toString().equals("")) {
+	        headImage = xdata.text();
+        }
+    }
+
+    var channel = y.xpath(data, "//div[@class='left']/p").text();
+
+    xdata = y.xpath(data, "//div[@class='grilleProg']");
+	for each (var h in xdata) {
+
+	    var program = <program/>;
+
+		program.node += <channel>{channel}</channel>
+		
+	    var horaire = h.div.(@["class"] == "horaire").p.text().toString();
+	    if (horaire != "") {
+		    program.node += <time>{horaire}</time>
+     	
+			var detail = h.div.(@["class"] == "detail")
+		
+			var diffusionId = detail.p.a.@href.text().toString().match(/(\d+)/);
+		    if (diffusionId) { 
+		        diffusionId = diffusionId[1];
+		        if (diffusionId == headDiffusionId) {
+					program.node += <head>true</head>
+					if (headImage) {
+					    program.node += <image>{request.url}{headImage}</image>
+					}
+		        }
+		        program.node += <id>{diffusionId}</id>
+		        program.node += <link>{request.url}/php/fiche/detail.php?f_id_diffusion={diffusionId}</link>;
+		    }
+		
+		    program.node += <title>{detail.p.a.text().toString().replace(/\n\s*/g," ")}</title>
+
+		    if (detail.p[1]) {
+		        var type = detail.p[1].img.@src.text().toString().match(/label_(.+)[.]/);
+		        if (type) {
+		            type = type[1];
+		            switch (type) {
+		                case "film":
+		                    program.node += <type>Film</type>
+		                    break;
+			            case "mag":
+			                program.node += <type>Magazine</type>
+			                break;
+				        case "sport":
+				            program.node += <type>Sport</type>
+				            break;
+					    case "serie":
+                            program.node += <type>Série</type>
+					        break;
+						case "telefilm":
+						    program.node += <type>Téléfilm</type>
+						    break;
+						case "musique":
+						    program.node += <type>Musique</type>
+						    break;
+						case "docu":
+						    program.node += <type>Documentaire</type>
+						    break;
+						case "jeune":
+						    program.node += <type>Jeunesse</type>
+						    break;
+		            }
+		        }
+		    }
+
+		    if (detail.p[2]) {
+		        program.node += <description>{detail.p[2].text().toString().replace(/\n\s*/g," ")}</description>
+		    }
+
+		    programs.node += program;
+		}
+	}
+	response.object = programs;
+]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
+
