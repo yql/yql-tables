@@ -107,7 +107,7 @@
         var editioncode = edition.code.(@service == service.name.toString()).toString();
         var queryoutput = '';
         var output = '';
-        for each (var biblerefxml in biblerefsxml) {
+        for (var biblerefxml in biblerefsxml) {
           debug && y.log(biblerefxml);
           var url = '';
           var finalquery = '';
