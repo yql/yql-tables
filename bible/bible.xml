@@ -182,6 +182,7 @@
               for each (var input in edition.input.(@name != 'true')) {
                 value += input.toString();
                 value += ",";
+          var test;
               }
               value = value.replace(/,$/,'');
               value += ")";
@@ -200,7 +201,6 @@
           phrase = phrase.replace('-','');
           var phrases = new Array();
           var remainingpassage = passage;
-          var test;
           while (remainingpassage.length > 0) {
             var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|;/);
             if (search < 0) {
