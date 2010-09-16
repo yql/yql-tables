@@ -20,6 +20,7 @@
         <key id="bibleref" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
+        var debug = 1;
         if (!edition && !language) {
           language = "en";
         }
@@ -50,7 +51,7 @@
           y.log('Copyright: ');
           y.log(edition.copyright.toString());
         }
-        //y.log(edition);
+        debug && y.log(edition);
         var biblerefsxml;
         if (!bibleref) {
           if (!book && !chaper) {
@@ -88,7 +89,7 @@
             y.exit();
         }
         book = books.book[0];
-        //y.log(book);
+        debug && y.log(book);
         var servicesquery = 'select service from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/services.xml" and service.name matches "(?i)$service"';
         servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
         var services = y.query(servicesquery).results.services;
@@ -98,7 +99,7 @@
             y.exit();
         }
         service = services.service[0];
-        //y.log(service);
+        debug && y.log(service);
         var bookcode = book.code.(@service == service.name.toString()).toString();
         var editioncode = edition.code.(@service == service.name.toString()).toString();
         var queryoutput = '';
@@ -118,7 +119,7 @@
                 var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true';
                 rest = rest.replace("$query",escape(query));
                 url = rest;
-                //y.log(url);
+                debug && y.log(url);
               } else { // rest call
                 var rest = step.toString();
                 rest = rest.replace(/\$book/g,escape(bookcode));
@@ -127,7 +128,7 @@
                 rest = rest.replace(/\$passage/g,escape(biblerefxml.passage.toString()));
                 rest = rest.replace(/\$url/g,escape(url));
                 url = rest;
-                //y.log(url);
+                debug && y.log(url);
               }
             } else { // last step is always yql query
                 finalquery = step.toString();
@@ -136,7 +137,7 @@
                 finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter.toString());
                 finalquery = finalquery.replace(/\$passage/g,biblerefxml.passage.toString());
                 finalquery = finalquery.replace(/\$url/g,url);
-                //y.log(finalquery);
+                debug && y.log(finalquery);
             }
           }
           queryoutput = y.query(finalquery).results.toString();
