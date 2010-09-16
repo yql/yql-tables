@@ -108,6 +108,7 @@
         var queryoutput = '';
         var output = '';
         for each (var biblerefxml in biblerefsxml) {
+          debug && y.log(biblerefxml);
           var url = '';
           var finalquery = '';
           for each (var step in service.step) {
