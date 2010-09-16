@@ -210,7 +210,8 @@
               remainingpassage = remainingpassage.substr(search+1);
             }
           }
-          var index = 'abcdefghijkl'.indexOf(phrase);
+          var alphabet = "abcdefghijkl";
+          var index = alphabet.indexOf(phrase);
           var i = 0;
           var result = '';
           for each (var p in phrases) {
