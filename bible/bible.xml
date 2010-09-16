@@ -201,8 +201,9 @@
           var phrases = new Array();
           var remainingpassage = passage;
           while (remainingpassage.length > 0) {
-            var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|\;/);
+            var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|;/);
             if (search < 0) {
+            
               phrases.push(remainingpassage);
               remainingpassage = "";
             } else {
