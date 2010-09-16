@@ -21,6 +21,7 @@
       </inputs>
       <execute><![CDATA[ 
       var test;
+      test = 1+2;
         if (!edition && !language) {
           language = "en";
         }
