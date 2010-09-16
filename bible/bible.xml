@@ -216,8 +216,8 @@
               phrases.push(remainingpassage);
               remainingpassage = "";
             } else {
-              phrases.push(remainingpassage.slice(0,search).trim());
-              remainingpassage = remainingpassage.substr(search+1).trim();
+              phrases.push(remainingpassage.slice(0,search+2).trim());
+              remainingpassage = remainingpassage.substr(search+2).trim();
             }
             debug && y.log(phrases[phrases.length-1]);
           }
