@@ -142,12 +142,14 @@
             }
           }
           queryoutput = stringListValue(y.query(finalquery).results);
+          debug && y.log(queryoutput);
           if (biblerefxml.phrase != '') {
             queryoutput = extractPhrase(queryoutput,biblerefxml.phrase.toString());
           }
+          debug && y.log(queryoutput);
           output += queryoutput + ' ';
         }
-        response.object = <passage>{queryoutput}</passage>;    
+        response.object = <passage>{output}</passage>;    
       
 
         function stringValue(node) {
