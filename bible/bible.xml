@@ -200,7 +200,7 @@
         function extractPhrase(passage,phrase) {
           String.prototype.trim = function() {
             // Strip leading and trailing white-space
-            return this.replace(/^[[:space:]]*|[[:space:]]*$/g, "");
+            return this.replace(/^[ ]*|[ ]*$/g, "");
           }
           var before = phrase.match(/^-/);
           var after = phrase.match(/-$/);
