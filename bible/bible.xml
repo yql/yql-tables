@@ -200,7 +200,7 @@
         function extractPhrase(passage,phrase) {
           String.prototype.trim = function() {
             // Strip leading and trailing white-space
-            return this.replace(/^[:space:]*|[:space:]*$/g, "");
+            return this.replace(/^[[:space:]]*|[[:space:]]*$/g, "");
           }
           var before = phrase.match(/^-/);
           var after = phrase.match(/-$/);
@@ -210,14 +210,14 @@
           while (remainingpassage.length > 0) {
             y.log(remainingpassage.length);
             y.log(remainingpassage);
-            var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|;/);
+            var search = remainingpassage.search(/[.!?]["' ,]*[[:upper:]]|;/);
             y.log(search);
             if (search < 0) {
               phrases.push(remainingpassage);
               remainingpassage = "";
             } else {
               phrases.push(remainingpassage.slice(0,search+2).trim());
-              remainingpassage = remainingpassage.substr(search+2).trim();
+              remainingpassage = remainingpassage.substr(search+1).trim();
             }
             debug && y.log(phrases[phrases.length-1]);
           }
