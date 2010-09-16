@@ -202,15 +202,13 @@
             // Strip leading and trailing white-space
             return this.replace(/^[ ]*|[ ]*$/g, "");
           }
-          var before = phrase.match(/^-/);
-          var after = phrase.match(/-$/);
           phrase = phrase.replace('-','');
           var phrases = new Array();
           var remainingpassage = passage.trim();
           while (remainingpassage.length > 0) {
             y.log(remainingpassage.length);
             y.log(remainingpassage);
-            var search = remainingpassage.search(/[.!?]["' ,]*[[:upper:]]|;/);
+            var search = remainingpassage.search(/[.!?]["' ,]*[[A-Z]]|;/);
             y.log(search);
             if (search < 0) {
               phrases.push(remainingpassage);
@@ -224,6 +222,8 @@
           var index = "abcdefghijkl".indexOf(phrase);
           var i = 0;
           var result = '';
+          var before = phrase.match(/^-/);
+          var after = phrase.match(/-$/);
           for each (var p in phrases) {
             var b;
             b = (i == index);
