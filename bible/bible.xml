@@ -201,7 +201,7 @@
           var phrases = new Array();
           var remainingpassage = passage;
           while (remainingpassage.length > 0) {
-            var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|;/);
+            var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|\;/);
             if (search < 0) {
               phrases.push(remainingpassage);
               remainingpassage = "";
@@ -210,8 +210,7 @@
               remainingpassage = remainingpassage.substr(search+1);
             }
           }
-          var alphabet = "abcdefghijkl";
-          var index = alphabet.indexOf(phrase);
+          var index = "abcdefghijkl".indexOf(phrase);
           var i = 0;
           var result = '';
           for each (var p in phrases) {
