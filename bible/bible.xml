@@ -229,6 +229,7 @@
             b = (i == index);
             b = b || (before && i < index);
             b = b || (after && i > index);
+            debug && y.log(b);
             if (b) {
               result += (p + ' ');
             }
