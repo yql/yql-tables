@@ -32,7 +32,7 @@
 	    <key id="longitude" type="xs:string" paramType="query" required="false" />
 	    <key id="radius" type="xs:string" paramType="query" required="false" />
 	    <key id="place" type="xs:string" paramType="query" required="false" />
-	    <key id="orderby" type="xs;string" paramType="query" required="false" />
+	    <key id="orderby" type="xs:string" paramType="query" required="false" />
         </inputs>
     </select>
 </bindings>
