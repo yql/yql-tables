@@ -198,6 +198,10 @@
         }
 
         function extractPhrase(passage,phrase) {
+          String.prototype.trim = function() {
+            // Strip leading and trailing white-space
+            return this.replace(/^[:space:]*|[:space:]*$/g, "");
+          }
           var before = phrase.match(/^-/);
           var after = phrase.match(/-$/);
           phrase = phrase.replace('-','');
@@ -206,11 +210,11 @@
           while (remainingpassage.length > 0) {
             var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|;/);
             if (search < 0) {
-              phrases.push(remainingpassage);
+              phrases.push(remainingpassage.trim());
               remainingpassage = "";
             } else {
-              phrases.push(remainingpassage.slice(0,search));
-              remainingpassage = remainingpassage.substr(search+1);
+              phrases.push(remainingpassage.slice(0,search).trim());
+              remainingpassage = remainingpassage.substr(search+1).trim();
             }
             debug && y.log(phrases[phrases.length-1]);
           }
