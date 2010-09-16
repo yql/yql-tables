@@ -223,7 +223,9 @@
           var i = 0;
           var result = '';
           var before = phrase.match(/^-/);
+          debug && y.log("before");
           var after = phrase.match(/-$/);
+          debug && y.log("after");
           for each (var p in phrases) {
             var b;
             b = (i == index);
