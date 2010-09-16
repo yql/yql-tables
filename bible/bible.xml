@@ -150,7 +150,7 @@
           output += (queryoutput + ' ');
         }
         response.object = <passage>{output}</passage>;    
-      
+
 
         function stringValue(node) {
             var value = "";
@@ -163,7 +163,7 @@
             }
             return value;
         }
-        
+
         function stringListValue(node) {
             var value = "";
             if (node.hasSimpleContent()) {
@@ -223,9 +223,9 @@
           var i = 0;
           var result = '';
           var before = phrase.match(/^-/);
-          debug && y.log("before");
+          debug && y.log("before: " + before);
           var after = phrase.match(/-$/);
-          debug && y.log("after");
+          debug && y.log("after: " + after);
           for each (var p in phrases) {
             var b;
             b = (i == index);
