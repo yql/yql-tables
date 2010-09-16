@@ -20,6 +20,7 @@
         <key id="bibleref" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
+      var test;
         if (!edition && !language) {
           language = "en";
         }
@@ -182,7 +183,6 @@
               for each (var input in edition.input.(@name != 'true')) {
                 value += input.toString();
                 value += ",";
-          var test;
               }
               value = value.replace(/,$/,'');
               value += ")";
@@ -204,7 +204,6 @@
           while (remainingpassage.length > 0) {
             var search = remainingpassage.search(/[.!?]["' ,]*[:upper:]|;/);
             if (search < 0) {
-              test;
               phrases.push(remainingpassage);
               remainingpassage = "";
             } else {
