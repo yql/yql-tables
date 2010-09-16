@@ -230,10 +230,11 @@
             b = b || (before && i < index);
             b = b || (after && i > index);
             if (b) {
-              result += p;
+              result += (p + ' ');
             }
             i++;
           }
+          return result;
         }
 
       ]]></execute>
