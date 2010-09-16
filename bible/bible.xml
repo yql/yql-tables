@@ -141,13 +141,13 @@
                 debug && y.log(finalquery);
             }
           }
-          queryoutput = y.query(finalquery).results.toString();
+          queryoutput = stringListValue(y.query(finalquery).results);
           if (biblerefxml.phrase != '') {
             queryoutput = extractPhrase(queryoutput,biblerefxml.phrase.toString());
           }
           output += queryoutput + ' ';
         }
-        response.object = <passage>{stringListValue(queryoutput)}</passage>;    
+        response.object = <passage>{queryoutput}</passage>;    
       
 
         function stringValue(node) {
@@ -170,7 +170,6 @@
                 for each (var c in node.children()) {
                     value += stringValue(c) + " ";
                 }
-                value = value.replace(/, $/,'');
             }
             return value;
         }
