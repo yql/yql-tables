@@ -20,6 +20,11 @@
         <key id="bibleref" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
+        String.prototype.trim = function() {
+          // Strip leading and trailing white-space
+          return this.replace(/^[ ]*|[ ]*$/g, "");
+        }
+      
         var debug = 1;
         if (!edition && !language) {
           language = "en";
@@ -141,7 +146,7 @@
                 debug && y.log(finalquery);
             }
           }
-          queryoutput = new String(stringListValue(y.query(finalquery).results));
+          queryoutput = stringListValue(y.query(finalquery).results);
           queryoutput = queryoutput.trim();
           var verseIndication = queryoutput.match(/^[0-9]+/);
           if ( verseIndication && verseIndication[0] === biblerefxml.verse.toString()) {
@@ -208,11 +213,6 @@
           }
           value = value.replace(/, $/,'');
           return value;
-        }
-
-        String.prototype.trim = function() {
-          // Strip leading and trailing white-space
-          return this.replace(/^[ ]*|[ ]*$/g, "");
         }
 
         function extractPhrase(passage,phrase) {
