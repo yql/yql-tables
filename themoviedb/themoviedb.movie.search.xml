@@ -7,13 +7,12 @@
     <sampleQuery>select * from {table} where api_key='yourkeygoeshere' and movie='Unforgiven'</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="//movies" produces="XML">
         <urls>
-            <url>http://api.themoviedb.org/2.1/Movie.search/{lang}/{type}/{api_key}/{movie}</url>
+            <url>http://api.themoviedb.org/2.1/Movie.search/{lang}/xml/{api_key}/{movie}</url>
         </urls>
         <inputs>
 			<key type="xs:string" paramType="path" default="en" id="lang" />
-			<key type="xs:string" paramType="path" default="xml" id="type" />
 			<key type="xs:string" paramType="path" private="true" id="api_key" />
             <key type="xs:string" paramType="path" id="movie" />
 		</inputs>

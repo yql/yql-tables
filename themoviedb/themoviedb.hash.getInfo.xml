@@ -7,13 +7,12 @@
     <sampleQuery>select * from {table} where api_key='yourkeygoeshere' and hash='00277ff46533b155'</sampleQuery>
 </meta>
 <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="//movie" produces="XML">
         <urls>
-            <url>http://api.themoviedb.org/2.1/Hash.getInfo/{lang}/{type}/{api_key}/{hash}</url>
+            <url>http://api.themoviedb.org/2.1/Hash.getInfo/{lang}/xml/{api_key}/{hash}</url>
         </urls>
         <inputs>
 			<key type="xs:string" paramType="path" default="en" id="lang" />
-			<key type="xs:string" paramType="path" default="xml" id="type" />
 			<key type="xs:string" paramType="path" private="true" id="api_key" />
             <key type="xs:string" paramType="path" id="hash" />
 		</inputs>
