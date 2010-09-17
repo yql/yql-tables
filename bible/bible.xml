@@ -141,7 +141,11 @@
                 debug && y.log(finalquery);
             }
           }
-          queryoutput = stringListValue(y.query(finalquery).results);
+          queryoutput = stringListValue(y.query(finalquery).results).trim();
+          var verseIndication = queryoutput.match(/^[0-9]+/);
+          if ( verseIndication.length && verseIndication[0] === biblerefxml.verse.toString()) {
+            queryoutput = queryoutput.replace(/^[0-9]+/,'');
+          }
           debug && y.log(queryoutput);
           if (biblerefxml.phrase != '') {
             queryoutput = extractPhrase(queryoutput,biblerefxml.phrase.toString());
@@ -149,7 +153,15 @@
           debug && y.log(queryoutput);
           output += (queryoutput + ' ');
         }
-        response.object = <passage>{output}</passage>;    
+        output = output.trim();
+        var punctuation = output.match(/[.?!,:;]$/);
+        if (punctuation.length == 0) {
+          output += '.';
+        }
+        else if (punctuation[0].match(/[,:;]/)) {
+          output = output.replace(/[,:;]$/,'.');
+        }
+        response.object = <passage>{output}</passage>;
 
 
         function stringValue(node) {
@@ -197,11 +209,12 @@
           return value;
         }
 
+        String.prototype.trim = function() {
+          // Strip leading and trailing white-space
+          return this.replace(/^[ ]*|[ ]*$/g, "");
+        }
+
         function extractPhrase(passage,phrase) {
-          String.prototype.trim = function() {
-            // Strip leading and trailing white-space
-            return this.replace(/^[ ]*|[ ]*$/g, "");
-          }
           phrase = phrase.replace('-','');
           var phrases = new Array();
           var remainingpassage = passage.trim();
