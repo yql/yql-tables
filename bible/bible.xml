@@ -102,12 +102,12 @@
         debug && y.log(service);
         var bookcode = book.code.(@service == service.name.toString()).toString();
         var editioncode = edition.code.(@service == service.name.toString()).toString();
-        var queryoutput = '';
-        var output = '';
+        var queryoutput = new String();
+        var output = new String();
         for each (var biblerefxml in biblerefsxml.*) {
           debug && y.log(biblerefxml);
-          var url = '';
-          var finalquery = '';
+          var url = new String();
+          var finalquery = new String();
           for each (var step in service.step) {
             if (step.@nr < service.step.length()) { 
               if (step.@yql.toString() == "true") { // yql query
@@ -166,7 +166,7 @@
 
 
         function stringValue(node) {
-            var value = "";
+            var value = new String();
             if (node.hasSimpleContent()) {
                 value = node.toString();
             } else {
@@ -178,7 +178,7 @@
         }
 
         function stringListValue(node) {
-            var value = "";
+            var value = new String();
             if (node.hasSimpleContent()) {
                 value = node.toString();
             } else {
@@ -190,7 +190,7 @@
         }
 
         function listEditions(node) {
-          var value = "";
+          var value = new String();
           for each (var edition in node.children()) {
             value += edition.input.(@name == 'true').toString();
             if (edition.input.(@name != 'true').length() > 0) {
@@ -235,7 +235,7 @@
           }
           var index = "abcdefghijkl".indexOf(phrase);
           var i = 0;
-          var result = '';
+          var result = new String();
           var before = phrase.match(/^-/);
           debug && y.log("before: " + before);
           var after = phrase.match(/-$/);
