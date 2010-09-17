@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>David Robarts</author>
+    <description>TheMovieDB get list of Genres</description>
+    <documentationURL>http://api.themoviedb.org/2.1/methods/Movie.browse</documentationURL>
+    <sampleQuery>select * from {table}</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="//genre" produces="XML">
+        <urls>
+            <url>http://api.themoviedb.org/2.1/Movie.browse/{lang}/xml/{api_key}</url>
+        </urls>
+        <inputs>
+			<key id="lang" type="xs:string" paramType="path" default="en" />
+			<key id="api_key" type="xs:string" paramType="path" private="true" />
+		</inputs>
+    </select>
+</bindings>
+</table>
