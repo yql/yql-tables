@@ -214,15 +214,21 @@
           {
             throw("Fallback: Invalid bible chapter range");
           }
+          debug && y.log("iterating chapters " + begin.chapter + " to " + end.chapter); 
           for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
           {
             var number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
             var chapterbeginversenumber = chapter==begin.chapter?begin.verse.number:1;
             var chapterendversenumber = chapter==end.chapter?end.verse.number:number_of_verses;
-            debug &&  y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); 
+            if (chapterbeginversenumber > chapterendversenumber)
+            {
+              throw("Fallback: Invalid bible verse range");
+            }
+            debug && y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); 
             for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
             {
-              if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) {
+              if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) 
+              {
                 if (!begin.verse.phrase != !end.verse.phrase) /* implementation of XOR */ 
                 {
                   throw("Fallback: Invalid reference; to indicate a range within a verse: Ester 8:9a-9b");
