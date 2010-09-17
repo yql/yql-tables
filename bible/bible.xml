@@ -141,7 +141,8 @@
                 debug && y.log(finalquery);
             }
           }
-          queryoutput = stringListValue(y.query(finalquery).results).trim();
+          queryoutput = stringListValue(y.query(finalquery).results);
+          queryoutput = queryoutput.trim();
           var verseIndication = queryoutput.match(/^[0-9]+/);
           if ( verseIndication.length && verseIndication[0] === biblerefxml.verse.toString()) {
             queryoutput = queryoutput.replace(/^[0-9]+/,'');
