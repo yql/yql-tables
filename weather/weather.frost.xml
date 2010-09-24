@@ -17,7 +17,7 @@
     var query = "select * from xml where url='$url'";
     query = query.replace(/\$url/,url);
     xml = y.query(query).results.*;
-    // y.log(xml);
+    y.log(xml);
     var seq = new String();
     for each (var lowtemp in xml..forecast_conditions.low.@data) {
       seq += (lowtemp > 32 ? '+' : '-');
