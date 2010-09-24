@@ -13,7 +13,7 @@
   <execute>
   <![CDATA[ 
     var url = "http://www.google.com/ig/api?weather=$location";
-    url = url.replace(/\$location/,encode-for-uri(location));
+    url = url.replace(/\$location/,encodeURI(location));
     var query = "select * from xml where url='$url'";
     query = query.replace(/\$url/,url);
     xml = y.query(query).results.*;
