@@ -1,0 +1,53 @@
+<?xml version="1.0" ?> 
+  <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  <author>Vic Mortelmans</author> 
+  <description>Weather - frost alert</description> 
+  <documentationURL></documentationURL> 
+  </meta>
+  <bindings>
+  <select produces="XML" itemPath="">
+  <inputs>
+  <key id="location" type="xs:string" paramType="query" required="true" /> 
+  </inputs>
+  <execute>
+  <![CDATA[ 
+    var url = "http://www.google.com/ig/api?weather=$location";
+    url = url.replace(/\$location/,encode-uri(location));
+    var query = "select * from xml where url='$url'";
+    query = query.replace(/\$url/,url);
+    xml = y.query(query).results.*;
+    y.log(xml);
+    var seq = new String();
+    for each (var lowtemp in xml..forecast_conditions.low.@data) {
+      seq += (lowtemp > 32 ? '+' : '-');
+    }
+    seq = seq.substr(0,3);
+    var output = new String();
+    switch (seq) {
+    case "+++":
+      output = "Aanhoudende dooi in $location";
+      break;
+    case "++-":
+      output = "Overmorgen gaat het vriezen in $location";
+      break;
+    case "+-+":
+    case "+--":
+      output = "Morgen gaat het vriezen in $location";
+      break;
+    case "---":
+    case "-+-":
+    case "--+":
+      output = "Aanhoudende vorst in $location";
+      break;
+    case "-++":
+      output = "Morgen dooit het in $location";
+      break;
+    }
+    output = output.replace(/\$location/,location);
+    response.object = <frost>{output}</frost>;
+  ]]> 
+  </execute>
+  </select>
+  </bindings>
+  </table>
