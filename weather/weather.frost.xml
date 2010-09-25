@@ -53,7 +53,7 @@
       break;
     }
     output = output.replace(/\$location/,location);
-    query = "select * from google.translate where q='$text' and target='$language'";
+    query = "use 'http://www.datatables.org/google/google.translate.xml' as google.translate;select * from google.translate where q='$text' and target='$language'";
     query = query.replace(/\$text/,output);
     query = query.replace(/\$language/,language);
     output = y.query(query).results.translatedText.toString();
