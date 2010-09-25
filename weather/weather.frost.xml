@@ -26,7 +26,7 @@
     y.log(xml);
     var seq = new String();
     //for each (var lowtemp in xml..forecast_conditions.low.@data) {
-    for each (var lowtemp in xml..tempMinC) {
+    for each (var lowtemp in xml) {
       //seq += (lowtemp > 32 ? '+' : '-');
       seq += (lowtemp > 0 ? '+' : '-');
     }
