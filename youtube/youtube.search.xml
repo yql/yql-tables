@@ -34,13 +34,9 @@
       				categories = <categories></categories>,
       				tags = <tags></tags>,
       				thumbnails = <thumbnails></thumbnails>,
-      				files = <files></files>,
-  			      id, id_parts;
+      				files = <files></files>;
   			    
-  			    id_parts = video_entry.atom::id.toString().split(':');
-  			    id = id_parts[id_parts.length-1];
-  			    
-    			  video.appendChild( <id>{id}</id> );
+    			  video.appendChild( <id>{video_entry.media::group.yt::videoid.toString()}</id> );
             video.appendChild( <url>{video_entry.media::group.media::player.@url}</url> );
             video.appendChild( <title>{video_entry.atom::title.toString()}</title> );
             video.appendChild( <content>{video_entry.media::group.media::description.toString()}</content> );
