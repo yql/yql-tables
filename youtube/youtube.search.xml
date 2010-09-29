@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
+    <sampleQuery>select * from {table} where query='basketball'</sampleQuery>
+    <sampleQuery>select * from {table} where query='basketball' and start_index=11 and max_results=10</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="results.video" produces="XML">
+      <urls>
+        <url>http://gdata.youtube.com/feeds/api/videos</url>
+      </urls>
+      <inputs>
+        <key id="q" as="query" type="xs:string" paramType="query" required="true" />
+        <key id="start-index" as="start_index" type="xs:integer" paramType="query" required="false" />
+        <key id="max-results" as="max_results" type="xs:integer" paramType="query" required="false" />
+        <key private="true" id="v" type="xs:integer" default="2" paramType="query"/>
+      </inputs>
+      <execute><![CDATA[
+        var atom = Namespace("http://www.w3.org/2005/Atom");
+        var media = Namespace("http://search.yahoo.com/mrss/");
+        var gd = Namespace("http://schemas.google.com/g/2005");
+        var yt = Namespace("http://gdata.youtube.com/schemas/2007");
+        
+    		var xml = request.get().response,
+  			 	results = <results></results>,
+  				video = <video></video>,
+  				categories = <categories></categories>,
+  				tags = <tags></tags>,
+  				thumbnails = <thumbnails></thumbnails>,
+  				files = <files></files>;
+  			
+  			if (xml) {
+  			  for each(video_entry in xml.entry){
+  			    id = video_entry.id.toString();
+  			    id_parts = id.split(':');
+  			    video_id = id_parts[id_parts.length-1];
+  			    
+    			  video.appendChild( <id>{video_id}</id> );
+            video.appendChild( <url>{video_entry.media::group.media::player.@url}</url> );
+            video.appendChild( <title>{video_entry.atom::title.toString()}</title> );
+            video.appendChild( <content>{video_entry.atom::content.toString()}</content> );
+            video.appendChild( <author>{video_entry.atom::author.atom::name.toString()}</author> );
+            video.appendChild( <duration>{video_entry.media::group.yt::duration.@seconds}</duration> );
+            video.appendChild( <comment_count>{video_entry.gd::comments.gd::feedLink.@countHint}</comment_count> );
+        
+            for each(category in video_entry.media::group.media::category){
+              categories.appendChild( <category>{category.@label}</category> );
+            }
+            video.appendChild(categories);
+        
+            for each(tag in video_entry.media::group.media::keywords.split(',')){
+              tags.appendChild( <tag>{tag}</tag> );
+            }
+            video.appendChild(tags);
+        
+            for each(thumbnail in video_entry.media::group.media::thumbnail){
+              var t = <thumbnail>{thumbnail.@url}</thumbnail>;
+              t.@height = thumbnail.@height;
+              t.@width = thumbnail.@width;
+              t.@time = thumbnail.@time;
+              thumbnails.appendChild(t);
+            }
+            video.appendChild(thumbnails);
+        
+            for each(file in video_entry.media::group.media::content){
+              var f = <file>{file.@url}</file>;
+              f.@type = file.@type;
+              files.appendChild(f);
+            }
+            video.appendChild(files);
+        
+            results.appendChild(video);
+          }
+        }
+          			
+  			response.object = results;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
