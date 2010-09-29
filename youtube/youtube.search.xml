@@ -2,8 +2,10 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
+    <documentationURL>http://code.google.com/apis/youtube/2.0/developers_guide_protocol_api_query_parameters.html</documentationURL>
     <sampleQuery>select * from {table} where query='basketball'</sampleQuery>
     <sampleQuery>select * from {table} where query='basketball' and start_index=11 and max_results=10</sampleQuery>
+    <sampleQuery>select * from {table} where query='louis ck' and order_by='relevance'</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="results.video" produces="XML">
@@ -14,6 +16,7 @@
         <key id="q" as="query" type="xs:string" paramType="query" required="true" />
         <key id="start-index" as="start_index" type="xs:integer" paramType="query" required="false" />
         <key id="max-results" as="max_results" type="xs:integer" paramType="query" required="false" />
+        <key id="orderby" as="order_by" type="xs:string" default="relevance" paramType="query" required="false" />
         <key private="true" id="v" type="xs:integer" default="2" paramType="query"/>
       </inputs>
       <execute><![CDATA[
@@ -23,23 +26,24 @@
         var yt = Namespace("http://gdata.youtube.com/schemas/2007");
         
     		var xml = request.get().response,
-  			 	results = <results></results>,
-  				video = <video></video>,
-  				categories = <categories></categories>,
-  				tags = <tags></tags>,
-  				thumbnails = <thumbnails></thumbnails>,
-  				files = <files></files>;
+  			 	results = <results></results>;
   			
   			if (xml) {
-  			  for each(video_entry in xml.entry){
-  			    id = video_entry.id.toString();
-  			    id_parts = id.split(':');
-  			    video_id = id_parts[id_parts.length-1];
+  			  for each(video_entry in xml.atom::entry){
+  			    var video = <video></video>,
+      				categories = <categories></categories>,
+      				tags = <tags></tags>,
+      				thumbnails = <thumbnails></thumbnails>,
+      				files = <files></files>,
+  			      id, id_parts;
   			    
-    			  video.appendChild( <id>{video_id}</id> );
+  			    id_parts = video_entry.atom::id.toString().split(':');
+  			    id = id_parts[id_parts.length-1];
+  			    
+    			  video.appendChild( <id>{id}</id> );
             video.appendChild( <url>{video_entry.media::group.media::player.@url}</url> );
             video.appendChild( <title>{video_entry.atom::title.toString()}</title> );
-            video.appendChild( <content>{video_entry.atom::content.toString()}</content> );
+            video.appendChild( <content>{video_entry.media::group.media::description.toString()}</content> );
             video.appendChild( <author>{video_entry.atom::author.atom::name.toString()}</author> );
             video.appendChild( <duration>{video_entry.media::group.yt::duration.@seconds}</duration> );
             video.appendChild( <comment_count>{video_entry.gd::comments.gd::feedLink.@countHint}</comment_count> );
