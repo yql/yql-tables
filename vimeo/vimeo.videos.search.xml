@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
+    <documentationURL>http://vimeo.com/api/docs/methods/vimeo.videos.search</documentationURL>
+    <sampleQuery>select * from {table} where query='open hack day'</sampleQuery>
+    <sampleQuery>select * from {table} where query='louis ck' and page=1 and per_page=10</sampleQuery>
+    <sampleQuery>select * from {table} where query='steve jobs' and full_response='false'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="rsp.videos.video" produces="XML">
+      <urls>
+        <url>http://vimeo.com/api/rest/v2?method=vimeo.videos.search</url>
+      </urls>
+      <inputs>
+        <key id="query" type="xs:integer" paramType="query" required="true" />
+        <key id="page" type="xs:integer" paramType="query" required="false" />
+        <key id="per_page" type="xs:integer" paramType="query" required="false" />
+        <key id="full_response" type="xs:string" paramType="query" required="false" default="true" />
+      </inputs>
+    </select> 
+  </bindings>
+</table>
