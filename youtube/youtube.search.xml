@@ -3,9 +3,9 @@
   <meta>
     <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
     <documentationURL>http://code.google.com/apis/youtube/2.0/developers_guide_protocol_api_query_parameters.html</documentationURL>
-    <sampleQuery>select * from {table} where query='basketball'</sampleQuery>
+    <sampleQuery>select * from {table} where query='louis ck'</sampleQuery>
     <sampleQuery>select * from {table} where query='basketball' and start_index=11 and max_results=10</sampleQuery>
-    <sampleQuery>select * from {table} where query='louis ck' and order_by='relevance'</sampleQuery>
+    <sampleQuery>select * from {table} where query='apple' and order_by='relevance'</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="results.video" produces="XML">
