@@ -11,9 +11,9 @@
         <url>http://www.bungie.net/api/reach/reachapijson.svc/file/videos/{identifier}/{gamertag}/{iPage}</url>
       </urls>
       <inputs>
-        <key id="identifier" type="xs:string" const="true" private="true" paramType="query" default="" />
-        <key id="gamertag" type="xs:string" paramType="query" />
-        <key id="iPage" type="xs:string" paramType="query" />
+        <key id="identifier" type="xs:string" private="true" paramType="path" default="" />
+        <key id="gamertag" type="xs:string" paramType="path" />
+        <key id="iPage" type="xs:string" paramType="path" />
       </inputs>
     </select>
   </bindings>
