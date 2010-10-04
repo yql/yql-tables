@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xlmns="http://query.yahooapis.com/v1/schema/table.xsd">
-    <author>Bungie, LLC</author>
+    <author>Bungie, LLC (table definition by Tim Acheson: www.timacheson.com)</author>
     <documentationURL>http://www.haloreachapi.net/wiki/GetPlayerRenderedVideos</documentationURL>
     <sampleQuery>SELECT * FROM bungie.reach.videos WHERE gamertag=@gamertag AND iPage=0;</sampleQuery>
   <bindings>
