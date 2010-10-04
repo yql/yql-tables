@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <table xlmns="http://query.yahooapis.com/v1/schema/table.xsd">
-    <author>Bungie, LLC (table definition by Tim Acheson: www.timacheson.com)</author>
-    <documentationURL>http://www.haloreachapi.net/wiki/GetPlayerRenderedVideos</documentationURL>
-    <sampleQuery>SELECT * FROM bungie.reach.videos WHERE gamertag=@gamertag AND iPage=0;</sampleQuery>
-  <bindings>
-   <select itemPath="bungie.reach.videos" produces="JSON">
-      <urls>
-        <url env="all">http://www.bungie.net/api/reach/reachapijson.svc/file/videos/{identifier}/{gamertag}/{iPage}</url>
-      </urls>
-      <inputs>
-        <key id="identifier" type="xs:string" const="true" private="true" paramType="query" default="" />
-        <key id="gamertag" type="xs:string" paramType="query" />
-        <key id="iPage" type="xs:string" paramType="query" />
-      </inputs>
-      <paging model="page">
-        <start id="page" default="0" />
-        <pagesize id="per_page" max="10" />
-        <total default="10" />
-      </paging>
-    </select>
-  </bindings>
+	<author>Bungie, LLC (table definition by Tim Acheson: www.timacheson.com)</author>
+	<documentationURL>http://www.haloreachapi.net/wiki/GetPlayerRenderedVideos</documentationURL>
+	<sampleQuery>SELECT * FROM bungie.reach.videos WHERE gamertag=@gamertag AND iPage=0</sampleQuery>
+	<bindings>
+		<select itemPath="bungie.reach.videos" produces="JSON">
+			<urls>
+				<url env="all">http://www.bungie.net/api/reach/reachapijson.svc/file/videos/{identifier}/{gamertag}/{iPage}</url>
+			</urls>
+			<inputs>
+				<key id="identifier" type="xs:string" const="true" private="true" paramType="query" default="" />
+				<key id="gamertag" type="xs:string" paramType="query" />
+				<key id="iPage" type="xs:string" paramType="query" />
+			</inputs>
+			<paging model="page">
+				<start id="iPage" default="0" />
+				<pagesize id="iPages" max="10" />
+				<total default="10" />
+			</paging>
+		</select>
+	</bindings>
 </table>
