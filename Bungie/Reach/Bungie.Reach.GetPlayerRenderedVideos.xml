@@ -6,7 +6,7 @@
     <sampleQuery>SELECT * FROM bungie.reach.videos WHERE gamertag="cbjoe" AND iPage=0</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="bungie.reach.videos" produces="JSON">
+    <select itemPath="" produces="JSON">
       <urls>
         <url>http://www.bungie.net/api/reach/reachapijson.svc/file/videos/{identifier}/{gamertag}/{iPage}</url>
       </urls>
