@@ -7,7 +7,7 @@
     <sampleQuery>select * from {table};</sampleQuery>
 </meta>
 <bindings>
-   <select itemPath="" produces="JSON">
+   <select itemPath="json.items" produces="JSON">
         <urls>
             <url>http://www.christies.com/LotFinder/lf_search.aspx?action=refine&amp;intSaleID=22908&amp;num=330</url>
         </urls>
