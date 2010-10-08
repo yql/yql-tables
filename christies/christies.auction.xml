@@ -9,7 +9,7 @@
 <bindings>
    <select itemPath="json.items" produces="XML">
         <urls>
-            <url>http://www.christies.com/LotFinder/lf_search.aspx?action=refine&intSaleID=22908&num=330</url>
+            <url>http://www.christies.com/LotFinder/lf_search.aspx?action=refine&amp;intSaleID=22908&amp;num=330</url>
         </urls>
    </select>
 </bindings>
