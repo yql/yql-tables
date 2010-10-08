@@ -12,8 +12,8 @@
             <url>http://www.christies.com/LotFinder/lot_details.aspx</url>
         </urls>
 	<inputs>
-      	    <key name="intObjectID" type="xs:string" paramType="query" required="true" />
-	    <key name="xpath" type="xs:string" default="/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p" /> 
+      	    <key id="intObjectID" type="xs:string" paramType="query" required="true" />
+	    <key xpath="xpath" type="xs:string" default="/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p" paramType="variable"/> 
         </inputs>
    </select>
 </bindings>
