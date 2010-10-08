@@ -13,7 +13,7 @@
         </urls>
 	<inputs>
       	    <key id="intObjectID" type="xs:string" paramType="query" required="true" />
-	    <key xpath="xpath" type="xs:string" default="/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p" paramType="variable"/> 
+	    <key id="xpath" type="xs:string" default="/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p" paramType="variable"/> 
         </inputs>
    </select>
 </bindings>
