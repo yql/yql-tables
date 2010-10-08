@@ -7,7 +7,7 @@
     <sampleQuery>select * from {table} where intobjectID = 5358441 and xpath='/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p';</sampleQuery>
 </meta>
 <bindings>
-   <select itemPath="" produces="">
+   <select itemPath="" produces="HTML">
         <urls>
             <url>http://www.christies.com/LotFinder/lot_details.aspx</url>
         </urls>
