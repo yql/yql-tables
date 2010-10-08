@@ -4,7 +4,7 @@
     <author>Daniel Pett</author>
     <description>Search Christies auction</description>
     <documentationURL>http://www.finds.org.uk</documentationURL>
-    <sampleQuery>select * from {table} where intobjectID = 5358441 and xpath='/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p';</sampleQuery>
+    <sampleQuery>select * from {table} where intObjectID = 5358441 and xpath='/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p';</sampleQuery>
 </meta>
 <bindings>
    <select itemPath="" produces="XML">
@@ -13,7 +13,7 @@
         </urls>
 	<inputs>
       	    <key id="intObjectID" type="xs:string" paramType="query" required="true" />
-	    <key id="xpath" type="xs:string" default="/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p" paramType="variable"/> 
+	    <key id="xpath" type="xs:string" default="/html/body/div/div[2]/div/div/div/div/div[3]/ul[2]/li/p" paramType="variable" required="true"/> 
         </inputs>
    </select>
 </bindings>
