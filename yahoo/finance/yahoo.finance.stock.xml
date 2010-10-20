@@ -112,14 +112,18 @@
 	var m = mapref.match(/addr=([^&]+)&csz=([^&]+)&country=(.*)$/i);
 	if (m) {
 	    var address = m[1].replace(/%20/g, " ");
-
-	    csz = m[2].split(/\+/);
-	    var city = csz[0].replace(/%20/g, " ");
-	    var state = csz[1];
-	    var zip = csz[2];
-	    
 	    var country = m[3].replace(/%20/g, " ");
 
+	    var csz = m[2].replace(/%20/g, " ");
+	    var m2 = csz.match(/(.*?)\s+([a-z]+)\s+([-\d]+)$/i);
+	    if (m2) {
+		var city = m2[1];
+		var state = m2[2];
+		var zip = m2[3];
+	    } else {
+		var city = csz;
+	    }
+	    
 	    var address = 
 		<Address>
 		    <Street>{address}</Street>

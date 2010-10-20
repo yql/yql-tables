@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <description>GeoPlanet PlaceFinder table</description>
+<documentationURL>http://developer.yahoo.com/geo/placefinder/guide</documentationURL>
+    <sampleQuery>select * from {table} where text="sfo"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="ResultSet.Result" produces="XML">
+      <urls>
+        <url env="all">http://where.yahooapis.com/geocode?locale={lang}_{focus}</url>
+      </urls>
+      <paging model="offset" matrix="false">
+
+        <start id="start" default="0" />
+        <pagesize id="count" max="100" />
+        <total default="100" />
+      </paging>
+      <inputs>
+        <key id="house" type="xs:string" paramType="query" />
+        <key id="street" type="xs:string" paramType="query" />
+        <key id="unittype" type="xs:string" paramType="query" />
+        <key id="unit" type="xs:string" paramType="query" />
+
+        <key id="xstreet" type="xs:string" paramType="query" />
+        <key id="postal" type="xs:string" paramType="query" />
+        <key id="level4" type="xs:string" paramType="query" />
+        <key id="level3" type="xs:string" paramType="query" />
+        <key id="level2" type="xs:string" paramType="query" />
+        <key id="level1" type="xs:string" paramType="query" />
+        <key id="level0" type="xs:string" paramType="query" />
+        <key id="neighborhood" type="xs:string" paramType="query" />
+        <key id="city" type="xs:string" paramType="query" />
+
+        <key id="county" type="xs:string" paramType="query" />
+        <key id="state" type="xs:string" paramType="query" />
+        <key id="country" type="xs:string" paramType="query" />
+        <key id="lang" type="xs:string" paramType="path" default="en" />
+        <key id="focus" type="xs:string" paramType="path" default="US" />
+        <key id="q" type="xs:string" paramType="query" default="" />
+        <key id="offset" type="xs:integer" paramType="query" default="0" />
+        <key id="flags" type="xs:string" paramType="query" default="QRGSTX" />
+        <key id="gflags" type="xs:string" paramType="query" default="ACR" />
+        <key id="appid" type="xs:string" const="true" paramType="query" default="YD-bs4vWJU_JXrmPwSfQ8yStcfWoDA5n51J" />
+
+      </inputs>
+    </select>
+  </bindings>
+</table>

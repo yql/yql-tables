@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+  <meta>  
+    <author>Hank Marquardt</author>
+    <description>NOAA Storm Prediction Center Day 1 Outlook Data</description>
+    <sampleQuery>select * from {table} where areatype="TORNADO"</sampleQuery>  
+  </meta>  
+  <bindings>  
+   <select itemPath="" produces="XML">  
+      <urls>  
+        <url env="all">http://www.spc.noaa.gov/products/outlook/day1otlk.html</url>  
+      </urls>  
+      <inputs>  
+        <key id="areatype" type="xs:string" paramType="variable" required="false" />  
+        <key id="debug" type="xs:string" paramType="variable" required="false" />  
+      </inputs>  
+      <execute><![CDATA[
+        var spcurl = "http://www.spc.noaa.gov/products/outlook/day1otlk.html";
+        var spcbase = "http://www.spc.noaa.gov";
+        var spcxpath = "//pre/a";
+	var q = y.query('select * from html where url = @url and xpath = @xpath',{'url': spcurl, 'xpath': spcxpath});
+        
+        /*
+            This about killed me ... apparently response.object, does an internal call to xmlToJson on assignment
+            and that wasn't apparent to me, so I was flummoxed as to why my code wasn't working, the next line here solved
+            all that ... facepalm.   Oh and thank you to y.log which helped me figure that out.
+        */
+
+        var myresults = y.xmlToJson(q.results);
+        var dataurl = spcbase+myresults.results.a.href;
+        var dataReq = y.rest(dataurl);
+        var rawData = dataReq.get().response;
+
+        /*
+            At this point, we have the raw SPC data for the current 1 day outlook, what follows is regex magic
+            and not for the faint of heart.
+        */
+
+        // Isolate the percentage fields then strip the new lines
+        rawData=rawData.replace(/([0-9]\.[0-9]{2}|HIGH|MDT|SLGT|TSTM)/mg,'|$1|');
+        rawData=rawData.replace(/\n/mg,'');
+
+        // This gives us an array with each type isolated (ie TORNADO, HAIL, WIND)
+        var weatherArr = rawData.match(/\.\.\. (.+?) \.\.\.(.)+?&&/mg);
+
+	// Setup the output and log variables
+        var resultSet = [];
+        var resultIndex = 0;
+        var oLog = [];
+        var oLogIdx = 0;
+
+        for(var weatherType in weatherArr) {
+            wrkStr = weatherArr[weatherType];
+            wrkStr = wrkStr.replace(/^\.\.\. /,'');
+            wType = wrkStr.split(/ \.\.\./);
+            oType = wType[0];				// Output for 'type' eg. TORNADO, WIND
+            oData = wType[1];				// Data associated with type
+            wPcts = oData.match(/(\|[^\|]+\|)/g);	// Gets values of Percents
+            wPctsData = oData.split(/\|[^\|]+\|/g);	// Split data by Percents
+	    wPctsData.shift();				// Throw out first value of split
+            oLog[oLogIdx++] = {'wPctsData': wPctsData};
+            for(var i in wPcts) {
+                oPct = wPcts[i].replace(/\|/g,'');	// Percent value to be output 
+                wPctData = wPctsData[i].match(/[0-9]{8}/g);	// Grab all the lat/lon pairs
+                oLog[oLogIdx++] = {'wPctData': wPctData};
+                latlonSet = [];
+                latlonIndex = 0;
+                for(var j in wPctData) {
+                    wLatLon = wPctData[j].match(/[0-9]{4}/g);
+                    oLat = wLatLon[0]/100;
+                    oLon = wLatLon[1]/100*-1;   // Lon values are negative for US
+                    latlonSet[latlonIndex++] = {'lat': oLat, 'lon': oLon};
+                }
+	    if(areatype == oType || !areatype) {
+	      resultSet[resultIndex++] = {'type': oType, 'probablity': oPct, 'areadata': latlonSet};
+	      }
+            }
+        }
+
+	if(!debug) {
+	  response.object={'data': resultSet, 'records': resultIndex};
+	} else {
+	  response.object={'data': resultSet, 'records': resultIndex, 'oLogs': oLog};
+	}
+
+      ]]></execute>
+    </select>  
+  </bindings>  
+</table>
