@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>Eye-Fi web uploads for a user. Get a user key by enabling RSS Feeds in your account within the Eye-Fi Center desktop application.</description>
+    <documentationURL>http://support.eye.fi/account/</documentationURL>
+    <sampleQuery>select * from {table} where key='yourKeyGoesHere';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://api.eye.fi/api/rest/services/1.0/</url>
+        </urls>
+        <inputs>
+            <key type="xs:string" paramType="query" id="method" default="feeds.get" />
+            <key type="xs:string" paramType="query" id="key" private="true" required="true" />
+            <key type="xs:string" paramType="query" id="Locale" default="en_US" />
+        </inputs>
+    </select>
+</bindings>
+</table>
