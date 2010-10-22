@@ -10,7 +10,11 @@
         <urls>
             <url>http://bacchus.atlantides.org/t/pleiades/intersection?{min_lon},{min_lat},{max_lon},{max_lat}</url>
         </urls>
-	
+	<paging model="offset">
+		<start id="start" default="0" />
+		<pagesize id="count" max="20" />
+		<total default="20"/>
+	  </paging>
 	<inputs>
       	    <key id="min_lon" type="xs:string" paramType="path" required="true" />	   
 	    <key id="min_lat" type="xs:string" paramType="path" required="true" />
