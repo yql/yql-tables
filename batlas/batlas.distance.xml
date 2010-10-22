@@ -6,15 +6,15 @@
     <sampleQuery description="Search within a lat/lon pt for radius 20km">select * from {table} where distance='20000' and lat="53.909994" and lon="-1.803595";</sampleQuery>
    </meta>
 <bindings>
-<paging model="offset">
-		<start id="start" default="0" />
-		<pagesize id="count" max="20" />
-		<total default="20"/>
-	  </paging>
    <select itemPath="items" produces="JSON">
         <urls>
             <url>http://bacchus.atlantides.org/t/pleiades/distance</url>
         </urls>
+	<paging model="offset">
+		<start id="start" default="0" />
+		<pagesize id="count" max="20" />
+		<total default="20"/>
+	  </paging>
 	<inputs>
       	    <key id="distance" type="xs:string" paramType="query" required="true" />
 	    <key id="lat" type="xs:string" paramType="query" required="true" />
