@@ -8,7 +8,7 @@
 <bindings>
    <select itemPath="items" produces="JSON">
         <urls>
-            <url>http://bacchus.atlantides.org/t/pleiades/distance?{distance}</url>
+            <url>http://bacchus.atlantides.org/t/pleiades/distance?</url>
         </urls>
 	<paging model="offset">
 		<start id="start" default="0" />
@@ -16,9 +16,9 @@
 		<total default="20"/>
 	  </paging>
 	<inputs>
-      	    <key id="distance" type="xs:string" paramType="path" required="true" />
+      	    <key id="lon" type="xs:string" paramType="query" required="true" />	   
 	    <key id="lat" type="xs:string" paramType="query" required="true" />
-	    <key id="lon" type="xs:string" paramType="query" required="true" />
+	    <key id="radius" type="xs:string" paramType="query" required="true" />
 	    <key id="strict" type="xs:boolean" paramType="query" required="false" />
         </inputs>
     </select>
