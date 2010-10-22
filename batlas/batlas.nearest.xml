@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
 <meta>
     <author>Daniel Pett</author>
-    <description>Search Pleiades for items within a set distance</description>
+    <description>Search Pleiades for items nearest to a bounding box</description>
     <sampleQuery description="Search for nearest places to bounding box">select * from {table} where min_lon = "20" and min_lat = "30" and max_lon = "22" and max_lat = "32" and limit="1"</sampleQuery>
    </meta>
 <bindings>

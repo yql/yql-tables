@@ -2,8 +2,8 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
 <meta>
     <author>Daniel Pett</author>
-    <description>Search Pleiades for items within a set distance</description>
-    <sampleQuery description="Search for nearest places to bounding box">select * from {table} where min_lon = "20" and min_lat = "30" and max_lon = "22" and max_lat = "32" and limit="1"</sampleQuery>
+    <description>Search Pleiades for items within a set bounding box</description>
+    <sampleQuery description="Search for places within bounding box">select * from {table} where min_lon = "20" and min_lat = "30" and max_lon = "22" and max_lat = "32" and limit="1"</sampleQuery>
    </meta>
 <bindings>
    <select itemPath="json.items" produces="JSON">
