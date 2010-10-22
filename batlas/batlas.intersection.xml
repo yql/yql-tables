@@ -3,12 +3,12 @@
 <meta>
     <author>Daniel Pett</author>
     <description>Search Pleiades for items within a set distance</description>
-    <sampleQuery description="Search within a bounding box">select * from {table} where min_lon = "20" and min_lat = "30" and max_lon = "22" and max_lat = "32"</sampleQuery>
+    <sampleQuery description="Search for nearest places to bounding box">select * from {table} where min_lon = "20" and min_lat = "30" and max_lon = "22" and max_lat = "32" and limit="1"</sampleQuery>
    </meta>
 <bindings>
    <select itemPath="json.items" produces="JSON">
         <urls>
-            <url>http://bacchus.atlantides.org/t/pleiades/intersection?{min_lon},{min_lat},{max_lon},{max_lat}</url>
+            <url>http://bacchus.atlantides.org/t/pleiades/intersection?bbox={min_lon},{min_lat},{max_lon},{max_lat}</url>
         </urls>
 	<paging model="offset">
 		<start id="start" default="0" />
@@ -20,7 +20,7 @@
 	    <key id="min_lat" type="xs:string" paramType="path" required="true" />
 	    <key id="max_lon" type="xs:string" paramType="path" required="true" />
 	    <key id="max_lat" type="xs:string" paramType="path" required="true" />
-	    <key id="empty" type="xs:string" paramType="query" required="false" />
+	    <key id="limit" type="xs:boolean" paramType="query" required="false" />
         </inputs>
     </select>
 </bindings>
