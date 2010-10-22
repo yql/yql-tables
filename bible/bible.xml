@@ -59,7 +59,7 @@
         debug && y.log(edition);
         var biblerefsxml;
         if (!bibleref) {
-          if (!book && !chaper) {
+          if (!book && !chapter) {
             y.log('At least a book and a chapter number should be provided.');
             y.exit();
           }
