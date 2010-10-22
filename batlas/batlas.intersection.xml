@@ -20,6 +20,7 @@
 	    <key id="min_lat" type="xs:string" paramType="path" required="true" />
 	    <key id="max_lon" type="xs:string" paramType="path" required="true" />
 	    <key id="max_lat" type="xs:string" paramType="path" required="true" />
+	    <key id="empty" type="xs:string" paramType="query" required="false" />
         </inputs>
     </select>
 </bindings>
