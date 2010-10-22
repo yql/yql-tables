@@ -6,7 +6,7 @@
     <sampleQuery description="Search within a lat/lon pt for radius 20km">select * from {table} where distance='20000' and lat="53.909994" and lon="-1.803595";</sampleQuery>
    </meta>
 <bindings>
-   <select itemPath="items" produces="JSON">
+   <select itemPath="" produces="JSON">
         <urls>
             <url>http://bacchus.atlantides.org/t/pleiades/distance?</url>
         </urls>
