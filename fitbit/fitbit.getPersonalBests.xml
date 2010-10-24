@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>Fitbit API: Get Graph Data</description>
+    <documentationURL>http://appolicious.com/</documentationURL>
+    <sampleQuery>select * from {table} where userId='yourlogingoeshere';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://www.fitbit.com/user/{userId}/stats/getPersonalBests</url>
+      </urls>
+      <inputs>	
+          <key type="xs:string" paramType="path" id="userId" private="true" required="true"/>
+          <!-- 'updateRate' values can include 'DAILY' and 'WEEKLY' -->
+          <key type="xs:string" paramType="query" id="updateRate" default="DAILY" required="true"/>
+          <!-- 'period' values can include '30_days', '7_days' -->
+          <key type="xs:string" paramType="query" id="period" default="30_days" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
