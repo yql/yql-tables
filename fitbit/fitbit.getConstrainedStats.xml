@@ -3,7 +3,7 @@
   <meta>
     <author>Micah Laaker (micah@laaker.com)</author>
     <description>Fitbit API: Get Constrained Stats</description>
-    <documentationURL>http://appolicious.com/</documentationURL>
+    <documentationURL>https://www.fitbit.com/forums</documentationURL>
     <sampleQuery>select * from {table} where userId='yourlogingoeshere';</sampleQuery>
   </meta>
   <bindings>
