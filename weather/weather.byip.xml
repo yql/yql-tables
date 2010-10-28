@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Dirceu Pauka Jr</author>
+    <description>Weather with IP</description>
+    <documentationURL>http://developer.yahoo.com/weather/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <inputs>
+        <key id="ip" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+        <execute><![CDATA[
+			var geoip = y.rest('http://ipinfodb.com/ip_query.php?ip=' + ip).get().response;
+			var Lat = geoip.Latitude;
+			var Lng = geoip.Longitude;
+			var woeid = y.rest('http://where.yahooapis.com/geocode?q='+Lat+','+Lng+'&gflags=R').get().response.Result.woeid;
+			var weather = y.rest('http://weather.yahooapis.com/forecastrss?w=' + woeid).get().response;
+			response.object = <weather>{weather}</weather>;
+        ]]></execute>
+    </select>
+  </bindings>
+</table>
