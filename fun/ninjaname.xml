@@ -23,8 +23,8 @@
         if(/^[a-z]+$/i.test(s)){
           chars = s.split('');
           ninjaname = '';
-          for(i=0,j=chars.length;i<j;i++){
-            ninjaname += trans[chars[i]];
+          for each(i in chars){
+            ninjaname += trans[i];
           }
           out = ninjaname;
           error = false;
