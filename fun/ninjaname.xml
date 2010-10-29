@@ -38,7 +38,7 @@
           response.object = <translated>
                               <name>{name}</name>
                               <ninjaname>{ninjaname}</ninjaname>
-                            <translated>;
+                            </translated>;
       ]]></execute>
     </select>
   </bindings>
