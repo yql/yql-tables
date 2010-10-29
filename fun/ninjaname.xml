@@ -39,6 +39,7 @@
                               <name>{name}</name>
                               <ninjaname>{ninjaname}</ninjaname>
                             </translated>;
+        }
       ]]></execute>
     </select>
   </bindings>
