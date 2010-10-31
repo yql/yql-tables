@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Pedro Valente</author>
+	<description>This is an Open Table that retrieves data from brazilian post codes (CEPs) webservice available at http://ceplivre.pc2consultoria.com/.</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where cep="05416-011"</sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="ceplivre.cep" produces="XML">
+      <urls>
+        <url env="all">http://ceplivre.pc2consultoria.com/index.php</url>
+      </urls>
+      <inputs>
+        <key id="cep" type="xs:string" paramType="query" />
+		<key id="module" type="xs:string" paramType="query" default="cep" />
+		<key id="formato" type="xs:string" paramType="query" default="xml" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
