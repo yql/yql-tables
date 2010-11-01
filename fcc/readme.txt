@@ -35,4 +35,9 @@ use "http://doglr.com/fcc/fcc-common-name-view.xml" AS fcc.view;select * from fc
 
 Changelog 
 
-Nov. 1, 2010 Initial checkin of tables.
+Nov. 1, 2010 
+Initial checkin of tables.   
+
+Nov. 1, 2010 checkin #2
+Removed temp file 
+Renamed files with dot syntax for table use
