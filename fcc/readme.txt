@@ -24,7 +24,7 @@ getCategories
 select * from fcc.data.categories where commonName="Verizon Wireless" and limit="3"
 
 getStatus
-use "http://doglr.com/fcc/fcc-status-view.xml" AS fcc.view;select * from fcc.data.licenses.status where commonName="Verizon Wireless" and limit="3"
+select * from fcc.data.licenses.status where commonName="Verizon Wireless" and limit="3"
 
 get only the active element (slow performance)
 select * from fcc.data.licenses.status where commonName="Verizon Wireless" and statDesc like 'Active%'
