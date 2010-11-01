@@ -7,37 +7,36 @@ For more information on the data, visit the FCC web site: http://reboot.fcc.gov/
 Sample YQL requests:  
 
 get test results by name
-use "http://doglr.com/fcc/fcc-cons-bb-test.xml" AS fcc.bbtest; select * from fcc.bbtest where (latitude, longitude) in (select latitude,longitude from geo.placefinder(1) where text="Los Angeles")
+select * from fcc.consumer.broadband.test where (latitude, longitude) in (select latitude,longitude from geo.placefinder(1) where text="Los Angeles")
 
 get the places from an rss feed
 
 getRenewals service
-use "http://doglr.com/fcc/fcc-renewals-view.xml" AS fcc.view;select * from fcc.view where commonName="Verizon Wireless" and limit="3"
+select * from fcc.data.renewals where commonName="Verizon Wireless" and limit="3"
 
 getIssued service
-use "http://doglr.com/fcc/fcc-issued-view.xml" AS fcc.view;select * from fcc.view where commonName="Verizon Wireless" and limit="3"
+select * from fcc.data.licenses.issued where commonName="Verizon Wireless" and limit="3"
 
 getEntities service
-use "http://doglr.com/fcc/fcc-entities-view.xml" AS fcc.view;select * from fcc.view where  limit="3"
+select * from fcc.data.entities where  limit="3"
 
 getCategories
-use "http://doglr.com/fcc/fcc-categories-view.xml" AS fcc.view;select * from fcc.view where commonName="Verizon Wireless" and limit="3"
+select * from fcc.data.categories where commonName="Verizon Wireless" and limit="3"
 
 getStatus
-use "http://doglr.com/fcc/fcc-status-view.xml" AS fcc.view;select * from fcc.view where commonName="Verizon Wireless" and limit="3"
+use "http://doglr.com/fcc/fcc-status-view.xml" AS fcc.view;select * from fcc.data.licenses.status where commonName="Verizon Wireless" and limit="3"
 
 get only the active element (slow performance)
-use "http://doglr.com/fcc/fcc-status-view.xml" AS fcc.view;select * from fcc.view where commonName="Verizon Wireless" and statDesc like 'Active%'
+select * from fcc.data.licenses.status where commonName="Verizon Wireless" and statDesc like 'Active%'
 
 getCommonNames
-use "http://doglr.com/fcc/fcc-common-name-view.xml" AS fcc.view;select * from fcc.view where commonName="Verizon Wireless" and limit="3"   
+select * from fcc.data.common.name where commonName="Verizon Wireless" and limit="3"   
 
 
 Changelog 
 
 Nov. 1, 2010 
 Initial checkin of tables.   
-
-Nov. 1, 2010 checkin #2
 Removed temp file 
-Renamed files with dot syntax for table use
+Renamed files with dot syntax for table use    
+update readme's sample requests 
