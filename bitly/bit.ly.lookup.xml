@@ -4,19 +4,18 @@
 	    <author>Micah Laaker (micah@laaker.com)</author>
 	    <description>Bit.ly URL Shorten</description>
         <documentationURL>http://code.google.com/p/bitly-api/wiki/ApiDocumentation</documentationURL>
-	    <sampleQuery>select * from {table} where login='yourlogingoeshere' and apiKey='yourkeygoeshere' and longUrl='http://amazon.com/';</sampleQuery>
+	    <sampleQuery>select * from {table} where login='yourlogingoeshere' and apiKey='yourkeygoeshere' and url='http://amazon.com/';</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="" produces="XML">
             <urls>
-                <url>http://api.bit.ly/v3/shorten</url>
+                <url>http://api.bit.ly/v3/lookup</url>
             </urls>
             <inputs>
                 <key id="login" type="xs:string" paramType="query"/>
                 <key id="apiKey" type="xs:string" paramType="query"/>
                 <key id="format" type="xs:string" paramType="query" default="xml"/>
-                <key id="longUrl" type="xs:string" paramType="query" required="true"/>
-                <key id="domain" type="xs:string" paramType="query"/>
+                <key id="url" type="xs:string" paramType="query" required="true"/>
             </inputs>
         </select>
      </bindings>
