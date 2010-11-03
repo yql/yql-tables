@@ -2,10 +2,16 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
 		<sampleQuery description="Get recent Kids-in-Mind Ratings">select * from {table}</sampleQuery>
-		<sampleQuery description="Find Kids-in-Mind Ratings for sci-fi films">select * from {table} where keyword="sci-fi"</sampleQuery>
-		<sampleQuery description="Find movies by rating">select * from {table} where sexMax=4 and violenceMax=7 and languageMax=5 and MPAA in ("G","PG","PG-13")</sampleQuery>
-		<sampleQuery description="Get Kids-in-Mind Ratings for recent video releases">select * from {table} where url="http://wwww.kids-in-mind.com/inline_video.htm"</sampleQuery>
-		<description>Scrapes rating infomation from Kids-In-Mind.com website. Most pages of the Kids-in-Mind site are supported including search by rating and search by keyword. Movie information varies by page, so some elements may not be present in every result set. Searches default to returning only first page results. Keyword search results may not include all result pages due to non-movie results on page. Effectiveness of scraping subject to change without notice due to source site redesigns.</description>
+		<description>
+		Scrapes rating infomation from Kids-In-Mind.com website. Most
+		pages of the Kids-in-Mind site are supported including search by
+		rating and search by keyword. Movie information varies by page,
+		so some elements may not be present in every result set.
+		Searches default to returning only first page results. Keyword
+		search results may not include all result pages due to non-movie
+		results on page. Effectiveness of scraping subject to change
+		without notice due to source site redesigns.
+		</description>
 		<author>David Robarts</author>
 	</meta>
 	<bindings>
@@ -218,7 +224,7 @@
 			if ((uneval(request.queryParams) == '{"stpos":"0"}') && (MPAA === null)) {
 				for each (var m in source.results.*) {
 					m.movie.title = m.tr.td.p.(@['class'] == 't11bold').a.toString().normalizeSpace();
-					m.movie.link = m.tr.td.p.(@['class'] == 't11bold').a.@href;
+					m.movie.link = "http://www.kids-in-mind.com/" + m.tr.td.p.(@['class'] == 't11bold').a.@href;
 				}
 			} else {
 				for each (var m in source.results..a) {
