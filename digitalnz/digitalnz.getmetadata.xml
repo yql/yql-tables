@@ -3,7 +3,7 @@
 <meta>
     <author>Daniel Pett</author>
     <description>Get metadata for an object from Digital NZ</description>
-    <documentationURL>http://www.digitalnz.org/developer/api-docs/get-metadata//</documentationURL>
+    <documentationURL>http://www.digitalnz.org/developer/api-docs/get-metadata/</documentationURL>
     <sampleQuery description="Search for record id of 34522">select * from {table} where record_id='34522' and api_key='{key}';</sampleQuery>
 </meta>
 <bindings>
