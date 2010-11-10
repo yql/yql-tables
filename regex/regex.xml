@@ -36,11 +36,13 @@
         } else {
             
             matches = re.exec(text);
-
+           
             if (matches) {
+                var i =0;
                 myResponse = <matches></matches>;
-
-                for (i=0;i<matches.length;i++) {
+                myResponse.node += <match{i}>{matches[i]}</match{i}>;
+                while(matches = re.exec(text)) {
+                   i++;
                    myResponse.node += <match{i}>{matches[i]}</match{i}>;
                 }
 
