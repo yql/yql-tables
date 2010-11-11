@@ -17,45 +17,35 @@
           <key id='showempty' type='type' paramType='variable' required="false" />
       </inputs>
 	 <execute><![CDATA[
-		var re, match, matches, myResponse;
-        if (modifiers) {
-            re = new RegExp(expression, modifiers);
-        } else {
-            re = new RegExp(expression);
-        }
-        
-        //if there is a replacement for matches
-        if (replacement) {
-            
-            match = text.replace(re, replacement);
-            
-            myResponse = <matches></matches>;
-            myResponse.match0 += <match0>{match}</match0>
+                    var re, match, matches, myResponse,patt;
+                    
+                    //if there is a replacement for matches
+                    if (replacement) {
+                    match = text.replace(re, replacement);
+                    myResponse = <matches></matches>;
+                    myResponse.match0 += <match0>{match}</match0>
 
-            
-        } else {
-            
-            matches = re.exec(text);
-           
-            if (matches) {
-                var i =0;
-                myResponse = <matches></matches>;
-                myResponse.node += <match{i}>{matches[i]}</match{i}>;
-                while(matches = re.exec(text)) {
-                   i++;
-                   myResponse.node += <match{i}>{matches[i]}</match{i}>;
-                }
+                    } else {
+                       if (modifiers) { 
+                          patt = /expression/modifiers;                    
+                       } else {
+                          patt = /expression/; 
+                       }
+                       matches = text.match(patt);
+                       if (matches) {
+                          myResponse = <matches></matches>;                   
+                          for (i=0;i<matches.length;i++){
+                             myResponse.node += <match{i}>{matches[i]}</match{i}>;
+                       }
 
-    	    } else if (showempty) {
-    	        myResponse = <matches />;
-    	    }
+                       } else if (showempty) {
+                          myResponse = <matches />;
+                       }
 
-        }
-        
-        response.object = myResponse;
+                    }
+                    response.object = myResponse;
 
-	    
-	 ]]></execute>
+                    ]]></execute>
     </select> 
   </bindings>
 </table>
