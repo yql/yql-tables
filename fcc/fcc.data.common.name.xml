@@ -8,7 +8,7 @@
 		 </description>
     </meta>
 	<bindings>
-		<select itemPath="Response.Stats.Stat" produces="XML">  
+		<select itemPath="Response.Stats" produces="XML">  
 			<urls>
 				<url>http://data.fcc.gov/api/license-view/licenses/getCommonNames</url>
 			</urls>  

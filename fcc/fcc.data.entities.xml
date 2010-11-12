@@ -9,7 +9,7 @@ This API provides information on the number of licenses held by various entities
 		 </description>
     </meta>
 	<bindings>
-		<select itemPath="Response.Stats.Stat" produces="XML">  
+		<select itemPath="Response.Stats" produces="XML">  
 			<urls>
 				<url>http://data.fcc.gov/api/license-view/licenses/getEntities</url>
 			</urls>  

@@ -9,7 +9,7 @@ For general overview purposes, we have associated each radio service with a spec
 		 </description>
     </meta>
 	<bindings>
-		<select itemPath="Response.Stats.Stat" produces="XML">  
+		<select itemPath="Response.Stats" produces="XML">  
 			<urls>
 				<url>http://data.fcc.gov/api/license-view/licenses/getCategories</url>
 			</urls>  
