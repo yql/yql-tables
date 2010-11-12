@@ -9,7 +9,7 @@ This API provides summary information on the volume of licenses that are eligibl
 		 </description>
     </meta>
 	<bindings>
-		<select itemPath="Response.Stats.Stat" produces="XML">  
+		<select itemPath="Response.Stats" produces="XML">  
 			<urls>
 				<url>http://data.fcc.gov/api/license-view/licenses/getRenewals</url>
 			</urls>  
