@@ -37,7 +37,8 @@
         <key id="color_accuracy" as="wiggle" type="xs:number" paramType="query" />
         <key id="materials" type="xs:string" paramType="query" />
         <key id="category" type="xs:string" paramType="query" />
-        <key id="tags" type="xs:string" paramType="path" />
+        <key id="tags" type="xs:string" paramType="query" />
+        <key id="includes" type="xs:string" paramType="query" />
         <key id="min_price" type="xs:float" paramType="query" />
         <key id="max_price" type="xs:float" paramType="query" />
         <key id="search_description" type="xs:boolean" paramType="query" />
