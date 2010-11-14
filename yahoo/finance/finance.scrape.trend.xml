@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where name="yhoo"</sampleQuery>
+    <author>Christian Heilmann</author>
+    <description>Scrapes the trend of a certain stock and returns a single number</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='name' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var res = y.query('select * from html(3,1) where url="http://finance.yahoo.com/q?s='+name+'" and xpath="//td[@class=\'yfnc_tabledata1\']//strong"');
+        response.object = <moo>{res}</moo>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
