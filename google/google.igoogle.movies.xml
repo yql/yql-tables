@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>iGoogle Secret API: Movies Near a ZIP Code</description>
+    <documentationURL>http://blog.programmableweb.com/2010/02/08/googles-secret-weather-api/</documentationURL>
+    <sampleQuery>select * from {table} where movies='68105';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://www.google.com/ig/api</url>
+        </urls>
+        <inputs>
+	        <key id="movies" type="xs:string" paramType="query"/>
+        </inputs>
+    </select>
+</bindings>
+</table>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://www.recovery.gov/FAQ/Developer/Pages/RecoveryAPI.aspx</documentationURL>
+	    <sampleQuery description="View recovery items in California for 2010">SELECT * FROM {table} WHERE recipient_state="CA"  AND calendar_year="2010" limit 15 offset 2</sampleQuery>      
+	    <sampleQuery description="View recovery grants issued to Verizon">SELECT * FROM {table} WHERE recipient_name="VERIZON COMMUNICATIONS INC." </sampleQuery>       
+	    <sampleQuery description="View recovery grants issued by the FCC in New York that have been completed">SELECT * FROM {table} WHERE funding_agency_code="2700" AND project_status="4"  AND pop_state_cd="NY" limit 25 offset 1</sampleQuery>
+		<description>Access the most recently updated Recipient Reported data
+to build applications for the web, desktop, or mobile devices. Information on how to access the API
+and describes the various parameters for retrieving data at http://www.recovery.gov/FAQ/Developer/Pages/RecoveryAPI.aspx.    
+VIEW OPEN TABLE SOURCE FOR MORE INFO ON QUERY PARAMS
+		 </description>
+    </meta>
+	<bindings>
+		<select itemPath="records.record" produces="XML">  
+			<urls>
+				<url>http://data.recovery.gov/presto/edge/api/rest/RecoveryGovAdvancedSearch/Invoke</url>
+			</urls>
+			<paging model="page">
+			  <start id="start" default="1" />
+			  <pagesize id="number_of_entries" max="1000"/>
+			  <total default="300" />
+			</paging>  
+			<inputs>
+			<!--award_type accepts values C (for Contracts), G (for Grants) and L (for Loans). For multiple values enter comma separated values.-->
+				<key id="award_type"             type="xs:string" paramType="query" required="false"/>
+				<!--Name of the award recipient entity.-->
+				<key id="recipient_name"         type="xs:string" paramType="query" required="false" />
+				<!--Name of the award recipient entity.-->
+				<key id="pop_postal_cd"          type="xs:string" paramType="query" required="false" />
+				<!-- Place of Performance State Code e.g. MD, VA (for selecting MD or VA) -->
+				<key id="pop_state_cd"           type="xs:string" paramType="query" required="false" />
+				<!-- Place of Performance State Code e.g. MD, VA (for selecting MD or VA) -->
+				<key id="pop_congressional_district" type="xs:string" paramType="query" required="false" />
+				<!-- Recipient state location e..g. FL (for a recipient with headquarters in the State of Florida). -->
+				<key id="recipient_state"        type="xs:string" paramType="query" required="false" />
+				<!-- Code for the funding agency e.g. US Department of Agriculture is 1200.  list of valid values. https://www.federalreporting.gov/federalreporting/agencyCodes.do?. -->
+				<key id="funding_agency_code"        type="xs:string" paramType="query" required="false" />
+				<!--Code for the funding agency e.g. US Department of Agriculture is 1200.  list of valid values: https://www.federalreporting.gov/federalreporting/agencyCodes.do?-->
+				<key id="awarding_agency_code"   type="xs:string" paramType="query" required="false" />
+				<!-- Total Award Amount. One can enter a range of values by using a syntax like "[bt]0,1000000" if you are looking for awards between $0 and $1 million.-->
+				<key id="award_amount"           type="xs:string" paramType="query" required="false" />
+				<!--Completion status of the project. Options for selection: 1: Not started; 2: Less than 50% completed; 3: Completed 50% or more; 4: Fully Completed.-->
+				<key id="project_status"         type="xs:string" paramType="query" required="false" />
+				<!--Date of the Award. You may specify a date range by using a syntax like "[bt]01/01/2010,06/30/2010".-->
+				<key id="award_date"             type="xs:string" paramType="query" required="false" />
+				<!--The Recovery Act Award Number. Depending on the recipient_role value this could be the Prime Award Number or the Sub-award Number.-->
+				<key id="award_number"           type="xs:string" paramType="query" required="false" />
+				<!--The Recipient DUNS number. Depending on the recipient_role value this could be either a Prime recipient or Sub-recipient or both (if the recipient_role value is left blank).-->
+				<key id="recipient_duns_number"  type="xs:string" paramType="query" required="false" />
+				<!--Calendar Year within which the recipient report was submitted e.g. 2009.-->
+				<key id="calendar_year"          type="xs:string" paramType="query" required="false" />
+				<!--Calendar Quarter within which the recipient report was submitted. Valid values are 1,2,3,4.-->
+				<key id="calendar_qtr"           type="xs:string" paramType="query" required="false" />
+				<!--This flag allows the user to specify if they want Cumulative (Recovery Act Till Date) information or if they want just the specified quarter and year related reports. For cumulative results specify 1, for quarterly specify 2.-->
+				<key id="cumulative_quarterly_flag" type="xs:string" paramType="query" required="false" default="1" />
+				<!-- Name of the CFDA code for a given Grants Program. For a list of valid values, visit https://www.federalreporting.gov/federalreporting/cfdaCodes.do. -->
+				<key id="cfda_code" type="xs:string" paramType="query" required="false" />
+				<!-- The type of recipient being searched i.e. Prime Recipient (P), Sub-Recipient (S), Prime Recipient Vendor (PV) or Sub-recipient Vendor (SV). -->
+				<key id="recipient_role" type="xs:string" paramType="query" required="false" />
+				<!-- Specify the level of details of the records you want to retrieve. If value is ‘all’, returns all available fields in the database. -->
+				<key id="level_of_details" type="xs:string" paramType="query" required="false" default="all" />
+				
+			</inputs>
+		</select>
+	</bindings>
+</table>	

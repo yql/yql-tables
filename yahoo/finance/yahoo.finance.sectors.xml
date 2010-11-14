@@ -4,6 +4,7 @@
     <author>Tom Powers</author>
     <description>Yahoo Finance Industry Index - Sector + Industries</description>
     <sampleQuery>select * from {table}</sampleQuery>
+    <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL> 
   </meta>
   <bindings>
     <select itemPath="sectors.sector" produces="XML">

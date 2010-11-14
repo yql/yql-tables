@@ -7,9 +7,9 @@
 		<sampleQuery>select * from {table} where id=@id;</sampleQuery>
 	</meta>
 	<bindings>
-		<select itemPath="users" produces="XML">
+		<select itemPath="statuses" produces="XML">
 			<urls>
-				<url>http://twitter.com/statuses/mentions.{format}</url>
+				<url>http://api.twitter.com/1/statuses/mentions.{format}</url>
 			</urls>
 			<inputs>
 				<key id="since_id" type="xs:string" paramType="query" required="false"/>
@@ -31,7 +31,7 @@ if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_sec
    var accessor = {};
    accessor.consumerKey = oauth_consumer_key;
    accessor.consumerSecret = oauth_consumer_secret;
-   accessor.realm = "twitter.com";
+   accessor.realm = request.url;
    accessor.token = oauth_token;
    accessor.tokenSecret = oauth_token_secret;
 

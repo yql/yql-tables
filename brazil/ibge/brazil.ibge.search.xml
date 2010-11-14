@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Pedro Valente</author>
+	<description></description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where query="florianopolis"</sampleQuery>
+	<sampleQuery>select * from {table} where query="sao paulo" and state="SP"</sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="results.city" produces="XML">
+      <inputs>
+        <key id="query" type="xs:string" paramType="query" />
+      </inputs>
+		<execute>
+			<![CDATA[ 
+			
+		var url = "http://ibge.gov.br/cidadesat/xtras/pesqmun.php?nomemun="+query;
+    	var querystring = "select * from html where url = '"+url+"' and xpath=\"//a/@href\" and charset='latin1'"; 
+    	q = y.query(querystring);
+		
+		var data = <results />
+		
+		for each (r in q.results..a) { 
+			var raw_item = r.@href.text().toString()
+			var items = raw_item.substring( raw_item.indexOf("(")+1, raw_item.indexOf(")") ).replace(/'/g, "").split(",")
+			
+			data.results += <city>
+						<name>{ unescape(items[0]) }</name>
+						<ibge_code>{items[1]}</ibge_code>
+						<state>{items[2]}</state>
+						</city>
+		}
+        response.object = data;
+      		]]>
+		</execute>
+    </select>
+  </bindings>
+</table>

@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="relationship" produces="XML">
 			<urls>
-				<url>http://twitter.com/friendships/show.{format}</url>
+				<url>http://api.twitter.com/1/friendships/show.{format}</url>
 			</urls>
 			<inputs>
 				<key id="source_id" type="xs:string" paramType="query" required="false"/>
@@ -31,7 +31,7 @@ if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_sec
    var accessor = {};
    accessor.consumerKey = oauth_consumer_key;
    accessor.consumerSecret = oauth_consumer_secret;
-   accessor.realm = "twitter.com";
+   accessor.realm = request.url;
    accessor.token = oauth_token;
    accessor.tokenSecret = oauth_token_secret;
 
@@ -53,7 +53,7 @@ if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_sec
 		</select>
 		<insert itemPath="user" produces="XML">
 			<urls>
-				<url>http://twitter.com/friendships/create/{id}.{format}</url>
+				<url>http://api.twitter.com/1/friendships/create/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="true"/>
@@ -74,7 +74,7 @@ y.include("http://zachgrav.es/twitter/yql/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 
@@ -89,7 +89,7 @@ response.object = sendRequest({
 		</insert>
 		<delete>
 			<urls>
-				<url>http://twitter.com/friendships/destroy/{id}.{format}</url>
+				<url>http://api.twitter.com/1/friendships/destroy/{id}.{format}</url>
 			</urls>
 			<inputs>
 				<key id="id" type="xs:string" paramType="path" required="true"/>
@@ -109,7 +109,7 @@ y.include("http://zachgrav.es/twitter/yql/oauth.utils.js");
 var accessor = {};
 accessor.consumerKey = oauth_consumer_key;
 accessor.consumerSecret = oauth_consumer_secret;
-accessor.realm = "twitter.com";
+accessor.realm = request.url;
 accessor.token = oauth_token;
 accessor.tokenSecret = oauth_token_secret;
 

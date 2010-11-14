@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	    <author>Micah Laaker (micah@laaker.com)</author>
+	    <description>Bit.ly URL Clicks by Minute</description>
+        <documentationURL>http://code.google.com/p/bitly-api/wiki/ApiDocumentation</documentationURL>
+	    <sampleQuery>select * from {table} where login='yourlogingoeshere' and apiKey='yourkeygoeshere' and hash='a4MSUH';</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://api.bit.ly/v3/clicks_by_minute</url>
+            </urls>
+            <inputs>
+                <key id="login" type="xs:string" paramType="query"/>
+                <key id="apiKey" type="xs:string" paramType="query"/>
+                <key id="format" type="xs:string" paramType="query" default="xml"/>
+                <key id="shortUrl" type="xs:string" paramType="query"/>
+                <key id="hash" type="xs:string" paramType="query"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>

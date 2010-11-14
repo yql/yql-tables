@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Sergey Chernyshev</author>
+		<documentationURL>http://www.meetup.com/meetup_api/docs/#readmethods</documentationURL>
+		<sampleQuery>select name from {table} where key='...' and search='CSS'</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="results.items.item" produces="XML">
+			<urls>
+				<url><![CDATA[http://api.meetup.com/topics.xml?key={key}]]></url>
+			</urls>
+			<inputs>
+				<key id="key" type="xs:string" paramType="path" required="true"/>
+				<key id="topic" type="xs:string" paramType="query" required="false"/>
+				<key id="name" type="xs:string" paramType="query" required="false"/>
+				<key id="search" type="xs:string" paramType="query" required="false"/>
+			</inputs>
+<!--			<paging model="page">
+				<start id="offset" default="0" />
+				<pagesize id="page" max="200" />
+				<total default="200" />
+			</paging> -->
+		</select>
+	</bindings>
+</table>
+

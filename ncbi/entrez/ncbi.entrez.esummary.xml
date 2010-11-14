@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<description>ESummary:  Retreives document Summaries from a list of primary IDs or from the user's environment. </description>
+  	<sampleQuery>SELECT * FROM {table} WHERE db="pubmed" and id="11850928,11482001" and retmode="xml"</sampleQuery>
+    <documentationURL>http://www.ncbi.nlm.nih.gov/corehtml/query/static/esummary_help.html</documentationURL>
+  	<author>Michael Chelen http://mikechelen.com</author>
+  </meta>
+  <bindings>
+    <select itemPath="eSummaryResult" produces="XML">
+      <urls><url>http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db={db}&amp;WebEnv={WebEnv}&amp;query_key={query_key}&amp;tool={tool}&amp;email={email}&amp;id={id}&amp;retstart={retstart}&amp;retmax={retmax}&amp;retmode={retmode}</url></urls>
+      <inputs>
+        <key id='db' type='xs:string' paramType='path' />
+        <key id='WebEnv' type='xs:string' paramType='path' />
+        <key id='query_key' type='xs:string' paramType='path' />
+        <key id='tool' type='xs:string' paramType='path' />
+        <key id='email' type='xs:string' paramType='path' />
+        <key id='id' type='xs:string' paramType='path' />
+        <key id='retstart' type='xs:string' paramType='path' />
+        <key id='retmax' type='xs:string' paramType='path' />
+        <key id='retmode' type='xs:string' paramType='path' />
+      </inputs>
+    </select>
+  </bindings>
+</table>

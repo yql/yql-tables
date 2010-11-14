@@ -2,85 +2,85 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
 <head>
     <title>YQL - Community Open Data Tables</title>
-	<style>
-	html {
-	height:100%;
-	min-height:100%;
-	width:100%;
-	}
-	body {
-	font-family:arial,helvetica,clean,sans-serif;
-	font-size:13px;
-	font-size-adjust:none;
-	font-style:normal;
-	font-variant:normal;
-	font-weight:normal;
-	color:#222;
-	}
-	h1 {
-		color:#008DC7;
-		margin:12px 0 4px 0;
-		font-size:300%;
-	}
-	h2 {
-		margin:12px 0 4px 0;
-	}
-	a {
-		color:#2288BB;
-		text-decoration:none;
-	}
-	a:hover {
-	text-decoration:underline;
-	}
-	.nav a {
-		font-weight:bold;
-	}
-	.nav {
-		display:block;
-		width:100%;
-		text-align:center;
-		margin:4px 0 40px 0;
-	}
-	.nav ul {
-		display:block;
-	}
-	.nav li {
-		color:#222;
-		display:block;
-		float:left;
-		padding-left:8px;
-	}
-	.nav a {
-		padding-right:8px;
-	}
-	.nav.header {
-		padding-bottom:20px;
-		border-bottom:1px solid #eee;
-		clear:both;
-	}
-	.nav.footer {
-		border-top:1px solid #eee;
-		clear:both;
-	}
-	.banner {
-		display:block;
-	}
-	.banner img {
-		vertical-align:middle;
-	}
-	.banner h1 {
-		display:inline;
-	}
-	h2 {
-		clear:both;
-	}
-	code, pre {
-		color:#008040;
-	}
-	h2 b {
-		text-decoration:underline;
-	}
-	</style>
+    <style>
+    html {
+    height:100%;
+    min-height:100%;
+    width:100%;
+    }
+    body {
+    font-family:arial,helvetica,clean,sans-serif;
+    font-size:13px;
+    font-size-adjust:none;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    color:#222;
+    }
+    h1 {
+        color:#008DC7;
+        margin:12px 0 4px 0;
+        font-size:300%;
+    }
+    h2 {
+        margin:12px 0 4px 0;
+    }
+    a {
+        color:#2288BB;
+        text-decoration:none;
+    }
+    a:hover {
+    text-decoration:underline;
+    }
+    .nav a {
+        font-weight:bold;
+    }
+    .nav {
+        display:block;
+        width:100%;
+        text-align:center;
+        margin:4px 0 40px 0;
+    }
+    .nav ul {
+        display:block;
+    }
+    .nav li {
+        color:#222;
+        display:block;
+        float:left;
+        padding-left:8px;
+    }
+    .nav a {
+        padding-right:8px;
+    }
+    .nav.header {
+        padding-bottom:20px;
+        border-bottom:1px solid #eee;
+        clear:both;
+    }
+    .nav.footer {
+        border-top:1px solid #eee;
+        clear:both;
+    }
+    .banner {
+        display:block;
+    }
+    .banner img {
+        vertical-align:middle;
+    }
+    .banner h1 {
+        display:inline;
+    }
+    h2 {
+        clear:both;
+    }
+    code, pre {
+        color:#008040;
+    }
+    h2 b {
+        text-decoration:underline;
+    }
+    </style>
 </head>
 <body>
 <div class='nav header'>
@@ -89,7 +89,7 @@
 <li><a href="http://yqlblog.net">YQL Blog</a>|</li>
 <li><a href="http://developer.yahoo.com/yql/console/?env=http://datatables.org/alltables.env">YQL console + open data tables</a>|</li>
 <li><a href="http://developer.yahoo.com/yql/console">YQL console (built-in tables only)</a>|</li>
-<li><a href="http://github.com/spullara/yql-tables/tree/master">github Open Data Tables</a>|</li>
+<li><a href="http://github.com/yql/yql-tables/tree/master">github Open Data Tables</a>|</li>
 <li><a href="http://developer.yahoo.net/forum/index.php?showforum=41">YQL forum</a></li>
 </ul>
 </div>
@@ -116,7 +116,7 @@ In addition, YQL also supports several post-query functions like sort and unique
 Open Data Tables are XML files that can be "plugged" into the <a href="http://developer.yahoo.com/yql/">Yahoo! Query Language open platform (YQL)</a>. These files describe how the YQL SQL-like language can be mapped onto any web service or source on internet. Once mapped, these data sources can be used by developers in many ways in YQL.
 
 <h2>What are <b>community</b> open data tables?</h2>
-While anyone can develop and share an open data table for YQL, we are encouraging the community of open data table developers to contribute their tables to the open data tables <a href="http://github.com/spullara/yql-tables/tree/master">github</a> project. This makes tables much easier to find and share, and try out in the YQL console.
+While anyone can develop and share an open data table for YQL, we are encouraging the community of open data table developers to contribute their tables to the open data tables <a href="http://github.com/yql/yql-tables/tree/master">github</a> project. This makes tables much easier to find and share, and try out in the YQL console.
 
 <h2>Why isn't this site on github?</h2>
 While github is a great source control site, it's not intended to serve content quickly. datatables.org keeps a copy of the github master tree and automatically creates a single "env" file. Environment files enable the YQL console and web service to load up many open data tables from a single URL.
@@ -127,20 +127,20 @@ You can import <b>all</b> the current open data tables <a href="http://developer
 <h2>How can I build my own tables?</h2>
 A quick read of the <a href="http://developer.yahoo.com/yql/guide/">YQL guide</a> is a great starting point, in particular:
 <ul>
-	<li><a href="http://developer.yahoo.com/yql/guide/yql-opentables-chapter.html">Open Data tables</a></li>
-	<li>Running your own code with <a href="http://developer.yahoo.com/yql/guide/yql-execute-chapter.html">Execute</a> in Open Data Tables</li>
+    <li><a href="http://developer.yahoo.com/yql/guide/yql-opentables-chapter.html">Open Data tables</a></li>
+    <li>Running your own code with <a href="http://developer.yahoo.com/yql/guide/yql-execute-chapter.html">Execute</a> in Open Data Tables</li>
 </ul>
-One the other easy way of working out how to do something is to <a href="http://github.com/spullara/yql-tables/tree/master">look at someone else's open data table</a> that wraps a data source similar to what you want to enable.
+One the other easy way of working out how to do something is to <a href="http://github.com/yql/yql-tables/tree/master">look at someone else's open data table</a> that wraps a data source similar to what you want to enable.
 <br/>
 <div class="nav footer">
-	<ul>
-	<li><a href="http://developer.yahoo.com/yql">YQL</a>|</li>
-	<li><a href="http://yqlblog.net">YQL Blog</a>|</li>
-	<li><a href="http://developer.yahoo.com/yql/console/?env=http://datatables.org/alltables.env">YQL console + open data tables</a>|</li>
-	<li><a href="http://developer.yahoo.com/yql/console">YQL console (built-in tables only)</a>|</li>
-	<li><a href="http://github.com/spullara/yql-tables/tree/master">github Open Data Tables</a>|</li>
-	<li><a href="http://developer.yahoo.net/forum/index.php?showforum=41">YQL forum</a></li>
-	</ul>
+    <ul>
+    <li><a href="http://developer.yahoo.com/yql">YQL</a>|</li>
+    <li><a href="http://yqlblog.net">YQL Blog</a>|</li>
+    <li><a href="http://developer.yahoo.com/yql/console/?env=http://datatables.org/alltables.env">YQL console + open data tables</a>|</li>
+    <li><a href="http://developer.yahoo.com/yql/console">YQL console (built-in tables only)</a>|</li>
+    <li><a href="http://github.com/yql/yql-tables/tree/master">github Open Data Tables</a>|</li>
+    <li><a href="http://developer.yahoo.net/forum/index.php?showforum=41">YQL forum</a></li>
+    </ul>
 </div>
 </body>
 </html>

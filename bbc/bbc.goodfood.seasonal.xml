@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : bbc.goodfood.seasonal.xml
+    Created on : May 9, 2010, 6:00 PM
+    Author     : rob
+    Description:
+        Purpose of the document follows.
+-->
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rob Young</author>
+    <sampleQuery>SELECT * FROM bbc.goodfood.seasonal;</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://www.bbcgoodfood.com/content/local/seasonal/table</url>
+      </urls>
+      <inputs>
+        <key id="foodtype" type="xs:string" paramType="variable"/>
+      </inputs>
+      <execute><![CDATA[
+      var url = "http://www.bbcgoodfood.com/content/local/seasonal/table";
+      if (foodtype != undefined) {
+        url += "/" + foodtype;
+      }
+      var xpath = '//div[@id="content"]/table/tbody/tr';
+
+      var query   = y.query("SELECT * FROM html WHERE url=@url AND xpath=@xpath", {url: url, xpath: xpath});
+      var results = <results></results>;
+
+      for each(var result in query.results.tr) {
+        var my_result = <result/>;
+        my_result.appendChild(<name>{result.th.a.text()}</name>);
+        my_result.@href = result.th.a.@href;
+
+        var monthResults = new Array();
+        for (var i in result.td) {
+          if (result.td[i].img.@alt.length() > 0) {
+            if (result.td[i].img.@alt.substring(0, 9) == "coming in") {
+              monthResults.push(1);
+            } else {
+              monthResults.push(2);
+            }
+          } else {
+            monthResults.push(0);
+          }
+        }
+        var previous = null;
+        var foundComing  = false;
+        var foundBestIn  = false;
+        var foundBestOut = false;
+        for (var i in monthResults) {
+          if (previous != null && monthResults[i] != previous) {
+            if (monthResults[i] == 1) {
+              foundComing = true;
+              my_result.appendChild(<comingInFrom>{i}</comingInFrom>);
+            } else if(monthResults[i] == 2) {
+              foundBestIn = true;
+              my_result.appendChild(<atItsBestFrom>{i}</atItsBestFrom>);
+            } else if(monthResults[i] == 0 && previous == 2) {
+              foundBestOut = true;
+              my_result.appendChild(<atItsBestUntil>{i-1}</atItsBestUntil>);
+            }
+          }
+          previous = monthResults[i];
+        }
+        if (!foundComing) {
+          my_result.appendChild(<comingInFrom>0</comingInFrom>);
+        }
+        if (!foundBestIn) {
+          my_result.appendChild(<atItsBestFrom>0</atItsBestFrom>);
+        }
+        if (!foundBestOut) {
+          my_result.appendChild(<atItsBestUntil>11</atItsBestUntil>);
+        }
+
+        results.appendChild(my_result);
+      }
+      response.object = results;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

@@ -9,7 +9,7 @@
     <bindings>
         <select itemPath="" produces="XML" >
             <urls>
-                <url env="all">http://buzz.googleapis.com/feeds/{user}/public/posted</url>
+                <url env="all">https://www.googleapis.com/buzz/v1/activities/{user}/@public</url>
             </urls>
             <inputs>
                 <key id="user" type="xs:string" paramType="path" required="true" />
