@@ -16,7 +16,7 @@
         if(res.toString().indexOf('down')!==-1){
           out = '-'
         }
-        var value = res.strong.toString().replace(/\(|\)|%/,'');
+        var value = res.strong.toString().replace(/\(|\)|%/g,'');
         response.object = <value>{out}{value}</value>;
       ]]></execute>
     </select>
