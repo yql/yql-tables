@@ -17,7 +17,7 @@
           out = '-'
         }
         var value = res.strong.toString().replace(/\(\)%/);
-        response.object = {out}{value};
+        response.object = <value>{out}{value}</value>;
       ]]></execute>
     </select>
   </bindings>
