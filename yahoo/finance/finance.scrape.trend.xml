@@ -11,7 +11,7 @@
         <key id='name' type='xs:string' paramType='variable' required="true" />
       </inputs>
       <execute><![CDATA[
-        var res = y.query('select * from html(3,1) where url="http://finance.yahoo.com/q?s='+name+'" and xpath="//td[@class=\'yfnc_tabledata1\']//strong"').results;
+        var res = y.query('select * from html(3,1) where url="http://finance.yahoo.com/q?s='+name+'" and xpath="//td[@class=\'yfnc_tabledata1\']//strong"').results.strong.toString();
         y.log(res);
         response.object = <moo>{res}</moo>;
       ]]></execute>
