@@ -17,8 +17,8 @@
       </paging>
       <inputs>
         <key id='q' type='xs:string' paramType='query' />
-        <key id="hl" type="xs:string" paramType="query" required="false" default="fr"/>
-        <key id="gl" type="xs:string" paramType="query" required="false" default="fr"/>
+        <key id="hl" type="xs:string" paramType="query" required="false" default="en"/>
+        <key id="gl" type="xs:string" paramType="query" required="false" default="en"/>
         <key id='apikey' type='xs:string' paramType='variable' default='ABQIAAAAeHT5AZJqD5Xx9uPnCAeATBQlKU5X1qPXe538nLHTe0ksK9Nz0BSYjRoJw4Ss40xXg-aYj4es-iO9Pg' private='true' />
       </inputs>
     </select>

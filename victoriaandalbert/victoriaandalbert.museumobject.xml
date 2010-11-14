@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Victoria and Albert Museum's collections database</description>
+    <documentationURL>http://www.vam.ac.uk/api</documentationURL>
+    <sampleQuery description="Search for object number O12345">select * from {table} where id='O12345';</sampleQuery>
+   </meta>
+<bindings>
+   <select itemPath="json.fields" produces="JSON">
+        <urls>
+            <url>http://www.vam.ac.uk/api/json/museumobject/{id}/</url>
+        </urls>
+	<inputs>
+      	    <key id="id" type="xs:string" paramType="path" required="true" />
+        </inputs>
+    </select>
+</bindings>
+</table>

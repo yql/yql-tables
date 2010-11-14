@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any" https="false">  
+  <meta>  
+    <author>Lloyd Hilaiel</author>  
+    <documentationURL>http://www.npr.org/api/index</documentationURL>  
+    <sampleQuery>select item.id, item.title from npr.topics</sampleQuery>  
+  </meta>  
+  <bindings>
+    <select itemPath="list.item" produces="XML">
+      <urls>
+        <url>http://api.npr.org/list?id=3002</url>
+      </urls>
+    </select>
+  </bindings>
+</table>

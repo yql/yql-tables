@@ -4,15 +4,15 @@
 		<author>Zach Graves (zachg@yahoo-inc.com)</author>
 		<description>Twitter OAuth API</description>
 		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
-		<sampleQuery>select * from {table} where id=@id;</sampleQuery>
+		<sampleQuery>select * from {table} where user_id=@id;</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="users" produces="XML">
 			<urls>
-				<url>http://twitter.com/statuses/followers.{format}</url>
+				<url>http://api.twitter.com/1/statuses/followers.{format}</url>
 			</urls>
 			<inputs>
-				<key id="id" type="xs:string" paramType="path" required="true"/>
+				<key id="user_id" type="xs:string" paramType="query"/>
 				<key id="cursor" type="xs:string" paramType="query"/>
 				<key id="format" type="xs:string" paramType="path" default="xml"/>
 				
@@ -29,7 +29,7 @@ if(oauth_consumer_key && oauth_consumer_secret && oauth_token && oauth_token_sec
    var accessor = {};
    accessor.consumerKey = oauth_consumer_key;
    accessor.consumerSecret = oauth_consumer_secret;
-   accessor.realm = "twitter.com";
+   accessor.realm = request.url;
    accessor.token = oauth_token;
    accessor.tokenSecret = oauth_token_secret;
 

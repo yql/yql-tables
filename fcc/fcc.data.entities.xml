@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://reboot.fcc.gov/developer/license-view-api</documentationURL>
+	    <sampleQuery description="View the counts and percent distribution of active licenses by entity type">select * from {table} where limit="3"</sampleQuery>      
+		<description>This API returns the counts and percent distribution of active licenses by entity type. There are four entity categories: Individual, Business, Government and Other.
+This API provides information on the number of licenses held by various entities. Many different types of entities hold licenses with the Commission; these have been categorized into four groups: Individual, Business, Government and Other.
+		 </description>
+    </meta>
+	<bindings>
+		<select itemPath="Response.Stats" produces="XML">  
+			<urls>
+				<url>http://data.fcc.gov/api/license-view/licenses/getEntities</url>
+			</urls>  
+			<inputs>
+				<key id="limit" type="xs:string" paramType="query" required="false" default="10"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>	

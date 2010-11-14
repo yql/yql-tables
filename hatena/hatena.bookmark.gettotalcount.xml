@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://d.hatena.ne.jp/keyword/%a4%cf%a4%c6%a4%ca%a5%d6%a5%c3%a5%af%a5%de%a1%bc%a5%af%b7%ef%bf%f4%bc%e8%c6%c0API</documentationURL>
+        <sampleQuery>select * from {table} where url="http://www.yahoo.com/"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="methodResponse.params.param.value.int" produces="XML">
+            <urls>
+                <url>http://b.hatena.ne.jp/xmlrpc</url>
+            </urls>
+            <inputs>
+                <key id="url" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute><![CDATA[
+
+                var content =
+                    <methodCall>
+                        <methodName>bookmark.getTotalCount</methodName>
+                        <params>
+                            <value><string>{url}</string></value>
+                        </params>
+                    </methodCall>;
+                response.object = request.contentType('application/xml').post(content).response;
+
+            ]]></execute>
+        </select>
+    </bindings>
+</table>

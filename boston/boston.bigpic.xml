@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Greg Roodt</author>
+    <sampleQuery>select * from boston.bigpic where bpUrl="http://www.boston.com/bigpicture/2010/07/stormy_skies.html"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>{bpUrl}</url>
+      </urls>
+      <inputs>
+      	<key id="bpUrl" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <execute>
+      <![CDATA[
+      	/*
+      		This is a pretty fragile scraper for Big Picture. Any HTML changes will probably break it.
+      		The Big Picture HTML is malformed. When using the built in YQL XML handling, it drops some nodes.
+      		These nodes are important because they contain the info that dictates if the image is sensitive or not.
+      		As a result, we need to do some manual parsing with regex before using E4X.
+      	*/
+         var resp = y.rest(bpUrl)
+         					.accept('text')
+         					.contentType('text/plain')
+         					.forceCharset('iso-8859-1')
+         					.get().response;
+         					
+        	//Turn response into a String
+        	var respStr = new String(resp);
+
+			//scrape first image
+         var topImageAndRest = respStr.split("<span class=\"blogText bigText\">");
+         var topImage = topImageAndRest[1].split("<span class=\"bpMore\"");
+			var topImageClean = topImage[0].replace("</span>","");
+			var topImageClean = y.tidy(topImageClean);
+			//y.log(topImageClean);
+			var topImageXML = new XML("<topimage>"+topImageClean+"</topimage>");
+			//y.log(topImageXML);
+			
+         //scrape other images
+			var otherImagesAndRest = respStr.split("<span class=\"bpMore\"");
+			var otherImages = otherImagesAndRest[1].split("<div id=\"moreLinks\">");
+			var otherImagesClean = otherImages[0];
+			var otherImagesClean = y.tidy(otherImagesClean);
+			//y.log(otherImagesClean);
+			var otherImagesXML = new XML("<otherimages>"+otherImagesClean+"</otherimages>");
+			//y.log(otherImagesXML);
+			
+			//construct xml response
+         var root = <images></images>;
+			root.@['src'] = bpUrl;
+			response.object = root;
+			
+			//top image
+			var topImgSrc = topImageXML..img.@['src'];
+			//y.log("topImgSrc: "+topImgSrc);
+			var topImgCaption = topImageXML..div.(@['class'] == 'bpCaption').text();
+			//y.log("topImgCaption: "+topImgCaption);
+			var topImgNode=<image></image>;
+			topImgNode.node+=<src>{topImgSrc}</src>;
+			topImgNode.node+=<caption>{topImgCaption}</caption>;
+			topImgNode.node+=<blocked>false</blocked>;
+			topImgNode.node+=<anchor></anchor>;
+			root.node+=topImgNode;
+			
+			//other images
+			var imgs = otherImagesXML..div.(@['class'] == 'bpBoth');
+			for(var i=0,frag,image; i<imgs.length(); i++) {
+				frag=imgs[i];
+				image = <image></image>;
+				image.node+=<src>{frag..img.@['src']}</src>;
+				image.node+=<caption>{frag..div.(@['class'] == 'bpCaption').text()}</caption>;
+				var imgHide = frag..div.(@['class'] == 'imghide');
+				//y.log("imgHide:"+imgHide.length());
+				var blocked = imgHide.length() > 0 ? true : false;
+				image.node+=<blocked>{blocked}</blocked>;
+				var anchor = frag..div.(@['class'] == 'bpCaption').div.(@['class'] == 'photoNum')..a.@['href'];
+				image.node+=<anchor>{anchor}</anchor>;
+				root.node+=image;
+			}
+      ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+      <author>Zach Graves (zachg@yahoo-inc.com)</author>
+      <description>Gowalla API</description>
+      <documentationURL>http://gowalla.com/api/explorer#/users/sco</documentationURL>
+      <sampleQuery>select * from {table} where id='sco' and api_key='fa574894bddc43aa96c556eb457b4009';</sampleQuery>
+   </meta>
+   <bindings>
+      <select itemPath="json" produces="JSON">
+         <urls>
+            <url>http://api.gowalla.com/users/{id}</url>
+         </urls>
+         <inputs>
+            <key id="id" type="xs:string" paramType="path" required="true"/>
+            <key id="api_key" type="xs:string" paramType="variable" required="true"/>
+         </inputs>
+         <execute>
+            <![CDATA[
+response.object = request.header('X-Gowalla-API-Key', api_key).header('Accept', 'application/json').get().response;
+            ]]>
+         </execute>
+      </select>
+   </bindings>
+</table>

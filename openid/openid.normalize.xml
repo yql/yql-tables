@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-    <meta>
-        <author>Erik Eldridge</author>
-        <description>
-            Normalize url for openid usage as per 
-            http://openid.net/specs/openid-authentication-2_0.html#discovery
-        </description>
-        <sampleQuery>select * from {table} where id='yahoo.com'</sampleQuery>
-    </meta>
-    <bindings>
-        <select produces="JSON">
-            <inputs>
-                <key id="id" type="xs:string" paramType="variable" required="true"/>
-            </inputs>
-            <execute><![CDATA[
-            
-            //ref: http://openid.net/specs/openid-authentication-2_0.html#normalization_example
-            
-            function normalizeIdentifier (identifier) {
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Erik Eldridge</author>
+		<description>
+			Normalize url for openid usage		
+		</description>
+		<sampleQuery>select * from {table} where id='yahoo.com'</sampleQuery>
+		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
+	</meta>
+	<bindings>
+		<select produces="JSON">
+			<inputs>
+				<key id="id" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute><![CDATA[
+			
+			//ref: http://openid.net/specs/openid-authentication-2_0.html#normalization_example
+			
+			function normalizeIdentifier (identifier) {
 
-                var pattern = '^(http[s]*)?'//scheme
-                        + '(:\/\/)?'//separator
-                        +'([^:?#/]+)'//domain
-                        +'([^:?#]+)?',//path
-                    match = identifier.match(new RegExp(pattern)),
-                    normalized = '';
+				var pattern = '^(http[s]*)?'//scheme
+						+ '(:\/\/)?'//separator
+						+'([^:?#/]+)'//domain
+						+'([^:?#]+)?',//path
+					match = identifier.match(new RegExp(pattern)),
+					normalized = '';
 
-                if (undefined === match[1]) {
-                    normalized += 'http';
-                } else {
-                    normalized += match[1];
-                }
+				if (undefined === match[1]) {
+					normalized += 'http';
+				} else {
+					normalized += match[1];
+				}
 
-                normalized += '://';
+				normalized += '://';
 
-                if (undefined === match[3]) {
-                    return false;
-                } 
+				if (undefined === match[3]) {
+					return false;
+				} 
 
-                normalized += match[3];
+				normalized += match[3];
 
-                // if there's a path
-                if (match[4]) {
-                    normalized += match[4];
-                } else {
-                    normalized += '/';
-                }
+				// if there's a path
+				if (match[4]) {
+					normalized += match[4];
+				} else {
+					normalized += '/';
+				}
 
-                return normalized;
-            }
-            
-            var normalized = normalizeIdentifier(id);
-                
-            if (!normalized) {
-                response.object = { state : "error", details : "domain required, eg example.com" };
-            } else {
-                response.object = { "state" : "success", "id" : normalized };
-            }
-            
-        ]]></execute>
-        </select>
-    </bindings>
+				return normalized;
+			}
+			
+			var normalized = normalizeIdentifier(id);
+				
+			if (!normalized) {
+				response.object = { state : "error", details : "domain required, eg example.com" };
+			} else {
+				response.object = { "state" : "success", "id" : normalized };
+			}
+			
+		]]></execute>
+		</select>
+	</bindings>
 </table>

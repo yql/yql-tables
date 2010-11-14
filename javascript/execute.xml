@@ -1,0 +1,45 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where code="y.log('Hello!')"</sampleQuery>
+    <sampleQuery>select * from {table} where file="http://myhost.com/myfile.js"</sampleQuery>
+    <sampleQuery>select * from {table} where env="http://myhost.com/myenv.xml" and file="http://myhost.com/myfile.js"</sampleQuery>
+    <description>
+        Executes Javascript passed inline or from a location (also supports YQL storage).
+        An extra parameter can be used to indicate an specific YQL environment.
+    </description>
+    <author>Francisco Jordano (arcturus@ardeenelinfierno.com)</author>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url/>
+      </urls>
+      <inputs>
+        <key id='code' type='xs:string' paramType='variable' />
+        <key id='file' type='xs:string' paramType='variable' />
+        <key id='env' type='xs:string' paramType='variable' />
+      </inputs>
+      <execute><![CDATA[
+        //Check that we have at least one of the two parameters
+        if(code == null && file == null) {
+            y.exit();
+        }
+        
+        //Load the event if present
+        if(env != null) {
+            y.env(env);
+        }
+        
+        //Load first the file if present, and then the inline js code
+        if(file != null) {
+            y.include(file);
+        }
+        
+        if(code != null) {
+            eval(code);
+        }
+        
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

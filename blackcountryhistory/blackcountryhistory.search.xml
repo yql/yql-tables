@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Black Country History archives</description>
+    <documentationURL>http://bch.collectionspress.com/data/</documentationURL>
+    <sampleQuery description="Search for paintings in their collection">select * from {table} where q="painting";</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="rss.channel.item" produces="XML">
+        <urls>
+            <url>http://api.collectionsbase.org.uk/os/</url>
+        </urls>
+	<paging model="offset">
+		<start id="startPage" default="0" />
+		<pagesize id="count" max="50" />
+		<total default="10"/>
+	  </paging>
+      	<inputs>
+            <key id="queryType" type="xs:string" paramType="query" const="true" default="lucene" />
+	    <key id="fq" type="xs:string" paramType="query" const="true" default="dcterms.isPartOf:BCH" />
+	    <key id="q" type="xs:string" paramType="query" required="false" />
+	    <key id="facet" type="xs:string" paramType="query" required="false" />
+	    <key id="facet.mincount" type="xs:string" paramType="query" required="false" />
+	    <key id="format" type="xs:string" paramType="query" required="false" />
+	    <key id="sort" type="xs:string" paramType="query" required="false" />
+	 </inputs>
+    </select>
+</bindings>
+</table>

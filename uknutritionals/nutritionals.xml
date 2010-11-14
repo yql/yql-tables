@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where name like "banana";</sampleQuery>
+    <author>Max Manders</author>
+    <documentationURL>http://maxmanders.co.uk/lab/nutritionals/</documentationURL>  
+    <description>Provides access to UK OPSI Composition of Foods Data. Reproduced in part with the permission of http://www.opsi.gov.uk (http://bit.ly/a3dfdp)</description>
+  </meta>
+
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='name' type='xs:string' paramType='variable' required="false" />
+        <key id='water' type='xs:string' paramType='variable' required="false" />
+        <key id='nitrogen' type='xs:string' paramType='variable' required="false" />
+        <key id='protein' type='xs:string' paramType='variable' required="false" />
+        <key id='fat' type='xs:string' paramType='variable' required="false" />
+        <key id='carbohydrate' type='xs:string' paramType='variable' required="false" />
+        <key id='kcal' type='xs:string' paramType='variable' required="false" />
+        <key id='kj' type='xs:string' paramType='variable' required="false" />
+        <key id='starch' type='xs:string' paramType='variable' required="false" />
+        <key id='sugars' type='xs:string' paramType='variable' required="false" />
+      </inputs>
+      <execute><![CDATA[
+        var out = <nutritionals/>;
+        var query = 'select * from csv where url="http://maxmanders.co.uk/lab/nutritionals/nutritionals.csv"';
+        if(name){
+         query+= ' and col0 like "%'+name+'%"';
+        }
+        if(water){
+         query+= ' and col1 like "%'+water+'%"';
+        }
+        if(nitrogen){
+         query+= ' and col2 like "%'+nitrogen+'%"';
+        }
+        if(protein){
+         query+= ' and col3 like "%'+protein+'%"';
+        }
+        if(fat){
+         query+= ' and col4 like "%'+fat+'%"';
+        }
+        if(carbohydrate){
+         query+= ' and col5 like "%'+carbohydrate+'%"';
+        }
+        if(kcal){
+         query+= ' and col6 like "%'+kcal+'%"';
+        }
+        if(kj){
+         query+= ' and col7 like "%'+kj+'%"';
+        }
+        if(starch){
+         query+= ' and col8 like "%'+starch+'%"';
+        }
+        if(sugars){
+         query+= ' and col9 like "%'+sugars+'%"';
+        }
+        
+        var x = y.query(query);
+        var l = x.results..row;
+        for each(var n in l){
+          n.setName("nutritional");
+        }
+        var l = x.results..col0;
+        for each(var n in l){
+          n.setName("name");
+        }
+        var l = x.results..col1;
+        for each(var n in l){
+          n.setName("water");
+        }
+        var l = x.results..col2;
+        for each(var n in l){
+          n.setName("nitrogen");
+        }
+        var l = x.results..col3;
+        for each(var n in l){
+          n.setName("protein");
+        }
+        var l = x.results..col4;
+        for each(var n in l){
+          n.setName("fat");
+        }
+        var l = x.results..col5;
+        for each(var n in l){
+          n.setName("carbohydrate");
+        }
+        var l = x.results..col6;
+        for each(var n in l){
+          n.setName("kcal");
+        }
+        var l = x.results..col7;
+        for each(var n in l){
+          n.setName("kj");
+        }
+        var l = x.results..col8;
+        for each(var n in l){
+          n.setName("starch");
+        }
+        var l = x.results..col9;
+        for each(var n in l){
+          n.setName("sugars");
+        }
+        out.nutritional = x.results.nutritional;
+        response.object = out;
+      ]]></execute>
+    </select>
+
+  </bindings>
+</table>
+

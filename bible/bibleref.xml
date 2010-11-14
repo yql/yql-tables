@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans</author>
+    <description>The table breaks down complex bible references to a list of references to single verses. Also includes the OSISid format of the verse references.</description>
+    <sampleQuery>use "http://github.com/vicmortelmans/yql-tables/raw/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17"</sampleQuery>
+    <documentationURL>http://docs.google.com/View?id=ddq89pzk_200fmmzdthf</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id="bibleref" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[ 
+        RegExp.quote = function(str) {
+          return str.replace(/([.?*+^$[\]\\(){}-])/g, "\\$1");
+        };
+
+        var debug = 0;
+
+        var book = "";
+        var osisbook = "";
+        var bookrecord;
+        var bookoutlinerecord;
+        var openchapter = 0;
+        var chapterseparator;
+        var listseparator;
+        var rangeseparator;
+        
+        var bibleref;
+        var biblerefs = <biblerefs/>; // XML
+        for each (bibleref in parse_reference(bibleref)) 
+        {
+          biblerefs.appendChild(bibleref);
+        }
+        response.object = biblerefs;
+
+        function split_on_first_re(string,regex)
+        {
+          var before, after;
+          debug && y.log("split " + string + " on " + regex);
+          string = string.replace(regex,"%");
+          splitlocation = string.indexOf("%");
+          if (splitlocation < 0) 
+          {
+            splitlocation = string.length;
+          }
+          before = string.substring(0,splitlocation);
+          after = string.substring(splitlocation+1);
+          debug && y.log("split returns '" + before + "' and '" + after + "'"); 
+          return {before:before,after:after};
+        }
+        function split_on_first_char(string,character)
+        {
+          var before, after;
+          debug && y.log("split " + string + " on " + character);
+          splitlocation = string.indexOf(character);
+          if (splitlocation < 0) 
+          {
+            splitlocation = string.length;
+          }
+          before = string.substring(0,splitlocation);
+          after = string.substring(splitlocation+1);
+          debug && y.log("split returns '" + before + "' and '" + after + "'"); 
+          return {before:before,after:after};
+        }
+        function bookquery(book)
+        {
+          var booksquery, books;
+          booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
+          booksquery = booksquery.replace("$book",book);
+          books = y.query(booksquery).results.books;
+          if (books.book.length() < 1) {
+              var error_message = '$book is not a bible book. Common bible book abbreviations : $supported';
+              error_message = error_message.replace("$book",book);
+              error_message = error_message.replace("$supported","http://biblewiki.net/books/index");
+              y.log(error_message);
+              y.exit();
+          }
+          return books.book[0];
+        }
+        function getosisbook(bookrecord)
+        {
+          return bookrecord.code.(@service == 'osis').toString();
+        }
+        function bookoutlinequery(osisbook)
+        {
+          var booksquery, books;
+          booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/bible-outline.xml" and book.name = "$osisbook"';
+          booksquery = booksquery.replace("$osisbook",osisbook);
+          books = y.query(booksquery).results.books;
+          if (books.book.length() < 1) {
+              y.log('Internal error (01)');
+              y.exit(); 
+          }
+          return books.book[0];          
+        }
+        function get_number_of_verses(bookoutlinerecord,chapternr)
+        {
+          if (!bookoutlinerecord.chapter.(@number == chapternr))
+          {
+            y.log("Invalid chapter number: " + chapternr);
+            y.exit();
+          }
+          var number_of_verses = bookoutlinerecord.chapter.(@number == chapternr).@number_of_verses.toString();
+          debug && y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses); 
+          return number_of_verses;
+        }
+        function listrecord(book,chapter,verse,phrase,osisbook)
+        {
+          return <bibleref>
+          <book>{book}</book>
+          <chapter>{chapter}</chapter>
+          <verse>{verse}</verse>
+          <phrase>{phrase}</phrase>
+          <osisref>{osisbook + '.' + chapter + '.' + verse + (phrase?'!':'') + phrase}</osisref>
+          </bibleref>;
+        }
+        function parse_reference(bibleref)
+        {
+          var split;
+          var separatorsOrder;
+          var separatorIndex;
+          var parseResult;
+          var parseSuccess;
+          bibleref = bibleref.replace(/[\.,;:\- ]*([\.,;:\- ]) */g,"$1");
+          debug && y.log("parse_reference " + bibleref); 
+          split = split_on_first_re(bibleref,/[ ]/);
+          if (split.before.match(/^[0-9]+$/))
+          {
+            book = split.before + " ";
+          }
+          else if (split.before.match(/^[iv]+$/i))
+          {
+            book = deromanize(split.before) + " ";
+          }
+          else
+          {
+            split.after = bibleref; 
+          }
+          var split2 = split_on_first_re(split.after,/[:\., ]/);
+          book = book + split2.before;
+          bookrecord = bookquery(book);
+          osisbook = getosisbook(bookrecord);
+          bookoutlinerecord = bookoutlinequery(osisbook);
+          /* determine the functions of the separators being used */
+          separatorsOrder = getSeparators(split2.after);
+          separatorIndex = 0;
+          chapterseparator = separatorsOrder[separatorIndex].charAt(0);
+          debug && y.log("chapterseparator: " + chapterseparator); 
+          listseparator = separatorsOrder[separatorIndex].charAt(1);
+          debug && y.log("listseparator: " + listseparator);
+          rangeseparator = separatorsOrder[separatorIndex].charAt(2);
+          debug && y.log("rangeseparator: " + rangeseparator); 
+          parseSuccess = 0;
+          while (!parseSuccess)
+          {
+            try
+            {
+              parseResult = parse_list("explicit",split2.after);
+              parseSuccess = 1;
+            }
+            catch (error)
+            {
+              if (++separatorIndex < separatorsOrder.length)
+              {
+                debug && y.log("Trying another interpretation of separators, because " + error);
+                chapterseparator = separatorsOrder[separatorIndex].charAt(0);
+                debug && y.log("chapterseparator: " + chapterseparator); 
+                listseparator = separatorsOrder[separatorIndex].charAt(1);
+                debug && y.log("listseparator: " + listseparator);
+                rangeseparator = separatorsOrder[separatorIndex].charAt(2);
+                debug && y.log("rangeseparator: " + rangeseparator); 
+              }
+              else
+              {
+                y.log("Invalid bible reference syntax.");
+                y.exit(0);
+              }
+            }
+          }
+          return parseResult;
+        }
+        function parse_list(mode,string)
+        {
+          var split, list; 
+          debug && y.log("parse_list " + string);
+          split = split_on_first_char(string,listseparator);
+          list = parse_range(mode,split.before);
+          if (split.after)
+          {
+            list += parse_list("implicit",split.after);
+          }
+          return list;
+        }
+        function parse_range(mode,range)
+        {
+          var split, begin, end, list = new XMLList();
+          debug && y.log("parse_range " + range);
+          split = split_on_first_char(range,rangeseparator);
+          begin = parse_location(mode,split.before);
+          if (split.after)
+          {
+            end = parse_location("implicit",split.after);
+          }
+          else
+          {
+            end = begin;
+          }
+          if (begin.chapter > end.chapter)
+          {
+            throw("Fallback: Invalid bible chapter range");
+          }
+          for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
+          {
+            var number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
+            var chapterbeginversenumber = chapter==begin.chapter?begin.verse.number:1;
+            var chapterendversenumber = chapter==end.chapter?end.verse.number:number_of_verses;
+            debug &&  y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); 
+            for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
+            {
+              if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) {
+                if (!begin.verse.phrase != !end.verse.phrase) /* implementation of XOR */ 
+                {
+                  throw("Fallback: Invalid reference; to indicate a range within a verse: Ester 8:9a-9b");
+                }
+                else if (begin.verse.phrase)
+                {
+                  var i;
+                  phrases = "abcdefghijkl";
+                  for (i = phrases.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
+                  {
+                    debug &&  y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
+                    list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook);
+                  }
+                }  
+                else 
+                {
+                  debug &&  y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
+                  list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook);
+                }
+              }
+              else
+              {
+                var phrase;
+                if (chapter==begin.chapter && versenumber==begin.verse.number)
+                {
+                  phrase = begin.verse.phrase?(begin.verse.phrase + '-'):'';
+                }
+                else if (chapter==end.chapter && versenumber==end.verse.number)
+                {
+                  phrase = end.verse.phrase?('-' + end.verse.phrase):'';
+                }
+                debug && y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
+                list += listrecord(book, chapter, versenumber, phrase, osisbook);
+              }
+            }
+          }
+          return list;
+        }
+        function parse_location(mode,location)
+        {
+          var split, chapter, verse, number_of_verses;
+          debug && y.log("parse_location " + mode + " " + location);
+          split = split_on_first_char(location,chapterseparator);
+          if (mode == "explicit" &&  !split.after)
+          {
+            throw("Fallback: Missing verse number: " + location);
+          }
+          else if (mode == "explicit" || split.after)
+          {
+            chapter = parse_chapter(split.before);
+            verse = parse_verse(split.after);
+          }
+          else 
+          {
+            chapter = openchapter;
+            verse = parse_verse(split.before);
+          }
+          if (!verse)
+          {
+            throw("Fallback: invalid verse number: " + location);
+          }
+          number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
+          if (verse.number > number_of_verses)
+          {
+            throw("Fallback: non-existent verse: " + verse.number + " (chapter has " + number_of_verses + " verses)");
+          }
+          openchapter = chapter;
+          return {chapter:chapter, verse:verse};
+        }
+        function parse_chapter(string)
+        {
+          var chapter;
+          debug && y.log("parse_chapter " + string);
+          if (string.match(/^[0-9]+$/))
+          {
+            chapter = parseInt(string);
+          }
+          else if (string.match(/^[ivxlc]+$/i))
+          {
+            chapter = deromanize(string);
+          }
+          else
+          {
+            throw("Fallback: Not a chapter number: " + string);
+          }
+          return chapter;
+        }
+        function parse_verse(string)
+        {
+          debug && y.log("parse_verse " + string);
+          if (!string.match(/^[0-9]+[a-z]?$/))
+          {
+            throw("Fallback: Not a verse number: " + string);
+          }
+          if (string.match(/[a-z]/)) {
+            debug &&  y.log("number " + string.substring(0,string.length-1) + ", phrase " + string.charAt(string.length-1)); 
+            return {number:Number(string.substring(0,string.length-1)),phrase:string.charAt(string.length-1)};
+          } else {
+            return {number:Number(string),phrase:''};
+          }
+        }
+        function deromanize (str) 
+        {
+          var	str = str.toUpperCase(),
+          validator = /^M*(?:D?C{0,3}|C[MD])(?:L?X{0,3}|X[CL])(?:V?I{0,3}|I[XV])$/,
+          token = /[MDLV]|C[MD]?|X[CL]?|I[XV]?/g,
+          key = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},
+          num = 0, m;
+          if (!(str && validator.test(str)))
+          {
+            y.log("Not a valid roman number: " + str);
+            y.exit();
+          }
+          while (m = token.exec(str))
+            num += key[m[0]];
+          return num;
+        }
+        
+        /* functions for determining the function of separators */
+        
+        function getSeparators(string) 
+        {
+          var i;
+          var separators;
+          var separatorpattern;
+          var separatorPermutations;
+          var separatorPermutationProbability = new Array();
+          var separator;
+          separators = getOccuringCharacters(string,'-.,;:/ ');
+          debug && y.log("Separators : " + separators);
+          if (separators.length > 3)
+          {
+            y.log("Invalid bible reference - too many different separators");
+            y.exit();
+          }
+          for (i = separators.length; i < 3; i++)
+          {
+            separators += '#';  
+          }
+          separatorPermutations = getPermutations(separators);
+          debug && y.log("Permutations # : " + separatorPermutations.length);
+          for each (var separatorPermutation in separatorPermutations)
+          {
+            separatorPermutationProbability[separatorPermutation] = getProbability(separatorPermutation);
+          }
+          separatorPermutationOrder = sort(separatorPermutationProbability);
+          return separatorPermutationOrder;
+        }
+        function getOccuringCharacters(string,chars) 
+        {
+          var i;
+          var occuringCharacters = '';
+          for (i = 0; i < chars.length; i++) 
+          {
+            if ( string.indexOf(chars.charAt(i)) >= 0 ) 
+            {
+              occuringCharacters += chars.charAt(i);
+            }
+          }
+          return occuringCharacters;  
+        }
+        function getPermutations(string)
+        {
+          var Permutations = new Array();
+          var usedChars = new Array();
+          permute(string);
+          return Permutations;
+          function permute(input) 
+          {
+            var i, ch, chars = input.split("");
+            for (i = 0; i < chars.length; i++)
+            {
+              ch = chars.splice(i, 1);
+              usedChars.push(ch);
+              if (chars.length == 0)
+              {
+                Permutations.push(usedChars.join(""));
+              }
+              permute(chars.join(""));
+              chars.splice(i, 0, ch);
+              usedChars.pop();
+            }
+          }
+        }
+        function getProbability(separatorPermutation)
+        {
+          var probability = 0;
+          var separatorProbability = new Array();
+          debug && y.log("Calculating probability for " + separatorPermutation);
+          separatorProbability['-'] = {'chapter':1, 'list':4, 'range':9};
+          separatorProbability['.'] = {'chapter':8, 'list':5, 'range':1};
+          separatorProbability[','] = {'chapter':7, 'list':8, 'range':0};
+          separatorProbability[';'] = {'chapter':6, 'list':9, 'range':0};
+          separatorProbability[':'] = {'chapter':9, 'list':5, 'range':2};
+          separatorProbability['/'] = {'chapter':4, 'list':2, 'range':1};
+          separatorProbability[' '] = {'chapter':5, 'list':3, 'range':0};
+          separatorProbability['#'] = {'chapter':0, 'list':0, 'range':0};
+          /* calculate probability based on occurring separators */
+          probability = separatorProbability[separatorPermutation.charAt(0)]['chapter']
+              + separatorProbability[separatorPermutation.charAt(1)]['list']
+              + separatorProbability[separatorPermutation.charAt(2)]['range'];
+          debug && y.log("Probability for " + separatorPermutation + " = " + probability);
+          return probability;
+        }
+        function sort(array)
+        { 
+          var newarray = new Array();
+          var key;
+          var i = 0;
+          for (key in array) 
+          {
+            newarray[i++] = key;
+          }
+          function sortfunction(key1,key2)
+          {
+            return (array[key2] - array[key1]);
+          }
+          newarray.sort(sortfunction);
+          return newarray;
+        }
+      ]]></execute>
+      </select>
+  </bindings>
+</table>

@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/map/openlocalplatform/v1/datum.html</documentationURL>
+        <sampleQuery>select * from {table} where appid="dev.okuryu" and coordinates="139.73359257419,35.662886299615" and datum="wgs"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://datum.search.olp.yahooapis.jp/OpenLocalPlatform/V1/datumConvert</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="coordinates" type="xs:string" paramType="query" required="true" />
+                <key id="datum" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

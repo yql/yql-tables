@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Christies auction</description>
+    <documentationURL>http://www.finds.org.uk</documentationURL>
+    <sampleQuery>select * from {table};</sampleQuery>
+</meta>
+<bindings>
+   <select itemPath="json.items" produces="JSON">
+        <urls>
+            <url>http://www.christies.com/LotFinder/lf_search.aspx?action=refine&amp;intSaleID=22908&amp;num=330</url>
+        </urls>
+   </select>
+</bindings>
+</table>

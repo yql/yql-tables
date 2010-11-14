@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+    <meta>
+        <author>Quentin ADAM - waxzce</author>
+        <documentationURL>http://longurl.org/api</documentationURL>
+        <sampleQuery description="get a long url and many other informations from a shorturl">select * from {table} where url='http://bit.ly/aFtKUB';</sampleQuery>
+        <sampleQuery description="get a long url and many other informations from a shorturl : google.com">select * from {table} where url='http://is.gd/w';</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="response" produces="XML">
+            <urls>
+                <url>http://api.longurl.org/v2/expand</url>
+            </urls>
+            <inputs>
+                <key id="url" type="xs:string" paramType="query" required="true"/>
+                <key id="user-agent" type="xs:string" paramType="query" required="false" default="opentable/yql"/>
+                <key id="all-redirects" type="xs:boolean" paramType="query" required="false" default="true"/>
+                <key id="content-type" type="xs:boolean" paramType="query" required="false" default="true"/>
+                <key id="response-code" type="xs:boolean" paramType="query" required="false" default="true"/>
+                <key id="title" type="xs:boolean" paramType="query" required="false" default="true"/>
+                <key id="rel-canonical" type="xs:boolean" paramType="query" required="false" default="true"/>
+                <key id="meta-keywords" type="xs:boolean" paramType="query" required="false" default="true"/>
+                <key id="meta-description" type="xs:boolean" paramType="query" required="false" default="true"/>
+                <key id="format" const="true" type="xs:string" paramType="query" required="false" default="xml"/>
+            </inputs>
+
+        </select>
+     </bindings>
+</table>

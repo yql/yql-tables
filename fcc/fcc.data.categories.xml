@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://reboot.fcc.gov/developer/license-view-api</documentationURL>
+	    <sampleQuery description="View counts and percent distribution of active licenses by category for Verizon Wireless">select * from {table} where commonName="Verizon Wireless" and limit="3"</sampleQuery>      
+		<description>This API returns the counts and percent distribution of active licenses by category. A license falls into only one category. 
+For general overview purposes, we have associated each radio service with a specific usage category. Categories are based on most common usage by industry and may not reflect the actual use of an individual license. The data dictionary provides a mapping of the radio service to its respective category.
+		 </description>
+    </meta>
+	<bindings>
+		<select itemPath="Response.Stats" produces="XML">  
+			<urls>
+				<url>http://data.fcc.gov/api/license-view/licenses/getCategories</url>
+			</urls>  
+			<inputs>
+				<key id="commonName" type="xs:string" paramType="query" required="false"/>
+				<key id="limit"      type="xs:string" paramType="query" required="false" default="10"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>	

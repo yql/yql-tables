@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Retrieve list of results from Digital NZ - very beta according to docs</description>
+    <documentationURL>http://www.digitalnz.org/developer/api-docs/custom-search-records/</documentationURL>
+    <sampleQuery description="Search for all records attributed to war">select * from {table} where search_text='war' and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="hash.results.result" produces="XML">
+        <urls>
+            <url>http://api.digitalnz.org/custom_searches/v{version_id}/{custom_search_title}.{format}/</url>
+        </urls>
+   <paging model="offset">
+	<start id="start" default="1"/>
+	<pagesize id="num_results" max="100"/>
+	<total default="20"/>
+   </paging>
+	<inputs>
+            <key id="search_text" type="xs:string" paramType="query" required="false" />
+            <key id="sort" type="xs:string" paramType="query" required="false" />
+	    <key id="direction" type="xs:string" paramType="query" required="false" />
+	    <key id="custom_search_title" type="xs:string" paramType="path" required="true" />
+	    <key id="jsonp" type="xs:string" paramType="query" required="false" />
+	    <key id="format" type="xs:string" paramType="path" required="true" />
+	    <key id="version_id" type="xs:string" paramType="path" required="true" />
+            <key id="api_key" type="xs:string" paramType="query" required="true" private="true"/>
+	</inputs>
+    </select>
+</bindings>
+</table>
