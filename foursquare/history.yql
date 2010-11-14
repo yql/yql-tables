@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+  <author>Ben Ward</author>
+  <description>FourSquare Checkin History</description>
+  <documentationURL>http://groups.google.com/group/foursquare-api/web/api-documentation</documentationURL>
+  <sampleQuery>SELECT * FROM {table} WHERE user='email_or_phone' AND password='password'</sampleQuery>
+</meta>
+<bindings>
+<select itemPath="/checkins/checkin" produces="XML">
+    <urls>
+        <url>http://api.foursquare.com/v1/history</url>
+    </urls>
+    <inputs>
+        <key id="username" type="xs:string" required="false" paramType="variable"/>
+        <key id="password" type="xs:string" required="false" paramType="variable"/>
+        <key id="id" type="xs:integer" required="true" paramType="path"/>
+    </inputs>
+    <execute><![CDATA[
+        var r = null;
+        if (username && password) {
+          y.include("http://yqlblog.net/samples/base64.js");
+          var authheader = "Basic "+Base64.encode(username+":"+password);
+          r = request.header("Authorization",authheader).get().response;
+        } else {
+          r = request.get().response;
+        }
+        response.object = r;
+    ]]></execute>
+</select>
+</bindings>
+</table>
