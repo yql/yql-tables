@@ -16,8 +16,8 @@
         if(res.toString().indexOf('down')!==-1){
           out = '-'
         }
-        y.log(res);
-        response.object = <moo>{out}{res}</moo>;
+        var value = res.strong.toString();
+        response.object = <moo>{out}{value}</moo>;
       ]]></execute>
     </select>
   </bindings>
