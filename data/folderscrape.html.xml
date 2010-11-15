@@ -11,7 +11,7 @@
         <key id='folder' type='xs:string' paramType='variable' required="true" />
       </inputs>
       <execute><![CDATA[
-        var res = y.query('select * from html where url="{folder}" and xpath="//tr/td[@valign=\'top\']/following-sibling::td/a"').results..a;
+        var res = y.query('select * from html where url="'+folder+'" and xpath="//tr/td[@valign=\'top\']/following-sibling::td/a"').results..a;
         var out = <files/>
         for each(f in res){
           if(!f.@href.toString().match(/\//)){
