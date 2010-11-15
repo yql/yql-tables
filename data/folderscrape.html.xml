@@ -18,7 +18,7 @@
             out.file += f.@href;
           }
         }
-        response.object = {out};
+        response.object = <folder>{out}</folder>;
       ]]></execute>
     </select>
   </bindings>
