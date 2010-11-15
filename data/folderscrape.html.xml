@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where place1="london" and place="paris"</sampleQuery>
+    <author>Christian Heilmann</author>
+    <description>Gets urls from an Apache folder for scraping</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='filter' type='xs:string' paramType='variable' required="false" />
+        <key id='type' type='xs:string' paramType='variable' required="false" />
+        <key id='folder' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var res = y.query('select * from html where url="http://www.astro.caltech.edu/~aam/science/xml/" and xpath="//tr/td[@valign=\'top\']/following-sibling::td/a"').results;
+        response.object = <files>{res}</files>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
