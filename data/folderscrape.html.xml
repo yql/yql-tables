@@ -15,8 +15,8 @@
         var out = <files/>
         for each(f in res){
           if(!f.@href.toString().match(/\//)){
-            content = folder+'/'+f.@href;
-            out.file += {content};
+            content = folder+'/'+f.@href.toString();
+            out.file += content;
           }
         }
         response.object = <folder>{out}</folder>;
