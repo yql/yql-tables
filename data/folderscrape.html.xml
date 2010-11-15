@@ -12,10 +12,10 @@
       </inputs>
       <execute><![CDATA[
         var res = y.query('select * from html where url="'+folder+'" and xpath="//tr/td[@valign=\'top\']/following-sibling::td/a"').results..a;
-        var out = <files/>
+        var out = '';
         for each(f in res){
           if(!f.@href.toString().match(/\//)){
-            content = folder+'/'+f.@href;
+            content = folder+f.@href;
             out += <file>{content}</file>;
           }
         }
