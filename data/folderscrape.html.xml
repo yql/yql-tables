@@ -14,6 +14,11 @@
       </inputs>
       <execute><![CDATA[
         var res = y.query('select * from html where url="http://www.astro.caltech.edu/~aam/science/xml/" and xpath="//tr/td[@valign=\'top\']/following-sibling::td/a"').results;
+        for each(f in res){
+          if(!f.@href.toString().match(/\//)){
+            y.log(f);
+          }
+        }
         response.object = <files>{res}</files>;
       ]]></execute>
     </select>
