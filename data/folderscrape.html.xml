@@ -6,7 +6,7 @@
     <description>Gets urls from an Apache folder for scraping</description>
   </meta>
   <bindings>
-    <select itemPath="folder.files" produces="XML">
+    <select itemPath="" produces="XML">
       <inputs>
         <key id='folder' type='xs:string' paramType='variable' required="true" />
       </inputs>
