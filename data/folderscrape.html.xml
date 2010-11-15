@@ -13,8 +13,8 @@
         <key id='folder' type='xs:string' paramType='variable' required="true" />
       </inputs>
       <execute><![CDATA[
-        var res = y.query('select * from html where url="http://www.astro.caltech.edu/~aam/science/xml/" and xpath="//tr/td[@valign=\'top\']/following-sibling::td/a"').results;
-        for each(f..a in res){
+        var res = y.query('select * from html where url="http://www.astro.caltech.edu/~aam/science/xml/" and xpath="//tr/td[@valign=\'top\']/following-sibling::td/a"').results..a;
+        for each(f in res){
           if(!f.@href.toString().match(/\//)){
             y.log(f);
           }
