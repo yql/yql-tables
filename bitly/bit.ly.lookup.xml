@@ -12,8 +12,8 @@
                 <url>http://api.bit.ly/v3/lookup</url>
             </urls>
             <inputs>
-                <key id="login" type="xs:string" paramType="query"/>
-                <key id="apiKey" type="xs:string" paramType="query"/>
+                <key id="login" type="xs:string" paramType="query" required="true"/>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
                 <key id="format" type="xs:string" paramType="query" default="json"/>
                 <key id="url" type="xs:string" paramType="query" required="true" batchable="true" maxBatchItems="15"/>
             </inputs>
