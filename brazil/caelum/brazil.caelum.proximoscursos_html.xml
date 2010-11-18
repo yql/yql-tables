@@ -3,7 +3,7 @@
 	<meta>
 		<author>Adriano Almeida</author>
 		<description>Pesquisa na lista de cursos da Caelum</description>
-		<sampleQuery>select * from caelum.proximoscursos</sampleQuery>
+		<sampleQuery>select * from {table}</sampleQuery>
 	</meta>
 	
 	<bindings>
