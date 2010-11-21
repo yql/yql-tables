@@ -15,18 +15,44 @@
         <key id="language" type="xs:string" paramType="variable" required="false" default="en"/>
         <key id="edition" type="xs:string" paramType="variable" required="false"/>
         <key id="date" type="xs:string" paramType="variable" required="true"/>
+        <key id="rite" type="xs:string" paramType="variable" required="false" default="ordinary roman rite"/>
       </inputs>
       <execute><![CDATA[ 
         if (!edition) {
-          var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.language matches "(?i)$language" and edition.default="true"';
+          var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.language matches "(?i)$language" and edition.rite matches "(?i)$rite" and and edition.default="true"';
           editionsquery = editionsquery.replace("$language",language);
+          editionsquery = editionsquery.replace("$rite",rite);
           var editions = y.query(editionsquery).results.editions;	
           if (editions.edition.length() < 1) {
-            var supported_languagesquery = 'select edition.language from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.default="true"';
-            var supported_languages = y.query(supported_languagesquery).results.editions.edition.language;
-            var error_message = 'Language $language is not supported. Supported lectionary languages : $supported';
-            error_message = error_message.replace("$language",language);
-            error_message = error_message.replace("$supported",stringListValue(supported_languages));
+			var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.rite matches "(?i)$rite" and and edition.default="true"';
+			editionsquery = editionsquery.replace("$rite",rite);
+			var editions = y.query(editionsquery).results.editions;	
+	        if (editions.edition.length() < 1) { // rite not supported at all
+	            var supported_ritesquery = 'select edition.rite from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.default="true"';
+	            var supported_rites = y.query(supported_ritesquery).results.editions.edition.rite;
+	            var error_message = 'Rite $rite is not supported. Supported rites : $supported';
+	            error_message = error_message.replace("$rite",rite);
+	            error_message = error_message.replace("$supported",stringListValue(supported_rites));
+	        } else { // rite supported
+				var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.language matches "(?i)$language" and and edition.default="true"';
+				editionsquery = editionsquery.replace("$language",language);
+				var editions = y.query(editionsquery).results.editions;	
+		        if (editions.edition.length() < 1) { // language not supported at all
+		            var supported_languagesquery = 'select edition.language from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.default="true"';
+		            var supported_languages = y.query(supported_languagesquery).results.editions.edition.language;
+		            var error_message = 'Language $language is not supported. Supported lectionary languages : $supported';
+		            error_message = error_message.replace("$language",language);
+		            error_message = error_message.replace("$supported",stringListValue(supported_languages));
+		        } else { // rite-language combination not supported
+		            var supported_languagesquery = 'select edition.language from xml where url="http://github.com/vicmortelmans/yql-tables/raw/master/bible/lectionary/editions.xml" and edition.rite matches "(?i)$rite" and edition.default="true"';
+			        supported_languagesquery = supported_languagesquery.replace("$rite",rite);
+		            var supported_languages = y.query(supported_languagesquery).results.editions.edition.language;
+		            var error_message = 'Language $language is not supported. Supported lectionary languages for rite "$rite" : $supported';
+		            error_message = error_message.replace("$language",language);
+		            error_message = error_message.replace("$rite",rite);
+		            error_message = error_message.replace("$supported",stringListValue(supported_languages));
+		        }
+	        }
             y.log(error_message);
             y.exit();
           }
@@ -53,9 +79,9 @@
             y.exit();
           }
         }
-        var edition_switch = editions.edition[0].switch_id.toString();
         var service_switch = editions.edition[0].service.toString();
         var language_switch = editions.edition[0].language.toString();
+        var rite_switch = editions.edition[0].rite.toString();
         var edition_name = editions.edition[0].input.(@type=="name").toString();
 		if (!date) {
 		    dateobject = new Date();
@@ -73,6 +99,10 @@
 		}
         
         switch (service_switch) {
+            case "bijbel_net":
+                y.log("using " + edition_name);
+                response.object = bijbel_net();
+                break;
             case "usccb_org":
                 y.log("using " + edition_name);
                 response.object = usccb_org();
@@ -110,6 +140,44 @@
             }
             return value;
         }
+
+        function bijbel_net() {
+            var url = "http://www.bijbel.net/lectionarium/?t=xml&d=$year-$month-$day";
+            url = url.replace("$day",dateobject.getDate());
+            url = url.replace("$month",dateobject.getMonth());
+            url = url.replace("$year",dateobject.getFullYear());
+            var yql = "select * from xml where url='$url'";
+            yql = yql.replace("$url",url);
+            var lectionarium = y.query(yql).results;
+			var day = <day></day>;
+			day += <language>{language_switch}</language>;
+			day += <rite>{rite_switch}</rite>;
+			day += <edition>{edition_name}</edition>
+			//TODO
+			day += <dayname>{}</dayname>; 
+			day += <date>{dateobject.getFullYear()}-{dateobject.getMonth()}-{dateobject.getDate()}</date>;
+			//TODO
+			day += <category>{}</category>;
+			day += <cycle>{}</cycle>;
+			day += <yearcycle>{}</yearcycle>;
+			for (var item in lectionarium.items) {
+				var mass = <mass></mass>;
+				mass += <massname>{item.name}</massname>;
+				for (var lezing in item) {
+					var reading = <reading></reading>;
+					switch (lezing.localName()) {
+						case "LEZING1":
+							reading += <readingtype>l1</readingtype>;
+						case "LEZING2":
+							reading += <readingtype>l2</readingtype>;
+						case "EVLEZING":
+							reading += <readingtype>g</readingtype>;
+						
+					}
+				}
+			}
+            return ;    
+		}
 
         function usccb_org() {
             var url = "http://www.usccb.org/nab/readings/$month$day$year.shtml";
