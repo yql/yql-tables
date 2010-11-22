@@ -34,7 +34,7 @@
         <![CDATA[
 
         // Fetch the response
-        y.include('http://laaker.com/etc/yql/json2.js');
+        y.include('http://www.datatables.org/javascript/json2.js');
         var rsp = JSON.parse(request.get().response);
 
         // loop over each result
