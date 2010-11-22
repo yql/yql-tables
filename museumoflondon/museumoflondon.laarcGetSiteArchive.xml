@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Query Museum of London LAARC archive for site archive information</description>
+    <documentationURL>http://www.museumoflondon.org.uk/laarcWS/v1/doc/methods.aspx</documentationURL>
+    <sampleQuery description="Search for sitecode ABM97">select * from {table} where terms='ABM97';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="SearchResult.ResultSet.Archive" produces="XML">
+        <urls>
+            <url>http://www.museumoflondon.org.uk/laarcWS/v1/rest?op=GetSiteArchive</url>
+        </urls>
+     	<inputs>
+	    <key id="search_type" type="xs:string" paramType="query" const="true" default="bycode" />
+	    <key id="terms" type="xs:string" paramType="query" required="false" />
+	</inputs>
+    </select>
+</bindings>
+</table>

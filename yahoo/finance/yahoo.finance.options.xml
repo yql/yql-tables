@@ -89,7 +89,7 @@
 	
 				for each ( var tr in results )
 				{
-					strikePrice = parseFloat( tr.td[0].strong.a.text() );
+					strikePrice = parseFloat( tr.td[0].a.strong.text() );
 					optionSymbol = tr.td[1].a.text();
 					
 					// Check to see what type of option
@@ -138,11 +138,14 @@
 			function getExpiration()
 			{
 				var results = expiresQuery;
+
+				y.log( "results.length(): " + results.length() );
 			
 				elements = results.*.length();
 						
 				if ( elements == 0 )
 				{
+					y.log( "no elements" );
 					return "";
 				}
 
@@ -186,10 +189,10 @@
 							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
 							"@class='yfnc_tabledata1']]"
 			);
-
+			
 			var expiresQuery = y.xpath( 
 				data,
-				"//table/tr[@class='yfnc_modtitle1']/td[last()]/p"
+				"//table[@class='yfnc_mod_table_title1']/tr/td[last()]/p"
 			);
 
 			var expiryDay = getExpiration();
@@ -199,7 +202,8 @@
 
 			if ( queryHasExpiration == true )
 			{
-				if ( expiryDay != null )
+				if ( expiryDay != null && 
+					expiryDay != "" )
 				{
 					expDate += "-" + expiryDay;
 				}

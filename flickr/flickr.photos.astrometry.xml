@@ -1,0 +1,128 @@
+<?xml version = "1.0"?>
+<table xmlns = "http://query.yahooapis.com/v1/schema/table.xsd" >
+  <meta >
+    <author > Jim O 'Donnell</author>
+    <documentationURL>http://eatyourgreens.org.uk/archives/2010/06/get-excited-and-make-things-with-science.html</documentationURL>
+    <sampleQuery description="Get position info for a specific photo url.">select * from {table} where url = 'http://www.flickr.com/photos/fgligor/4710170538/'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="photos.photo">
+      <urls>
+
+        <url></url>
+      </urls>
+    <paging model="offset">
+    <start id="start" default="0"/>
+    <pagesize id="count" max="250"/>
+    <total default="20"/>
+    </paging>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" required="true" />
+      </inputs>
+    <execute><![CDATA[
+
+    var querystring = "select * from html where url='"+url+"' and xpath='//div[@class=\"comment-body\"]'";
+    var data = y.query(querystring);
+    var photo = parseAstrotags(data);
+
+    default xml namespace = '';
+    var respdata = <photos/>;
+
+      var node = <photo>
+            <ra>{photo.RA}</ra>
+            <dec>{photo.Dec}</dec>
+            <orientation>{photo.orientation}</orientation>
+            <fieldsize>{photo.fieldsize}</fieldsize>
+          </photo>;
+      for each (name in photo.names) {
+        node.photo += <name>{name}</name>;
+      }
+      respdata.photos += node;
+    
+    // try extending cache time as these
+    // results don't change very often.
+    response.maxAge = 1800;
+    response.object = respdata;
+    
+    function parseAstrotags(data) {
+
+      var results = data.results;
+
+        var comment = 'Sorry, that photo has not been solved by <a href="http://astrometry.net">astrometry.net</a>.';
+        for each (var p in results.div) {
+          var text = p.toString();
+          // Comments left by the solver contain the text 'blind astrometry solver'.
+          if(text.match(/blind astrometry solver/gi)) {
+            comment = p;
+          }
+        }
+        return parseComment(comment);
+    }
+        
+    function parseComment(comment) {
+      var astro = {};
+      var names = {};
+      var parsing_names = false;
+
+      for each (var child in comment..*) {
+      
+        for each (var t in child..*) {
+          var text = '';
+          text = t.toString();
+          text = trim(text);
+
+          if (text) {
+            if (text.match(/(RA, Dec)/g) && text.match(/degrees/g)) {
+              text=text.match(/[-0-9\.]+/g);
+              astro.RA = text[0];
+              astro.Dec = text[1];
+            } else if (text.match(/Orientation/g)) {
+              text = text.match(/[-0-9\.]+/g);
+              astro.orientation = text[0];
+            } else if (text.match(/Pixel scale/g)) {
+              text = text.match(/[0-9\.]+/g);
+              astro.pixelScale = text[0];
+            } else if(text.match(/Field size/g)) {
+              text = text.match(/[0-9\.]+ x [0-9\.]+ (degrees|arcminutes|arcseconds)/g);
+              astro.fieldsize = text[0];
+            } else if(text.match(/Your field contains:/g)) {
+              parsing_names = true;
+            } else if (text.match(/-----/g)) {
+              parsing_names = false;
+            }
+
+            if (parsing_names) {
+              names = addNames(names, text);
+            }
+          }
+        }
+      }
+      astro.names = names;
+      return astro;
+    }
+    
+    function addNames(names, text) {
+
+     text = trim(text);
+     text = text.split('/');
+     for (var j in text) {
+       var name = text[j];
+       name = trim(name);
+       if (name && name !='Your field contains:' && name != 'View in World Wide Telescope'){
+         names[name] = name;
+       }
+     }
+     return names;
+    }
+    
+    function trim(text) {
+      // Trim leading and trailing whitespace from a string.
+      text = text.replace(/^\s+/, '');
+      text = text.replace(/\s+$/,'');
+      return text;
+    }
+          
+   ]]></execute>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get a list of Members of Scottish Parliament</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getMSPs</documentationURL>
+    <sampleQuery description="Get a list of MSPs by party on a date">select * from {table} where date='2010-05-07' and party='Conservative' and key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="twfy.match" produces="XML">
+        <urls>
+            <url>http://www.theyworkforyou.com/api/getMSPs</url>
+        </urls>
+        <inputs>
+            <key id="date" type="xs:string" paramType="query" required="false" />
+            <key id="party" type="xs:string" paramType="query" required="false" />
+	    <key id="search" type="xs:string" paramType="query" required="false" />
+            <key id="key" type="xs:string" paramType="query" required="true" private="true" />
+	    <key id="output" type="xs:string" paramType='query' const="true" default="xml" />
+        </inputs>
+    </select>
+</bindings>
+</table>

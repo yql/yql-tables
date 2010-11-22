@@ -1,0 +1,22 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd"> 
+  <meta> 
+    <author>Pedro Valente</author> 
+    <sampleQuery>select * from {table} where url="http://instagr.am/p/M1rd/"</sampleQuery>
+    <documentationURL>http://api.embed.ly/documentation</documentationURL>
+    <description>Unofficial open table for the Embed.ly API. Check out the docs ( http://api.embed.ly/documentation ) to learn what to expect.</description>
+  </meta> 
+  <bindings> 
+    <select itemPath="json" produces="JSON">  
+      <urls>
+        <url>http://api.embed.ly/1/oembed</url>  
+      </urls>
+      <inputs>  
+        <key id='url' type='xs:string' paramType='query' required="true" />  
+        <key id='maxwidth' type='xs:string' paramType='query' required="false" />  
+        <key id='maxheight' type='xs:string' paramType='query' required="false" />  
+        <key id='format' type='xs:string' paramType='query' required="false" />  
+        <key id='wmode' type='xs:string' paramType='query' required="false" />  
+      </inputs>  
+    </select>  
+  </bindings> 
+</table>

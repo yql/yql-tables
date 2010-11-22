@@ -11,7 +11,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Rob Young</author>
-    <sampleQuery>USE "http://www.roryoung.co.uk/bbc.goodfood.seasonal.xml" as bbc.goodfood.seasonal; SELECT * FROM bbc.goodfood.seasonal;</sampleQuery>
+    <sampleQuery>SELECT * FROM bbc.goodfood.seasonal;</sampleQuery>
     <documentationURL></documentationURL>
   </meta>
   <bindings>

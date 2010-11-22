@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get spatial data for a postcode</description>
+    <documentationURL>http://www.uk-postcodes.com/api.php</documentationURL>
+    <sampleQuery description="Search for postcode WC1B 3DG (British Museum) - remove spaces">select * from {table} where postcode='WC1B3DG' and format='xml';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://www.uk-postcodes.com/postcode/{postcode}.{format}</url>
+        </urls>
+	<inputs>
+            <key id="postcode" type="xs:string" paramType="path" required="true" />
+            <key id="format" type="xs:string" paramType="path" required="true" />
+	    
+	</inputs>
+    </select>
+</bindings>
+</table>
