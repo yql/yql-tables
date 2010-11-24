@@ -3,7 +3,7 @@
   <meta>
     <author>Bungie, LLC (table definition by Tim Acheson: www.timacheson.com)</author>
     <documentationURL>http://www.haloreachapi.net/wiki/GetPlayerRenderedVideos</documentationURL>
-    <sampleQuery>SELECT * FROM bungie.reach.videos WHERE gamertag="cbjoe" AND iPage=0</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE gamertag="cbjoe" AND iPage=0</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="JSON">
