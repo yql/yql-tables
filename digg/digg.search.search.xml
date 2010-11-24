@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>Digg API V2 search.search</description>
+		<documentationURL>http://developers.digg.com/version2/search-search</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE domain="nba.com"</sampleQuery>		
+	</meta>
+	<bindings>
+		<select itemPath="json.stories" produces="JSON">
+			<urls>
+				<url env="all">http://services.digg.com/2.0/search.search</url>
+			</urls>
+			<paging model="page">
+				<start id="offset" default="1" />
+				<pagesize id="count" max="200" />
+				<total default="20" />
+			</paging>
+			<inputs>
+				<!-- domain	string	A domain. (e.g. digg.com) (optional) -->
+				<key id="domain" type="xs:string" paramType="query" />
+				<!-- sort	string	Sort result. Possible values promote_date-desc, promote_date-asc, submit_date-desc, submit_date-asc, digg_count-desc, digg_count-asc, date-desc, date-asc. Not all sort options are available on each endpoint. (optional) -->
+				<key id="sort" type="xs:string" paramType="query" />
+				<!-- topic	string	Topic's short_name name. i.e. apple (see topic.getAll) (optional) -->
+				<key id="topic" type="xs:string" paramType="query" />
+				<!-- medium	string	Medium name. Possible values are new, videos, and images (optional) -->
+				<key id="medium" type="xs:string" paramType="query" />
+				<!-- query	string	Search query (optional) -->
+				<key id="query" type="xs:string" paramType="query" />
+				<!-- max_date	timestamp	Max date represented as a unix timestamp (optional) -->
+				<key id="max_date" type="xs:string" paramType="query" />
+				<!-- min_date	timestamp	 Min date represented as a unix timestamp (optional) -->
+				<key id="min_date" type="xs:string" paramType="query" />
+			</inputs>
+		</select>		
+	</bindings>
+</table>
+
+
+
+
+
