@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>		
+		<sampleQuery>select * from {table} where formIdentifier="z7x4a9" subdomain="wufooapi" and apikey="R74O-RZPC-BZW0-W0TM"</sampleQuery>
+		<documentationURL>http://wufoo.com/docs/api/v3/fields/</documentationURL>
+	</meta>
+	<bindings>
+		<select itemPath="Fields.Field" produces="XML">
+			<urls>
+				<url>https://{subdomain}.wufoo.com/api/v3/forms/{formIdentifier}/fields.xml</url>
+			</urls>
+			<inputs>
+				<key id="apikey" type="xs:string" paramType="variable" required="true"/>
+				<key id="subdomain" type="xs:string" paramType="path" required="true"/>
+                <key id="formIdentifier" type="xs:string" paramType="path" required="true"/>
+                <key id="system" type="xs:string" paramType="variable" default="true"/>
+			</inputs>
+			<execute><![CDATA[            
+            y.include("http://www.yqlblog.net/samples/base64.js");
+            var authheader = "Basic "+Base64.encode(apikey+":footastic");
+            if (inputs['system'] == "true")
+            {
+                request.query('system','true')
+            }
+            response.object = request.header("Authorization",authheader).get().response;
+      ]]></execute>
+		</select>		
+	</bindings>
+</table>

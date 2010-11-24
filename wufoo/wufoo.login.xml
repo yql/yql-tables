@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>		
+		<sampleQuery>select * from {table} where subdomain="wufooapi" and integrationKey="XXXXXX" and email="example@example.com" and password="wufoopassword"</sampleQuery>
+		<documentationURL>http://wufoo.com/docs/api/v3/login/</documentationURL>
+	</meta>
+	<bindings>
+            <select itemPath="LoginResult" produces="XML">
+			<urls>
+				<url>https://wufoo.com/api/v3/login.xml</url>
+			</urls>
+			<inputs>
+                <key id="integrationKey" type="xs:string" paramType="query" required="true" />
+				<key id="email" type="xs:string" paramType="query" required="true"/>
+                <key id="password" type="xs:string" paramType="query" required="true"/>
+				<key id="subdomain" type="xs:string" paramType="query" />                
+			</inputs>
+			<execute><![CDATA[                            
+
+                var postvars = "email=" + inputs['email'] + "&password=" + inputs['password'] + "&integrationKey=" + inputs['integrationKey'];
+                if (inputs['subdomain'] != null)
+                {
+                    postvars += "&subdomain=" + inputs['subdomain'];
+                }
+                var myRequest = y.rest("https://wufoo.com/api/v3/login.xml");                
+                var data = myRequest.accept('text/xml').contentType("application/x-www-form-urlencoded").post(postvars).response;
+                
+                response.object = data;
+            ]]></execute>
+		</select>		
+	</bindings>
+</table>
