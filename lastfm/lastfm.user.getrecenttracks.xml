@@ -6,16 +6,18 @@
     <documentationURL>http://www.last.fm/api/show?service=278</documentationURL>
   </meta>
   <bindings>
-    <select itemPath="" produces="XML">
+    <select itemPath="/lfm/recenttracks/track" produces="XML">
       <urls>
         <url>http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks</url>
       </urls>
+      <paging model="page">
+        <start id="page" default="1"/>
+        <pagesize id="limit" max="50"/>
+        <total default="10"/>        
+      </paging>
       <inputs>
         <key id="user" type="xs:string" paramType="query" required="true" />
-        <key id="limit" type="xs:string" paramType="query" required="false" />
-        <key id="page" type="xs:string" paramType="query" required="false" />
         <key id="api_key" type="xs:string" paramType="query" required="true" />
-        
       </inputs>
     </select>
   </bindings>
