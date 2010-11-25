@@ -7,9 +7,9 @@ The most up to date repository for this tables is [https://github.com/spier/yql_
 The YQL queries listed below should work (I tried each of them at least once) but I am sure that my YQL datatables are not flawless. Please post issues if you find them or even better, clone this repository and send a pull request.
 
 You can include all these datatables in the YQL console by launching it via this link:
-[YQL console with worldbank datatables](http://developer.yahoo.com/yql/console/?env=http://github.com/spier/yql_worldbank/raw/master/worldbank.env)
-
-Once you have done that, try out any of the YQL queries below
+[YQL console with worldbank datatables](http://developer.yahoo.com/yql/console/?env=https://github.com/spier/yql-tables/raw/worldbank/worldbank/worldbank.env)
+                                                                                   
+Once you have done that, try out any of the YQL queries below.
 
 *References:*
 
