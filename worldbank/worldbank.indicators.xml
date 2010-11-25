@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Indicator Queries WorldBank Data API</description>
+	   	<documentationURL>http://data.worldbank.org/node/203</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE indicator_id = 'BAR.PRM.SCHL.1519'</sampleQuery>		
+	</meta>
+	<bindings>
+		<!--			
+			NOTE: This API endpoint seems not to exist anymore. I just keep this information in here to document this.
+			
+			Returns indicator information for a specific country
+			Documentation from http://data.worldbank.org/node/203:
+			* List all available indicators for country Brazil (this call also accepts the 3 letter ISO code)
+			http://api.worldbank.org/countries/br/indicators
+		-->
+		<!--
+		<select itemPath="wb:indicators.wb:indicator" produces="XML">
+			<urls>
+				<url env="all">http://api.worldbank.org/countries/{country}/indicators</url>
+			</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="10" />
+			</paging>
+		  	<inputs>
+		        <key id="country" type="xs:string" paramType="path" required="true"/>
+		  	</inputs>
+		</select>
+		-->
+		
+		<!--
+			Returns indicator information for a specific source
+			Documentation from http://data.worldbank.org/node/203:
+			* Display all indicators for the source: Doing Business
+			http://api.worldbank.org/source/Doing Business/indicators
+			* Display all indicators for the source: Doing Business referred by numeric ID
+			http://api.worldbank.org/source/1/indicators
+			
+			NOTE: Querying by source name seems no longer possible. 
+			Tried http://api.worldbank.org/source/Doing Business/indicators	
+		-->
+		<select itemPath="wb:indicators.wb:indicator" produces="XML">
+			<urls>
+				<url env="all">http://api.worldbank.org/source/{source_id}/indicators</url>
+			</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="10" />
+			</paging>
+		  	<inputs>
+		        <key id="source_id" type="xs:integer" paramType="path" required="true"/>
+		  	</inputs>
+		</select>		
+				
+		<!--
+			* If 'indicator' is omitted returns a list of all indicators
+			* Otherwise returns details about the specified indicator.
+		-->
+		<select itemPath="wb:indicators.wb:indicator" produces="XML">
+			<urls>
+        		<url env="all">http://api.worldbank.org/indicators/{indicator_id}</url>
+      		</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="10" />
+			</paging>
+	      	<inputs>
+		        <key id="indicator_id" type="xs:string" paramType="path" />
+	      	</inputs>
+    	</select>
+		
+  	</bindings>
+</table>
