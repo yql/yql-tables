@@ -1,11 +1,13 @@
 # YQL Datatables for the World Bank Data API
 
-I have created this YQL datatables to make working with the World bank Data API easier. My goal is to use it for some useful application for the [Apps for Development](http://appsfordevelopment.challengepost.com) contest by you may of course use it for different purposes.
+I have created this YQL datatables to make working with the World Bank Data API easier. At the time of writing this, my goal is to use it for some useful application for the [Apps for Development](http://appsfordevelopment.challengepost.com) contest.
 
-The YQL queries listed below should work (I tried each of them at least once) but I am sure that my YQL datatables are not flawless. Please post issues if you find them, contribute to the table mappings, and let me know if your have made YQL mappings for the World Bank Data API yourself!
+The most up to date repository for this tables is [https://github.com/spier/yql_worldbank] but I will also try to have these tables integrated into the YQL community tables.
+
+The YQL queries listed below should work (I tried each of them at least once) but I am sure that my YQL datatables are not flawless. Please post issues if you find them or even better, clone this repository and send a pull request.
 
 You can include all these datatables in the YQL console by launching it via this link:
-[YQL console with worldbank datatables](http://developer.yahoo.com/yql/console/?env=http://github.com/spier/yql_worldbank/raw/master/alltables.env)
+[YQL console with worldbank datatables](http://developer.yahoo.com/yql/console/?env=http://github.com/spier/yql_worldbank/raw/master/worldbank.env)
 
 Once you have done that, try out any of the YQL queries below
 
@@ -14,10 +16,6 @@ Once you have done that, try out any of the YQL queries below
 * [WorldBank Data AP](http://data.worldbank.org/developers/api-overview)
 * [YQL Documentation](https://developer.yahoo.com/yql/guide/)
 * [Apps for Development](http://appsfordevelopment.challengepost.com/)
-
-*Notes:*
-
-Currently I am querying the World bank APi via XML. To limit the load on their systems I might switch to JSON in the future if I find out how to do this. This should not influence the usage of the YQL datatables though.
 
 
 ## worldbank.sources
@@ -119,20 +117,18 @@ Currently I am querying the World bank APi via XML. To limit the load on their s
 TBD
 
 # Queries currently not supported by these YQL mappings (please let me know if you do them yourself!)
-http://api.worldbank.org/countries/DE/indicators/NY.GNP.PCAP.CD?date=1970
+[http://api.worldbank.org/countries/DE/indicators/NY.GNP.PCAP.CD?date=1970]
 
-Are the Income Level Queries and Lending Type Queries needed in other tables than the worldbank.countries table? http://data.worldbank.org/node/207
-http://data.worldbank.org/node/208
+Are the Income Level Queries and Lending Type Queries needed in other tables than the worldbank.countries table? 
+[http://data.worldbank.org/node/207]
+[http://data.worldbank.org/node/208]
 
 Inconsistent naming:
 wb:IncomeLevels.wb:incomeLevel
 
-# TODO / TEST THESE
+# TODOs / To be tested
 
-certain calls can be made batchable. this is not implemented yet
-see http://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-key
-
-
-
+* certain API calls can be made batchable. this is not implemented yet. See [http://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-key]
+* Currently I am querying the World bank API via XML. To limit the load on their systems one could switch to JSON. This should not influence the usage of the datatables .
 
 
