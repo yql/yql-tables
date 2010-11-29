@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
 	<meta>		
-		<sampleQuery>'SELECT * from {table} WHERE apikey='R74O-RZPC-BZW0-W0TM' AND subdomain='wufooapi' AND formIdentifier='z7x4a9' AND Filter1='Field107+Begins_with+Hi%20there' AND Filter2='Field107+Contains+awesome' AND filtermatch='OR'</sampleQuery>
+		<sampleQuery>SELECT * from {table} WHERE apikey='R74O-RZPC-BZW0-W0TM' AND subdomain='wufooapi' AND formIdentifier='z7x4a9' AND Filter1='Field107+Begins_with+Hi%20there' AND Filter2='Field107+Contains+awesome' AND filtermatch='OR'</sampleQuery>
 		<documentationURL>http://wufoo.com/docs/api/v3/entries/</documentationURL>
 <!-- FILTERS: USER FILTER1 - FILTER5. OPTIONS INCLUDE 'Contains',
 'Does_not_contain',
