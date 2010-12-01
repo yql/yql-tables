@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
 	<meta>		
-		<sampleQuery>USE 'SELECT * from {table} WHERE apikey='R74O-RZPC-BZW0-W0TM' AND subdomain='wufooapi' AND formIdentifier='z7x4a9'</sampleQuery>
+		<sampleQuery>SELECT * from {table} WHERE apikey='R74O-RZPC-BZW0-W0TM' AND subdomain='wufooapi' AND formIdentifier='z7x4a9'</sampleQuery>
 		<documentationURL>http://wufoo.com/docs/api/v3/comments/</documentationURL>
 	</meta>
 	<bindings>
