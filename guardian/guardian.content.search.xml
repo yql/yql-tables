@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-  <meta>
-    <author>Josh Gordineer</author>
-    <description>Guardian Content Search API</description>
-    <sampleQuery>select * from {table} where q='environment'</sampleQuery>
-  </meta>
-  <bindings>
-    <select itemPath="search.results.content" produces="XML">
-      <urls>
-        <url>http://api.guardianapis.com/content/search</url>
-      </urls>
-      <paging model="offset">
-        <start id="start-index" default="0" />
-        <pagesize id="count" max="500" />
-        <total default="10" />
-      </paging>
-      <inputs>
-        <key id="q" type="xs:string" paramType="query" />
-        <key id="after" type="xs:string" paramType="query" />
-        <key id="before" type="xs:string" paramType="query" />
-        <key id="content-type" type="xs:string" paramType="query" />
-        <key id="filter" type="xs:string" paramType="query" />
-        <key id="api_key" type="xs:string" paramType="query" required="true" />
-      </inputs>
-    </select>
-  </bindings>
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Guardian Content Search API (remember to get an API key for full functionality http://guardian.mashery.com/)</description>
+		<documentationURL>http://www.guardian.co.uk/open-platform/content-api-content-search-reference-guide</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE q='Hungary'</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="response.results.content" produces="XML">
+			<urls>
+				<url>http://content.guardianapis.com/search</url>
+			</urls>
+			<paging model="offset">
+				<start id="page" default="1" />
+				<pagesize id="page-size" max="50" />
+				<total default="10" />
+			</paging>
+			<inputs>
+				<key id="api_key" type="xs:string" paramType="query" required="false" />
+				<key id="format" type="xs:string" paramType="query" default="xml" const="true" />
+				<key id="q" type="xs:string" paramType="query" />
+				<key id="from-date" type="xs:string" paramType="query" />
+				<key id="to-date" type="xs:string" paramType="query" />
+				<key id="tag" type="xs:string" paramType="query" />
+				<key id="section" type="xs:string" paramType="query" />
+				<key id="show-tags" type="xs:string" paramType="query" />
+				<key id="show-fields" type="xs:string" paramType="query" />
+				<key id="show-refinements" type="xs:string" paramType="query" />
+				<key id="order-by" type="xs:string" paramType="query" default="newest" />
+			</inputs>
+		</select>
+	</bindings>
 </table>
