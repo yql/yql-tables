@@ -6,7 +6,7 @@
 		<sampleQuery>select * from {table} where pair in ("EURUSD","GBPUSD")</sampleQuery>
 	</meta>
 	<bindings>
-		<select produces="XML">
+		<select itemPath="rates.rate" produces="XML">
 			<inputs>
 				<key id="pair" type="xs:string" paramType="variable" required="true" />
 			</inputs>
@@ -28,7 +28,7 @@
 
 					var tag = row.Symbol.text().toString().substr(0,6);
 					delete row.Symbol;
-					rates.tag += <{tag}>{row.*}</{tag}>;
+					rates.rate += <rate id={tag}>{row.*}</rate>;
 				}
 				response.object = rates;
 		        ]]></execute>
