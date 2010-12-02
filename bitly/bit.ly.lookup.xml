@@ -2,20 +2,20 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 	    <author>Micah Laaker (micah@laaker.com)</author>
-	    <description>Bit.ly URL Shorten</description>
-        <documentationURL>http://code.google.com/p/bitly-api/wiki/ApiDocumentation</documentationURL>
-	    <sampleQuery>select * from {table} where login='yourlogingoeshere' and apiKey='yourkeygoeshere' and url='http://amazon.com/';</sampleQuery>
+	    <description>Bit.ly URL Lookup V3</description>
+      <documentationURL>http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/lookup</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere' AND apiKey='yourkeygoeshere' AND url='http://amazon.com/'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select itemPath="" produces="JSON">
             <urls>
                 <url>http://api.bit.ly/v3/lookup</url>
             </urls>
             <inputs>
-                <key id="login" type="xs:string" paramType="query"/>
-                <key id="apiKey" type="xs:string" paramType="query"/>
-                <key id="format" type="xs:string" paramType="query" default="xml"/>
-                <key id="url" type="xs:string" paramType="query" required="true"/>
+                <key id="login" type="xs:string" paramType="query" required="true"/>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+                <key id="format" type="xs:string" paramType="query" default="json"/>
+                <key id="url" type="xs:string" paramType="query" required="true" batchable="true" maxBatchItems="15"/>
             </inputs>
         </select>
      </bindings>
