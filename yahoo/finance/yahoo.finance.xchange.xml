@@ -6,7 +6,7 @@
 		<sampleQuery>select * from {table} where pair in ("EURUSD","GBPUSD")</sampleQuery>
 	</meta>
 	<bindings>
-		<select itemPath="rate" produces="XML">
+		<select itemPath="rates.rate" produces="XML">
 			<inputs>
 				<key id="pair" type="xs:string" paramType="variable" required="true" />
 			</inputs>
