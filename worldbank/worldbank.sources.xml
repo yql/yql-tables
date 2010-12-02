@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Catalog Sources Queries WorldBank Data API</description>
+	   	<documentationURL>http://data.worldbank.org/node/210</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE source_id = 1</sampleQuery>		
+	</meta>
+	<bindings>
+		<!-- <select itemPath="json.json.json" produces="JSON"> -->
+		<select itemPath="wb:sources.wb:source" produces="XML">
+			<urls>
+        		<url env="all">http://api.worldbank.org/sources/{source_id}</url>
+      		</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="10" />
+			</paging>
+	      	<inputs>
+		        <key id="source_id" type="xs:string" paramType="path" />
+	      	</inputs>
+    	</select>
+  	</bindings>
+</table>
