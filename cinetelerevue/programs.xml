@@ -40,7 +40,7 @@
 	var programs = <programs></programs>;
 
 	var headDiffusionId = 0;
-	var headImage;
+	var pictureUrl;
     var xdata = y.xpath(data, "//div[@class='infos']/a/@href");
 	if (xdata) {
 	    headDiffusionId = xdata.text().toString().match(/(\d+)/);
@@ -49,7 +49,7 @@
 	    }
 	    xdata = y.xpath(data, "//div[@class='grillePtImage']/img/@src");
 	    if (xdata && !xdata.text().toString().equals("")) {
-	        headImage = xdata.text();
+	        pictureUrl = xdata.text();
         }
     }
 
@@ -62,9 +62,9 @@
 
 		program.node += <channel>{channel}</channel>
 		
-	    var horaire = h.div.(@["class"] == "horaire").p.text().toString();
-	    if (horaire != "") {
-		    program.node += <time>{horaire}</time>
+	    var startTime = h.div.(@["class"] == "horaire").p.text().toString();
+	    if (startTime != "") {
+		    program.node += <startTime>{startTime}</startTime>
      	
 			var detail = h.div.(@["class"] == "detail")
 		
@@ -73,12 +73,12 @@
 		        diffusionId = diffusionId[1];
 		        if (diffusionId == headDiffusionId) {
 					program.node += <head>true</head>
-					if (headImage) {
-					    program.node += <image>{request.url}{headImage}</image>
+					if (pictureUrl) {
+					    program.node += <pictureUrl>{request.url}{pictureUrl}</pictureUrl>
 					}
 		        }
 		        program.node += <id>{diffusionId}</id>
-		        program.node += <link>{request.url}/php/fiche/detail.php?f_id_diffusion={diffusionId}</link>;
+		        program.node += <url>{request.url}/php/fiche/detail.php?f_id_diffusion={diffusionId}</url>;
 		    }
 		
 		    program.node += <title>{detail.p.a.text().toString().replace(/\n\s*/g," ")}</title>
@@ -89,28 +89,28 @@
 		            type = type[1];
 		            switch (type) {
 		                case "film":
-		                    program.node += <type>Film</type>
+		                    program.node += <genre>Film</genre>
 		                    break;
 			            case "mag":
-			                program.node += <type>Magazine</type>
+			                program.node += <genre>Magazine</genre>
 			                break;
 				        case "sport":
-				            program.node += <type>Sport</type>
+				            program.node += <genre>Sport</genre>
 				            break;
 					    case "serie":
-                            program.node += <type>Série</type>
+                            program.node += <genre>Série</genre>
 					        break;
 						case "telefilm":
-						    program.node += <type>Téléfilm</type>
+						    program.node += <genre>Téléfilm</genre>
 						    break;
 						case "musique":
-						    program.node += <type>Musique</type>
+						    program.node += <genre>Musique</genre>
 						    break;
 						case "docu":
-						    program.node += <type>Documentaire</type>
+						    program.node += <genre>Documentaire</genre>
 						    break;
 						case "jeune":
-						    program.node += <type>Jeunesse</type>
+						    program.node += <genre>Jeunesse</genre>
 						    break;
 		            }
 		        }

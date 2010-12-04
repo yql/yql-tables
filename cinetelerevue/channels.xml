@@ -27,7 +27,7 @@
 	    var channel = <channel/>;
 	    channel.node += <id>{arrMatch[2]}</id>;
 	    channel.node += <name>{arrMatch[1].replace(/\ufffd/g,"é")}</name>;
-	    channel.node += <icon>{request.url}/images_chaines/transparent/32x32/{arrMatch[2]}.gif</icon>;
+	    channel.node += <iconUrl>{request.url}/images_chaines/transparent/32x32/{arrMatch[2]}.gif</iconUrl>;
         channels.node += channel;
 	}
 

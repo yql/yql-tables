@@ -30,21 +30,21 @@
 
 	var details = <details/>;
 	details.node += <id>{id}</id>;
-	details.node += <link>{request.url}/php/fiche/detail.php?f_id_diffusion={id}</link>;
+	details.node += <url>{request.url}/php/fiche/detail.php?f_id_diffusion={id}</url>;
 	
 	var xdata = y.query("select * from html where url='" + request.url + "/php/fiche/detail.php?f_id_diffusion=" + id + "' and xpath='//div[@class=\"global\"]'").results.children();
 
 	var zone_fiche_prog = xdata.div.(@["class"] == "zone_fiche_prog");
 
 	var titre_haut = zone_fiche_prog.div.(@["class"] == "titre_haut").p.text().match(/ à (.+) - (.+)/);
-	details.node += <time>{titre_haut[1]}</time>
+	details.node += <startTime>{titre_haut[1]}</startTime>
 	details.node += <channel>{titre_haut[2]}</channel>
 
 	var fiche_prog = zone_fiche_prog.div.(@["class"] == "fiche_prog");
 
-	var img = fiche_prog.div.(@["class"] == "image").img.@src;
-   	if (img.length() != 0) {
-	    details.node += <image>{request.url + img}</image>;
+	var pictureUrl = fiche_prog.div.(@["class"] == "image").img.@src;
+   	if (pictureUrl.length() != 0) {
+	    details.node += <pictureUrl>{request.url + img}</pictureUrl>;
 	}
 
 	var intro = fiche_prog.div.(@["intro"]).p.(@["class"] == "titre").text();
@@ -99,9 +99,9 @@
     if (rating) {
         details.node += <rating>{rating[1]}</rating>;
     }
-    var duree = info.match(/(\d+) mn[.]/)
-    if (duree) {
-        details.node += <runtime>{duree[1]}</runtime>;
+    var runtime = info.match(/(\d+) mn[.]/)
+    if (runtime) {
+        details.node += <runtime>{runtime[1]}</runtime>;
     }
 	
 	var star = 0;
