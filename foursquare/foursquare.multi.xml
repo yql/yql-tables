@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.foursquare.com/docs/multi/multi.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>https://api.foursquare.com/v2/multi</url>
+            </urls>
+            <inputs>
+                <key id="oauth_token" type="xs:string" paramType="query" required="true" />
+                <key id="requests" type="xs:string" paramType="query" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.foursquare.com/docs/venues/flag.html</documentationURL>
+    </meta>
+    <bindings>
+        <insert itemPath="" produces="JSON">
+            <urls>
+                <url>https://api.foursquare.com/v2/venues/{venue_id}/flag</url>
+            </urls>
+            <inputs>
+                <key id="oauth_token" type="xs:string" paramType="query" required="true" />
+                <key id="venue_id" type="xs:string" paramType="path" required="true" />
+                <key id="problem" type="xs:string" paramType="query" required="true" />
+            </inputs>
+            <execute><![CDATA[
+                response.object = request.post().response;
+            ]]></execute>
+        </insert>
+    </bindings>
+</table>
