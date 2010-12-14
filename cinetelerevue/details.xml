@@ -44,7 +44,7 @@
 
 	var pictureUrl = fiche_prog.div.(@["class"] == "image").img.@src;
    	if (pictureUrl.length() != 0) {
-	    details.node += <pictureUrl>{request.url + img}</pictureUrl>;
+	    details.node += <pictureUrl>{request.url + pictureUrl}</pictureUrl>;
 	}
 
 	var intro = fiche_prog.div.(@["intro"]).p.(@["class"] == "titre").text();
