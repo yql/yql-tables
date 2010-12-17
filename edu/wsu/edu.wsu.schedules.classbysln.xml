@@ -10,7 +10,7 @@
 	<bindings>
 		<select produces="JSON">
 			<urls>
-				<url>http://schedules.wsu.edu/API/Classes/{year}{term}/{sln}</url>
+				<url>http://schedules.wsu.edu/API/ClassBySLN/{year}{term}/{sln}</url>
 			</urls>
 			<inputs>
 				<key id="year" type="xs:integer" paramType="path" required="true" />
