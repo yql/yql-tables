@@ -8,7 +8,7 @@
   </meta>
 
   <bindings>
-    <select itemPath="root.LoadAdjustedReturns" produces="XML">
+    <select itemPath="" produces="XML">
       <urls>
         <url>http://www.xignite.com/xFundData.asmx/GetFundPerformance</url>
       </urls>
