@@ -18,3 +18,7 @@ select * from gh where id='davglass' and repo='yui2';
 
 
 
+--github.user.commits.xml
+use "http://github.com/danbeam/yql-tables/raw/master/github/github.user.commits.xml";
+select * from github.user.commits where id="danbeam";
+select commit from github.user.commits where id="danbeam" | sort(field="commit.authored-date", descending="true") | truncate(count="20")
