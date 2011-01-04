@@ -15,17 +15,24 @@
             <inputs>
                 <key id="apiKey" type="xs:string" paramType="query" required="true"/>
 
-								<!-- 'request' or 'similar' -->
+								<!-- Search request type. Possible values are: 'request' or 'similar' -->
 								<key id="role" type="xs:string" paramType="path" default="request"/>
+								<!-- Contains the search keyword (when the role is request) or the entry ID (when the role is similar) -->
                 <key id="searchTerms" type="xs:string" paramType="query" required="true"/>
 
+								<key id="count" type="xs:string" paramType="query"/> 
+								
+								<!-- the following options are not testing -->
+								<key id="mediaOption" type="xs:string" paramType="query" default="1"/>
+								<key id="location" type="xs:string" paramType="query"/>
+								<key id="latitude" type="xs:string" paramType="query"/>
+								<key id="longitude" type="xs:string" paramType="query"/>
+								<key id="radius" type="xs:string" paramType="query"/>
+								<key id="sortByLocation" type="xs:string" paramType="query"/>
+								<key id="siteid" type="xs:string" paramType="query" />
 
-                <!-- <key id="contentOption" type="xs:string" paramType="query" default="0" />
-                <key id="count" type="xs:string" paramType="query" default="25" /> -->
-
-                <!-- not included keys from the AP API are the two below: mediaOption and siteid -->
-                <!-- <key id="mediaOption" type="xs:string" paramType="query" default="1" />
-                    <key id="siteid" type="xs:string" paramType="query" /> -->
+								<!-- does this work? -->
+                <key id="contentOption" type="xs:string" paramType="query" default="2" />
              </inputs>
          </select>
      </bindings>
