@@ -10,12 +10,16 @@
         <!-- returns the latest articles for the given categoryID -->
         <select itemPath="feed.entry" produces="XML">
             <urls>
-                <url env="all">http://developerapi.ap.org/v2/search.svc/</url>
+                <url env="all">http://developerapi.ap.org/v2/search.svc/{role}/</url>
             </urls>
             <inputs>
                 <key id="apiKey" type="xs:string" paramType="query" required="true"/>
 
+								<!-- 'request' or 'similar' -->
+								<key id="role" type="xs:string" paramType="path" default="request"/>
                 <key id="searchTerms" type="xs:string" paramType="query" required="true"/>
+
+
                 <!-- <key id="contentOption" type="xs:string" paramType="query" default="0" />
                 <key id="count" type="xs:string" paramType="query" default="25" /> -->
 
