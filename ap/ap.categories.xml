@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>Associated Press Categories</description>
+	  <documentationURL>http://developer.ap.org/docs</documentationURL>
+		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
+	</meta>
+	<bindings>
+		<select itemPath="entry" produces="XML">
+			<urls>
+      	<url env="all">http://developerapi.ap.org/v2/categories.svc</url>
+      </urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="10" />
+			</paging>
+	    <inputs>
+		  	<key id="apiKey" type="xs:string" paramType="query" required="true"/>
+	     </inputs>
+    	</select>
+		</bindings>
+</table>
