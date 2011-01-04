@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="entry" produces="XML">
 			<urls>
-      	<url env="all">http://developerapi.ap.org/v2/categories.svc</url>
+      	<url env="all">http://developerapi.ap.org/v2/categories.svc/</url>
       </urls>
 			<paging model="page">
 				<start id="page" default="1" />
