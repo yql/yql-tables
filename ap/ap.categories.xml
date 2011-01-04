@@ -7,7 +7,7 @@
 		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
 	</meta>
 	<bindings>
-		<select itemPath="entry" produces="XML">
+		<select itemPath="feed.entry" produces="XML">
 			<urls>
       	<url env="all">http://developerapi.ap.org/v2/categories.svc/</url>
       </urls>
