@@ -19,7 +19,7 @@
 	    <inputs>
 		  	<key id="apiKey" type="xs:string" paramType="query" required="true"/>
 		
-				<key id="categoryID" type="xs:string" paramType="query"/>
+				<key id="categoryID" type="xs:string" paramType="path"/>
 				<key id="contentOption" type="xs:string" paramType="query" default="0" />
 				<key id="count" type="xs:string" paramType="query" default="25" />
 				
