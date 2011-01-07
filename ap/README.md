@@ -1,16 +1,17 @@
 # YQL Datatables for the API of the Associated Press
 
-The API of the Associated Press requires you to register for an API key. Register for a key at http://developer.ap.org/
+The API of the Associated Press requires you to register for an API key. Register for a key at [http://developer.ap.org/](http://developer.ap.org/).
 There are different Levels of Service, if you you just want to test out the API then I recommend applying for "Sandbox" level.
 
 *References:*
 
-* [AP Developer and our API (Application Programming Interface)](http://developer.ap.org/)
+* [Associated Press](http://ap.org/)
+* [AP Developer and API (Application Programming Interface)](http://developer.ap.org/)
 * [YQL Documentation](https://developer.yahoo.com/yql/guide/)
 
 # Example YQL queries
 
-You can try out the following queries in the YQL Console, once your have an API key. Load the YQL console with these AP datatables by using the following link: http://yhoo.it/f3tkrV
+You can try out the following queries in the YQL Console, once your have an API key. Load the YQL console with these AP datatables by using the following link: [http://yhoo.it/f3tkrV](http://yhoo.it/f3tkrV)
 
 ## ap.breakingnews.categories
 
