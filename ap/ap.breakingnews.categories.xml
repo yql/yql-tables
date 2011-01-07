@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-        <description>Associated Press Categories</description>
+        <description>Associated Press Categories. Get API key from http://developer.ap.org/.</description>
         <documentationURL>http://developer.ap.org/docs</documentationURL>
         <sampleQuery>SELECT * FROM {table}</sampleQuery>		
     </meta>
@@ -13,26 +13,8 @@
                 <url env="all">http://developerapi.ap.org/v2/categories.svc/</url>
             </urls>
             <inputs>
-                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+                <key id="apiKey" type="xs:string" paramType="query" required="true" private="true" />
             </inputs>
         </select>
-
-        <!-- returns the latest articles for the given categoryID -->
-        <select itemPath="feed.entry" produces="XML">
-            <urls>
-                <url env="all">http://developerapi.ap.org/v2/categories.svc/{categoryID}/</url>
-            </urls>
-            <inputs>
-                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
-
-                <key id="categoryID" type="xs:string" paramType="path" required="true"/>
-                <key id="contentOption" type="xs:string" paramType="query" default="0" />
-                <key id="count" type="xs:string" paramType="query" default="25" />
-
-                <!-- not included keys from the AP API are the two below: mediaOption and siteid -->
-                <!-- <key id="mediaOption" type="xs:string" paramType="query" default="1" />
-                    <key id="siteid" type="xs:string" paramType="query" /> -->
-             </inputs>
-         </select>
      </bindings>
  </table>

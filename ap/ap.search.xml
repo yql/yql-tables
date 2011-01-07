@@ -2,37 +2,33 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-        <description>Associated Press Categories</description>
+        <description>Associated Press Categories. Get API key from http://developer.ap.org/.</description>
         <documentationURL>http://developer.ap.org/docs</documentationURL>
-        <sampleQuery>SELECT * FROM {table} WHERE categoryID=31998</sampleQuery>		
+        <sampleQuery>SELECT * FROM {table} WHERE searchTerms="oil"</sampleQuery>		
     </meta>
     <bindings>
-        <!-- returns the latest articles for the given categoryID -->
         <select itemPath="feed.entry" produces="XML">
             <urls>
                 <url env="all">http://developerapi.ap.org/v2/search.svc/{role}/</url>
             </urls>
             <inputs>
-                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+                <key id="apiKey" type="xs:string" paramType="query" required="true" private="true" />
 
 								<!-- Search request type. Possible values are: 'request' or 'similar' -->
-								<key id="role" type="xs:string" paramType="path" default="request"/>
+								<key id="role" type="xs:string" paramType="path" default="request" />
 								<!-- Contains the search keyword (when the role is request) or the entry ID (when the role is similar) -->
-                <key id="searchTerms" type="xs:string" paramType="query" required="true"/>
+                <key id="searchTerms" type="xs:string" paramType="query" required="true" />
 
-								<key id="count" type="xs:string" paramType="query"/> 
+								<key id="count" type="xs:string" paramType="query" /> 
 								
-								<!-- the following options are not testing -->
-								<key id="mediaOption" type="xs:string" paramType="query" default="1"/>
-								<key id="location" type="xs:string" paramType="query"/>
-								<key id="latitude" type="xs:string" paramType="query"/>
-								<key id="longitude" type="xs:string" paramType="query"/>
-								<key id="radius" type="xs:string" paramType="query"/>
-								<key id="sortByLocation" type="xs:string" paramType="query"/>
+								<!-- the following options are not tested -->
+								<key id="mediaOption" type="xs:string" paramType="query" default="1" />
+								<key id="location" type="xs:string" paramType="query" />
+								<key id="latitude" type="xs:string" paramType="query" />
+								<key id="longitude" type="xs:string" paramType="query" />
+								<key id="radius" type="xs:string" paramType="query" />
+								<key id="sortByLocation" type="xs:string" paramType="query" />
 								<key id="siteid" type="xs:string" paramType="query" />
-
-								<!-- does this work? -->
-                <key id="contentOption" type="xs:string" paramType="query" default="2" />
              </inputs>
          </select>
      </bindings>
