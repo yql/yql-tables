@@ -33,7 +33,7 @@
             </inputs>
 	    <execute>
 		<![CDATA[
-                response.object = y.rest('https://www.googleapis.com/urlshortener/v1/url').contentType('application/json').post("{longUrl: '" + inputs['long_url'] + "'}").response;
+                response.object = y.rest('https://www.googleapis.com/urlshortener/v1/url?key=' + inputs['key']).contentType('application/json').post("{longUrl: '" + inputs['long_url'] + "'}").response;
                 ]]>
 	    </execute>
         </select>
