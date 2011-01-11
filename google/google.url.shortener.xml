@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	<author>Jonathan LeBlanc</author>
+        <description>Google URL Shortener API</description>
+	<documentationURL>http://code.google.com/apis/urlshortener/v1/getting_started.html</documentationURL>
+        <sampleQuery>SELECT * FROM goo.gl WHERE short_url="http://goo.gl/QuXj" AND key="AIzaSyAzCguRkvLPAkTHcVaENW-auTq6pe_d4g8"</sampleQuery>
+	<sampleQuery>SELECT * FROM goo.gl WHERE short_url="http://goo.gl/QuXj" AND key="AIzaSyAzCguRkvLPAkTHcVaENW-auTq6pe_d4g8" AND projection="full"</sampleQuery>
+	<sampleQuery>SELECT * FROM goo.gl WHERE long_url="http://www.yahoo.com" AND key="AIzaSyAzCguRkvLPAkTHcVaENW-auTq6pe_d4g8"</sampleQuery>
+    </meta>
+    <bindings>
+	<select produces="JSON">
+	    <inputs>
+                <key id="short_url" type="xs:string" paramType="variable" required="true" />
+                <key id="key" type="xs:string" paramType="variable" required="true" />
+		<key id="projection" type="xs:string" paramType="variable" required="false" />
+            </inputs>
+	    <execute>
+		<![CDATA[
+		var url = "https://www.googleapis.com/urlshortener/v1/url?shortUrl=" + inputs['short_url'] + "&key=" + inputs['key'];
+		if (inputs['projection']){
+		    url += "&projection=" + inputs['projection'];
+		}
+		
+                response.object = y.rest(url).contentType('application/json').get().response;
+                ]]>
+	    </execute>
+        </select>
+	<select produces="JSON">
+            <inputs>
+                <key id="long_url" type="xs:string" paramType="variable" required="true" />
+                <key id="key" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+	    <execute>
+		<![CDATA[
+                response.object = y.rest('https://www.googleapis.com/urlshortener/v1/url').contentType('application/json').post("{longUrl: '" + inputs['long_url'] + "'}").response;
+                ]]>
+	    </execute>
+        </select>
+    </bindings>
+</table>
