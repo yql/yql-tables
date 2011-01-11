@@ -4,9 +4,9 @@
 	<author>Jonathan LeBlanc</author>
         <description>Google URL Shortener API</description>
 	<documentationURL>http://code.google.com/apis/urlshortener/v1/getting_started.html</documentationURL>
-        <sampleQuery>SELECT * FROM goo.gl WHERE short_url="http://goo.gl/QuXj" AND key="AIzaSyAzCguRkvLPAkTHcVaENW-auTq6pe_d4g8"</sampleQuery>
-	<sampleQuery>SELECT * FROM goo.gl WHERE short_url="http://goo.gl/QuXj" AND key="AIzaSyAzCguRkvLPAkTHcVaENW-auTq6pe_d4g8" AND projection="full"</sampleQuery>
-	<sampleQuery>SELECT * FROM goo.gl WHERE long_url="http://www.yahoo.com" AND key="AIzaSyAzCguRkvLPAkTHcVaENW-auTq6pe_d4g8"</sampleQuery>
+        <sampleQuery>SELECT * FROM goo.gl WHERE short_url="http://goo.gl/QuXj" AND key="key1234"</sampleQuery>
+	<sampleQuery>SELECT * FROM goo.gl WHERE short_url="http://goo.gl/QuXj" AND key="key1234" AND projection="full"</sampleQuery>
+	<sampleQuery>SELECT * FROM goo.gl WHERE long_url="http://www.yahoo.com" AND key="key1234"</sampleQuery>
     </meta>
     <bindings>
 	<select produces="JSON">
