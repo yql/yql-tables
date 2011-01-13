@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Marcel Duran</author>
+        <description>Request (GET) a URL and retrieves its content (non-binary) and headers. User Agent string (ua) is optional.</description>
+        <sampleQuery>select * from {table} where url="http://www.yahoo.com/"</sampleQuery>
+        <sampleQuery>select * from {table} where url="http://www.yahoo.com/ and ua="Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+               <key id="url" type="xs:string" paramType="variable" required="true"/>
+               <key id="ua" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var resp, header, h,
+                        data = <resources/>,
+                        headers = <headers/>,
+                        req = y.rest(url);
+
+                    // set user agent
+                    if (ua) {
+                        req.header('User-Agent', ua);
+                    }
+
+                    // fetch url
+                    resp = req.get();
+
+                    // get headers
+                    for (header in resp.headers) {
+                        //h = <header/>;
+                        h = <{header}>{resp.headers[header]}</{header}>;
+                        //h.@["key"] = header;
+                        //h.@["value"] = resp.headers[header];
+                        headers.headers += h;
+                    }
+                    
+                    // set result
+                    data.resources += <url>{url}</url>;
+                    data.resources += <status>{resp.status}</status>;
+                    data.resources += headers;
+                    data.resources += <content>{resp.response}</content>;
+                    response.object = data;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
