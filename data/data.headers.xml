@@ -14,7 +14,7 @@
             </inputs>
             <execute>
                 <![CDATA[
-                    var resp, header, h,
+                    var resp, header,
                         data = <resources/>,
                         headers = <headers/>,
                         req = y.rest(url);
@@ -29,11 +29,7 @@
 
                     // get headers
                     for (header in resp.headers) {
-                        //h = <header/>;
-                        h = <{header}>{resp.headers[header]}</{header}>;
-                        //h.@["key"] = header;
-                        //h.@["value"] = resp.headers[header];
-                        headers.headers += h;
+                        headers.headers += <{header}>{resp.headers[header]}</{header}>;
                     }
                     
                     // set result
@@ -41,6 +37,7 @@
                     data.resources += <status>{resp.status}</status>;
                     data.resources += headers;
                     data.resources += <content>{resp.response}</content>;
+
                     response.object = data;
                 ]]>
             </execute>
