@@ -23,8 +23,8 @@
 				<key id="sort" type="xs:string" paramType="query" />
 				<!-- topic	string	Topic's short_name name. i.e. apple (see topic.getAll) (optional) -->
 				<key id="topic" type="xs:string" paramType="query" />
-				<!-- medium	string	Medium name. Possible values are new, videos, and images (optional) -->
-				<key id="medium" type="xs:string" paramType="query" />
+				<!-- media	string	Media name. Possible values are news, videos, and images (optional) -->
+				<key id="media" type="xs:string" paramType="query" />
 				<!-- query	string	Search query (optional) -->
 				<key id="query" type="xs:string" paramType="query" />
 				<!-- max_date	timestamp	Max date represented as a unix timestamp (optional) -->
@@ -35,8 +35,3 @@
 		</select>		
 	</bindings>
 </table>
-
-
-
-
-
