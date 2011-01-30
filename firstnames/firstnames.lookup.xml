@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>
+			This REST webservice is based on a list from Jörg Michael, containing more than 40,000 forenames, its gender and the approximate frequency of each name in all European countries and in a lot of other countries like China, India, U.S.A. and Japan. 
+			Gender of a given name and a list of countries where persons with this name can be found. The list of countries is sorted by frequency starting with the country where the name is the most popular.
+		</description>
+		<documentationURL>http://www.thomas-bayer.com/restnames/</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE name="Sebastian"</sampleQuery>		
+	</meta>
+	<bindings>
+		<select itemPath="restnames" produces="XML">
+			<urls>
+				<url>http://www.thomas-bayer.com/restnames/name.groovy</url>
+			</urls>
+			<inputs>
+				<key id="name" type="xs:string" paramType="query" required="true"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>
