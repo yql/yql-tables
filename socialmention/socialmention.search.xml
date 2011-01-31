@@ -14,7 +14,7 @@
       <inputs> 
         <key id="q" type="xs:string" paramType="query" required="true"/> 
         <key id="t" type="xs:string" paramType="query" required="true"/> 
-        <key id="lang" type="xs:string" paramType="query" required="true"/> 
+        <key id="lang" type="xs:string" paramType="query" required="false"/> 
         <key id="f" type="xs:string" paramType="query" required="false" default="xml"/> 
       </inputs> 
     </select> 

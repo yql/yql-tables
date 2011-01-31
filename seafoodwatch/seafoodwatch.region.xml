@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Damian Krzeminski</author>
+    <documentationURL>http://www.montereybayaquarium.org/cr/seafoodwatch.aspx</documentationURL>
+    <description>
+    	Scraping http://www.montereybayaquarium.org/mobile/sfw website to provide
+      list of supported regions.
+		</description>
+    <sampleQuery>select * from seafoodwatch.region</sampleQuery>
+  </meta>
+
+  <bindings>
+    <select itemPath="regions.region" produces="XML">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id='region_id' type='xs:string' paramType='variable' required='false' />
+      </inputs>
+
+      <execute><![CDATA[
+
+var select = 'href,content';
+var url = 'http://www.montereybayaquarium.org/mobile/sfw';
+var xpath = '//form/div/div[2]/ul/li/a';
+
+query = y.query('select ' + select + ' from html where url="' + url + '" and xpath="' + xpath + '"');
+
+//y.log(query.results);
+
+var region_id, url, name, regions = <regions/>;
+
+for each (var a in query.results.a) {
+  url = a.@href;
+  region_id = url.match(/.+region_id=(\d+)/);
+  if(region_id) {
+    name = a.toString().replace(/\d+\.\s*(.*)\s*Guide/, "$1");
+    region = <region/>;
+    region.name = name;
+    region.id = region_id[1];
+    regions.region += region;
+  }
+};
+
+response.object = regions;
+
+      ]]></execute>
+    </select>
+
+  </bindings>
+</table>

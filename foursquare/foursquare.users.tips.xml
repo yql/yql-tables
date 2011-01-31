@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.foursquare.com/docs/users/tips.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>https://api.foursquare.com/v2/users/{user_id}/tips</url>
+            </urls>
+            <inputs>
+                <key id="oauth_token" type="xs:string" paramType="query" required="true" />
+                <key id="user_id" type="xs:string" paramType="path" default="self" />
+                <key id="sort" type="xs:string" paramType="query" />
+                <key id="ll" type="xs:string" paramType="query" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

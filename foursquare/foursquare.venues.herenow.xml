@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.foursquare.com/docs/venues/herenow.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>https://api.foursquare.com/v2/venues/{venue_id}/herenow</url>
+            </urls>
+            <inputs>
+                <key id="oauth_token" type="xs:string" paramType="query" required="true" />
+                <key id="venue_id" type="xs:string" paramType="path" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

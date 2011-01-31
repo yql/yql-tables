@@ -36,6 +36,8 @@
     			statistics.appendChild( <last_web_access>{xml.yt::statistics.@lastWebAccess.toString()}</last_web_access> );
     			statistics.appendChild( <subscribers>{xml.yt::statistics.@subscriberCount.toString()}</subscribers> );
     			statistics.appendChild( <views>{xml.yt::statistics.@viewCount.toString()}</views> );
+    			statistics.appendChild( <totalviews>{xml.yt::statistics.@totalUploadViews.toString()}</totalviews> );
+
           user.appendChild(statistics);
         
           results.appendChild(user);
