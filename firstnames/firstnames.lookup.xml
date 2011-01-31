@@ -3,8 +3,9 @@
 	<meta>
 		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 		<description>
-			This REST webservice is based on a list from Jörg Michael, containing more than 40,000 forenames, its gender and the approximate frequency of each name in all European countries and in a lot of other countries like China, India, U.S.A. and Japan. 
-			Gender of a given name and a list of countries where persons with this name can be found. The list of countries is sorted by frequency starting with the country where the name is the most popular.
+			Displays gender of a given name and a list of countries where persons with this name can be found. The list of countries is sorted by frequency starting with the country where the name is the most popular.
+			
+			This YQL table uses an API from http://www.thomas-bayer.com, which in turn is based on a list from Jörg Michael (data from "nam_dict.txt" from www.heise.de/ct, soft-link 0717182), containing more than 40,000 forenames, its gender and the approximate frequency of each name in all European countries and in a lot of other countries like China, India, U.S.A. and Japan.
 		</description>
 		<documentationURL>http://www.thomas-bayer.com/restnames/</documentationURL>
 		<sampleQuery>SELECT * FROM {table} WHERE name="Sebastian"</sampleQuery>		
