@@ -7,7 +7,7 @@
 		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
 	</meta>
 	<bindings>
-		<select itemPath="" produces="JSON">
+		<select itemPath="json" produces="JSON">
 			<urls>
 				<url env="all">http://api.springer.com/metadata/json</url>
 			</urls>
