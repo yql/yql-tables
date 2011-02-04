@@ -19,13 +19,7 @@
 			<inputs>
 				<key id="api_key" type="xs:string" paramType="query" required="true" />
 				<key id="q" type="xs:string" paramType="query" />
-			</inputs>
-			<execute><![CDATA[
-				// the key 'item_id' needs to be added to the URL in the execute block because otherwise the / gets encoded in the URL and the API call fails
-				// see for details: http://stackoverflow.com/questions/4067374/preventing-yql-from-url-encoding-a-key
-				response.object = request.path(item_id).get().response;
-				]]></execute>
-			</select>			
+			</inputs>	
 		</select>		
 	</bindings>
 </table>
