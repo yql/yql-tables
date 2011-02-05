@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="json" produces="JSON">
 			<urls>
-				<url env="all">http://api.springer.com/metadata/json</url>
+				<url env="all">http://api.springer.com/openaccess/json</url>
 			</urls>
 			<paging model="page">
 				<start id="s" default="1" />
