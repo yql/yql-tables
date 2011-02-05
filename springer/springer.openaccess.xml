@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>Springer API - metadata</description>
+		<documentationURL>http://dev.springer.com/docs</documentationURL>
+		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
+	</meta>
+	<bindings>
+		<select itemPath="json" produces="JSON">
+			<urls>
+				<url env="all">http://api.springer.com/metadata/json</url>
+			</urls>
+			<paging model="page">
+				<start id="s" default="1" />
+				<pagesize id="p" max="100" />
+				<total default="100" />
+			</paging>
+			<inputs>
+				<key id="api_key" type="xs:string" paramType="query" required="true" />
+				<key id="q" type="xs:string" paramType="query" />
+			</inputs>	
+		</select>		
+	</bindings>
+</table>
+
+
+<!-- 
+	
+Filter	Description	Applies to
+	
+subject:	limit to the specified subject collection	metadata,openaccess,images
+keyword:	limit to articles tagged with a keyword	metadata,openaccess,images
+pub:	limit to articles from a particular publication	metadata,openaccess
+year:	limit to articles published in a year	metadata,openaccess,images
+type:	limit to either Book or Journal content	metadata,openaccess,images
+country:	limit to articles authored in a particular country	metadata,openaccess
+imagetype:	limit to images of a particular type: {Image, Table, Video}	images
+Along with the following constraints:
+
+Filter	Description	Applies to
+
+doi:	limit to a single Digital Object Identifier	metadata,openaccess,images
+title:	limit to articles containing a word or phrase in the title	metadata,openaccess,images
+isbn:	limit to a single International Standard Book Number	metadata,openaccess,images
+issn:	limit to a single International Standard Serial Number	metadata,openaccess,images
+orgname:	limit to a single organization name	metadata,openaccess,images
+journal:	limit to a single journal title	metadata,openaccess
+book:	limit to a single book title	metadata,openaccess
+name:	limit by the author's name	metadata,openaccess
+date:	limit by a date	metadata,openaccess,images
+openaccess:	include only open access content: {true, false} 	images 
+
+-->
