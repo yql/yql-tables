@@ -7,7 +7,7 @@
 		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
 	</meta>
 	<bindings>
-		<select itemPath="response.records.result" produces="JSON">
+		<select itemPath="response.records.result" produces="XML">
 			<urls>
 				<url env="all">http://api.springer.com/openaccess/app</url>
 			</urls>
