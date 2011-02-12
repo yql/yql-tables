@@ -11,11 +11,11 @@
 			<urls>
 				<url env="all">http://api.springer.com/openaccess/app</url>
 			</urls>
-			<!-- <paging model="page">
+			<paging model="page">
 				<start id="s" default="1" />
 				<pagesize id="p" max="100" />
 				<total default="100" />
-			</paging> -->
+			</paging>
 			<inputs>
 				<key id="api_key" type="xs:string" paramType="query" required="true" />
 				
