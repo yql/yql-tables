@@ -18,7 +18,11 @@
 			</paging>
 			<inputs>
 				<key id="api_key" type="xs:string" paramType="query" required="true" />
-				<key id="q" type="xs:string" paramType="query" />
+				
+				
+				<key id="openaccess" type="xs:string" paramType="query" default="true" />
+				
+				
 			</inputs>	
 		</select>		
 	</bindings>
