@@ -7,9 +7,9 @@
 		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
 	</meta>
 	<bindings>
-		<select itemPath="json" produces="JSON">
+		<select itemPath="response.records.result" produces="JSON">
 			<urls>
-				<url env="all">http://api.springer.com/openaccess/json</url>
+				<url env="all">http://api.springer.com/openaccess/app</url>
 			</urls>
 			<paging model="page">
 				<start id="s" default="1" />
@@ -19,10 +19,7 @@
 			<inputs>
 				<key id="api_key" type="xs:string" paramType="query" required="true" />
 				
-				
-				<key id="openaccess" type="xs:string" paramType="query" default="true" />
-				
-				
+				<key id="q" type="xs:string" paramType="query" />
 			</inputs>	
 		</select>		
 	</bindings>
