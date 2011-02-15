@@ -14,29 +14,59 @@
             </inputs>
             <execute>
                 <![CDATA[
-                    var resp, header,
+                    var resp, header, tag,
                         data = <resources/>,
                         headers = <headers/>,
-                        req = y.rest(url);
+                        reTagCase = /(^|\-)(\w)/g,
 
-                    // set user agent
-                    if (ua) {
-                        req.header('User-Agent', ua);
-                    }
+                        tagCase = function (a, b, c) {
+                            return b + c.toUpperCase();
+                        },
 
-                    // fetch url
-                    resp = req.get();
+                        request = function (compress) {
+                            y.log('request with' + (compress ? '' : 'out') + ' compression');
+                            var req = y.rest(url);
+
+                            // set user agent
+                            if (ua) {
+                                req.header('User-Agent', ua);
+                            }
+
+                            // compression
+                            if (compress) {
+                                req.header('Accept-Encoding', 'gzip,deflate');
+                            }
+
+                            // fetch url
+                            return req.get();
+                        };
+
+                    resp = request(true);
 
                     // get headers
                     for (header in resp.headers) {
-                        headers.headers += <{header}>{resp.headers[header]}</{header}>;
+                        tag = header.replace(reTagCase, tagCase);
+                        y.log('header = "' + tag + '", value = "' + resp.headers[header] + '"');
+                        headers.headers += <{tag}>{resp.headers[header]}</{tag}>;
                     }
                     
                     // set result
                     data.resources += <url>{url}</url>;
                     data.resources += <status>{resp.status}</status>;
                     data.resources += headers;
+
+                    // get uncompressed response for non-binary
+                    if ((header = resp.headers) && (header = header['content-type']) &&
+                        header.indexOf('image') && header.indexOf('x-shockwave-flash') < 0) {
+                        resp = request();
+                    }
                     data.resources += <content>{resp.response}</content>;
+
+                    //var r = y.rest('http://sandbox.javascriptrules.com/yslow/headers.php');
+                    //resp = eval('(' + r.get().response + ')');
+                    //for (header in resp) {
+                    //    y.log('request = "' + header + '", value = "' + resp[header] + '"');
+                    //}
 
                     response.object = data;
                 ]]>
