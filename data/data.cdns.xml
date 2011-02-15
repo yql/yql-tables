@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Marcel Duran</author>
+        <description>Retrieves the list of CDNs or boolean values for a given list od CDNs.</description>
+        <sampleQuery>select * from {table}"</sampleQuery>
+        <sampleQuery>select * from {table} where url="http://l1.yimg.com/foobar.png"</sampleQuery>
+        <sampleQuery>select * from {table} where url in ("http://l1.yimg.com/foo.png","http://l2.yimg.com/bar.png")</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+               <key id="url" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var cdns = [
+                        '^[\\d\\w]+.yimg.com',
+                        '^s3.amazonaws.com'
+                        ];
+
+                    if (url) {
+                        var i,
+                            len = cdns.length,
+                            hostname = /^(?:[A-Za-z]+:\/{2,3})?([^\/\?&]+)/.exec(url),
+                            iscdn = false;
+
+                        hostname = hostname && hostname[1] || '';
+                        for (i = 0; i < len; i += 1) {
+                            if (RegExp(cdns[i]).test(hostname)) {
+                                iscdn = true;
+                                break;
+                            }
+                        }
+                        data = <result/>;
+                        data.@['url'] = url;
+                        data.@['cdn'] = iscdn;
+                    } else {
+                        data = <cdns/>;
+                        for (var i = 0, len = cdns.length; i < len; i += 1) {
+                            data.cdns += <cdn>{cdns[i]}</cdn>;
+                        }
+                    }
+
+                    response.object = data;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
