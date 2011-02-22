@@ -4,7 +4,7 @@
     <author>Micah Laaker (micah@laaker.com)</author>
     <description>iGoogle Secret API: Weather</description>
     <documentationURL>http://blog.programmableweb.com/2010/02/08/googles-secret-weather-api/</documentationURL>
-    <sampleQuery>select * from {table} where weather='Mountain View';</sampleQuery>
+    <sampleQuery>select * from {table} where weather='Mountain View' and hl='fr';</sampleQuery>
 </meta>
 <bindings>
     <select itemPath="" produces="XML">
@@ -13,6 +13,7 @@
         </urls>
         <inputs>
             <key id="weather" type="xs:string" paramType="query"/>
+            <key id="hl" type="xs:string" paramType="query"/>
         </inputs>
     </select>
 </bindings>
