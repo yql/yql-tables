@@ -12,7 +12,7 @@
                 <url>http://bit.ly/u/{login}.json"</url>
             </urls>
             <inputs>
-                <key id="login" type="xs:string" paramType="query"/>
+                <key id="login" type="xs:string" paramType="path"/>
             </inputs>
         </select>
      </bindings>
