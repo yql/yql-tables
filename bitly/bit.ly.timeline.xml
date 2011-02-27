@@ -7,12 +7,12 @@
 	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="JSON">
+        <select itemPath="json" produces="JSON">
             <urls>
                 <url>http://bit.ly/u/{login}.json"</url>
             </urls>
             <inputs>
-                <key id="login" type="xs:string" paramType="path"/>
+                <key id="login" type="xs:string" paramType="path" required="true" />
             </inputs>
         </select>
      </bindings>
