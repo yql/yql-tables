@@ -7,7 +7,7 @@
 	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="json">
+        <select itemPath="" produces="JSON">
             <urls>
                 <url>http://bit.ly/u/{login}.json"</url>
             </urls>
