@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Andrew Guyton</author>
+		<documentationURL>http://developer.valvesoftware.com/wiki/Steam_Web_API</documentationURL>
+		<sampleQuery>select * from {table}</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="JSON">
+			<urls>
+				<url>http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0001/</url>
+			</urls>
+			<inputs>
+				<key id="key" type="xs:string" paramType="query" required="true" />
+				<!-- to get a steam web api key, go to http://steamcommunity.com/dev/apikey -->
+				<key id="steamids" type="xs:string" paramType="query" required="true" />
+				<key id="format" type="xs:string" paramType="query" required="false" />
+			</inputs>
+		</select>
+	</bindings>
+</table>
