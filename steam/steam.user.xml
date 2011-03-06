@@ -3,7 +3,7 @@
 	<meta>
 		<author>Andrew Guyton</author>
 		<documentationURL>http://developer.valvesoftware.com/wiki/Steam_Web_API</documentationURL>
-		<sampleQuery>select * from {table}</sampleQuery>
+		<sampleQuery>select * from {table} where key='XXXXXXXXXXXXXXXXXXXXXXX' and steamids='76561197960435530'</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="" produces="JSON">

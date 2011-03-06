@@ -3,7 +3,7 @@
 	<meta>
 		<author>Andrew Guyton</author>
 		<documentationURL>https://partner.steamgames.com/documentation/community_data</documentationURL>
-		<sampleQuery>select * from {table} where game='L4D'</sampleQuery>
+		<sampleQuery>select * from {table} where game='L4D' and leaderboardid='30' and steamid='76561197968575517'</sampleQuery>
 	</meta>
 	<bindings>
 		<select produces="XML">

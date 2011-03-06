@@ -3,7 +3,7 @@
 	<meta>
 		<author>Andrew Guyton</author>
 		<documentationURL>https://partner.steamgames.com/documentation/community_data</documentationURL>
-		<sampleQuery>select * from {table}</sampleQuery>
+		<sampleQuery>select * from {table} where id='76561197968575517'</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="" produces="XML">
