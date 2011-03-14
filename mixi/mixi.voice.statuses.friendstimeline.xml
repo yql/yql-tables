@@ -2,22 +2,21 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
     <meta>
         <author>Ryuichi Okumura</author>
-        <documentationURL>http://developer.mixi.co.jp/connect/mixi_graph_api/mixi_io_spec_top/people-api</documentationURL>
+        <documentationURL>http://developer.mixi.co.jp/connect/mixi_graph_api/mixi_io_spec_top/voice-api</documentationURL>
     </meta>
     <bindings>
         <select itemPath="" produces="JSON">
             <urls>
-                <url>http://api.mixi-platform.com/2/people/{user_id}/{group_id}</url>
+                <url>http://api.mixi-platform.com/2/voice/statuses/friends_timeline/{group_id}</url>
             </urls>
             <inputs>
                 <key id="oauth_token" type="xs:string" paramType="query" required="true" />
-                <key id="user_id" type="xs:string" paramType="path" required="true" />
                 <key id="group_id" type="xs:string" paramType="path" required="true" />
-                <key id="sortBy" type="xs:string" paramType="query" />
-                <key id="sortOrder" type="xs:string" paramType="query" />
-                <key id="fields" type="xs:string" paramType="query" />
-                <key id="startIndex" type="xs:string" paramType="query" />
+                <key id="since_id" type="xs:string" paramType="query" />
+                <key id="trim_user" type="xs:string" paramType="query" />
+                <key id="attach_photo" type="xs:string" paramType="query" />
                 <key id="count" type="xs:string" paramType="query" />
+                <key id="startIndex" type="xs:string" paramType="query" />
             </inputs>
         </select>
     </bindings>
