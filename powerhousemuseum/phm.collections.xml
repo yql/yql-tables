@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Murali K</author>
+        <description>Query on a collection within the PhM</description>
+        <documentationURL>http://api.powerhousemuseum.com/</documentationURL>
+        <sampleQuery>select * from phm.collection where api_key='...'</sampleQuery>
+    </meta>
+
+    <bindings>
+        <select itemPath="result" produces="XML">
+	    <urls>
+		<url>http://api.powerhousemuseum.com/api/v1/collection/xml/</url>
+	    </urls>
+            <inputs>
+		<key id="api_key" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+        </select>
+    </bindings>
+</table>
+
