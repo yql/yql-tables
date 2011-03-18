@@ -28,7 +28,7 @@ function n() {
   this.fin = {name:'', imdb_id:''};
   this.orig = '';
   this.cleaned = '';
-  this.url = 'http://www.imdb.com/find?s=tt&q=';
+  this.url = 'http://www.allanshone.com/imdb.php?type=search_title&title=';
 
   this.clean = function(str) {
     return str.replace(/ /g, '+').toLowerCase();

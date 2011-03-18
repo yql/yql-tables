@@ -20,7 +20,7 @@
 			<execute><![CDATA[
 
 var query = '';
-var url = 'http://www.imdb.com/title/' + imdb_movie_id + '/fullcredits';
+var url = 'http://www.allanshone.com/imdb.php?type=title&title=' + imdb_movie_id;
 var xpath = "//table[@class='cast']/tr/td[@class='nm']/a";
 
 query = y.query('select * from html where url="' + url + '" and xpath="' + xpath + '"');
