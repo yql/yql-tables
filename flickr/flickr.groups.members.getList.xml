@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+  <meta>  
+    <author>Fabio Kung &lt;fabio.kung@gmail.com&gt;</author>
+    <documentationURL>http://www.flickr.com/services/api/flickr.people.getPhotosOf.html</documentationURL>  
+    <sampleQuery>select * from {table} where user_id="26545327@N00"</sampleQuery>  
+  </meta>  
+  <bindings>  
+   <select itemPath="rsp.photos.photo" produces="XML">  
+      <urls>  
+        <url env="all">http://api.flickr.com/services/rest/?method=flickr.groups.members.getList</url>  
+      </urls>  
+      <inputs>  
+        <key id="group_id" type="xs:string" paramType="query" />  
+        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="d98a5516040113c777323bea72473fc7"/>  
+        <key id="extras" type="xs:string" paramType="query" />  
+      </inputs>
+    </select>  
+  </bindings>  
+</table>
