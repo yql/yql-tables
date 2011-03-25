@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264306?listPage=index</documentationURL>
+    <sampleQuery>select * from {table} where query="yahoo"</sampleQuery>
+    <sampleQuery>select * from {table} where query="yahoo" AND page="1"</sampleQuery>
+    <sampleQuery>select * from {table} where query="yahoo" AND type="r"</sampleQuery>
+    <sampleQuery>select * from {table} where query="yahoo" AND type="m" AND page="1"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='query' type='xs:string' paramType='variable' required="true" />
+        <key id='type' type='xs:string' paramType='variable' required="false" />
+        <key id='page' type='xs:string' paramType='variable' required="false" />
+      </inputs>
+      <execute>
+      <![CDATA[ 
+
+		var pagevar=0;
+		if(page)
+		{
+			pagevar=parseInt(page);
+			if(pagevar>0)
+			{
+				pagevar=pagevar-1;
+				pagevar=pagevar*10;
+			}
+			else
+			{
+				pagevar=1;
+				pagevar=pagevar-1;
+				pagevar=pagevar*10;
+			}
+		}
+		else
+		{
+			pagevar=1;
+			pagevar=pagevar-1;
+			pagevar=pagevar*10;
+		}
+
+		var typevar="";
+		if(type)
+		{
+			if(type.match("r")!=null)
+			{
+				typevar="relevance";
+			}
+			else
+			{
+				if(type.match("o")!=null)
+				{
+					typevar="oldest";
+				}
+				else
+				{
+					if(type.match("n")!=null)
+					{
+						typevar="newest";
+					}
+					else
+					{
+						if(type.match("m")!=null)
+						{
+							typevar="members";
+						}
+						else
+						{
+							typevar="relevance";
+						}
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			typevar="relevance";
+		}
+
+		var yqlstring1="select * from html where url=\"";
+		var urlstring1="http://groups.yahoo.com/search?query=";
+		var urlstring2="&sg=";
+		var urlstring3="&sort=";
+		var yqlstring2="\" and xpath=\"//li[@class='hbox groupsSearch-result-entry']\"";
+
+		var yqlquery=y.query(yqlstring1+urlstring1+query+urlstring2+String(pagevar)+urlstring3+typevar+yqlstring2);
+		var yqlresults=yqlquery.results;
+		var yqlcounter=parseInt(yqlresults.li.length());
+		var index=0;
+		var xmlret=new XML();
+		xmlret=<root><count>{yqlresults.li.length()}</count></root>;
+		while(index<yqlcounter)
+		{
+			xmlret.root+=<node>
+					<anchor>{yqlresults.li[index].h4.a.@href}</anchor>
+					<name>{yqlresults.li[index].h4.a.text()}</name>
+					<description>{yqlresults.li[index].div.div.p.text()}</description>
+					<members>{yqlresults.li[index].div.div.ul[0].li[0].span[1].text()}</members>
+					<latest>{yqlresults.li[index].div.div.ul[0].li[1].span[1].text()}</latest>
+					<creation>{yqlresults.li[index].div.div.ul[0].li[2].span[1].text()}</creation>
+					<archive>{yqlresults.li[index].div.div.ul[1].li[0].span[1].text()}</archive>
+					<moderated>{yqlresults.li[index].div.div.ul[1].li[1].span[1].text()}</moderated>
+				</node>
+			index=index+1;
+		}
+		response.object=xmlret;
+
+ ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
