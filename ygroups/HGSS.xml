@@ -2,6 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
   <meta>
     <author>HOUYHNHNM</author>
+    <description>Acquires the groups from Yahoo Group search on a given page and type filtering by last time used, moderation type, archive type, </description>
     <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264309?listPage=index&bb=0</documentationURL>
     <sampleQuery>select * from {table} where query="yahoo"</sampleQuery>
     <sampleQuery>select * from {table} where query="yahoo" AND page="1"</sampleQuery>
