@@ -11,9 +11,9 @@
         <url env="all">http://api.flickr.com/services/rest/?method=flickr.groups.members.getList</url>  
       </urls>  
       <inputs>  
-        <key id="group_id" type="xs:string" paramType="query" />  
-        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="d98a5516040113c777323bea72473fc7"/>  
-        <key id="extras" type="xs:string" paramType="query" />  
+        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="9c684edafd5e404ccf657553848e53da"/>  
+        <key id="api_sig" type="xs:string" paramType="query" />  
+		<key id="frob" type="xs:string" paramType="query" />
       </inputs>
     </select>  
   </bindings>  
