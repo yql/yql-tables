@@ -109,8 +109,8 @@
 					bid = parseFloat( tr.td[4].span.text() );
 					ask = parseFloat( tr.td[5].span.text() );
 					volStr = tr.td[6].span.text();
-					y.log( "volStr: " + volStr );
 					volStr = volStr.replace( ",", "" );
+					y.log( "volStr: " + volStr );
 					//vol = parseInt( tr.td[6].span.text() );
 					vol = parseInt( volStr );
 					openInt = parseInt( tr.td[7].p.text() );
