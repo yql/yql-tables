@@ -11,8 +11,8 @@
         <url>http://weather.yahooapis.com/forecastrss?w={w}&amp;u={u}</url>
       </urls>
       <inputs>
-        <key id="w" type="xs:string" paramType="query" required="true"/>
-        <key id="u" type="xs:string" paramType="query"/>
+        <key id="w" type="xs:string" paramType="path" required="true"/>
+        <key id="u" type="xs:string" paramType="path"/>
       </inputs>
     </select>
   </bindings>

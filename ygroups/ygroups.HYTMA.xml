@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description>Returns the indexed message from a public yahoo group</description>
+    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264419?listPage=index&bb=0</documentationURL>
+    <sampleQuery>select * from {table} where url="URL OF YAHOO GROUP" AND messageindex="SOME NUMBER"</sampleQuery>
+ </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='url' type='xs:string' paramType='variable' required="true" />
+        <key id='messageindex' type='xs:string' paramType='variable' required="true" />
+  </inputs>
+      <execute>
+      <![CDATA[ 
+
+	var yqlstr1="select * from html where url=\"";
+	var yqlstr2="/messages/";
+	var yqlstr3="?xm=1&m=p&tidx=1\" and xpath=\"//tr/td[@class='message']/noscript/a|//tr/td[@class='message']/p|//tr/td[@class='smalltype']/p|//tr/td[@class='date']/a|//tr/td[@class='date']/p\"";
+	var yqlquery=y.query(yqlstr1+url+yqlstr2+messageindex+yqlstr3);
+	var yqlresults=yqlquery.results;
+	var yqlcounter=parseInt(yqlresults.a.length());
+	var xmlret=new XML();
+	xmlret=<root></root>;
+	var startindex=0;
+	var itercount=2;
+	var checkvar="";
+	var checkvar2="";
+	var checkvar3="";
+	var checkvar4="";
+	while(startindex<yqlcounter)
+	{
+		checkvar=yqlresults.a[startindex].@href;
+		if(checkvar.match(messageindex)!=null)
+		{
+			checkvar2=new String("http://groups.yahoo.com");
+			checkvar3=yqlresults.a[startindex].@href;
+			checkvar2=checkvar2.concat(checkvar3);
+			checkvar4=new String("http://groups.yahoo.com");
+			checkvar3=yqlresults.p[startindex+2].span[1].a.@href;
+			checkvar4=checkvar4.concat(checkvar3);
+			xmlret.root+=<entry>
+				<messagelink>{checkvar2}</messagelink>
+				<topictitle>{yqlresults.a[startindex].span.text()}</topictitle>
+				<summary>{yqlresults.p[startindex].text()}</summary>
+				<numbermessages>{yqlresults.p[startindex+1].text()}</numbermessages>
+				<date>{yqlresults.a[startindex+1].text()}</date>
+				<username>{yqlresults.p[startindex+2].text()}</username>
+				<makerprofileurl>{yqlresults.p[startindex+2].span[0].a.@href}</makerprofileurl>
+				<signname>{yqlresults.p[startindex+2].span[0].a.text()}</signname>
+				<respondlink>{checkvar4}</respondlink>
+			</entry>
+			startindex=yqlcounter;
+		}else
+		{
+			startindex=startindex+itercount;
+		}
+	}
+	response.object=xmlret;
+
+ ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,21 @@
+<table xmlns='http://query.yahooapis.com/v1/schema/table.xsd'>
+	<bindings>
+		<select produces='XML'>
+			<urls>
+				<url>https://{company}.campfirenow.com/room/{roomid}.xml</url>
+			</urls>
+			<inputs>
+				<key id='company' paramType='path'     required='true'/>
+				<key id='roomid'  paramType='path'     required='true'/>
+				<key id='token'   paramType='variable' required='true'/>
+			</inputs>
+			<execute><![CDATA[
+				var out = request.header("Authorization", y.crypto.encodeBase64(token + ":x")).get().response;
+				var newout = <root/>;
+				newout.item.text.text = out.topic.text();
+				newout.item.type = 2;
+				response.object = newout;
+			]]></execute>
+		</select>
+	</bindings>
+</table>

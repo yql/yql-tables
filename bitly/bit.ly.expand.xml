@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	    <author>Micah Laaker (micah@laaker.com)</author>
+	    <description>Bit.ly URL Expand V3</description>
+      <documentationURL>http://code.google.com/p/bitly-api/wiki/ApiDocumentation#/v3/expand</documentationURL>
+	    <sampleQuery>select * from {table} where login='yourlogingoeshere' and apiKey='yourkeygoeshere' and shortUrl='http://bit.ly/31IqMl';</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://api.bit.ly/v3/expand</url>
+            </urls>
+            <inputs>
+                <key id="login" type="xs:string" paramType="query" required="true"/>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+                <key id="format" type="xs:string" paramType="query" default="xml"/>
+                <key id="shortUrl" type="xs:string" paramType="query" batchable="true" maxBatchItems="15"/>
+                <key id="hash" type="xs:string" paramType="matrix" batchable="true" maxBatchItems="15"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>

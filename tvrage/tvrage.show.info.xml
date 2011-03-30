@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	    <author>Micah Laaker (micah@laaker.com)</author>
+	    <description>TVRage Show Info</description>
+        <documentationURL>http://services.tvrage.com/info.php?page=main</documentationURL>
+	    <sampleQuery>select * from {table} where sid='21704';</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://services.tvrage.com/feeds/showinfo.php</url>
+            </urls>
+            <inputs>
+                <key id="sid" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>

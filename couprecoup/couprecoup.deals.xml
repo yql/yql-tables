@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jeremy Hubert</author>
+    <description>Returns the CoupRecoup listings</description>
+    <sampleQuery>select * from {table} where discount = '55' and query = 'salon'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="deals.deal">
+      <urls><url></url></urls>
+      <inputs>
+        <key id="discount" type="xs:string" paramType="variable" />
+        <key id="query" type="xs:string" paramType="variable" />
+      </inputs>
+      <execute><![CDATA[
+        
+        var url = 'http://couprecoup.com',
+            listings = <></>,
+            deals = <></>,
+            data,
+            qs;
+
+        function parseListing(listing) {
+          var data = <deal />,
+              ltd = listing.td,
+              td1 = ltd[1].span, 
+              price_title = td1[0],
+              provider_date = td1[1],
+              provider = provider_date.a[0],
+              dates = provider_date.span[0].text().toString().replace(/\n|\s+$/gm,' ').split('|');
+
+          data.@["photo"] = ltd[0].img.@src.toString();
+          data.@["url"] = url + ltd[4].a.@href.toString();
+          data.@["your_price"] = ltd[3].span.toString();
+          data.@["original_price"] = ltd[2].span.toString();
+          data.@["savings"] = price_title.text().toString().replace(/\n|\s+$/gm,'');
+          data.@["title"] = price_title.a[0].text().toString().replace(/\n|\s+$/gm,' ');
+
+          data.@["provider_name"] = provider.text().toString();
+          data.@["provider_url"] = provider.@href.toString();
+
+          data.@["expires_on"] = dates[1].replace('Expires ','').replace(/^\s+|\s+$/g,'');
+          data.@["created_on"] = dates[2].replace('Created ','').replace(/^\s+|\s+$/g,'');
+
+          return data;
+        }
+        
+        function buildQueryString() {
+          var qs = '';
+
+          if (discount || query) {
+
+            qs = "/?src=api";
+
+            if (query) {
+              qs += '&q=' + escape(query);
+            }
+            if (discount) {
+              qs += '&d=' + escape(discount);
+            }
+
+          }
+
+          return qs
+        }
+        
+        url += buildQueryString();
+
+        data = y.query('select * from html where url = @url and xpath = "//tr[@class=\'listing\']"', { url:url });
+
+        listings = data.results.tr;
+
+        for each(var listing in listings) {
+          deals += parseListing(listing);
+        }
+
+        response.object = <deals>{deals}</deals>;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

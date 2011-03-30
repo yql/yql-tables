@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Guilherme Chapiewski &lt;guilherme.chapiewski@gmail.com&gt;</author>
+    <sampleQuery>select * from {table} where id='yahoo'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="results.user" produces="XML">
+      <urls>
+        <url>http://gdata.youtube.com/feeds/api/users/{id}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var atom = Namespace("http://www.w3.org/2005/Atom");
+        var media = Namespace("http://search.yahoo.com/mrss/");
+        var gd = Namespace("http://schemas.google.com/g/2005");
+        var yt = Namespace("http://gdata.youtube.com/schemas/2007");
+        
+    		var xml = request.get().response,
+  			 	results = <results></results>,
+  				user = <user></user>;
+  			
+  			if (xml) {
+  			  user.appendChild( <id>{id}</id> );
+    			user.appendChild( <title>{xml.atom::title.toString()}</title> );
+    			user.appendChild( <description>{xml.yt::description.toString()}</description> );
+    			user.appendChild( <created>{xml.atom::published.toString()}</created> );
+    			user.appendChild( <updated>{xml.atom::updated.toString()}</updated> );
+    			user.appendChild( <hometown>{xml.yt::hometown.toString()}</hometown> );
+    			user.appendChild( <location>{xml.yt::location.toString()}</location> );
+    			user.appendChild( <thumbnail>{xml.media::thumbnail.@url.toString()}</thumbnail> );
+  			
+    			var statistics = <statistics></statistics>;
+    			statistics.appendChild( <last_web_access>{xml.yt::statistics.@lastWebAccess.toString()}</last_web_access> );
+    			statistics.appendChild( <subscribers>{xml.yt::statistics.@subscriberCount.toString()}</subscribers> );
+    			statistics.appendChild( <views>{xml.yt::statistics.@viewCount.toString()}</views> );
+    			statistics.appendChild( <totalviews>{xml.yt::statistics.@totalUploadViews.toString()}</totalviews> );
+
+          user.appendChild(statistics);
+        
+          results.appendChild(user);
+        }
+          			
+  			response.object = results;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/shopping/shopping/v1/urlitemmatchadd.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="JSON">
+            <urls>
+                <url>http://shopping.yahooapis.jp/ShoppingWebService/V1/json/urlItemMatchAdd</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="affiliate_type" type="xs:string" paramType="query" required="false" />
+                <key id="affiliate_id" type="xs:string" paramType="query" required="false" />
+                <key id="callback" type="xs:string" paramType="query" required="false" />
+                <key id="url" type="xs:string" paramType="query" required="true" />
+                <key id="itemcode" type="xs:string" paramType="query" required="true" />
+                <key id="start_at" type="xs:string" paramType="query" required="true" />
+                <key id="end_at" type="xs:string" paramType="query" required="true" />
+                <key id="signature" type="xs:string" paramType="query" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

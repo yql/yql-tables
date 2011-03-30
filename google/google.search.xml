@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Paul Tarjan</author>
+    <author>Paul Tarjan, Edited By Ala Ibrahim</author>
     <documentationURL>http://code.google.com/apis/ajaxsearch/documentation/</documentationURL>
     <sampleQuery>select * from {table} where q = "pizza"</sampleQuery>
   </meta>
@@ -12,16 +12,16 @@
       </urls>
       <paging model="offset">
         <start id="start" default="0" />
-        <pagesize id="size" max="24" />
-        <total default="24" />
+        <pagesize id="rsz" max="8" />
+        <total default="8" />
       </paging>
       <inputs>
         <key id='q' type='xs:string' paramType='query' />
-        <key id="hl" type="xs:string" paramType="query" required="false" default="fr"/>
-        <key id="gl" type="xs:string" paramType="query" required="false" default="fr"/>
+        <key id="hl" type="xs:string" paramType="query" required="false" default="en"/>
+        <key id="gl" type="xs:string" paramType="query" required="false" default="en"/>
+		<key id="userip" type="xs:string" paramType="query" required="false" default=""/>
         <key id='apikey' type='xs:string' paramType='variable' default='ABQIAAAAeHT5AZJqD5Xx9uPnCAeATBQlKU5X1qPXe538nLHTe0ksK9Nz0BSYjRoJw4Ss40xXg-aYj4es-iO9Pg' private='true' />
       </inputs>
     </select>
   </bindings>
 </table>
-

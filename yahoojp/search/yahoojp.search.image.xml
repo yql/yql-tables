@@ -7,7 +7,7 @@
     <bindings>
         <select itemPath="ResultSet.Result" produces="XML">
             <urls>
-                <url>http://search.yahooapis.jp/ImageSearchService/V1/imageSearch</url>
+                <url>http://search.yahooapis.jp/ImageSearchService/V2/imageSearch</url>
             </urls>
             <inputs>
                 <key id="appid" type="xs:string" paramType="query" required="true" />

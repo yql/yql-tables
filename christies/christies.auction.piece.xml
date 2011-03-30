@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Christies auction</description>
+    <documentationURL>http://www.finds.org.uk</documentationURL>
+    <sampleQuery>select * from {table} where intObjectID = 5358441</sampleQuery>
+</meta>
+<bindings>
+   <select itemPath="" produces="JSON">
+        <urls>
+            <url>http://www.christies.com/LotFinder/lot_details.aspx</url>
+        </urls>
+	<inputs>
+      	    <key id="intObjectID" type="xs:string" paramType="query" required="true" />
+	   </inputs>
+   </select>
+</bindings>
+</table>

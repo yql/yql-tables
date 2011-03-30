@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/map/openlocalplatform/v1/altitude.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="YDF" produces="XML">
+            <urls>
+                <url>http://alt.search.olp.yahooapis.jp/OpenLocalPlatform/V1/getAltitude</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="coordinates" type="xs:string" paramType="query" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

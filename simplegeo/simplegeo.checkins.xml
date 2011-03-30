@@ -7,7 +7,7 @@
     <sampleQuery>select * from {table} where location='soma, san francisco, ca' and radius='1' and limit='50' and layers='com.simplegeo.global.twitter' and oauth_consumer_key=@key and oauth_consumer_secret=@secret;</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="json.features" produces="JSON">
+    <select itemPath="" produces="JSON">
      <urls>  
        <url>http://api.simplegeo.com/{version}/nearby</url>  
      </urls>  

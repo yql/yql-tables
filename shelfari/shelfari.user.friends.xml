@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Adriano Almeida</author>
+		<description>Search for shelfari someone's friends</description>
+		<sampleQuery>select * from shelfari.user.friends where user_id='adrianoalmeida7'</sampleQuery>
+	</meta>
+	
+	<bindings>
+
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>http://shelfari.com/{user_id}/friends</url>
+			</urls>
+			<inputs>
+				<key id='user_id' type='xs:string' paramType='path' required='true' />
+			</inputs>
+			<execute><![CDATA[
+				var url = 'http://shelfari.com/' + user_id + '/friends';
+				var xpath = "//ul[@id='ctl00_ctl00_ctl00_M_M_CL_FriendList']/li";
+
+				query = y.query('select * from html where url="' + url + '" and xpath="' + xpath + '"');
+				results = query.results;
+
+				responseXML = <friends></friends>;
+				for each (var li in results.li) {
+					friend = <friend></friend>;
+					friend += <name>{li.a.*}</name>;
+					friend += <avatar_url>{li.div.a.img.@src}</avatar_url>;
+					friend += <home_url>{li.div.a.@href}</home_url>;
+					responseXML.friends += friend;
+				}
+
+				response.object = responseXML;
+			]]></execute>
+
+		</select>
+	</bindings>
+</table>

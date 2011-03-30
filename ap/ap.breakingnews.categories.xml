@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+        <description>Associated Press Categories. Get API key from http://developer.ap.org/.</description>
+        <documentationURL>http://developer.ap.org/docs</documentationURL>
+        <sampleQuery>SELECT * FROM {table}</sampleQuery>		
+    </meta>
+    <bindings>
+        <!-- returns all AP categories -->
+        <select itemPath="feed.entry" produces="XML">
+            <urls>
+                <url env="all">http://developerapi.ap.org/v2/categories.svc/</url>
+            </urls>
+            <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true" private="true" />
+            </inputs>
+        </select>
+     </bindings>
+ </table>

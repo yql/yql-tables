@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description>Acquires the public groups from Yahoo Group search on a given page and type</description>
+    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264307?listPage=index</documentationURL>
+    <sampleQuery>select * from {table} where query="yahoo"</sampleQuery>
+    <sampleQuery>select * from {table} where query="yahoo" AND page="1"</sampleQuery>
+    <sampleQuery>select * from {table} where query="yahoo" AND type="r"</sampleQuery>
+    <sampleQuery>select * from {table} where query="yahoo" AND type="m" AND page="1"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='query' type='xs:string' paramType='variable' required="true" />
+        <key id='type' type='xs:string' paramType='variable' required="false" />
+        <key id='page' type='xs:string' paramType='variable' required="false" />
+      </inputs>
+      <execute>
+      <![CDATA[ 
+
+		var pagevar=0;
+		if(page)
+		{
+			pagevar=parseInt(page);
+			if(pagevar>0)
+			{
+				//do nothing and jump out
+			}
+			else
+			{
+				pagevar=1;
+			}
+		}
+		else
+		{
+			pagevar=1;
+		}
+
+		var typevar="";
+		if(type)
+		{
+			if(type.match("r")!=null)
+			{
+				typevar=type;
+			}
+			else
+			{
+				if(type.match("o")!=null)
+				{
+					typevar=type;
+				}
+				else
+				{
+					if(type.match("n")!=null)
+					{
+						typevar=type;
+					}
+					else
+					{
+						if(type.match("m")!=null)
+						{
+							typevar=type;
+						}
+						else
+						{
+							typevar="r";
+						}
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			typevar="r";
+		}
+
+    		var yqlstring1="USE \"http://houyhnhnmui.wikispaces.com/file/view/HGS.xml\" AS mytable;   select * from mytable where query=\"";
+		var yqlstring2="\" AND type=\"";
+		var yqlstring3="\" AND page=\"";
+		var yqlstring4="\"";
+
+		var yqlquery=y.query(yqlstring1+query+yqlstring2+typevar+yqlstring3+String(pagevar)+yqlstring4);
+		var yqlresults=yqlquery.results;
+		var yqlcounter=parseInt(yqlresults.root.node.length());
+		var index=0;
+		var counter=0;
+		var checker="";
+		var xmlret=new XML();
+		xmlret=<root></root>;
+		while(index<yqlcounter)
+		{
+			checker=yqlresults.root.node[index].archive.text();
+			if(checker.match("Public")!=null)
+			{
+				xmlret.root+=<node>
+					<anchor>{yqlresults.root.node[index].anchor.text()}</anchor>
+					<name>{yqlresults.root.node[index].name.text()}</name>
+					<description>{yqlresults.root.node[index].description.text()}</description>
+					<members>{yqlresults.root.node[index].members.text()}</members>
+					<latest>{yqlresults.root.node[index].latest.text()}</latest>
+					<creation>{yqlresults.root.node[index].creation.text()}</creation>
+					<archive>{yqlresults.root.node[index].archive.text()}</archive>
+					<moderated>{yqlresults.root.node[index].moderated.text()}</moderated>
+					</node>
+				counter=counter+1;
+			}
+			index=index+1;
+		}
+		xmlret.root+=<count>{counter}</count>;
+		response.object=xmlret;
+
+ ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Andrew Guyton</author>
+		<documentationURL>https://partner.steamgames.com/documentation/community_data</documentationURL>
+		<sampleQuery>select * from {table} where game='L4D'</sampleQuery>
+	</meta>
+	<bindings>
+		<select produces="XML">
+			<urls>
+				<url>http://steamcommunity.com/stats/{game}/leaderboards/?xml=1</url>
+			</urls>
+			<inputs>
+				<key id="game" type="xs:string" paramType="path" required="true" />
+			</inputs>
+		</select>
+	</bindings>
+</table>

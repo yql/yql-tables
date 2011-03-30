@@ -35,12 +35,13 @@ function getRequest(args)
 
 function postRequest(args)
 {
-   var data = oAuthBuildContent(args.parameters);
    var auth = (args.accessor) ? oAuthSignRequest(args) : null;
-
+   var data = oAuthBuildContent(auth.message.parameters);
+        
    var rsp = null;
    try {
-      if(auth) request.header('Authorization', auth.header);
+      //if(auth) request.header('Authorization', auth.header);
+      request.header('Content-Type', 'application/x-www-form-urlencoded');
       rsp = request.post( data ).response;
    } catch(err) {
       rsp = {'result':'failure', 'error': err};
@@ -106,7 +107,7 @@ function oAuthSignRequest(args)
    if(accessor.token) {
       OAuth.setParameter(message, "oauth_token", accessor.token);
    }
-   
+
    OAuth.SignatureMethod.sign(message, accessor);
    
    var realm = accessor.realm || '';

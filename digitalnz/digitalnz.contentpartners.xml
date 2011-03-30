@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Retrieve list of content partners from Digital NZ</description>
+    <documentationURL>http://www.digitalnz.org/developer/api-docs/list-content-partners/</documentationURL>
+    <sampleQuery description="Get a list of content partners">select * from {table} where format='xml' and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="content_partners" produces="XML">
+        <urls>
+            <url> http://api.digitalnz.org/content_partners/v1.{format}/</url>
+        </urls>
+	<inputs>
+            <key id="format" type="xs:string" paramType="path" default="xml" required="true" />
+	    <key id="api_key" type="xs:string" paramType="query" required="true" private="true"/>
+	</inputs>
+    </select>
+</bindings>
+</table>
