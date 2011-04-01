@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description>Allows a search of a public yahoo groups messages, and returns messages if they contain query elements in summary fashion.The depth of messages searched is by default 1. NOTICE: if [mdepth] is greater than 25 you will most likely get a timeout error. [udstart] allows you to start your search at a particular message index. The default match settings is all query elements. Query elements are defined as delineated strings made from the query, [space] is the delineator. [Marker] allows any number of matches less than the number of query elements. If [nmarker] has a value(not empty), it makes it where messages that fail the [marker] condition are set</description>
+    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/265404</documentationURL>
+    <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" </sampleQuery>
+    <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" AND nmarker="anything" </sampleQuery>
+    <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" AND mdepth="15"</sampleQuery>
+    <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" AND udstart="10010"</sampleQuery>
+    <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" AND udstart="10010" AND mdepth="25"</sampleQuery>
+    <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo purple houyhnhnm" AND udstart="10010" AND mdepth="25" AND marker="2"</sampleQuery>
+    <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo purple houyhnhnm" AND udstart="10010" AND mdepth="25" AND marker="2" AND nmarker="anything"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='url' type='xs:string' paramType='variable' required="true" />
+        <key id='query' type='xs:string' paramType='variable' required="true" />
+        <key id='mdepth' type='xs:string' paramType='variable' required="false" />
+        <key id='udstart' type='xs:string' paramType='variable' required="false" />
+        <key id='marker' type='xs:string' paramType='variable' required="false" />
+        <key id='nmarker' type='xs:string' paramType='variable' required="false" />
+      </inputs>
+      <execute>
+      <![CDATA[ 
+
+		var yqlstr1="select * from ygroups.HYFM where url=\"";
+		var yqlstr2="\"";
+		var yqlquery1=y.query(yqlstr1+url+yqlstr2);//finds the latest message in the group
+		var yqlresults1=yqlquery1.results;
+		var yqlcounter1=parseInt(yqlresults1.root.node.latestindex.text());//index of latest entry
+		var mdvar;//loop of entries number
+		var udsvar;//where to start number
+		var mvar;//number of query elements needed to match to accept a message, polarity based on nmvar, intially all
+		var nmvar;//if exist, value to state whether mvar is for TRUE=existing query elements FALSE=nonexisting query elements
+		var yqlstr3="select * from ygroups.HYSUMA where url=\"";
+		var yqlstr4="\" and messageindex=\"";
+		var yqlstr5="\"";
+  		var yqlqueryloop;
+		var yqlresultsloop;
+		var queryarray;
+		var arrayindex;
+		var qmark;
+		var match1="";
+		var match2="";
+		var match3="";
+		var match4="";
+		var match5="";
+		var match6="";
+		var xmlret=new XML();//return data
+		xmlret=<root></root>;
+
+		if((yqlcounter1>=1)&&(query.split("").length>0))
+		{
+			xmlret.root+=<retmessage>The group has messages and your query has length</retmessage>
+			queryarray=query.split(" ");
+			if(mdepth)
+			{
+				if(parseInt(mdepth)>=yqlcounter1)
+				{
+					xmlret.root+=<retmessage>ERROR:your depth is too large to return</retmessage>
+					mdvar=1;
+				}
+				else
+				{
+					mdvar=parseInt(mdepth);
+				}
+			}
+			else
+			{
+				mdvar=1;
+			}
+			if(udstart)
+			{
+				if(parseInt(udstart)>yqlcounter1)
+				{
+					xmlret.root+=<retmessage>ERROR:your start position is out of range</retmessage>
+					udsvar=yqlcounter1;
+				}
+				else
+				{
+					udsvar=parseInt(udstart);
+				}
+			}
+			else
+			{
+				udsvar=yqlcounter1;
+			}
+			if(marker)
+			{
+				if(parseInt(marker)>0)
+				{
+					if(query.split(" ").length>0)
+					{
+						if(parseInt(marker)<query.split(" ").length)
+						{
+							if(nmarker)
+							{
+								mvar=parseInt(marker);
+								nmvar=false;
+							}
+							else
+							{
+								mvar=parseInt(marker);
+								nmvar=true;
+							}
+						}
+						else
+						{
+							xmlret.root+=<retmessage>ERROR:you want to check more search elements than you have</retmessage>
+							if(nmarker)
+							{
+								mvar=query.split(" ").length;
+								nmvar=false;
+							}
+							else
+							{
+								mvar=query.split(" ").length;
+								nmvar=true;
+							}
+						}
+					}
+					else
+					{
+						xmlret.root+=<retmessage>ERROR:your query has fewer elements than the quantity you want marked</retmessage>
+						if(nmarker)
+						{
+							mvar=1;
+							nmvar=false;
+						}
+						else
+						{
+							mvar=1;
+							nmvar=true;
+						}
+					}
+				}
+				else
+				{
+					xmlret.root+=<retmessage>ERROR:you want to check fewer search elements than allowed</retmessage>
+					if(nmarker)
+					{
+						if(query.split(" ").length==0)
+						{
+							mvar=1;
+						}
+						else
+						{
+							mvar=query.split(" ").length;
+						}
+						nmvar=false;
+					}
+					else
+					{
+						if(query.split(" ").length==0)
+						{
+							mvar=1;
+						}
+						else
+						{
+							mvar=query.split(" ").length;
+						}
+						nmvar=true;
+					}
+				}
+			}
+			else
+			{
+				if(nmarker)
+				{
+					if(query.split(" ").length==0)
+					{
+						mvar=1;
+					}
+					else
+					{
+						mvar=query.split(" ").length;
+					}
+					nmvar=false;
+				}
+				else
+				{
+					if(query.split(" ").length==0)
+					{
+						mvar=1;
+					}
+					else
+					{
+						mvar=query.split(" ").length;
+					}
+					nmvar=true;
+				}
+			}
+			while(mdvar>0)
+			{
+				yqlqueryloop=y.query(yqlstr3+url+yqlstr4+String(udsvar)+yqlstr5);
+				yqlresultsloop=yqlqueryloop.results;
+				match1=yqlresultsloop.root.entry.messagetitle.text();
+				match2=yqlresultsloop.root.entry.summary.text();
+				match3=yqlresultsloop.root.entry.profilelink.text();
+				match4=yqlresultsloop.root.entry.profilename.text();
+				match5=yqlresultsloop.root.entry.postdate.text();
+				match6=yqlresultsloop.root.entry.creator.text();
+				qmark=0;
+				arrayindex=0;
+				while(arrayindex<queryarray.length)
+				{
+					if((match1.match(queryarray[arrayindex])!=null)||(match2.match(queryarray[arrayindex])!=null)||(match3.match(queryarray[arrayindex])!=null)||(match4.match(queryarray[arrayindex])!=null))
+					{
+						qmark++;
+					}
+					else
+					{;
+					}
+					arrayindex++;
+				}
+				if(nmvar)
+				{
+					if(qmark>=mvar)
+					{
+						xmlret.root+=<entry>
+							<index>{yqlresultsloop.root.entry.index.text()}</index>
+							<messagelink>{yqlresultsloop.root.entry.messagelink.text()}</messagelink>
+							<messagetitle>{yqlresultsloop.root.entry.messagetitle.text()}</messagetitle>
+							<summary>{yqlresultsloop.root.entry.summary.text()}</summary>
+							<creator>{yqlresultsloop.root.entry.creator.text()}</creator>
+							<profilelink>{yqlresultsloop.root.entry.profilelink.text()}</profilelink>
+							<profilename>{yqlresultsloop.root.entry.profilename.text()}</profilename>
+							<emailcreator>{yqlresultsloop.root.entry.emailcreator.text()}</emailcreator>
+							<postdate>{yqlresultsloop.root.entry.postdate.text()}</postdate>
+						</entry>
+					}
+					else
+					{
+						xmlret.root+=<retmessage>Not adequate matching for message index:{udsvar}</retmessage>
+					}
+				}
+				else
+				{
+					if(qmark<mvar)
+					{
+						xmlret.root+=<entry>
+							<index>{yqlresultsloop.root.entry.index.text()}</index>
+							<messagelink>{yqlresultsloop.root.entry.messagelink.text()}</messagelink>
+							<messagetitle>{yqlresultsloop.root.entry.messagetitle.text()}</messagetitle>
+							<summary>{yqlresultsloop.root.entry.summary.text()}</summary>
+							<creator>{yqlresultsloop.root.entry.creator.text()}</creator>
+							<profilelink>{yqlresultsloop.root.entry.profilelink.text()}</profilelink>
+							<profilename>{yqlresultsloop.root.entry.profilename.text()}</profilename>
+							<emailcreator>{yqlresultsloop.root.entry.emailcreator.text()}</emailcreator>
+							<postdate>{yqlresultsloop.root.entry.postdate.text()}</postdate>
+						</entry>
+					}
+					else
+					{
+						xmlret.root+=<retmessage>Too many matches for message index:{udsvar}</retmessage>
+					}
+				}
+				udsvar--;
+				mdvar--;
+			}
+		}
+		else
+		{
+			xmlret.root+=<retmessage>ERROR:NO MESSAGES IN THIS GROUP OR YOUR QUERY HAS NO LENGTH</retmessage>
+		}
+
+		response.object=xmlret;
+
+ ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

@@ -3,7 +3,7 @@
   <meta>
     <author>HOUYHNHNM</author>
     <description>Returns the indexed message from a public yahoo group</description>
-    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264416?listPage=index&bb=0</documentationURL>
+    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264416</documentationURL>
     <sampleQuery>select * from {table} where url="URL OF YAHOO GROUP" AND messageindex="SOME NUMBER"</sampleQuery>
  </meta>
   <bindings>
