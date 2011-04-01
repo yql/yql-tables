@@ -4,7 +4,7 @@
 		<author>Allan Shone</author>
 		<documentationURL>http://api.powerhousemuseum.com/</documentationURL>
 		<description>Query the Powerhouse Museum for a specific theme.</description>
-		<sampleQuery>select result.themes.theme.permanent_url, result.themes.theme.title, result.themes.theme.id from phm.theme where theme="war" and api_key="..." and result.themes.theme.num_items > 0</sampleQuery>
+		<sampleQuery>select result.themes.theme.permanent_url, result.themes.theme.title, result.themes.theme.id from {table} where theme="war" and api_key="..." and result.themes.theme.num_items > 0</sampleQuery>
 	</meta>
 
 	<bindings>

@@ -4,7 +4,7 @@
 		<author>Allan Shone</author>
 		<documentationURL>http://api.powerhousemuseum.com/</documentationURL>
 		<description>Query the Powerhouse Museum for a specific item.</description>
-		<sampleQuery>select * from phm.subject where subject='colour' and api_key='...'</sampleQuery>
+		<sampleQuery>select * from {table} where subject='colour' and api_key='...'</sampleQuery>
 	</meta>
 
 	<bindings>

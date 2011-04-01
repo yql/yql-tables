@@ -4,7 +4,7 @@
         <author>Murali K</author>
         <description>Search through a list of collections</description>
         <documentationURL>http://api.powerhousemuseum.com/</documentationURL>
-        <sampleQuery>select * from phm.collectionsitemis where item='item'</sampleQuery>
+        <sampleQuery>select * from {table} where item='item'</sampleQuery>
     </meta>
 
    <bindings>
