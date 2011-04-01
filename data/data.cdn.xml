@@ -3,7 +3,7 @@
     <meta>
         <author>Marcel Duran</author>
         <description>Retrieves the list of CDNs or boolean values for a given list of hostnames or urls.</description>
-        <sampleQuery>select * from {table}"</sampleQuery>
+        <sampleQuery>select * from {table}</sampleQuery>
         <sampleQuery>select * from {table} where hostname in ("l.yimg.com","s3.amazonws.com")</sampleQuery>
         <sampleQuery>select * from {table} where url in ("http://l.yimg.com/foo.png","http://s3.amazonws.com/bar.png")</sampleQuery>
     </meta>
