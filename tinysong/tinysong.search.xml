@@ -8,9 +8,10 @@
   <bindings>
     <select produces="JSON">
       <urls>
-        <url>http://tinysong.com/{method}/{query}?format=json</url>
+        <url>http://tinysong.com/{method}/{query}?key={key};format=json</url>
       </urls>
       <inputs>
+        <key id="key" type="xs:string" paramType="path" required="true"/>
         <key id="method" type="xs:string" paramType="path" required="true"/>
         <key id="query" type="xs:string" paramType="path" required="true"/>
       </inputs>
