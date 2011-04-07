@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Topic Queries WorldBank Data API</description>
+	   	<documentationURL>http://data.worldbank.org/node/209</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE topic_id = 1</sampleQuery>		
+	</meta>
+	<bindings>
+		<select itemPath="wb:topics.wb:topic" produces="XML">
+			<urls>
+        		<url env="all">http://api.worldbank.org/topics/{topic_id}</url>
+      		</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="20" />
+			</paging>
+	      	<inputs>
+		        <key id="topic_id" type="xs:string" paramType="path" />
+	      	</inputs>
+    	</select>
+  	</bindings>
+</table>

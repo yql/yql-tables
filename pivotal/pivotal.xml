@@ -1,0 +1,28 @@
+<table xmlns='http://query.yahooapis.com/v1/schema/table.xsd'>
+	<bindings>
+		<select produces='XML'>
+			<inputs>
+				<key id='projectid' paramType='path' required='true'/>
+				<key id='token' paramType='variable' required='true'/>
+			</inputs>
+			<execute><![CDATA[
+				baseurl = "http://www.pivotaltracker.com/services/v3/projects/"+projectid+"/stories?filter=";
+
+				var newout = <root/>;				
+				var types = ["bug", "chore", "feature"];
+
+				for (var idx in types)
+				{
+					url = baseurl + "type\%3A" + types[idx]; 
+					request = y.rest(url);
+					request.header("X-TrackerToken", token);
+					var out = request.get().response;
+					newout.item += <item><text>{types[idx]}</text><value>{out.@count}</value></item>;
+				}
+				
+				response.object = newout;
+			]]></execute>
+		</select>
+	</bindings>
+</table>
+

@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-			<description>NOTE: No official API call!!! Wrapper for the json data of the public user timeline.</description>
+			<description>NOTE: No official API call!!! This just gives you a simple wrapper for the public timeline of any bit.ly user, so that you can easily access this data as JSON.</description>
 			<documentationURL></documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere'</sampleQuery>
     </meta>

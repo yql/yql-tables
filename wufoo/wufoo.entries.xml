@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>		
+		<sampleQuery>SELECT * from {table} WHERE apikey='R74O-RZPC-BZW0-W0TM' AND subdomain='wufooapi' AND formIdentifier='z7x4a9' AND Filter1='Field107+Begins_with+Hi%20there' AND Filter2='Field107+Contains+awesome' AND filtermatch='OR'</sampleQuery>
+		<documentationURL>http://wufoo.com/docs/api/v3/entries/</documentationURL>
+<!-- FILTERS: USER FILTER1 - FILTER5. OPTIONS INCLUDE 'Contains',
+'Does_not_contain',
+'Begins_with',
+'Ends_with',
+'Is_less_than',
+'Is_greater_than',
+'Is_on',
+'Is_before',
+'Is_after',
+'Is_not_equal_to',
+'Is_equal_to',
+'Is_not_NULL', -->
+	</meta>
+	<bindings>
+		<select itemPath="Entries.Entry" produces="XML">
+			<urls>
+				<url>https://{subdomain}.wufoo.com/api/v3/forms/{formIdentifier}/entries.xml</url>
+			</urls>
+			<inputs>
+				<key id="apikey" type="xs:string" paramType="variable" required="true"/>
+				<key id="subdomain" type="xs:string" paramType="path" required="true"/>
+                <key id="formIdentifier" type="xs:string" paramType="path" required="true"/>
+                <key id="Filter1" type="xs:string" paramType="variable" />
+                <key id="Filter2" type="xs:string" paramType="variable" />
+                <key id="Filter3" type="xs:string" paramType="variable" />
+                <key id="Filter4" type="xs:string" paramType="variable" />
+                <key id="Filter5" type="xs:string" paramType="variable" />
+                <key id="filtermatch" type="xs:string" paramType="variable" default="AND" />
+                <key id="system" type="xs:string" paramType="variable" />
+			</inputs>
+			<execute><![CDATA[            
+            y.include("http://www.yqlblog.net/samples/base64.js");
+            var authheader = "Basic "+Base64.encode(apikey+":footastic");
+            var wurl = "https://" + inputs['subdomain'] + ".wufoo.com/api/v3/forms/" + inputs['formIdentifier'] + "/entries.xml?";            
+            
+            for (var i=1; i<6; i++)
+            {
+                if (inputs['Filter' + i] != null)
+                {             
+                    wurl += "Filter" + i + "=" + inputs['Filter' + i] + "&";
+                }
+            }
+            if (inputs['filtermatch'] != "AND")
+            {             
+                wurl += "match=OR&";
+            }
+            if (inputs['system'] == "true")
+            {             
+                wurl += "system=true&";
+            }
+            
+            var wurequest = y.rest(wurl);            
+            var entriesResponse = wurequest.header("Authorization",authheader).get().response;
+            response.object = entriesResponse;
+                        
+      ]]></execute>
+		</select>		
+	</bindings>
+</table>

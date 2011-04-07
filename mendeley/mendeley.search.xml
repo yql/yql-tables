@@ -4,7 +4,7 @@
     <author>Dan Harvey (dan.harvey@mendeley.com)</author>
     <description>Mendeley OAPI</description>
     <documentationURL>http://www.mendeley.com/oapi/methods/</documentationURL>
-    <sampleQuery>select * from mendeley where query='red'</sampleQuery>
+    <sampleQuery>select * from {table} where query='red'</sampleQuery>
   </meta>
 
   <bindings>

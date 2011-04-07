@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>SELECT * FROM {table} where album = 'Together';</sampleQuery>
+    <author>Max Manders</author>
+    <documentationURL>http://developer.spotify.com/en/metadata-api/overview/</documentationURL>  
+    <description>A YQL wrapper around the Spotify Metadata API.</description>
+  </meta>
+
+  <bindings>
+    <select itemPath="albums.album" produces="XML">
+      <urls>
+        <url>http://ws.spotify.com/search/1/album?q={album}</url>
+      </urls>
+      <inputs>
+        <key id="album" type="xs:string" paramType="path" />
+      </inputs>
+    </select>
+    <select itemPath="json.albums.album" produces="JSON">
+      <urls>
+        <url>http://ws.spotify.com/search/1/album.json?q={album}</url>
+      </urls>
+      <inputs>
+        <key id="album" type="xs:string" paramType="path" />
+      </inputs>
+    </select>
+  </bindings>
+</table>
+

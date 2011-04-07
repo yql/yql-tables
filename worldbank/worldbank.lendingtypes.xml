@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Lending Type Queries WorldBank Data API (normally not used directly)</description>
+	   	<documentationURL>http://data.worldbank.org/node/208</documentationURL>
+		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
+	</meta>
+	<bindings>
+		<select itemPath="wb:lendingTypes.wb:lendingType" produces="XML">
+			<urls>
+        		<url env="all">http://api.worldbank.org/lendingTypes</url>
+      		</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="20" />
+			</paging>
+	      	<inputs>
+	      	</inputs>
+    	</select>
+  	</bindings>
+</table>

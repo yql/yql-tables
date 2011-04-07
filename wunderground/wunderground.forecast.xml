@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ben Ward</author>
+    <description>Weather Underground Forecast</description>
+    <documentationURL>http://wiki.wunderground.com/index.php/API_-_XML</documentationURL>
+    <sampleQuery>select * from {table} where location='Chicago,IL';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml</url>
+      </urls>
+      <inputs>
+        <key id="query" as="location" type="xs:string" required="true" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

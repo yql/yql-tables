@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Andrew Guyton</author>
+		<documentationURL>http://developer.valvesoftware.com/wiki/Steam_Web_API#GetNewsForApp_.28v0001.29</documentationURL>
+		<sampleQuery>select * from {table} where appid='440' and maxlength='300'</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="JSON">
+			<urls>
+				<url>http://api.steampowered.com/ISteamNews/GetNewsForApp/v0001/</url>
+			</urls>
+			<inputs>
+				<key id="appid" type="xs:string" paramType="query" required="true" />
+				<key id="count" type="xs:string" paramType="query" required="false" />
+				<key id="format" type="xs:string" paramType="query" required="false" />
+				<key id="maxlength" type="xs:string" paramType="query" required="false" default="xml"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>
