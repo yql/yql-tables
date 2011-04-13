@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>NOTE: No official API call!!! This just gives you a simple wrapper for the public timeline of any bit.ly user, so that you can easily access this data as JSON.</description>
+			<documentationURL></documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.data" produces="JSON">
+            <urls>
+                <url>http://bit.ly/u/{login}.json</url>
+            </urls>
+            <inputs>
+                <key id="login" type="xs:string" paramType="path" required="true" />
+            </inputs>
+        </select>
+     </bindings>
+</table>
+
+
+
