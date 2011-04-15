@@ -46,7 +46,6 @@
                     redirect = y.diagnostics.redirect;
                     count = redirect && redirect.length();
                     if (count) {
-                        count = (count % 2) ? count : count / 2;
                         for (i = 0; i < count; i += 1) {
                             redir = redirect[i];
                             y.log('redirect: ' + redir.@status + ' = ' + redir.toString());
