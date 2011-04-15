@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description>query can be anything type can be (c) contributors =1 (y) years =2(a) article types =3, if not set type is all =0.</description>
+    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/269210</documentationURL>
+    <sampleQuery>select * from {table} where query="Yahoo" AND type="c"</sampleQuery>
+ </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='query' type='xs:string' paramType='variable' required="true" />
+        <key id='type' type='xs:string' paramType='variable' required="false" />
+  </inputs>
+      <execute>
+      <![CDATA[ 
+
+	var querystr=query.replace(/\s/g,"%20");
+	var yqlstr1="select * from html where url=\"http://www.associatedcontent.com/subject/article/";
+	var rettype=0;
+	var yqlstr2="\" and xpath=\"//div[@class='search_filters']/p/select[@id='filter_select']/option\"";
+	if(type)
+	{
+		if(type.length==1)
+		{
+			if(type.match("c")!=null)
+			{
+				rettype=1;
+			}
+			else
+			{
+				if(type.match("y")!=null)
+				{
+					rettype=2;
+				}
+				else
+				{
+					if(type.match("a")!=null)
+					{
+						rettype=3;
+					}
+					else
+					{
+						;//
+					}
+				}
+			}
+		}
+		else
+		{
+			;//
+		}
+	}
+	else
+	{
+		;//
+	}
+	var yqlquery=y.query(yqlstr1+querystr+yqlstr2);
+	var yqlresults=yqlquery.results;
+	var yqlcounter=parseInt(yqlresults.option.length());
+	var xmlret=new XML();
+	xmlret=<root></root>;
+
+	var count=0;
+	var statemachine=0;
+	var value1="";
+	var value2="";
+	while(count<yqlcounter)
+	{
+		value1=new String(yqlresults.option[count].@value);
+		value2=new String(yqlresults.option[count].text());
+		if(statemachine==0)
+		{
+			if(value2.match("Contributors")!=null)
+			{
+				statemachine=1;
+			}
+			else
+			{
+				;//
+			}
+		}
+		else
+		{
+			if(statemachine==1)
+			{
+				if(value2.match("Year")!=null)
+				{
+					statemachine=2;
+				}
+				else
+				{
+					if((rettype==0)||(rettype==1))
+					{
+						if(value2.length>0)
+						{
+							value1=value1.match(/au=.+$/);
+							xmlret.root+=<contributor>
+								<username>{value2}</username>
+								<append>{value1}</append>
+							</contributor>
+						}
+						else
+						{
+							;//
+						}
+					}
+					else
+					{
+						;//
+					}
+				}
+			}
+			else
+			{
+				if(statemachine==2)
+				{
+					if(value2.match("Types")!=null)
+					{
+						statemachine=3;
+					}
+					else
+					{
+						if((rettype==0)||(rettype==2))
+						{
+							if(value2.length>0)
+							{
+								value1=value1.match(/ay=.+$/);
+								xmlret.root+=<year>
+									<value>{value2}</value>
+									<append>{value1}</append>
+								</year>
+							}
+							else
+							{
+								;//
+							}
+						}
+						else
+						{
+							;//
+						}
+					}
+				}
+				else
+				{
+					if(statemachine==3)
+					{
+						if((rettype==0)||(rettype==3))
+						{
+							if(value2.length>0)
+							{
+								value1=value1.match(/at=.+$/);
+								xmlret.root+=<articletype>
+									<type>{value2}</type>
+									<append>{value1}</append>
+								</articletype>
+							}
+							else
+							{
+								;//
+							}
+						}
+						else
+						{
+							;//
+						}
+						
+					}
+					else
+					{
+						;//
+					}
+				}
+			}
+		}
+		count++;
+	}
+	response.object=xmlret;
+
+ ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
