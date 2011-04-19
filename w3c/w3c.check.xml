@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rodrigo Setti (rsetti@yahoo-inc.com)</author>
+    <description>Validate web documents using W3C's validator</description>
+    <documentationURL>http://validator.w3.org/docs/api.html</documentationURL>
+    <sampleQuery>select * from {table} where uri='www.yahoo.com'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://{validator}/check</url>
+      </urls>
+      <inputs>
+        <key id="uri" type="xs:string" paramType="query" />
+        <key id="output" type="xs:string" paramType="query" default="soap12"/>
+        <key id="validator" type="xs:string" paramType="path" default="validator.w3.org"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
