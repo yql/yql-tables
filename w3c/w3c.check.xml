@@ -5,6 +5,8 @@
     <description>Validate web documents using W3C's validator</description>
     <documentationURL>http://validator.w3.org/docs/api.html</documentationURL>
     <sampleQuery>select * from {table} where uri='www.yahoo.com'</sampleQuery>
+    <sampleQuery>select * from {table} where uri='www.yahoo.com' and type='error' limit 10</sampleQuery>
+    <sampleQuery>select line,column,message from {table} where uri='www.yahoo.com' and type='warning'</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="results.issue" produces="XML">
