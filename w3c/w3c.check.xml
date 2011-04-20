@@ -26,8 +26,6 @@
             errors = <errors></errors>,
             warnings = <warnings></warnings>;
 
-        //y.log(soap.env::Body);
-
         if (soap) {
           results.appendChild( <uri>{uri}</uri> );
           results.appendChild( <checkedby>{validator}</checkedby> );
