@@ -15,6 +15,7 @@
         <key id="uri" type="xs:string" paramType="query" />
         <key id="output" type="xs:string" paramType="query" default="soap12" const="true"/>
         <key id="charset" type="xs:string" paramType="query"/>
+        <key id="doctype" type="xs:string" paramType="query"/>
         <key id="validator" type="xs:string" paramType="path" default="validator.w3.org"/>
       </inputs>
       <execute>
