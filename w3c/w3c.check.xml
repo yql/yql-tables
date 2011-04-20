@@ -13,9 +13,58 @@
       </urls>
       <inputs>
         <key id="uri" type="xs:string" paramType="query" />
-        <key id="output" type="xs:string" paramType="query" default="soap12"/>
+        <key id="output" type="xs:string" paramType="query" default="soap12" const="true"/>
         <key id="validator" type="xs:string" paramType="path" default="validator.w3.org"/>
       </inputs>
+      <execute>
+      <![CDATA[
+        var env = Namespace("http://www.w3.org/2003/05/soap-envelope");
+        var m = Namespace("http://www.w3.org/2005/10/markup-validator");
+
+        var soap = request.get().response,
+            results = <results></results>,
+            errors = <errors></errors>,
+            warnings = <warnings></warnings>;
+
+        //y.log(soap.env::Body);
+
+        if (soap) {
+          results.appendChild( <uri>{uri}</uri> );
+          results.appendChild( <checkedby>{validator}</checkedby> );
+          results.appendChild( <doctype>{soap.env::Body.m::markupvalidationresponse.m::doctype.toString()}</doctype> );
+          results.appendChild( <charset>{soap.env::Body.m::markupvalidationresponse.m::charset.toString()}</charset> );
+          results.appendChild( <validity>{soap.env::Body.m::markupvalidationresponse.m::validity.toString()}</validity> );
+
+          if (soap.env::Body.m::markupvalidationresponse.m::errors) {
+            errors.appendChild( <errorcount>{soap.env::Body.m::markupvalidationresponse.m::errors.m::errorcount.toString()}</errorcount> );
+            errors.appendChild( <errorlist></errorlist> );
+            for each (error in soap.env::Body.m::markupvalidationresponse.m::errors.m::errorlist.m::error) {
+              errors.errorlist.appendChild( <error line={error.m::line.toString()} column={error.m::col.toString()}>
+                                              <source>{error.m::source.toString()}</source>
+                                              <explanation>{error.m::explanation.toString()}</explanation>
+                                              <message>{error.m::message.toString()}</message>
+                                            </error> );
+            }
+            results.appendChild(errors);
+          }
+
+          if (soap.env::Body.m::markupvalidationresponse.m::warnings) {
+            warnings.appendChild( <warningcount>{soap.env::Body.m::markupvalidationresponse.m::warnings.m::warningcount.toString()}</warningcount> );
+            warnings.appendChild( <warninglist></warninglist> );
+            for each (warning in soap.env::Body.m::markupvalidationresponse.m::warnings.m::warninglist.m::warning) {
+              warnings.warninglist.appendChild( <warning line={warning.m::line.toString()} column={warning.m::col.toString()}>
+                                              <source>{warning.m::source.toString()}</source>
+                                              <explanation>{warning.m::explanation.toString()}</explanation>
+                                              <message>{warning.m::message.toString()}</message>
+                                            </warning> );
+            }
+            results.appendChild(warnings);
+          }
+        }
+
+        response.object = results;
+      ]]>
+      </execute>
     </select>
   </bindings>
 </table>
