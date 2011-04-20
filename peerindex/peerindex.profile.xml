@@ -7,7 +7,7 @@
 	    <sampleQuery>SELECT * FROM {table} WHERE id='twitterUserGoesHere' AND api_key='yourKeyGoesHere'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="JSON">
+        <select itemPath="json" produces="JSON">
             <urls>
                 <url>http://api.peerindex.net/1/profile/show.json</url>
             </urls>
