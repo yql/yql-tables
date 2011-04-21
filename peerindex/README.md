@@ -1,6 +1,10 @@
 # YQL Datatables for peerindex.net
 
-http://dev.peerindex.net/docs
+These YQL datatables allow you to access the [peerindex.net API][peerindex_api].
+When you are using the full set of [YQL community tables][yql_community_tables] then you can should leave away all the `USE ...` statements in the examples below.
+
+[peerindex_api]: http://dev.peerindex.net/docs
+[yql_community_tables]: https://developer.yahoo.com/yql/console/?q=show%20tables&env=store://datatables.org/alltableswithkeys
 
 # Examples of Usage
 
