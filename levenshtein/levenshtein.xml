@@ -45,7 +45,7 @@
 							levenshtein_distance = levenshtein(text1,text2);
 							
 							var xml = <levenshtein>{levenshtein_distance}</levenshtein>;
-							xml = <text1>{text1}</text1>;
+							xml += <text1>{text1}</text1>;
 							response.object = xml;
 							
 							]]></execute>
