@@ -16,7 +16,7 @@
       </urls>
       <inputs>
         <key id='q' type='xs:string' paramType='query' required="true"/>
-				<key id='cx' type='xs:string' paramType='query' required="true"/>
+				<key id='cx' type='xs:string' paramType='query' required="true" default="017576662512468239146:omuauf_lfve"/>
 				<key id='cref' type='xs:string' paramType='query'/>
 				<key id='safe' type='xs:string' paramType='query'/>
 				<key id='key' as="api-key" type='xs:string' paramType='query' required="true"/>
