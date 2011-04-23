@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>YQL wrapper for the calculation of the Levenshtein distance. Code example from http://andrew.hedges.name/experiments/levenshtein/</description>
+			<documentationURL></documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE text1='Supercalifragilisticexpialidocious' AND text2='Supercalifrajilisticexpialidotious'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://bit.ly/u/{login}.json</url>
+            </urls>
+            <inputs>
+                <key id="text1" type="xs:string" paramType="query" required="true" />
+								<key id="text2" type="xs:string" paramType="query" required="true" />
+            </inputs>
+						<execute><![CDATA[
+							/*  Get the Levenshtein distance - a measure of difference between two sequences */
+							function levenshtein(a, b) {				    
+					        var m = a.length;
+					        var n = b.length;
+					        var r = []; r[0] = [];
+					        if (m < n) { var c = a; a = b; b = c; var o = m; m = n; n = o; }
+					        for (var c = 0; c < n+1; c++) { r[0][c] = c; }
+					        for (var i = 1; i < m+1; i++) {
+					            r[i] = [];
+					            r[i][0] = i;
+					            for (var j=1; j<n+1; j++) {
+					                r[i][j] = this.smallest(r[i-1][j]+1, r[i][j-1]+1, r[i-1][j-1]+((a.charAt(i-1)==b.charAt(j-1))? 0 : 1));
+					            }
+					        }
+					        return r[m][n];
+					    }
+
+							/*  Return smallest of two values */
+					    function smallest(x,y,z) {   
+					        if (x < y && x < z) return x;
+					        if (y < x && y < z) return y;
+					        return z;
+					    }
+					
+							/*  MAIN */				
+							
+							var xml = <root>hello</root>;
+							response.object = xml;
+							
+							]]></execute>
+        </select>
+     </bindings>
+</table>
+
+
+
