@@ -40,9 +40,11 @@
 					        return z;
 					    }
 					
-							/*  MAIN */				
+							/*  MAIN */			
+								
+							results = levenshtein(text1,text2);
 							
-							var xml = <root>hello</root>;
+							var xml = <root>hello {results}</root>;
 							response.object = xml;
 							
 							]]></execute>
