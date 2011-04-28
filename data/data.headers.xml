@@ -14,46 +14,38 @@
             </inputs>
             <execute>
                 <![CDATA[
-                    var resp, header, tag, redirect, location, redir, count, decodeError,
+                    var req, resp, header, tag, redirect, location, redir, count, content,
                         data = <resources/>,
                         headers = <headers/>,
                         reTagCase = /(^|\-)(\w)/g,
 
                         tagCase = function (a, b, c) {
                             return b + c.toUpperCase();
-                        },
-
-                        request = function (compress, charset) {
-                            y.log('request with' + (compress ? '' : 'out') + ' compression');
-                            var req = y.rest(url);
-
-                            // set user agent
-                            if (ua) {
-                                req.header('User-Agent', ua);
-                            }
-
-                            // compression
-                            if (compress) {
-                                req.header('Accept-Encoding', 'gzip,deflate');
-                                req.decompress(true);
-                            }
-
-                            if (charset) {
-                                req.forceCharset(charset);
-                            }
-
-                            // fetch url
-                            return req.get();
                         };
 
-                    resp = request(true);
+                    req = y.rest(url);
+
+                    // set user agent
+                    if (ua) {
+                        req.header('User-Agent', ua);
+                    }
+
+                    // compression
+                    req.header('Accept-Encoding', 'gzip,deflate');
+                    req.decompress(true);
+
+                    // bad servers don't set charset
+                    // YQL tries UTF-8 first then we try ISO as a fallback
+                    req.fallbackCharset('ISO-8859-1');
+
+                    // fetch url
+                    resp = req.get();
                     y.log('response length: ' + (resp.response && resp.response.length));
 
                     // check redirect
                     redirect = y.diagnostics.redirect;
                     count = redirect && redirect.length();
                     if (count) {
-                        count = (count % 2) ? count : count / 2;
                         for (i = 0; i < count; i += 1) {
                             redir = redirect[i];
                             y.log('redirect: ' + redir.@status + ' = ' + redir.toString());
@@ -83,21 +75,23 @@
                     data.resources += <status>{resp.status}</status>;
                     data.resources += headers;
 
-                    // get uncompressed response for non-binary
-                    if ((header = resp.headers) && (header = header['content-type']) &&
-                            header.indexOf('image') && header.indexOf('x-shockwave-flash') < 0) {
-
-                        decodeError = y.diagnostics.url.(@['error'] == "Unable to parse data using default charset utf-8").(url == url);
-                        y.log('decode error: ' + decodeError);
-
-                        // try again with different charset if error occurs
-                        if (!resp.response && decodeError) {
-                            resp = request(false, 'ISO-8859-1');
-                            y.log('response iso length: ' + (resp.response && resp.response.length));
+                    // get uncompressed response content for non-binary
+                    header = resp.headers;
+                    header = (header && header['content-type']) || '';
+                    if (header.indexOf('image') && header.indexOf('x-shockwave-flash') < 0) {
+                        try {
+                            content = resp.response;
+                        } catch (err) {
+                            y.log(err);
+                            // empty response on error
+                            content = '';
                         }
+                    } else {
+                        // empty response for binaries
+                        content = '';
                     }
 
-                    data.resources += <content>{resp.response}</content>;
+                    data.resources += <content>{content}</content>;
 
                     response.maxAge = 300;
                     response.object = data;

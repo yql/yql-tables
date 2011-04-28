@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>3taps, Inc</author>
+		<description>A table that provides access to the 3taps Search API</description>
+		<documentationURL>http://developers.3taps.net/methods/search</documentationURL>
+		<sampleQuery>select * from {table} where source="E_BAY" and text="nintendo" and location="LAX"</sampleQuery>
+	</meta>
+
+	<bindings>
+		<select itemPath="postings.posting" produces="XML">
+			<urls>
+				<url>http://3taps.net/search?retvals=accountID,accountName,annotations,body,category,clickCount,currency,expiration,externalID,externalURL,heading,language,images,indexed,latitude,location,longitude,postKey,price,source,text,timestamp,trustedAnnotations</url>
+			</urls>
+			<inputs>
+				<key id="accountID" type="xs:string" paramType="query" required="false" />
+				<key id="accountName" type="xs:string" paramType="query" required="false" />
+				<key id="body" type="xs:string" paramType="query" required="false" />
+				<key id="category" type="xs:string" paramType="query" required="false" />
+				<key id="end" type="xs:dateTime" paramType="query" required="false" />
+				<key id="externalID" type="xs:string" paramType="query" required="false" />
+				<key id="heading" type="xs:string" paramType="query" required="false" />
+				<key id="location" type="xs:string" paramType="query" required="false" />
+				<key id="postKey" type="xs:string" paramType="query" required="false" />
+				<key id="price" type="xs:string" paramType="query" required="false" />
+				<key id="source" type="xs:string" paramType="query" required="false" />
+				<key id="start" type="xs:dateTime" paramType="query" required="false" />
+				<key id="text" type="xs:string" paramType="query" required="false" />
+				<key id="trustedAnnotations" type="xs:string" paramType="query" required="false" />
+			</inputs>
+			
+			<execute>
+			<![CDATA[
+				// not the simplest way to get our results but we need to reformat a few key fields
+				try {
+					var results = request.get().response.results;
+					var postings = <postings/>;
+					
+					for (var i in results) {
+						var result = results[i];
+						var posting = <posting />;
+						
+						posting.accountID = result.accountID;
+						posting.accountName = result.accountName;
+						posting.annotations = result.annotations;
+						posting.body = result.body;
+						posting.category = result.category;
+						posting.clickCount = result.clickCount;
+						posting.currency = result.currency;
+						posting.expiration = result.expiration;
+						posting.externalID = result.externalID;
+						posting.externalURL = result.externalURL;
+						posting.heading = result.heading;
+						posting.language = result.language;
+						posting.images = result.images;
+						posting.indexed = result.indexed;
+						posting.latitude = result.latitude;
+						posting.location = result.location;
+						posting.longitude = result.longitude;
+						posting.postKey = result.postKey;
+						posting.price = result.price;
+						posting.source = result.source;
+						posting.text = result.text;
+						posting.timestamp = result.timestamp;
+						posting.trustedAnnotations = result.trustedAnnotations;
+
+						postings.posting += posting;
+					}
+					
+					response.object = postings;
+				} catch(err) {
+					response.object = {'result':'failure', 'error': err};
+				}
+				]]>
+			</execute>
+
+			<paging model="page">
+				<start id="page" default="0" />
+				<pagesize id="rpp" max="1000" />
+				<total default="100" />
+			</paging>
+		</select>
+	</bindings>
+</table>
+
