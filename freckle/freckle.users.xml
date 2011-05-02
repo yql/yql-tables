@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
     <meta>
         <author>Peter Baumgartner</author>
-        <documentationURL>http://madrobby.github.com/freckle-apidocs/entries.html</documentationURL>
+        <documentationURL>http://madrobby.github.com/freckle-apidocs/users.html</documentationURL>
         <description>Select users from Freckle</description>
         <sampleQuery>SELECT * FROM freckle.users WHERE site="apitest" AND token="lx3gi6pxdjtjn57afp8c2bv1me7g89j"</sampleQuery>
     </meta>
