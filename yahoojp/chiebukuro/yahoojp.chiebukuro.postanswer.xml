@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/chiebukuro/chiebukuro/v1/postanswer.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="ResultSet.Result" produces="XML">
+            <urls>
+                <url>http://chiebukuro.yahooapis.jp/Chiebukuro/V1/postAnswer</url>
+            </urls>
+            <inputs>
+                <key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true" />
+                <key id="consumer_secret" type="xs:string" paramType="variable" required="true" />
+                <key id="oauth_token" type="xs:string" paramType="variable" required="true" />
+                <key id="token_secret" type="xs:string" paramType="variable" required="true" />
+                <key id="content" type="xs:string" paramType="query" required="true" />
+                <key id="question_id" type="xs:string" paramType="query" required="true" />
+                <key id="answer_id" type="xs:string" paramType="query" required="false" />
+                <key id="mobile_uid" type="xs:string" paramType="query" required="false" />
+                <key id="is_mobile" type="xs:string" paramType="query" required="false" />
+                <key id="image" type="xs:string" paramType="query" required="false" />
+                <key id="code" type="xs:string" paramType="query" required="false" />
+            </inputs>
+            <execute><![CDATA[
+var document = {
+    getElementsByTagName: function(value) {
+        return null;
+    }
+};
+y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+var accessor = {
+    consumerSecret: consumer_secret,
+    tokenSecret: token_secret
+};
+var message = {
+    method: "GET",
+    action: request.url,
+    parameters: []
+};
+message.parameters.push(
+    ["oauth_consumer_key", oauth_consumer_key],
+    ["oauth_token", oauth_token],
+    ["oauth_signature_method", "HMAC-SHA1"],
+    ["oauth_version", "1.0"]
+);
+OAuth.setTimestampAndNonce(message);
+OAuth.SignatureMethod.sign(message, accessor);
+response.object = request.header("Authorization", OAuth.getAuthorizationHeader("yahooapis.jp", message.parameters)).get().response;
+]]></execute>
+        </select>
+    </bindings>
+</table>

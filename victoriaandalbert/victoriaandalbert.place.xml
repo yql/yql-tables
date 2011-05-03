@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Search Victoria and Albert Museum's collections database by spatial details</description>
+    <documentationURL>http://www.vam.ac.uk/api</documentationURL>
+    <sampleQuery description="Search for place containing mount with an offset of 2, maximum of 45 objects returned.">select * from {table}(2,45) where q='mount';</sampleQuery>
+    <sampleQuery description="Search for 50km radius of Leeds sorted by distance">select * from {table} where latitude='53.799722' and longitude='-1.549167' and radius='50' and orderby='distance';</sampleQuery>
+</meta>
+<bindings>
+   <select itemPath="json.records" produces="JSON">
+        <urls>
+            <url>http://www.vam.ac.uk/api/json/place/search</url>
+        </urls>
+	<paging model="offset">
+		<start id="offset" default="0" />
+		<pagesize id="limit" max="45" />
+		<total default="45"/>
+	  </paging>
+	<inputs>
+      	    <key id="q" type="xs:string" paramType="query" required="false" />
+	    <key id="latitude" type="xs:string" paramType="query" required="false" />
+	    <key id="longitude" type="xs:string" paramType="query" required="false" />
+	    <key id="radius" type="xs:string" paramType="query" required="false" />
+	    <key id="orderby" type="xs:string" paramType="query" required="false" />
+        </inputs>
+    </select>
+</bindings>
+</table>

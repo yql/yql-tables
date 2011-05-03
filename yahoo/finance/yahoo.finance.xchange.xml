@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Mike Telis</author>
+		<description>Retrieves currency exchange rate data for given pair(s). Accepts both where pair='eurusd, gbpusd' and where pair in ('eurusd', 'gpbusd, usdaud')</description>
+		<sampleQuery>select * from {table} where pair in ("EURUSD","GBPUSD")</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="rates.rate" produces="XML">
+			<inputs>
+				<key id="pair" type="xs:string" paramType="variable" required="true" />
+			</inputs>
+			<execute><![CDATA[
+			        var pairs = [];
+
+				for each (var p in pair.toString().replace(/\s+/g,'').split(','))
+					pairs.push(p.toUpperCase() + '=X');
+
+				var q = "select * from csv where url='http://download.finance.yahoo.com/d/quotes.csv?s="+ pairs.join(',') +
+					"&f=snl1d1t1ab'" + " and columns='Symbol,Name,Rate,Date,Time,Ask,Bid'",
+				    results = y.query(q),
+				    rates = <rates/>,
+				    rows=results.results.row;
+
+				for each (var row in rows) {
+					for each (var item in row.*) 
+						row[item.localName()]=item.text().toString().replace(/"/g, '');
+
+					var tag = row.Symbol.text().toString().substr(0,6);
+					delete row.Symbol;
+					rates.rate += <rate id={tag}>{row.*}</rate>;
+				}
+				response.object = rates;
+		        ]]></execute>
+		</select>
+	</bindings>
+</table>

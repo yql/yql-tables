@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+	<meta>
+		<author>Eric Ferraiuolo (ericf)</author>
+		<documentationURL>http://longurl.org/api#list-known-services</documentationURL>
+		<description>List of known URL shortening services LongURL.org maintains.</description>
+		<sampleQuery>select * from {table};</sampleQuery>
+	</meta>
+	
+	<bindings>
+		<select itemPath="response" produces="XML">
+			<urls>
+				<url>http://api.longurl.org/v2/services</url>
+			</urls>
+			<inputs>
+				<key id="format" const="true" type="xs:string" paramType="query" required="false" default="xml"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>

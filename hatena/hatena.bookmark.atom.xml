@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://d.hatena.ne.jp/keyword/%A4%CF%A4%C6%A4%CA%A5%D6%A5%C3%A5%AF%A5%DE%A1%BC%A5%AFAtomAPI</documentationURL>
+        <sampleQuery>select * from {table} where username="username" and password="password" and eid="1"</sampleQuery>
+        <sampleQuery>select * from {table} where username="username" and password="password"</sampleQuery>
+        <sampleQuery>insert into {table} (username, password, url) values("username", "password", "http://www.yahoo.com/")</sampleQuery>
+        <sampleQuery>update {table} set summary="update summary" where username="username" and password="password" and eid="1"</sampleQuery>
+        <sampleQuery>delete from {table} where username="username" and password="password" and eid="1"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://b.hatena.ne.jp/atom/edit/{eid}</url>
+            </urls>
+            <inputs>
+                <key id="username" type="xs:string" paramType="variable" required="true" />
+                <key id="password" type="xs:string" paramType="variable" required="true" />
+                <key id="eid" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+
+                y.include('http://rvr.typepad.com/wind/files/wsse.js');
+
+                var wsse = wsseHeader(username, password);
+
+                response.object = request.accept('application/x.atom+xml, application/xml, text/xml, */*')
+                                         .header('X-WSSE', wsse)
+                                         .get()
+                                         .response;
+
+            ]]></execute>
+        </select>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://b.hatena.ne.jp/atom/feed</url>
+            </urls>
+            <inputs>
+                <key id="username" type="xs:string" paramType="variable" required="true" />
+                <key id="password" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute><![CDATA[
+
+                y.include('http://rvr.typepad.com/wind/files/wsse.js');
+
+                var wsse = wsseHeader(username, password);
+
+                response.object = request.accept('application/x.atom+xml, application/xml, text/xml, */*')
+                                         .header('X-WSSE', wsse)
+                                         .get()
+                                         .response;
+
+            ]]></execute>
+        </select>
+        <insert itemPath="" produces="XML">
+            <urls>
+                <url>http://b.hatena.ne.jp/atom/post</url>
+            </urls>
+            <inputs>
+                <key id="username" type="xs:string" paramType="variable" required="true" />
+                <key id="password" type="xs:string" paramType="variable" required="true" />
+                <key id="url" type="xs:string" paramType="variable" required="true" />
+                <key id="summary" type="xs:string" paramType="variable" />
+            </inputs>
+            <execute><![CDATA[
+
+                y.include('http://rvr.typepad.com/wind/files/wsse.js');
+
+                var wsse = wsseHeader(username, password);
+                var content =
+                    <entry xmlns="http://purl.org/atom/ns#">
+                        <link rel="related" type="text/html" href={url} />
+                    </entry>;
+
+                if (summary) {
+                    content.appendChild(<summary type="text/plain">{summary}</summary>);
+                }
+
+                response.object = request.accept('application/x.atom+xml, application/xml, text/xml, */*')
+                                         .header('X-WSSE', wsse)
+                                         .post(content)
+                                         .response;
+
+            ]]></execute>
+        </insert>
+        <update itemPath="" produces="XML">
+            <urls>
+                <url>http://b.hatena.ne.jp/atom/edit/{eid}</url>
+            </urls>
+            <inputs>
+                <key id="username" type="xs:string" paramType="variable" required="true" />
+                <key id="password" type="xs:string" paramType="variable" required="true" />
+                <key id="eid" type="xs:string" paramType="path" required="true" />
+                <value id="summary" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute><![CDATA[
+
+                y.include('http://rvr.typepad.com/wind/files/wsse.js');
+
+                var wsse = wsseHeader(username, password);
+                var content =
+                    <entry xmlns="http://purl.org/atom/ns#">
+                        <summary type="text/plain">{summary}</summary>
+                    </entry>;
+
+                response.object = request.accept('application/x.atom+xml, application/xml, text/xml, */*')
+                                         .header('X-WSSE', wsse)
+                                         .put(content)
+                                         .response;
+
+            ]]></execute>
+        </update>
+        <delete itemPath="" produces="XML">
+            <urls>
+                <url>http://b.hatena.ne.jp/atom/edit/{eid}</url>
+            </urls>
+            <inputs>
+                <key id="username" type="xs:string" paramType="variable" required="true" />
+                <key id="password" type="xs:string" paramType="variable" required="true" />
+                <key id="eid" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+
+                y.include('http://rvr.typepad.com/wind/files/wsse.js');
+
+                var wsse = wsseHeader(username, password);
+
+                response.object = request.accept('application/x.atom+xml, application/xml, text/xml, */*')
+                                         .header('X-WSSE', wsse)
+                                         .del()
+                                         .response;
+
+            ]]></execute>
+        </delete>
+    </bindings>
+</table>

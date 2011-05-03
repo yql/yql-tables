@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Allan Shone</author>
+		<documentationURL>http://api.powerhousemuseum.com/</documentationURL>
+		<description>Query the Powerhouse Museum for a specific item.</description>
+		<sampleQuery>select * from {table} where item='146646' and api_key='...'</sampleQuery>
+	</meta>
+
+	<bindings>
+        <select itemPath="" produces="JSON">
+        	<urls>
+        		<url></url>
+        	</urls>
+        	<inputs>
+        		<key id='item' type='xs:string' paramType='path' required='true' />
+        		<key id='api_key' type='xs:string' paramType='path' required='true' />
+        	</inputs>
+
+        	<execute><![CDATA[
+
+var query = '';
+var base_url = 'http://api.powerhousemuseum.com/api/v1/item/';
+
+if (parseInt(item).toString() != "NaN") {
+    base_url += parseInt(item) + '/xml/?api_key=' + api_key;
+} else {
+    base_url += 'xml/?api_key=' + api_key + '&description=' + item;
+}
+
+query = y.query('select * from xml where url="' + base_url + '"');
+
+response.object = query.results;
+
+			]]></execute>
+		</select>
+    </bindings>
+</table>

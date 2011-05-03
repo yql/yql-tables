@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Marcel Duran</author>
+        <description>Retrieves the list of CDNs or boolean values for a given list of hostnames or urls.</description>
+        <sampleQuery>select * from {table}</sampleQuery>
+        <sampleQuery>select * from {table} where hostname in ("l.yimg.com","s3.amazonws.com")</sampleQuery>
+        <sampleQuery>select * from {table} where url in ("http://l.yimg.com/foo.png","http://s3.amazonws.com/bar.png")</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+               <key id="hostname" type="xs:string" paramType="variable" required="false"/>
+               <key id="url" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var hostname, cdn, i, len,
+
+                        cdns = [
+                            /*********** BEGIN OF CDN LIST ***********/
+                            /******* change from this point on *******/
+                            {
+                                name: 'Yahoo! yimg',
+                                pattern: '^[\\d\\w\\.]+.yimg.com'
+                            },
+                            {
+                                name: 'Yahoo! APIs',
+                                pattern: '^yui.yahooapis.com'
+                            },
+                            {
+                                name: 'Akamai',
+                                pattern: '^a248.e.akamai.net'
+                            },
+                            {
+                                name: 'Yahoo! Korea image server',
+                                pattern: '^img(?:.(?:shopping|news|srch))?.yahoo.co.kr'
+                            },
+                            {
+                                name: 'Yahoo! Korea ads server',
+                                pattern: '^(?:adz|pimg).kr.yahoo.com'
+                            },
+                            {
+                                name: 'Yahoo! Koread image server',
+                                pattern: '^kr.img.n2o.yahoo.com'
+                            },
+                            {
+                                name: 'Amazon AWS',
+                                pattern: '^s3.amazonaws.com'
+                            }
+                            /** don't forget to remove last comma **/
+                            /*** don't change from this point on ***/
+                            /*********** END OF CDN LIST ***********/
+                        ];
+
+                    // for hostname or url returns true or false if they are cdn or not
+                    if (hostname || url) {
+                        data = <result/>;
+                        data.@['cdn'] = false;
+                        if (url) {
+                            hostname = /^(?:[A-Za-z]+:\/{2,3})?([^\/\?&]+)/.exec(url),
+                            hostname = hostname && hostname[1] || '';
+                            data.@['url'] = url;
+                        }
+                        data.@['hostname'] = hostname;
+                        for (i = 0, len = cdns.length; i < len; i += 1) {
+                            cdn = cdns[i];
+                            if (RegExp(cdn.pattern).test(hostname)) {
+                                data.@['cdn'] = true;
+                                data.@['name'] = cdn.name;
+                                break;
+                            }
+                        }
+                    // otherwise retunrs a list of cdn patterns
+                    } else {
+                        data = <cdns/>;
+                        for each (cdn in cdns) {
+                            data.cdns += <result name={cdn.name} pattern={cdn.pattern} />
+                        }
+                    }
+
+                    response.object = data;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>

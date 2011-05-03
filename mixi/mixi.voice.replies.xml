@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.mixi.co.jp/connect/mixi_graph_api/mixi_io_spec_top/voice-api</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>http://api.mixi-platform.com/2/voice/replies/{post_id}</url>
+            </urls>
+            <inputs>
+                <key id="oauth_token" type="xs:string" paramType="query" required="true" />
+                <key id="post_id" type="xs:string" paramType="path" required="true" />
+                <key id="trim_user" type="xs:string" paramType="query" />
+                <key id="count" type="xs:string" paramType="query" />
+                <key id="startIndex" type="xs:string" paramType="query" />
+            </inputs>
+        </select>
+        <insert itemPath="" produces="JSON">
+            <urls>
+                <url>http://api.mixi-platform.com/2/voice/replies/{post_id}</url>
+            </urls>
+            <inputs>
+                <key id="oauth_token" type="xs:string" paramType="query" required="true" />
+                <key id="post_id" type="xs:string" paramType="path" required="true" />
+                <key id="text" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute><![CDATA[
+var request = request.contentType("application/x-www-form-urlencoded");
+response.object = request.post("text=" + encodeURIComponent(text)).response;
+            ]]></execute>
+        </insert>
+        <delete itemPath="" produces="JSON">
+            <urls>
+                <url>http://api.mixi-platform.com/2/voice/statuses/{post_id}/{comment_id}</url>
+            </urls>
+            <inputs>
+                <key id="oauth_token" type="xs:string" paramType="query" required="true" />
+                <key id="post_id" type="xs:string" paramType="path" required="true" />
+                <key id="comment_id" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute><![CDATA[
+response.object = request.del().response;
+            ]]></execute>
+        </delete>
+    </bindings>
+</table>

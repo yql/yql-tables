@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-  <meta>
-    <author>Josh Gordineer</author>
-    <description>Guardian Item API</description>
-    <sampleQuery>select * from {table} where item_id='334767774'</sampleQuery>
-  </meta>
-  <bindings>
-    <select itemPath="content" produces="XML">
-      <urls>
-        <url>http://api.guardianapis.com/content/item/{item_id}</url>
-      </urls>
-      <inputs>
-        <key id="item_id" type="xs:string" paramType="path" required="true" />
-        <key id="api_key" type="xs:string" paramType="query" required="true" />
-      </inputs>
-    </select>
-  </bindings>
-</table>
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Guardian Item API (remember to get an API key for full functionality http://guardian.mashery.com/)</description>
+		<documentationURL>http://www.guardian.co.uk/open-platform/content-api-item-reference-guide</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE item_id='sport/2010/oct/21/jenson-button-mark-webber-korea-f1'</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="response.content" produces="XML">
+			<urls>
+				<url>http://content.guardianapis.com/</url>
+			</urls>
+			<inputs>
+				<key id="api_key" type="xs:string" paramType="query" required="false" />
+				<key id="format" type="xs:string" paramType="query" default="xml" const="true" />
+				<key id="item_id" type="xs:string" paramType="variable" required="true"/>
+				<key id="show-fields" type="xs:string" paramType="query" default="all" />
+				<key id="order-by" type="xs:string" paramType="query" default="newest" />
+			</inputs>
+			<execute><![CDATA[
+				// the key 'item_id' needs to be added to the URL in the execute block because otherwise the / gets encoded in the URL and the API call fails
+				// see for details: http://stackoverflow.com/questions/4067374/preventing-yql-from-url-encoding-a-key
+				response.object = request.path(item_id).get().response;
+				]]></execute>
+			</select>
+		</bindings>
+	</table>

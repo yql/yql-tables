@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+  <meta>
+    <author>Balaji Naryanan - http://balajin.net/blog/</author>
+    <description>Google Latitude API</description>
+    <documentationURL>http://code.google.com/apis/latitude/v1/reference.html</documentationURL>
+    <sampleQuery>select * from {table};</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+	<url>https://www.googleapis.com/latitude/v1/currentLocation</url>
+      </urls>
+      <inputs>
+	<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+	<![CDATA[
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+		 
+		 var accessor = {};
+		 accessor.consumerKey = oauth_consumer_key;
+		 accessor.consumerSecret = oauth_consumer_secret;
+		 accessor.realm = request.url;
+		 accessor.token = oauth_token;
+		 accessor.tokenSecret = oauth_token_secret;
+		 
+		 var message = { action: request.url, method: "GET", parameters: []};
+		 OAuth.setTimestampAndNonce(message);
+		 OAuth.setParameter(message, "oauth_consumer_key", accessor.consumerKey);
+		 OAuth.setParameter(message, "oauth_version", '1.0');
+		 OAuth.setParameter(message, "oauth_token", accessor.token);
+
+		 OAuth.SignatureMethod.sign(message, accessor);
+		 
+		 try {
+		 // PUT the content to the service along with the OAuth header
+		 response.object = request
+		 .header("Authorization", OAuth.getAuthorizationHeader("", message.parameters))
+		 .get().response;
+		 } catch(err) {
+		 response.object = {'result':'failure', 'error': err};
+		 }
+		 
+	]]>
+      </execute>
+    </select>
+    <select itemPath="" produces="XML">
+      <urls>
+	<url>https://www.googleapis.com/latitude/v1/currentLocation</url>
+      </urls>
+      <inputs>
+	<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+	<key id="list" type="xs:string" paramType="variable"/>
+      </inputs>
+      <execute>
+	<![CDATA[
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+		 
+		 var accessor = {};
+		 accessor.consumerKey = oauth_consumer_key;
+		 accessor.consumerSecret = oauth_consumer_secret;
+		 accessor.realm = request.url;
+		 accessor.token = oauth_token;
+		 accessor.tokenSecret = oauth_token_secret;
+		 
+		 var message = { action: request.url, method: "GET", parameters: []};
+		 OAuth.setTimestampAndNonce(message);
+		 OAuth.setParameter(message, "oauth_consumer_key", accessor.consumerKey);
+		 OAuth.setParameter(message, "oauth_version", '1.0');
+		 OAuth.setParameter(message, "oauth_token", accessor.token);
+
+		 OAuth.SignatureMethod.sign(message, accessor);
+		 
+		 try {
+		 // PUT the content to the service along with the OAuth header
+		 response.object = request
+		 .header("Authorization", OAuth.getAuthorizationHeader("", message.parameters))
+		 .get().response;
+		 } catch(err) {
+		 response.object = {'result':'failure', 'error': err};
+		 }
+		 
+	]]>
+      </execute>
+    </select>
+    <insert itemPath="" produces="XML">
+      <urls>
+	<url>https://www.googleapis.com/latitude/v1/currentLocation</url>
+      </urls>
+      <inputs>
+	<key id="latitude" type="xs:string" paramType="variable" required="true"/>
+	<key id="longitude" type="xs:string" paramType="variable" required="true"/>
+	<key id="accuracy" type="xs:string" paramType="variable" required="true"/>
+	
+	<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+	<![CDATA[
+		 //y.include("http://www.datatables.org/oauth/oauth.utils.js");
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+		 
+		 var accessor = {};
+		 accessor.consumerKey = oauth_consumer_key;
+		 accessor.consumerSecret = oauth_consumer_secret;
+		 accessor.realm = request.url;
+		 accessor.token = oauth_token;
+		 accessor.tokenSecret = oauth_token_secret;
+		 
+		 var message = { action: request.url, method: "POST", parameters: []};
+		 OAuth.setTimestampAndNonce(message);
+		 OAuth.setParameter(message, "oauth_consumer_key", accessor.consumerKey);
+		 OAuth.setParameter(message, "oauth_version", '1.0');
+		 OAuth.setParameter(message, "oauth_token", accessor.token);
+		 
+		 // Sign the request
+		 OAuth.SignatureMethod.sign(message, accessor);
+
+		 var parameters = [];
+		 var data = '{ "data" : { "kind": "latitude#location", "latitude":' + latitude + ', "longitude":' + longitude + '} }';
+		 parameters.push(["data", data]);
+		 y.log("data " + data);
+		 request.header('Content-Type', 'application/json');
+		
+		 try {
+		 // PUT the content to the service along with the OAuth header
+		 response.object = request
+		 .header("Authorization", OAuth.getAuthorizationHeader("", message.parameters))
+		 .post( data ).response;
+		 } catch(err) {
+		 response.object = {'result':'failure', 'error': err};
+		 }
+	]]>
+      </execute>
+    </insert>
+    <delete itemPath="" produces="XML">
+      <urls>
+	<url>https://www.googleapis.com/latitude/v1/currentLocation</url>
+      </urls>
+      <inputs>	
+	<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+	<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+	<![CDATA[
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+		 y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+		 
+		 var accessor = {};
+		 accessor.consumerKey = oauth_consumer_key;
+		 accessor.consumerSecret = oauth_consumer_secret;
+		 accessor.realm = request.url;
+		 accessor.token = oauth_token;
+		 accessor.tokenSecret = oauth_token_secret;
+		 
+		 var message = { action: request.url, method: "DELETE", parameters: []};
+		 OAuth.setTimestampAndNonce(message);
+		 OAuth.setParameter(message, "oauth_consumer_key", accessor.consumerKey);
+		 OAuth.setParameter(message, "oauth_version", '1.0');
+		 OAuth.setParameter(message, "oauth_token", accessor.token);
+		 
+		 // Sign the request
+		 OAuth.SignatureMethod.sign(message, accessor);
+		 
+		 try {
+		 // PUT the content to the service along with the OAuth header
+		 response.object = request
+		 .header("Authorization", OAuth.getAuthorizationHeader("", message.parameters))
+		 .del().response;
+		 } catch(err) {
+		 response.object = {'result':'failure', 'error': err};
+		 }
+	]]>
+      </execute>
+    </delete>		
+  </bindings>
+</table>

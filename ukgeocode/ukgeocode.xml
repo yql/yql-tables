@@ -3,14 +3,14 @@
   <meta>
     <sampleQuery>select postcode, lat, lon from {table} where postcode = "eh5 2gj";</sampleQuery>
     <author>Max Manders</author>
-    <documentationURL>http://maxmanders.co.uk/ukgeocode/</documentationURL>  
+    <documentationURL>http://ukgeocode.maxmanders.co.uk</documentationURL>  
     <description>Geocodes UK postcodes to latitude and longitude co-ordinates. Contains Royal Mail data © Royal Mail copyright and database right 2010.</description>
   </meta>
 
   <bindings>
     <select itemPath="response.coord" produces="XML">
       <urls>
-        <url>http://maxmanders.co.uk/ukgeocode/postcode/{postcode}</url>
+        <url>http://ukgeocode.maxmanders.co.uk/postcode/{postcode}</url>
       </urls>
       <inputs>
         <key id='postcode' type='xs:string' paramType='path' required="true" />
