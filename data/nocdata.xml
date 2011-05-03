@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Peter Cowburn</author>
+    <description>Basic HTML data table which (crudely) removes CDATA tags</description>
+    <sampleQuery><![CDATA[select * from {table} where url='http://example.org']]></sampleQuery>
+  <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+    <urls>
+      <url>{url}</url>
+    </urls>
+    <inputs>
+      <key id="url" type="xs:string" required="true" paramType="variable"/>
+      <key id="xpath" type="xs:string" required="false" paramType="variable" default="/html/body"/>
+    </inputs>
+    <execute>
+    <![CDATA[
+      response.object = y.xpath(y.tidy(
+          y.rest(url)
+           .get()
+           .response
+           .replace(/<!\[CDATA\[|\]\]>/g, '')
+      ), xpath);
+    ]]>
+    </execute>
+  </select> 
+  </bindings>
+</table>
