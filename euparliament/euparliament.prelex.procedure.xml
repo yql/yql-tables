@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all procedures">SELECT * FROM euparliament.prelex.procedure WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get list of acts under the Assennt procedure">SELECT * FROM euparliament.prelex.procedure WHERE p="Commission:Assent procedure" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. This part of the API consist of 30.567 documents found using the PreLex search engine. Each dossier has been parsed to extract the meta data given in the API. The earliest dated document is from 1975-05-26. The newest document is dated 2011-04-19. 
+		
+		It contains a list of documents grouped by the procedure of the legislative act.</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/prelex/procedure/?p=Commission%3AAssent+procedure -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/prelex/procedure/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- p (optional) 	
+				Get number of documents for a procedure -->
+				<key id="p" type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	

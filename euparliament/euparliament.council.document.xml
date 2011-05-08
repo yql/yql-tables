@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all documents available">SELECT * FROM euparliament.council.document WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get information on document COM 1990/316.">SELECT * FROM euparliament.council.document WHERE id="2270" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. 
+		These data are found at the website of the Council of the European Union. 
+		Here the voting results of votes on legislative acts are made public. The first public voting results found are from 2006-08-01, the latest is from 2011-04-15. 
+		In total 565 legislative acts are found and 15.099 votes has been cast. The original source is not easily machine-readable. 
+		
+		It contains a list of all PreLex documents. For each document we have obtained information on the document number (most often COM-number), 
+		the link to the PreLex file and a link to EUR-Lex, the DG responsible, the legal basis, the legislative procedure, the directory codes, 
+		the title of the act, the responsible Commissioner, the dates of the different events in the legislative process. 
+		   
+		</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/council/document/?id=2270 -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/council/document/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- id (optional) 	
+				Get details for a particular document -->
+				<key id="id"  type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	
