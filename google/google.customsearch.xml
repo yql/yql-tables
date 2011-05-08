@@ -10,7 +10,6 @@
         <sampleQuery>select * from {table} where q = "pizza"</sampleQuery>
     </meta>
     <bindings>
-
         <select itemPath="" produces="JSON">
             <urls>
                 <url>https://www.googleapis.com/customsearch/v1</url>
