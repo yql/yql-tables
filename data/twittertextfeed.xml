@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans</author>
+    <description>The table reads a textfile and returns a feed in which lines of the textfile are provided as new items, according to a user-defined frequency. The lines can be shortened to e.g. 140 characters, suitable for twittering.</description>
+    <sampleQuery>use 'http://github.com/vicmortelmans/yql-tables/raw/master/data/twittertextfeed.xml' as twittertextfeed;
+select * from twittertextfeed where url = "http://developer.yahoo.net/forum/?s=50b9662690d907227e122678bdf36b1c&amp;showforum=41&amp;cookiecheckonly=1"
+and frequency = "1"
+and length = "140"</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" required="true"/>
+        <key id="frequency" type="xs:number" paramType="variable" required="true"/>
+        <key id="length" type="xs:number" paramType="variable" required="false"/>
+      </inputs>
+      <execute><![CDATA[
+]]></execute>
+      </select>
+  </bindings>
+</table>
