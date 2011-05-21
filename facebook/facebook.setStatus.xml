@@ -10,8 +10,9 @@
 <url>https://api.facebook.com/method/status.set</url></urls>
 <inputs>
 <key id="uid" paramType="query" required="true" type="xs:string"/>
-<key id="status" paramType="query" type="xs:string"/></inputs>
+<key id="status" paramType="query" type="xs:string"/>
 <key id="access_token" paramType="query" required="true" type="xs:string"/>
+</inputs>
 </insert>
 </bindings>
 </table><!-- yqlengine3.pipes.sp1.yahoo.com uncompressed/chunked Thu Sep 10 20:59:26 PDT 2009 -->
