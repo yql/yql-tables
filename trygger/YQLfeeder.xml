@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+     <sampleQuery>select * from {table} where yqlQuery="select * from 'arxiv.search' where search_query='all:electron'";</sampleQuery>
+     <author>Iker Azpeitia</author>
+     <documentationURL>http://www.onekin.org/</documentationURL>
+     <description>This table calls yqlQuery and envelops the result in RSS 2.0 channel </description>
+    </meta>     
+    <bindings>
+       <select itemPath="" produces="XML">
+            <urls>
+                <url/>
+            </urls>
+            <inputs>
+               <key id="yqlQuery" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[   
+             var yqlQuery = unescape(yqlQuery);
+             var results= y.rest(yqlQuery).get().response.results;
+             var res = new XML (results);
+             var currentTime = new Date();
+             var feedroot = <rss version="2.0">
+                 <channel>
+                  <title>From ODT to RSS feed </title>  
+                  <pubDate>{currentTime}</pubDate>                             
+                 </channel>
+                </rss>;                
+
+             var list = res.children();        
+             for each (var entry in list){           
+                
+              feeditem = <item>
+                          {entry}
+                         </item>;     
+              feedroot.rss += feeditem;                
+             }
+             response.object =  feedroot;                         
+            ]]></execute>
+        </select> 
+    
+    </bindings>
+</table>
