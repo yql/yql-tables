@@ -16,7 +16,7 @@
             </inputs>
             <execute><![CDATA[   
              var yqlQuery = unescape(yqlQuery);
-             var results= y.rest(yqlQuery).get().response.results;
+             var results= y.query(yqlQuery).results;
              var res = new XML (results);
              var currentTime = new Date();
              var feedroot = <rss version="2.0">
