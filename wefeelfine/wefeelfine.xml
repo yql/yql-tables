@@ -4,7 +4,7 @@
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 			<description>API lets you query "feelings" as collected by www.wefeelfine.org</description>
 			<documentationURL>http://www.wefeelfine.org/api.html</documentationURL>
-	    <sampleQuery description="Give me the most recent 50 sentences">SELECT * FROM {table} WHERE count=50</sampleQuery>
+	    <sampleQuery description="Give me the most recent 50 sentences">SELECT sentence FROM wefeelfine WHERE count=50</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="feelings.feeling" produces="XML">
@@ -62,11 +62,22 @@
 								-->
 								
 								<!-- 
-									feeling – specify the feeling you want returned 
-									(sad, happy, depressed, etc. – full list of valid feelings is here) 
+									feeling – specify the feeling you want returned e.g. sad, happy, depressed, etc. 
+									full list of valid feelings: http://www.wefeelfine.org/data/files/feelings.txt 
 								-->
 								<key id="feeling" type="xs:string" paramType="query"/>
 								
+								<key id="feeling" type="xs:string" paramType="query"/>
+								<key id="gender" type="xs:string" paramType="query"/>
+								<key id="agerange" type="xs:string" paramType="query"/>
+								<key id="conditions" type="xs:string" paramType="query"/>
+								<key id="country" type="xs:string" paramType="query"/>
+								<key id="state" type="xs:string" paramType="query"/>
+								<key id="city" type="xs:string" paramType="query"/>
+								<key id="postdate" type="xs:string" paramType="query"/>
+								<key id="postmonth" type="xs:string" paramType="query"/>
+								<key id="postyear" type="xs:string" paramType="query"/>
+								<key id="extraimages" type="xs:string" paramType="query"/>
 								
 								<!-- specifies the return format. afaik only XML works -->
 								<key id="display" type="xs:string" paramType="query" default="xml" const="true" private="true" />
