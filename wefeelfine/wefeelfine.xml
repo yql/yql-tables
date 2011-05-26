@@ -42,9 +42,10 @@
 									Therefore I am aliasing this with "count".
 									Maximum value is 1500
 								-->
-								<key id="limit" as="count" type="xs:string" paramType="query" default="10" />
+								<key id="limit" as="count" type="xs:string" paramType="query"/>
 								
-								<!-- feeling – specify the feeling you want returned (sad, happy, depressed, etc. – full list of valid feelings is here)
+								<!-- 
+								feeling – specify the feeling you want returned (sad, happy, depressed, etc. – full list of valid feelings is here)
 								gender – specify the gender you want returned (1=male, 0=female)
 								agerange – specify the age range of the user you want returned (0 = 0-9, 10 = 10-19, 20 = 20-29, etc.)
 								conditions – specify the weather you want returned (1=sunny, 2=rainy, 3=snowy, 4=cloudy)
@@ -56,7 +57,8 @@
 								postyear – specify the year you want returned (YYYY)
 								limit – specify the number of feelings you want returned (1000, 20, etc.) (The maximum limit is 1500. Any limit specified above that will return 1500 feelings.)
 								extraimages – specify the number of extra images you want returned (20, 70, etc)
-								display – if you specify display=text, it will give you plain text. Otherwise, the display will be xml. -->
+								display – if you specify display=text, it will give you plain text. Otherwise, the display will be xml. 
+								-->
 								
 								
 								<!-- specifies the return format. afaik only XML works -->
