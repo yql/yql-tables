@@ -4,7 +4,7 @@
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 			<description>API lets you query "feelings" as collected by www.wefeelfine.org</description>
 			<documentationURL>http://www.wefeelfine.org/api.html</documentationURL>
-	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere'</sampleQuery>
+	    <sampleQuery description="Give me the most recent 50 sentences">SELECT * FROM {table} WHERE count=50</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="feelings.feeling" produces="XML">
@@ -12,8 +12,51 @@
                 <url> http://api.wefeelfine.org:8080/ShowFeelings</url>
             </urls>
             <inputs>
-                <key id="returnfields" type="xs:string" paramType="query" required="true" default="sentence"/>
-								<key id="limit" type="xs:string" paramType="query" default="10" />
+	
+								<!-- 
+									returnfields – comma delimited list of all the data you want to get back. Options are: 
+								
+									imageid (used to get images)
+									feeling (sad, depressed, happy, etc. – full list of valid feelings is here)
+									sentence (the full sentence that went with the feeling)
+									posttime (epoch timestamp of the time the post was scraped)
+									postdate (YYYY-MM-DD of the day the post was scraped)
+									posturl (the url of the post)
+									gender (1 (male) or 0 (female))
+									born (YYYY from when the user was born)
+									country (country of the user)
+									state (state of the user)
+									city (city of the user)
+									lat (latitude of the user's city)
+									lon (longitude of the user's city)
+									conditions (the weather when the post was written in that city)
+									1 = sunny
+									2 = rainy
+									3 = snowy
+									4 = cloudy								
+								-->
+                <key id="returnfields" type="xs:string" paramType="query" required="true" default="feeling,sentence,posttime,postdate,posturl,gender,born,country,state,city,lat,lon,conditions"/>
+
+								<!-- 
+									limit is not a good key in YQL terms because it is also used as the YQL keyword LIMIT. 
+									Therefore I am aliasing this with "count".
+									Maximum value is 1500
+								-->
+								<key id="limit" as="count" type="xs:string" paramType="query" default="10" />
+								
+								<!-- feeling – specify the feeling you want returned (sad, happy, depressed, etc. – full list of valid feelings is here)
+								gender – specify the gender you want returned (1=male, 0=female)
+								agerange – specify the age range of the user you want returned (0 = 0-9, 10 = 10-19, 20 = 20-29, etc.)
+								conditions – specify the weather you want returned (1=sunny, 2=rainy, 3=snowy, 4=cloudy)
+								country – specify the country you want returned (united states, france, etc.)
+								state – specify the state you want returned (new york, California, etc)
+								city – specify the city you want returned (tokyo, los angeles, etc.)
+								postdate – specify the specific day you want returned (YYYY-MM-DD)
+								postmonth – specify the month you want returned (M or MM)
+								postyear – specify the year you want returned (YYYY)
+								limit – specify the number of feelings you want returned (1000, 20, etc.) (The maximum limit is 1500. Any limit specified above that will return 1500 feelings.)
+								extraimages – specify the number of extra images you want returned (20, 70, etc)
+								display – if you specify display=text, it will give you plain text. Otherwise, the display will be xml. -->
 								
 								
 								<!-- specifies the return format. afaik only XML works -->
