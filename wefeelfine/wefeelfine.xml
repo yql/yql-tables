@@ -14,6 +14,10 @@
             <inputs>
                 <key id="returnfields" type="xs:string" paramType="query" required="true" default="sentence"/>
 								<key id="limit" type="xs:string" paramType="query" default="10" />
+								
+								
+								<!-- specifies the return format. afaik only XML works -->
+								<key id="display" type="xs:string" paramType="query" default="xml" const="true" private="true" />
             </inputs>
         </select>
      </bindings>
