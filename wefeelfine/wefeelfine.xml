@@ -35,12 +35,13 @@
 									3 = snowy
 									4 = cloudy								
 								-->
-                <key id="returnfields" type="xs:string" paramType="query" required="true" default="feeling,sentence,posttime,postdate,posturl,gender,born,country,state,city,lat,lon,conditions"/>
+                <key id="returnfields" type="xs:string" paramType="query" default="feeling,sentence,posttime,postdate,posturl,gender,born,country,state,city,lat,lon,conditions"/>
 
 								<!-- 
 									limit is not a good key in YQL terms because it is also used as the YQL keyword LIMIT. 
 									Therefore I am aliasing this with "count".
-									Maximum value is 1500
+									Maximum value is 1500.
+									The default 500.
 								-->
 								<key id="limit" as="count" type="xs:string" paramType="query"/>
 								
@@ -59,6 +60,12 @@
 								extraimages – specify the number of extra images you want returned (20, 70, etc)
 								display – if you specify display=text, it will give you plain text. Otherwise, the display will be xml. 
 								-->
+								
+								<!-- 
+									feeling – specify the feeling you want returned 
+									(sad, happy, depressed, etc. – full list of valid feelings is here) 
+								-->
+								<key id="feeling" type="xs:string" paramType="query"/>
 								
 								
 								<!-- specifies the return format. afaik only XML works -->
