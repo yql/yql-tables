@@ -17,7 +17,8 @@
         <key id="start-index" as="start_index" type="xs:integer" paramType="query" required="false" />
         <key id="max-results" as="max_results" type="xs:integer" paramType="query" required="false" />
         <key id="orderby" as="order_by" type="xs:string" default="relevance" paramType="query" required="false" />
-        <key private="true" id="v" type="xs:integer" default="2" paramType="query"/>
+        <key id="key" as="key" type="xs:string" paramType="query" required="false" />
+        <key private="true" id="v" type="xs:integer" default="2" paramType="query" />
       </inputs>
       <execute><![CDATA[
         var atom = Namespace("http://www.w3.org/2005/Atom");
