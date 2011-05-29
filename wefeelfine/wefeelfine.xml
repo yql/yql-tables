@@ -9,10 +9,9 @@
     <bindings>
         <select itemPath="feelings.feeling" produces="XML">
             <urls>
-                <url> http://api.wefeelfine.org:8080/ShowFeelings</url>
+                <url>http://api.wefeelfine.org:8080/ShowFeelings</url>
             </urls>
             <inputs>
-	
 								<!-- 
 									returnfields – comma delimited list of all the data you want to get back. Options are: 
 								
@@ -88,6 +87,7 @@
 						<![CDATA[
 							response.maxAge = 300;
 							response.object = request.get().response;
+							y.log(response.object);
 						]]>
 						</execute>	
         </select>
