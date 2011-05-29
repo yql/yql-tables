@@ -86,8 +86,8 @@
 						<!-- test of setting the caching time -->
 						<execute>
 						<![CDATA[
-							response.object = request.get().response;
 							response.maxAge = 300;
+							response.object = request.get().response;
 						]]>
 						</execute>	
         </select>
