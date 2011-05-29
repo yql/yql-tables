@@ -83,13 +83,13 @@
             </inputs>
 
 						<!-- test of setting the caching time -->
-						<execute>
+						<!-- <execute>
 						<![CDATA[
 							response.maxAge = 300;
 							response.object = request.get().response;
 							y.log(response.object);
 						]]>
-						</execute>	
+						</execute>	 -->
         </select>
      </bindings>
 </table>
