@@ -80,8 +80,13 @@
 								<key id="extraimages" type="xs:string" paramType="query"/>
 								
 								<!-- specifies the return format. afaik only XML works -->
-								<key id="display" type="xs:string" paramType="query" default="xml" const="true" private="true" />
+								<key id="display" type="xs:string" paramType="query" default="xml" const="true" />
             </inputs>
+
+						<!-- test of setting the caching time -->
+						<execute>
+							response.maxAge=300;
+						</execute>	
         </select>
      </bindings>
 </table>
