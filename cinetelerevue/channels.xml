@@ -10,31 +10,39 @@
     <bindings>
         <select itemPath="channels.channel" produces="XML">
             <urls>
-                <url>http://cinetelerevue.lesagencestv.com</url>
+                <url>http://www.cinetelerevue.be/fr/programmes-tele.html</url>
             </urls>
             <inputs>
             </inputs>
             <execute><![CDATA[
-   	var data = y.rest(request.url + "/javascript/gene/teleCineRevue/geneSelectChaine.js")
+   	/*var data = y.rest(request.url)
 	   .accept('text/html')
-	   .contentType("application/x-www-form-urlencoded")
-	   .get().response;
+	   .get().response;*/
+	   
+	var data = y.query("select * from html where url='" + request.url  + "' and charset='iso-8859-1'").results.children();
+	   
+	if (data == null) {
+		y.log("no response from cinetelerevue");
+		exit(0);
+	}
 	
 	var channels = <channels/>;
-	
-	var rePattern = new RegExp("'(.+)','(.+)'","g");
-	while (arrMatch = rePattern.exec(data.toString())) {
-	    var channel = <channel/>;
-	    channel.node += <id>{arrMatch[2]}</id>;
-	    channel.node += <name>{arrMatch[1].replace(/\ufffd/g,"é")}</name>;
-	    channel.node += <icon>{request.url}/images_chaines/transparent/32x32/{arrMatch[2]}.gif</icon>;
-        channels.node += channel;
-	}
 
+	var xdata = y.xpath(data, "//select[@id='selCat2']");
+	if (xdata) {
+		for each (var option in xdata.option) {
+			if (option.@value != "") {
+				var channel = <channel/>;
+				channel.node += <id>{option.@value.toString()}</id>;
+				channel.node += <name>{option.toString()}</name>;
+				channel.node += <iconUrl>http://tv.ctr-ns.be/logos_chaines/{option.@value.toString()}.jpg</iconUrl>;
+				channels.node += channel;
+			}
+		}		
+	}
 	response.object = channels;
 ]]>
             </execute>
         </select>
     </bindings>
 </table>
-
