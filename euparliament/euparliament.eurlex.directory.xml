@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all directory codes">SELECT * FROM euparliament.eurlex.directory WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get list of legislation for directory code 07.40.30.00.">SELECT * FROM euparliament.eurlex.directory WHERE dc="07.40.30.00" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. Enacted EU legislation is categorized by subject in different directory codes (sometimes called classification headings). This table can show you all directories or you can get all legislation for a particular directory code.</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/eurlex/directory_code/?dc=07.40.30.00 -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/eurlex/directory_code/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- dc (optional) 	
+				Get number of documents and links to those documents by author -->
+				<key id="dc" type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	
