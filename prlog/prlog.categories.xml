@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>Returns all the available 'categories' of the Press Releases from prlog.org</description>
+			<documentationURL>http://www.prlog.org/free-news-feeds.html</documentationURL>
+			<sampleQuery>SELECT * FROM {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="categories.category" produces="XML">
+            <urls>
+							<url></url>
+            </urls>
+            <inputs>
+            </inputs>
+						<execute><![CDATA[	
+								var q = y.query("SELECT * FROM html WHERE url='http://www.prlog.org/free-news-feeds.html' AND xpath=\"//select[@name='category']/option\"");
+								
+								var xml_response_object = <categories></categories>;
+								
+								for each (var option in q.results.option) {
+									xml_response_object.node += <category>{option.@value}</category>;
+								}
+								
+								response.object = xml_response_object;
+						]]></execute>
+        </select>
+     </bindings>
+</table>
