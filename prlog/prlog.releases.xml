@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>Access to the free Press Releases from prlog.org</description>
+			<documentationURL>http://www.prlog.org/free-news-feeds.html</documentationURL>
+			<sampleQuery>SELECT * FROM {table}</sampleQuery>
+			<sampleQuery>SELECT * FROM {table} WHERE country="de"</sampleQuery>
+	    <sampleQuery>SELECT * FROM {table} WHERE country="de" AND category="books"</sampleQuery>
+			<sampleQuery>SELECT * FROM prlog WHERE category IN (SELECT category FROM prlog.categories LIMIT 5)"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="rss.channel.item" produces="XML">
+            <urls>
+								<!-- http://www.prlog.org/rss/world-all-latest5-summary.xml -->
+                <url>http://www.prlog.org/rss/{country}-{category}-{type}{count}-headlines.xml</url>
+            </urls>
+            <inputs>
+								<!-- valid values: two letter country codes. or 'world' -->
+								<key id="country" type="xs:string" paramType="path" default="world" />
+								
+								<!-- valid values: all. or something from prlog-categories -->
+								<key id="category" type="xs:string" paramType="path" default="all" />
+								
+								<!-- valid values: top, latest -->
+								<key id="type" type="xs:string" paramType="path" default="latest" />
+								
+								<!-- valid values: 1-10 -->
+								<key id="count" type="xs:string" paramType="path" default="10" />
+								
+								<!-- valid values: summary, headline -->
+                <key id="summary" type="xs:string" paramType="path" default="summary" />
+            </inputs>
+        </select>	
+     </bindings>
+</table>
+
+
+
