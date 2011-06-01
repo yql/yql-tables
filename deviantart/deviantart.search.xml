@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description>Returns entries from Deviant Art search based on a query; go to documentation for version types</description>
+    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/275118</documentationURL>
+    <sampleQuery>select * from {table} where query="Yahoo"</sampleQuery>
+    <sampleQuery>select * from {table} where query="Yahoo" version="1"</sampleQuery>
+ </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='query' type='xs:string' paramType='variable' required="true" />
+        <key id='version' type='xs:string' paramType='variable' required="false" />
+  </inputs>
+      <execute>
+      <![CDATA[
+	var classval;
+	var index;
+	var mainiter;
+	var yqlquery;
+	var yqlresults;
+	var xmlret=new XML();
+	xmlret=<root></root>;
+	var state1=true;
+	var str1;
+	var str2=query.replace(/\s/g,'+'); /*replaces spaces with + marks for Deviants servers*/
+	var str3="&type=deviation'"; /* needed value for all versions definitions except 6*/
+	var versionval;
+
+
+	if(version)
+	{
+		versionval=parseInt(version);
+		if(versionval==0)/* newest deviations */
+		{
+			str1="select * from rss where url='http://backend.deviantart.com/rss.xml?q=sort%3Atime+";/*yql query strings manipulation */
+		}
+		else
+		{
+			if(versionval==1)/*popular deviations all time */
+			{
+				str1="select * from rss where url='http://backend.deviantart.com/rss.xml?q=boost%3Apopular+";/*yql query strings manipulation */
+			}
+			else
+			{
+				if(versionval==2)/*popular deviations 1 month */
+				{
+					str1="select * from rss where url='http://backend.deviantart.com/rss.xml?q=boost%3Apopular+max_age%3A744h+";/*yql query strings manipulation */
+				}
+				else
+				{
+					if(versionval==3)/*popular deviations 1 week */
+					{
+						str1="select * from rss where url='http://backend.deviantart.com/rss.xml?q=boost%3Apopular+max_age%3A168h+";/*yql query strings manipulation */
+					}
+					else
+					{
+						if(versionval==4)/*popular deviations 3 days */
+						{
+							str1="select * from rss where url='http://backend.deviantart.com/rss.xml?q=boost%3Apopular+max_age%3A72h+";/*yql query strings manipulation */
+						}
+						else
+						{
+							if(versionval==5)/*popular deviations 24 hours */
+							{
+								str1="select * from rss where url='http://backend.deviantart.com/rss.xml?q=boost%3Apopular+max_age%3A24h+";/*yql query strings manipulation */
+							}
+							else
+							{
+								if(versionval==6)/*group results page 1 */
+								{
+									str1="select * from html where url='http://groups.deviantart.com/?qh=&section=groups&q=";/*yql query strings manipulation */
+									str3="'   and xpath=\"//div[@class='groupEntry ll']|//div[@class='groupEntry curtGroupEntry ll']\"";
+								}
+								else /*place error message, bad version index*/
+								{
+									state1=false;
+									xmlret.root+=<errormessage>Illegal Version Definition</errormessage>
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		str1="select * from rss where url='http://backend.deviantart.com/rss.xml?q=sort%3Atime+";/*yql query strings manipulation */
+		versionval=0;/*newest deviations */
+	}
+	if(state1)
+	{
+		yqlquery=y.query(str1+str2+str3);
+		yqlresults=yqlquery.results;
+		index=0;
+		if(versionval!=6)
+		{
+			mainiter=parseInt(yqlresults.item.length());
+			while(index<mainiter)/*all the items */
+			{
+				xmlret.root+=<retval>{yqlresults.item[index]}</retval>
+				index++;
+			}
+		}
+		else
+		{
+			mainiter=parseInt(yqlresults.div.length());
+			while(index<mainiter)
+			{
+				classval=yqlresults.div[index].@*; /*formerly @class.text(); but class is a reserved name in yql, so have to use asterix. ALso, the div has only one attribute, so no string parsing needed*/
+				if(classval.match("curt")==null)/*a popular group */
+				{
+					xmlret.root+=<populargroup>
+						<groupurl>{yqlresults.div[index].div[0].a.@href}</groupurl>
+						<groupimage>{yqlresults.div[index].div[0].a.img.@src}</groupimage>
+						<grouptitle>{yqlresults.div[index].div[0].a.img.@title}</grouptitle>
+						<shortdescription>{yqlresults.div[index].span[1]}</shortdescription>
+						<longdescription>{yqlresults.div[index].div[3].span.text()}</longdescription>
+						<NumberofWatchers>{yqlresults.div[index].div[2].strong.text()}</NumberofWatchers>
+						<DateCreated>{yqlresults.div[index].div[2].p.strong.text()}</DateCreated>
+						<Recentbloglink>{yqlresults.div[index].div[4].p.a.@href}</Recentbloglink>
+						<Recentblogtitle>{yqlresults.div[index].div[4].p.a.text()}</Recentblogtitle>
+						<Recentblogage>{yqlresults.div[index].div[4].p.strong.text()}</Recentblogage>
+					</populargroup>
+				}
+				else/*a new group */
+				{
+					xmlret.root+=<recentgroup>
+						<groupurl>{yqlresults.div[index].div.a.@href}</groupurl>
+						<groupimage>{yqlresults.div[index].div.a.img.@src}</groupimage>
+						<grouptitle>{yqlresults.div[index].div.a.img.@title}</grouptitle>
+						<groupdescription>{yqlresults.div[index].span[1].text()}</groupdescription>
+						<DateCreated>{yqlresults.div[index].span[2].strong.text()}</DateCreated>
+					</recentgroup>
+				}
+				index++;
+			}
+		}
+		
+	}
+	else
+	{
+		/*do nothing and finish */
+	}
+
+	response.object=xmlret;
+ ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

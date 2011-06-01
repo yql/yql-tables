@@ -3,7 +3,7 @@
   <meta>
     <author>HOUYHNHNM</author>
     <description>Acquires the public groups from Yahoo Group search on a given page and type</description>
-    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264307?listPage=index</documentationURL>
+    <documentationURL>http://meme.yahoo.com/h_dev/p/b9edSAr/</documentationURL>
     <sampleQuery>select * from {table} where query="yahoo"</sampleQuery>
     <sampleQuery>select * from {table} where query="yahoo" AND page="1"</sampleQuery>
     <sampleQuery>select * from {table} where query="yahoo" AND type="r"</sampleQuery>
