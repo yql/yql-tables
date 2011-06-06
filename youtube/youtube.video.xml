@@ -11,6 +11,7 @@
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true" />
+        <key id="key" as="key" type="xs:string" paramType="query" required="false" />
       </inputs>
       <execute><![CDATA[
         var atom = Namespace("http://www.w3.org/2005/Atom");

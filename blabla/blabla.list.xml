@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Iker Azpeitia</author>
+    <documentationURL>http://rifers.org/wiki/display/BLA/REST%20API.html</documentationURL>
+    <sampleQuery>SELECT * FROM {table} WHERE login= 'oscaronekin' AND password='12osin34' AND listId  = '40886'</sampleQuery>     
+    <sampleQuery>INSERT INTO {table} (login, password, name) VALUES ('oscaronekin', '12osin34', 'Test list')</sampleQuery>     
+    <sampleQuery>UPDATE {table} SET  name='Todo: things to do some day',  shortName='todolist', description='I will do this things some day' WHERE login= 'oscaronekin' AND password='12osin34' AND listId  = '40886'</sampleQuery>     
+    <sampleQuery>DELETE FROM {table} WHERE login= 'oscaronekin' AND password='12osin34' AND listId  = '40914'</sampleQuery>     
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+       <url/>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="listId" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url= 'http://blablalist.com/getlist?';
+             var q=url+'submission=credentials&login='
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&id='+listId;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </select>
+  <insert itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="name" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[ 
+             var url='http://blablalist.com/createlist?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=create';
+             name = escape(name);
+             q=q+'&name='+name;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </insert>
+    <update itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="listId" type="xs:string" paramType="variable" required="true"/>
+         <value id="name" type="xs:string" paramType="variable" required="false"/>
+         <value id="shortName" type="xs:string" paramType="variable" required="false"/>
+         <value id="description" type="xs:string" paramType="variable" required="false"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url='http://blablalist.com/editlist?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=edit';
+             q=q+'&id='+listId;
+             if (name != null){
+              name = escape(name);
+              q=q+'&name='+name;
+             }
+             if (shortName != null){
+              shortName = escape(shortName);
+              q=q+'&shortName='+shortName;
+             }
+             if (description != null){
+              description = escape(description);
+              q=q+'&description='+description;
+             }
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </update>
+    <delete itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="listId" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url = 'http://blablalist.com/deletelist?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=delete';
+             q=q+'&id='+listId;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </delete>
+    </bindings>
+</table>
+

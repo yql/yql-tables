@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Iker Azpeitia</author>
+    <documentationURL>http://rifers.org/wiki/display/BLA/REST%20API.html</documentationURL>
+    <sampleQuery>INSERT INTO {table} (login, password, listId, name) VALUES ('oscaronekin', '12osin34', '40886', 'Test task');</sampleQuery>     
+    <sampleQuery>UPDATE {table} SET  fromPriority='6', toPriority='0' WHERE login= 'oscaronekin' AND password='12osin34' AND listId  = '40886'</sampleQuery>     
+    <sampleQuery>UPDATE {table} SET  done='true' WHERE login= 'oscaronekin' AND password='12osin34' AND id  = '254075'</sampleQuery>     
+    <sampleQuery>UPDATE {table} SET  name='name changed' WHERE login= 'oscaronekin' AND password='12osin34' AND id  = '254075' AND listId = '40886'</sampleQuery>     
+    <sampleQuery>DELETE FROM {table} WHERE login= 'oscaronekin' AND password='12osin34' AND id  = '254075' AND listId = '40886'</sampleQuery>     
+  </meta>
+  <bindings>
+    <insert itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="listId" type="xs:string" paramType="variable" required="true"/>
+         <key id="name" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url='http://blablalist.com/addentry?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=add';
+             q=q+'&listId='+listId;
+             name = escape(name);
+             q=q+'&name='+name;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </insert>
+    <update itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="listId" type="xs:string" paramType="variable" required="true"/>
+         <value id="fromPriority" type="xs:string" paramType="variable" required="true"/>
+         <value id="toPriority" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url='http://blablalist.com/reorderentry?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=reorderEntry';
+             q=q+'&listId='+listId;
+             q=q+'&from='+fromPriority;
+             q=q+'&to='+toPriority;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </update>
+    <update itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="id" type="xs:string" paramType="variable" required="true"/>
+         <value id="done" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url='http://blablalist.com/toggleentry?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=toggle';
+             q=q+'&id='+id;
+             q=q+'&done='+done;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </update>
+    
+    <update itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="listId" type="xs:string" paramType="variable" required="true"/>
+         <key id="id" type="xs:string" paramType="variable" required="true"/>
+         <value id="name" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url='http://blablalist.com/editlist?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=edit';
+             q=q+'&id='+listId;
+             name = escape(name);
+             q=q+'&entry'+id+'='+name;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </update>
+    
+    <delete itemPath="" produces="XML">
+      <urls>
+       <url></url>     
+      </urls>
+      <inputs>
+         <key id="login" type="xs:string" paramType="variable" required="true"/>
+         <key id="password" type="xs:string" paramType="variable" required="true"/>
+         <key id="listId" type="xs:string" paramType="variable" required="true"/>
+         <key id="id" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+       <![CDATA[   
+             var url='http://blablalist.com/editlist?';
+             var q=url+'submission=credentials&login=';
+             q=q+login;
+             q=q+'&password='+password;
+             q=q+'&submission=edit';
+             q=q+'&id='+listId;
+             q=q+'&remove='+id;
+             
+             var results= y.rest(q).post().response;
+             var res = new XML (results);            
+             response.object =  res;  
+            ]]>
+      </execute>
+    </delete>
+    
+  </bindings>
+</table>
+

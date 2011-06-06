@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all authors">SELECT * FROM euparliament.eurlex.author WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get list of documents from the European Central Bank.">SELECT * FROM euparliament.eurlex.author WHERE author="European Central Bank" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. This API lists all authors and you can find legislations written by each author</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/eurlex/author/?author=European+Central+Bank -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/eurlex/author/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="false"  />
+				<!-- author (optional) 	
+				Get number of documents and links to those documents by author -->
+				<key id="author" type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	
