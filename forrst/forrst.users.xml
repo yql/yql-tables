@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+    <meta>
+        <author>Carson McDonald</author>
+        <description>Returns user info.</description>
+        <documentationURL>http://forrst.com/api#m-users-info</documentationURL>
+        <sampleQuery>select * from {table} where id = 1;</sampleQuery>
+        <sampleQuery>select * from {table} where username = 'kyle';</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>http://forrst.com/api/{version}/users/info</url>
+            </urls>
+            <inputs>
+            	<key id="version" type="xs:string" paramType="path" required="true" default="v2" />
+
+            	<key id="id" type="xs:string" paramType="query" required="false" />
+            	<key id="username" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+     </bindings>
+</table>
