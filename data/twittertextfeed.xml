@@ -85,7 +85,7 @@ and length = "140"</sampleQuery>
                 value = node.toString();
             } else {
                 for each (var c in node.children()) {
-                    value += stringValue(c) + ",";
+                    value += stringListValue(c) + ",";
                 }
             }
             return value;
