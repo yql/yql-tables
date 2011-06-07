@@ -18,6 +18,7 @@ and length = "140"</sampleQuery>
       <inputs>
         <key id="url" type="xs:string" paramType="variable" required="true"/>
         <key id="frequency" type="xs:number" paramType="variable" required="true"/>
+        <key id="startdate" type="xs:string" paramType="variable" required="true"/>
         <key id="length" type="xs:number" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[
@@ -27,7 +28,7 @@ and length = "140"</sampleQuery>
         var text = y.query(textquery).results.row.col0;
         
         var today = new Date();
-        var startdate = 
+        var startdate = new Date(startdate);
         var position = Math.floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length;
         
         for (i = 0; i <= max(1,position-10); i++) {
