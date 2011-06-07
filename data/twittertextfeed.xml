@@ -4,9 +4,9 @@
     <author>Vic Mortelmans</author>
     <description>The table reads a textfile and returns a feed in which lines of the textfile are provided as new items, according to a user-defined frequency. The lines can be shortened to e.g. 140 characters, suitable for twittering.</description>
     <sampleQuery>use 'http://github.com/vicmortelmans/yql-tables/raw/master/data/twittertextfeed.xml' as twittertextfeed;
-select * from twittertextfeed where url = "http://developer.yahoo.net/forum/?s=50b9662690d907227e122678bdf36b1c&amp;showforum=41&amp;cookiecheckonly=1"
+select * from twittertextfeed where url = "http://users.telenet.be/vicmortelmans/ecclesiasticus.txt"
 and frequency = "1"
-and startdate = "2011/12/31"
+and startdate = "2011-01-01"
 and length = "140"</sampleQuery>
     <documentationURL></documentationURL>
   </meta>
@@ -18,7 +18,6 @@ and length = "140"</sampleQuery>
       <inputs>
         <key id="url" type="xs:string" paramType="variable" required="true"/>
         <key id="frequency" type="xs:number" paramType="variable" required="true"/>
-        <key id="startdate" type="xs:string" paramType="variable" required="true"/>
         <key id="length" type="xs:number" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[
@@ -28,19 +27,15 @@ and length = "140"</sampleQuery>
         var text = y.query(textquery).results.row.col0;
         
         var today = new Date();
-        var startdate = new Date(startdate);
-        var position = floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length;
+        var startdate = 
+        var position = Math.floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length;
         
-        var result = new XMLList();
         for (i = 0; i <= max(1,position-10); i++) {
-        		var line = shorten(text[i]);
-        		result += <item>{line}</item>;
+        		
         }
       
-      		response.object = result;
-      		
         function shorten(string) {
-          var max = length;
+          var max = 140;
           if (string.length <= max) {
             return string;
           } else {
