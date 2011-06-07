@@ -6,6 +6,7 @@
     <sampleQuery>use 'http://github.com/vicmortelmans/yql-tables/raw/master/data/twittertextfeed.xml' as twittertextfeed;
 select * from twittertextfeed where url = "http://developer.yahoo.net/forum/?s=50b9662690d907227e122678bdf36b1c&amp;showforum=41&amp;cookiecheckonly=1"
 and frequency = "1"
+and startdate = "2011/12/31"
 and length = "140"</sampleQuery>
     <documentationURL></documentationURL>
   </meta>
@@ -17,9 +18,60 @@ and length = "140"</sampleQuery>
       <inputs>
         <key id="url" type="xs:string" paramType="variable" required="true"/>
         <key id="frequency" type="xs:number" paramType="variable" required="true"/>
+        <key id="startdate" type="xs:string" paramType="variable" required="true"/>
         <key id="length" type="xs:number" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[
+      
+        var textquery = 'select * from csv where url="$url"';
+        textquery = textquery.replace("$url",url);
+        var text = y.query(textquery).results.row.col0;
+        
+        var today = new Date();
+        var startdate = new Date(startdate);
+        var position = floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length;
+        
+        var result = new XMLList();
+        for (i = 0; i <= max(1,position-10); i++) {
+        		var line = shorten(text[i]);
+        		result += <item>{line}</item>;
+        }
+      
+      		response.object = result;
+      		
+        function shorten(string) {
+          var max = length;
+          if (string.length <= max) {
+            return string;
+          } else {
+            // find the longest word with vowels inside
+            var word = longestshortenableword(string);
+            if (word.match(/\S+/)) {
+              var patt1=/^[aeiouy]+|[^aeiouy]+|[aeiouy]+$/gi;
+              var shortword = word.match(patt1).join('');
+              return shorten(string.replace(word,shortword));
+            } else {
+              return string.substring(0,max-4) + '...';
+            }
+          }
+        }
+
+        function longestshortenableword(string) {
+          var matches = string.match(/\S+/);
+          var firstword = matches ? matches[0] : '';
+          var remainder = string.replace(firstword,'');
+          if (!firstword.match(/[bcdfghjklmnpqrstvwxz][aeiouy]+[bcdfghjklmnpqrstvwxz]/gi)) {
+            return remainder.match(/\S+/) ? longestshortenableword(remainder) : '';
+          } else if ( firstword.match(/[bcdfghjklmnpqrstvwxz]/gi).length < 2) {
+            return longestshortenableword(remainder);
+          } else if (!remainder.match(/\S+/)) {
+            return firstword;
+          } else {
+            var longestwordinremainder = longestshortenableword(remainder);
+            return firstword.length > longestwordinremainder.length ? firstword : longestwordinremainder;
+          } 
+        }  
+
 ]]></execute>
       </select>
   </bindings>
