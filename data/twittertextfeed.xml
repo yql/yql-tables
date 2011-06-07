@@ -38,7 +38,7 @@ and length = "140"</sampleQuery>
         
         result = new XMLList();
         for (i = 0; i <= Math.max(1,position-10); i++) {
-          var line = text[i].join(',');
+          var line = stringListValue(text[i]);
           y.log(line);
           result += <item>{shorten(line)}</item>;
         }
@@ -78,6 +78,18 @@ and length = "140"</sampleQuery>
             return firstword.length > longestwordinremainder.length ? firstword : longestwordinremainder;
           } 
         }  
+
+        function stringListValue(node) {
+            var value = new String();
+            if (node.hasSimpleContent()) {
+                value = node.toString();
+            } else {
+                for each (var c in node.children()) {
+                    value += stringValue(c) + ",";
+                }
+            }
+            return value;
+        }
 
 ]]></execute>
       </select>
