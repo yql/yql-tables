@@ -6,7 +6,7 @@
     <sampleQuery>use 'http://github.com/vicmortelmans/yql-tables/raw/master/data/twittertextfeed.xml' as twittertextfeed;
 select * from twittertextfeed where url = "http://users.telenet.be/vicmortelmans/ecclesiasticus.txt"
 and frequency = "1"
-and startdate = "2011-01-01"
+and startdate = "2011/01/01"
 and length = "140"</sampleQuery>
     <documentationURL></documentationURL>
   </meta>
@@ -25,7 +25,7 @@ and length = "140"</sampleQuery>
       
         var textquery = 'select * from csv where url="$url"';
         textquery = textquery.replace("$url",url);
-        var text = y.query(textquery).results.row.col0;
+        var text = y.query(textquery).results.row;
         y.log(text.toXMLString());
         
         var today = new Date();
