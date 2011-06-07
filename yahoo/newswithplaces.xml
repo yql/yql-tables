@@ -9,7 +9,8 @@
   <bindings>
     <select itemPath="stories.story" produces="XML">
       <urls>
-        <url>http://rss.news.yahoo.com/rss/{section}
+        <url>
+          http://rss.news.yahoo.com/rss/{section}
         </url>
       </urls>
       <inputs>
@@ -48,7 +49,7 @@ for (var q in placeQueries) {
   placeQueries[q].results = matches..where::place;
 }
 
-// Built response object
+// Build response object
 var stories = <stories/>;
 for each (q in placeQueries) {
   stories.node += <story>
