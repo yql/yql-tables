@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+    <author>Peter Cowburn</author>
+    <documentationURL>http://stackoverflow.com/questions/6168564/creating-a-yql-opentable-to-combine-rss-data-with-placemaker-map-info</documentationURL>
+    <sampleQuery>select * from {table} where section='topstories'</sampleQuery>
+    <description>Searches Yahoo! News RSS and injects Placemaker Places</description>
+  </meta>
+  <bindings>
+    <select itemPath="stories.story" produces="XML">
+      <urls>
+        <url>http://rss.news.yahoo.com/rss/{section}
+        </url>
+      </urls>
+      <inputs>
+        <key id="section" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <execute><![CDATA[
+
+// Fetch top 30 feed items with jpg images
+var feed = y.query(
+  'select * from rss where url=@url and description matches ".*jpg.*" limit 30',
+  {url: request.url}
+).results;
+
+// Build geo queries
+var placeQuery = 'select * from geo.placemaker where documentContent=@text and documentType="text/plain"';
+var placeQueries = [];
+var title, description, caption, summary, content;
+for each (result in feed.item) {
+  title       = result.title.text().toString();
+  description = y.tidy(result.description.toString()).body.p;
+  caption     = description.a.img.@alt.toString();
+  summary     = description..*.text().toString();
+  content     = caption + " " + title + " " + summary;
+  placeQueries.push({
+    query:   y.query(placeQuery, {text: content}),
+    item:    result,
+    results: null
+  });
+}
+
+// Execute all queries
+var where = new Namespace('http://wherein.yahooapis.com/v1/schema');
+var matches, match, places = [];
+for (var q in placeQueries) {
+  matches = placeQueries[q].query.results.matches.match;
+  placeQueries[q].results = matches..where::place;
+}
+
+// Built response object
+var stories = <stories/>;
+for each (q in placeQueries) {
+  stories.node += <story>
+    {q.item}
+    {q.results}
+  </story>;
+}
+
+response.object = stories;
+
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
