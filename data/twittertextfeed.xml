@@ -26,13 +26,14 @@ and length = "140"</sampleQuery>
         var textquery = 'select * from csv where url="$url"';
         textquery = textquery.replace("$url",url);
         var text = y.query(textquery).results.row;
-        y.log(text.toXMLString());
+        //y.log(text.toXMLString());
+        y.log(text.length());
         
         var today = new Date();
         y.log(today.toString());
         var startdate = new Date(startdate);
         y.log(startdate.toString());
-        var position = Math.floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length;
+        var position = Math.floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length();
         y.log(position);
         
         result = new XMLList();
