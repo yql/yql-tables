@@ -29,13 +29,17 @@ and length = "140"</sampleQuery>
         y.log(text.toXMLString());
         
         var today = new Date();
+        y.log(today.toString());
         var startdate = new Date(startdate);
+        y.log(startdate.toString());
         var position = Math.floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length;
         y.log(position);
         
         result = new XMLList();
         for (i = 0; i <= Math.max(1,position-10); i++) {
-          result += <item>{shorten(text[i])}</item>;
+          var line = text[i].join(',');
+          y.log(line);
+          result += <item>{shorten(line)}</item>;
         }
         y.log(result.toXMLString());
         
