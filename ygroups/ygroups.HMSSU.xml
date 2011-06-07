@@ -3,7 +3,7 @@
   <meta>
     <author>HOUYHNHNM</author>
     <description>Allows a search of a public yahoo groups messages, and returns messages if they contain query elements in summary fashion.The depth of messages searched is by default 1. NOTICE: if [mdepth] is greater than 25 you will most likely get a timeout error. [udstart] allows you to start your search at a particular message index. The default match settings is all query elements. Query elements are defined as delineated strings made from the query, [space] is the delineator. [Marker] allows any number of matches less than the number of query elements. If [nmarker] has a value(not empty), it makes it where messages that fail the [marker] condition are set</description>
-    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/265404</documentationURL>
+    <documentationURL>http://meme.yahoo.com/h_dev/p/xteHUM9/</documentationURL>
     <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" </sampleQuery>
     <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" AND nmarker="anything" </sampleQuery>
     <sampleQuery>select * from {table} where url="GROUP URL no end slash" AND query="yahoo" AND mdepth="15"</sampleQuery>

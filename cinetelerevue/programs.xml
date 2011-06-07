@@ -10,119 +10,87 @@
     <bindings>
         <select itemPath="programs.program" produces="XML">
             <urls>
-                <url>http://cinetelerevue.lesagencestv.com</url>
+                <url>http://www.cinetelerevue.be/fr/</url>
             </urls>
             <inputs>
-                <key id="date" type="xs:string" required="true" paramType="variable"/>
                 <key id="channel" type="xs:int" required="true" paramType="variable"/>
             </inputs>
             <execute><![CDATA[
-    String.prototype.trim = function () {
-	    var	str = this.replace(/^\s\s*/, ''),
-	    ws = /\s/,
-	    i = str.length;
-	    while (ws.test(str.charAt(--i)));
-	    return str.slice(0, i + 1);
+            
+    function dateFormat(date) {
+    	var d  = date.getDate();
+		var day = (d < 10) ? '0' + d : d;
+		var m = date.getMonth() + 1;
+		var month = (m < 10) ? '0' + m : m;
+		return date.getFullYear() + "-" + month + "-" + day;
     }
-
-	var data = y.rest(request.url + "/php/grille/ajaxGrille.php")
-	        .accept('text/html')
-	        .contentType("application/x-www-form-urlencoded")
-	        .post("f_ChoixJour="+ date + "&grille[listeChaine]=" + channel)
-	        .response;
-	
-	
-	if (data == null) {
-		y.log("no response from cinetelerevue");
-		exit(0);
+            
+	function parse(date, xdata) {
+		channel_ = xdata.div.(@["class"] == "prgLogo").img.@alt.toString()
+		for each (var a in xdata.a) {
+			var program = <program/>;
+			var diffusionId = a.@href.toString().match(/(\d+)/);
+			program.node += <id>{diffusionId[1]}</id>;
+			program.node += <url>{request.url + a.@href.toString()}</url>;
+			program.node += <channel>{channel_}</channel>;
+			program.node += <startTime>{a.span.(@["class"] == "horaire").toString()}</startTime>;
+			detail = a.span.(@["class"] == "detail"); 
+			program.node += <title>{detail.strong.strong.toString()}</title>;
+			genre = detail.span.toString();
+			if (genre) {
+				program.node += <genre>{genre}</genre>;
+			}
+			description = a.span.(@["class"] == "detail2").strong.toString();
+			if (description) {
+				program.node += <description>{description}</description>;
+			} 
+			picture = a.span.(@["class"] == "imgPrg").img.@src.toString();
+			if (picture) {
+				var pictureUrl = picture.match(/base=(.+)&/);
+				if (pictureUrl) {
+					program.node += <pictureUrl>{pictureUrl[1]}</pictureUrl>;	
+				}					
+			}
+			if (a.@["class"] == "grilleProg gpPrime") {
+				program.node += <head>true</head>;
+			}
+			program.node += <date>{date}</date>;
+			programs.node += program;
+		}		
 	}
-
-	var programs = <programs></programs>;
-
-	var headDiffusionId = 0;
-	var headImage;
-    var xdata = y.xpath(data, "//div[@class='infos']/a/@href");
-	if (xdata) {
-	    headDiffusionId = xdata.text().toString().match(/(\d+)/);
-	    if (headDiffusionId) {
-			headDiffusionId=headDiffusionId[1];
-	    }
-	    xdata = y.xpath(data, "//div[@class='grillePtImage']/img/@src");
-	    if (xdata && !xdata.text().toString().equals("")) {
-	        headImage = xdata.text();
-        }
-    }
-
-    var channel = y.xpath(data, "//div[@class='left']/p").text();
-
-    xdata = y.xpath(data, "//div[@class='grilleProg']");
-	for each (var h in xdata) {
-
-	    var program = <program/>;
-
-		program.node += <channel>{channel}</channel>
+    
+    var programs = <programs></programs>;
+    
+    for (i=1; i<=3; i++) {       
+	    var date = new Date();
+	          	    
+	   	/*var data = y.rest(request.url + "programmes-tele.html?period=" + i + "&chaine=" + channel)
+		   .accept('text/html')
+		   .get().response;*/
+		   
+		var data = y.query("select * from html where url='" + request.url + "programmes-tele.html?period=" + i + "&chaine=" + channel + "' and charset='iso-8859-1'").results.children();
 		
-	    var horaire = h.div.(@["class"] == "horaire").p.text().toString();
-	    if (horaire != "") {
-		    program.node += <time>{horaire}</time>
-     	
-			var detail = h.div.(@["class"] == "detail")
-		
-			var diffusionId = detail.p.a.@href.text().toString().match(/(\d+)/);
-		    if (diffusionId) { 
-		        diffusionId = diffusionId[1];
-		        if (diffusionId == headDiffusionId) {
-					program.node += <head>true</head>
-					if (headImage) {
-					    program.node += <image>{request.url}{headImage}</image>
-					}
-		        }
-		        program.node += <id>{diffusionId}</id>
-		        program.node += <link>{request.url}/php/fiche/detail.php?f_id_diffusion={diffusionId}</link>;
-		    }
-		
-		    program.node += <title>{detail.p.a.text().toString().replace(/\n\s*/g," ")}</title>
-
-		    if (detail.p[1]) {
-		        var type = detail.p[1].img.@src.text().toString().match(/label_(.+)[.]/);
-		        if (type) {
-		            type = type[1];
-		            switch (type) {
-		                case "film":
-		                    program.node += <type>Film</type>
-		                    break;
-			            case "mag":
-			                program.node += <type>Magazine</type>
-			                break;
-				        case "sport":
-				            program.node += <type>Sport</type>
-				            break;
-					    case "serie":
-                            program.node += <type>Série</type>
-					        break;
-						case "telefilm":
-						    program.node += <type>Téléfilm</type>
-						    break;
-						case "musique":
-						    program.node += <type>Musique</type>
-						    break;
-						case "docu":
-						    program.node += <type>Documentaire</type>
-						    break;
-						case "jeune":
-						    program.node += <type>Jeunesse</type>
-						    break;
-		            }
-		        }
-		    }
-
-		    if (detail.p[2]) {
-		        program.node += <description>{detail.p[2].text().toString().replace(/\n\s*/g," ")}</description>
-		    }
-
-		    programs.node += program;
+		if (data == null) {
+			y.log("no response from cinetelerevue");
+			exit(0);
 		}
-	}
+		
+		var xdata = y.xpath(data, "//div[@id='date']/*");
+		var date = new Date();
+		date.setTime(Date.parse(xdata.toString().replace(/\s/g, "")));
+		
+		var xdata = y.xpath(data, "//div[@class='prgcolumn pcFirst']");
+		if (xdata) {
+			parse(dateFormat(date), xdata);		
+		}
+		var xdata = y.xpath(data, "//div[@class='prgcolumn']");
+		if (xdata) {
+			for each (var div in xdata) {
+				date.setDate(date.getDate() + 1);
+				parse(dateFormat(date), div);
+			}		
+		}
+    }
 	response.object = programs;
 ]]>
             </execute>

@@ -9,7 +9,7 @@
 	<bindings>
 		<select itemPath="json.trends" produces="JSON">
 			<urls>
-				<url>http://search.twitter.com/trends/weekly.{format}</url>
+				<url>http://api.twitter.com/1/trends/weekly.{format}</url>
 			</urls>
 			<inputs>
 				<key id="format" type="xs:string" paramType="path" default="json" private="true"/>

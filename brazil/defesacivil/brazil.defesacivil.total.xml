@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Pedro Valente</author>
+    <description>Simple interface for disaster stats</description>
+    <documentationURL>Lowercase UF and years between 2007-2010</documentationURL>
+    <sampleQuery>select * from {table} where uf="sc" and year="2010"</sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="results.total" produces="XML">
+      <inputs>
+        <key id="uf" type="xs:string" paramType="query" />
+        <key id="year" type="xs:string" paramType="query" default="2010" />
+      </inputs>
+        <execute>
+            <![CDATA[ 
+                
+                if (uf != null) {
+                    var uf_list = [uf];
+                } else {                    
+                    var uf_list = [ 'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MS', 'MT', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO' ]
+                }
+                var total_data = <results />;
+                
+                for each (sigla in uf_list) {
+                    total_data.results += totalUf(sigla, year);
+                }
+                
+                function totalUf(sigla, year) {
+                    var querystring = "select content from html where url = 'http://defesacivil.gov.br/desastres/desastres/" + year + "/estados/" + sigla + ".asp' and xpath='html/body/table[3]/tr[last()]/td/div/font'"
+                    var q = y.query(querystring);
+                    var data = <total />
+                    try {
+                        data.total += <uf>{ sigla }</uf>
+                        data.total += <desalojados>{ q.results..font[1].text() }</desalojados> 
+                        data.total += <desabrigados>{ q.results..font[2].text() }</desabrigados>
+                        data.total += <mortos>{ q.results..font[3].text() }</mortos>
+                        data.total += <atingidos>{ q.results..font[4].text() }</atingidos>
+                        data.total += <residencias_danificadas>{ q.results..font[5].text() }</residencias_danificadas>
+                        data.total += <residencias_destruidas>{ q.results..font[6].text() }</residencias_destruidas>
+                    } catch (Error) {
+                        data.total += <error>No data found</error>
+                    }
+                    return data
+                }
+                response.object = total_data;
+            ]]>
+        </execute>
+
+    </select>
+  </bindings>
+</table>

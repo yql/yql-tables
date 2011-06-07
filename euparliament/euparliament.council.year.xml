@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all years available">SELECT * FROM euparliament.council.year WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get list of acts in a year.">SELECT * FROM euparliament.council.year WHERE year="1989" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. 
+		These data are found at the website of the Council of the European Union. 
+		Here the voting results of votes on legislative acts are made public. The first public voting results found are from 2006-08-01, the latest is from 2011-04-15. 
+		In total 565 legislative acts are found and 15.099 votes has been cast. The original source is not easily machine-readable. 
+		It contains a list of years, the number of public votes from that year and a link to a list of the votes. You can also find documents for a particular year.   
+		</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/council/year/?y=2011 -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/council/year/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- year (optional) 	
+				Get number of documents and links to a specific legal basis -->
+				<key id="y" as="year"  type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	

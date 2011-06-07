@@ -375,7 +375,7 @@
                 myRequest.contentType("text/xml");
                 //myRequest.accept("text/xml");
                 myRequest.header("Connection", "close");
-                results = myRequest.put('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
+                results = myRequest.post('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
         
 
                 //code = results.params.param.value.boolean.toString();
@@ -475,7 +475,7 @@
                 myRequest.contentType("text/xml");
                 //myRequest.accept("text/xml");
                 myRequest.header("Connection", "close");
-                results = myRequest.put('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
+                results = myRequest.post('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
         
 
                 //code = results.params.param.value.boolean.toString();

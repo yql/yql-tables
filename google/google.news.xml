@@ -20,6 +20,12 @@
         <key id='q' type='xs:string' paramType='query' />
         <key id='topic' type='xs:string' paramType='query'/>
         <key id="ned" type="xs:string" paramType="query" required="false" default="us"/>
+        <key id="geo" type="xs:string" paramType="query" />
+        <key id="key" type="xs:string" paramType="query" />
+        <key id="rsz" type="xs:string" paramType="query" />
+        <key id="scoring" type="xs:string" paramType="query" />
+        <key id="start" type="xs:string" paramType="query" />
+        <key id="userip" type="xs:string" paramType="query" />
       </inputs>
     </select>
   </bindings>
