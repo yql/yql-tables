@@ -37,14 +37,14 @@ and length = "140"</sampleQuery>
         y.log(position);
         
         result = new XMLList();
-        for (i = 0; i <= Math.max(1,position-10); i++) {
-          var line = stringListValue(text[i]);
+        for (i = Math.max(0,position-10); i <= position; i++) {
+          var line = stringListValue(text[i]).slice(0,-1);
           y.log(line);
           result += <item>{shorten(line)}</item>;
         }
         y.log(result.toXMLString());
         
-        response.object = result;
+        response.object = <items>{result}</items>;
         
         function shorten(string) {
           var max = 140;
