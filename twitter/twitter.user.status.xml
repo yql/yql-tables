@@ -13,14 +13,14 @@
       </urls>
       <inputs>
         <key id="screen_name" type="xs:string" paramType="path" required="true"/>
-	<key id="count" type="xs:string" paramType="variable" required="false" default="1"/>
-	<key id="since_id" type="xs:string" paramType="variable" required="false"/>
+	<key id="count" type="xs:string" paramType="query" required="false" default="1"/>
+	<key id="since_id" type="xs:string" paramType="query" required="false"/>
 
-	<key id="max_id" type="xs:string" paramType="variable" required="false"/>
-	<key id="page" type="xs:string" paramType="variable" required="false"/>
-	<key id="trim_user" type="xs:string" paramType="variable" required="false"/>
-	<key id="include_rts" type="xs:string" paramType="variable" required="false"/>
-	<key id="include_entities" type="xs:string" paramType="variable" required="false"/>
+	<key id="max_id" type="xs:string" paramType="query" required="false"/>
+	<key id="page" type="xs:string" paramType="query" required="false"/>
+	<key id="trim_user" type="xs:string" paramType="query" required="false"/>
+	<key id="include_rts" type="xs:string" paramType="query" required="false"/>
+	<key id="include_entities" type="xs:string" paramType="query" required="false"/>
 	
       </inputs>
     </select>
