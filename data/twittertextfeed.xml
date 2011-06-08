@@ -44,7 +44,7 @@ and length = "140"</sampleQuery>
         }
         //y.log(result.toXMLString());
         
-        response.object = <>{result}</>;
+        response.object = <items>{result}</items>;
         
         function shorten(string) {
           var max = 140;
