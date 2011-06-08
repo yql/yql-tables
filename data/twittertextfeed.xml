@@ -27,7 +27,7 @@ and length = "140"</sampleQuery>
         textquery = textquery.replace("$url",url);
         var text = y.query(textquery).results.row;
         //y.log(text.toXMLString());
-        y.log(text.length());
+        //y.log(text.length());
         
         var today = new Date();
         //y.log(today.toString());
