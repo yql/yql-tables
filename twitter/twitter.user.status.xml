@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Bart Teeuwisse</author>
-    <documentationURL>http://thecodemill.biz/searchmonkey/twitter.user.status</documentationURL>
-    <sampleQuery>select * from {table} where id='bartt'</sampleQuery>
+    <author>Steve King</author>
+    <documentationURL>http://dev.twitter.com/doc/get/statuses/user_timeline</documentationURL>
+    <sampleQuery>select * from {table} where id='steveathon'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="feed.entry.content.adjunct.item.item.meta" produces="XML">
+    <select itemPath="statuses.status" produces="XML">
       <urls>
-        <url>http://searchmonkey.thecodemill.biz/?url=http://twitter.com/{id}</url>
+        <url>http://api.twitter.com/1/statuses/user_timeline.xml?count=1&screen_name={screen_name}</url>
       </urls>
       <inputs>
-        <key id="id" type="xs:string" paramType="path" required="true"/>
+        <key id="screen_name" type="xs:string" paramType="path" required="true"/>
       </inputs>
     </select>
   </bindings>
