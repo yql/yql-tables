@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Murilo Prestes &lt;@neuromancer_br&gt;</author>
+		<sampleQuery>select * from {table} where terms='Osama Bin Laden'</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="results.leak" produces="XML">
+			<urls>
+				<url>http://yester.com.br/wikileaksapi/</url>
+			</urls>
+			<inputs>
+				<key id="terms" type="xs:string" paramType="query" required="true"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>
