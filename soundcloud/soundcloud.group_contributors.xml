@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Carson McDonald</author>
+    <documentationURL>http://developers.soundcloud.com/docs/api/groups</documentationURL>
+    <sampleQuery>select * from {table} where client_id='your client id' and id=1799</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://api.soundcloud.com/groups/{id}/contributors.json</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true"/>
+        <key id="client_id" type="xs:string" paramType="query" required="true" private="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
