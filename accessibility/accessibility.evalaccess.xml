@@ -4,8 +4,8 @@
     <author>Willian Massami Watanabe (willian@yahoo-inc.com)</author>
     <description>Validate WCAG 1.0 conformance using EvalAccess (http://sipt07.si.ehu.es/evalaccess2/)</description>
     <documentationURL>http://sipt07.si.ehu.es/evalaccess2/howto.html</documentationURL>
-    <sampleQuery>SELECT * FROM evalaccess WHERE url='http://www.watinha.com';</sampleQuery>
-    <sampleQuery>SELECT * FROM evalaccess WHERE url='http://www.yahoo.com' AND levels='1';</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE url='http://www.watinha.com';</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE url='http://www.yahoo.com' AND levels='1';</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
@@ -18,7 +18,7 @@
         <key id="errors" type="xs:string" paramType="query" default="checked" />
         <key id="warnings" type="xs:string" paramType="query" default="checked" />
         <key id="action" type="xs:string" paramType="query" default="Accessibility Evaluation" />
-	<key id="evalaccess_url" type="xs:string" paramType="path" default="sipt07.si.ehu.es" />
+				<key id="evalaccess_url" type="xs:string" paramType="path" default="sipt07.si.ehu.es" />
       </inputs>
       <execute>
       <![CDATA[
