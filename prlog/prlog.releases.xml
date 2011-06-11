@@ -7,7 +7,7 @@
 			<sampleQuery>SELECT * FROM {table}</sampleQuery>
 			<sampleQuery>SELECT * FROM {table} WHERE country="de"</sampleQuery>
 	    <sampleQuery>SELECT * FROM {table} WHERE country="de" AND category="books"</sampleQuery>
-			<sampleQuery>SELECT * FROM prlog WHERE category IN (SELECT category FROM prlog.categories LIMIT 5)"</sampleQuery>
+			<sampleQuery>SELECT * FROM {table} WHERE category IN (SELECT category FROM prlog.categories LIMIT 5)"</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="rss.channel.item" produces="XML">
