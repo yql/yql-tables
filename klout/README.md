@@ -43,13 +43,13 @@ HINT: You can use this syntax to query multiple users for all other queries belo
 	FROM klout.user.topics 
 	WHERE api_key="YOUR_API_KEY_HERE" AND users="sebastianspier"
 	
-## Influencers
+## Influencees of this user
 
 	SELECT * 
 	FROM klout.user.influencer_of 
 	WHERE api_key="YOUR_API_KEY_HERE" AND users="sebastianspier"
 
-## Influencers
+## Influencers of this user
 
 	SELECT * 
 	FROM klout.user.influenced_by 
