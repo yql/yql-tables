@@ -9,10 +9,10 @@
     <bindings>
         <select itemPath="json.users" produces="JSON">
             <urls>
-                <url>http://api.klout.com/1/soi/influencer_of.json?users={-listjoin|,|users}</url>
+                <url>http://api.klout.com/1/soi/influencer_of.json</url>
             </urls>
             <inputs>
-                <key id="users" type="xs:string" paramType="path" required="true" batchable="true" maxBatchItems="5"/>
+                <key id="users" type="xs:string" paramType="query" required="true" batchable="true" maxBatchItems="5"/>
                 <key id="key" as="api_key" type="xs:string" paramType="query" required="true"/>
             </inputs>
         </select>
