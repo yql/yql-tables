@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 	    <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-	    <description>Retrieve Klout user objects.</description>
+	    <description>Retrieve Klout details about a user.</description>
       <documentationURL>http://developer.klout.com/docs/read/api/User_Methods</documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE users='davewiner' AND api_key='yourKeyGoesHere'</sampleQuery>
     </meta>
