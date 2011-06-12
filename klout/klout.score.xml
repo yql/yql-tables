@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	    <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+	    <description></description>
+      <documentationURL>http://dev.peerindex.net/docs/profile/show</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE users='terrinakamura' AND api_key='yourKeyGoesHere'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.users.user" produces="JSON">
+            <urls>
+                <url>http://api.klout.com/1/klout.json</url>
+            </urls>
+            <inputs>
+                <key id="users" type="xs:string" paramType="query" required="true"/>
+                <key id="key" as="api_key" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>
