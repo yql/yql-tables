@@ -7,7 +7,7 @@
 	    <sampleQuery>SELECT * FROM {table} WHERE users='terrinakamura' AND api_key='yourKeyGoesHere'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="json.users.user" produces="JSON">
+        <select itemPath="json.users" produces="JSON">
             <urls>
                 <url>http://api.klout.com/1/klout.json</url>
             </urls>
