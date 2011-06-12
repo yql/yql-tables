@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 	    <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-	    <description></description>
+	    <description>Retrieve up to 5 users that the given user is an influencer of.</description>
       <documentationURL>http://developer.klout.com/docs/read/api/SOI_Methods</documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE users='davewiner' AND api_key='yourKeyGoesHere'</sampleQuery>
     </meta>
