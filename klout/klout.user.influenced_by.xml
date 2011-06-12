@@ -2,14 +2,14 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 	    <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-	    <description>Retrieve Klout scores for user(s).</description>
-      <documentationURL>http://developer.klout.com/docs/read/api/API</documentationURL>
+	    <description></description>
+      <documentationURL>http://developer.klout.com/docs/read/api/SOI_Methods</documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE users='davewiner' AND api_key='yourKeyGoesHere'</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="json.users" produces="JSON">
             <urls>
-                <url>http://api.klout.com/1/klout.json</url>
+                <url>http://api.klout.com/1/soi/influenced_by.json</url>
             </urls>
             <inputs>
                 <key id="users" type="xs:string" paramType="query" required="true"/>
