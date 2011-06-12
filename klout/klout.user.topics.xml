@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 	    <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-	    <description>Retrieve the top 3 topic objects for a given user.</description>
+	    <description>Retrieve the top 5 topic of a given user.</description>
       <documentationURL>http://developer.klout.com/docs/read/api/User_Methods</documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE users='davewiner' AND api_key='yourKeyGoesHere'</sampleQuery>
     </meta>
