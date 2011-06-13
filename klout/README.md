@@ -1,13 +1,23 @@
 # YQL Datatables for klout.com
 
-These YQL datatables allow you to easily query [Klout][klout] data via the [klout.com API][klout_api].
+These YQL datatables allow you to easily query [Klout][klout] data via the [Klout API][klout_api].
+
+In order to use these datatables you will need an API key.
 
 [klout]: http://klout.com
 [klout_api]: http://developer.klout.com/docs/read/api/API
 
+# TODO
+
+The Klout API allows to query a maximum of 5 users in one call.
+With YQL you can query more than 5 in one call though, as YQL will translate your query into multiple calls to the Klout API.
+
+As the Klout API rate limit is 10 calls per second, I assume you could query up to 50 users per call (but I have not tried this).
+
 # Examples of Usage
 
-First load all YQl datatables for klout.com like this:
+First load all YQL datatables for klout.com like this:
+(NOTE: this is only valid until the tables are included in datatables.org)
 
 	USE "https://raw.github.com/spier/yql-tables/klout/klout/klout.score.xml";
 	USE "https://raw.github.com/spier/yql-tables/klout/klout/klout.user.show.xml";
@@ -54,11 +64,3 @@ HINT: You can use this syntax to query multiple users for all other queries belo
 	SELECT * 
 	FROM klout.user.influenced_by 
 	WHERE api_key="YOUR_API_KEY_HERE" AND users="sebastianspier"
-
-
-# TODO
-
-The Klout API allows to query a maximum of 5 users in one call.
-With YQL you can query more than 5 in one call though, as YQL will translate your query into multiple calls to the Klout API.
-
-As the Klout API rate limit is 10 calls per second, I assume you could query up to 50 users per call (but I have not tried this).
