@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Renan Vaz &lt;eu@renanvaz.com.br&gt; e Felipe Roberto &lt;eu@feliperoberto.com&gt;</author>
+    <author>Renan Vaz &lt;eu@renanvaz.com.br&gt; e Felipe Roberto &lt;eu@feliperoberto.com.br&gt;</author>
     <sampleQuery>SELECT * FROM {table} WHERE sCepOrigem = "08738080" AND sCepDestino = "08738000" AND nVlPeso = "1.5" AND nCdFormato = "1" AND nVlComprimento = "50" AND nVlAltura = "50" AND nVlLargura = "50" AND nVlDiametro = "50"</sampleQuery>
     <description>
     Consulta de prazos e preços aos Correios.
