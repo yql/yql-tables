@@ -4,7 +4,7 @@
         <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
         <description>Topsy.com API</description>
         <documentationURL>http://code.google.com/p/otterapi/wiki/Resources</documentationURL>
-        <sampleQuery>SELECT * FROM {table} WHERE url="http://twitter.com/barackobama"</sampleQuery>
+        <sampleQuery>SELECT * FROM {table} WHERE q="nosql"</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="json.response" produces="JSON">
@@ -12,7 +12,7 @@
                 <url>http://otter.topsy.com/experts.json</url>
             </urls>
             <inputs>
-                <key id="q" type="xs:string" paramType="query"/>
+                <key id="q" type="xs:string" paramType="query" required="true"/>
             </inputs>
         </select>	
     </bindings>

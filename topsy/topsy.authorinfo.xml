@@ -12,7 +12,7 @@
                 <url>http://otter.topsy.com/authorinfo.json</url>
             </urls>
             <inputs>
-                <key id="url" type="xs:string" paramType="query"/>
+                <key id="url" type="xs:string" paramType="query" required="true"/>
             </inputs>
         </select>	
     </bindings>
