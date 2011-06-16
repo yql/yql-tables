@@ -7,7 +7,7 @@
 			<sampleQuery>SELECT * FROM {table} WHERE url="http://twitter.com/barackobama"</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="json" produces="XML">
+        <select itemPath="json.response" produces="JSON">
             <urls>
                 <url>http://otter.topsy.com/authorinfo.json</url>
             </urls>
