@@ -9,10 +9,10 @@
     <bindings>
         <select itemPath="json.response" produces="JSON">
             <urls>
-                <url>http://otter.topsy.com/authorinfo.json</url>
+                <url>http://otter.topsy.com/experts.json</url>
             </urls>
             <inputs>
-                <key id="url" type="xs:string" paramType="query"/>
+                <key id="q" type="xs:string" paramType="query"/>
             </inputs>
         </select>	
     </bindings>
