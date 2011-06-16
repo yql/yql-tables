@@ -9,10 +9,15 @@
     <bindings>
         <select itemPath="json.response" produces="JSON">
             <urls>
-                <url>http://otter.topsy.com/authorinfo.json</url>
+                <url>http://otter.topsy.com/linkposts.json</url>
             </urls>
             <inputs>
+								<!-- URL string for the author. -->
                 <key id="url" type="xs:string" paramType="query"/>
+								<!-- Query string to filter results. -->
+								<key id="contains" type="xs:string" paramType="query"/>
+								<!-- Type of posts. Options include: image, tweet__various (tweets and retweets) and self__tweet (tweets by user). -->
+								<key id="tracktype" type="xs:string" paramType="query"/>
             </inputs>
         </select>	
     </bindings>
