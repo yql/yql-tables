@@ -13,7 +13,7 @@
             </urls>
             <inputs>
 								<!-- URL string for the author. -->
-                <key id="url" type="xs:string" paramType="query"/>
+                <key id="url" type="xs:string" paramType="query" required="true"/>
 								<!-- Query string to filter results. -->
 								<key id="contains" type="xs:string" paramType="query"/>
 								<!-- Type of posts. Options include: image, tweet__various (tweets and retweets) and self__tweet (tweets by user). -->
