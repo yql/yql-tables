@@ -11,6 +11,11 @@
             <urls>
                 <url>http://otter.topsy.com/experts.json</url>
             </urls>
+						<paging model="page">
+							<start id="page" default="1" />
+							<pagesize id="per_page" max="100" />
+							<total default="10" />
+						</paging>
             <inputs>
                 <key id="q" type="xs:string" paramType="query" required="true"/>
             </inputs>
