@@ -18,7 +18,7 @@
 				<key id='d' as="endMonth" type='xs:string' paramType='query' required='false' default='1' />
 				<key id='e' as="endDay" type='xs:string' paramType='query' required='false' default='30' />
 				<key id='f' as="endYear" type='xs:string' paramType='query' required='false' default='2010' />
-				<key id='g' type='xs:string'  paramType='query' required='false' const='true' default='d' />
+				<key id='g' as="frequency" type='xs:string'  paramType='query' required='false' default='d' />
 			</inputs>
 			<execute>
                 <![CDATA[
@@ -31,7 +31,7 @@
 				d  End Month (0-based; 0=January, 11=December)  
 				e  End Day  
 				f  End Year  
-				g  Always use the letter d  
+				g  Frequency (d=daily, w=weekly, m=monthly, v=dividends & splits only) 
 				*/
 				
 				var encodedUrl = request.url; 
@@ -41,6 +41,7 @@
 				encodedUrl = encodedUrl.replace('d=1','d=' + getMonth(endDate));
 				encodedUrl = encodedUrl.replace('e=30','e=' + getDay(endDate));
 				encodedUrl = encodedUrl.replace('f=2010','f=' + getYear(endDate));
+				encodedUrl = encodedUrl.replace('g=d','g=' + frequency);
 				
 				var results = y.query("select * from csv(0,1) where url=@url",{url:encodedUrl});
 				var colNames=''; 
