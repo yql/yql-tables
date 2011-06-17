@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+        <description>Topsy.com API</description>
+        <documentationURL>http://code.google.com/p/otterapi/wiki/Resources</documentationURL>
+        <sampleQuery>SELECT * FROM {table} WHERE q="YQL"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.response" produces="JSON">
+            <urls>
+                <url>http://otter.topsy.com/searchdate.json</url>
+            </urls>
+            <inputs>
+								<!-- Search query string.. -->
+                <key id="q" type="xs:string" paramType="query" required="true"/>
+
+								<key id="window" type="xs:string" paramType="query"/>
+								<key id="type" type="xs:string" paramType="query"/>
+								<key id="zoom" type="xs:string" paramType="query"/>
+            </inputs>
+        </select>	
+    </bindings>
+</table>

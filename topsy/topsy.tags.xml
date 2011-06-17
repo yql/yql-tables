@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+        <description>Topsy.com API</description>
+        <documentationURL>http://code.google.com/p/otterapi/wiki/Resources</documentationURL>
+        <sampleQuery>SELECT * FROM {table} WHERE url="http://twitter.com/barackobama"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.response" produces="JSON">
+            <urls>
+                <url>http://otter.topsy.com/tags.json</url>
+            </urls>
+            <inputs>
+                <key id="url" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+        </select>	
+    </bindings>
+</table>
