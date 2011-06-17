@@ -18,6 +18,13 @@
 						</paging>
             <inputs>
                 <key id="q" type="xs:string" paramType="query" required="true"/>
+
+								<!-- 
+									TODO:
+										- include paging in all other API endpoints returning lists
+										- potentially changing the itemPath
+										- add the List Parameters to the inputs: http://code.google.com/p/otterapi/wiki/ResListParameters
+							  -->
             </inputs>
         </select>	
     </bindings>
