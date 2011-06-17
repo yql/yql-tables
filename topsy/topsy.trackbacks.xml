@@ -9,7 +9,7 @@
     <bindings>
         <select itemPath="json.response" produces="JSON">
             <urls>
-                <url>http://otter.topsy.com/tags.json</url>
+                <url>http://otter.topsy.com/trackbacks.json</url>
             </urls>
             <inputs>
                 <key id="url" type="xs:string" paramType="query" required="true"/>
