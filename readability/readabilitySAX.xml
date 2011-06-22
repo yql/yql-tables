@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+	<author>Felix Boehm</author>
+	<documentationURL>http://feedic.com/</documentationURL>
+	<sampleQuery>select * from prs where url="feedic.com"</sampleQuery>
+  </meta>
+  <bindings>
+  <select itemPath="" produces="XML">
+	<urls>
+	  <url></url>
+	</urls>
+	<inputs>
+	  <key id="url" type="xs:string" paramType="variable" required="true" />
+	  <key id="type" type="xs:string" paramType="variable" default="innerhtml" />
+	</inputs>
+			<execute><![CDATA[
+			String.prototype.trim = String.prototype.trim || function(){
+				return this.replace(/^\s+|\s+$/g,'');
+			}
+			
+			y.include("http://dl.dropbox.com/u/2242871/Webcontent/YQL/E4XasSAX.js");
+			y.include("https://github.com/FB55/readabilitySAX/raw/master/readabilitySAX.js");
+			
+			var p = {};
+			var r = new readability.process(p,{log:function(){y.log.apply(y,arguments)}});
+			
+			var doc = y.tidy( y.rest(url).get().response );
+			
+			y.log("Initiated readability, got doc");
+			
+			saxParser(doc, p);
+			
+			y.log("got article");
+			
+			response.object = r.getArticle(type);
+			]]>
+			</execute>
+	</select>
+  </bindings>
+</table>
