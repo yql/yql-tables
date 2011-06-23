@@ -22,18 +22,27 @@
 			y.include("https://github.com/FB55/yql-tables/raw/master/readability/E4XasSAX.js");
 			y.include("https://github.com/FB55/readabilitySAX/raw/master/readabilitySAX.js");
 			
-			var p = {};
-			var r = new readability.process(p,{
-				log:function(){y.log.apply(y,arguments)},
-				pageURL: url
-			});
 			
 			var doc = y.tidy( y.rest(url).get().response );
 			
-			y.log("Initiated readability, got doc");
 			
-			saxParser(doc, p);
+			var skipLevel = 0;
+			var contentLength = 0;
+			var p, r;
 			
+			while(contentLength < 250 && skipLevel < 4){
+				p = {};
+				r = new readability.process(p,{
+					log:function(){y.log.apply(y,arguments)},
+					skipLevel: skipLevel,
+					pageURL: url
+				});
+				
+				saxParser(doc, p);
+				
+				contentLength = r.getArticle().textLength;
+				skipLevel += 1;
+			}
 			y.log("got article");
 			
 			response.object = r.getArticle(type);
