@@ -23,6 +23,35 @@
 								<key id="contains" type="xs:string" paramType="query"/>
 								<!-- Type of posts. Options include: image, tweet__various (tweets and retweets) and self__tweet (tweets by user). -->
 								<key id="tracktype" type="xs:string" paramType="query"/>
+								
+								
+								<!-- 
+									List Parameters
+									http://code.google.com/p/otterapi/wiki/ResListParameters
+								-->	
+								
+								<!-- 
+									NOTE: I don't know what "offset" is really needed for because the two paging parameters "page" and "perpage" 
+									already seem to do all that is needed for pagination.
+									
+									offset from which to start the results, should be set to last_offset parameter returned in the previous page. 
+								-->
+								<key id="offset" type="xs:string" paramType="query"/>
+								
+								<!-- earliest date/time to restrict a result set. unix-timestamp format. ( Note - search.json can be used with either "window" or "mintime" and/or "maxtime" but not both. Using "window" as well as "mintime"/"maxtime" can provide 0 or incorrect results) -->
+								<key id="mintime" type="xs:string" paramType="query"/>
+								
+								<!-- most recent date/time to restrict a result set. unix-timestamp format. (Note - search.json can be used with either "window" or "mintime" and/or "maxtime" but not both. Using "window" as well as "mintime"/"maxtime" can provide 0 or incorrect results) -->
+								<key id="maxtime" type="xs:string" paramType="query"/>
+								
+								<!-- toggles hiding of duplicate results. default is 1, which means no results are hidden. nohidden=0 will return unique results only -->
+								<key id="nohidden" type="xs:string" paramType="query"/>
+								
+								<!-- Language filter which lets you specify the languages you would like to see results in. Currently supports ja, zh, ko and en. Option also takes a comma separated list of languages. -->
+								<key id="alow_lang" type="xs:string" paramType="query"/>
+								
+								<!-- Filters all content containing profanity. Should be set to 1 -->
+								<key id="family_filter" type="xs:string" paramType="query"/>								
             </inputs>
         </select>	
     </bindings>

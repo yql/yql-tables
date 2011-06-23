@@ -5,6 +5,7 @@
         <description>Topsy.com API</description>
         <documentationURL>http://code.google.com/p/otterapi/wiki/Resources</documentationURL>
         <sampleQuery>SELECT * FROM {table} WHERE q="YQL"</sampleQuery>
+				<sampleQuery>SELECT * FROM {table}(0,51) WHERE q="YQL"</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="json.response.list" produces="JSON">

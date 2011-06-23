@@ -11,8 +11,7 @@
             <urls>
                 <url>http://otter.topsy.com/credit.json</url>
             </urls>
-            <inputs>
-            </inputs>
+            <inputs />
         </select>	
     </bindings>
 </table>
