@@ -12,7 +12,7 @@
 	</urls>
 	<inputs>
 	  <key id="url" type="xs:string" paramType="variable" required="true" />
-	  <key id="type" type="xs:string" paramType="variable" default="innerhtml" />
+	  <key id="type" type="xs:string" paramType="variable" default="html" />
 	</inputs>
 			<execute><![CDATA[
 			String.prototype.trim = String.prototype.trim || function(){
@@ -23,7 +23,10 @@
 			y.include("https://github.com/FB55/readabilitySAX/raw/master/readabilitySAX.js");
 			
 			var p = {};
-			var r = new readability.process(p,{log:function(){y.log.apply(y,arguments)}});
+			var r = new readability.process(p,{
+				log:function(){y.log.apply(y,arguments)},
+				pageURL: url
+			});
 			
 			var doc = y.tidy( y.rest(url).get().response );
 			
