@@ -16,8 +16,7 @@
 							<pagesize id="perpage" max="50" />
 							<total default="10" />
 						</paging>
-            <inputs>
-            </inputs>
+            <inputs />
         </select>	
     </bindings>
 </table>
