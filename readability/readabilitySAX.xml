@@ -11,7 +11,8 @@
 	  <url></url>
 	</urls>
 	<inputs>
-	  <key id="url" type="xs:string" paramType="variable" required="true" />
+	  <key id="html" type="xs:string" paramType="variable"/>
+	  <key id="url" type="xs:string" paramType="variable"/>
 	  <key id="type" type="xs:string" paramType="variable" default="html" />
 	</inputs>
 			<execute><![CDATA[
@@ -23,7 +24,7 @@
 			y.include("https://github.com/FB55/readabilitySAX/raw/master/readabilitySAX.js");
 			
 			
-			var doc = y.tidy( y.rest(url).get().response );
+			var doc = y.tidy( html || y.rest(url).get().response );
 			
 			
 			var skipLevel = 0;
