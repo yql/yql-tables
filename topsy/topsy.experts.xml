@@ -7,7 +7,7 @@
         <sampleQuery>SELECT * FROM {table} WHERE q="nosql"</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="json.response" produces="JSON">
+        <select itemPath="json.response.list" produces="JSON">
             <urls>
                 <url>http://otter.topsy.com/experts.json</url>
             </urls>
