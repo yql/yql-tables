@@ -7,10 +7,15 @@
         <sampleQuery>SELECT * FROM {table} WHERE q="YQL"</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="json.response" produces="JSON">
+        <select itemPath="json.response.list" produces="JSON">
             <urls>
                 <url>http://otter.topsy.com/searchdate.json</url>
             </urls>
+						<paging model="page">
+							<start id="page" default="1" />
+							<pagesize id="perpage" max="50" />
+							<total default="10" />
+						</paging>
             <inputs>
 								<!-- Search query string.. -->
                 <key id="q" type="xs:string" paramType="query" required="true"/>
