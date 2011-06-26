@@ -16,8 +16,6 @@ function saxParser(xml, callbacks){
 		onclosetag = callbacks.onclosetag || emptyFunction,
 		ontext = callbacks.ontext || emptyFunction; //todo: options for trim & spaces
 	
-	var multipleSpaces = /\s+/g;
-	
 	function parse(node){
 		var elem = {name:node.name().localName,attributes:{}}, 
 		    attributeNodes = node.attributes(), 
@@ -31,7 +29,7 @@ function saxParser(xml, callbacks){
 		for(var i = 0; i < num; i++){
 			if(childs[i].name() === null){
 				//textnode
-				ontext(childs[i].toString().replace(multipleSpaces,' ').trim());
+				ontext(childs[i].toString().trim());
 			}
 			else //node
 				parse(childs[i]);
