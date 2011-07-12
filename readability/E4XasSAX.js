@@ -14,7 +14,7 @@ function saxParser(xml, callbacks){
 	var emptyFunction = function(){},
 		onopentag = callbacks.onopentag || emptyFunction,
 		onclosetag = callbacks.onclosetag || emptyFunction,
-		ontext = callbacks.ontext || emptyFunction; //todo: options for trim & spaces
+		ontext = callbacks.ontext || emptyFunction; //todo: support further events, options for trim & spaces
 	
 	function parse(node){
 		var elem = {name:node.name().localName,attributes:{}}, 
@@ -25,14 +25,12 @@ function saxParser(xml, callbacks){
 		}
 		onopentag(elem);
 		
-		var childs = node.children(), num = childs.length();
+		var childs = node.children(), num = childs.length(), nodeType;
 		for(var i = 0; i < num; i++){
-			if(childs[i].name() === null){
-				//textnode
-				ontext(childs[i].toString().trim());
-			}
-			else //node
-				parse(childs[i]);
+			nodeType = childs[i].nodeKind();
+			if(nodeType === "text") ontext(childs[i].toString().trim());
+    		else if(nodeType === "element") parse(childs[i]);
+    		//else if(nodeType === "comment") [...]
 		}
 		onclosetag(elem.name);
 	}
