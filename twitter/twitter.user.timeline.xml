@@ -20,6 +20,7 @@
         <key id="since_id" type="xs:string" paramType="query" />
         <key id="id" type="xs:string" paramType="query" required="false" />
         <key id="screen_name" type="xs:string" paramType="query" required="false" />
+        <key id="include_rts" type="xs:string" paramType="query" required="false" />
         <key id="format" type="xs:string" paramType="path" required="false" default="xml"/>
       </inputs>
     </select>
