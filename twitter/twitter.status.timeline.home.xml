@@ -4,7 +4,7 @@
 		<author>Zach Graves (zachg@yahoo-inc.com)</author>
 		<description>Twitter OAuth API</description>
 		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
-		<sampleQuery>select * from {table} where id=@id;</sampleQuery>
+		<sampleQuery>select * from {table} where oauth_token = @oauth_token AND oauth_token_secret = @oauth_token_secret AND oauth_consumer_key = @oauth_consumer_key AND oauth_consumer_secret = @oauth_consumer_secret </sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="statuses" produces="XML">
@@ -16,6 +16,7 @@
 				<key id="max_id" type="xs:string" paramType="query" required="false"/>
 				<key id="count" type="xs:string" paramType="query" required="false"/>
 				<key id="page" type="xs:string" paramType="query" required="false"/>
+				<key id="entities" type="xs:string" paramType="query" required="false"/>
 				<key id="format" type="xs:string" paramType="path" default="xml"/>
 				
 				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
