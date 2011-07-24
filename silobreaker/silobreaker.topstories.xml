@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description> 
+				1) /topstories - gets today's top stories.
+				2) /topstories/{query} - gets the top stories related to a query string.
+			</description>
+			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
+    </meta>
+    <bindings>
+	
+        <select itemPath="ItemListResultWithCountOfDocumentData.Items.DocumentData" produces="XML">
+            <urls>
+                <url>http://api.silobreaker.com/topstories/{q}</url>
+            </urls>
+            <inputs>
+								<key id="q" as="query" type="xs:string" paramType="path" />
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />					
+								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
+
+								<key id="noStories" type="xs:string" paramType="query" />
+								<key id="minRelevance" type="xs:string" paramType="query" />
+								<key id="minNoDocuments" type="xs:string" paramType="query" />
+								
+								<!-- 
+									Provides extra data to each result row. The following values are supported (and can be combined as a comma separated list):
+									RelatedEntities - when given, the result will also include a list of the top most related entities to each story.
+									DocumentTeasers - when given, the result will include a short summary of each story.
+									Images - when given, the result will include images on each story, if available. 
+								-->
+								<key id="Extras" type="xs:string" paramType="query" />	
+            </inputs>
+        </select>
+
+     </bindings>
+</table>
+
+
+
