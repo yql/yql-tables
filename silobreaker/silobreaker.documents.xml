@@ -4,32 +4,34 @@
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 			<description></description>
 			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
-	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere'</sampleQuery>
+	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden"</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="json.data" produces="JSON">
+        <select itemPath="Items.DocumentData" produces="XML">
             <urls>
-                <url>http://www.example.com/documents/{query}</url>
+                <url>http://api.silobreaker.com/documents/{query}</url>
             </urls>
+			      <paging model="page">
+			        <start id="pageNumber" default="0" />
+			        <pagesize id="pageSize" />
+			        <total default="20" />
+			      </paging>
             <inputs>
 								<key id="q" as="query" type="xs:string" paramType="path" required="true" />
-                <key id="apiKey" type="xs:string" paramType="query" required="true" />
-								
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />					
 								
 								<!-- 
 									How the result should be sorted. Default is by publication date. The following sort values are supported:
 									relevance - by relevance with most relevant document first.
 									publicationdate - by publication date with most recent document first. 
 								-->
-								<key id="sortBy" type="xs:string" paramType="query" default="xml" constant="true" />
+								<key id="sortBy" type="xs:string" paramType="query" default="publicationdate" />
 								
 								<key id="type" type="xs:string" paramType="query" default="xml" constant="true" />
             </inputs>
         </select>
-				<execute>
-					
-					
-				</execute>
+	      <execute><![CDATA[
+	      ]]></execute>
      </bindings>
 </table>
 
