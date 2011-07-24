@@ -11,3 +11,4 @@
 - "types" in /documents endpoint seems not to work
 - "type" is not a good parameter name. Should be called "format" instead
 - /topStories max seems to be 50
+- /topStories "Extras" should really be "extras"

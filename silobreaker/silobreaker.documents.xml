@@ -2,7 +2,9 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-			<description>gets the latest documents or documents matching a query</description>
+			<description>
+				/documents - gets the latest documents or documents matching a query.
+			</description>
 			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
     </meta>
@@ -37,7 +39,6 @@
 									Audio/Video 
 								-->
 								<key id="types" type="xs:string" paramType="query" />
-								
             </inputs>
         </select>
      </bindings>

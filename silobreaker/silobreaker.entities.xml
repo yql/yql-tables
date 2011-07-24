@@ -2,7 +2,9 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-			<description>searches for entities matching a query string.</description>
+			<description>
+				/entities - searches for entities matching a query string.
+			</description>
 			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
     </meta>
