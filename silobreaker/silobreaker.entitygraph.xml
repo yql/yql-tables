@@ -12,7 +12,7 @@
     </meta>
     <bindings>
 	
-        <select itemPath="EntityGraphData" produces="XML">
+        <select itemPath="EntityGraphData.*" produces="XML">
             <urls>
                 <url>http://api.silobreaker.com/entitygraph/{q}/{types}</url>
             </urls>
@@ -43,7 +43,7 @@
             </inputs>
         </select>
 
-        <select itemPath="EntityGraphData" produces="XML">
+        <select itemPath="EntityGraphData.*" produces="XML">
             <urls>
                 <url>http://api.silobreaker.com/entitygraph/{q}</url>
             </urls>
