@@ -4,12 +4,12 @@
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 			<description></description>
 			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
-	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden"</sampleQuery>
+	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="Items.DocumentData" produces="XML">
             <urls>
-                <url>http://api.silobreaker.com/documents/{query}</url>
+                <url>http://api.silobreaker.com/documents/{q}</url>
             </urls>
 			      <paging model="page">
 			        <start id="pageNumber" default="0" />
