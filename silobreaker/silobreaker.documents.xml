@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description></description>
+			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE login='yourlogingoeshere'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.data" produces="JSON">
+            <urls>
+                <url>http://www.example.com/documents/{query}</url>
+            </urls>
+            <inputs>
+								<key id="q" as="query" type="xs:string" paramType="path" required="true" />
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />
+								
+								
+								<!-- 
+									How the result should be sorted. Default is by publication date. The following sort values are supported:
+									relevance - by relevance with most relevant document first.
+									publicationdate - by publication date with most recent document first. 
+								-->
+								<key id="sortBy" type="xs:string" paramType="query" default="xml" constant="true" />
+								
+								<key id="type" type="xs:string" paramType="query" default="xml" constant="true" />
+            </inputs>
+        </select>
+				<execute>
+					
+					
+				</execute>
+     </bindings>
+</table>
+
+
+
