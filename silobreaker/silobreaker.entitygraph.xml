@@ -63,6 +63,7 @@
 								<key id="expandEntities" type="xs:string" paramType="query" />
             </inputs>
         </select>
+
      </bindings>
 </table>
 

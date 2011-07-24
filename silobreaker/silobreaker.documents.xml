@@ -19,7 +19,7 @@
 			        <total default="20" />
 			      </paging>
             <inputs>
-								<key id="q" as="query" type="xs:string" paramType="path" required="true" />
+								<key id="q" as="query" type="xs:string" paramType="query" required="true" />
                 <key id="apiKey" type="xs:string" paramType="query" required="true" />					
 								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
 								
