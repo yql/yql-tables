@@ -7,41 +7,10 @@
 	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
     </meta>
     <bindings>
-	
-      <select itemPath="ItemListResultOfTermData.Items.TermData" produces="XML">
-          <urls>
-              <url>http://api.silobreaker.com/documents/{q}/entities/{types}</url>
-          </urls>
-		      <paging model="page">
-		        <start id="pageNumber" default="0" />
-		        <pagesize id="pageSize" max="250" />
-		        <total default="20" />
-		      </paging>
-          <inputs>
-							<key id="q" as="query" type="xs:string" paramType="path" required="true" />
-              <key id="apiKey" type="xs:string" paramType="query" required="true" />
-							<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
-							
-							<key id="q" as="query" type="xs:string" paramType="path" required="true" />
-													
-							<!-- 
-								Comma separated list of entity types that should be returned. Valid types are:
-								Person
-								Company
-								Organization
-								Keyphrase
-								Country
-								City
-							-->
-							<key id="types" type="xs:string" paramType="query" required="true"/>													
-          </inputs>
-      </select>	
-	
-	
-	
-        <select itemPath="ItemListResultOfTermData.Items.TermData" produces="XML">
+
+        <select itemPath="ItemListResultWithCountOfTermData.Items.TermData" produces="XML">
             <urls>
-                <url>http://api.silobreaker.com/entities/{q}</url>
+                <url>http://api.silobreaker.com/entities</url>
             </urls>
 			      <paging model="page">
 			        <start id="pageNumber" default="0" />
@@ -49,9 +18,20 @@
 			        <total default="20" />
 			      </paging>
             <inputs>
-								<key id="q" as="query" type="xs:string" paramType="path" required="true" />
+								<key id="q" as="query" type="xs:string" paramType="query" required="true" />
                 <key id="apiKey" type="xs:string" paramType="query" required="true" />
-								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />							
+								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />	
+								
+								<!-- 
+									Comma separated list of entity types that should be returned. Valid types are:
+									Person
+									Company
+									Organization
+									Keyphrase
+									Country
+									City
+								-->
+								<key id="types" type="xs:string" paramType="query"/>						
             </inputs>
         </select>
 
