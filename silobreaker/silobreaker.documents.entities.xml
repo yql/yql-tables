@@ -3,11 +3,16 @@
     <meta>
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 			<description> 
-				1) returns entities mentioned in documents matching the query string
-				2) returns entities of specific types mentioned in documents matching the query string
+				1) /documents/{query}/entities - returns entities mentioned in documents matching the query string.
+				2) /documents/{query}/entities/{types} - returns entities of specific types mentioned in documents matching the query string.
 				</description>
 			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
-	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
+	    <sampleQuery description="eturns entities mentioned in documents matching the query string">
+				SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"
+			</sampleQuery>
+			<sampleQuery description="returns entities of specific types mentioned in documents matching the query string">
+				SELECT * FROM {table} WHERE query="Sweden" AND types="City" AND apiKey="YOUR_API_KEY"
+			</sampleQuery>
     </meta>
     <bindings>
 	
