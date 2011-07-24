@@ -30,8 +30,6 @@
 								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
             </inputs>
         </select>
-	      <execute><![CDATA[
-	      ]]></execute>
      </bindings>
 </table>
 
