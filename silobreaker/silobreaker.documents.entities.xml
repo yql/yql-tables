@@ -36,7 +36,7 @@
 								Country
 								City
 							-->
-							<key id="types" type="xs:string" paramType="query" required="true"/>													
+							<key id="types" type="xs:string" paramType="path" required="true"/>													
 		      </inputs>
 		  </select>
 		
