@@ -7,7 +7,7 @@
 	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="Items.DocumentData" produces="XML">
+        <select itemPath="ItemListResultWithCountOfDocumentData.Items.DocumentData" produces="XML">
             <urls>
                 <url>http://api.silobreaker.com/documents/{q}</url>
             </urls>
