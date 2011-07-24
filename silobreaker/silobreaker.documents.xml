@@ -27,7 +27,7 @@
 								-->
 								<key id="sortBy" type="xs:string" paramType="query" default="publicationdate" />
 								
-								<key id="type" type="xs:string" paramType="query" default="xml" constant="true" />
+								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
             </inputs>
         </select>
 	      <execute><![CDATA[
