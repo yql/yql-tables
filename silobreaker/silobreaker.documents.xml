@@ -11,7 +11,7 @@
     <bindings>
         <select itemPath="ItemListResultWithCountOfDocumentData.Items.DocumentData" produces="XML">
             <urls>
-                <url>http://api.silobreaker.com/documents/{q}</url>
+                <url>http://api.silobreaker.com/documents/{q}?{-listjoin|,|types}</url>
             </urls>
 			      <paging model="page">
 			        <start id="pageNumber" default="0" />
@@ -38,7 +38,7 @@
 									Press Release
 									Audio/Video 
 								-->
-								<key id="types" type="xs:string" paramType="query" />
+								<key id="types" type="xs:string" paramType="path" batchable="true" maxBatchItems="5"/>
             </inputs>
         </select>
      </bindings>
