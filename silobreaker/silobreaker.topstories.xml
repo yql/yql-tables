@@ -11,7 +11,7 @@
     </meta>
     <bindings>
 	
-        <select itemPath="ItemListResultWithCountOfDocumentData.Items.DocumentData" produces="XML">
+        <select itemPath="ItemListResultOfStoryData.Items.StoryData" produces="XML">
             <urls>
                 <url>http://api.silobreaker.com/topstories/{q}</url>
             </urls>
