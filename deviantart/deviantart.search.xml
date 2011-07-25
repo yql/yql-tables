@@ -3,7 +3,7 @@
   <meta>
     <author>HOUYHNHNM</author>
     <description>Returns entries from Deviant Art search based on a query; go to documentation for version types</description>
-    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/275118</documentationURL>
+    <documentationURL>http://meme.yahoo.com/h_dev/p/hmmh1wF/</documentationURL>
     <sampleQuery>select * from {table} where query="Yahoo"</sampleQuery>
     <sampleQuery>select * from {table} where query="Yahoo" version="1"</sampleQuery>
  </meta>
