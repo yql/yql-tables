@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>
+				/entities - searches for entities matching a query string.
+			</description>
+			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
+    </meta>
+    <bindings>
+
+        <select itemPath="ItemListResultWithCountOfTermData.Items.TermData" produces="XML">
+            <urls>
+                <url>http://api.silobreaker.com/entities</url>
+            </urls>
+			      <paging model="page">
+			        <start id="pageNumber" default="0" />
+			        <pagesize id="pageSize" max="250" />
+			        <total default="20" />
+			      </paging>
+            <inputs>
+								<key id="q" as="query" type="xs:string" paramType="query" required="true" />
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />
+								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />	
+								
+								<!-- 
+									Comma separated list of entity types that should be returned. Valid types are:
+									Person
+									Company
+									Organization
+									Keyphrase
+									Country
+									City
+								-->
+								<key id="types" type="xs:string" paramType="query"/>						
+            </inputs>
+        </select>
+
+     </bindings>
+</table>
+
+
+
