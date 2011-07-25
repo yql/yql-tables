@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+        <description>Topsy.com API</description>
+        <documentationURL>http://code.google.com/p/otterapi/wiki/Resources</documentationURL>
+        <sampleQuery>SELECT * FROM {table} WHERE q="YQL"</sampleQuery>
+				<sampleQuery>SELECT * FROM {table}(0,51) WHERE q=":)"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.response.list" produces="JSON">
+            <urls>
+                <url>http://otter.topsy.com/searchdate.json</url>
+            </urls>
+						<paging model="page">
+							<start id="page" default="1" />
+							<pagesize id="perpage" max="50" />
+							<total default="10" />
+						</paging>
+            <inputs>
+								<!-- Search query string. Query Syntax: http://code.google.com/p/otterapi/wiki/QuerySyntax -->
+                <key id="q" type="xs:string" paramType="query" required="true"/>
+
+								<!-- See /search documentation. -->
+								<key id="window" type="xs:string" paramType="query"/>
+								
+								<!-- See /search documentation. -->
+								<key id="type" type="xs:string" paramType="query"/>
+								
+								<!-- Zoom-level for depth / quality. Default is 10, which picks 100 results -->
+								<key id="zoom" type="xs:string" paramType="query"/>
+            </inputs>
+        </select>	
+    </bindings>
+</table>
