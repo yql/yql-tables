@@ -3,10 +3,7 @@
   <meta>
   <author>Johannes Charman</author>
   <description>JSON pages that need post data (this table is based on htmlpost by Christian Heilmann)</description>
-  <sampleQuery><![CDATA[
-select * from {table} where
-url='http://search.twitter.com/search.json' 
-and postdata="q=test"]]></sampleQuery>
+  <sampleQuery>select * from {table} where url='http://search.twitter.com/search.json' and postdata="q=test"</sampleQuery>
   <documentationURL></documentationURL>
   </meta>
   <bindings>
