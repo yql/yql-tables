@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>
+				/documents - gets the latest documents or documents matching a query.
+			</description>
+			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="ItemListResultWithCountOfDocumentData.Items.DocumentData" produces="XML">
+            <urls>
+                <url>http://api.silobreaker.com/documents/{q}</url>
+            </urls>
+			      <paging model="page">
+			        <start id="pageNumber" default="0" />
+			        <pagesize id="pageSize" max="250" />
+			        <total default="20" />
+			      </paging>
+            <inputs>
+								<key id="q" as="query" type="xs:string" paramType="query" required="true" />
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />					
+								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
+								
+								<!-- 
+									How the result should be sorted. Default is by publication date. The following sort values are supported:
+									relevance - by relevance with most relevant document first.
+									publicationdate - by publication date with most recent document first. 
+								-->
+								<key id="sortBy" type="xs:string" paramType="query" default="publicationdate" />
+								
+								<!-- 
+									Comma separated list of document types that should be returned. Valid types are:
+									Article
+									Blog
+									Fact Sheet
+									Press Release
+									Audio/Video 
+								-->
+								<key id="types" type="xs:string" paramType="query" />
+            </inputs>
+        </select>
+     </bindings>
+</table>
+
+
+
