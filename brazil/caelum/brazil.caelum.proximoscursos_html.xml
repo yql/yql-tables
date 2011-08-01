@@ -5,12 +5,12 @@
 		<description>Pesquisa na lista de cursos da Caelum</description>
 		<sampleQuery>select * from {table}</sampleQuery>
 	</meta>
-	
+
 	<bindings>
 
 		<select itemPath="" produces="XML">
 			<execute><![CDATA[
-				var url = 'http://www.caelum.com.br';
+				var url = 'http://www.caelum.com.br/calendario';
 				var xpath = "//div[@id='calendario']/table/tbody/tr";
 
 				query = y.query('select * from html where url="' + url + '" and xpath="' + xpath + '"');
