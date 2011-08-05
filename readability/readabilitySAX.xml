@@ -16,6 +16,18 @@
 	  <key id="type" type="xs:string" paramType="variable" default="html" />
 	</inputs>
 			<execute><![CDATA[
+			//polyfill for object.create (https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create#Polyfill)
+			if (!Object.create) {
+				   Object.create = function (o) {
+					   if (arguments.length > 1) {
+						   throw new Error('Object.create implementation only accepts the first parameter.');
+					   }
+					   function F() {}
+					   F.prototype = o;
+					   return new F();
+				   };
+			}
+			
 			y.include("http://www.datatables.org/readability/E4XasSAX.js");
 			y.include("https://raw.github.com/FB55/readabilitySAX/master/readabilitySAX.js");
 			
