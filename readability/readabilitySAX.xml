@@ -16,12 +16,29 @@
 	  <key id="type" type="xs:string" paramType="variable" default="html" />
 	</inputs>
 			<execute><![CDATA[
-			String.prototype.trim = String.prototype.trim || function(){
-				return this.replace(/^\s+|\s+$/g,'');
+			//polyfill for object.create (https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create#Polyfill)
+			if (!Object.create) {
+				   Object.create = function (o) {
+						if (arguments.length > 1) {
+							 throw new Error('Object.create implementation only accepts the first parameter.');
+						}
+						function F() {}
+						F.prototype = o;
+						return new F();
+				   };
+			}
+			//polyfill for string.prototype.trim
+			if (!String.prototype.trim) {
+				   //http://blog.stevenlevithan.com/archives/faster-trim-javascript
+				   var trimBeginRegexp = /^\s\s*/;
+				   var trimEndRegexp = /\s\s*$/;
+				   String.prototype.trim = function () {
+					   return String(this).replace(trimBeginRegexp, '').replace(trimEndRegexp, '');
+				   };
 			}
 			
-			y.include("https://github.com/FB55/yql-tables/raw/master/readability/E4XasSAX.js");
-			y.include("https://github.com/FB55/readabilitySAX/raw/master/readabilitySAX.js");
+			y.include("http://www.datatables.org/readability/E4XasSAX.js");
+			y.include("https://raw.github.com/FB55/readabilitySAX/master/readabilitySAX.js");
 			
 			
 			var doc = y.tidy( html || y.rest(url).get().response );
