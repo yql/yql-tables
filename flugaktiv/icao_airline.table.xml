@@ -1,0 +1,19 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+<sampleQuery>			select * from {table} where icao="DLH"		</sampleQuery>
+<description>Airline Information lookup based on IATA Code, ICAO Code</description>
+<documentationURL>http://flugaktiv.de/</documentationURL>
+</meta>
+<bindings>
+<select itemPath="flugaktiv.airline" produces="XML">
+<urls>
+<url>http://flugaktiv.de/db/icao_airline.php</url>
+</urls>
+<inputs>
+<key id="iata" type="xs:string" required="false" paramType="query"/>
+<key id="query" type="xs:string" required="false" paramType="query"/>
+<key id="icao" type="xs:string" required="false" paramType="query"/>
+</inputs>
+</select>
+</bindings>
+</table>
