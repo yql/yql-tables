@@ -18,10 +18,45 @@
 				<total default="10" />
 			</paging>
      	<inputs>
-        <key id="api_key" type="xs:string" paramType="query" required="true"/>
-				<key id="encoding" type="xs:string" paramType="query" const="true" default="json"/>
+				<!-- general parameters  -->
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+				<key id="encoding" type="xs:string" paramType="query" const="true" default="json" />
 				
+				<!-- specifics for this table -->
         <key id="search" type="xs:string" paramType="query" required="true" />
+
+				<!-- page	Returns the Xth page of results, where X equals the input value.
+				count	Use this value to set the number of incoming stories. (default is 10) -->
+				
+				<!-- 
+					##########################
+					Developers may further customize their story feeds by using the following parameters.
+					##########################
+				-->
+				
+				<!-- csp	Appends the designated CSP value to each hyperlink. -->
+				<key id="csp" type="xs:string" paramType="query" />				
+				<!-- days	Returns stories that are no older than X days old, where X equals the input value. -->
+				<key id="days" type="xs:string" paramType="query" />	
+				<!-- reporter	Returns only stories from a specific reporter. Query searches byline field. -->
+				<key id="reporter" type="xs:string" paramType="query" />			
+				<!-- source	Returns only stories from a specific news source. -->
+				<key id="source" type="xs:string" paramType="query" />			
+				<!-- tickersonly	When set to Y, returns only stories with embedded stock values. Best used with Money stories. -->
+				<key id="tickersonly" type="xs:string" paramType="query" />
+				
+				<!-- 
+					##########################
+					The following parameters may only be used if the programmer is pulling stories from one of the USA TODAY sections. 
+					##########################
+				-->
+
+				<!-- fromdate	Returns stories back to the "FromDate" value. Must use yyyy-mm-dd format. -->
+				<key id="fromdate" type="xs:string" paramType="query" />			
+				<!-- most	Allows programmers with the ability to retrieve articles based on "most read", "most E-mailed" and "most commented". -->
+				<key id="most" type="xs:string" paramType="query" />			
+				<!-- todate	Returns stories starting at the "ToDate" value and moving back. Must use yyyy-mm-dd format. -->
+				<key id="todate" type="xs:string" paramType="query" />
      	</inputs>
     </select>
 
