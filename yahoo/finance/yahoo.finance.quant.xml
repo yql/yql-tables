@@ -6,7 +6,7 @@
 		</sampleQuery>
 	</meta>
 	<bindings>
-		<select itemPath="quotes.quant" produces="XML">
+		<select itemPath="" produces="XML">
 			<urls><url></url></urls>
 			<inputs>
 				<key id='symbol' type='xs:string' paramType='variable' required='true' />
