@@ -46,56 +46,6 @@
 	return true;
     }
 
-    function getHistoricalPrice() {
-	// Get the Historical Price Range
-	var results = historicalQuery.results;
-	elements = results.*.length();
-	if (elements < 6)
-	    return false;
-	startMonth = String(parseInt(results.option[0].@value)+1).pad("0", 2);
-	startDay = results.input[0].@value.toString().pad("0", 2);
-	startYear = results.input[1].@value.toString();
-	endMonth = String(parseInt(results.option[1].@value)+1).pad("0", 2);
-	endDay = results.input[2].@value.toString().pad("0", 2);
-	endYear = results.input[3].@value.toString();
-
-	startDate = startYear + "-" + startMonth + "-" + startDay;
-	endDate = endYear + "-" + endMonth + "-" + endDay;
-
-	stock.appendChild(<start>{startDate}</start>);
-	stock.appendChild(<end>{endDate}</end>);
-	return true;
-    }
-
-    function getProfileInfo() {
-	// Get the Sector, Industry, Full Time Employees from Profile page
-	var results = profileQuery.results;
-	elements = results.*.length();
-	if (elements == 0)
-	    return false;
-	for each (var tr in results.tr){
-	    //Remove trailing colon, and strip whitespace
-	    var property = tr.td[0].p.text()
-		.toString().slice(0, -1)
-		.replace(/\s+/g, "");
-	    switch (property.toLowerCase()) {
-	        case 'indexmembership':
-		    continue;
-		    break;
-		case 'fulltimeemployees':
-		    //Strip commas
-		    value = tr.td[1].*.text().toString().replace(/,/g, "");
-		    break;
-		default:
-		    //Convert whitespace to single space
-		    value = tr.td[1].*.text().toString().replace(/\s+/g, " ");
-		    break;
-	    }
-	    stock.appendChild(<{property}>{value}</{property}>);
-	}
-	return true;
-    }
-
     var url = "http://finance.yahoo.com/q?s="+symbol;
     var quoteQuery = y.query(
 	"select * from html " +
