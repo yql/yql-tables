@@ -105,30 +105,9 @@
 	"limit 4",
 	{url:url});
 
-    var url = "http://finance.yahoo.com/q?s="+symbol;
-    var quoteQuery = y.query(
-	"select * from html " +
-	"where url=@url and " +
-	"xpath='" +
-	"//div[@id=\"yfi_investing_head\"]/h1 | " +
-	"//div[@class=\"yfi_quote_summary\"]/div[1]'" ,
-	{url:url});
-
-    var url = "http://finance.yahoo.com/q/hp?s="+symbol;
-    var historicalQuery = y.query(
-	"select * from html " +
-	"where url=@url and " + 
-	"xpath='" +
-	"//option[@selected=\"selected\"] | " + 
-	"//input[@maxlength=\"2\"] | " +
-	"//input[@maxlength=\"4\"]'",
-	{url:url});
-
     var stock = <stock symbol={symbol}></stock>;
 
     getQuoteInfo();
-    getHistoricalPrice();
-    getProfileInfo();
     
     response.object = stock
 
