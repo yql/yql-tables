@@ -96,13 +96,13 @@
 	return true;
     }
 
-    // Queue the queries
-    var url = "http://finance.yahoo.com/q/pr?s="+symbol;
-    var profileQuery = y.query(
+    var url = "http://finance.yahoo.com/q?s="+symbol;
+    var quoteQuery = y.query(
 	"select * from html " +
-	"where url=@url and " + 
-	"xpath='//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr' " +
-	"limit 4",
+	"where url=@url and " +
+	"xpath='" +
+	"//div[@id=\"yfi_investing_head\"]/h1 | " +
+	"//div[@class=\"yfi_quote_summary\"]/div[1]'" ,
 	{url:url});
 
     var stock = <stock symbol={symbol}></stock>;
