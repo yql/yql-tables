@@ -71,7 +71,7 @@
     var results = equityQuery.results;
     stock.ReturnOnEquity = results;
 
-    getQuoteInfo();
+    //getQuoteInfo();
     
     response.object = stock
 
