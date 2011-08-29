@@ -61,7 +61,7 @@
 	"where url=@url and " +
 	"xpath='" +
 	//"//table[@class=\"yfnc_datamodoutline1\"]/td[position()=1]'" ,
-	"//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr[position() = 3 and ./td[contains(.,'Equity')]]'" ,
+	"//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr[position() = 3 and ./td[contains(.,\"Equity\")]]'" ,
 	{url:url});
 	
     
