@@ -41,7 +41,7 @@
 	//var match = marketSymbolStr.match(/^[^:]+:\s+([^)]+)\)$/); matches stock symbol
 	var match = marketSymbolStr.match(/^\(([^:]+):/);
 	if (match != null) {
-	    stock.CompanyName += <Market>{match[1]}</Market>;
+	    stock.CompanyName += <Market>{match[0]}</Market>;
 	}
 	return true;
     }
@@ -55,8 +55,16 @@
 	"//div[@class=\"yfi_quote_summary\"]/div[1]'" ,
 	{url:url});
 	
-
-
+    var url = "http://finance.yahoo.com/q/ks?s="+symbol;
+    var equityQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class=\"yfnc_datamodoutline1\"]/td[position()=6]'" ,
+	{url:url});
+	
+    var results = equityQuery.results;
+	
     var stock = <stock symbol={symbol}></stock>;
 
     getQuoteInfo();
