@@ -69,7 +69,7 @@
 	
     var stock = <stock symbol={symbol}></stock>;
     var results = equityQuery.results;
-    stock.ReturnOnEquity = results.td;
+    stock.ReturnOnEquity = results;
 
     //getQuoteInfo();
     
