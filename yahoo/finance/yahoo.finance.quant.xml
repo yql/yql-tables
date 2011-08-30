@@ -65,6 +65,14 @@
 	"//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr[position() = 3 and ./td[contains(.,\"Equity\")]]/td[2]'" ,
 	{url:url});
 	
+    var url = "http://finance.yahoo.com/q/bs?s="+symbol;
+    var equityQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class=\"yfnc_d\"]/strong'" ,
+	{url:url});
+	
     
 	
     var stock = <stock symbol={symbol}></stock>;
