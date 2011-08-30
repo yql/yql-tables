@@ -84,7 +84,7 @@
     var results = stockholdersQuery.results;
     stock.Stockholders = results.strong.text();
 
-    //getQuoteInfo();
+    getQuoteInfo();
     
     response.object = stock
 
