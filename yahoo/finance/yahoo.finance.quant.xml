@@ -81,7 +81,7 @@
     stock.ReturnOnEquity = results.td.p.text();
     
     var results = stockholdersQuery.results;
-    stock.Stockholders = results
+    stock.Stockholders = results.strong.text();
 
     //getQuoteInfo();
     
