@@ -71,7 +71,7 @@
 	"where url=@url and " +
 	"xpath='" +
 	//"//table[@class=\"yfnc_tabledata1\"]/tr[./td[contains(.,\"Total Stockholder Equity\") and @colspan=\"2\"]]/td'" ,
-	"//tr/td/strong'" ,
+	"//tr[./td[contains(.,\"Total Stockholder Equity\")]]/td/strong'" ,
 	{url:url});
 	
     
