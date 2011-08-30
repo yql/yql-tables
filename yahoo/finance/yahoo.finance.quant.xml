@@ -70,7 +70,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table[@class=\"yfnc_tabledata1\"]/tr[./td[contains(.,\"Total Stockholder Equity\")]]/td'" ,
+	"//table[@class=\"yfnc_tabledata1\"]/tr[./td[contains(.,\"Total Stockholder Equity\") and @colspan=\"2\"]]/td'" ,
 	{url:url});
 	
     
