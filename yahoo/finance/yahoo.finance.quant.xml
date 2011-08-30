@@ -37,7 +37,7 @@
 	    return false;
 
 	stock.CompanyName = results.h1.text();
-	//stock.CompanyName = results.h1.text().toString().trim();
+	stock.CompanyName = results.h1.text().toString().trim();
 	//var marketSymbolStr = results.div.span.toString();
 	//var match = marketSymbolStr.match(/^[^:]+:\s+([^)]+)\)$/); matches stock symbol
 	//var match = marketSymbolStr.match(/^\(([^:]+):/);
