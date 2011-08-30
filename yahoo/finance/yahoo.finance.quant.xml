@@ -74,7 +74,13 @@
 	"//tr[./td[contains(.,\"Total Stockholder Equity\")]]/td[2]/strong'" ,
 	{url:url});
 	
-    
+    var url = "http://finance.yahoo.com/q/bs?s="+symbol;
+    var totalAssetsQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tr[./td[contains(.,\"Total Assets\")]]/td[2]/strong'" ,
+	{url:url});
 	
     var stock = <stock symbol={symbol}></stock>;
     
@@ -82,6 +88,9 @@
     stock.ReturnOnEquity = results.td.p.text().toString().trim();
     
     var results = stockholdersQuery.results;
+    stock.Stockholders = results.strong.text().toString().trim();
+    
+    var results = totalAssetsQuery.results;
     stock.Stockholders = results.strong.text().toString().trim();
 
     getQuoteInfo();
