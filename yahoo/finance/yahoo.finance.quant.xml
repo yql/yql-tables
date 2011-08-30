@@ -70,7 +70,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table[@class=\"yfnc_d\"]'" ,
+	"//td[@class=\"yfnc_d\"]'" ,
 	{url:url});
 	
     
