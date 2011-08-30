@@ -91,7 +91,7 @@
     stock.Stockholders = results.strong.text().toString().trim();
     
     var results = totalAssetsQuery.results;
-    stock.Stockholders = results.strong.text().toString().trim();
+    stock.TotalAssets = results.strong.text().toString().trim();
 
     getQuoteInfo();
     
