@@ -79,10 +79,10 @@
     var stock = <stock symbol={symbol}></stock>;
     
     var results = equityQuery.results;
-    stock.ReturnOnEquity = results.td.p.text();
+    stock.ReturnOnEquity = results.td.p.text().toString();
     
     var results = stockholdersQuery.results;
-    stock.Stockholders = results.strong.text();
+    stock.Stockholders = results.strong.text().toString();
 
     getQuoteInfo();
     
