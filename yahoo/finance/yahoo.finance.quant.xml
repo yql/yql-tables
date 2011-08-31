@@ -82,7 +82,7 @@
 	"//tr[./td[contains(.,\"Total Assets\")]]/td[2]/strong'" ,
 	{url:url});
 	
-    var url = "http://finance.yahoo.com/q/bs?s="+symbol;
+    var url = "http://finance.yahoo.com/q/ks?s="+symbol;
     var trailingPEQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
