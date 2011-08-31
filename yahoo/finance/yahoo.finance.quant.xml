@@ -90,6 +90,14 @@
 	"//tr[./td[contains(.,\"Trailing P\")]]/td[@class = \"yfnc_tabledata1\"]'" ,
 	{url:url});
 	
+    var url = "http://finance.yahoo.com/q/ao?s="+symbol;
+    var analystsQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tr/th[contains(.,\"this week\")]]/yfnc_tabledata1",
+	{url:url});
+	
     var stock = <stock symbol={symbol}></stock>;
     
     var results = equityQuery.results;
@@ -103,6 +111,9 @@
     
     var results = trailingPEQuery.results;
     stock.TrailingPE = results.td.p.toString().trim();
+    
+    var results = analystsQuery.results;
+    stock.TrailingPE = results.td.toString().trim();
 
     getQuoteInfo();
     
