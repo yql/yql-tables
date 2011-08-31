@@ -102,7 +102,7 @@
     stock.TotalAssets = results.strong.text().toString().trim();
     
     var results = trailingPEQuery.results;
-    stock.TrailingPE = results.text().toString().trim();
+    stock.TrailingPE = results;
 
     getQuoteInfo();
     
