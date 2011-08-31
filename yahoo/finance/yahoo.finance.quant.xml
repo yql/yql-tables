@@ -82,6 +82,14 @@
 	"//tr[./td[contains(.,\"Total Assets\")]]/td[2]/strong'" ,
 	{url:url});
 	
+    var url = "http://finance.yahoo.com/q/bs?s="+symbol;
+    var trailingPEQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tr[./td[contains(.,\"Trailing P\/E \(ttm, intraday\)\")]]/td'" ,
+	{url:url});
+	
     var stock = <stock symbol={symbol}></stock>;
     
     var results = equityQuery.results;
@@ -92,6 +100,9 @@
     
     var results = totalAssetsQuery.results;
     stock.TotalAssets = results.strong.text().toString().trim();
+    
+    var results = trailingPEQuery.results;
+    stock.TrailingPE = results.text().toString().trim();
 
     getQuoteInfo();
     
