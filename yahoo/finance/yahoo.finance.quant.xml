@@ -87,7 +87,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//tr[./td[contains(.,\"Trailing P\")]]/td'" ,
+	"//tr[./td[contains(.,\"Trailing\")]]/td'" ,
 	{url:url});
 	
     var stock = <stock symbol={symbol}></stock>;
