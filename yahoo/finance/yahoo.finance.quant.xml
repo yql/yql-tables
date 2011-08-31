@@ -95,7 +95,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//tr/th[contains(.,\"this week\")]]/yfnc_tabledata1",
+	"//tr/th[contains(.,\"this week\")]]/yfnc_tabledata1'",
 	{url:url});
 	
     var stock = <stock symbol={symbol}></stock>;
