@@ -113,7 +113,7 @@
     stock.TrailingPE = results.td.p.toString().trim();
     
     var results = analystsQuery.results;
-    stock.Analysts = results.td.toString().trim();
+    stock.Analysts = results.td.p.toString().trim();
 
     getQuoteInfo();
     
