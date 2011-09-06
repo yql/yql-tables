@@ -37,12 +37,16 @@
 				   };
 			}
 			
-			y.include("http://www.datatables.org/readability/E4XasSAX.js");
+			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/E4XasSAX.js");
 			y.include("https://raw.github.com/FB55/readabilitySAX/master/readabilitySAX.js");
 			
 			
-			var doc = y.tidy( html || y.rest(url).get().response );
+			var doc;
 			
+			if(typeof html === "undefined" || !html)
+				doc = y.tidy(y.rest(url).get().response );
+			else
+				doc = y.tidy(html);
 			
 			var skipLevel = 0;
 			var contentLength = 0;
