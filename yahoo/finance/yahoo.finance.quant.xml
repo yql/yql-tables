@@ -121,7 +121,7 @@
     stock.TrailingPE = results.td.p.toString().trim();
     
     var results = earningsGrowthQuery.results;
-    stock.EarningsGrowth = results.td.toString().trim();
+    stock.EarningsGrowth = results.td.p.toString().trim();
 
     getQuoteInfo();
     
