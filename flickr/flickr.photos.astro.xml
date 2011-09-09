@@ -31,7 +31,7 @@
     var machine_tags = 'astro:RA=';
     if (astro_name && astro_name != '') machine_tags = 'astro:name="'+astro_name.replace("'","\'")+'"';
 
-    var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='"+machine_tags+"'"+name_query+api_query+")";
+    var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%')"+api_query+" and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='"+machine_tags+"'"+name_query+api_query+")";
     var data = y.query(querystring);
     var photos = parseAstrotags(data);
 
