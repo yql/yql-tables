@@ -3,7 +3,7 @@
   <meta>
     <author>Steffen Bruchmann</author>
     <documentationURL>http://tinysong.com/api</documentationURL>
-    <sampleQuery>select * from tinysong.search where query='black sabbath' and method='b'</sampleQuery>
+    <sampleQuery>select * from tinysong.search where query='black sabbath' and method='b' and key='xxx'</sampleQuery>
   </meta>
   <bindings>
     <select produces="JSON">
