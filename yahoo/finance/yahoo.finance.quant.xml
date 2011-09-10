@@ -137,7 +137,7 @@
     var results = ebitQuery.results;
     stock.EbitMarge = results.td.p.toString().trim();
 
-   // getQuoteInfo();
+    getQuoteInfo();
     
     response.object = stock
 
