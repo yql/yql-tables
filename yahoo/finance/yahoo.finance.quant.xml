@@ -146,7 +146,7 @@
     stock.EbitMarge = results.td.p.toString().trim();
 
     var results = lastyearQuery.results;
-    stock.LastYear = results.toString().trim();
+    stock.LastYear = results.td.p.toString().trim();
     
     stock.Day = day;
     stock.Month = month;
