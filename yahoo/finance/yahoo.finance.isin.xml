@@ -40,7 +40,7 @@
     var stock = <stock symbol={symbol}></stock>;
     
     var results = isinQuery.results;
-    stock.Isin = results.a.toString().trim();
+    stock.Isin = results.a.text().toString().trim();
     
     response.object = stock
 
