@@ -36,74 +36,16 @@
 	if (elements == 0)
 	    return false;
 
+//stock.CompanyName = results.h1.text();
 	stock.CompanyName = results.h1.text().toString().trim();
-	var marketSymbolStr = results.div.span.toString();
+	//var marketSymbolStr = results.div.span.toString();
 	//var match = marketSymbolStr.match(/^[^:]+:\s+([^)]+)\)$/); matches stock symbol
-	var match = marketSymbolStr.match(/^\(([^:]+):/);
-	if (match != null) {
-	    stock.CompanyName += <Market>{match[1]}</Market>;
-	}
+	//var match = marketSymbolStr.match(/^\(([^:]+):/);
+	//if (match != null) {
+	//    stock.CompanyName += <Market>{match[1]}</Market>;
+	//}
 	return true;
     }
-
-    function getHistoricalPrice() {
-	// Get the Historical Price Range
-	var results = historicalQuery.results;
-	elements = results.*.length();
-	if (elements < 6)
-	    return false;
-	startMonth = String(parseInt(results.option[0].@value)+1).pad("0", 2);
-	startDay = results.input[0].@value.toString().pad("0", 2);
-	startYear = results.input[1].@value.toString();
-	endMonth = String(parseInt(results.option[1].@value)+1).pad("0", 2);
-	endDay = results.input[2].@value.toString().pad("0", 2);
-	endYear = results.input[3].@value.toString();
-
-	startDate = startYear + "-" + startMonth + "-" + startDay;
-	endDate = endYear + "-" + endMonth + "-" + endDay;
-
-	stock.appendChild(<start>{startDate}</start>);
-	stock.appendChild(<end>{endDate}</end>);
-	return true;
-    }
-
-    function getProfileInfo() {
-	// Get the Sector, Industry, Full Time Employees from Profile page
-	var results = profileQuery.results;
-	elements = results.*.length();
-	if (elements == 0)
-	    return false;
-	for each (var tr in results.tr){
-	    //Remove trailing colon, and strip whitespace
-	    var property = tr.td[0].p.text()
-		.toString().slice(0, -1)
-		.replace(/\s+/g, "");
-	    switch (property.toLowerCase()) {
-	        case 'indexmembership':
-		    continue;
-		    break;
-		case 'fulltimeemployees':
-		    //Strip commas
-		    value = tr.td[1].*.text().toString().replace(/,/g, "");
-		    break;
-		default:
-		    //Convert whitespace to single space
-		    value = tr.td[1].*.text().toString().replace(/\s+/g, " ");
-		    break;
-	    }
-	    stock.appendChild(<{property}>{value}</{property}>);
-	}
-	return true;
-    }
-
-    // Queue the queries
-    var url = "http://finance.yahoo.com/q/pr?s="+symbol;
-    var profileQuery = y.query(
-	"select * from html " +
-	"where url=@url and " + 
-	"xpath='//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr' " +
-	"limit 4",
-	{url:url});
 
     var url = "http://finance.yahoo.com/q?s="+symbol;
     var quoteQuery = y.query(
@@ -113,22 +55,89 @@
 	"//div[@id=\"yfi_investing_head\"]/h1 | " +
 	"//div[@class=\"yfi_quote_summary\"]/div[1]'" ,
 	{url:url});
-
-    var url = "http://finance.yahoo.com/q/hp?s="+symbol;
-    var historicalQuery = y.query(
+	
+    var url = "http://finance.yahoo.com/q/ks?s="+symbol;
+    var equityQuery = y.query(
 	"select * from html " +
-	"where url=@url and " + 
+	"where url=@url and " +
 	"xpath='" +
-	"//option[@selected=\"selected\"] | " + 
-	"//input[@maxlength=\"2\"] | " +
-	"//input[@maxlength=\"4\"]'",
+	//"//table[@class=\"yfnc_datamodoutline1\"]/td[position()=1]'" ,
+	"//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr[position() = 3 and ./td[contains(.,\"Equity\")]]/td[2]'" ,
 	{url:url});
-
+	
+    var url = "http://finance.yahoo.com/q/bs?s="+symbol;
+    var stockholdersQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	//"//table[@class=\"yfnc_tabledata1\"]/tr[./td[contains(.,\"Total Stockholder Equity\") and @colspan=\"2\"]]/td'" ,
+	"//tr[./td[contains(.,\"Total Stockholder Equity\")]]/td[2]/strong'" ,
+	{url:url});
+	
+    var url = "http://finance.yahoo.com/q/bs?s="+symbol;
+    var totalAssetsQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tr[./td[contains(.,\"Total Assets\")]]/td[2]/strong'" ,
+	{url:url});
+	
+    var url = "http://finance.yahoo.com/q/ks?s="+symbol;
+    var trailingPEQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tr[./td[contains(.,\"Trailing P\")]]/td[@class = \"yfnc_tabledata1\"]'" ,
+	{url:url});
+	
+    var url = "http://finance.yahoo.com/q/ao?s="+symbol;
+    var analystsQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tr[./th[contains(.,\"this week\")]]/td[@class = \"yfnc_tabledata1\"]'",
+	{url:url});
+	
+    var url = "http://finance.yahoo.com/q/ks?s="+symbol;
+    var earningsGrowthQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tr[./td[contains(.,\"Qtrly Earnings Growth\")]]/td[@class = \"yfnc_tabledata1\"]'",
+	{url:url});
+	
+    var url = "http://www.google.com/finance?q="+symbol;
+    var ebitQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"quotes rgt nwp\"]/tr[./td[contains(.,\"EBITD margin\")]]/td[3]'",
+	{url:url});
+	
     var stock = <stock symbol={symbol}></stock>;
+    
+    var results = equityQuery.results;
+    stock.ReturnOnEquity = results.td.p.text().toString().trim();
+    
+    var results = stockholdersQuery.results;
+    stock.Stockholders = results.strong.text().toString().trim();
+    
+    var results = totalAssetsQuery.results;
+    stock.TotalAssets = results.strong.text().toString().trim();
+    
+    var results = trailingPEQuery.results;
+    stock.TrailingPE = results.td.p.toString().trim();
+    
+    var results = analystsQuery.results;
+    stock.Analysts = results.td.p.toString().trim();
+    
+    var results = earningsGrowthQuery.results;
+    stock.EarningsGrowth = results.td.p.toString().trim();
+    
+    var results = ebitQuery.results;
+    stock.EbitMarge = results.td.p.toString().trim();
 
     getQuoteInfo();
-    getHistoricalPrice();
-    getProfileInfo();
     
     response.object = stock
 
