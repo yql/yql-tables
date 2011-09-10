@@ -119,7 +119,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table[@class = \"yfnc_datamodoutline1\"]/tr/td[1]'",
+	"//table[@class = \"yfnc_datamodoutline1\"]/tr[@class = \"yfnc_tabledata1\"]/td[1]'",
 	{url:url});
 	
     var stock = <stock symbol={symbol}></stock>;
