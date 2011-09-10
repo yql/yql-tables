@@ -95,7 +95,7 @@
     stock.EquityRatio = results.td.p.toString().trim();
     
     var results = per1Query.results;
-    stock.PER1 = results.toString().trim();
+    stock.PER1 = results.td.p.toString().trim();
     
     var results = per2Query.results;
     stock.PER2 = results.td.p.toString().trim();
