@@ -113,7 +113,6 @@
     if (year < 999)
        year += 1900;
 
-    //var url = "http://finance.yahoo.com/q/hp?s=YHOO&a=00&b=12&c=2010&d=00&e=12&f=2010&g=d";
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + (year-1) + "&d=" + month + "&e=" + day + "&f=" + (year-1) + "&g=d";
     var lastyearQuery = y.query(
 	"select * from html " +
@@ -122,6 +121,23 @@
 	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
 	{url:url});
 	
+    if (month >= 6) {
+        var MonthSix = month-6;
+        var yearSix = year;
+    }
+    else {
+    	var MonthSix = month+7;
+    	var yearSix = year-1;
+    }
+
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + year + "&d=" + month + "&e=" + day + "&f=" + year + "&g=d";
+    var lastyearQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 1]'",
+	{url:url});
+
     var stock = <stock symbol={symbol}></stock>;
     
     var results = equityQuery.results;
@@ -147,10 +163,6 @@
 
     var results = lastyearQuery.results;
     stock.LastYear = results.td.p.toString().trim();
-    
-    stock.Day = day;
-    stock.Month = month;
-    stock.Year = year;
     
     getQuoteInfo();
     
