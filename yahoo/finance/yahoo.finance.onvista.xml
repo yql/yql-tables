@@ -41,7 +41,7 @@
     var stock = <stock symbol={symbol}></stock>;
     
     var results = ebitQuery.results;
-    stock.Ebit = results.toString().trim();
+    stock.Ebit = results.td.p.toString().trim();
     
     response.object = stock
 
