@@ -33,10 +33,10 @@ table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]'" ,
+	"//table'" ,
 	//"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[@class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]'" ,
 	{url:url});
-	
+
     var stock = <stock symbol={symbol}></stock>;
     
     var results = isinQuery.results;
