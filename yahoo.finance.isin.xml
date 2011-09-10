@@ -20,16 +20,7 @@
 	}
 	return s;
     }
-      function getQuoteInfo() {
-	// Get company name & market from Yahoo Quotes Summary page
-	var results = quoteQuery.results;
-	elements = results.*.length();
-	if (elements == 0)
-	    return false;
-	stock.CompanyName = results.h1.text().toString().trim();
-	return true;
-    }
-
+    
     String.prototype.trim = function () {
 	var	str = this.replace(/^\s\s*/, ''),
 	        ws = /\s/,
@@ -51,8 +42,6 @@
     
     var results = isinQuery.results;
     stock.Isin = results.toString().trim();
-
-    getQuoteInfo();
     
     response.object = stock
 
