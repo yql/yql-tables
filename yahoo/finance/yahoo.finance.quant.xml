@@ -149,6 +149,10 @@
     var results = lastyearQuery.results;
     stock.LastYear = results.toString().trim();
     
+    stock.Day = day;
+    stock.Month = month;
+    stock.Year = year;
+    
     getQuoteInfo();
     
     response.object = stock
