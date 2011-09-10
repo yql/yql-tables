@@ -114,6 +114,14 @@
     if (year < 999)
        year += 1900;
 
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + year + "&d=" + month + "&e=" + day + "&f=" + year + "&g=d";
+    var todayQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	{url:url});
+
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + (year-1) + "&d=" + month + "&e=" + day + "&f=" + (year-1) + "&g=d";
     var lastyearQuery = y.query(
 	"select * from html " +
@@ -167,6 +175,9 @@
     
     var results = sixMonthsQuery.results;
     stock.SixMonths = results.td.p.toString().trim();
+    
+    var results = todayQuery.results;
+    stock.Today = results.td.p.toString().trim();
     
     getQuoteInfo();
     
