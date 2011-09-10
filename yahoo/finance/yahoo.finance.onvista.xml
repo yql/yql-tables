@@ -34,7 +34,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table[@class \"weiss abst\"]/tr[./td[contains(.,\"EBIT-Marge\")]]'" ,
+	"//table[@class \"weiss abst\"]/tr'" ,
 	{url:url});
 
     var stock = <stock symbol={symbol}></stock>;
