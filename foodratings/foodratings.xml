@@ -1,0 +1,69 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Jonathan Abourbih</author>
+        <description>Query for UK Food Ratings</description>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+                <key id="eid" paramType="variable" type="xs:string" required="true" batchable="false"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                var url = "http://ratings.food.gov.uk/EstablishmentDetails.aspx?eid=" + eid;
+                var data = y.query("select * from html where url=@url", {url: url, _maxage:86400}).results;
+
+                var getEntry = function (id, alias) {
+                    var text = data..span.(@id == id).text();
+                    return <{alias}>{text}</{alias}>;
+                }
+
+                var getEntryFromAnchor = function (id, alias) {
+                    var text = data..a.(@id == id).@href;
+                    return <{alias}>{text}</{alias}>;
+                }
+
+                var getRatingElement = function () {
+                    var ratingImageName = data..div.(@id == "InfoGradeContainer").div.img.@id;
+
+                    var rating = ratingImageName.match(/ctl00_ContentPlaceHolder1_infoImageScore([0-5])/);
+
+                    if (rating && rating.length == 2) {
+                        // this is an English rating
+                        var ratingNumber = rating[1];
+                        return <rating type="fhr">{ratingNumber}</rating>;
+                    }
+
+                    // this is a Scottish rating, or none at all
+                    var ratingLabel = ratingImageName.match(/ctl00_ContentPlaceHolder1_infoImage([a-zA-Z0-9]*)/);
+                    if (ratingLabel && ratingLabel.length == 2) {
+                        var ratingName = ratingLabel[1];
+                        return <rating type="fhis">{ratingName}</rating>;
+                    }
+
+                    // No rating found
+                    return <rating/>;
+                }
+
+                var root = <establishment/>
+                root.@eid = eid;
+
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessAddress1", "address1");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessAddress2", "address2");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessAddress3", "address3");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessAddress4", "address4");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessName", "name");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessPostCode", "postcode");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessType", "type");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxBusinessLastInspection", "last_inspection");
+                root.node += getEntry("ctl00_ContentPlaceHolder1_uxLocalAuthorityName", "local_auth_name");
+                root.node += getEntryFromAnchor("ctl00_ContentPlaceHolder1_uxLocalAuthorityEmail", "local_auth_email");
+                root.node += getEntryFromAnchor("ctl00_ContentPlaceHolder1_uxLocalAuthorityUrl", "local_auth_url");
+                root.node += getRatingElement();
+
+                response.object = root;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
