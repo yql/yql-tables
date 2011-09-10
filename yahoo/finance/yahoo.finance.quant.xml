@@ -105,6 +105,21 @@
 	"xpath='" +
 	"//table[@class = \"quotes rgt nwp\"]/tr[./td[contains(.,\"EBITD margin\")]]/td[3]'",
 	{url:url});
+
+    var now = new Date();
+    var day = now.getDate();
+    var month = now.getMonth();
+    var year = now.getYear();
+    if (year < 999)
+       year += 1900;
+
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + year-1 + "&d=" + month + "&e=" + day + "&f=" + year + "&g=d";
+    var lastyearQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"yfnc_datamodoutline1\"]/tr/td[1]'",
+	{url:url});
 	
     var stock = <stock symbol={symbol}></stock>;
     
@@ -129,6 +144,9 @@
     var results = ebitQuery.results;
     stock.EbitMarge = results.td.p.toString().trim();
 
+    var results = lastyearQuery.results;
+    stock.LastYear = results.toString().trim();
+    
     getQuoteInfo();
     
     response.object = stock
