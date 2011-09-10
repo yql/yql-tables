@@ -1,0 +1,24 @@
+
+--github.user.info.xml
+
+use 'http://github.com/davglass/yql-tables/raw/1a6fb7fd58dfd6ab862e14aee9fc0dce250417a5/github/github.user.info.xml' as gh;
+select * from gh where id='davglass'
+
+
+
+--github.user.repos.xml
+use 'http://github.com/davglass/yql-tables/raw/master/github/github.user.repos.xml' as gh;
+select * from gh where id='davglass' and name = 'yui2';
+
+
+
+--github.repo.commits.xml
+use 'http://github.com/davglass/yql-tables/raw/16c0ffc11eb4c7494b7b01b7321f321092013909/github/github.repo.commits.xml' as gh;
+select * from gh where id='davglass' and repo='yui2';
+
+
+
+--github.user.commits.xml
+use 'http://github.com/danbeam/yql-tables/raw/master/github/github.user.commits.xml';
+select * from github.user.commits where id='danbeam';
+select commit from github.user.commits where id='danbeam' | sort(field='commit.authored-date', descending='true') | truncate(count='20')

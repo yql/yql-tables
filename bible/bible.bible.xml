@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans</author>
+    <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
+    <sampleQuery>select * from bible.bible where language='en' and book='Luke' and chapter=11 and passage=10</sampleQuery>
+    <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id="language" type="xs:string" paramType="variable" required="false"/>
+        <key id="edition" type="xs:string" paramType="variable" required="false"/>
+        <key id="book" type="xs:string" paramType="variable" required="true"/>
+        <key id="chapter" type="xs:integer" paramType="variable" required="true"/>
+        <key id="passage" type="xs:integer" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[ 
+        if (!edition && !language) {
+          language = "en";
+        }
+        var editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml" and edition.input like "%$edition%" and edition.language matches "(?i)$language"';
+        editionsquery = editionsquery.replace("$language",language?language:'.*');
+        editionsquery = editionsquery.replace("$edition",edition?edition:'');
+        var editions = y.query(editionsquery).results.editions;
+        var edition;
+        if (editions.edition.length() < 1) {
+          var supported_editionsquery = 'select edition from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/editions.xml"';
+          var supported_editions = y.query(supported_editionsquery).results.editions;
+          y.log('No bible edition found matching query parameters. Supported editions and languages:');
+          y.log(listEditions(supported_editions));
+          y.exit();
+        } else if (editions.edition.length() > 1) {
+          edition = editions.edition.(default_ == "true")[0];
+          if ( ! edition ) {
+            edition = editions.edition[0];
+          }
+          y.log('Multiple bible editions found matching query parameters: ');
+          y.log(listEditions(editions));
+        } else {
+          edition = editions.edition[0];
+        }
+        y.log('Using: ');
+        y.log(listEditions(<editions>{edition}</editions>));
+        if (edition.copyright.toString()) {
+          y.log('Copyright: ');
+          y.log(edition.copyright.toString());
+        }
+        //y.log(edition);
+        var booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
+        booksquery = booksquery.replace("$book",book);
+        var books = y.query(booksquery).results.books;
+        if (books.book.length() < 1) {
+            var error_message = '$book is not a bible book. Common bible book abbreviations : $supported';
+            error_message = error_message.replace("$book",book);
+            error_message = error_message.replace("$supported","http://biblewiki.net/books/index");
+            y.log(error_message);
+            y.exit();
+        }
+        book = books.book[0];
+        //y.log(book);
+        var servicesquery = 'select service from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/services.xml" and service.name matches "(?i)$service"';
+        servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
+        var services = y.query(servicesquery).results.services;
+        if (services.service.length() < 1) {
+            var error_message = 'Internal error';
+            y.log(error_message);
+            y.exit();
+        }
+        service = services.service[0];
+        //y.log(service);
+        var bookcode = book.code.(@service == service.name.toString()).toString();
+        var editioncode = edition.code.(@service == service.name.toString()).toString();
+        var url = '';
+        var finalquery = '';
+        for each (var step in service.step) {
+          if (step.@nr < service.step.length()) { 
+            if (step.@yql.toString() == "true") { // yql query
+              var query = step.toString();
+              query = query.replace(/\$book/g,bookcode);
+              query = query.replace(/\$edition/g,editioncode);
+              query = query.replace(/\$chapter/g,chapter);
+              query = query.replace(/\$passage/g,passage);
+              query = query.replace(/\$url/g,url);
+              var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true';
+              rest = rest.replace("$query",escape(query));
+              url = rest;
+              //y.log(url);
+            } else { // rest call
+              var rest = step.toString();
+              rest = rest.replace(/\$book/g,escape(bookcode));
+              rest = rest.replace(/\$edition/g,escape(editioncode));
+              rest = rest.replace(/\$chapter/g,escape(chapter));
+              rest = rest.replace(/\$passage/g,escape(passage));
+              rest = rest.replace(/\$url/g,escape(url));
+              url = rest;
+              //y.log(url);
+            }
+          } else { // last step is always yql query
+              finalquery = step.toString();
+              finalquery = finalquery.replace(/\$book/g,bookcode);
+              finalquery = finalquery.replace(/\$edition/g,editioncode);
+              finalquery = finalquery.replace(/\$chapter/g,chapter);
+              finalquery = finalquery.replace(/\$passage/g,passage);
+              finalquery = finalquery.replace(/\$url/g,url);
+              //y.log(finalquery);
+          }
+        }
+        var queryoutput = y.query(finalquery).results;
+        response.object = <passage>{stringListValue(queryoutput)}</passage>;    
+      
+
+        function stringValue(node) {
+            var value = "";
+            if (node.hasSimpleContent()) {
+                value = node.toString();
+            } else {
+                for each (var c in node.children()) {
+                    value += stringValue(c);
+                }
+            }
+            return value;
+        }
+        
+        function stringListValue(node) {
+            var value = "";
+            if (node.hasSimpleContent()) {
+                value = node.toString();
+            } else {
+                for each (var c in node.children()) {
+                    value += stringValue(c) + " ";
+                }
+                value = value.replace(/, $/,'');
+            }
+            return value;
+        }
+
+        function listEditions(node) {
+          var value = "";
+          for each (var edition in node.children()) {
+            value += edition.input.(@name == 'true').toString();
+            if (edition.input.(@name != 'true').length() > 0) {
+              value += " (";
+              for each (var input in edition.input.(@name != 'true')) {
+                value += input.toString();
+                value += ",";
+              }
+              value = value.replace(/,$/,'');
+              value += ")";
+            }
+            value += " - ";
+            value += edition.language.toString();
+            value += ", ";
+          }
+          value = value.replace(/, $/,'');
+          return value;
+        }
+
+      ]]></execute>
+      </select>
+  </bindings>
+</table>

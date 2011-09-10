@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description>This gets the first message from a public yahoo group</description>
+    <documentationURL>http://meme.yahoo.com/h_dev/p/Nv1DnUW/</documentationURL>
+    <sampleQuery>select * from {table} where url="A YAHOO GROUP URL" </sampleQuery>
+ </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='url' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute>
+      <![CDATA[ 
+		var yqlstr1="select * from html where url=\"";
+		var yqlstr2="\" and xpath=\"//a[@class='ygrp-subj']\"";
+		var yqlquery=y.query(yqlstr1+url+yqlstr2);
+		var yqlresults=yqlquery.results;
+		var yqlcounter=parseInt(yqlresults.a.length());
+		var xmlret=new XML();
+		var retstr1="http://groups.yahoo.com";
+		var retstr2="";
+		var retstr3="";
+		var patt1 = /\d+$/;
+		xmlret=<root></root>;
+		if(yqlcounter>0)
+		{
+			retstr2=retstr1.concat(yqlresults.a[0].@href);
+			retstr3=new String(yqlresults.a[0].@href);
+			xmlret.root+=<node>
+				<link>{retstr2}</link>
+				<latestindex>{retstr3.match(patt1)}</latestindex>
+				</node>
+		}
+		else
+		{
+			xmlret.root+=<node>EMPTY
+				</node>
+		}
+		response.object=xmlret;
+ ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

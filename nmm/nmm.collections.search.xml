@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jim O'Donnell</author>
+    <documentationURL>http://www.nmm.ac.uk/collections/feeds/docs/</documentationURL>
+	<sampleQuery description="search the art collection for pictures of Tower Bridge">select * from {table} where category = 'art' and searchterm = '"tower bridge"'</sampleQuery>
+	<sampleQuery description="get everything by Charles Pears (entry 162452 in the people authority)">select * from {table} where authority = 'people' and category = '162452' and searchterm = ''</sampleQuery>
+	<sampleQuery description="get 100 records related to the Aquitania (entry 292109 in the vessels authority)">select * from {table}(100) where authority = 'vessels' and category = '292109' and searchterm = ''</sampleQuery>
+	<sampleQuery description="get recently updated art records">select * from {table}(50) where category = 'art' and searchterm = '' and sortby = 'updated'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="rss.channel.item">
+		<urls>
+		<url>http://www.nmm.ac.uk/collections/requestHandlers/doQuickSearch.cfm?searchterm={searchterm}&amp;authority={authority}&amp;category={category}&amp;startyear={startyear}&amp;endyear={endyear}&amp;sortby={sortby}&amp;format=rss</url>
+		</urls>
+		<paging model="offset">
+			<start id="startrow" default="1"/>
+			<pagesize id="per_page" max="20"/>
+			<total default="20"/>
+		</paging>
+		<inputs>
+			<key id="searchterm" type="xs:string" paramType="path" required="false" default=""/>
+			<key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
+			<key id="category" type="xs:string" paramType="path" required="false" default=""/>
+			<key id="sortby" type="xs:string" paramType="path" required="false" default="rank"/>
+			<key id="startyear" type="xs:string" paramType="path" required="true"/>
+			<key id="endyear" type="xs:string" paramType="path" required="true"/>
+		</inputs>
+	</select>
+    <select produces="XML" itemPath="rss.channel.item">
+		<urls>
+		<url>http://www.nmm.ac.uk/collections/requestHandlers/doQuickSearch.cfm?searchterm={searchterm}&amp;authority={authority}&amp;category={category}&amp;sortby={sortby}&amp;format=rss</url>
+		</urls>
+		<paging model="offset">
+			<start id="startrow" default="1"/>
+			<pagesize id="per_page" max="20"/>
+			<total default="20"/>
+		</paging>
+		<inputs>
+			<key id="searchterm" type="xs:string" paramType="path" required="false" default=""/>
+			<key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
+			<key id="category" type="xs:string" paramType="path" required="false" default=""/>
+			<key id="sortby" type="xs:string" paramType="path" required="false" default="rank"/>
+		</inputs>
+	</select>
+  </bindings>
+</table>

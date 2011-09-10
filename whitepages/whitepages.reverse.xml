@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://developer.whitepages.com/docs</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/reverse_phone/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="phone" type="xs:string" paramType="query" required="true"/>
+        <key id="state" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/reverse_address/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="street" type="xs:string" paramType="query" required="true"/>
+        <key id="house" type="xs:string" paramType="query"/>
+        <key id="apt" type="xs:string" paramType="query"/>
+        <key id="city" type="xs:string" paramType="query"/>
+
+        <key id="state" type="xs:string" paramType="query" required="true"/>
+        <key id="zip" type="xs:string" paramType="query"/>
+        <key id="areacode" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/reverse_address/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="street" type="xs:string" paramType="query" required="true"/>
+        <key id="house" type="xs:string" paramType="query"/>
+        <key id="apt" type="xs:string" paramType="query"/>
+        <key id="city" type="xs:string" paramType="query"/>
+
+        <key id="state" type="xs:string" paramType="query"/>
+        <key id="zip" type="xs:string" paramType="query" required="true"/>
+        <key id="areacode" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://api.whitepages.com/reverse_address/1.0/</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+        <key id="street" type="xs:string" paramType="query" required="true"/>
+        <key id="house" type="xs:string" paramType="query"/>
+        <key id="apt" type="xs:string" paramType="query"/>
+        <key id="city" type="xs:string" paramType="query"/>
+
+        <key id="state" type="xs:string" paramType="query"/>
+        <key id="zip" type="xs:string" paramType="query"/>
+        <key id="areacode" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

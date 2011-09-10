@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Dav Glass</author>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where id='spullara' and repo='yql-tables'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="commits" produces="XML">
+      <urls>
+        <url>http://github.com/api/v2/xml/commits/list/{id}/{repo}/{branch}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true"/>
+        <key id="repo" type="xs:string" paramType="path" required="true"/>
+        <key id="branch" type="xs:string" paramType="path" default="master" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

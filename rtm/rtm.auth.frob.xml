@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Vipul Bhasin</author>
+		<documentationURL>
+			http://www.rememberthemilk.com/services/api/authentication.rtm
+		</documentationURL>
+		<sampleQuery>
+			select * from {table} where api_key="api_key" and secret="secret";
+		</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="rsp" produces="XML">
+			<urls>
+				<url>http://api.rememberthemilk.com/services/rest</url>
+			</urls>
+			<inputs>
+				<key id="api_key" type="xs:string" paramType="variable" required="true" />
+				<key id="secret" type="xs:string" paramType="variable" required="true" />
+				<key id="method" type="xs:string" paramType="variable" const="true" default="rtm.auth.getFrob" />
+			</inputs>
+			<execute><![CDATA[
+				// Include the md5 library and the rtm signing library
+				y.include("http://rtmapihelper.googlecode.com/files/rtm-0.2.js");
+				
+				// Sign the URL and return the frob
+				var rtmSign = new RTMSigner(api_key, secret);
+
+				var resp = y.rest(rtmSign.createURL({method:method})).get().response; 
+				
+				response.object = resp;
+				
+				]]>				
+			</execute>
+		</select>
+	</bindings>
+</table>

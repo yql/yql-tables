@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm User.getRecentTracks API method. Get a list of the recent tracks listened to by this user. Also includes the currently playing track with the nowplaying=&quot;true&quot; attribute if the user is currently listening.</description>
+    <documentationURL>http://www.last.fm/api/show?service=278</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="/lfm/recenttracks/track" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks</url>
+      </urls>
+      <paging model="page">
+        <start id="page" default="1"/>
+        <pagesize id="limit" max="50"/>
+        <total default="10"/>        
+      </paging>
+      <inputs>
+        <key id="user" type="xs:string" paramType="query" required="true" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

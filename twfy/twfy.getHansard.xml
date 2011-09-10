@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Query Hansard for a wide variety of information</description>
+    <documentationURL>http://www.theyworkforyou.com/api/docs/getHansard</documentationURL>
+    <sampleQuery description="Search for a specific term and uttered by person">select * from {table} where search="Portable Antiquities Scheme" and person='10291' and key="{key}";</sampleQuery>
+</meta>
+    <bindings>
+        <select itemPath="twfy.rows.match" produces="XML">
+            <urls>
+                <url>http://www.theyworkforyou.com/api/getHansard</url>
+            </urls>
+            <paging model="page"> 
+                <start id="page" default="1" />
+                <pagesize id="num" max="20" /> 
+                <total default="20" /> 
+            </paging>
+            <inputs>
+                <key id="search" type="xs:string" paramType="query" required="false" />
+                <key id="person" type="xs:string" paramType="query" required="false" />
+                <key id="order" type="xs:string" paramType="query" required="false" />
+		<key id="key" type="xs:string" paramType="query" required="true" private="true" />
+	        <key id="output" type="xs:string" paramType="query" const="true" default="xml" />
+            </inputs>
+        </select> 
+    </bindings>
+</table>

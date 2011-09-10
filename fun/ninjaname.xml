@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where name="chris"</sampleQuery>
+    <author>Christian Heilmann</author>
+    <documentationURL>http://www.buzzfeed.com/nikoguy1/whats-your-ninja-name-5xy</documentationURL>  
+    <description>Translates your name to your Ninja name</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='name' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var trans = {
+          'a':'ka','b':'zu','c':'mi','d':'te','e':'ku','f':'lu',
+          'g':'ji','h':'ri','i':'ki','j':'zu','k':'me','l':'ta','m':'rin',
+          'n':'to','o':'mo','p':'no','q':'ke','r':'shi','s':'ari','t':'chi',
+          'u':'do','v':'ru','w':'mei','x':'na','y':'fu','z':'zi'
+        },
+        s = name.toLowerCase(),
+        i,j,ninjaname,chars,out,error;
+        if(/^[a-z]+$/i.test(s)){
+          chars = s.split('');
+          ninjaname = '';
+          for each(i in chars){
+            ninjaname += trans[i];
+          }
+          out = ninjaname;
+          error = false;
+        } else {
+          out = '';
+          error = 'Please only enter A-Z characters';
+        }
+        if(error){
+          response.object = <error>{error}</error>
+        } else {
+          response.object = <translated>
+                              <name>{name}</name>
+                              <ninjaname>{ninjaname}</ninjaname>
+                            </translated>;
+        }
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

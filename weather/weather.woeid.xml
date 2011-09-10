@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Christian Heilmann</author>
+    <description>Weather with woeid</description>
+    <documentationURL>http://developer.yahoo.com/weather/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://weather.yahooapis.com/forecastrss?w={w}&amp;u={u}</url>
+      </urls>
+      <inputs>
+        <key id="w" type="xs:string" paramType="path" required="true"/>
+        <key id="u" type="xs:string" paramType="path"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

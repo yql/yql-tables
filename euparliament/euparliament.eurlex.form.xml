@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all forms">SELECT * FROM euparliament.eurlex.form WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get list of legislation for directory code 07.40.30.00.">SELECT * FROM euparliament.eurlex.form WHERE form="Directive" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. This API lists the different forms of acts, the number of documents in each form and links to a list of these documents. The most well-know forms of EU acts are: Accord, Conclusions, Communication, Common Strategy, Directive, Financial Regulation, Statute and Decision. </description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/eurlex/form/?form=Directive -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/eurlex/form/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- form (optional) 	
+				Get number of documents and links to those documents by form type -->
+				<key id="form" type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery></sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.journal_entries" produces="JSON">
+            <urls>
+                <url>http://api.kivaws.org/v1/loans/{id}/journal_entries.json</url>
+            </urls>
+            <paging model="page">
+              <start id="page" default="1" />
+              <pagesize id="page_size" max="20" />
+              <total default="20" />
+            </paging>
+            <inputs>
+                <key id='id' type='xs:string' paramType='path' required="true" />
+                <key id='include_bulk' type='xs:string' paramType='query' required="false" />
+                <key id='app_id' type='xs:string' paramType='query' required="false" />
+            </inputs>
+        </select> 
+    </bindings>
+</table>

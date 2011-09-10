@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jebu Ittiachen</author>
+    <documentationURL>http://help.tweetmeme.com/2009/10/12/core-api/</documentationURL>
+    <sampleQuery>select * from {table} where url='http://is.gd/lznv'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="json.story" produces="JSON">
+      <urls>
+        <url>http://api.tweetmeme.com/url_info.json</url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

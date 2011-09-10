@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where building='bakery';</sampleQuery>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>Detailed breakdown of the earning value and cost of buildings in ngmoco's We Rule</description>
+    <documentationURL></documentationURL>
+  </meta>
+
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key paramType='variable' required="false" type='xs:string' id='building' />
+        <key paramType='variable' required="false" type='xs:integer' id='level' />
+        <key paramType='variable' required="false" type='xs:integer' id='cost' />
+        <key paramType='variable' required="false" type='xs:integer' id='minutes' />
+        <key paramType='variable' required="false" type='xs:integer' id='coins' />
+        <key paramType='variable' required="false" type='xs:integer' id='xp' />
+	    <key paramType='variable' required="false" type='xs:string' id='task_name' />
+        <key paramType='variable' required="false" type='xs:integer' id='task_coins' />
+        <key paramType='variable' required="false" type='xs:integer' id='task_xp' />
+        <key paramType='variable' required="false" type='xs:integer' id='task_time' />
+        <key paramType='variable' required="false" type='xs:integer' id='task_xp_min' />
+        <key paramType='variable' required="false" type='xs:integer' id='task_xp_cost' />
+      </inputs>
+      <execute><![CDATA[
+        var out = <structures/>;
+        var query = 'select * from csv where url="http://spreadsheets.google.com/pub?key=tzIkc_R61ROUJ1GLE2Tby4Q&single=true&gid=1&output=csv"';
+        if(building){
+         query+= ' and col0 like "%'+building+'%"';
+        }
+        if(level){
+         query+= ' and col1 like "%'+level+'%"';
+        }
+        if(cost){
+         query+= ' and col2 like "%'+cost+'%"';
+        }
+        if(minutes){
+         query+= ' and col3 like "%'+minutes+'%"';
+        }
+        if(coins){
+         query+= ' and col4 like "%'+coins+'%"';
+        }
+        if(xp){
+         query+= ' and col5 like "%'+xp+'%"';
+        }
+        if(task_name){
+         query+= ' and col6 like "%'+task_name+'%"';
+        }
+        if(task_coins){
+         query+= ' and col6 like "%'+task_coins+'%"';
+        }
+        if(task_xp){
+         query+= ' and col6 like "%'+task_xp+'%"';
+        }
+        if(task_time){
+         query+= ' and col6 like "%'+task_time+'%"';
+        }
+        if(task_xp_min){
+         query+= ' and col6 like "%'+task_xp_min+'%"';
+        }
+        if(task_xp_cost){
+         query+= ' and col7 like "%'+task_xp_cost+'%"';
+        }
+        
+        var x = y.query(query);
+        var l = x.results..row;
+        for each(var n in l){
+          n.setName("structure");
+        }
+        var l = x.results..col0;
+        for each(var n in l){
+          n.setName("building");
+        }
+        var l = x.results..col1;
+        for each(var n in l){
+          n.setName("level");
+        }
+        var l = x.results..col2;
+        for each(var n in l){
+          n.setName("cost");
+        }
+        var l = x.results..col3;
+        for each(var n in l){
+          n.setName("minutes");
+        }
+        var l = x.results..col4;
+        for each(var n in l){
+          n.setName("coins");
+        }
+        var l = x.results..col5;
+        for each(var n in l){
+          n.setName("xp");
+        }
+        var l = x.results..col6;
+        for each(var n in l){
+          n.setName("task_name");
+        }
+        var l = x.results..col7;
+        for each(var n in l){
+          n.setName("task_coins");
+        }
+        var l = x.results..col8;
+        for each(var n in l){
+          n.setName("task_xp");
+        }
+        var l = x.results..col9;
+        for each(var n in l){
+          n.setName("task_time");
+        }
+        var l = x.results..col10;
+        for each(var n in l){
+          n.setName("task_xp_min");
+        }
+        var l = x.results..col11;
+        for each(var n in l){
+          n.setName("task_xp_cost");
+        }
+        out.structure = x.results.structure;
+        response.object = out;
+      ]]></execute>
+    </select>
+
+  </bindings>
+</table>

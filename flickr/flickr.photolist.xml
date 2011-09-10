@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where location="london,UK"</sampleQuery>
+    <author>Christian Heilmann</author>
+    <documentationURL>http://www.wait-till-i.com/2009/11/01/getting-a-list-of-flickr-photos-by-location-andor-search-term-with-a-yql-open-table</documentationURL>  
+    <description>Searches Flickr by location and/or search term and returns an HTML list that can be immediately used in a mashup.</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='location' type='xs:string' paramType='variable' required="false" />
+        <key id='text' type='xs:string' paramType='variable' required="false" />
+        <key id='amount' type='xs:integer' paramType='variable' required="false" />
+      </inputs>
+      <execute><![CDATA[
+        var amt = amount || 10;
+        var query = 'select farm,id,secret,owner.realname,server,title,'+
+                    'urls.url.content from flickr.photos.info where '+
+                    'photo_id in (select id from flickr.photos.search('+
+                     amount + ') where ';
+        if(location!==null){
+          query += 'woe_id in (select woeid from geo.places where text="' + 
+                    location+'") and ';
+        }
+        query += ' text="' + text + '" and license=4)'
+        var x = y.query(query);
+        var out = <ul/>;
+        for each(var cur in x.results.photo){
+          var li = <li/>;
+          var a = <a/>;
+          a.@["href"] = cur.urls.url;
+          var img = <img/>;
+          var url = 'http://farm' + cur.@farm + '.static.flickr.com/' +
+                    cur.@server + '/'+cur.@id + '_' + cur.@secret +
+                    '_s.jpg';
+          img.@["src"] = url;
+          img.@["alt"] = cur.title;
+          a.img = img;
+          li.a = a;
+          out.li += li;
+        }
+        
+        response.object = out;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

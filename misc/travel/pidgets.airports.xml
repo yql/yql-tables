@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Paul Tarjan, Rasmus Lerdorf</author>
+    <documentationURL>http://airports.pidgets.com/v1/</documentationURL>
+    <description>Airport lookup</description>
+    <sampleQuery>select * from {table} where near="37.77,-122.39" and runway_length_min=10000</sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="airports.airport" produces="XML">
+      <urls>
+        <url env="all">http://airports.pidgets.com/v1/airports</url>
+      </urls>
+      <paging model="offset">
+        <start id="offset" default="0" />
+        <pagesize id="n" max="250" />
+        <total default="10" />
+      </paging>
+      <inputs>
+        <key id="code" type="xs:string" paramType="query" />
+        <key id="lat" type="xs:string" paramType="query" />
+        <key id="lon" type="xs:string" paramType="query" />
+        <key id="name" type="xs:string" paramType="query" />
+        <key id="city" type="xs:string" paramType="query" />
+        <key id="state" type="xs:string" paramType="query" />
+        <key id="country" type="xs:string" paramType="query" />
+        <key id="woeid" type="xs:number" paramType="query" />
+        <key id="tz" type="xs:string" paramType="query" />
+        <key id="phone" type="xs:string" paramType="query" />
+        <key id="type" type="xs:string" paramType="query" />
+        <key id="email" type="xs:string" paramType="query" />
+        <key id="url" type="xs:string" paramType="query" />
+        <key id="runway_length" type="xs:number" paramType="query" />
+        <key id="runway_length_min" type="xs:number" paramType="query" />
+        <key id="runway_length_max" type="xs:number" paramType="query" />
+        <key id="elev" type="xs:number" paramType="query" />
+        <key id="elev_min" type="xs:number" paramType="query" />
+        <key id="elev_max" type="xs:number" paramType="query" />
+        <key id="icao" type="xs:string" paramType="query" />
+        <key id="direct_flights" type="xs:number" paramType="query" />
+        <key id="direct_flights_min" type="xs:number" paramType="query" />
+        <key id="direct_flights_max" type="xs:number" paramType="query" />
+        <key id="carriers" type="xs:number" paramType="query" />
+        <key id="carriers_min" type="xs:number" paramType="query" />
+        <key id="carriers_max" type="xs:number" paramType="query" />
+        <key id="sort" type="xs:string" paramType="query" />
+        <key id="near" type="xs:string" paramType="query" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all years available">SELECT * FROM euparliament.prelex.year WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get list of acts in a year.">SELECT * FROM euparliament.prelex.year WHERE year="1989" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. 
+		This part of the API consist of 30.567 documents found using the PreLex search engine. Each dossier has been parsed to extract the meta data given in the API. 
+		The earliest dated document is from 1975-05-26. The newest document is dated 2011-04-19.
+		It contains a list of the documents grouped by the year of adoption in the Council. You can also find documents for a particular year.   
+		</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/prelex/year_commission/?y=1989 -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/prelex/year_commission/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="false" />
+				<!-- year (optional) 	
+				Get number of documents and links to a specific legal basis -->
+				<key id="y" as="year"  type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	

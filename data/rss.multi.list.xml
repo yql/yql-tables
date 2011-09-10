@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Christian Heilmann</author>
+    <description>Retrieving several RSS feeds and converting them to a HTML list</description>
+    <documentationURL>http://www.wait-till-i.com/2009/12/08/using-yql-to-load-and-convert-rss-feeds-really-really-fast/</documentationURL>
+    <sampleQuery>select * from {table} where feeds="'http://code.flickr.com/blog/feed/rss/','http://feeds.delicious.com/v2/rss/codepo8?count=15'" and html="true"</sampleQuery>
+ </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <inputs>
+        <key id="feeds" type="xs:string" paramType="variable" required="true"/>
+        <key id="html" type="xs:string" paramType="variable" required="false"/>
+        <key id="compact" type="xs:string" paramType="variable" required="false"/>
+      </inputs>
+        <execute><![CDATA[
+          var feedlist = feeds.split(',');
+          if(!html){
+          var out = <feeds/>;
+          for(var i=0,j=feedlist.length;i<j;i++){
+            var f = feedlist[i];
+            var q = 'select channel.title,channel.link,channel.item.title,channel.item.link';
+            if(!compact){
+              q+=',channel.item.description';
+            }
+            q += ' from xml where url='+f;
+            var content = y.query(q);
+            feed = <feed/>;
+            feed.title = content.results.rss[0].channel.title;
+            feed.link = content.results.rss[0].channel.link;
+            for each(rss in content.results.rss){
+              feed.item += <item>{rss.channel.item.title}{rss.channel.item.link}{rss.channel.item.description}</item>;
+            }
+            out.feed += feed;
+          }
+          
+          } else {
+          var out = <div class="feeds"/>;
+          for(var i=0,j=feedlist.length;i<j;i++){
+            var f = feedlist[i];
+            var q = 'select channel.title,channel.link,channel.item.title,channel.item.link';
+            if(!compact){
+              q+=',channel.item.description';
+            }
+            q += ' from xml where url='+f;
+            var content = y.query(q);
+            feed = <div class="feed"/>;
+            feed.h2 = <h2/>;
+            feed.h2.a = <a/>;
+            feed.h2.a.@href = content.results.rss[0].channel.link.text();
+            feed.h2.a.content = content.results.rss[0].channel.title.text();
+            feed.ul = <ul/>;
+            for each(rss in content.results.rss){
+              var li = <li/>;
+              li.a = <a/>;
+              li.a.@href = rss.channel.item.link.text();
+              li.a.content = rss.channel.item.title.text();
+              li.p = <p>{rss.channel.item.description.text()}</p>;
+              feed.ul.li += li;
+            }
+            out.feed += feed;
+          }
+          
+          }
+          response.object = out;
+        ]]></execute>
+    </select>
+  </bindings>
+</table>

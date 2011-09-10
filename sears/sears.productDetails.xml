@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>Sears Product Details</description>
+    <documentationURL>http://developer.sears.com/?q=content/documentation</documentationURL>
+    <sampleQuery>select * from {table} where apikey='yourkeygoeshere' and store='Sears' and catalogId='12605' and partNumber='05408391000P';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="" produces="XML">
+        <urls>
+            <url>http://api.developer.sears.com/v1/productdetails</url>
+        </urls>
+        <inputs>
+            <key type="xs:string" paramType="query" id="apikey" private="true"/>
+			<key type="xs:string" paramType="query" id="contentType" />
+			<key type="xs:string" paramType="query" id="textOnly" />
+			<key type="xs:string" paramType="query" id="showSpec" />
+            <key type="xs:string" paramType="query" id="store"/>                  
+            <key type="xs:string" paramType="query" id="catalogId"/>
+            <key type="xs:string" paramType="query" id="verticalName"/>
+            <key type="xs:string" paramType="query" id="categoryName"/>
+            <key type="xs:string" paramType="query" id="subCategoryName"/>
+            <key type="xs:string" paramType="query" id="sortBy"/>
+            <key type="xs:string" paramType="query" id="startIndex"/>
+            <key type="xs:string" paramType="query" id="endIndex"/>
+            <key type="xs:string" paramType="query" id="shopByFilter"/>
+			<key type="xs:string" paramType="query" id="shopByValue" />
+            <key type="xs:string" paramType="query" id="searchType"/>
+			<key type="xs:string" paramType="query" id="filter" />
+			<key type="xs:string" paramType="query" id="partNumber" />
+			<key type="xs:string" paramType="query" id="productsOnly" />
+			<key type="xs:string" paramType="query" id="keyword" />
+			<key type="xs:string" paramType="query" id="pavThreshold" />
+			<key type="xs:string" paramType="query" id="apiShopByValue" />    
+        </inputs>                                                           
+    </select>
+</bindings>
+</table>

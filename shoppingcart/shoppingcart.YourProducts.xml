@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Christian Taylor</author>
+        <documentationURL>http://www.payvment.com/developer/</documentationURL>
+		<description>Shopping Cart can be used for selling your own products. "Select" returns shopping cart, "Insert" adds an item to the cart, "Update" modifies an item and "Delete" removes an item.</description>
+		<sampleQuery>select * from {table} where apiKey="{apiKey}" and cartID="{cartID}"</sampleQuery>
+		<sampleQuery>insert into {table} (apiKey,cartID,payvmentID,itemID,itemName,itemPrice) values ("{apiKey}", "{cartID}", "{payvmentID}", "shirt001","Polo Shirt","16.50")</sampleQuery>
+
+		<sampleQuery>update {table} set itemQty="{itemQty}" where apiKey="{apiKey}" and cartID="{cartID}" and itemID="{itemID}" and retailerID="{relatilerID}"</sampleQuery>
+		<sampleQuery>delete from {table} where apiKey="{apiKey}" and cartID="{cartID}" and itemID="{itemID}"  and retailerID="{relatilerID}"</sampleQuery>
+    </meta>
+      <bindings>
+        <select itemPath="cartfeed" produces="XML">
+          <urls>
+            <url env="all">http://api.payvment.com/rest/</url>
+
+          </urls>
+          <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+				<key id="cartID" type="xs:string" paramType="query" required="false"/>
+          </inputs>
+        </select>
+		<insert itemPath="cartfeed" produces="XML">
+          <urls>
+            <url env="all">http://api.payvment.com/rest/?command=addStoreItem</url>
+
+          </urls>
+          <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+				<key id="cartID" type="xs:string" paramType="query" required="true"/>
+				<value id="payvmentID" type="xs:string" paramType="query" required="true"/>
+				<value id="itemID" type="xs:string" paramType="query" required="true"/>
+				<value id="itemName" type="xs:string" paramType="query" required="true"/>
+				<value id="itemPrice" type="xs:string" paramType="query" required="true"/>
+				<value id="itemQty" type="xs:string" paramType="query" required="false"/>
+
+				<value id="itemShipping" type="xs:string" paramType="query" required="false"/>
+				<value id="itemNoShip" type="xs:string" paramType="query" required="false"/>
+				<value id="itemUrl" type="xs:string" paramType="query" required="false"/>
+				<value id="itemOption1" type="xs:string" paramType="query" required="false"/>
+				<value id="itemOption2" type="xs:string" paramType="query" required="false"/>
+          </inputs>
+        </insert>
+		<update itemPath="cartfeed" produces="XML">
+          <urls>
+
+            <url>http://api.payvment.com/rest/?command=updateStoreItem</url>
+          </urls>
+          <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+				<key id="cartID" type="xs:string" paramType="query" required="true"/>
+				<key id="itemID" type="xs:string" paramType="query" required="true"/>
+				<value id="itemQty" type="xs:string" paramType="query" required="true"/>
+				<key id="retailerID" type="xs:string" paramType="query" required="true"/>
+
+          </inputs>
+        </update>
+		<delete itemPath="cartfeed" produces="XML">
+          <urls>
+            <url env="all">http://api.payvment.com/rest/?command=deleteStoreItem</url>
+          </urls>
+          <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+
+				<key id="cartID" type="xs:string" paramType="query" required="true"/>
+				<key id="itemID" type="xs:string" paramType="query" required="true"/>
+				<key id="retailerID" type="xs:string" paramType="query" required="true"/>
+          </inputs>
+        </delete>
+      </bindings>
+</table>

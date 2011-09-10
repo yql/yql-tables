@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	    <author>Micah Laaker (micah@laaker.com)</author>
+	    <description>Bit.ly Authenticate</description>
+        <documentationURL>http://code.google.com/p/bitly-api/wiki/ApiDocumentation</documentationURL>
+	    <sampleQuery>select * from {table} where login='yourlogingoeshere' and apiKey='yourkeygoeshere' and x_login='youruserslogingoeshere' and x_password='youruserspwdgoeshere';</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://api.bit.ly/v3/authenticate</url>
+            </urls>
+            <inputs>
+                <key id="login" type="xs:string" paramType="query" required="true"/>
+                <key id="apiKey" type="xs:string" paramType="query" required="true"/>
+	            <key id="x_login" type="xs:string" paramType="query" required="true"/>
+	            <key id="x_password" type="xs:string" paramType="query" required="true"/>
+                <key id="format" type="xs:string" paramType="query" default="xml"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>

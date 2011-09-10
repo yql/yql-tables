@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Tom Hughes-Croucher</author>
+  </meta>
+  <bindings>
+    <select itemPath="response.filing" produces="XML">
+      <urls>
+        <url>http://services.sunlightlabs.com/api/lobbyists.getFiling.xml</url>
+      </urls>
+      <inputs>
+          <key id='filing_id' type='xs:string' paramType='query' required="false" />
+          <key id='filing_period' type='xs:string' paramType='query' required="false" />
+          <key id='filing_date' type='xs:string' paramType='query' required="false" />
+          <key id='filing_amount' type='xs:string' paramType='query' required="false" />
+          <key id='filing_year' type='xs:string' paramType='query' required="false" />
+          <key id='filing_type' type='xs:string' paramType='query' required="false" />
+          <key id='filing_pdf' type='xs:string' paramType='query' required="false" />
+          <key id='client_senate_id' type='xs:string' paramType='query' required="false" />
+          <key id='client_name' type='xs:string' paramType='query' required="false" />
+          <key id='client_country' type='xs:string' paramType='query' required="false" />
+          <key id='client_state' type='xs:string' paramType='query' required="false" />
+          <key id='client_ppb_country' type='xs:string' paramType='query' required="false" />
+          <key id='client_ppb_state' type='xs:string' paramType='query' required="false" />
+          <key id='client_description' type='xs:string' paramType='query' required="false" />
+          <key id='client_contact_firstname' type='xs:string' paramType='query' required="false" />
+          <key id='client_contact_middlename' type='xs:string' paramType='query' required="false" />
+          <key id='client_contact_lastname' type='xs:string' paramType='query' required="false" />
+          <key id='client_contact_suffix' type='xs:string' paramType='query' required="false" />
+          <key id='registrant_senate_id' type='xs:string' paramType='query' required="false" />
+          <key id='registrant_name' type='xs:string' paramType='query' required="false" />
+          <key id='registrant_description' type='xs:string' paramType='query' required="false" />
+          <key id='registrant_country' type='xs:string' paramType='query' required="false" />
+          <key id='registrant_ppb_country' type='xs:string' paramType='query' required="false" />
+          <key id='apikey' type='xs:string' paramType='query' required="true" />
+      </inputs>
+    </select> 
+  </bindings>
+</table>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Josh Gordineer</author>
+    <description>Yelp Review Search API</description>
+    <documentationURL>http://www.yelp.com/developers/documentation/search_api</documentationURL>
+    <sampleQuery>select * from {table} where term='pizza' and location='sunnyvale, ca' and ywsid='6L0Lc-yn1OKMkCKeXLD4lg'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="json.businesses" produces="JSON">
+      <urls>
+        <url>http://api.yelp.com/business_review_search</url>
+      </urls>
+      <inputs>
+        <key id="tl_lat" type="xs:float" paramType="query" required="true" />
+        <key id="tl_long" type="xs:float" paramType="query" required="true" />
+        <key id="br_lat" type="xs:float" paramType="query" required="true" />
+        <key id="br_long" type="xs:float" paramType="query" required="true" />
+        <key id="term" type="xs:string" paramType="query" />
+        <key id="num_biz_requested" type="xs:integer" paramType="query" default="10" required="true" />
+        <key id="category" type="xs:string" paramType="query" />
+        <key id="ywsid" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+    <select itemPath="json.businesses" produces="JSON">
+      <urls>
+        <url>http://api.yelp.com/business_review_search</url>
+      </urls>
+      <inputs>
+        <key id="lat" type="xs:float" paramType="query" required="true" />
+        <key id="long" type="xs:float" paramType="query" required="true" />
+        <key id="term" type="xs:string" paramType="query" />
+        <key id="radius" type="xs:float" paramType="query" />
+        <key id="num_biz_requested" type="xs:integer" paramType="query" default="10" required="true" />
+        <key id="category" type="xs:string" paramType="query" />
+        <key id="ywsid" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+    <select itemPath="json.businesses" produces="JSON">
+      <urls>
+        <url>http://api.yelp.com/business_review_search</url>
+      </urls>
+      <inputs>
+        <key id="location" type="xs:string" paramType="query" required="true" />
+        <key id="term" type="xs:string" paramType="query" />
+        <key id="radius" type="xs:float" paramType="query" />
+        <key id="num_biz_requested" type="xs:integer" paramType="query" default="10" required="true" />
+        <key id="category" type="xs:string" paramType="query" />
+        <key id="ywsid" type="xs:string" paramType="query" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

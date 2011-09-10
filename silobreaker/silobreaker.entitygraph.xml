@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>
+				1) /entitygraph/{query} - gets an entity graph based on a query string.
+				2) /entitygraph/{query}/{types} - gets and entity graph containing only specific entity types. 
+			</description>
+			<documentationURL>http://api.silobreaker.com/ApiReference.htm</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND apiKey="YOUR_API_KEY"</sampleQuery>
+			<sampleQuery>SELECT * FROM {table} WHERE query="Sweden" AND types="City" AND apiKey="YOUR_API_KEY"</sampleQuery>
+    </meta>
+    <bindings>
+	
+        <select itemPath="EntityGraphData.*" produces="XML">
+            <urls>
+                <url>http://api.silobreaker.com/entitygraph/{q}/{types}</url>
+            </urls>
+			      <paging model="page">
+			        <start id="pageNumber" default="0" />
+			        <pagesize id="pageSize" max="250" />
+			        <total default="20" />
+			      </paging>
+            <inputs>
+								<key id="q" as="query" type="xs:string" paramType="path" required="true" />
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />					
+								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
+								
+								<key id="noNodes" type="xs:string" paramType="query" />
+								<key id="graphEntities" type="xs:string" paramType="query" />
+								<key id="entityTypeLimits" type="xs:string" paramType="query" />
+								<key id="expandEntities" type="xs:string" paramType="query" />
+								
+								<!-- 
+									Comma separated list of document types that should be returned. Valid types are:
+									Article
+									Blog
+									Fact Sheet
+									Press Release
+									Audio/Video 
+								-->
+								<key id="types" type="xs:string" paramType="path" required="true"/>
+            </inputs>
+        </select>
+
+        <select itemPath="EntityGraphData.*" produces="XML">
+            <urls>
+                <url>http://api.silobreaker.com/entitygraph/{q}</url>
+            </urls>
+			      <paging model="page">
+			        <start id="pageNumber" default="0" />
+			        <pagesize id="pageSize" max="250" />
+			        <total default="20" />
+			      </paging>
+            <inputs>
+								<key id="q" as="query" type="xs:string" paramType="path" required="true" />
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />					
+								<key id="type" type="xs:string" paramType="query" default="xml" const="true" />
+								
+								<key id="noNodes" type="xs:string" paramType="query" />
+								<key id="graphEntities" type="xs:string" paramType="query" />
+								<key id="entityTypeLimits" type="xs:string" paramType="query" />
+								<key id="expandEntities" type="xs:string" paramType="query" />
+            </inputs>
+        </select>
+
+     </bindings>
+</table>
+
+
+

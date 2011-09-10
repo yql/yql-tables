@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://reboot.fcc.gov/developer/consumer-broadband-test-api</documentationURL>
+	    <sampleQuery description="Find test results for Washington D.C.">select * from {table} where latitude="38.899101" and longitude="-77.028999"</sampleQuery>      
+		<description>This API returns the Consumer Broadband Test speed test statistics for a US County given the passed Latitude and Longitude. The statistics are grouped into wireline and wireless and are the number of tests, average download speed, average upload speed, maximum download speed and maximum upload speed. This data is calculated nightly and includes all tests to date performed through the consumer broadband test.
+		 </description>
+    </meta>
+	<bindings>
+		<select itemPath="Response.SpeedTestCounty" produces="XML">  
+			<urls>
+				<url>http://data.fcc.gov/api/speedtest/find</url>
+			</urls> 
+			<inputs>
+				<key id="latitude" type="xs:string" paramType="query" required="true"/>
+				<key id="longitude" type="xs:string" paramType="query" required="true"/>
+			</inputs> 
+		</select>
+	</bindings>
+</table>	

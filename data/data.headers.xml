@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Marcel Duran</author>
+        <description>Request (GET) a URL and retrieves its content (non-binary) and headers. User Agent string (ua) is optional.</description>
+        <sampleQuery>select * from {table} where url="http://www.yahoo.com/"</sampleQuery>
+        <sampleQuery>select * from {table} where url in ("http://www.yahoo.com/","http://www.google.com/") and ua="Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+               <key id="url" type="xs:string" paramType="variable" required="true"/>
+               <key id="ua" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var req, resp, header, tag, redirect, location, redir, count, content,
+                        data = <resources/>,
+                        headers = <headers/>,
+                        reTagCase = /(^|\-)(\w)/g,
+
+                        tagCase = function (a, b, c) {
+                            return b + c.toUpperCase();
+                        };
+
+                    req = y.rest(url);
+
+                    // set user agent
+                    if (ua) {
+                        req.header('User-Agent', ua);
+                    }
+
+                    // compression
+                    req.header('Accept-Encoding', 'gzip,deflate');
+                    req.decompress(true);
+
+                    // bad servers don't set charset
+                    // YQL tries UTF-8 first then we try ISO as a fallback
+                    req.fallbackCharset('ISO-8859-1');
+
+                    // fetch url
+                    resp = req.get();
+                    y.log('response length: ' + (resp.response && resp.response.length));
+
+                    // check redirect
+                    redirect = y.diagnostics.redirect;
+                    count = redirect && redirect.length();
+                    if (count) {
+                        for (i = 0; i < count; i += 1) {
+                            redir = redirect[i];
+                            y.log('redirect: ' + redir.@status + ' = ' + redir.toString());
+                            location = redir.toString();
+                            if (location) {
+                                data.resources +=
+                                    <redirect>
+                                        <url>{url}</url>
+                                        <status>{redir.@status}</status>
+                                        <headers>
+                                            <Location>{location}</Location>
+                                        </headers>
+                                    </redirect>;
+                                url = location;
+                            }
+                        }
+                    }
+
+                    // get headers
+                    for (header in resp.headers) {
+                        tag = header.replace(reTagCase, tagCase);
+                        headers.headers += <{tag}>{resp.headers[header]}</{tag}>;
+                    }
+                    
+                    // set result
+                    data.resources += <url>{url}</url>;
+                    data.resources += <status>{resp.status}</status>;
+                    data.resources += headers;
+
+                    // get uncompressed response content for non-binary
+                    header = resp.headers;
+                    header = (header && header['content-type']) || '';
+                    if (header.indexOf('image') && header.indexOf('x-shockwave-flash') < 0) {
+                        try {
+                            content = resp.response;
+                        } catch (err) {
+                            y.log(err);
+                            // empty response on error
+                            content = '';
+                        }
+                    } else {
+                        // empty response for binaries
+                        content = '';
+                    }
+
+                    data.resources += <content>{content}</content>;
+
+                    response.maxAge = 300;
+                    response.object = data;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>

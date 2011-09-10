@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Erik Eldridge</author>
+        <description>
+            Generate an openid auth url from an identifier (openid 2.0 only, ie is not 1.1 compat)
+        </description>
+        <sampleQuery>select * from {table} where identifier="yahoo.com" and return_to="http://example.com"</sampleQuery>
+		<documentationURL>http://wiki.github.com/erikeldridge/yql-openid-support/</documentationURL>
+    </meta>
+    <bindings>
+        <select produces="XML">
+            <inputs>
+				
+				<!-- the openid to use, eg 'yahoo.com' -->
+                <key id="id" type="xs:string" paramType="variable" required="true"/>
+				
+				<!-- a url to return to after auth, eg http://example.com -->
+                <key id="return_to" type="xs:string" paramType="variable" required="true"/>
+
+				<!-- 
+					json array of attr exchange (http://axschema.org, http://openid.net/specs/openid-attribute-exchange-1_0.html) fields, eg 
+					[{'schema':'http://axschema.org/contact/email','alias':'email','required':true},
+                	{'schema':'http://axschema.org/namePerson','alias':'fullname','required':true}]
+				-->
+				<key id="axJson" type="xs:string" paramType="variable" />
+				
+				<!-- oauth consumer key for hybrid auth (http://developer.yahoo.net/blog/archives/2009/09/yahoo_openid_hybrid.html) -->
+				<key id="oauthKey" type="xs:string" paramType="variable" />
+				
+				<!-- if you have an openid association, pass the handle here -->
+                <key id="assoc_handle" type="xs:string" paramType="variable" />
+
+            </inputs>
+            <execute><![CDATA[
+				
+				//json
+				y.include( 'store://pitrYOXYb8vQfiui4rUYPX' );
+				
+				//credit: http://javascript.crockford.com/remedial.html
+				if(!String.prototype.supplant){String.prototype.supplant=function(o){return this.replace(/{([^{}]*)}/g,function(a,b){var r=o[b];return typeof r==='string'||typeof r==='number'?r:a;});};}if(!String.prototype.trim){String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"");};}
+				
+				function normalize (id) {
+						
+					//normalize table
+					var tableUri = 'store://OFvQhcRZIjcRa7F255lKBh';
+					
+					var query = 'use "' + tableUri + '" as norm; ' + 'select * from norm where id="' + id + '"';
+					var results = y.xmlToJson(y.query(query).results);
+
+					if ('success' == results.results.result.state) {
+						return results.results.result.id;
+					} else {
+						return false;
+					}
+				}
+
+				//use a wrapper fn so we can exit early, ie as a workaround for lack of exit(), die(), etc
+				response.object = function() {
+
+					//normalize id
+					var normId = normalize(id);
+
+					if (!normId) {
+						return {
+							'error': 'invalid id'
+						};
+					}
+
+					//get auth base url
+					var discoQuery = 'use "{tableUri}" as table; select * from table where normalizedId = "{normalizedId}"'.supplant({
+						
+							//openid.discover.xml
+							'tableUri' : 'store://6KoRrgbEbaLyZ6xK4hjODJ',
+							
+							'normalizedId' : normId
+						});
+					var discoResults = y.query( discoQuery ).results;
+
+					if ( discoResults.error ) {
+						return {
+							'error': 'id could not be resolved to an openid provider'
+						};
+					}
+					
+					//validate return_to and extract realm url
+					var pattern = '^([^:?#/]+' //scheme
+					+ ':\/\/' //separator
+					+ '[^:?#/]+)',
+					//domain
+					match = return_to.match(new RegExp(pattern));
+
+					if (match) {
+						var realm = match[0];
+					} else {
+						return {
+							'error': 'invalid return_to uri'
+						};
+					}
+
+					//construct auth uri
+					var params = {
+						'openid.ns': 'http://specs.openid.net/auth/2.0',
+						'openid.realm': realm,
+						'openid.mode': 'checkid_setup',
+						'openid.return_to': return_to,
+						'openid.identity': 'http://specs.openid.net/auth/2.0/identifier_select',
+						'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select'
+					},
+					pairs = [];
+
+					//add ax, if ax fields passed via yql param
+					if (axJson) {
+						params['openid.ns.ax'] = 'http://openid.net/srv/ax/1.0';
+						params['openid.ax.mode'] = 'fetch_request';
+						var axFields = JSON.parse(axJson);
+						var key = null,
+							required = [];
+						for each ( var field in axFields ) {
+							if (true === field['required']) {
+								required.push(field['alias']);
+							}
+							key = 'openid.ax.type.' + field['alias'];
+							params[key] = field['schema'];
+						}
+						//construct comma-separated list of required fields
+						params['openid.ax.required'] = required.join(',');
+					}
+					
+					//add hybrid auth support, if key passed via yql param
+					if ( oauthKey ) {
+						params['openid.ns.oauth'] = 'http://specs.openid.net/extensions/oauth/1.0';
+						params['openid.oauth.consumer'] = oauthKey;
+					}
+					
+					//use assoc handle, if passed in yql param
+					if (assoc_handle) {
+						params['openid.assoc_handle'] = assoc_handle;
+					}
+
+					for (var key in params) {
+						pairs.push(key + '=' + encodeURIComponent(params[key]));
+					}
+					
+					return {
+						"success": discoResults.success + '?' + pairs.join('&')
+					};
+				} ();
+
+            ]]></execute>
+        </select>
+    </bindings>
+</table>

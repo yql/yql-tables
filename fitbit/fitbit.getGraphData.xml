@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>Fitbit API: Get Graph Data</description>
+    <documentationURL>https://www.fitbit.com/forums</documentationURL>
+    <sampleQuery>select * from {table} where userId='yourlogingoeshere' and dateTo='2010-10-20';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://www.fitbit.com/graph/getGraphData</url>
+      </urls>
+      <inputs>	
+          <key type="xs:string" paramType="query" id="userId" private="true" required="true"/>
+          <!-- 'type' values can include 'caloriesConsumed', 'activitiesBreakdown', 'distanceFromSteps', 'activeScore', 'timesWokenUp' and 'timeAsleep' -->
+          <key type="xs:string" paramType="query" id="type" default='activeScore' required="true"/>
+          <!-- 'period' values can include '1d', '1m', 'alltime' -->
+          <key type="xs:string" paramType="query" id="period" default="alltime" required="true"/>
+          <!-- 'dateTo' value should be structured as year-month-day like 'XXXX-XX-XX' -->
+          <key type="xs:string" paramType="query" id="dateTo"/>
+          <key type="xs:string" paramType="query" id="dataVersion" default="4965" required="true"/>
+          <!-- 'version' values can include 'amchart' -->
+          <key type="xs:string" paramType="query" id="version" default="amchart"/>
+          <!-- 'chart_type' values can include 'column2d', 'pie' -->
+          <key type="xs:string" paramType="query" id="chart_type" default="column2d"/>
+          <key type="xs:string" paramType="query" id="ts" default="1287866562567"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

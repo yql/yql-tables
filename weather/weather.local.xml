@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://xoap.weather.com</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url>http://xoap.weather.com/weather/local/{location}</url>
+      </urls>
+      <inputs>
+        <key id="location" type="xs:string" paramType="path" required="true"/>
+        <key id="dayf" type="xs:string" paramType="query"/>
+        <key id="unit" type="xs:string" paramType="query"/>
+        <key id="cc" type="xs:string" paramType="query" default="*"/>
+        <key id="par" type="xs:string" paramType="query"/>
+        <key id="pid" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

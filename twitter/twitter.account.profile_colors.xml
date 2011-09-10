@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Zach Graves (zachg@yahoo-inc.com)</author>
+		<description>Twitter OAuth API</description>
+		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
+		<sampleQuery>update {table} set profile_background_color='#FFFFFF' where oauth_consumer_key=@key and oauth_consumer_secret=@secret and oauth_token=@key and oauth_token_secret=@secret;</sampleQuery>
+	</meta>
+	<bindings>
+		<update itemPath="user" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/account/update_profile_colors.{format}</url>
+			</urls>
+			<inputs>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+				
+				<value id="profile_background_color" type="xs:string" paramType="variable" required="false"/>
+				<value id="profile_text_color" type="xs:string" paramType="variable" required="false"/>
+				<value id="profile_link_color" type="xs:string" paramType="variable" required="false"/>
+				<value id="profile_sidebar_fill_color" type="xs:string" paramType="variable" required="false"/>
+				<value id="profile_sidebar_border_color" type="xs:string" paramType="variable" required="false"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+var parameters = [];
+if(profile_background_color) parameters.push(['profile_background_color',profile_background_color]);
+if(profile_text_color) parameters.push(['profile_text_color',profile_text_color]);
+if(profile_link_color) parameters.push(['profile_link_color',profile_link_color]);
+if(profile_sidebar_fill_color) parameters.push(['profile_sidebar_fill_color',profile_sidebar_fill_color]);
+if(profile_sidebar_border_color) parameters.push(['profile_sidebar_border_color',profile_sidebar_border_color]);
+
+response.object = sendRequest({
+   action: request.url,
+   method: "POST",
+   accessor: accessor,
+   parameters: parameters
+});
+				]]>
+			</execute>
+		</update>
+	</bindings>
+</table>

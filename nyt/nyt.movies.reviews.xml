@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sam Pullara</author>
+    <documentationURL>http://developer.nytimes.com/docs/movie_reviews_api</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="result_set.results.review">
+      <urls>
+        <url>http://api.nytimes.com/svc/movies/v2/reviews/reviewer/{reviewer}.{responseformat}?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="20" id=""/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="responseformat" type="xs:string" paramType="path" const="true" default="xml"/>
+        <key id="reviewer" type="xs:string" paramType="query" required="true"/>
+        <key id="critics_pick" type="xs:string" paramType="query"/>
+        <key id="order" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+    <select produces="XML" itemPath="result_set.results.review">
+      <urls>
+        <url>http://api.nytimes.com/svc/movies/v2/reviews/search.{responseformat}?api-key={apikey}</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="offset"/>
+        <pagesize max="20" id=""/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="path" required="true"/>
+        <key id="responseformat" type="xs:string" paramType="path" const="true" default="xml"/>
+        <key id="query" type="xs:string" paramType="query" required="true"/>
+        <key id="critics_pick" type="xs:string" paramType="query"/>
+        <key id="thousand_best" type="xs:string" paramType="query"/>
+        <key id="dvd" type="xs:string" paramType="query"/>
+        <key id="reviewer" type="xs:string" paramType="query"/>
+        <key id="publication_date" type="xs:string" paramType="query"/>
+        <key id="opening_date" type="xs:string" paramType="query"/>
+        <key id="order" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
