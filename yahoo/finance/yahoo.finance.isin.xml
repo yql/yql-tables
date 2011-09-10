@@ -35,7 +35,7 @@
 	"where url=@url and " +
 	"xpath='" +
 	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[contains(.,\"GER\")]]/td/a'" ,
- 	//"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[[./td[contains(.,\GER\")]] and @class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]/td/a'" ,
+ 	//"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[[./td[contains(.,\GER\")]] and @class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]/td[1]/a'" ,
 	{url:url});
 
     var stock = <stock symbol={symbol}></stock>;
