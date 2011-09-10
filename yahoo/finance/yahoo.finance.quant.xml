@@ -108,9 +108,8 @@
 
     var now = new Date();
     var day = now.getDate();
-    //var month = now.getMonth();
+    var month = now.getMonth();
     var year = now.getYear();
-    var month = 2;
     
     if (year < 999)
        year += 1900;
@@ -137,7 +136,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 1]'",
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
 	{url:url});
 
     var stock = <stock symbol={symbol}></stock>;
@@ -168,11 +167,6 @@
     
     var results = sixMonthsQuery.results;
     stock.SixMonths = results.td.p.toString().trim();
-    
-    stock.MonthSix = monthSix;
-    stock.YearSix = yearSix;
-    stock.Month = month;
-    stock.Year = year;
     
     getQuoteInfo();
     
