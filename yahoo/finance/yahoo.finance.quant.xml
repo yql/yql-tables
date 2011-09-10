@@ -113,7 +113,8 @@
     if (year < 999)
        year += 1900;
 
-    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + year-1 + "&d=" + month + "&e=" + day + "&f=" + year + "&g=d";
+    var url = "http://finance.yahoo.com/q/hp?s=YHOO&a=00&b=12&c=2010&d=00&e=12&f=2010&g=d";
+    //var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + (year-1) + "&d=" + month + "&e=" + day + "&f=" + year + "&g=d";
     var lastyearQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
