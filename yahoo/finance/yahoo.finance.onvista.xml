@@ -34,14 +34,24 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	//"//table[@class \"weiss abst\"]/tr[./td[contains(.,\"EBIT-Marge\")]]'" ,
 	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"EBIT-Marge\")]]/td[2]'" ,
+	{url:url});
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var eqratioQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"Eigenkapitalquote \")]]/td[2]'" ,
 	{url:url});
 
     var stock = <stock symbol={symbol}></stock>;
     
     var results = ebitQuery.results;
     stock.EbitMarge = results.td.p.toString().trim();
+    
+    var results = eqratioQuery.results;
+    stock.EquityRatio = results.td.p.toString().trim();
     
     response.object = stock
 
