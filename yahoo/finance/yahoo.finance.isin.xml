@@ -34,8 +34,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table'" ,
-	//"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[@class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]'" ,
+ 	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[@class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]'" ,
 	{url:url});
 
     var stock = <stock symbol={symbol}></stock>;
