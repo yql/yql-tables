@@ -111,7 +111,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table[@class = \"quotes rgt nwp\"]/tr[./td[contains(.,\"EBITD margin\")]]/td[@class = \"period\"]'",
+	"//table[@class = \"quotes rgt nwp\"]/tr[./td[contains(.,\"EBITD margin\")]]/td[3]'",
 	{url:url});
 	
     var stock = <stock symbol={symbol}></stock>;
@@ -135,7 +135,7 @@
     stock.EarningsGrowth = results.td.p.toString().trim();
     
     var results = ebitQuery.results;
-    stock.Ebit = results.td.p.p.toString().trim();
+    stock.Ebit = results.td.p.toString().trim();
 
     getQuoteInfo();
     
