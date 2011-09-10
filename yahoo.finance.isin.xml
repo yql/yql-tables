@@ -46,7 +46,7 @@ table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[@class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]'" ,
 	{url:url});
 	
-    var stock = <stock isin={isin}></stock>;
+    var stock = <stock isin={symbol}></stock>;
     
     var results = isinQuery.results;
     stock.Isin = results.td.p.text().toString().trim();
