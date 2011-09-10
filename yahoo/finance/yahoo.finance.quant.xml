@@ -122,16 +122,16 @@
 	{url:url});
 	
     if (month >= 6) {
-        var MonthSix = month-6;
+        var monthSix = month-6;
         var yearSix = year;
     }
     else {
-    	var MonthSix = month+7;
+    	var monthSix = month+7;
     	var yearSix = year-1;
     }
 
-    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + year + "&d=" + month + "&e=" + day + "&f=" + year + "&g=d";
-    var lastyearQuery = y.query(
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + monthSix + "&b=" + day + "&c=" + yearSix + "&d=" + monthSix + "&e=" + day + "&f=" + yearSix + "&g=d";
+    var sixMonthsQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
@@ -163,6 +163,14 @@
 
     var results = lastyearQuery.results;
     stock.LastYear = results.td.p.toString().trim();
+    
+    var results = sixMonthsQuery.results;
+    stock.SixMonths = results.td.p.toString().trim();
+    
+    stock.MonthSix = monthSix;
+    stock.YearSix = yearSix;
+    stock.Month = month;
+    stock.Year = year;
     
     getQuoteInfo();
     
