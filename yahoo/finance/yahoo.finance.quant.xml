@@ -135,7 +135,7 @@
     stock.EarningsGrowth = results.td.p.toString().trim();
     
     var results = ebitQuery.results;
-    stock.Ebit = results.td.p.toString().trim();
+    stock.EbitMarge = results.td.p.toString().trim();
 
     getQuoteInfo();
     
