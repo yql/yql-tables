@@ -39,7 +39,7 @@ table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     }
 
     var url = "http://finance.yahoo.com/lookup?s="+symbol;
-    var Query = y.query(
+    var isinQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
@@ -51,7 +51,7 @@ table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     var results = isinQuery.results;
     stock.Isin = results.td.p.text().toString().trim();
 
-    getQuoteInfo();
+    //getQuoteInfo();
     
     response.object = stock
 
