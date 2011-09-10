@@ -106,6 +106,14 @@
 	"//tr[./td[contains(.,\"Qtrly Earnings Growth\")]]/td[@class = \"yfnc_tabledata1\"]'",
 	{url:url});
 	
+    var url = "http://www.google.com/finance?q="+symbol;
+    var ebitQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"quotes rgt nwp\"]/tr[./td[contains(.,\"EBITD margin\")]]/td[@class = \"period\"]'",
+	{url:url});
+	
     var stock = <stock symbol={symbol}></stock>;
     
     var results = equityQuery.results;
@@ -125,6 +133,9 @@
     
     var results = earningsGrowthQuery.results;
     stock.EarningsGrowth = results.td.p.toString().trim();
+    
+    var results = ebitQuery.results;
+    stock.Ebit = results.td.toString().trim();
 
     getQuoteInfo();
     
