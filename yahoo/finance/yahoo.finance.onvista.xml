@@ -45,6 +45,47 @@
 	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"Eigenkapitalquote \")]]/td[2]'" ,
 	{url:url});
 
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per1Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV \")]]/td[2]'" ,
+	{url:url});
+    
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per2Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV \")]]/td[3]'" ,
+	{url:url});
+    
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per3Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV \")]]/td[4]'" ,
+	{url:url});
+	
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per4Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV \")]]/td[5]'" ,
+	{url:url});
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per5Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV \")]]/td[6]'" ,
+	{url:url});
+
     var stock = <stock symbol={symbol}></stock>;
     
     var results = ebitQuery.results;
@@ -52,6 +93,21 @@
     
     var results = eqratioQuery.results;
     stock.EquityRatio = results.td.p.toString().trim();
+    
+    var results = per1Query.results;
+    stock.PER1 = results.td.p.toString().trim();
+    
+    var results = per2Query.results;
+    stock.PER2 = results.td.p.toString().trim();
+    
+    var results = per3Query.results;
+    stock.PER3 = results.td.p.toString().trim();
+    
+    var results = per4Query.results;
+    stock.PER4 = results.td.p.toString().trim();
+    
+    var results = per5Query.results;
+    stock.PER5 = results.td.p.toString().trim();
     
     response.object = stock
 
