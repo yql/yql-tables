@@ -28,16 +28,6 @@ table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	return str.slice(0, i + 1);
     }
 
-    function getQuoteInfo() {
-	// Get company name & market from Yahoo Quotes Summary page
-	var results = quoteQuery.results;
-	elements = results.*.length();
-	if (elements == 0)
-	    return false;
-
-	return true;
-    }
-
     var url = "http://finance.yahoo.com/lookup?s="+symbol;
     var isinQuery = y.query(
 	"select * from html " +
@@ -49,7 +39,7 @@ table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     var stock = <stock isin={symbol}></stock>;
     
     var results = isinQuery.results;
-    stock.Isin = results.td.p.text().toString().trim();
+    stock.Isin = results.text().toString().trim();
 
     //getQuoteInfo();
     
