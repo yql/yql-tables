@@ -29,7 +29,8 @@
 	return str.slice(0, i + 1);
     }
 
-    var url = "http://finance.yahoo.com/lookup?s="+symbol;
+    //var url = "http://finance.yahoo.com/lookup?s="+symbol;
+    var url = "http://finance.yahoo.com/q/ks?s=yhoo";
     var isinQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
