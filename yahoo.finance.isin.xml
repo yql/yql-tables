@@ -1,14 +1,14 @@
 table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
 		<sampleQuery>
-			select * from {table} where isin in ("US9843321061")
+			select * from {table} where symbol in ("US9843321061")
 		</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="" produces="XML">
 			<urls><url></url></urls>
 			<inputs>
-				<key id='isin' type='xs:string' paramType='variable' required='true' />
+				<key id='symbol' type='xs:string' paramType='variable' required='true' />
 			</inputs>
 			<execute><![CDATA[
     // pad string with leading char
@@ -38,8 +38,8 @@ table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	return true;
     }
 
-    var url = "http://finance.yahoo.com/lookup?s="+isin;
-    var isinQuery = y.query(
+    var url = "http://finance.yahoo.com/lookup?s="+symbol;
+    var Query = y.query(
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
