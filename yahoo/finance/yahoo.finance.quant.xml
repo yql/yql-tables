@@ -35,8 +35,7 @@
 	elements = results.*.length();
 	if (elements == 0)
 	    return false;
-
-
+	stock.CompanyName = results.h1.text().toString().trim();
 	return true;
     }
 
