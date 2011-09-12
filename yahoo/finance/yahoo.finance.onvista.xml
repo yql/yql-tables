@@ -86,6 +86,13 @@
 	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV\")]]/td[6]'" ,
 	{url:url});
 	
+    var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var analystsQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//d1[@class = \"ANALYSEN_DETAILS\"]/dd[4]'" ,
+	{url:url});	
 	
 
     var stock = <stock symbol={symbol}></stock>;
@@ -111,8 +118,8 @@
     var results = per5Query.results;
     stock.PER5 = results.td.p.toString().trim();
     
-    //var results = analystsQuery.results;
-    //stock.Analysts = results.toString().trim();
+    var results = analystsQuery.results;
+    stock.Analysts = results.toString().trim();
     
     response.object = stock
 
