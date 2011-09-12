@@ -111,6 +111,19 @@
     var month = now.getMonth();
     var year = now.getYear();
     
+    if (day == 1) {
+    	day = 28;
+    	if (month == 0){
+    	    month = 12;
+    	    year = year-1;
+    	} else {
+    	    month = month-1;
+    	}
+    } else {
+    	day = day - 1;
+    }
+    
+    
     if (year < 999)
        year += 1900;
 
