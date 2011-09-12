@@ -119,7 +119,7 @@
     stock.PER5 = results.td.p.toString().trim();
     
     var results = analystsQuery.results;
-    stock.Analysts = results.toString().trim();
+    stock.Analysts = results.dd.p.toString().trim();
     
     response.object = stock
 
