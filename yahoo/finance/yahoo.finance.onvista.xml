@@ -91,7 +91,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//d1[@class = \"ANALYSEN_DETAILS\"]/dd[4]'" ,
+	"//dl[@class = \"ANALYSEN_DETAILS\"]/dd[4]'" ,
 	{url:url});	
 	
 
