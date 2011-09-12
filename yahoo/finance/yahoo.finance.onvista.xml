@@ -95,7 +95,7 @@
 	{url:url});	
 	
     var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
-    var downgradeQuery = y.query(
+    var upgradeQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
@@ -128,6 +128,9 @@
     
     var results = analystsQuery.results;
     stock.Analysts = results.dd.p.toString().trim();
+    
+    var results = upgradeQuery.results;
+    stock.Upgrade = results.toString().trim();
     
     response.object = stock
 
