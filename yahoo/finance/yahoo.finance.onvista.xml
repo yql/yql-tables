@@ -99,7 +99,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//tbody/tr[./td[contains(.,\"Heraufstufungen\")]]/td'" ,
+	"//tbody/tr[./td[contains(.,\"Heraufstufungen\")]]/td[@class = \"KENNZAHL\"]'" ,
 	{url:url});
 	
 
@@ -130,7 +130,7 @@
     stock.Analysts = results.dd.p.toString().trim();
     
     var results = upgradeQuery.results;
-    stock.Upgrade = results.toString().trim();
+    stock.Upgrade = results.td.p.toString().trim();
     
     response.object = stock
 
