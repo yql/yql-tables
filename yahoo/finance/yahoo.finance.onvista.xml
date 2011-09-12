@@ -101,7 +101,22 @@
 	"xpath='" +
 	"//tbody/tr[./td[contains(.,\"Heraufstufungen\")]]/td[@class = \"KENNZAHL\"]'" ,
 	{url:url});
+
+var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var confirmationQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tbody/tr[./td[contains(.,\"Bestätigungen\")]]/td[@class = \"KENNZAHL\"]'" ,
+	{url:url});
 	
+    var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var downgradeQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tbody/tr[./td[contains(.,\"Herabstufungen\")]]/td[@class = \"KENNZAHL\"]'" ,
+	{url:url});	
 
     var stock = <stock symbol={symbol}></stock>;
     
@@ -131,6 +146,12 @@
     
     var results = upgradeQuery.results;
     stock.Upgrade = results.td.p.toString().trim();
+
+    var results = confirmationQuery.results;
+    stock.Confirmation = results.td.p.toString().trim();
+    
+    var results = downgradeQuery.results;
+    stock.Downgrade = results.td.p.toString().trim();
     
     response.object = stock
 
