@@ -94,6 +94,14 @@
 	"//dl[@class = \"ANALYSEN_DETAILS\"]/dd[4]'" ,
 	{url:url});	
 	
+    var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var downgradeQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tbody/tr[./td[contains(.,\"Heraufstufungen\")]]/td'" ,
+	{url:url});
+	
 
     var stock = <stock symbol={symbol}></stock>;
     
