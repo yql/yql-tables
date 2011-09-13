@@ -227,7 +227,7 @@
     stock.Today = results.td.p.toString().trim();
     
     var results = lastMonthQuery.results;
-    stock.LostMonth = results.td.p.toString().trim();
+    stock.LastMonth = results.toString().trim();
     
     getQuoteInfo();
     
