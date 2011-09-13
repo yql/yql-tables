@@ -165,6 +165,9 @@
     var month = now.getMonth();
     var year = now.getYear();
     
+    if (year < 999)
+       year += 1900;
+    
     if (month == 0){
     	var lastMonth = 12;
     	var lastYear = year-1;
