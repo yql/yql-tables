@@ -160,6 +160,40 @@
 	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
 	{url:url});
 
+
+    var day = now.getDate();
+    var month = now.getMonth();
+    var year = now.getYear();
+    
+    if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11){
+    	var lastDay = 31;
+    }
+    else if (month == 1){
+    	var lastDay = 28;
+    }
+    else {
+    	var lastDay = 30;
+    }
+    
+    if (month == 0){
+    	var lastMonth = 12;
+    	var lastYear = year-1;
+    }
+    else {
+    	var lastMonth = month - 1;
+    	var lastYear = year;
+    }
+    
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + lastMonth + "&b=" + lastDay + "&c=" + lastYear + "&d=" + lastMonth + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
+    var lastMonthQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	{url:url});    
+    
+    
+
     var stock = <stock symbol={symbol}></stock>;
     
     var results = equityQuery.results;
@@ -191,6 +225,9 @@
     
     var results = todayQuery.results;
     stock.Today = results.td.p.toString().trim();
+    
+    var results = lastMonthQuery.results;
+    stock.LostMonth = results.td.p.toString().trim();
     
     getQuoteInfo();
     
