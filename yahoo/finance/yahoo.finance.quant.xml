@@ -192,7 +192,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
 	{url:url});   
  
  
@@ -220,7 +220,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
 	{url:url});
 
     if (twoMonthsAgo == 0){
@@ -248,7 +248,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
 	{url:url});    
 
     if (threeMonthsAgo == 0){
@@ -275,7 +275,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
 	{url:url}); 
 
     var stock = <stock symbol={symbol}></stock>;
