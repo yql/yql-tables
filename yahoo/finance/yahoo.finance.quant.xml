@@ -192,18 +192,91 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table'",
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
 	{url:url});   
-
-   /* var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + lastMonth + "&b=" + lastDay + "&c=" + lastYear + "&d=" + lastMonth + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
-    var lastMonthQuery = y.query(
+ 
+ 
+    if (lastMonth == 0){
+    	var twoMonthsAgo = 12;
+    	var lastYear = year-1;
+    }
+    else {
+    	var twoMonthsAgo = lastMonth - 1;
+    	var lastYear = year;
+    }
+    
+    if (twoMonthsAgo == 0 || twoMonthsAgo == 2 || twoMonthsAgo == 4 || twoMonthsAgo == 6 || twoMonthsAgo == 7 || twoMonthsAgo == 9 || twoMonthsAgo == 11){
+    	var lastDay = 31;
+    }
+    else if (twoMonthsAgo == 1){
+    	var lastDay = 28;
+    }
+    else {
+    	var lastDay = 30;
+    }
+ 
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + twoMonthsAgo + "&b=" + lastDay + "&c=" + lastYear + "&d=" + twoMonthsAgo + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
+    var twoMonthsAgoQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
 	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
-	{url:url});*/    
+	{url:url});
+
+    if (twoMonthsAgo == 0){
+    	var threeMonthsAgo = 12;
+    	var lastYear = year-1;
+    }
+    else {
+    	var threeMonthsAgo = twoMonthsAgo - 1;
+    	var lastYear = year;
+    }
     
+    if (threeMonthsAgo == 0 || threeMonthsAgo == 2 || threeMonthsAgo == 4 || threeMonthsAgo == 6 || threeMonthsAgo == 7 || threeMonthsAgo == 9 || threeMonthsAgo == 11){
+    	var lastDay = 31;
+    }
+    else if (threeMonthsAgo == 1){
+    	var lastDay = 28;
+    }
+    else {
+    	var lastDay = 30;
+    }
+
+
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + threeMonthsAgo + "&b=" + lastDay + "&c=" + lastYear + "&d=" + threeMonthsAgo + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
+    var threeMonthsAgoQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	{url:url});    
+
+    if (threeMonthsAgo == 0){
+    	var fourMonthsAgo = 12;
+    	var lastYear = year-1;
+    }
+    else {
+    	var fourMonthsAgo = threeMonthsAgo - 1;
+    	var lastYear = year;
+    }
     
+    if (fourMonthsAgo == 0 || fourMonthsAgo == 2 || fourMonthsAgo == 4 || fourMonthsAgo == 6 || fourMonthsAgo == 7 || fourMonthsAgo == 9 || fourMonthsAgo == 11){
+    	var lastDay = 31;
+    }
+    else if (fourMonthsAgo == 1){
+    	var lastDay = 28;
+    }
+    else {
+    	var lastDay = 30;
+    }
+    
+    var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + fourMonthsAgo + "&b=" + lastDay + "&c=" + lastYear + "&d=" + fourMonthsAgo + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
+    var fourMonthsAgoQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
+	{url:url}); 
 
     var stock = <stock symbol={symbol}></stock>;
     
@@ -238,7 +311,16 @@
     stock.Today = results.td.p.toString().trim();
     
     var results = lastMonthQuery.results;
-    stock.LastMonthTest = results.toString().trim();
+    stock.LastMonth = results.td.p.toString().trim();
+    
+    var results = twoMonthsAgoQuery.results;
+    stock.TwoMonthsAgo = results.td.p.toString().trim();
+    
+    var results = threeMonthsAgoQuery.results;
+    stock.ThreeMonthsAgo = results.td.p.toString().trim();
+    
+    var results = fourMonthsAgoQuery.results;
+    stock.FourMonthsAgo = results.td.p.toString().trim();
     
     getQuoteInfo();
     
