@@ -183,14 +183,22 @@
     else {
     	var lastDay = 30;
     }
-    
+
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + lastMonth + "&b=" + lastDay + "&c=" + lastYear + "&d=" + lastMonth + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
     var lastMonthQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
+	"//table'",
+	{url:url});   
+
+   /* var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + lastMonth + "&b=" + lastDay + "&c=" + lastYear + "&d=" + lastMonth + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
+    var lastMonthQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
 	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 2]'",
-	{url:url});    
+	{url:url});*/    
     
     
 
