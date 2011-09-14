@@ -27,8 +27,9 @@
 	        i = str.length;
 	while (ws.test(str.charAt(--i)));
 	return str.slice(0, i + 1);
-    }
-
+    }   
+    
+    var now = new Date();
     var day = now.getDate();
     var month = now.getMonth();
     var year = now.getYear();
