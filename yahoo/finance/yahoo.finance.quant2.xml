@@ -161,8 +161,6 @@
     var results = fourMonthsAgoQuery.results;
     stock.FourMonthsAgo = results.td.p.toString().trim();
     
-    getQuoteInfo();
-    
     response.object = stock
 
 ]]></execute>
