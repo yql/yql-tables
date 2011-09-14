@@ -140,7 +140,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//div[@id = \"yfi_quote_summary_data\"]'",
+	"//div[@id = \"yfi_quote_summary_data\"]/table/tr/td'",
 	{url:url});
 
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + (year-1) + "&d=" + month + "&e=" + day + "&f=" + (year-1) + "&g=d";
