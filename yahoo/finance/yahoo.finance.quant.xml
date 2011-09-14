@@ -316,7 +316,7 @@
     stock.SixMonths = results.td.p.toString().trim();
     
     var results = todayQuery.results;
-    stock.Today = results.toString().trim();
+    stock.Today = results.span.toString().trim();
     
     var results = lastMonthQuery.results;
     stock.LastMonth = results.td.p.toString().trim();
