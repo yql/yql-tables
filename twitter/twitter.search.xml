@@ -11,6 +11,11 @@
 			<urls>
 				<url>http://search.twitter.com/search.{format}</url>
 			</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="rpp" max="100" />
+				<total default="100" />
+			</paging>
 			<inputs>
 				<key id="q" type="xs:string" paramType="query" required="true"/>
 				
