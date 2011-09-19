@@ -7,7 +7,7 @@
     <sampleQuery>USE 'http://github.com/iker/yql-tables/raw/master/google/google.fusiontables.xml' as table; INSERT INTO table (Email, Passwd, q) values ('iker.azpeitia@ehu.es', 'aitor01', 'insert into 1480449 (Title, Content, Location, Date) values ("i ask me", "does it work?", "aia", "2009")')</sampleQuery>
  </meta>
   <bindings>
-    <select>
+    <insert>
       <urls>
         <url>https://www.google.com/fusiontables/api/query</url>
       </urls>
@@ -28,6 +28,6 @@ var content = "accountType=" + encodeURIComponent(accountType) +
               "&source=" + encodeURIComponent(source);
 response.object = request.contentType("application/x-www-form-urlencoded").header("GData-Version", "2").post(content).response;
       ]]></execute>
-    </select>
+    </insert>
   </bindings>
 </table>
