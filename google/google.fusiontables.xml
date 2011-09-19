@@ -4,7 +4,7 @@
     <author>Iker Azpeitia</author>
     <description>Access your Google FusionTables account</description>
     <documentationURL>http://code.google.com/apis/fusiontables/docs/developers_guide.html</documentationURL>
-    <sampleQuery>USE 'http://github.com/iker/yql-tables/raw/master/google/google.fusiontables.xml' as table; INSERT INTO table (Email, Passwd,  Auth, sql) values ('ikerazpeitia@gmail.com', 'tdgoahsnwmsssjbk', 'DQAAAMQAAADBEegAATXQWuznQ7_WDUYgqA3gR0mRIJQiOQmYZ9RSeHBo3Ju5udPXp7dw8JijfBBCx1GqEqDa_siIpEnVqR5yeA4CqTXfSdt8wYS0h1tFZO_eeYmpf5Wmtce5_rkj1ld1_JEEXxUG36wU5MDrdzkD8zz_gwWM8NzEK899HiACFf7stznESbnpakXrU7qw8iDNiAJ6nZx0p0t9JOyPRJzSrVgJU4YnzVYFDV9r-L_W-xHGJ4RZ0rPLvThcb7cUi2Q79_rV4czLWhpCcyg231gR', 'INSERT INTO 1480449 (Title, Content, Location, Date) VALUES ("i ask me", "does it work?", "aia", "2009")')</sampleQuery>
+    <sampleQuery>USE 'http://github.com/iker/yql-tables/raw/master/google/google.fusiontables.xml' as table; INSERT INTO table (Email, Passwd,  Auth, sql) values ('ikerazpeitia@gmail.com', 'tdgoahsnwmsssjbk', 'DQAAAMQAAADBEegAATXQWuznQ7_WDUYgqA3gR0mRIJQiOQmYZ9RSeHBo3Ju5udPXp7dw8JijfBBCx1GqEqDa_siIpEnVqR5yeA4CqTXfSdt8wYS0h1tFZO_eeYmpf5Wmtce5_rkj1ld1_JEEXxUG36wU5MDrdzkD8zz_gwWM8NzEK899HiACFf7stznESbnpakXrU7qw8iDNiAJ6nZx0p0t9JOyPRJzSrVgJU4YnzVYFDV9r-L_W-xHGJ4RZ0rPLvThcb7cUi2Q79_rV4czLWhpCcyg231gR', "INSERT INTO 1480449 (Title, Content, Location, Date) VALUES ('i ask me', 'does it work?', 'aia', '2009')")</sampleQuery>
     <sampleQuery>use 'https://raw.github.com/iker/yql-tables/master/google/google.fusiontables.xml' as table; select * from table where Email='ikerazpeitia@gmail.com' and Passwd='tdgoahsnwmsssjbk'</sampleQuery>
  </meta>
   <bindings>
@@ -55,5 +55,3 @@ response.object = request.contentType("application/x-www-form-urlencoded").heade
 	    
   </bindings>
 </table>
-
-https://www.google.com/fusiontables/api/query?sql=insert%20into%201480449%20%28Title%2c%20Content%2c%20Location%2c%20Date%29%20values%20%28%22i%20ask%20me%22%2c%20%22does%20it%20work%3f%22%2c%20%22aia%22%2c%20%222009%22%29
