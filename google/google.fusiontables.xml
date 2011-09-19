@@ -48,6 +48,7 @@ var content = "accountType=" + encodeURIComponent(accountType) +
               "&Passwd=" + encodeURIComponent(Passwd) +
               "&service=" + encodeURIComponent(service) +
               "&source=" + encodeURIComponent(source);
+request.header("Authorization", "GoogleLogin auth=DQAAAMQAAADBEegAATXQWuznQ7_WDUYgqA3gR0mRIJQiOQmYZ9RSeHBo3Ju5udPXp7dw8JijfBBCx1GqEqDa_siIpEnVqR5yeA4CqTXfSdt8wYS0h1tFZO_eeYmpf5Wmtce5_rkj1ld1_JEEXxUG36wU5MDrdzkD8zz_gwWM8NzEK899HiACFf7stznESbnpakXrU7qw8iDNiAJ6nZx0p0t9JOyPRJzSrVgJU4YnzVYFDV9r-L_W-xHGJ4RZ0rPLvThcb7cUi2Q79_rV4czLWhpCcyg231gR" );
 response.object = request.contentType("application/x-www-form-urlencoded").header("GData-Version", "2").post(content).response;
       ]]></execute>
     </insert>
