@@ -9,7 +9,7 @@
   <bindings>
     <insert>
       <urls>
-        <url>https://www.google.com/fusiontables/api/query</url>
+        <url>https://accounts.google.com/ServiceLogin</url>
       </urls>
       <inputs>
         <key id="Email" paramType="variable" required="true"/>
