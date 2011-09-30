@@ -2,14 +2,14 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
 		<sampleQuery>
-			select * from {table} where isin in ("US9843321061")
+			select * from {table} where symbol in ("US9843321061")
 		</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="" produces="XML">
 			<urls><url></url></urls>
 			<inputs>
-				<key id='isin' type='xs:string' paramType='variable' required='true' />
+				<key id='symbol' type='xs:string' paramType='variable' required='true' />
 			</inputs>
 			<execute><![CDATA[
     // pad string with leading char
@@ -29,7 +29,7 @@
 	return str.slice(0, i + 1);
     }
 
-    var url = "http://finance.yahoo.com/lookup?s="+isin;
+    var url = "http://finance.yahoo.com/lookup?s="+symbol;
     var isinQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
@@ -41,7 +41,7 @@
     var stock = <stock symbol={symbol}></stock>;
     
     var results = isinQuery.results;
-    stock.Symbol = results.a.text().toString().trim();
+    stock.Isin = results.a.text().toString().trim();
     
     response.object = stock
 
