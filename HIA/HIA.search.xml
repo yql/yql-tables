@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Houyhnhnm</author>
+    <description>Search differenct sources of The Internet Archive, and returns the entries for the first page or a page described. Developer's note: it does not check for the number of pages from a query and use that to make a true control on the page input, restricting it to the number of pages the Internet Archive responds to with a page. Also a connect failure issue arises from the search if the page is too far, and it comes up as an error</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where query="yahoo" and zone="4"</sampleQuery>
+    <sampleQuery>select * from {table} where query="yahoo" and zone="4" and page="2"</sampleQuery>
+  </meta>
+  <bindings>
+     <select itemPath="" produces="XML">
+       <inputs>
+          <key  id='query'  type='xs:string' paramType='variable' required="false"  />
+          <key  id='kquery' type='xs:string' paramType='variable' required="false" /> <!-- not advisable for users to use but can be used to bring recursivity to calls to this table-->
+          <key  id='zone'   type='xs:string' paramType='variable' required="false" />
+          <key  id='page'   type='xs:string' paramType='variable' required="false" />
+       </inputs>
+       <execute>
+       <![CDATA[
+
+		var zoneval="";
+		var numsub;
+		var numsub2;
+		var yqlstr1="select * from html where url=\"http://www.archive.org/search.php?query=";
+		var yqlstr2="&page=";
+		var yqlstr3="\" and xpath=\"//td[@class='resultsCell']/table/tr[@class='hitRow']\"";
+		var yqlquery;
+		var yqlresults;
+		var yqlcounter;
+		var yqlcounter2;
+		var index;
+		var index2;
+		var extrastr="http://www.archive.org";
+		var extrastr2="number of downloads";
+		var xmlret;
+		var xmlret2;
+		var statecheck="";
+		if(query && zone)
+		{
+			statecheck=statecheck.concat(":yes query and zone");
+			numsub=parseInt(zone,10);
+			if(!page)
+			{
+				numsub2=1;
+				statecheck=statecheck.concat(":no page");
+			}
+			else
+			{
+				statecheck=statecheck.concat(":yes page");
+				numsub2=parseInt(page,10);
+			}
+			if((numsub>=1)&&(numsub<=37)&&(numsub2>=1))
+			{
+				statecheck=statecheck.concat(":good zone and checkable page");
+				query=query.replace(" ", "%20");
+				if(numsub==1)
+				{
+					zoneval="%20AND%20collection%3Aanimationandcartoons";
+				}
+				else if(numsub==2)
+				{
+					zoneval="%20AND%20collection%3Aartsandmusicvideos";
+				}
+				else if(numsub==3)
+				{
+					zoneval="%20AND%20collection%3Aopensource_movies";
+				}
+				else if(numsub==4)
+				{
+					zoneval="%20AND%20collection%3Acomputersandtechvideos";
+				}
+				else if(numsub==5)
+				{
+					zoneval="%20AND%20collection%3Aculturalandacademicfilms";
+				}
+				else if(numsub==6)
+				{
+					zoneval="%20AND%20collection%3Aephemera";
+				}
+				else if(numsub==7)
+				{
+					zoneval="%20AND%20collection%3Amoviesandfilms";
+				}
+				else if(numsub==8)
+				{
+					zoneval="%20AND%20collection%3Anewsandpublicaffairs";
+				}
+				else if(numsub==9)
+				{
+					zoneval="%20AND%20collection%3Aprelinger";
+				}
+				else if(numsub==10)
+				{
+					zoneval="%20AND%20collection%3Aspiritualityandreligion";
+				}
+				else if(numsub==11)
+				{
+					zoneval="%20AND%20collection%3Asports";
+				}
+				else if(numsub==12)
+				{
+					zoneval="%20AND%20collection%3Atelevision";
+				}
+				else if(numsub==13)
+				{
+					zoneval="%20AND%20collection%3Agamevideos";
+				}
+				else if(numsub==14)
+				{
+					zoneval="%20AND%20collection%3Avlogs";
+				}
+				else if(numsub==15)
+				{
+					zoneval="%20AND%20collection%3Ayouth_media";
+				}
+				else if(numsub==16)
+				{
+					zoneval="%20AND%20mediatype%3Atexts";
+				}
+				else if(numsub==17)
+				{
+					zoneval="%20AND%20collection%3Aamericana";
+				}
+				else if(numsub==18)
+				{
+					zoneval="%20AND%20collection%3Atoronto";
+				}
+				else if(numsub==19)
+				{
+					zoneval="%20AND%20collection%3Auniversallibrary";
+				}
+				else if(numsub==20)
+				{
+					zoneval="%20AND%20collection%3Aopensource";
+				}
+				else if(numsub==21)
+				{
+					zoneval="%20AND%20collection%3Agutenberg";
+				}
+				else if(numsub==22)
+				{
+					zoneval="%20AND%20collection%3Aiacl";
+				}
+				else if(numsub==23)
+				{
+					zoneval="%20AND%20collection%3Abiodiversity";
+				}
+				else if(numsub==24)
+				{
+					zoneval="%20AND%20collection%3Aadditional_collections";
+				}
+				else if(numsub==25)
+				{
+					zoneval="%20AND%20mediatype%3Aaudio";
+				}
+				else if(numsub==26)
+				{
+					zoneval="%20AND%20collection%3Aaudio_bookspoetry";
+				}
+				else if(numsub==27)
+				{
+					zoneval="%20AND%20collection%3Aopensource_audio";
+				}
+				else if(numsub==28)
+				{
+					zoneval="%20AND%20collection%3Aaudio_tech";
+				}
+				else if(numsub==29)
+				{
+					zoneval="%20AND%20collection%3AGratefulDead";
+				}
+				else if(numsub==30)
+				{
+					zoneval="%20AND%20collection%3Aetree";
+				}
+				else if(numsub==31)
+				{
+					zoneval="%20AND%20collection%3Aaudio_music";
+				}
+				else if(numsub==32)
+				{
+					zoneval="%20AND%20collection%3Anetlabels";
+				}
+				else if(numsub==33)
+				{
+					zoneval="%20AND%20collection%3Aaudio_news";
+				}
+				else if(numsub==34)
+				{
+					zoneval="%20AND%20collection%3Aaudio_foreign";
+				}
+				else if(numsub==35)
+				{
+					zoneval="%20AND%20collection%3Aaudio_podcast";
+				}
+				else if(numsub==36)
+				{
+					zoneval="%20AND%20collection%3Aradioprograms";
+				}
+				else if(numsub==37)
+				{
+					zoneval="%20AND%20collection%3Aaudio_religion";
+				}
+				else
+				{
+					statecheck=statecheck.concat(":zone out of bounds");
+				}
+				yqlquery=y.query(yqlstr1+query+zoneval+yqlstr2+String(numsub2)+yqlstr3);
+				statecheck=statecheck.concat(": query",yqlstr1,query,zoneval,yqlstr2,String(numsub2),yqlstr3);
+				yqlresults=yqlquery.results;
+				yqlcounter=parseInt(yqlresults.tr.length());
+				statecheck=statecheck.concat(": count",yqlresults.tr.length());
+				index=0;
+				xmlret=new XML();
+				xmlret=<root><count>{yqlresults.tr.length()}</count></root>;
+				if(yqlcounter>=1)
+				{
+					while(index<yqlcounter)
+					{
+						yqlcounter2=yqlresults.tr[index].td[1].p.a.length();
+						xmlret.root+=<node>
+							<title>{yqlresults.tr[index].td[1].a.text()}</title>
+							<link>http://www.archive.org{yqlresults.tr[index].td[1].a.@href}</link>
+							<description>{yqlresults.tr[index].td[1].p.text()} number of downloads</description>
+							<mediathumbnail>http://www.archive.org{yqlresults.tr[index].td[2]}</mediathumbnail>
+							<iasource>{numsub}</iasource>
+							<keywordcount>{yqlcounter2}</keywordcount>
+						</node>;
+						index++;
+					}
+				}
+				else
+				{
+					xmlret=new XML();
+					xmlret=<error>No returns on the page desired{statecheck}</error>;
+				}
+			}
+			else
+			{
+				xmlret=new XML();
+				xmlret=<error>output improper zone value, must be between 0 and 38, OR improper page value, must be greater than or equal to 1: URL OF Contributor ARTICLE {statecheck}</error>
+
+			}
+		}
+		else
+		{
+			xmlret=new XML();
+			if(kquery)
+			{
+				xmlret=<devnote>Kquery is not operative at this time, contact the developer for information</devnote>;
+			}
+			else
+			{
+				xmlret=<error>(((query and zone) not entered) and (kquery not entered or properly formed))</error>;
+			}
+		}
+		response.object=xmlret;
+]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
