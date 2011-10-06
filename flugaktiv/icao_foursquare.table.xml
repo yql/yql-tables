@@ -1,0 +1,18 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+<sampleQuery>			select * from {table} where icao="EDDF"		</sampleQuery>
+<description>Foursquare Places Information lookup based on IATA Code or ICAO Code </description>
+<documentationURL>http://flugaktiv.de/</documentationURL>
+</meta>
+<bindings>
+<select itemPath="flugaktiv.foursquare.place" produces="XML">
+<urls>
+<url>http://flugaktiv.de/db/icao_foursquare.php</url>
+</urls>
+<inputs>
+<key id="iata" type="xs:string" required="false" paramType="query"/>
+<key id="icao" type="xs:string" required="false" paramType="query"/>
+</inputs>
+</select>
+</bindings>
+</table>

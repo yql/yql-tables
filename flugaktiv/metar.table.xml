@@ -1,0 +1,17 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+<sampleQuery>			select * from {table} where icao="EDDF"		</sampleQuery>
+<description>Provides current METAR for a given ICAO Code</description>
+<documentationURL>http://flugaktiv.de/</documentationURL>
+</meta>
+<bindings>
+<select itemPath="flugaktiv.metar" produces="XML">
+<urls>
+<url>http://flugaktiv.de/db/metar.php</url>
+</urls>
+<inputs>
+<key id="icao" type="xs:string" required="true" paramType="query"/>
+</inputs>
+</select>
+</bindings>
+</table>
