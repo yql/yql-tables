@@ -11,9 +11,9 @@
         <key id="url" type="xs:string" paramType="variable" required="true"/>
       </inputs>
       <execute><![CDATA[
-// y.rest().head() not available :-(
-var results = y.rest(url).get();
-response.object = {url: url, status: results.status, headers: results.headers};
+// y.rest().head() is available as of b17991! :-)
+var results = y.rest(url).head();
+response.object = {url: results.url, status: results.status, headers: results.headers};
 ]]></execute>
     </select>
   </bindings>
