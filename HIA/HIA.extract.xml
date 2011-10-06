@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Houyhnhnm</author>
+    <description>extract a media file specified by the user from the internet archive element page. The url must be that of an internet archive page. The type is </description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where url="http://www.archive.org/details/yahoosatiricalrh00luci" and type="2" and ftype="txt"</sampleQuery>
+    <sampleQuery>select * from {table} where url="http://www.archive.org/details/MerrieMelodies-HittinTheTrailForHallelujahLand" and type="1" and ftype="mp4"</sampleQuery>
+   </meta>
+  <bindings>
+     <select itemPath="" produces="XML">
+       <inputs>
+          <key  id='url'  type='xs:string' paramType='variable' required="true"  />
+          <key  id='type' type='xs:string' paramType='variable' required="false" />
+          <key  id='ftype'   type='xs:string' paramType='variable' required="true" />
+          <key  id='iasource' type='xs:string' paramType='variable' required="false" />
+       </inputs>
+       <execute>
+       <![CDATA[
+
+		var yqlstr1="select * from html where url=\"";
+		var yqlstr2="\" and xpath=\"//table[@class='fileFormats']//td//a\"";//for video and audio  
+		var yqlstr3="\" and xpath=\"//p[@class='content']//a\"";//for text
+		var num1;
+		var yqlquery;
+		var yqlresults;
+		var yqlcounter;
+		var xmlret;
+		var index;
+		var subvalue;
+		var hsignal;
+		var regcheck;
+		var matchstring="";
+		if(url && ftype)
+		{
+			matchstring=matchstring.concat(".*[.]",ftype,"$");
+			if(type)
+			{
+				num1=parseInt(type);
+				if((num1!=1)&&(num1!=2))
+				{
+					num1=0;
+				}
+				else
+				{
+					//do nothing
+				}
+			}
+			else if(iasource)
+			{
+				num1=parseInt(iasource);
+				if((num1<25)&&(num1>15))
+				{
+					num1=2;
+				}
+				else
+				{
+					num1=1;
+				}
+			}
+			else
+			{
+				num1=0;  //iasource and type are not inputted
+			}
+
+			if(num1!=0)
+			{
+				if(num1==1)
+				{
+					yqlquery=y.query(yqlstr1+url+yqlstr2);
+					yqlresults=yqlquery.results;
+					yqlcounter=parseInt(yqlresults.a.length());
+					index=0;
+					xmlret=new XML();
+					xmlret=<root><count>{yqlresults.a.length()}</count></root>;
+					hsignal=true;
+					while((index<yqlcounter)&&(hsignal))
+					{
+						subvalue=new String();
+						subvalue=subvalue.concat(yqlresults.a[index].@href);
+						regcheck=new RegExp(matchstring);
+						if(subvalue.match(regcheck)!=null)
+						{
+	                                                xmlret=<typeurl>http://www.archive.org{yqlresults.a[index].@href}</typeurl>
+							hsignal=false;
+						}
+						else
+						{
+							xmlret.root+=<filetype>http://www.archive.org{yqlresults.a[index].@href}</filetype>
+						}
+						index++;
+					}
+					if(hsignal)
+					{
+						xmlret.root+=<error>the ftype is false{regcheck}</error>;
+					}
+					else
+					{
+					}
+				}
+				else//num1=2
+				{
+					yqlquery=y.query(yqlstr1+url+yqlstr3);
+					yqlresults=yqlquery.results;
+					yqlcounter=parseInt(yqlresults.a.length());
+					index=0;
+					xmlret=new XML();
+					xmlret=<root><count>{yqlresults.a.length()}</count></root>;
+					hsignal=true;
+					while((index<yqlcounter)&&(hsignal))
+					{
+						subvalue=new String();
+						subvalue=subvalue.concat(yqlresults.a[index].@href);
+						regcheck=new RegExp(matchstring);
+						if(subvalue.match(regcheck)!=null)
+						{
+	                                                xmlret=<typeurl>http://www.archive.org{yqlresults.a[index].@href}</typeurl>
+							hsignal=false;
+						}
+						else
+						{
+							xmlret.root+=<filetype>http://www.archive.org{yqlresults.a[index].@href}</filetype>
+						}
+						index++;
+					}
+					if(hsignal)
+					{
+						xmlret.root+=<error>the ftype is false{regcheck}</error>;
+					}
+					else
+					{
+					}
+				}
+			}
+			else
+			{
+				xmlret.root+=<error>the type is out of set [1 or 2] or the iasource is out of set[1 to 37] or type and iasource were not inputted by the user</error>;
+			}
+		}
+		else
+		{
+			xmlret.root+=<error>did not input url or ftype</error>;
+		}
+		response.object=xmlret;
+]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
