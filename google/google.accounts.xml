@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Iker Azpeitia</author>
+    <description>Get the Authorization token for a service and a source application from your Google account</description>
+    <documentationURL>http://code.google.com/apis/accounts/docs/AuthForInstalledApps.html</documentationURL>
+    <sampleQuery>use 'https://raw.github.com/iker/yql-tables/master/google/google.accounts.xml' as table; select * from table where Email='ikerazpeitia@gmail.com' and Passwd='tdgoahsnwmsssjbk'</sampleQuery>
+ </meta>
+  <bindings>
+   <select>
+      <urls>
+        <url>https://www.google.com/accounts/ClientLogin</url>
+      </urls>
+      <inputs>
+        <key id="accountType" paramType="variable" default="GOOGLE"/>
+        <key id="Email" paramType="variable" required="true"/>
+        <key id="Passwd" paramType="variable" required="true"/>
+        <key id="service" paramType="variable" default="fusiontables"/>
+        <key id="source" paramType="variable" default="iker-yql-1.0"/>
+      </inputs>
+      <execute><![CDATA[
+var content = "accountType=" + encodeURIComponent(accountType) +
+"&Email=" + encodeURIComponent(Email) +
+"&Passwd=" + encodeURIComponent(Passwd) +
+"&service=" + encodeURIComponent(service) +
+"&source=" + encodeURIComponent(source);
+response.object = request.contentType("application/x-www-form-urlencoded").header("GData-Version", "2").post(content).response;
+]]></execute>
+    </select>
+  </bindings>
+</table>
