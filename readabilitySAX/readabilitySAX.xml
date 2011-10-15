@@ -14,39 +14,36 @@
 	  <key id="html" type="xs:string" paramType="variable"/>
 	  <key id="url" type="xs:string" paramType="variable"/>
 	  <key id="type" type="xs:string" paramType="variable" default="html" />
+	  <key id="expand_url" type="xs:string" paramType="variable" default="t" />
+	  <key id="linksToSkip" type="xs:string" paramType="variable" default="{}" />
 	</inputs>
 			<execute><![CDATA[
 			//polyfill for object.create (https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create#Polyfill)
 			if (!Object.create) {
 				   Object.create = function (o) {
-						if (arguments.length > 1) {
-							 throw new Error('Object.create implementation only accepts the first parameter.');
-						}
 						function F() {}
 						F.prototype = o;
 						return new F();
 				   };
 			}
-			//polyfill for string.prototype.trim
-			if (!String.prototype.trim) {
-				   //http://blog.stevenlevithan.com/archives/faster-trim-javascript
-				   var trimBeginRegexp = /^\s\s*/;
-				   var trimEndRegexp = /\s\s*$/;
-				   String.prototype.trim = function () {
-					   return String(this).replace(trimBeginRegexp, '').replace(trimEndRegexp, '');
-				   };
-			}
 			
 			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/E4XasSAX.js");
+			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/node_url_module.js");
 			y.include("https://raw.github.com/FB55/readabilitySAX/master/readabilitySAX.js");
 			
+			if(expand_url === "t"){
+				y.include("https://raw.github.com/FB55/yql-tables/master/longurl/long_url.js");
+				url = getLongURL(url);
+			}
 			
 			var doc;
 			
 			if(typeof html === "undefined" || !html)
-				doc = y.tidy(y.rest(url).get().response );
+				doc = y.tidy(y.rest(url).get().response);
 			else
 				doc = y.tidy(html);
+			
+			linksToSkip = JSON.parse(linksToSkip);
 			
 			var skipLevel = 0;
 			var contentLength = 0;
@@ -54,10 +51,12 @@
 			
 			while(contentLength < 250 && skipLevel < 4){
 				p = {};
-				r = new readability.process(p,{
+				r = readability.process(p,{
 					log:function(){y.log.apply(y,arguments)},
 					skipLevel: skipLevel,
-					pageURL: url
+					linksToSkip: linksToSkip,
+					pageURL: url,
+					url: node_url_lib
 				});
 				
 				saxParser(doc, p);
@@ -67,7 +66,10 @@
 			}
 			y.log("got article");
 			
-			response.object = r.getArticle(type);
+			doc = r.getArticle(type);
+			doc.url = url;
+			
+			response.object = doc;
 			]]>
 			</execute>
 	</select>
