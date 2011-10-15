@@ -34,7 +34,7 @@
 									3 = snowy
 									4 = cloudy								
 								-->
-                <key id="returnfields" type="xs:string" paramType="query" default="feeling,sentence,posttime,postdate,posturl,gender,born,country,state,city,lat,lon,conditions"/>
+                <key id="returnfields" type="xs:string" paramType="query" default="imageid, feeling,sentence,posttime,postdate,posturl,gender,born,country,state,city,lat,lon,conditions"/>
 
 								<!-- 
 									limit is not a good key in YQL terms because it is also used as the YQL keyword LIMIT. 
@@ -64,8 +64,6 @@
 									feeling – specify the feeling you want returned e.g. sad, happy, depressed, etc. 
 									full list of valid feelings: http://www.wefeelfine.org/data/files/feelings.txt 
 								-->
-								<key id="feeling" type="xs:string" paramType="query"/>
-								
 								<key id="feeling" type="xs:string" paramType="query"/>
 								<key id="gender" type="xs:string" paramType="query"/>
 								<key id="agerange" type="xs:string" paramType="query"/>
