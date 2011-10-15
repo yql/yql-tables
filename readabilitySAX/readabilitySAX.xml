@@ -26,6 +26,30 @@
 						return new F();
 				   };
 			}
+			if (!Function.prototype.bind) {
+				 Function.prototype.bind = function (oThis) {
+				   if (typeof this !== "function") {
+					 // closest thing possible to the ECMAScript 5 internal IsCallable function
+					 throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+				   }
+			
+				   var fSlice = Array.prototype.slice,
+					   aArgs = fSlice.call(arguments, 1), 
+					   fToBind = this, 
+					   fNOP = function () {},
+					   fBound = function () {
+						 return fToBind.apply(this instanceof fNOP
+												? this
+												: oThis || window,
+											  aArgs.concat(fSlice.call(arguments)));
+					   };
+			
+				   fNOP.prototype = this.prototype;
+				   fBound.prototype = new fNOP();
+			
+				   return fBound;
+				 };
+			}
 			
 			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/E4XasSAX.js");
 			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/node_url_module.js");
