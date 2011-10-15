@@ -40,7 +40,7 @@
 					   fBound = function () {
 						 return fToBind.apply(this instanceof fNOP
 												? this
-												: oThis || window,
+												: oThis,
 											  aArgs.concat(fSlice.call(arguments)));
 					   };
 			
