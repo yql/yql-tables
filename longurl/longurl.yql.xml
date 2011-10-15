@@ -3,7 +3,7 @@
   <meta>
 	<author>Felix Boehm</author>
 	<documentationURL>http://www.feedic.com/</documentationURL>
-	<sampleQuery>select * from {table} where url="http://www.phoboslab.org/log/2011/06/javascriptcore-project-files-for-ios"</sampleQuery>
+	<sampleQuery>select * from {table} where url="http://j.mp/qOL6cD"</sampleQuery>
   </meta>
   <bindings>
   <select itemPath="" produces="XML">
