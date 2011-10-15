@@ -2,22 +2,20 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-			<description>API lets you query "feelings" as collected by www.wefeelfine.org</description>
+			<description>Resolves imageid and postdate of an image return from wefeelfine.feelings into an image URL.</description>
 			<documentationURL>http://www.wefeelfine.org/api.html</documentationURL>
-	    <sampleQuery description="Give me the most recent 50 sentences">SELECT sentence FROM wefeelfine WHERE count=50</sampleQuery>
+	    <sampleQuery>SELECT sentence FROM wefeelfine WHERE count=50</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="" produces="XML">
             <urls>
-                <url>http://api.wefeelfine.org:8080/ShowFeelings</url>
             </urls>
             <inputs>
-								<key id="postdate" type="xs:string" paramType="variable"/>
-								<key id="imageid" type="xs:string" paramType="variable"/>
+								<key id="postdate" type="xs:string" paramType="variable" required="true"/>
+								<key id="imageid" type="xs:string" paramType="variable" required="true"/>
 								<key id="imagesize" type="xs:string" paramType="variable"/>
             </inputs>
 
-						<!-- test of setting the caching time -->
 						<execute>
 						<![CDATA[
 							var imageurl = "http://images.wefeelfine.org/data/images/";
@@ -32,7 +30,6 @@
 							}
 						    
 							var result = <imageurl>{imageurl}</imageurl>;
-							y.log(result);
 							response.object = result;
 						]]>
 						</execute>

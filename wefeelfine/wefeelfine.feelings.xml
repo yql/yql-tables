@@ -4,7 +4,7 @@
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 			<description>API lets you query "feelings" as collected by www.wefeelfine.org</description>
 			<documentationURL>http://www.wefeelfine.org/api.html</documentationURL>
-	    <sampleQuery description="Give me the most recent 50 sentences">SELECT sentence FROM wefeelfine WHERE count=50</sampleQuery>
+	    <sampleQuery description="Give me the most recent 50 sentences">SELECT sentence FROM {table} WHERE count=50</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="feelings.feeling" produces="XML">
