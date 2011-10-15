@@ -21,8 +21,8 @@
 						<execute>
 						<![CDATA[
 							var imgpath = "http://images.wefeelfine.org/data/images/";
-							imgpath += postdate.replace('-','/');
-							imgpath += "/"+imageid;
+							imgpath += postdate.replace(/-/g,'/');
+							imgpath += "/" + imageid;
 						
 						  if(imagesize == "thumb") {
 								imgpath += "_thumb.jpg"; 
