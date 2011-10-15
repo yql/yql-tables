@@ -86,7 +86,7 @@
 			while(contentLength < 250 && skipLevel < 4){
 				p = {};
 				r = readability.process(p,{
-					log:function(){y.log.apply(y,arguments)},
+					log:function(){y.log(Array.prototype.join.call(arguments, " "));},
 					skipLevel: skipLevel,
 					//linksToSkip: linksToSkip,
 					pageURL: url,
