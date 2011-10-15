@@ -16,7 +16,7 @@
 									returnfields – comma delimited list of all the data you want to get back. Options are: 
 								
 									imageid (used to get images)
-									feeling (sad, depressed, happy, etc. – full list of valid feelings is here)
+									feeling (sad, depressed, happy, etc. – full list of valid feelings at http://www.wefeelfine.org/data/files/feelings.txt)
 									sentence (the full sentence that went with the feeling)
 									posttime (epoch timestamp of the time the post was scraped)
 									postdate (YYYY-MM-DD of the day the post was scraped)

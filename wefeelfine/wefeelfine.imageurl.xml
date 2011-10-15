@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>API lets you query "feelings" as collected by www.wefeelfine.org</description>
+			<documentationURL>http://www.wefeelfine.org/api.html</documentationURL>
+	    <sampleQuery description="Give me the most recent 50 sentences">SELECT sentence FROM wefeelfine WHERE count=50</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://api.wefeelfine.org:8080/ShowFeelings</url>
+            </urls>
+            <inputs>
+								<key id="postdate" type="xs:string" paramType="variable"/>
+								<key id="imageid" type="xs:string" paramType="variable"/>
+								<key id="imagesize" type="xs:string" paramType="variable"/>
+            </inputs>
+
+						<!-- test of setting the caching time -->
+						<execute>
+						<![CDATA[
+							var imgpath = "http://images.wefeelfine.org/data/images/";
+							imgpath += postdate.replace('-','/');
+							imgpath += "/"+imageid;
+						
+						  if(imagesize == "thumb") {
+								imgpath += "_thumb.jpg"; 
+							}
+						  else {
+								imgpath += "_full.jpg";
+							}
+						    
+							y.log(imgpath);
+						]]>
+						</execute>
+        </select>
+     </bindings>
+</table>
+
+
+
