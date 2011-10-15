@@ -20,18 +20,20 @@
 						<!-- test of setting the caching time -->
 						<execute>
 						<![CDATA[
-							var imgpath = "http://images.wefeelfine.org/data/images/";
-							imgpath += postdate.replace(/-/g,'/');
-							imgpath += "/" + imageid;
+							var imageurl = "http://images.wefeelfine.org/data/images/";
+							imageurl += postdate.replace(/-/g,'/');
+							imageurl += "/" + imageid;
 						
 						  if(imagesize == "thumb") {
-								imgpath += "_thumb.jpg"; 
+								imageurl += "_thumb.jpg"; 
 							}
 						  else {
-								imgpath += "_full.jpg";
+								imageurl += "_full.jpg";
 							}
 						    
-							y.log(imgpath);
+							var result = <imageurl>{imageurl}</imageurl>;
+							y.log(result);
+							response.object = result;
 						]]>
 						</execute>
         </select>
