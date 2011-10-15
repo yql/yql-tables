@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-  <meta>
-	<author>Felix Boehm</author>
-	<documentationURL>http://www.feedic.com/</documentationURL>
-	<sampleQuery>select * from {table} where url="http://www.phoboslab.org/log/2011/06/javascriptcore-project-files-for-ios"</sampleQuery>
-  </meta>
-  <bindings>
-  <select itemPath="" produces="XML">
-	<urls>
-	  <url></url>
-	</urls>
-	<inputs>
-	  <key id="html" type="xs:string" paramType="variable"/>
-	  <key id="url" type="xs:string" paramType="variable"/>
-	  <key id="type" type="xs:string" paramType="variable" default="html" />
-	  <key id="expand_url" type="xs:string" paramType="variable" default="t" />
-	  <key id="linksToSkip" type="xs:string" paramType="variable" default="{}" />
-	</inputs>
+	<meta>
+		<author>Felix Boehm</author>
+		<documentationURL>http://www.feedic.com/</documentationURL>
+		<sampleQuery>select * from {table} where url="http://www.phoboslab.org/log/2011/06/javascriptcore-project-files-for-ios"</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url/>
+			</urls>
+			<inputs>
+				<key id="html" type="xs:string" paramType="variable"/>
+				<key id="url" type="xs:string" paramType="variable"/>
+				<key id="type" type="xs:string" paramType="variable" default="html"/>
+				<key id="expand_url" type="xs:string" paramType="variable" default="t"/>
+				<!--<key id="linksToSkip" type="xs:string" paramType="variable" default="{}" />-->
+			</inputs>
 			<execute><![CDATA[
 			//polyfill for object.create (https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create#Polyfill)
 			if (!Object.create) {
@@ -43,7 +43,7 @@
 			else
 				doc = y.tidy(html);
 			
-			linksToSkip = y.jsonParse(linksToSkip);
+			//linksToSkip = y.jsonParse(linksToSkip);
 			
 			var skipLevel = 0;
 			var contentLength = 0;
@@ -54,7 +54,7 @@
 				r = readability.process(p,{
 					log:function(){y.log.apply(y,arguments)},
 					skipLevel: skipLevel,
-					linksToSkip: linksToSkip,
+					//linksToSkip: linksToSkip,
 					pageURL: url,
 					url: node_url_lib
 				});
@@ -70,8 +70,7 @@
 			doc.url = url;
 			
 			response.object = doc;
-			]]>
-			</execute>
-	</select>
-  </bindings>
+			]]></execute>
+		</select>
+	</bindings>
 </table>
