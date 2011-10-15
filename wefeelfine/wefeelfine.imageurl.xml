@@ -8,8 +8,6 @@
     </meta>
     <bindings>
         <select itemPath="" produces="XML">
-            <urls>
-            </urls>
             <inputs>
 								<key id="postdate" type="xs:string" paramType="variable" required="true"/>
 								<key id="imageid" type="xs:string" paramType="variable" required="true"/>
