@@ -1,16 +1,19 @@
 # wefeelfine.org API
 
-Access to the [API](http://www.wefeelfine.org/api.html) for the data from [wefeelfine.org](http://www.wefeelfine.org).
+YQL tables for the [API](http://www.wefeelfine.org/api.html) of [wefeelfine.org](http://www.wefeelfine.org).
 
 # Examples
 
 * Select the latest 10 collected feelings
+
 	SELECT * FROM wefeelfine.feelings
 	
 * Select the more feelings (up to 1500 maximum)
+
 	SELECT * FROM wefeelfine.feelings WHERE count=50
 	
 * Select specific feelings
+
 	SELECT * FROM wefeelfine.feelings WHERE feeling="happy"
 	SELECT * FROM wefeelfine.feelings WHERE gender="femalie"
 
