@@ -4,7 +4,7 @@
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 			<description>Resolves imageid and postdate of an image return from wefeelfine.feelings into an image URL.</description>
 			<documentationURL>http://www.wefeelfine.org/api.html</documentationURL>
-	    <sampleQuery>SELECT sentence FROM wefeelfine WHERE count=50</sampleQuery>
+	    <sampleQuery>SELECT * FROM {table} WHERE postdate="2006-04-27" AND imageid="p9tzFPjjoxHmtOlujQ7HvQ"</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="" produces="XML">

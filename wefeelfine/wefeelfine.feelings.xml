@@ -42,7 +42,7 @@
 									Maximum value is 1500.
 									The default 500.
 								-->
-								<key id="limit" as="count" type="xs:string" paramType="query"/>
+								<key id="limit" as="count" type="xs:string" paramType="query" default="20"/>
 								
 								<!-- 
 								feeling – specify the feeling you want returned (sad, happy, depressed, etc. – full list of valid feelings is here)
