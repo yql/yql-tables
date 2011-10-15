@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Renan Vaz &lt;eu@renanvaz.com.br&gt; e Felipe Roberto &lt;eu@feliperoberto.com.br&gt;</author>
+    <sampleQuery>SELECT * FROM {table} WHERE sCepOrigem = "08738080" AND sCepDestino = "08738000" AND nVlPeso = "1.5" AND nCdFormato = "1" AND nVlComprimento = "50" AND nVlAltura = "50" AND nVlLargura = "50" AND nVlDiametro = "50"</sampleQuery>
+    <description>
+    Consulta de prazos e preços aos Correios.
+    
+    Parâmetro nCdServico
+    41106: PAC sem contrato
+    40010: SEDEX sem contrato
+    40045: SEDEX a Cobrar, sem contrato
+    40215: SEDEX 10, sem contrato
+    40290: SEDEX Hoje, sem contrato
+    40096: SEDEX com contrato
+    40436: SEDEX com contrato
+    40444: SEDEX com contrato
+    81019: e-SEDEX, com contrato
+    41068: PAC com contrato
+    </description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx</url>
+      </urls>
+      <inputs>
+          <key type="xs:string" id="nCdServico" paramType="query" default="41106,40010,40045,40215,40290,40096,40436,40444,81019,41068"/>
+          <key type="xs:string" id="StrRetorno" paramType="query" default="xml"/>
+          <key type="xs:string" id="nCdEmpresa" paramType="query" default=""/>
+          <key type="xs:string" id="sDsSenha" paramType="query" default=""/>
+          <key type="xs:string" id="sCepOrigem" paramType="query" required="true"/>
+          <key type="xs:string" id="sCepDestino" paramType="query" required="true"/>
+          <key type="xs:string" id="nVlPeso" paramType="query" required="true"/>
+          <key type="xs:string" id="nCdFormato" paramType="query" default="1"/>
+          <key type="xs:string" id="nVlComprimento" paramType="query" required="true"/>
+          <key type="xs:string" id="nVlAltura" paramType="query" required="true"/>
+          <key type="xs:string" id="nVlLargura" paramType="query" required="true"/>
+          <key type="xs:string" id="nVlDiametro" paramType="query" required="true"/>
+          <key type="xs:string" id="sCdMaoPropria" paramType="query" default="N"/>
+          <key type="xs:string" id="nVlValorDeclarado" paramType="query" default="0"/>
+          <key type="xs:string" id="sCdAvisoRecebimento" paramType="query" default="N"/>
+      </inputs>
+    </select>
+  </bindings>
+</table> 

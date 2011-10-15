@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Carson McDonald</author>
+    <documentationURL>http://developers.soundcloud.com/docs/api/tracks</documentationURL>
+    <sampleQuery>select * from {table} where client_id='your client id' and tags='dubstep,heavy metal'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://api.soundcloud.com/tracks.json</url>
+      </urls>
+      <inputs>
+        <key id="client_id" type="xs:string" paramType="query" required="true" private="true"/>
+
+        <key id="tags" type="xs:string" paramType="query" required="false"/>
+        <key id="filter" type="xs:string" paramType="query" required="false"/>
+        <key id="license" type="xs:string" paramType="query" required="false"/>
+        <key id="order" type="xs:string" paramType="query" required="false"/>
+        <key id="bpm[from]" type="xs:string" paramType="query" required="false"/>
+        <key id="bpm[to]" type="xs:string" paramType="query" required="false"/>
+        <key id="duration[from]" type="xs:string" paramType="query" required="false"/>
+        <key id="duration[to]" type="xs:string" paramType="query" required="false"/>
+        <key id="created_at[from]" type="xs:string" paramType="query" required="false"/>
+        <key id="created_at[to]" type="xs:string" paramType="query" required="false"/>
+        <key id="ids" type="xs:string" paramType="query" required="false"/>
+        <key id="genres" type="xs:string" paramType="query" required="false"/>
+        <key id="types" type="xs:string" paramType="query" required="false"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

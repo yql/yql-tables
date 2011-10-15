@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+<author>Iker Azpeitia</author>
+<documentationURL>http://wiki.developers.facebook.com/index.php/Status.set</documentationURL>
+<sampleQuery>INSERT INTO facebook.setStatus (uid, status, access_token) values ('689274514', 'from yql', '118258664871253|2.AQDVvHnraYMUAiq5.3600.1305946800.0-689274514|FHO2bE_GyyD5dDsFHN0T6US4U_w')</sampleQuery>
+</meta>
+<bindings>
+<insert itemPath="" produces="XML">
+<urls>
+<url>https://api.facebook.com/method/status.set</url>
+</urls>
+<inputs>
+<key id="uid" paramType="query" required="true" type="xs:string"/>
+<key id="status" paramType="query" required="true" type="xs:string"/>
+<key id="access_token" paramType="query" required="true" type="xs:string"/>
+</inputs>
+</insert>
+</bindings>
+</table>

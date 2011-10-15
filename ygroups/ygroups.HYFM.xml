@@ -3,7 +3,7 @@
   <meta>
     <author>HOUYHNHNM</author>
     <description>This gets the first message from a public yahoo group</description>
-    <documentationURL>http://pulse.yahoo.com/_VASY5CLHMAYFUT265F7HSL3YHE/blog/articles/264414</documentationURL>
+    <documentationURL>http://meme.yahoo.com/h_dev/p/Nv1DnUW/</documentationURL>
     <sampleQuery>select * from {table} where url="A YAHOO GROUP URL" </sampleQuery>
  </meta>
   <bindings>

@@ -160,6 +160,11 @@
     <bindings>
 
         <select itemPath="ItemSearchResponse.Items.Item" produces="XML">
+            <paging model="page">
+                <start id="ItemPage" default="1" />
+                <pagesize id="Count" max="25" />
+                <total default="10" />
+            </paging>
             <urls>
                 <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&amp;Version=2008-08-19</url>
             </urls>
@@ -181,6 +186,11 @@
             ]]></execute>
         </select>
         <select itemPath="ItemSearchResponse.Items.Item" produces="XML">
+            <paging model="page">
+                <start id="ItemPage" default="1" />
+                <pagesize id="Count" max="25" />
+                <total default="10" />
+            </paging>
             <urls>
                 <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&amp;Version=2008-08-19</url>
             </urls>
@@ -202,6 +212,11 @@
           ]]></execute>
         </select>
         <select itemPath="ItemLookupResponse.Items.Item" produces="XML">
+            <paging model="page">
+                <start id="ItemPage" default="1" />
+                <pagesize id="Count" max="25" />
+                <total default="10" />
+            </paging>
             <urls>
                 <url>http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService</url>
             </urls>

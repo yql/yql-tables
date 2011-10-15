@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+     <sampleQuery>select * from {tab} where NEW="%3Ctest%3E%3Cvalue%3EHello!%3C%2Fvalue%3E%3C%2Ftest%3E" and execute= "var%20res%20%3D%20NEW.value.*%3B%0Aresponse.object%3D%3Cresult%20status%3D'ok'%3E%7Bres%7D%3C%2Fresult%3E%3B"</sampleQuery>
+     <author>Iker Azpeitia</author>
+     <documentationURL>http://www.onekin.org/</documentationURL>
+     <description>This table executes the 'execute' javascript code which might use the 'NEW' XML variable</description>
+    </meta>      
+    <bindings>
+       <select itemPath="" produces="XML">
+            <urls>
+                <url/>
+            </urls>
+            <inputs>
+              <key id="NEW" type="xs:string" paramType="variable" required="true"/>
+              <key id="execute" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute><![CDATA[    
+            var NEW= new XML(unescape(NEW));          
+            eval(unescape(execute));
+            ]]></execute>
+        </select>     
+    </bindings>
+</table>

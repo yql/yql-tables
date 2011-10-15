@@ -18,6 +18,7 @@
 				<key id='appid' type='xs:string' private="true" default='5061CD1C64F6015A128E51FE1FDFDC3B18D0610A' paramType='query' />
 				<key id="sources" type="xs:string" paramType="query" const="true" default="news" />
 				<key id='query' type='xs:string' required='true' paramType="query" />
+				<key id='category' type='xs:string' required='false' paramType="query" />
 			</inputs>
 		</select>
 	</bindings>

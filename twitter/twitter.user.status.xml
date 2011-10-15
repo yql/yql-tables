@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Bart Teeuwisse</author>
-    <documentationURL>http://thecodemill.biz/searchmonkey/twitter.user.status</documentationURL>
-    <sampleQuery>select * from {table} where id='bartt'</sampleQuery>
+    <author>Steve King</author>
+    <documentationURL>http://dev.twitter.com/doc/get/statuses/user_timeline</documentationURL>
+    <sampleQuery>select * from {table} where screen_name='steveathon'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="feed.entry.content.adjunct.item.item.meta" produces="XML">
+
+    <select itemPath="statuses.status" produces="XML">
       <urls>
-        <url>http://searchmonkey.thecodemill.biz/?url=http://twitter.com/{id}</url>
+        <url>http://api.twitter.com/1/statuses/user_timeline.xml?screen_name={screen_name}</url>
       </urls>
       <inputs>
-        <key id="id" type="xs:string" paramType="path" required="true"/>
+        <key id="screen_name" type="xs:string" paramType="path" required="true"/>
+	<key id="count" type="xs:string" paramType="query" required="false" default="1"/>
+	<key id="since_id" type="xs:string" paramType="query" required="false"/>
+
+	<key id="max_id" type="xs:string" paramType="query" required="false"/>
+	<key id="page" type="xs:string" paramType="query" required="false"/>
+	<key id="trim_user" type="xs:string" paramType="query" required="false"/>
+	<key id="include_rts" type="xs:string" paramType="query" required="false"/>
+	<key id="include_entities" type="xs:string" paramType="query" required="false"/>
+	
       </inputs>
     </select>
   </bindings>
 </table>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all Directorate Generals">SELECT * FROM euparliament.prelex.form WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get list of directives">SELECT * FROM euparliament.prelex.form WHERE form="Directive" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. This part of the API consist of 30.567 documents found using the PreLex search engine. Each dossier has been parsed to extract the meta data given in the API. The earliest dated document is from 1975-05-26. The newest document is dated 2011-04-19. 
+		
+		It contains a list of documents grouped by the legislative type. You can also see all documents of a particular form</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/prelex/form/?f=Directive -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/prelex/form/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- form (optional) 	
+				Get number of documents for a form -->
+				<key id="f" as="form" type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	
