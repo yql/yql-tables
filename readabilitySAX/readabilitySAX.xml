@@ -43,7 +43,7 @@
 			else
 				doc = y.tidy(html);
 			
-			linksToSkip = JSON.parse(linksToSkip);
+			linksToSkip = y.jsonParse(linksToSkip);
 			
 			var skipLevel = 0;
 			var contentLength = 0;
