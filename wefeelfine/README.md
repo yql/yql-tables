@@ -8,7 +8,7 @@ YQL tables for the [API](http://www.wefeelfine.org/api.html) of [wefeelfine.org]
 
 		SELECT * FROM wefeelfine.feelings
 	
-* Select the more feelings (up to 1500 maximum)
+* Select even more feelings (up to 1500 maximum)
 
 		SELECT * FROM wefeelfine.feelings WHERE count=50
 	
