@@ -8,19 +8,12 @@
 		<sampleQuery>SELECT * FROM {table} WHERE console_name = 'facebook'</sampleQuery>		
 	</meta>
 	<bindings>
-
-		<select itemPath="json.console" produces="JSON">
-			<urls>
-        <url env="all">http://api.apigee.com/v1/consoles.json</url>
-      </urls>
-			<paging model="page">
-				<start id="page" default="1" />
-				<pagesize id="per_page" max="100" />
-				<total default="10" />
-			</paging>
-	    <inputs/>
-    </select>
-
+		
+		<!-- 
+			this /select has to stay the 1st one, so that it takes
+			precedence over the 2nd /select in which the "console_name" 
+			parameter is optional.
+		-->
 		<select itemPath="json" produces="JSON">
 			<urls>
 				<url env="all">http://api.apigee.com/v1/consoles/{console_name}.json</url>
@@ -28,7 +21,14 @@
 			<inputs>
 				<key id="console_name" type="xs:string" paramType="path" required="true"/>
 			</inputs>
-    </select>		
+    </select>
+
+		<select itemPath="json.console" produces="JSON">
+			<urls>
+        <url env="all">http://api.apigee.com/v1/consoles.json</url>
+      </urls>
+	    <inputs/>
+    </select>
 		
   </bindings>
 </table>
