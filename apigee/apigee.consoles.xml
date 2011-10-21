@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
-		<author>Sebastian Spier</author>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 		<description>Get information about the ready made API consoles from apigee.com</description>
 	  <documentationURL>http://snap.apigee.com/qEPjIT</documentationURL>
-		<sampleQuery>SELECT * FROM {table}</sampleQuery>		
-		<sampleQuery>SELECT * FROM {table} WHERE console_name = 'facebook'</sampleQuery>		
+		<sampleQuery>SELECT * FROM {table}</sampleQuery>
+		<sampleQuery>SELECT wadlUrl FROM {table}</sampleQuery>		
+		<sampleQuery>SELECT * FROM {table} WHERE console_name = 'facebook'</sampleQuery>
+		<sampleQuery>SELECT * FROM {table} WHERE console_name = 'facebook' OR 'facebook'</sampleQuery>		
 	</meta>
 	<bindings>
 		
