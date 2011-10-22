@@ -17,8 +17,8 @@ Then you can load the [YQL console][console] and try the examples below, always 
 
 * articles from **topnews** (by default returns 10 results)
 
-	SET api_key="YOUR_API_KEY" ON usatoday;
-	SELECT * FROM usatoday.articles.topnews;
+		SET api_key="YOUR_API_KEY" ON usatoday;
+		SELECT * FROM usatoday.articles.topnews;
 	
 * more articles from **topnews** (in this case 20)
 
