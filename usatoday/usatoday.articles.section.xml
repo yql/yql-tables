@@ -7,9 +7,9 @@
 		    USA TODAY Articles API - Section
 		</description>
 		<documentationURL>http://developer.usatoday.com/docs/read/articles</documentationURL>
-		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND section='health'</sampleQuery>	
-		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND section='health' AND fromdate='2011-10-14' AND todate='2011-10-15'</sampleQuery>	
-		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND section='health' AND most='read'</sampleQuery>	 
+		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND section='tech'</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND section='tech' AND fromdate='2011-10-14' AND todate='2011-10-15'</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND section='tech' AND most='read'</sampleQuery>	 
 	</meta>
   <bindings>
 
