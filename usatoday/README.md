@@ -15,17 +15,17 @@ Then you can load the [YQL console][console] and try the examples below, always 
 
 ### topnews
 
-** articles from **topnews** (by default returns 10 results)
+* articles from **topnews** (by default returns 10 results)
 
 	SET api_key="YOUR_API_KEY" ON usatoday;
 	SELECT * FROM usatoday.articles.topnews;
 	
-** more articles from **topnews** (in this case 20)
+* more articles from **topnews** (in this case 20)
 
 	SET api_key="YOUR_API_KEY" ON usatoday;
 	SELECT * FROM usatoday.articles.topnews(0,20);
 
-** articles from **topnews** that fall into a certain **section**
+* articles from **topnews** that fall into a certain **section**
 
 	SET api_key="YOUR_API_KEY" ON usatoday;
 	SELECT * FROM usatoday.articles.topnews WHERE section='tech';
@@ -37,12 +37,12 @@ Then you can load the [YQL console][console] and try the examples below, always 
 	SET api_key="YOUR_API_KEY" ON usatoday;
 	SELECT * FROM usatoday.articles.search WHERE search='Germany';
 	
-** articles from a certain **reporter**
+* articles from a certain **reporter**
 
 	SET api_key="YOUR_API_KEY" ON usatoday;
 	SELECT * FROM usatoday.articles.search WHERE reporter='Zillgitt';	
 
-** articles with a given **tag**
+* articles with a given **tag**
 
 	SET api_key="YOUR_API_KEY" ON usatoday;
 	SELECT * FROM usatoday.articles.search WHERE tag='barack obama';
@@ -67,5 +67,3 @@ Then you can load the [YQL console][console] and try the examples below, always 
 
 [usatoday]: http://developer.usatoday.com
 [console]: http://yhoo.it/usatoday_yql
-
-
