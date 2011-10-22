@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<?xml-stylesheet type="text/xsl" href="yql-stylesheet.xsl" ?>
 
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
