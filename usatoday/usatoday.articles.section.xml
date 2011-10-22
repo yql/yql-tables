@@ -27,7 +27,7 @@
 	        <key id="encoding" type="xs:string" paramType="query" const="true" default="json" description="Format in which to return the results. Either JSON or RSS. (I am fixing this to JSON)" />
 
 	        <!-- specifics for this table -->
-	        <key id="search" type="xs:string" paramType="query" required="true" description="The search string" />
+	        <key id="section" type="xs:string" paramType="query" required="true" description="The search string" />
 
 	        <!-- 
 	            ##########################

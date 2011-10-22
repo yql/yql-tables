@@ -7,7 +7,7 @@
 		    USA TODAY Articles API - Search + Tag
 		</description>
 		<documentationURL>http://developer.usatoday.com/docs/read/articles</documentationURL>
-		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND search='money'</sampleQuery>
+		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND search='Germany'</sampleQuery>
 		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND reporter='Zillgitt'</sampleQuery>	
 		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND tag='barack obama'</sampleQuery>		
 	</meta>
