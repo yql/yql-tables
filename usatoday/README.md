@@ -1,6 +1,6 @@
 # YQL tables for APIs of USA Today
 
-Provides access to the [APIs of USA Today][usatoday] via YQL.
+Provides access to the [Article API of USA Today][usatoday] via YQL.
 
 NOTE: 
 Currently these tables only create YQL mappings for the Article API.
@@ -52,7 +52,7 @@ Then you can load the [YQL console][console] and try the examples below, always 
 * articles from a specific **section**
 
 		SET api_key="YOUR_API_KEY" ON usatoday;
-		SELECT * FROM usatoday.articles.section WHERE section='health';
+		SELECT * FROM usatoday.articles.section WHERE section='tech';
 
 * articles from a specific **section** and **time range**
 
