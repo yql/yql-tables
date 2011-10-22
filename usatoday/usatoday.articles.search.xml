@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="yql-stylesheet.xsl" ?>
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>
+		    USA TODAY Articles API
+		</description>
+		<documentationURL>http://developer.usatoday.com/docs/read/articles</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND search='money'</sampleQuery>		
+	</meta>
+  <bindings>
+
+    <select itemPath="json.stories" produces="JSON" description="Search for USAToday articles">
+    	<urls>
+	    	<url env="all">http://api.usatoday.com/open/articles</url>
+	    </urls>
+	    <paging model="page">
+	     <start id="page" default="1" />
+	     <pagesize id="count" max="100" />
+	     <total default="10" />
+	    </paging>
+	    <inputs>
+	        <!-- general parameters  -->
+	        <key id="api_key" type="xs:string" paramType="query" required="true" description="API key for USAToday" />
+	        <key id="encoding" type="xs:string" paramType="query" const="true" default="json" description="Format in which to return the results. Either JSON or RSS. (I am fixing this to JSON)" />
+
+	        <!-- specifics for this table -->
+	        <key id="search" type="xs:string" paramType="query" required="true" description="The search string" />
+
+	        <!-- 
+	            ##########################
+	            Developers may further customize their story feeds by using the following parameters.
+	            ##########################
+	        -->
+
+	        <key id="csp" type="xs:string" paramType="query" description="Appends the designated CSP value to each hyperlink." />				
+	        <key id="days" type="xs:string" paramType="query" description="Returns stories that are no older than X days old, where X equals the input value." />	
+	        <key id="reporter" type="xs:string" paramType="query" description="Returns only stories from a specific reporter. Query searches byline field." />			
+	        <key id="source" type="xs:string" paramType="query" description="Returns only stories from a specific news source." />			
+	        <key id="tickersonly" type="xs:string" paramType="query" description="When set to Y, returns only stories with embedded stock values. Best used with Money stories." />
+	    </inputs>
+    </select>
+
+  </bindings>
+</table>
