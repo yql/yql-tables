@@ -29,13 +29,13 @@
 
 	        <!-- specifics for this table -->
 	        <key id="search" type="xs:string" paramType="query" required="false" description="The search string" />
+					<key id="tag" type="xs:string" paramType="query" required="false" description="The tag to search for" />
 
 	        <!-- 
 	            ##########################
 	            Developers may further customize their story feeds by using the following parameters.
 	            ##########################
 	        -->
-
 	        <key id="csp" type="xs:string" paramType="query" description="Appends the designated CSP value to each hyperlink." />				
 	        <key id="days" type="xs:string" paramType="query" description="Returns stories that are no older than X days old, where X equals the input value." />	
 	        <key id="reporter" type="xs:string" paramType="query" description="Returns only stories from a specific reporter. Query searches byline field." />			
