@@ -105,8 +105,8 @@
         }
         service = services.service[0];
         debug && y.log(service);
-        var bookcode = book.code.(@service == service.name.toString()).toString();
-        var editioncode = edition.code.(@service == service.name.toString()).toString();
+        var bookcode = book.code.(@service == service.bookskey.toString()).toString();
+        var editioncode = edition.code.(@service == service.editionskey.toString()).toString();
         var queryoutput = new String();
         var output = new String();
         for each (var biblerefxml in biblerefsxml.*) {
