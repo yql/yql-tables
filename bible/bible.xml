@@ -168,10 +168,12 @@
           output = output.replace(/[,:;]$/,'.');
         }
         response.object = <passage>{output}</passage>;
-        if ( output.search(/’/) && ! output.substring(0,output.search(/’/)).search(/‘/) ) {
+        if ( -1 != output.indexOf("’") && 
+             -1 == output.substring(0,output.indexOf("’")).indexOf("‘") ) {
           output = '‘' + output;
         }
-        if ( output.search(/‘/) && ! output.substring(output.search(/‘/),output.length-1).search(/’/) ) {
+        if ( -1 != output.indexOf("‘") && 
+             -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
 
