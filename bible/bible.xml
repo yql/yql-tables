@@ -167,7 +167,6 @@
         else if (punctuation[0].match(/[,:;]/)) {
           output = output.replace(/[,:;]$/,'.');
         }
-        response.object = <passage>{output}</passage>;
         if ( -1 != output.indexOf("’") && 
              -1 == output.substring(0,output.indexOf("’")).indexOf("‘") ) {
           output = '‘' + output;
@@ -176,6 +175,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
+        response.object = <passage>{output}</passage>;
 
         function stringValue(node) {
             var value = new String();
