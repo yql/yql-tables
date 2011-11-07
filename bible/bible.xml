@@ -168,7 +168,12 @@
           output = output.replace(/[,:;]$/,'.');
         }
         response.object = <passage>{output}</passage>;
-
+        if ( output.search(/’/) && ! output.substring(0,output.search(/’/)).search(/‘/) ) {
+          output = '‘' + output;
+        }
+        if ( output.search(/‘/) && ! output.substring(output.search(/‘/),output.length-1).search(/’/) ) {
+          output += '’';
+        }
 
         function stringValue(node) {
             var value = new String();
