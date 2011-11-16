@@ -24,6 +24,21 @@
 
         <select itemPath="json.items" produces="JSON">
             <urls>
+                <url env="all">http://huffduffer.com/{collective}/collective/tags/{tag}/json</url>
+            </urls>
+            <inputs>
+                <key id="collective" type="xs:string" paramType="path" required="true" />
+                <key id="tag" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
                 <url env="all">http://huffduffer.com/{username}/json</url>
             </urls>
             <inputs>
@@ -42,21 +57,6 @@
                 <url env="all">http://huffduffer.com/tags/{tag}/json</url>
             </urls>
             <inputs>
-                <key id="tag" type="xs:string" paramType="path" required="true" />
-            </inputs>
-            <paging model="page">
-                <pagesize max="20" />
-                <start id="page" default="1" />
-                <total default="20" />
-            </paging>
-        </select>
-
-        <select itemPath="json.items" produces="JSON">
-            <urls>
-                <url env="all">http://huffduffer.com/{collective}/collective/tags/{tag}/json</url>
-            </urls>
-            <inputs>
-                <key id="collective" type="xs:string" paramType="path" required="true" />
                 <key id="tag" type="xs:string" paramType="path" required="true" />
             </inputs>
             <paging model="page">
