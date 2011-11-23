@@ -3,7 +3,7 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table breaks down complex bible references to a list of references to single verses. Also includes the OSISid format of the verse references.</description>
-    <sampleQuery>use "http://github.com/vicmortelmans/yql-tables/raw/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17"</sampleQuery>
+    <sampleQuery>use "https://raw.github.com/vicmortelmans/yql-tables/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17"</sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_200fmmzdthf</documentationURL>
   </meta>
   <bindings>
@@ -70,7 +70,7 @@
         function bookquery(book)
         {
           var booksquery, books;
-          booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
+          booksquery = 'select book from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/books.xml" and book.input matches "(?i)$book"';
           booksquery = booksquery.replace("$book",book);
           books = y.query(booksquery).results.books;
           if (books.book.length() < 1) {
@@ -89,7 +89,7 @@
         function bookoutlinequery(osisbook)
         {
           var booksquery, books;
-          booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/bible-outline.xml" and book.name = "$osisbook"';
+          booksquery = 'select book from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/bible-outline.xml" and book.name = "$osisbook"';
           booksquery = booksquery.replace("$osisbook",osisbook);
           books = y.query(booksquery).results.books;
           if (books.book.length() < 1) {
