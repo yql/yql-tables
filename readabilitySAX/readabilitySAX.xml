@@ -73,28 +73,27 @@
 			
 			var skipLevel = 0;
 			var contentLength = 0;
-			var r;
+			var article;
+			var r = new Readability({
+				log:function(){y.log(Array.prototype.join.call(arguments, " "));},
+				//linksToSkip: linksToSkip,
+				pageURL: url,
+				url: node_url_lib
+			});
 			
 			while(contentLength < 250 && skipLevel < 4){
-				r = new Readability({
-					log:function(){y.log(Array.prototype.join.call(arguments, " "));},
-					skipLevel: skipLevel,
-					//linksToSkip: linksToSkip,
-					pageURL: url,
-					url: node_url_lib
-				});
-				
+				r.setSkipLevel(skipLevel);
 				saxParser(doc, r);
 				
-				contentLength = r.getArticle().textLength;
+				article = r.getArticle(type);
+				contentLength = article.textLength;
 				skipLevel += 1;
 			}
 			y.log("got article");
 			
-			doc = r.getArticle(type);
-			doc.url = url;
+			article.url = url;
 			
-			response.object = doc;
+			response.object = article;
 			]]></execute>
 		</select>
 	</bindings>
