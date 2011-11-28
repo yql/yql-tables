@@ -251,12 +251,12 @@
               }
               else
               {
-                var phrase;
-                if (chapter==begin.chapter && versenumber==begin.verse.number)
+                var phrase = '';
+                if (chapter == begin.chapter && versenumber == begin.verse.number)
                 {
                   phrase = begin.verse.phrase?(begin.verse.phrase + '-'):'';
                 }
-                else if (chapter==end.chapter && versenumber==end.verse.number)
+                else if (chapter == end.chapter && versenumber == end.verse.number)
                 {
                   phrase = end.verse.phrase?('-' + end.verse.phrase):'';
                 }
