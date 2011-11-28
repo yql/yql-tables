@@ -11,37 +11,30 @@ function saxParser(xml, callbacks){
 	else if(typeof callbacks !== 'object')
 		throw 'please provide callbacks!';
 	
-	var emptyFunction = function(){},
-		onopentag = callbacks.onopentag || emptyFunction,
-		onclosetag = callbacks.onclosetag || emptyFunction,
-		onattribute = callbacks.onattribute,
-		ontext = callbacks.ontext || emptyFunction,
-		oncomment = callbacks.oncomment || emptyFunction;
-		//todo: support further events, options for trim & space normalisation
+	//todo: support further events, options for trim & space normalisation
 	
 	function parse(node){
-		var elem = {name:node.name().localName,attributes:{}}, 
+		var name = node.name().localName,
+		    attributes = {},
 		    attributeNodes = node.attributes(), 
 		    attrNum = attributeNodes.length(),
 		    j = 0;
 		
 		for(; j < attrNum; j++){
-		  elem.attributes[attributeNodes[j].name()+''] = attributeNodes[j].toString();
+		  attributes[attributeNodes[j].name()+''] = attributeNodes[j].toString();
 		}
-		onopentag(elem);
 		
-		if(onattribute)
-			for(j in elem.attributes) onattribute({ name: j, value: elem.attributes[j] });
+		callbacks.onopentag(name, attributes);
 		
 		var childs = node.children(), num = childs.length(), nodeType;
 		for(var i = 0; i < num; i++){
 			nodeType = childs[i].nodeKind();
-			if(nodeType === "text") ontext(childs[i].toString());
-    		else if(nodeType === "element") parse(childs[i]);
-    		else if(nodeType === "comment") oncomment(childs[i].toString());
-    		//[...]
+			if(nodeType === "text") callbacks.ontext(childs[i].toString());
+    			else if(nodeType === "element") parse(childs[i]);
+    			//else if(nodeType === "comment") callbacks.oncomment(childs[i].toString());
+    			//[...]
 		}
-		onclosetag(elem.name);
+		callbacks.onclosetag(elem.name);
 	}
 	
 	parse(xml);
