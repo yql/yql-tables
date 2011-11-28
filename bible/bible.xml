@@ -229,7 +229,7 @@
           while (remainingpassage.length > 0) {
             y.log(remainingpassage.length);
             y.log(remainingpassage);
-            var search = remainingpassage.search(/niet/); 
+            var search = remainingpassage.search(/: *\W/); 
             /* /[.!?]["' ,]*[[A-Z]]|;/ */
             y.log(search);
             if (search < 0) {
