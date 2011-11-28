@@ -34,7 +34,7 @@ function saxParser(xml, callbacks){
     			//else if(nodeType === "comment") callbacks.oncomment(childs[i].toString());
     			//[...]
 		}
-		callbacks.onclosetag(elem.name);
+		callbacks.onclosetag(name);
 	}
 	
 	parse(xml);
