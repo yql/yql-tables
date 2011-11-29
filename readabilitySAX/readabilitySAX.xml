@@ -54,7 +54,6 @@
 			}
 			
 			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/E4XasSAX.js");
-			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/node_url_module.js");
 			y.include("https://raw.github.com/FB55/readabilitySAX/master/readabilitySAX.js");
 			
 			if(expand_url === "t"){
@@ -77,8 +76,7 @@
 			var r = new Readability({
 				log:function(){y.log(Array.prototype.join.call(arguments, " "));},
 				//linksToSkip: linksToSkip,
-				pageURL: url,
-				url: node_url_lib
+				pageURL: url
 			});
 			
 			while(contentLength < 250 && skipLevel < 4){
