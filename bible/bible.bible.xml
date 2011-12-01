@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Vic Mortelmans</author>
-    <description>The table contains the complete bible. Each passage is a record, identified by it's citation reference.</description>
+    <description>The table contains the complete bible. Each passage is a record, identified by its citation reference.</description>
     <sampleQuery>select * from bible.bible where language='en' and book='Luke' and chapter=11 and passage=10</sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
   </meta>
