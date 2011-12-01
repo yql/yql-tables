@@ -1,0 +1,129 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+    <meta>  
+        <author>Andy Hume</author>
+        <documentationURL>http://huffduffer.com/api</documentationURL>
+        <sampleQuery>select * from {table} where username="adactio" and tag="responsive"</sampleQuery>
+    </meta>
+
+    <bindings>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/{username}/tags/{tag}/json</url>
+            </urls>
+            <inputs>
+                <key id="username" type="xs:string" paramType="path" required="true" />
+                <key id="tag" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/{collective}/collective/tags/{tag}/json</url>
+            </urls>
+            <inputs>
+                <key id="collective" type="xs:string" paramType="path" required="true" />
+                <key id="tag" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/{username}/json</url>
+            </urls>
+            <inputs>
+                <key id="username" type="xs:string" paramType="path" required="true" />
+                <key id="page" type="xs:string" paramType="query" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/tags/{tag}/json</url>
+            </urls>
+            <inputs>
+                <key id="tag" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/{collective}/collective/json</url>
+            </urls>
+            <inputs>
+                <key id="collective" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/search/json</url>
+            </urls>
+            <inputs>
+                <key id="q" type="xs:string" paramType="query" required="true" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/popular/json</url>
+            </urls>
+            <inputs>
+                <key id="popular" type="xs:string" paramType="path" required="true" />
+                <key id="dtstart" type="xs:string" paramType="query" />
+                <key id="dtend" type="xs:string" paramType="query" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+        
+        <select itemPath="json.items" produces="JSON">
+            <urls>
+                <url env="all">http://huffduffer.com/new/json</url>
+            </urls>
+            <inputs>
+                <key id="new" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <paging model="page">
+                <pagesize max="20" />
+                <start id="page" default="1" />
+                <total default="20" />
+            </paging>
+        </select>
+
+    </bindings>
+
+</table>
