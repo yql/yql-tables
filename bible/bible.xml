@@ -223,7 +223,7 @@
         }
 
         function extractPhrase(passage,phrase) {
-          phrase = phrase.replace('-','');
+          phrasechar = phrase.replace('-','');
           var phrases = new Array();
           var remainingpassage = passage.trim();
           while (remainingpassage.length > 0) {
@@ -241,7 +241,7 @@
             }
             debug && y.log(phrases[phrases.length-1]);
           }
-          var index = "abcdefghijkl".indexOf(phrase);
+          var index = "abcdefghijkl".indexOf(phrasechar);
           var i = 0;
           var result = new String();
           var before = phrase.match(/^-/);
