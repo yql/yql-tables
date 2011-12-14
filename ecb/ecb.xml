@@ -5,6 +5,7 @@
 			<description></description>
 			<documentationURL></documentationURL>
 	    <sampleQuery>SELECT * FROM {table} WHERE currency='huf'</sampleQuery>
+			<sampleQuery>SELECT * FROM {table} WHERE currency="usd" AND TIME_PERIOD="2011-12-14"</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="CompactData.DataSet.Series.Obs" produces="XML">

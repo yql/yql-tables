@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description></description>
+			<documentationURL></documentationURL>
+	    <sampleQuery>SELECT * FROM {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml</url>
+            </urls>
+            <inputs>
+            </inputs>
+        </select>
+     </bindings>
+</table>
+
+
+
+
+
