@@ -7,7 +7,7 @@
 	    <sampleQuery>SELECT * FROM {table} WHERE currency='huf'</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select itemPath="CompactData.DataSet.Series.Obs" produces="XML">
             <urls>
                 <url>http://www.ecb.int/stats/exchange/eurofxref/html/{currency}.xml</url>
             </urls>
