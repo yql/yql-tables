@@ -7,7 +7,7 @@
 	    <sampleQuery>SELECT * FROM {table}</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select itemPath="gesmes:Envelope.Cube.Cube.Cube" produces="XML">
             <urls>
                 <url>http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml</url>
             </urls>
