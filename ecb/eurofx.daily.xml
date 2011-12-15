@@ -2,8 +2,11 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-			<description></description>
-			<documentationURL></documentationURL>
+			<description>
+				Daily rates of the European Central Bank (ECB), 
+				quoted against the euro (base currency)
+			</description>
+			<documentationURL>http://www.ecb.int/stats/exchange/eurofxref/html/index.en.html</documentationURL>
 	    <sampleQuery>SELECT * FROM {table}</sampleQuery>
     </meta>
     <bindings>
