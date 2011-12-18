@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>presseportal.de - </description>
+	  <documentationURL></documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE company="67633"</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE office="70238"</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE attachment="70238"</sampleQuery>
+	</meta>
+	<bindings>
+
+		<!--
+			/info/company/id
+		-->
+		<select itemPath="json.company" produces="JSON">
+			<urls>
+    		<url env="all">http://api.presseportal.de/api/info/company/{company}</url>
+      </urls>
+     	<inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+			
+				<key id="id" as="company" type="xs:string" paramType="query" required="true" description="id of the company"/>			
+     	</inputs>
+    </select>
+
+		<!--
+			/info/office/id
+		-->
+		<select itemPath="json.office" produces="JSON">
+			<urls>
+    		<url env="all">http://api.presseportal.de/api/info/office/{office}</url>
+      </urls>
+     	<inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+			
+				<key id="id" as="office" type="xs:string" paramType="query" required="true" description="id of the office"/>			
+     	</inputs>
+    </select>
+
+		<!--
+			/info/media/id
+		-->
+		<select itemPath="json.media" produces="JSON">
+			<urls>
+    		<url env="all">http://api.presseportal.de/api/info/media/{attachment}</url>
+      </urls>
+     	<inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+			
+				<key id="id" as="attachment" type="xs:string" paramType="query" required="true" description="id of the id of the media attachment"/>			
+     	</inputs>
+    </select>
+
+
+  </bindings>
+</table>

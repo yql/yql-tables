@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>presseportal.de - Search for companies or public service offices</description>
+	  <documentationURL>http://api.presseportal.de/doc/</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE company="news aktuell"</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE office="bahn"</sampleQuery>					
+	</meta>
+	<bindings>
+
+		<!--
+			/search/company
+		-->
+		<select itemPath="json.content.result" produces="JSON">
+			<urls>
+    		<url env="all">http://api.presseportal.de/api/search/company</url>
+      </urls>
+			<paging model="offset">
+				<start id="start" default="0" />
+				<pagesize id="limit" max="100" />
+				<total default="20" />
+			</paging>
+     	<inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+			
+				<key id="q" as="company" type="xs:string" paramType="query" required="true" description="your search term (min. 3 chars, urlencoded utf8-string !)"/>			
+     	</inputs>
+    </select>
+
+		<!--
+			/search/office
+		-->
+		<select itemPath="json.content.result" produces="JSON">
+			<urls>
+    		<url env="all">http://api.presseportal.de/api/search/office</url>
+      </urls>
+			<paging model="offset">
+				<start id="start" default="0" />
+				<pagesize id="limit" max="100" />
+				<total default="20" />
+			</paging>
+     	<inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+			
+				<key id="q" as="office" type="xs:string" paramType="query" required="true" description="your search term (min. 3 chars, urlencoded utf8-string !)"/>			
+     	</inputs>
+    </select>
+
+  </bindings>
+</table>
