@@ -21,10 +21,17 @@
         <key private="true" id="v" type="xs:integer" default="2" paramType="query" />
       </inputs>
       <execute><![CDATA[
-        if(order_by.length<=0)
-        {
-                order_by="relevance";
-        }
+	if(order_by)
+	{
+	        if(order_by.length<=0)
+        	{
+	                order_by="relevance";
+	        }
+	}
+	else
+	{
+		order_by="relevance";
+	}
         var atom = Namespace("http://www.w3.org/2005/Atom");
         var media = Namespace("http://search.yahoo.com/mrss/");
         var gd = Namespace("http://schemas.google.com/g/2005");
