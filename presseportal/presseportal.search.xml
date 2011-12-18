@@ -18,7 +18,7 @@
       </urls>
 			<paging model="offset">
 				<start id="start" default="0" />
-				<pagesize id="limit" max="100" />
+				<pagesize id="limit" max="50" />
 				<total default="20" />
 			</paging>
      	<inputs>
@@ -38,7 +38,7 @@
       </urls>
 			<paging model="offset">
 				<start id="start" default="0" />
-				<pagesize id="limit" max="100" />
+				<pagesize id="limit" max="50" />
 				<total default="20" />
 			</paging>
      	<inputs>

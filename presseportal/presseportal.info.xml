@@ -2,11 +2,11 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
 		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
-		<description>presseportal.de - </description>
-	  <documentationURL></documentationURL>
+		<description>presseportal.de - Detailed information about a company, public service office, or media attachment.</description>
+	  <documentationURL>http://api.presseportal.de/doc/</documentationURL>
 		<sampleQuery>SELECT * FROM {table} WHERE company="67633"</sampleQuery>	
 		<sampleQuery>SELECT * FROM {table} WHERE office="70238"</sampleQuery>	
-		<sampleQuery>SELECT * FROM {table} WHERE attachment="70238"</sampleQuery>
+		<sampleQuery>SELECT * FROM {table} WHERE attachment="203045"</sampleQuery>
 	</meta>
 	<bindings>
 
