@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>
+				Historical rates of the European Central Bank (ECB), 
+				quoted against the euro (base currency)
+			</description>
+			<documentationURL>http://www.ecb.int/stats/exchange/eurofxref/html/index.en.html</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE currency='huf'</sampleQuery>
+			<sampleQuery>SELECT * FROM {table} WHERE currency="usd" AND TIME_PERIOD="2011-12-14"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="CompactData.DataSet.Series.Obs" produces="XML">
+            <urls>
+                <url>http://www.ecb.int/stats/exchange/eurofxref/html/{currency}.xml</url>
+            </urls>
+            <inputs>
+                <key id="currency" type="xs:string" paramType="path" required="true" />
+            </inputs>
+        </select>
+     </bindings>
+</table>
