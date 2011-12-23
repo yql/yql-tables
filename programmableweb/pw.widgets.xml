@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description></description>
+		<documentationURL>http://api.programmableweb.com/apireference</documentationURL>
+		<sampleQuery>SELECT * FROM {table}</sampleQuery>
+		<sampleQuery>SELECT * FROM {table} WHERE q="SMS"</sampleQuery>	
+	</meta>
+	<bindings>
+		
+		<select itemPath="feed.entry" produces="XML">
+			<urls>
+				<url env="all">http://api.programmableweb.com/widgets</url>
+			</urls>
+			<paging model="page">
+				<start id="page" default="0" />
+				<pagesize id="pagesize" max="30" />
+				<total default="20" />
+			</paging>
+			<inputs>
+				<!-- fix calls to always respond with XML -->
+				<key id="alt" type="xs:string" paramType="query" default="xml" const="true"/>
+				<!-- fix the version to 1.0 -->
+				<key id="version" type="xs:string" paramType="query" default="1.0" const="true"/>
+				
+				<key id="apikey" type="xs:string" paramType="query" required="true"/>
+				
+				<key id="q" type="xs:string" paramType="query"/>
+				<key id="sort" type="xs:string" paramType="query"/>
+				
+				<key id="maxdays" type="xs:string" paramType="query"/>
+			</inputs>
+		</select>
+
+  </bindings>
+</table>
