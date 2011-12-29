@@ -50,7 +50,7 @@ for (var i in links) {
   var rels = link.Rel;
   for (var j in rels) {
     var rel = rels[j];
-    if (rel.toLowerCase() == "http://webfinger.info/rel/service" || rel.toLowerCase() == "describedby") {
+    if (rel.toLowerCase() == "http://webfinger.info/rel/service" || rel.toLowerCase() == "lrdd") {
       var url = link.URITemplate.toString().replace("{%id}", encodeURI(account));
       url = url.replace("{%uri}", encodeURI("acct:" + account));
       url = url.replace("{id}", account);
