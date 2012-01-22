@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+	<meta>  
+		<author>Ryan Seddon</author>
+		<documentationURL>http://github.com/ryanseddon/SUX#readme</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE url='{urls:["http://goo.gl/5S9S"]}';</sampleQuery>  
+	</meta>  
+	<bindings>  
+		<select itemPath="" produces="XML">  
+			<inputs>  
+				<key id='url' type='xs:string' paramType='variable' required="true" />
+			</inputs>  
+			<execute><![CDATA[ 
+				var req = {},
+					remoteRequest,
+					resp = [];
+				
+				eval("url="+url);
+				
+				if(typeof url.urls === "string") {
+					getExpandedUrl(url.urls);
+				} else if(typeof url.urls === "object") {
+					for(var i = 0, len = url.urls.length; i<len; i++) {
+						getExpandedUrl(url.urls[i]);
+					}
+				} else {
+					req.error = "Something went wrong";
+				}
+				
+				response.object = {"expanded": resp};
+				
+				function getExpandedUrl(url) {
+					remoteRequest = y.rest(url);
+					remoteRequest.followRedirects(false);
+					req.response = remoteRequest.get();
+					resp.push((req.response.headers.location) ? req.response.headers.location : url);
+				}
+			]]></execute>  
+		</select>   
+	</bindings>  
+</table>  
