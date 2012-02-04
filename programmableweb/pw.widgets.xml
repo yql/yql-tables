@@ -23,7 +23,7 @@
 				<key id="alt" type="xs:string" paramType="query" default="xml" const="true"/>
 				<!-- fix the version to 1.0 -->
 				<key id="version" type="xs:string" paramType="query" default="1.0" const="true"/>
-				
+				<!-- the apikey to use. username/password could be used for authentication as well but is not recommended as they would be sent in plain text -->
 				<key id="apikey" type="xs:string" paramType="query" required="true"/>
 				
 				<key id="q" type="xs:string" paramType="query"/>

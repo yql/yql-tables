@@ -5,7 +5,7 @@
 		<description></description>
 		<documentationURL>http://api.programmableweb.com/apireference</documentationURL>
 		<sampleQuery>SELECT * FROM {table}</sampleQuery>
-		<sampleQuery>SELECT * FROM {table} WHERE q="spier"</sampleQuery>
+		<sampleQuery>SELECT * FROM {table} WHERE username="spier"</sampleQuery>
 		<sampleQuery>SELECT * FROM {table} WHERE q="San Francisco"</sampleQuery>		
 	</meta>
 	<bindings>

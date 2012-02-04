@@ -17,6 +17,5 @@ This is an incomplete set of YQL tables for the [ProgrammableWeb API](http://api
 ## Retrieve Data of Multiple ProgrammableWeb Members
 
 	SELECT * FROM pw.members 
-	WHERE 
-	(username="jmusser" OR username="duvander" OR username="spier")
+	WHERE (username="jmusser" OR username="duvander" OR username="spier")
 	AND apikey="YOUR_API_KEY"
