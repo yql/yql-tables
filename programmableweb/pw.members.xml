@@ -5,7 +5,8 @@
 		<description></description>
 		<documentationURL>http://api.programmableweb.com/apireference</documentationURL>
 		<sampleQuery>SELECT * FROM {table}</sampleQuery>
-		<sampleQuery>SELECT * FROM {table} WHERE q="spier"</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE q="spier"</sampleQuery>
+		<sampleQuery>SELECT * FROM {table} WHERE q="San Francisco"</sampleQuery>		
 	</meta>
 	<bindings>
 		
@@ -23,12 +24,11 @@
 				<key id="alt" type="xs:string" paramType="query" default="xml" const="true"/>
 				<!-- fix the version to 1.0 -->
 				<key id="version" type="xs:string" paramType="query" default="1.0" const="true"/>
-				
+				<!-- the apikey to use. username/password could be used for authentication as well but is not recommended as they would be sent in plain text -->
 				<key id="apikey" type="xs:string" paramType="query" required="true"/>
 				
-				<key id="q" type="xs:string" paramType="query"/>
+				<key id="q" as="query" type="xs:string" paramType="query"/>
 				<key id="sort" type="xs:string" paramType="query"/>
-
 				
 				<!-- TODO takes multiple values -->
 				<key id="apis" type="xs:string" paramType="query"/> 
