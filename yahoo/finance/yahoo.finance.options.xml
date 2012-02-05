@@ -88,7 +88,9 @@
 				var openIntStr;
 					
 				var optTypeMatch;
-	
+
+				y.log( "results:\n\r " + results );
+
 				for each ( var tr in results )
 				{
 					strikePrice = parseFloat( tr.td[0].a.strong.text() );
