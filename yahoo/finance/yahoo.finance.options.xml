@@ -111,7 +111,7 @@
 					changeDir = tr.td[3].span.img.@alt.toString();
 					bid = parseFloat( tr.td[4].span.text() );
 					ask = parseFloat( tr.td[5].span.text() );
-					volStr = tr.td[6].span.text();
+					volStr = tr.td[6].p.text();
 					vol = volStr.toInt();
 					openIntStr = tr.td[7].p.text(); 
 					openInt = openIntStr.toInt();
