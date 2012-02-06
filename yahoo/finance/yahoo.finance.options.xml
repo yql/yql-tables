@@ -107,8 +107,8 @@
 					lastPrice = tr.td[2].strong.text();
 					change = tr.td[3].span.strong.text();
 					changeDir = tr.td[3].span.img.@alt.toString();
-					bid = parseFloat( tr.td[4].span.text() );
-					ask = parseFloat( tr.td[5].span.text() );
+					bid = parseFloat( tr.td[4].p.text() );
+					ask = parseFloat( tr.td[5].p.text() );
 					volStr = tr.td[6].p.text();
 					vol = volStr.toInt();
 					openIntStr = tr.td[7].p.text(); 
