@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>
+				Daily rates of the European Central Bank (ECB), 
+				quoted against the euro (base currency)
+			</description>
+			<documentationURL>http://www.ecb.int/stats/exchange/eurofxref/html/index.en.html</documentationURL>
+	    <sampleQuery>SELECT * FROM {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="gesmes:Envelope.Cube.Cube.Cube" produces="XML">
+            <urls>
+                <url>http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml</url>
+            </urls>
+            <inputs>
+            </inputs>
+        </select>
+     </bindings>
+</table>

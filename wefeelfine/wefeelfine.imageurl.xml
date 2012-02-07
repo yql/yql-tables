@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+			<description>Resolves imageid and postdate of an image return from wefeelfine.feelings into an image URL.</description>
+			<documentationURL>http://www.wefeelfine.org/api.html</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE postdate="2006-04-27" AND imageid="p9tzFPjjoxHmtOlujQ7HvQ"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+								<key id="postdate" type="xs:string" paramType="variable" required="true"/>
+								<key id="imageid" type="xs:string" paramType="variable" required="true"/>
+								<key id="imagesize" type="xs:string" paramType="variable"/>
+            </inputs>
+
+						<execute>
+						<![CDATA[
+							var imageurl = "http://images.wefeelfine.org/data/images/";
+							imageurl += postdate.replace(/-/g,'/');
+							imageurl += "/" + imageid;
+						
+						  if(imagesize == "thumb") {
+								imageurl += "_thumb.jpg"; 
+							}
+						  else {
+								imageurl += "_full.jpg";
+							}
+						    
+							var result = <imageurl>{imageurl}</imageurl>;
+							response.object = result;
+						]]>
+						</execute>
+        </select>
+     </bindings>
+</table>
+
+
+
