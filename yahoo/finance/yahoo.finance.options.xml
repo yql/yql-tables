@@ -190,8 +190,7 @@
 			
 			var optionsChainQuery = y.xpath(
 							data, 
-							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
-							"@class='yfnc_tabledata1']]"
+							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[position()>1]/td")
 			);
 			
 			var expiresQuery = y.xpath( 
