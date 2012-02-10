@@ -1,146 +1,164 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head>
-    <title>YQL - Community Open Data Tables</title>
-    <style>
-    html {
-    height:100%;
-    min-height:100%;
-    width:100%;
-    }
-    body {
-    font-family:arial,helvetica,clean,sans-serif;
-    font-size:13px;
-    font-size-adjust:none;
-    font-style:normal;
-    font-variant:normal;
-    font-weight:normal;
-    color:#222;
-    }
-    h1 {
-        color:#008DC7;
-        margin:12px 0 4px 0;
-        font-size:300%;
-    }
-    h2 {
-        margin:12px 0 4px 0;
-    }
-    a {
-        color:#2288BB;
-        text-decoration:none;
-    }
-    a:hover {
-    text-decoration:underline;
-    }
-    .nav a {
-        font-weight:bold;
-    }
-    .nav {
-        display:block;
-        width:100%;
-        text-align:center;
-        margin:4px 0 40px 0;
-    }
-    .nav ul {
-        display:block;
-    }
-    .nav li {
-        color:#222;
-        display:block;
-        float:left;
-        padding-left:8px;
-    }
-    .nav a {
-        padding-right:8px;
-    }
-    .nav.header {
-        padding-bottom:20px;
-        border-bottom:1px solid #eee;
-        clear:both;
-    }
-    .nav.footer {
-        border-top:1px solid #eee;
-        clear:both;
-    }
-    .banner {
-        display:block;
-    }
-    .banner img {
-        vertical-align:middle;
-    }
-    .banner h1 {
-        display:inline;
-    }
-    h2 {
-        clear:both;
-    }
-    code, pre {
-        color:#008040;
-    }
-    h2 b {
-        text-decoration:underline;
-    }
-    </style>
-</head>
-<body>
-<div class='nav header'>
-<ul>
-<li><a href="http://developer.yahoo.com/yql">YQL</a>|</li>
-<li><a href="http://yqlblog.net">YQL Blog</a>|</li>
-<li><a href="http://developer.yahoo.com/yql/console/?env=http://datatables.org/alltables.env">YQL console + open data tables</a>|</li>
-<li><a href="http://developer.yahoo.com/yql/console">YQL console (built-in tables only)</a>|</li>
-<li><a href="http://github.com/yql/yql-tables/tree/master">github Open Data Tables</a>|</li>
-<li><a href="http://developer.yahoo.net/forum/index.php?showforum=41">YQL forum</a></li>
-</ul>
-</div>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?3.4.0/build/cssreset/cssreset-min.css&3.4.0/build/cssfonts/cssfonts-min.css&3.4.0/build/cssgrids/cssgrids-min.css&3.4.0/build/cssbase/cssbase-min.css">
+        <link rel="stylesheet" href="http://l.yimg.com/rt/index.css"> 
+        <title>YQL - Community Open Data Tables</title>
+    </head>
+    <body onload="createGridder()">
+        <!-- top section -->
+        <div id="top">
+            <!-- navigation -->
+            <nav>
+                <a id="name" href="./">datatables.org</a>
+                <span id="external">
+                    <a target="_blank" href="http://www.yqlblog.net/">blog</a>
+                    <a target="_blank" href="http://github.com/yql/yql-tables/tree/master">github</a>
+                    <a target="_blank" href="http://developer.yahoo.net/forum/index.php?showforum=41">forum</a>
+                    <a target="_blank" href="http://www.datatables.org/healthchecker">healthchecker</a>
+                    <a target="_blank" href="http://www.datatables.org/healthchecker/lint">lint</a>
+                </span>
+            </nav>
+        <div id="track">
+            <div id="marker"></div>
+        </div>
 
-<div class="banner">
-<img src="http://l.yimg.com/a/i/us/pps/yql128.gif" />
-<h1>Community Open Data Tables for YQL</h1>
-</div>
+        <!-- middle section -->
+        <div id="middle">
+            <div id="middlestuff">
+                <a class="icons" href="#" id="home"><span id="homeHover" class="hover"></span><span id="homeUnder"></span></a>
+                <a class="icons" href="#" id="start"><span id="startHover" class="hover"></span><span id="startUnder"></span></a>
+                <a class="icons" href="#" id="dev"><span id="devHover" class="hover"></span><span id="devUnder"></span></a>
+                <a class="icons" href="#" id="what"><span id="whatHover" class="hover"></span><span id="whatUnder"></span></a>
+                <a class="icons" href="#" id="opendata"><span id="opendataHover" class="hover"></span><span id="opendataUnder"></span></a>
+            </div>
+        </div>
+        <div id="bottom">
+            <div id="spotlight">
+                <div id="panel">
+                    <article>
+                        <h1>Community Open Data Tables for YQL</h1>
+                        <p>What if there was just a single, uniform way of using any web-service or data source like Amazon, iTunes, or Twitter?</p>
+                        <p>With YQL and community open data tables there is.</p>
+                        <p>The YQL (Yahoo! Query Language) platform enables developers to query, filter, and combine data across the web through a single interface. It exposes a SQL-like syntax that is both familiar to developers and expressive enough for getting the right data. </p>
+                        <p>Open Data Tables are XML files that can be "plugged" into the Yahoo! Query Language open platform (YQL). These files describe how the YQL SQL-like language can be mapped onto any web service or source on internet. Once mapped, these data sources can be used by developers in many ways in YQL.</p>
+                        <p>To get started with using YQL and community Open Data tables, check out the Getting Started section.</p>
+                    </article>
+                    <article>
+                        <h1>Getting Started</h1>
+                        <h2>Using community Open Data tables with YQL</h2>
+                        <p>In order to use YQL with the community tables, you must pass in the <a target="_blank" href="http://www.datatables.org/alltables.env">datatables env file</a>. You can do this on the YQL console as <a target="_blank" href="http://developer.yahoo.com/yql/console/?q=select%20*%20from%20internet&env=store://datatables.org/alltableswithkeys">part of a YQL statement</a>, or by <a target="_blank" href="http://developer.yahoo.com/yql/console/?env=store://datatables.org/alltableswithkeys">passing in a query parameter</a>.</p>
+                        <p>YQL supports three SQL-like verbs:<p> 
+                        <ol>
+                            <li><b>SHOW</b> for getting a list of the tables/data sources supported by the language/platform.</li>
+                            <li><b>DESC</b> for describing the input fields for a table and other meta information;</li>
+                            <li><b>SELECT</b> for fetching, combining, filtering and projecting data</li>
+                        </ol>
+                        <p>The following examples show how each of these verbs can be used for practical applications:</p>
+                        <div id="allexamples">
+                            <span class="examples">
+                                <div class="headers">SHOW</div>
+                                <ul class="showcase">
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/?q=show%20tables">Show all builtin tables</a></li>
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/?q=show%20tables&env=store://datatables.org/alltableswithkeys">Show all community tables</a></li>
+                                </ul>
+                            </span>
+                            <span class="examples">
+                                <div class="headers">DESCRIBE</div>
+                                <ul class="showcase">
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/#h=desc%20maps.map">Get a description of Yahoo! Maps</a></li>
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/?q=desc%20maps.map&env=store://datatables.org/alltableswithkeys#h=desc%20amazon.ecs">Get a description of Amazon ECS</a></li>
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/?q=desc%20maps.map&env=store://datatables.org/alltableswithkeys#h=desc%20apple.itunes">Get a description of iTunes</a></li>
+                                </ul>
+                            </span>
+                            <span class="examples">
+                                <div class="headers">SELECT</div>
+                                <ul class="showcase">
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/#h=select%20*%20from%20weather.forecast%20where%20location%3D93463">Get the weather for zipcode 93463</a></li>
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/?q=show%20tables&env=store://datatables.org/alltableswithkeys#h=select%20*%20from%20deviantart.search%20where%20query%3D%22brandonrp%22">Get some artwork from deviantART</a></li>
+                                    <li><a target="_blank" href="http://developer.yahoo.com/yql/console/?q=show%20tables&env=store://datatables.org/alltableswithkeys#h=select%20*%20from%20apple.itunes%20where%20term%3D%27Deep%20Purple%27%20and%20media%3D%27all%27%20and%20entity%3D%27allTrack%27%20and%20attribute%3D%27allArtistTerm%27%20and%20limit%3D%27100%27%20and%20sort%3D%27recent%27%3B">Get all media related to Deep Purple from iTunes</a></li>
+                                </ul>
+                            </span>
+                        </div>
+                        <p>For more information on how to use YQL, please refer to the <a target="_blank" href="http://developer.yahoo.com/yql/guide/yql_users_guide.html">YQL Developer Guide</a>.</p>
+                        <br/>
+                        <br/>
+                        <h2>How to contribute an Open Data table</h2>
+                        <p>A quick read of the YQL guide is a great starting point, in particular the sections on <a target="_blank" href="http://developer.yahoo.com/yql/guide/yql_users_guide.html">Open Data tables</a> and <a target="_blank" href="http://developer.yahoo.com/yql/guide/yql-execute-chapter.html">Running your own code with Execute in Open Data Tables</a>.</p>
+                        <p>Another easy way of working out how to do something is to look at <a target="_blank" href="http://github.com/yql/yql-tables/tree/master"> someone else's open data table</a> that wraps a data source similar to what you want to enable.</p>
+                    </article>
+                    <article>
+                        <h1>Developer Tools</h1>
+                        <p>The YQL Developer Tools were created to assist developers in creating and debugging Open Data tables.</p>
+                        <ul id="toolslist">
+                            <li>
+                                <a target="_blank" href="http://www.datatables.org/healthchecker/lint">
+                                <img src="http://l.yimg.com/rt/lint.png"/>
+                                <h2>YQL Lint</h2>
+                                <p>Similar to jsonlint, YQL Lint will check your Open Data Table XML for any syntax flaws or execution conflicts with YQL.</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="http://www.datatables.org/healthchecker/">
+                                <img src="http://l.yimg.com/rt/tablehealth.png"/>
+                                <h2>YQL TableHealth</h2>
+                                <p>This is a tool designed to provide a quick general overview of how‚ "healthy" the community Open Data tables are.</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </article>
+                    <article>
+                        <h1>What is YQL?</h1>
+                        <p>YQL (Yahoo Query Language), is a tool that allows you to query, filter, and combine data across the web. Some of the features include:</p>
+                        <ul id="featureslist">
+                            <li>
+                                <span id="y" class="featureimg"></span>
+                                <span class="desc">
+                                    <div class="headers">Direct access to Yahoo! content</div>
+                                    <p>YQL can directly tap into the source of Yahoo! content.</p>
+                                </span>
+                            </li>
+                            <li>
+                                <span id="cloud" class="featureimg"></span>
+                                <span class="desc">
+                                    <div class="headers">Cloud storage</div>
+                                    <p>YQL allows you to store and use data using YQL itself on Yahoo!'s Sherpa cloud storage infrastructure..</p>
+                                </span>
+                            </li>
+                            <li>
+                                <span id="security" class="featureimg"></span>
+                                <span class="desc">
+                                    <div class="headers">Security</div>
+                                    <p>YQL implements several security features such as Access-Control-Allow-Origins and OAuth 1.0.</p>
+                                </span>
+                            </li>
+                        </ul>
+                        <p>For a full list of features, please refer to the <a target="_blank" href="http://developer.yahoo.com/yql/">main YQL website</a>.</p>
+                    </article>
+                    <article>
+                        <h1>Open Data Tables</h1>
+                        <h2>What are Open Data Tables?</h2>
+                        <p>Open Data Tables are XML files that can be "plugged" into the Yahoo! Query Language open platform (YQL). These files describe how the YQL SQL-like language can be mapped onto any web service or source on internet. Once mapped, these data sources can be used by developers in many ways in YQL.</p>
+                        <h2>What are Community Open Data Tables?</h2>
+                        <p>While anyone can develop and share an open data table for YQL, we are encouraging the community of open data table developers to contribute their tables to the open data tables <a target="_blank" href="http://github.com/yql/yql-tables/tree/master">github</a> project. This makes tables much easier to find and share, and try out in the YQL console.</p>
+                        <h2>Why isn't this site on github?</h2>
+                        <p>While github is a great source control site, it's not intended to serve content quickly. datatables.org keeps a copy of the github master tree and automatically creates a single "env" file. Environment files enable the YQL console and web service to load up many open data tables from a single URL.</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <footer><p>Copyright &copy; 2011 Yahoo! Inc. All rights reserved. <span id="noun">Icons courtesy of the <a target="_blank" href="http://www.thenounproject.com/">Noun Project</a>.</span></p></footer> 
 
-<h2>What's <a href="http://developer.yahoo.com/yql">YQL</a>? <code>select * from internet</code></h2>
-The Yahoo! Query Language (YQL) platform enables developers to query, filter, and combine data across the web. YQL exposes a SQL-like syntax that is both familiar to developers and expressive enough for getting the right data.  YQL supports three SQL-like verbs:
-<ul>
-<li><code>SELECT</code> for fetching, combining, filtering and projecting data.</li>
-<li><code>DESC</code> for describing the input fields for a table and other meta information.</li>
-<li><code>SHOW</code> for getting a list of the tables/data sources supported by the language/platform.</li>
-</ul>
-The SELECT statement is the primary verb for YQL:
-<pre>
-SELECT what FROM table WHERE filter
-</pre>
-In addition, YQL also supports several post-query functions like sort and unique. 
-
-<h2>What are <a href="http://developer.yahoo.com/yql/guide/yql-opentables-chapter.html">open data tables</a>?</h2>
-Open Data Tables are XML files that can be "plugged" into the <a href="http://developer.yahoo.com/yql/">Yahoo! Query Language open platform (YQL)</a>. These files describe how the YQL SQL-like language can be mapped onto any web service or source on internet. Once mapped, these data sources can be used by developers in many ways in YQL.
-
-<h2>What are <b>community</b> open data tables?</h2>
-While anyone can develop and share an open data table for YQL, we are encouraging the community of open data table developers to contribute their tables to the open data tables <a href="http://github.com/yql/yql-tables/tree/master">github</a> project. This makes tables much easier to find and share, and try out in the YQL console.
-
-<h2>Why isn't this site on github?</h2>
-While github is a great source control site, it's not intended to serve content quickly. datatables.org keeps a copy of the github master tree and automatically creates a single "env" file. Environment files enable the YQL console and web service to load up many open data tables from a single URL.
-
-<h2>How can I <a href="http://developer.yahoo.com/yql/console/?env=http://datatables.org/alltables.env">try</a> a table in the console?</h2>
-You can import <b>all</b> the current open data tables <a href="http://developer.yahoo.com/yql/console/?env=http://datatables.org/alltables.env">in the console</a>. This uses the <a href="http://datatables.org/alltables.env">environment file</a> hosted here. If you want a single one try the <code>use</code> verb. Read about that <a href="http://developer.yahoo.com/yql/guide/yql-opentables-import.html">here</a>.
-
-<h2>How can I build my own tables?</h2>
-A quick read of the <a href="http://developer.yahoo.com/yql/guide/">YQL guide</a> is a great starting point, in particular:
-<ul>
-    <li><a href="http://developer.yahoo.com/yql/guide/yql-opentables-chapter.html">Open Data tables</a></li>
-    <li>Running your own code with <a href="http://developer.yahoo.com/yql/guide/yql-execute-chapter.html">Execute</a> in Open Data Tables</li>
-</ul>
-One the other easy way of working out how to do something is to <a href="http://github.com/yql/yql-tables/tree/master">look at someone else's open data table</a> that wraps a data source similar to what you want to enable.
-<br/>
-<div class="nav footer">
-    <ul>
-    <li><a href="http://developer.yahoo.com/yql">YQL</a>|</li>
-    <li><a href="http://yqlblog.net">YQL Blog</a>|</li>
-    <li><a href="http://developer.yahoo.com/yql/console/?env=http://datatables.org/alltables.env">YQL console + open data tables</a>|</li>
-    <li><a href="http://developer.yahoo.com/yql/console">YQL console (built-in tables only)</a>|</li>
-    <li><a href="http://github.com/yql/yql-tables/tree/master">github Open Data Tables</a>|</li>
-    <li><a href="http://developer.yahoo.net/forum/index.php?showforum=41">YQL forum</a></li>
-    </ul>
-</div>
-</body>
+        <!-- javascript dependencies -->
+        <script src="http://yui.yahooapis.com/3.4.0/build/simpleyui/simpleyui-min.js"></script>
+        <script src="http://l.yimg.com/rt/index.js"></script>
+        <!--
+        <script>
+            createGridder = function() {
+                return;
+                document.body.appendChild(document.createElement('script')).src='960.js';
+            }
+        </script>
+        -->
+    </body>
 </html>
