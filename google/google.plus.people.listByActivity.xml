@@ -6,27 +6,17 @@
     <sampleQuery>select * from {table} where key="my_key_id" and activityId="z12dcbkzdvnqv5fek23fdxtznyabhbjxt04" and collection="116115719351294422282"</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="json" produces="XML">
+    <select itemPath="json" produces="JSON">
+      <urls>
+        <url>https://www.googleapis.com/plus/v1/activities/{activityId}/people/{collection}</url>
+      </urls>
       <inputs>
         <key id="activityId" type="xs:string" paramType="path" required="true" />
         <key id="collection" type="xs:string" paramType="path" required="true" />
-        <key id="maxResults" type="xs:number" paramType="path" />
-        <key id="pageToken" type="xs:string" paramType="path" />
-        <key id="key" type="xs:string" paramType="path" required="true" />
+        <key id="maxResults" type="xs:number" paramType="query" />
+        <key id="pageToken" type="xs:string" paramType="query" />
+        <key id="key" type="xs:string" paramType="query" required="true" />
       </inputs>
-      <execute><![CDATA[
-
-        var e = encodeURIComponent;
-        var url = 'https://www.googleapis.com/plus/v1/activities/' + activityId + '/people/' + collection + '?key=' + e(key);
-
-        if (maxResults)
-          url += '&maxResults=' + e(maxResults);
-        if (pageToken)
-          url += '&pageToken=' + e(pageToken);
-
-        response.object = y.rest(url).get().response;
-
-      ]]></execute>
     </select>
   </bindings>
 </table>

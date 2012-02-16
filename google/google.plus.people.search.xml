@@ -6,30 +6,18 @@
     <sampleQuery>select * from {table} where key="my_api_key" and query="Ritchie"</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="json" produces="XML">
+    <select itemPath="json" produces="JSON">
+      <urls>
+        <url>https://www.googleapis.com/plus/v1/people</url>
+      </urls>
       <inputs>
-        <key id="query" type="xs:string" paramType="path" required="true" />
-        <key id="language" type="xs:string" paramType="path" />
-        <key id="maxResults" type="xs:number" paramType="path" />
-        <key id="orderBy" type="xs:string" paramType="path" />
-        <key id="pageToken" type="xs:string" paramType="path" />
-        <key id="key" type="xs:string" paramType="path" required="true" />
+        <key id="query" type="xs:string" paramType="query" required="true" />
+        <key id="language" type="xs:string" paramType="query" />
+        <key id="maxResults" type="xs:number" paramType="query" />
+        <key id="orderBy" type="xs:string" paramType="query" />
+        <key id="pageToken" type="xs:string" paramType="query" />
+        <key id="key" type="xs:string" paramType="query" required="true" />
       </inputs>
-      <execute><![CDATA[
-
-        var e = encodeURIComponent;
-        var url = 'https://www.googleapis.com/plus/v1/people?query=' + e(query) + '&key=' + e(key);
-
-        if (language)
-          url += '&language=' + e(language);
-        if (maxResults)
-          url += '&maxResults=' + e(maxResults);
-        if (pageToken)
-          url += '&pageToken=' + e(pageToken);
-
-        response.object = y.rest(url).get().response;
-
-      ]]></execute>
     </select>
   </bindings>
 </table>
