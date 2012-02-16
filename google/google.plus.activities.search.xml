@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Dan Beam</author>
+    <documentationURL>https://developers.google.com/+/api/latest/activities/search</documentationURL>
+    <sampleQuery>select * from {table} where key="my_api_key" and query="hacking"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="json" produces="XML">
+      <inputs>
+        <key id="query" type="xs:string" paramType="path" required="true" />
+        <key id="language" type="xs:string" paramType="path" />
+        <key id="maxResults" type="xs:number" paramType="path" />
+        <key id="orderBy" type="xs:string" paramType="path" />
+        <key id="pageToken" type="xs:string" paramType="path" />
+        <key id="key" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <execute><![CDATA[
+
+        var e = encodeURIComponent;
+        var url = 'https://www.googleapis.com/plus/v1/activities?query=' + e(query) + '&key=' + e(key);
+
+        if (language)
+          url += '&language=' + e(language);
+        if (pageToken)
+          url += '&pageToken=' + e(pageToken);
+        if (maxResults)
+          url += '&maxResults=' + e(maxResults);
+        if (/best|recent/i.test(orderBy))
+          url += '&orderBy' + orderBy.toLowerCase();
+
+        response.object = y.rest(url).get().response;
+
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
