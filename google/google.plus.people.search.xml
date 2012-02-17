@@ -13,7 +13,7 @@
       <inputs>
         <key id="query" type="xs:string" paramType="query" required="true" />
         <key id="language" type="xs:string" paramType="query" />
-        <key id="maxResults" type="xs:number" paramType="query" />
+        <key id="maxResults" type="xs:integer" paramType="query" />
         <key id="orderBy" type="xs:string" paramType="query" />
         <key id="pageToken" type="xs:string" paramType="query" />
         <key id="key" type="xs:string" paramType="query" required="true" />

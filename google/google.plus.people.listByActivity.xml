@@ -13,7 +13,7 @@
       <inputs>
         <key id="activityId" type="xs:string" paramType="path" required="true" />
         <key id="collection" type="xs:string" paramType="path" required="true" />
-        <key id="maxResults" type="xs:number" paramType="query" />
+        <key id="maxResults" type="xs:integer" paramType="query" />
         <key id="pageToken" type="xs:string" paramType="query" />
         <key id="key" type="xs:string" paramType="query" required="true" />
       </inputs>
