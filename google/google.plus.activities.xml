@@ -3,7 +3,7 @@
   <meta>
     <author>Dan Beam</author>
     <documentationURL>http://developers.google.com/+/api/latest/activities/get</documentationURL>
-    <sampleQuery>select * from {table} where key="my_api_key" and activityId in (select item.id from google.plus.activities.list where key="my_api_key" and userId="116115719351294422282")</sampleQuery>
+    <sampleQuery>select * from {table} where key="my_api_key" and activityId in (select items.id from google.plus.activities.list where key="my_api_key" and userId="116115719351294422282")</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="json" produces="JSON">
