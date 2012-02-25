@@ -1,8 +1,6 @@
-# YQL Datatables for peerindex.net
+# YQL Datatables for PeerIndex API
 
 YQL datatables for the [PeerIndex API][peerindex_api].
-
-Note: When you are using the [YQL community tables][yql_community_tables] then you can leave away all the `USE ...` statements in the examples below.
 
 # Examples of Usage
 
@@ -11,6 +9,8 @@ First you need to include the YQL datatables into the [YQL console][yql_console]
 	USE "https://github.com/spier/yql-tables/raw/peerindex/peerindex/peerindex.profile.xml";  
 	USE "https://github.com/spier/yql-tables/raw/peerindex/peerindex/peerindex.show.xml";  
 	SET api_key="YOUR_API_KEY_HERE" ON peerindex;
+	
+Note: When you are using the [YQL community tables][yql_community_tables] then you can leave the `USE ...` statements away.
 
 ## Get the PeerIndex of one twitter user
 
