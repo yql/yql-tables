@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Dan Beam</author>
+    <author>Dan Beam, modified by SL</author>
     <documentationURL>http://developers.google.com/+/api/latest/activities/list</documentationURL>
-    <sampleQuery>select * from {table} where key="my_api_key" and userId="116115719351294422282"</sampleQuery>
+    <sampleQuery>select * from {table} where key="my_api_key" and userId="116115719351294422282" and pageToken="116115719351294422282"</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="json" produces="JSON">
@@ -14,6 +14,7 @@
         <key id="userId" type="xs:string" paramType="path" required="true" />
         <key id="collection" type="xs:string" paramType="path" default="public" />
         <key id="key" type="xs:string" paramType="query" required="true" />
+  	    <key id="maxResults" type="xs:integer" paramType="path" default="100" />
       </inputs>
     </select>
   </bindings>
