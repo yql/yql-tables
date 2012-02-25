@@ -10,17 +10,17 @@ When you are using the full set of [YQL community tables][yql_community_tables] 
 
 ## Query one twitter user
 
-	USE "https://github.com/spier/yql-tables/raw/peerindex/peerindex/peerindex.profile.xml";  
+	USE "https://github.com/spier/yql-tables/raw/peerindex/peerindex/peerindex.show.xml";  
 	SET api_key="YOUR_API_KEY_HERE" ON peerindex;
 
-	SELECT * FROM peerindex.profile WHERE id="PeerIndex"
+	SELECT * FROM peerindex.show WHERE id="PeerIndex"
 
 ## Query multiple twitter users
 
-	USE "https://github.com/spier/yql-tables/raw/peerindex/peerindex/peerindex.profile.xml";  
+	USE "https://github.com/spier/yql-tables/raw/peerindex/peerindex/peerindex.show.xml";  
 	SET api_key="YOUR_API_KEY_HERE" ON peerindex;
 	
-	SELECT * FROM peerindex.profile WHERE id="davewiner" OR id="kaykas"  
+	SELECT * FROM peerindex.show WHERE id="davewiner" OR id="kaykas"  
 	
 ## Advanced: Use twitter search API to find users that are mentioning @peerindex frequently. Then identify the peerindex for these users.	
 
