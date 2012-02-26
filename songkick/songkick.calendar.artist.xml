@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Francisco Jordano (arcturus@ardeenelinfierno.com)</author>
+    <description>Artist Calendar</description>
+    <documentationURL>http://www.songkick.com/developer/upcoming-events-for-artist</documentationURL>
+    <sampleQuery>desc {table}</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="resultsPage.results.event" produces="JSON">
+      <urls>
+        <url>http://api.songkick.com/api/3.0/artists/{artist_id}/calendar.json</url>
+      </urls>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="query" required="true"/>
+        <key id="artist_id" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+	  <paging model="offset">
+        <start id="page" default="1" />
+        <pagesize id="per_page" max="50" />
+        <total default="50" />
+	  </paging>
+    </select>
+  </bindings>
+</table>
