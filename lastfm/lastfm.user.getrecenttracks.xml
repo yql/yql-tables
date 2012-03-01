@@ -18,6 +18,8 @@
       <inputs>
         <key id="user" type="xs:string" paramType="query" required="true" />
         <key id="api_key" type="xs:string" paramType="query" required="true" />
+        <key id="from" type="xs:string" paramType="query" required="false" />
+        <key id="to" type="xs:string" paramType="query" required="false" />
       </inputs>
     </select>
   </bindings>
