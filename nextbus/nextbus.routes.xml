@@ -15,7 +15,7 @@
     <bindings>
         <select itemPath="body.predictions" produces="XML">
             <urls>
-                <url>http://www.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops</url>
+                <url>http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops</url>
             </urls>
             <inputs>
                 <key id="a" paramType="query" as="agency" default="sf-muni"/>
@@ -27,7 +27,7 @@
         </select>
         <select itemPath="body.predictions" produces="XML">
             <urls>
-                <url>http://www.nextbus.com/service/publicXMLFeed?command=predictions</url>
+                <url>http://webservices.nextbus.com/service/publicXMLFeed?command=predictions</url>
             </urls>
             <inputs>
                 <key id="a" paramType="query" as="agency" default="sf-muni"/>
@@ -39,7 +39,7 @@
         </select>
         <select itemPath="body.route" produces="XML">
             <urls>
-                <url>http://www.nextbus.com/service/publicXMLFeed?command=routeConfig</url>
+                <url>http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig</url>
             </urls>
             <inputs>
                 <key id="a" paramType="query" as="agency" default="sf-muni"/>
@@ -48,7 +48,7 @@
         </select>
         <select itemPath="body.route" produces="XML">
             <urls>
-                <url>http://www.nextbus.com/service/publicXMLFeed?command=routeList</url>
+                <url>http://webservices.nextbus.com/service/publicXMLFeed?command=routeList</url>
             </urls>
             <inputs>
                 <key id="a" paramType="query" as="agency" default="sf-muni"/>
