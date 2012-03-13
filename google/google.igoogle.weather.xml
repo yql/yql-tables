@@ -13,6 +13,7 @@
         </urls>
         <inputs>
             <key id="weather" type="xs:string" paramType="query"/>
+            <key id="hl" type="xs:string" paramType="query" required="false"/>
         </inputs>
     </select>
 </bindings>
