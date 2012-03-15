@@ -24,6 +24,8 @@
       xmlret=<root><count>{yqlcounter}</count></root>;
       while(index<yqlcounter)
       {
+      if((yqlresults.li[index].cite)&&(yqlresults.li[index].cite.span)&&(yqlresults.li[index].p))
+      {
       xmlret.root+=<node>
       <title>{yqlresults.li[index].cite.span.text()}</title>
       <description>{yqlresults.li[index].p.text()}</description>
@@ -31,6 +33,7 @@
       <pubdate>{yqlresults.li[index].cite.text()}</pubdate>
       </node>
       index++;
+      }
       }
       response.object=xmlret;
       ]]>
