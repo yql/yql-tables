@@ -37,6 +37,8 @@
       }
       while(index<yqlcounter2)
       {
+      if((yqlresults.div)&&(yqlresults.div.a[index].img))
+      {
       subregex=yqlresults.div.a[index].@href;
       subregex2=new String(subregex.match(patt1));
       subregex3=new String(subregex2.match(patt2));
@@ -47,6 +49,7 @@
       <mediaimg>{yqlresults.div.a[index].img.@src}</mediaimg>
       </node>
       index++;
+      }
       }
       response.object=xmlret;
       ]]>

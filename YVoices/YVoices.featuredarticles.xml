@@ -26,6 +26,8 @@
       {
       if(yqlresults.div[index].span.length()>0)
       {
+      if((yqlresults.div[index].a)&&(yqlresults.div[index].div)&&(yqlresults.div[index].div.img))
+      {
       xmlret.root+=<node>
       <title>{yqlresults.div[index].span[0].text()}</title>
       <description>{yqlresults.div[index].span[1].text()}</description>
@@ -33,13 +35,17 @@
       <thumbnail>{yqlresults.div[index].div.img.@src}</thumbnail>
       </node>
       }
+      }
       else
       {      
+      if((yqlresults.div[index].a)&&(yqlresults.div[index].a.span[0])&&(yqlresults.div[index].a.span[1]))
+      {
       xmlret.root+=<node>
       <title>{yqlresults.div[index].a.span[0].text()}</title>
       <description>{yqlresults.div[index].a.span[1].text()}</description>
       <link>{yqlresults.div[index].a.@href}</link>
       </node>
+      }
       }
       index++;
       }

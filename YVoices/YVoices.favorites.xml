@@ -29,6 +29,8 @@
       }
       while(index<yqlcounter2)
       {
+      if((yqlresults.div)&&(yqlresults.div.a[index].img))
+      {
       xmlret.root+=<node>
       <title>{yqlresults.div.a[index].@title}</title>
       <description>{yqlresults.div.a[index].@title}</description>
@@ -36,6 +38,7 @@
       <mediaimg>{yqlresults.div.a[index].img.@src}</mediaimg>
       </node>
       index++;
+      }
       }
       response.object=xmlret;
       ]]>

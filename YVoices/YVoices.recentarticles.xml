@@ -26,6 +26,8 @@
       {
       if(parseInt(yqlresults.li[index].div.length())>1)
       {
+      if((yqlresults.li[index].div[1].div[0])&&(yqlresults.li[index].div[1].div[1])&&(yqlresults.li[index].div[1].a)&&(yqlresults.li[index].div[1].div[1])&&(yqlresults.li[index].div[1].a.@href)&&(yqlresults.li[index].div[1].div[0].p)&&(yqlresults.li[index].div[0].img.@src))
+      {
       xmlret.root+=<node>
       <title>{yqlresults.li[index].div[1].a.text()}</title>
       <description>{yqlresults.li[index].div[1].div[1]}</description>
@@ -34,7 +36,10 @@
       <thumbnail>{yqlresults.li[index].div[0].img.@src}</thumbnail>
       </node>
       }
+      }
       else
+      {
+      if((yqlresults.li[index].div.div[0])&&(yqlresults.li[index].div.div[1])&&(yqlresults.li[index].div.a)&&(yqlresults.li[index].div.div[1].p)&&(yqlresults.li[index].div.a.@href)&&(yqlresults.li[index].div.div[0].p))
       {
       xmlret.root+=<node>
       <title>{yqlresults.li[index].div.a.text()}</title>
@@ -42,6 +47,7 @@
       <link>{yqlresults.li[index].div.a.@href}</link>
       <pubdate>{yqlresults.li[index].div.div[0].p.text()}</pubdate>
       </node>
+      }
       }
       index++;
       }
