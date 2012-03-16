@@ -8,11 +8,11 @@
   <bindings>
     <select itemPath="json" produces="JSON">
       <urls>
-        <url>https://www.googleapis.com/plus/v1/people/{userId}?key={key}</url>
+        <url>https://www.googleapis.com/plus/v1/people/{userId}</url>
       </urls>
       <inputs>
         <key id="userId" type="xs:string" paramType="path" required="true" />
-        <key id="key" type="xs:string" paramType="path" required="true" />
+        <key id="key" type="xs:string" paramType="query" required="true" />
       </inputs>
     </select>
   </bindings>
