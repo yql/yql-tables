@@ -15,7 +15,7 @@
     <bindings>
         <select itemPath="body.vehicle" produces="XML">
             <urls>
-                <url>http://www.nextbus.com/service/publicXMLFeed?command=vehicleLocations</url>
+                <url>http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations</url>
             </urls>
             <inputs>
                 <key id="a" paramType="query" as="agency" default="sf-muni"/>
