@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description> Gets Fans of a YAhoo Contributor (based on yahoo's selection process on a user's frontpage,maximum results are 12)</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where query="http://contributor.yahoo.com/user/270293/carol_rucker.html"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id="query" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+    <execute>
+      <![CDATA[ 
+      var str1="select * from html where url=\"http://sports.yahoo.com/soccer/morenews/Yahoo!+Contributor+Network\" and xpath='//div[@id=\"yui-main\"]/div/div[@class=\"bd\"]'";
+      var str1="select * from html where url=\"";
+      var str2="\" and xpath='//div[@class=\"prim_col_sect clearfix\"][3]'";
+      var yqlquery=y.query(str1+query+str2);
+      var yqlresults=yqlquery.results;
+      var yqlcounter2=parseInt(yqlresults.div.a.length());
+      var substr="http://contributor.yahoo.com";
+      var subregex="";
+      var subregex2="";
+      var subregex3="";
+      var subregex4="";
+      var patt1 = /[^/]*$/;
+      var patt2 = /[^.]*/;
+      var patt3 = /[^_]*/;
+      var patt4 = /[^_]*$/;
+      var index=0;
+      var xmlret=new XML();
+      xmlret=<root><count>{yqlcounter2}</count></root>;
+      if(yqlcounter2>12)
+      {
+      yqlcounter2--;
+      }
+      while(index<yqlcounter2)
+      {
+      if((yqlresults.div)&&(yqlresults.div.a[index].img))
+      {
+      subregex=yqlresults.div.a[index].@href;
+      subregex2=new String(subregex.match(patt1));
+      subregex3=new String(subregex2.match(patt2));
+      xmlret.root+=<node>
+      <title>{subregex4.concat(subregex3.match(patt3)," ",subregex3.match(patt4))}</title>
+      <description>{subregex4.concat(subregex3.match(patt3)," ",subregex3.match(patt4))}</description>
+      <link>{substr.concat(yqlresults.div.a[index].@href)}</link>
+      <mediaimg>{yqlresults.div.a[index].img.@src}</mediaimg>
+      </node>
+      index++;
+      }
+      }
+      response.object=xmlret;
+      ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
