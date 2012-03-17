@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
   <meta>
     <author>HOUYHNHNM</author>
-    <description> Gets the list of articles started with most recent</description>
+    <description> Gets the list of articles started with most recent from a Yahoo Contributor or Yahoo Voices member</description>
     <documentationURL></documentationURL>
     <sampleQuery>select * from {table} where query="http://contributor.yahoo.com/user/270293/carol_rucker.html"</sampleQuery>
     <sampleQuery>select * from {table} where query="http://contributor.yahoo.com/user/1167189/r_salley.html"</sampleQuery>
