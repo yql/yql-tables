@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
   <meta>
     <author>HOUYHNHNM</author>
-    <description> Gets the list of featured articles by a Yahoo Voices contributor from their frontpage</description>
+    <description> Gets the list of featured articles by a Yahoo contributor and Yahoo voices member from their frontpage</description>
     <documentationURL></documentationURL>
     <sampleQuery>select * from {table} where query="http://contributor.yahoo.com/user/270293/carol_rucker.html"</sampleQuery>
     <sampleQuery>select * from {table} where query="http://contributor.yahoo.com/user/1167189/r_salley.html"</sampleQuery>
