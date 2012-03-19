@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Houyhnhnm</author>
-    <description>extract a media file specified by the user from the internet archive element page. The url must be that of an internet archive page. The type is </description>
+    <description>extract a media file specified by the user from the internet archive element page. The url must be that of an internet archive page. </description>
     <documentationURL></documentationURL>
     <sampleQuery>select * from {table} where url="http://www.archive.org/details/yahoosatiricalrh00luci" and type="2" and ftype="txt"</sampleQuery>
     <sampleQuery>select * from {table} where url="http://www.archive.org/details/MerrieMelodies-HittinTheTrailForHallelujahLand" and type="1" and ftype="mp4"</sampleQuery>

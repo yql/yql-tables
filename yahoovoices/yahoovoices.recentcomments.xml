@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
   <meta>
     <author>HOUYHNHNM</author>
-    <description> Gets the most recent comments from an article</description>
+    <description> Gets the most recent comments from an article of a Yahoo Contributor or Yahoo Voices member</description>
     <documentationURL></documentationURL>
     <sampleQuery>select * from {table} where query="http://voices.yahoo.com/create-wire-details-enhance-favorite-craft-10919947.html?cat=24"</sampleQuery>
     <sampleQuery>select * from {table} where query="http://voices.yahoo.com/a-day-out-taste-south-france-chteau-planeres-10865399.html?cat=16"</sampleQuery>

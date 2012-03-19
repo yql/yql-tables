@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Houyhnhnm</author>
-    <description>Search differenct sources of The Internet Archive, and returns the entries for the first page or a page described. Developer's note: it does not check for the number of pages from a query and use that to make a true control on the page input, restricting it to the number of pages the Internet Archive responds to with a page. Also a connect failure issue arises from the search if the page is too far, and it comes up as an error</description>
+    <description>Search differenct sources of The Internet Archive, returns the entries for the first page or a page described. Developer's note: it does not check for the number of pages from a query and use that to make a true control on the page input, restricting it to the number of pages the Internet Archive responds to with a page. Also a connect failure issue arises from the search if the page is too far, and it comes up as an error</description>
     <documentationURL>http://www.associatedcontent.com/article/9000477/github_hiasearch.html?cat=15</documentationURL>
     <sampleQuery>select * from {table} where query="yahoo" and zone="4"</sampleQuery>
     <sampleQuery>select * from {table} where query="yahoo" and zone="4" and page="2"</sampleQuery>
