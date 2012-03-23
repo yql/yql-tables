@@ -2,6 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Rainer Borene</author>
+    <description>Retrieves all posts of a specified GetResponse account</description>
     <sampleQuery>select * from getresponse.archive where username = 'test'</sampleQuery>
   </meta>
   <bindings>
