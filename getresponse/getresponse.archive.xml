@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rainer Borene</author>
+    <sampleQuery>select * from getresponse.archive where username = 'test'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="rss.channel.item" produces="XML">
+      <urls>
+        <url>http://www.getresponse.com/rss/{username}</url>
+      </urls>
+      <inputs>
+        <key id="username" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

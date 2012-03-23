@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rainer Borene</author>
+    <sampleQuery>select * from getresponse.entry where username = 'test' and slug = 'something'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML">
+      <urls>
+        <url>http://www.getresponse.com/archive/{username}/{slug}.html</url>
+      </urls>
+      <inputs>
+        <key id="username" type="xs:string" paramType="path" required="true"/>
+        <key id="slug" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+        var data = request.accept('text/html').get().response
+          , title = y.xpath(data, "//div[@class='webArchTitl']/h2/text()")
+          , content = y.xpath(data, "//div[@id='MessageContentCssRes']/p/text()")
+          , published = y.xpath(data, "//div[@class='webArchTitl']/dfn/text()");
+
+        var output = <entry>
+          <title>{title}</title>
+          <pubDate>{published}</pubDate>
+          <content>{content}</content>
+        </entry>;
+
+        response.object = output;
+        ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
