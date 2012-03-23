@@ -3,7 +3,7 @@
   <meta>
     <author>Rainer Borene</author>
     <description>Get content of a post</description>
-    <sampleQuery>select * from getresponse.entry where username = 'test' and slug = 'something'</sampleQuery>
+    <sampleQuery>select * from {table} where username = 'test' and slug = 'something'</sampleQuery>
   </meta>
   <bindings>
     <select produces="XML">
