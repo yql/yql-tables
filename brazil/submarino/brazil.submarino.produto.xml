@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rainer Borene</author>
+    <description>Retorna informações sobre o produto</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where id="21620477" dep="10"</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML">
+      <urls>
+        <url>http://www.submarino.com.br/produto/{dep}/{id}/</url>
+      </urls>
+      <inputs>
+        <key id="dep" type="xs:string" paramType="path" required="true" />
+        <key id="id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var data = request.accept('text/html').get().response;
+        var images = y.xpath(data, "//ul[@class='listThumbsProduct']/li/a/img/@src");
+        var entry = {};
+
+        entry.title = y.xpath(data, "//div[@class='boxProductName']/h1/text()").toString();
+        entry.price = y.xpath(data, "//ul[@class='listPriceInfo']/li/strong[@class='for']/span/text()").toString();
+        entry.description = y.xpath(data, "//div[@id='C1']/ul/li").toString();
+        entry.images = { image: [] };
+
+        for each (var image in images) {
+          entry.images.image.push(image.toString());
+        }
+
+        response.object = y.jsonToXml(entry);
+        ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
+
