@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
   <meta>
-    <sampleQuery> select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature" AND TransactionID="-transaction-id-from-transaction-search-result-or-IPN-" AND Endpoint="sandbox"</sampleQuery>
+    <sampleQuery>select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature" AND TransactionID="-transaction-id-from-transaction-search-result-or-IPN-" AND Environment="sandbox"</sampleQuery>
                 <description>The PayPal Transaction Details API allows you to obtain details about a specific transaction. The details include information from Payer, shipping address to the amount charged. Please note that inorder to be able to use the API to obtain the details of a transaction, you must either be the owner of the business account that's marked as the receiver of the payment or have obtained API access from the corresponding receiver account owner. Please refer to the GetTransactionDetails API documentation on x.com to understand the data returned by the API.</description>
-                <documentationURL>www.x.com/developers/paypal/products/transactional-information</documentationURL>
+                <documentationURL>https://www.x.com/community/ppx/transaction_information</documentationURL>
 
   </meta>
   <bindings>
-    <select produces="JSON">
+    <select itemPath="Envelope.Body.GetTransactionDetailsResponse" produces="XML">
       <inputs>
         <key id='APIUsername' type='xs:string' paramType='variable' required="true" />
         <key id='APIPassword' type='xs:string' paramType='variable' required="true" />
         <key id='Signature' type='xs:string' paramType='variable' required="true" />
         <key id='TransactionID' type='xs:string' paramType='variable' required="true" />
-        <key id='Endpoint' type='xs:string' paramType='variable' required="true" />
+        <key id='Environment' type='xs:string' paramType='variable' default="sandbox" />
       </inputs>
       <execute><![CDATA[
-        var txn_details_req = "METHOD=gettransactionDetails&VERSION=88&TRANSACTIONID=" + inputs['TransactionID'] + "&PWD=" + inputs['APIPassword'] + "&USER=" + inputs['APIUsername'] + "&SIGNATURE=" + inputs['Signature'];
+      var txn_details_req = <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Header><RequesterCredentials soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="1" xmlns="urn:ebay:api:PayPalAPI"><ebl:Credentials xmlns:ebl="urn:ebay:apis:eBLBaseComponents"><ebl:Username>{APIUsername}</ebl:Username><ebl:Password>{APIPassword}</ebl:Password><ebl:Signature>{Signature}</ebl:Signature><ebl:Subject></ebl:Subject></ebl:Credentials></RequesterCredentials></soapenv:Header><soapenv:Body><GetTransactionDetailsReq xmlns="urn:ebay:api:PayPalAPI"><GetTransactionDetailsRequest><ns1:Version xmlns:ns1="urn:ebay:apis:eBLBaseComponents">58.0</ns1:Version><TransactionID>{TransactionID}</TransactionID></GetTransactionDetailsRequest></GetTransactionDetailsReq></soapenv:Body></soapenv:Envelope>
+	
+        
+        
+        if(inputs['Environment'] == 'live') {
+        	response.object = y.rest("https://api..paypal.com/2.0/").contentType("text/xml").header("SOAPAction", '""').post(txn_details_req).response;
        
-        var responseObj = {};
-        var temp;
-        if(inputs['Endpoint'] == 'sandbox') {
-            temp = y.rest("https://api-3t.sandbox.paypal.com/nvp?" + txn_details_req).get().response;
         } else {
-            temp = y.rest("https://api-3t.paypal.com/nvp?" + txn_details_req).get().response;
+       		response.object = y.rest("https://api.sandbox.paypal.com/2.0/").contentType("text/xml").header("SOAPAction", '""').post(txn_details_req).response;
+            	
         }
         
-        responseObj = temp.split("&");
-        
-        response.object = {'details': responseObj};
-        
+           
 ]]></execute>
     </select>
   </bindings>
