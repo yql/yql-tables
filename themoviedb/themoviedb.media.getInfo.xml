@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Micah Laaker (micah@laaker.com)</author>
+    <description>TheMovieDB Hash Information</description>
+    <documentationURL>http://api.themoviedb.org/2.1</documentationURL>
+    <sampleQuery>select * from {table} where api_key='yourkeygoeshere' and hash='907172e7fe51ba57' and byte_size='742086656'</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="//movie" produces="XML">
+        <urls>
+            <url>http://api.themoviedb.org/2.1/Media.getInfo/{lang}/xml/{api_key}/{dvd_id}</url>
+        </urls>
+        <inputs>
+			<key type="xs:string" paramType="path" default="en" id="lang" />
+			<key type="xs:string" paramType="path" private="true" id="api_key" />
+            <key type="xs:string" paramType="path" id="dvd_id" required="true" />
+		</inputs>
+    </select>
+    <select itemPath="//movie" produces="XML">
+        <urls>
+            <url>http://api.themoviedb.org/2.1/Media.getInfo/{lang}/xml/{api_key}/{hash}/{byte_size}</url>
+        </urls>
+        <inputs>
+			<key type="xs:string" paramType="path" default="en" id="lang" />
+			<key type="xs:string" paramType="path" private="true" id="api_key" />
+            <key type="xs:string" paramType="path" id="hash" required="true" />
+            <key type="xs:string" paramType="path" id="byte_size" required="true" />
+		</inputs>
+    </select>
+    </bindings>
+</table>
