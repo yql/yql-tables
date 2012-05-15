@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>  </description>
+		<documentationURL>http://banklz.net</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE bank_code="10070000"</sampleQuery>
+	</meta>
+	<bindings>
+		<!-- get information for a specific bank code -->
+		<select itemPath="bankcode" produces="XML">
+			<urls>
+				<url>http://banklz.net/bankcodes/{bank_code}.xml</url>
+			</urls>
+			<inputs>
+				<key id="bank_code" type="xs:string" paramType="path" required="true"/>
+			</inputs>
+		</select>
+		
+		<!-- get all bank codes -->
+		<select itemPath="bankcodes.bankcode" produces="XML">
+			<urls>
+				<url>http://banklz.net/bankcodes.xml</url>
+			</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="200" />
+				<total default="200" />
+			</paging>			
+			<inputs/>
+		</select>
+	</bindings>
+</table>
