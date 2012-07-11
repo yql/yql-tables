@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Steve King steve@stevenking.com.au</author>
+		<description>This is another catalogue endpoint which will return a collection of General Election entities.</description>
+		<documentationURL>http://www.guardian.co.uk/open-platform/politics-api/getting-started</documentationURL>
+		<sampleQuery>SELECT * FROM {table}</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="json.elections" produces="JSON">
+			<urls>
+				<url>http://www.guardian.co.uk/politics/api/general-election/all/json</url>
+			</urls>
+		</select>
+	</bindings>
+</table>
