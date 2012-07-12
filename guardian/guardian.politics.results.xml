@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Steve King steve@stevenking.com.au</author>
+		<description> It includes information about the successful MP at that General Election and the previous MP of the constituency. It also provides information about the contest such as the voting turnout, winning margin and the exact time the result was declared.</description>
+		<documentationURL>http://www.guardian.co.uk/open-platform/politics-api/getting-started</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE year=1992</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="json.results.called-constituencies" produces="JSON">
+			<urls>
+				<url>http://www.guardian.co.uk/politics/api/general-election/{year}/results/json</url>
+			</urls>
+			<inputs>
+				<key id="year" type="xs:string" paramType="path" required="true" />
+			</inputs>
+		</select>
+	</bindings>
+</table>
