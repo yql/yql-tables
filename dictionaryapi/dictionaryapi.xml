@@ -4,7 +4,8 @@
       	<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
 				<description>Merriam-Webster's Dictionaries</description>
       	<documentationURL>http://www.dictionaryapi.com</documentationURL>
-				<sampleQuery>SELECT * FROM {table} WHERE dictionary='collegiate' word='hypocrite' AND api_key='yourApiKey'</sampleQuery>
+				<sampleQuery>SELECT * FROM {table} WHERE dictionary='collegiate' AND word='hypocrite' AND api_key='yourApiKey'</sampleQuery>
+				<sampleQuery>SELECT * FROM {table} WHERE dictionary='medical' AND word='doctor' AND api_key='yourApiKey'</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="entry_list.entry" produces="XML">
@@ -14,6 +15,18 @@
             <inputs>
                 <key id="word" type="xs:string" paramType="path" required="true"/>
                 <key id="key" as="api_key" type="xs:string" paramType="query" required="true"/>
+
+								<!-- 
+									one of: 
+									collegiate 	=> Merriam-Webster's Collegiate® Dictionary with Audio
+									thesaurus 	=> Merriam-Webster's Collegiate® Thesaurus
+									spanish 		=> Merriam-Webster's Spanish-English Dictionary with Audio
+									medical 		=> Merriam-Webster's Medical Dictionary with Audio
+									learners 		=> Merriam-Webster's Learner's Dictionary with Audio
+									sd2 				=> Merriam-Webster's Elementary Dictionary with Audio (Grades 3-5)
+									sd3 				=> Merriam-Webster's Intermediate Dictionary with Audio (Grades 6-8)
+									sd4 				=> Merriam-Webster's School Dictionary with Audio (Grades 9-11)
+								-->
 								<key id="dictionary" type="xs:string" paramType="path" required="true"/>
             </inputs>
         </select>
