@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+      	<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+				<description>Merriam-Webster's Dictionaries</description>
+      	<documentationURL>http://www.dictionaryapi.com</documentationURL>
+				<sampleQuery>SELECT * FROM {table} WHERE dictionary='collegiate' word='hypocrite' AND api_key='yourApiKey'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="entry_list.entry" produces="XML">
+            <urls>
+                <url>http://www.dictionaryapi.com/api/v1/references/{dictionary}/xml/{word}</url>
+            </urls>
+            <inputs>
+                <key id="word" type="xs:string" paramType="path" required="true"/>
+                <key id="api_key" as="key" type="xs:string" paramType="query" required="true"/>
+								<key id="dictionary" type="xs:string" paramType="path" required="true"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>
