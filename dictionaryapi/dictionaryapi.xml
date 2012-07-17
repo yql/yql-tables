@@ -13,7 +13,7 @@
             </urls>
             <inputs>
                 <key id="word" type="xs:string" paramType="path" required="true"/>
-                <key id="api_key" as="key" type="xs:string" paramType="query" required="true"/>
+                <key id="key" as="api_key" type="xs:string" paramType="query" required="true"/>
 								<key id="dictionary" type="xs:string" paramType="path" required="true"/>
             </inputs>
         </select>
