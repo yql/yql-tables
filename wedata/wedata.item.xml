@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd"
+       securityLevel="any"
+       https="true">
+  <meta>
+    <author>X Kerman</author>
+    <documentationURL>http://wedata.net/help/api</documentationURL>
+    <sampleQuery>select * from {table} where database_name = 'LDRize'</sampleQuery>
+    <sampleQuery>select * from {table} where id = 40000</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="json.json" produces="JSON">
+      <urls>
+        <url>http://wedata.net/databases/{database_name}/items.json</url>
+      </urls>
+      <inputs>
+        <key id="database_name" type="xs:string" required="true" paramType="path" />
+        <key id="page" type="xs:string" required="false" paramType="query" />
+      </inputs>
+    </select>
+    <select itemPath="json" produces="JSON">
+      <urls>
+        <url>http://wedata.net/items/{id}.json</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" required="true" paramType="path" />
+      </inputs>
+    </select>
+    <insert itemPath="" produces="JSON">
+      <urls>
+        <url>http://wedata.net/databases/{database_name}/items</url>
+      </urls>
+      <inputs>
+        <value id="api_key" type="xs:string" required="true" paramType="variable" private="true" />
+        <value id="database_name" type="xs:string" required="true" paramType="path" />
+        <key id="name" type="xs:string" required="true" paramType="variable" />
+        <map id="data" type="xs:string" required="false" paramType="variable" />
+      </inputs>
+      <execute><![CDATA[
+if (typeof Object.keys !== 'function') {
+    Object.keys = function (obj) {
+        var hasOwn = Object.prototype.hasOwnProperty;
+        var keys = [];
+        for (var key in obj) {
+            if (hasOwn.call(obj, key)) {
+                keys.push(key);
+            }
+        }
+        return keys;
+    };
+}
+
+if (typeof Array.isArray !== 'function') {
+    Array.isArray = function (arr) {
+        return Object.prototype.toString.call(arr) === '[object Array]';
+    }
+}
+
+var urlencode = function (obj) {
+    var keys = Object.keys(obj);
+    return keys.map(function (key) {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
+    }).join('&');
+};
+
+var postdata = {
+    api_key: api_key
+};
+// When 'name' and 'data.name' exist in query, 'name' variable in script
+// becomes an array like [name, data.name] (YQL bug?).
+// (e.g. name = 'foo' and data.name = 'bar' => y.log(name) => ['foo', 'bar'])
+// So we need to choose right value here.
+if (Array.isArray(name)) name = name[0];
+if (name !== null) postdata.name = name;
+if (data !== null) {
+    Object.keys(data).forEach(function (key) {
+        postdata['data[' + key + ']'] = data[key];
+    });
+}
+var res = request.contentType('application/x-www-form-urlencoded; charset=utf-8').accept('text/plain').post(urlencode(postdata));
+if (res.status === 201) {
+    response.object = {
+        status: res.status,
+        url: res.headers.location
+    };
+}
+else {
+    response.object = {
+        status: res.status,
+        message: res.response
+    };
+}
+      ]]></execute>
+    </insert>
+    <update itemPath="" produces="JSON">
+      <urls>
+        <url>http://wedata.net/items/{id}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" required="true" paramType="path" />
+        <value id="api_key" type="xs:string" required="true" paramType="variable" private="true" />
+        <map id="data" type="xs:string" required="false" paramType="variable" />
+      </inputs>
+      <execute><![CDATA[
+if (typeof Object.keys !== 'function') {
+    Object.keys = function (obj) {
+        var hasOwn = Object.prototype.hasOwnProperty;
+        var keys = [];
+        for (var key in obj) {
+            if (hasOwn.call(obj, key)) {
+                keys.push(key);
+            }
+        }
+        return keys;
+    };
+}
+
+var urlencode = function (obj) {
+    var keys = Object.keys(obj);
+    return keys.map(function (key) {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
+    }).join('&');
+};
+
+var putdata = {
+    api_key: api_key
+};
+if (data !== null) {
+    Object.keys(data).forEach(function (key) {
+        putdata['data[' + key + ']'] = data[key];
+    });
+}
+var res = request.contentType('application/x-www-form-urlencoded; charset=utf-8').accept('text/plain').put(urlencode(putdata));
+response.object = {
+    status: res.status,
+    message: res.response
+};
+      ]]></execute>
+    </update>
+    <delete itemPath="" produces="JSON">
+      <urls>
+        <url>http://wedata.net/items/{id}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" required="true" paramType="path" />
+        <key id="api_key" type="xs:string" required="true" paramType="variable" private="true" />
+      </inputs>
+      <execute><![CDATA[
+var res = request.accept('text/plain').query({api_key: api_key}).del();
+response.object = {
+    status: res.status,
+    message: res.response
+};
+      ]]></execute>
+    </delete>
+  </bindings>
+</table>
