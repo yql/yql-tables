@@ -4,7 +4,7 @@
     <sampleQuery>select * from {table} where q="this is a test" and target="de";</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="json.responseData.translatedText" produces="JSON">
+    <select itemPath="json.responseData" produces="JSON">
       <urls>
         <url>http://translate.google.com/translate_a/t?client=t&amp;text={q}&amp;sl={source}&amp;tl={target}</url>
       </urls>
