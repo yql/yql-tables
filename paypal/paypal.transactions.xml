@@ -2,19 +2,18 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd"
 	https="true">
 	<meta>
-		<sampleQuery> select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature AND StartDate="YYYY-MM-DDThh:MM:ss.mmmZ"</sampleQuery>
-		<sampleQuery> select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature AND StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Payer="your-payer-email-that-youwant-to-narrow-down-results"</sampleQuery>
-		 <sampleQuery>SELECT * FROM paypal.transaction.details WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature" AND TransactionID in (SELECT PaymentTransactions.TransactionID FROM {table} WHERE StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Payer="your-payer-email-that-youwant-to-narrow-down-results" AND APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature")</sampleQuery>
+		<sampleQuery> select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature AND StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Environment="sandbox"</sampleQuery>
+		<sampleQuery> select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature AND StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Payer="your-payer-email-that-youwant-to-narrow-down-results" AND Environment="sandbox"</sampleQuery>
+		 <sampleQuery>SELECT * FROM paypal.transaction.details WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature" AND TransactionID in (SELECT PaymentTransactions.TransactionID FROM {table} WHERE StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Payer="your-payer-email-that-youwant-to-narrow-down-results" AND APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature") AND Environment="sandbox"</sampleQuery>
 		<description>The PayPal Transaction Search API allows you to search through a PayPal business account's transaction history to create compelling reporting apps. Please note that inorder to be able to use the API to search a PayPal business account's transaction history, you must either be the owner of the account or have obtained API access from the corresponding account owner. Please refer to the TransactionSearch API documentation on x.com to understand how each of the input parameters help in navigating through the transaction history. You can as well combine results from this table with PayPal Transaction Details table to obtain information specific to each transaction (Eg. Address, Payer, etc.) and use that information with other tables (Geo, Maps, etc.) to produce useful data for building cool reporting tools. </description>
 		<documentationURL>https://www.x.com/community/ppx/transaction_information</documentationURL>
 	</meta>
 	<bindings>
 		<select itemPath="Envelope.Body.TransactionSearchResponse"
 			produces="XML">
-			<urls>
-        			<url env="all">https://api.sandbox.paypal.com/2.0/</url>
-      			</urls>
+			
 			<inputs>
+                        	  <key id='Environment' type='xs:string' paramType='variable' default="sandbox" />
 				<key id='APIUsername' type='xs:string' paramType='variable'
 					required="true" />
 				<key id='APIPassword' type='xs:string' paramType='variable'
@@ -62,11 +61,11 @@ var txn_req = '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soa
 		+ APIPassword
 		+ '</ebl:Password><ebl:Signature>'
 		+ Signature
-		+ '</ebl:Signature><ebl:Subject></ebl:Subject></ebl:Credentials></RequesterCredentials></soapenv:Header><soapenv:Body><TransactionSearchReq xmlns="urn:ebay:api:PayPalAPI"><TransactionSearchRequest><ns1:Version xmlns:ns1="urn:ebay:apis:eBLBaseComponents">58.0</ns1:Version>';
+		+ '</ebl:Signature><ebl:Subject></ebl:Subject></ebl:Credentials></RequesterCredentials></soapenv:Header><soapenv:Body><TransactionSearchReq xmlns="urn:ebay:api:PayPalAPI"><TransactionSearchRequest><ns1:Version xmlns:ns1="urn:ebay:apis:eBLBaseComponents">78.0</ns1:Version>';
 
-if (StartDate) {
+
 	txn_req += '<StartDate>' + StartDate + '</StartDate>';
-}
+
 
 if (EndDate) {
 	txn_req += '<EndDate>' + EndDate + '</EndDate>';
@@ -133,11 +132,32 @@ if (Status) {
 }
 txn_req += '</TransactionSearchRequest></TransactionSearchReq></soapenv:Body></soapenv:Envelope>';
 
-response.object = y.rest(request.url).contentType("text/xml").header("SOAPAction", '""').post(txn_req).response;
+      
+        if(inputs['Environment'] == 'live') {
+       		           
+             try {
+	         response.object = y.rest("https://api.paypal.com/2.0/").contentType("text/xml").header("SOAPAction", '""').timeout(30000).post(txn_req).response;                 
+       	     }
+		catch (e){
+			y.log(e);
+		} 
+                          
+        } else {
+                          
+                          
+                try {
+	         response.object = y.rest("https://api.sandbox.paypal.com/2.0/").contentType("text/xml").header("SOAPAction", '""').timeout(30000).post(txn_req).response;                 
+       	     }
+		catch (e){
+			y.log(e);
+		} 
+                          
+                          
+        }
+                         
 
       ]]></execute>
 		</select>
 	</bindings>
 
 </table>
-
