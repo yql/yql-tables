@@ -9,7 +9,7 @@
   <bindings>
     <select itemPath="" produces="XML">
       <inputs>
-        <key id="query" type="xs:string" paramType="variable" required="true"/>
+        <key id="query" type="xs:string" paramType="variable" required="true" batchable="true" maxBatchItems="20"/>
       </inputs>
     <execute>
       <![CDATA[ 
