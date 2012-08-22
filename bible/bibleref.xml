@@ -13,6 +13,7 @@
       </urls>
       <inputs>
         <key id="bibleref" type="xs:string" paramType="variable" required="true"/>
+        <key id="language" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
         RegExp.quote = function(str) {
@@ -23,6 +24,7 @@
 
         var book = "";
         var osisbook = "";
+        var localbook = "";
         var bookrecord;
         var bookoutlinerecord;
         var openchapter = 0;
@@ -31,6 +33,7 @@
         var rangeseparator;
         
         var bibleref;
+        var language;
         var biblerefs = <biblerefs/>; // XML
         for each (bibleref in parse_reference(bibleref)) 
         {
@@ -86,6 +89,10 @@
         {
           return bookrecord.code.(@service == 'osis').toString();
         }
+        function getlocalbook(bookrecord, lang)
+        {
+          return bookrecord.input.(@language.toString().match(lang)).toString();
+        }
         function bookoutlinequery(osisbook)
         {
           var booksquery, books;
@@ -113,6 +120,7 @@
         {
           return <bibleref>
           <book>{book}</book>
+          <localbook>{localbook}</localbook>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
@@ -145,6 +153,10 @@
           book = book + split2.before;
           bookrecord = bookquery(book);
           osisbook = getosisbook(bookrecord);
+          if (language)
+          {
+            localbook = getlocalbook(bookrecord,language);
+          }
           bookoutlinerecord = bookoutlinequery(osisbook);
           /* determine the functions of the separators being used */
           separatorsOrder = getSeparators(split2.after);
