@@ -370,12 +370,12 @@
         function verseinbook(chapter,verse)
         {
           var sum = 0;
-          for each (var c in bookoutlinerecord.chapter)
+          for each (var c in bookoutlinerecord.*)
           {
             debug && y.log("verseinbook " + c.toString());
-            if (c.@number.toString() < chapter)
+            if (Number(c.@number) < chapter)
             {
-              sum += c.@number_of_verses.toString() + 0;
+              sum += Number(c.@number_of_verses);
             }
           }
           sum += verse;
