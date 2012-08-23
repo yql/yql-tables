@@ -372,7 +372,8 @@
           var sum = 0;
           for (c in bookoutlinerecord.chapter)
           {
-            if (c.@number < chapter)
+            debug && y.log("verseinbook " + c.toString());
+            if (c.@number.toString() < chapter)
             {
               sum += c.@number_of_verses.toString() + 0;
             }
