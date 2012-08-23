@@ -20,7 +20,7 @@
           return str.replace(/([.?*+^$[\]\\(){}-])/g, "\\$1");
         };
 
-        var debug = 1;
+        var debug = 0;
 
         var book = "";
         var osisbook = "";
@@ -119,9 +119,7 @@
         }
         function listrecord(book,chapter,verse,phrase,osisbook)
         {
-          debug && y.log("listrecord; just to say something");
           var v = verseinbook(chapter,verse);
-          debug && y.log("listrecord; verseinbook = " + v);
           return <bibleref>
           <book>{book}</book>
           <localbook>{localbook}</localbook>
@@ -265,7 +263,6 @@
                 else 
                 {
                   debug &&  y.log("adding [2] " + book + " | " + chapter + " | " + begin.verse.number + begin.verse.phrase + " | " + osisbook); 
-                  debug && y.log("parse_range; just to say something");
                   list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook);
                 }
               }
@@ -372,7 +369,6 @@
           var sum = 0;
           for each (var c in bookoutlinerecord.*)
           {
-            debug && y.log("verseinbook " + c.toString());
             if (Number(c.@number) < chapter)
             {
               sum += Number(c.@number_of_verses);
