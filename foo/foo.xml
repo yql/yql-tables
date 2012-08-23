@@ -16,7 +16,7 @@
             <execute>
                 <![CDATA[
               		
-              		var x = \'foo\';
+              		var x = \\\'foo\\\';
               
                 ]]>
             </execute>
