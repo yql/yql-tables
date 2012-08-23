@@ -123,6 +123,7 @@
           return <bibleref>
           <book>{book}</book>
           <localbook>{localbook}</localbook>
+          <osisbook>{osisbook}</osisbook>
           <chapterversereference>{chapterversereference}</chapterversereference>
           <verseinbook>{v}</verseinbook>
           <chapter>{chapter}</chapter>
