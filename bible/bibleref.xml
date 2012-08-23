@@ -119,11 +119,13 @@
         }
         function listrecord(book,chapter,verse,phrase,osisbook)
         {
+          var v = verseinbook(chapter,verse);
+          debug && y.log("listrecord; verseinbook = " + v);
           return <bibleref>
           <book>{book}</book>
           <localbook>{localbook}</localbook>
           <chapterversereference>{chapterversereference}</chapterversereference>
-          <verseinbook>{verseinbook(chapter,verse)}</verseinbook>
+          <verseinbook>{v}</verseinbook>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
