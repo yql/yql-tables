@@ -196,7 +196,7 @@
               }
             }
           }
-          chapterversereference = split2.after.replace(chapterseparator,':').replace(listseparator,',').replace(rangeseparator,'-');
+          chapterversereference = split2.after;
           return parseResult;
         }
         function parse_list(mode,string)
