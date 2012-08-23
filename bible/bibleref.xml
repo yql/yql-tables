@@ -374,7 +374,7 @@
           {
             if (c.@number < chapter)
             {
-              sum += c.@number_of_verses;
+              sum += c.@number_of_verses.toString() + 0;
             }
           }
           sum += verse;
