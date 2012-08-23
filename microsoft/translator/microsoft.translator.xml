@@ -25,7 +25,7 @@
                 <![CDATA[
               		var params = "client_id=" client_id "&client_secret=" client_secret "&scope=" scope "&grant_type=" grant_type;
               		             
-              		var resp = y.rest("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13/").accept(\\\\\\\'application/json\\\\\\\').contentType("application/x-www-form-urlencoded").post(params).response;
+              		var resp = y.rest("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13/").accept("application/json").contentType("application/x-www-form-urlencoded").post(params).response;
               		var MSTranslate = y.rest("http://api.microsofttranslator.com/v2/Http.svc/Translate?text=" text "&from=" from "&to=" to).header("Authorization","Bearer "  resp.access_token).get().response;
               		
               		response.object = MSTranslate;
