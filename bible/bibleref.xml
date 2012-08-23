@@ -123,6 +123,7 @@
           <book>{book}</book>
           <localbook>{localbook}</localbook>
           <chapterversereference>{chapterversereference}</chapterversereference>
+          <verseinbook>{verseinbook(osisbook,chapter,verse)}</verseinbook>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
@@ -362,6 +363,19 @@
           while (m = token.exec(str))
             num += key[m[0]];
           return num;
+        }
+        function verseinbook(osisbook,chapter,verse)
+        {
+          var sum = 0;
+          for (c in bookoutlinerecord.chapter)
+          {
+            if (c.@number < chapter)
+            {
+              sum += c.@number_of_verses;
+            }
+          }
+          sum += verse;
+          return sum;
         }
         
         /* functions for determining the function of separators */
