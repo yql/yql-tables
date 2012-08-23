@@ -123,7 +123,7 @@
           <book>{book}</book>
           <localbook>{localbook}</localbook>
           <chapterversereference>{chapterversereference}</chapterversereference>
-          <verseinbook>{verseinbook(osisbook,chapter,verse)}</verseinbook>
+          <verseinbook>{verseinbook(chapter,verse)}</verseinbook>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
@@ -176,7 +176,7 @@
           {
             try
             {
-              chapterversereference = chapterversereference.replace(chapterseparator,':').replace(listseparator,',').replace(rangeseparator,'-');
+              //chapterversereference = chapterversereference.replace(chapterseparator,':').replace(listseparator,',').replace(rangeseparator,'-');
               parseResult = parse_list("explicit",split2.after);
               parseSuccess = 1;
             }
@@ -195,7 +195,7 @@
               else
               {
                 y.log("Invalid bible reference syntax.");
-                y.exit(0);
+                y.exit();
               }
             }
           }
@@ -364,7 +364,7 @@
             num += key[m[0]];
           return num;
         }
-        function verseinbook(osisbook,chapter,verse)
+        function verseinbook(chapter,verse)
         {
           var sum = 0;
           for (c in bookoutlinerecord.chapter)
