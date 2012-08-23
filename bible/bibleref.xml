@@ -161,7 +161,6 @@
             localbook = getlocalbook(bookrecord,language);
           }
           bookoutlinerecord = bookoutlinequery(osisbook);
-          chapterversereference = split2.after;
           /* determine the functions of the separators being used */
           separatorsOrder = getSeparators(split2.after);
           separatorIndex = 0;
@@ -176,7 +175,7 @@
           {
             try
             {
-              //chapterversereference = chapterversereference.replace(chapterseparator,':').replace(listseparator,',').replace(rangeseparator,'-');
+              chapterversereference = split2.after.replace(chapterseparator,':').replace(listseparator,',').replace(rangeseparator,'-');
               parseResult = parse_list("explicit",split2.after);
               parseSuccess = 1;
             }
@@ -326,7 +325,7 @@
           else if (string.match(/^[ivxlc]+$/i))
           {
             chapter = deromanize(string);
-            chapterversereference = chapterversereference.replace(string,chapter);
+//            chapterversereference = chapterversereference.replace(string,chapter);
           }
           else
           {
