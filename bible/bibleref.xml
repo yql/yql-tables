@@ -31,6 +31,7 @@
         var chapterseparator;
         var listseparator;
         var rangeseparator;
+        var chapterversereference;
         
         var bibleref;
         var language;
@@ -121,6 +122,7 @@
           return <bibleref>
           <book>{book}</book>
           <localbook>{localbook}</localbook>
+          <chapterversereference>{chapterversereference}</chapterversereference>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
@@ -194,6 +196,7 @@
               }
             }
           }
+          chapterversereference = split2.after.replace(chapterseparator,':').replace(listseparator,',').replace(rangeseparator('-');
           return parseResult;
         }
         function parse_list(mode,string)
