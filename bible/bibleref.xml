@@ -119,6 +119,7 @@
         }
         function listrecord(book,chapter,verse,phrase,osisbook)
         {
+          debug && y.log("listrecord; just to say something");
           var v = verseinbook(chapter,verse);
           debug && y.log("listrecord; verseinbook = " + v);
           return <bibleref>
@@ -264,6 +265,7 @@
                 else 
                 {
                   debug &&  y.log("adding [2] " + book + " | " + chapter + " | " + begin.verse.number + begin.verse.phrase + " | " + osisbook); 
+                  debug && y.log("parse_range; just to say something");
                   list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook);
                 }
               }
