@@ -4,7 +4,6 @@
         <author>Daniel</author>
         <description>Last.fm API for looking up songs</description>
         <documentationURL>http://www.last.fm/api/show/track.search</documentationURL>
-        <sampleQuery>select * from {table}</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="" produces="XML">
@@ -15,7 +14,6 @@
                 <key id="track" type="xs:string" paramType="query" required="true" />
                 <key id="api_key" type="xs:string" paramType="query" required="true" />
             </inputs>
-
         </select>
      </bindings>
 </table>
