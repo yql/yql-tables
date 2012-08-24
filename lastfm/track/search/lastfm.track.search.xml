@@ -12,7 +12,7 @@
             </urls>
             <inputs>
                 <key id="track" type="xs:string" paramType="query" required="true" />
-              <key id="api_key" type="xs:string" paramType="query" required="true" />
+                <key id="api_key" type="xs:string" paramType="query" required="true" />
             </inputs>
         </select>
      </bindings>
