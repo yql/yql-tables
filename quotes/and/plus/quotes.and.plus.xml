@@ -16,7 +16,7 @@
             </inputs>
             <execute>
                 <![CDATA[
-                    var foo = \'foo\'   \'bar\';
+                    var foo = \\\'foo\\\'   \\\'bar\\\';
                 ]]>
             </execute>
         </select>
