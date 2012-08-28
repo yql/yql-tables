@@ -16,7 +16,7 @@
             </inputs>
             <execute>
                 <![CDATA[
-                    var x = 'y'   'asdas;
+                    var x = 'y'   'asdas';
                 ]]>
             </execute>
         </select>
