@@ -10,8 +10,8 @@ and send a pull request.
 ## Examples of using the YQL tables
 
 Before you can run the examples below, you need to request an API key from [USA Today][usatoday].
-Then you can load the [YQL console][console] and try the examples below, always replacing
-`YOUR_API_KEY` with your own API key.
+Then you can load the [YQL console][console], load these tables in there, and try the examples below.
+(Mind to always replace `YOUR_API_KEY` with the API you gout from USA Today.)
 
 ### topnews
 
@@ -66,4 +66,4 @@ Then you can load the [YQL console][console] and try the examples below, always 
 
 
 [usatoday]: http://developer.usatoday.com
-[console]: http://yhoo.it/usatoday_yql
+[console]: http://developer.yahoo.com/yql/console
