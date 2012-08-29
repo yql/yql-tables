@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>
+		    USA TODAY Articles API - TopNews
+		</description>
+		<documentationURL>http://developer.usatoday.com/docs/read/articles</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY'</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE api_key='YOUR_API_KEY' AND section='tech'</sampleQuery>			
+	</meta>
+  <bindings>
+
+    <select itemPath="json.stories" produces="JSON" description="Search for USAToday articles">
+    	<urls>
+	    	<url env="all">http://api.usatoday.com/open/articles/topnews/{section}</url>
+	    </urls>
+	    <paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="count" max="100" />
+				<total default="10" />
+	    </paging>
+	    <inputs>
+	        <!-- general parameters  -->
+	        <key id="api_key" type="xs:string" paramType="query" required="true" description="API key for USAToday" />
+	        <key id="encoding" type="xs:string" paramType="query" const="true" default="json" description="Format in which to return the results. Either JSON or RSS. (I am fixing this to JSON)" />
+
+	        <!-- specifics for this table -->
+	        <key id="section" type="xs:string" paramType="path" required="true"/>
+	    </inputs>
+    </select>
+
+    <select itemPath="json.stories" produces="JSON" description="Search for USAToday articles">
+    	<urls>
+	    	<url env="all">http://api.usatoday.com/open/articles/topnews</url>
+	    </urls>
+	    <paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="count" max="100" />
+				<total default="10" />
+	    </paging>
+	    <inputs>
+	        <!-- general parameters  -->
+	        <key id="api_key" type="xs:string" paramType="query" required="true" description="API key for USAToday" />
+	        <key id="encoding" type="xs:string" paramType="query" const="true" default="json" description="Format in which to return the results. Either JSON or RSS. (I am fixing this to JSON)" />
+	    </inputs>
+    </select>
+
+  </bindings>
+</table>
