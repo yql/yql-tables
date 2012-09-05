@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>Coderwall Profile API</description>
+		<documentationURL>http://coderwall.com/api</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE user=spier</sampleQuery>
+	</meta>
+	<bindings>		
+		<select itemPath="json" produces="JSON">
+			<urls>
+				<url>http://coderwall.com/{user}.json</url>
+			</urls>
+			<inputs>
+				<key id="user" type="xs:string" paramType="path" required="true"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>
