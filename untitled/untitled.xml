@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng"
+    yahoo:count="1" yahoo:created="2012-07-16T09:30:48Z" yahoo:lang="en-US">
+    <diagnostics>
+        <publiclyCallable>false</publiclyCallable>
+        <url execution-start-time="2" execution-stop-time="10" execution-time="8"><![CDATA[http://social.yahooapis.com/v1/user/XI6ZWFAFASKBSPGW7BMNRBLFCQ/relationships;start=0;count=10?view=categories,catnames]]></url>
+        <user-time>11</user-time>
+        <service-time>8</service-time>
+        <build-version>28958</build-version>
+    </diagnostics> 
+    <results>
+        <relationsWithCategories
+            xmlns="http://social.yahooapis.com/v1/schema.rng" xmlns:yahoo="http://www.yahooapis.com/v1/base.rng">
+            <relations yahoo:count="1" yahoo:start="0" yahoo:total="1" yahoo:uri="http://social.yahooapis.com/v1/user/XI6ZWFAFASKBSPGW7BMNRBLFCQ/relationships?view=categories,catnames">
+                <relation yahoo:uri="http://social.yahooapis.com/v1/user/XI6ZWFAFASKBSPGW7BMNRBLFCQ/relationship/5GM574QUG5QVTDDCFPTIGCXZTE?view=categories,catnames">
+                    <guid>5GM574QUG5QVTDDCFPTIGCXZTE</guid>
+                    <attribute>UNPINNED</attribute>
+                    <categories>-1413</categories>
+                    <categories>-1412</categories>
+                </relation>
+            </relations>
+            <category>
+                <name>Shine Blog</name>
+                <id>-2006</id>
+            </category>
+            <category>
+                <name>ContextSpecific Category</name>
+                <id>-2007</id>
+            </category>
+            <category>
+                <name>YStars</name>
+                <id>-2009</id>
+            </category>
+            <category>
+                <name>Coworkers</name>
+                <id>-1301</id>
+            </category>
+            <category>
+                <name>Family</name>
+                <id>-1302</id>
+            </category>
+            <category>
+                <name>Following</name>
+                <id>-1410</id>
+            </category>
+            <category>
+                <name>Topics of Interest</name>
+                <id>-1415</id>
+            </category>
+            <category>
+                <name>Sent Invitations</name>
+                <id>-1414</id>
+            </category>
+            <category>
+                <name>Suggested Flickr Contacts</name>
+                <id>-1704</id>
+            </category>
+            <category>
+                <name>Friend</name>
+                <id>-1303</id>
+            </category>
+            <category>
+                <name>Connections</name>
+                <id>-1401</id>
+            </category>
+            <category>
+                <name>Suggested Wretch Contacts</name>
+                <id>-1703</id>
+            </category>
+            <category>
+                <name>Address Book Contacts</name>
+                <id>-1412</id>
+            </category>
+            <category>
+                <name>Suggested Address Book Contacts</name>
+                <id>-1700</id>
+            </category>
+            <category>
+                <name>Suggested Followers</name>
+                <id>-1705</id>
+            </category>
+            <category>
+                <name>Messenger Contacts</name>
+                <id>-1413</id>
+            </category>
+            <category>
+                <name>Facebook Friends</name>
+                <id>-1417</id>
+            </category>
+            <category>
+                <name>Suggestions</name>
+                <id>-1411</id>
+            </category>
+            <category>
+                <name>Suggested Mail Contacts</name>
+                <id>-1701</id>
+            </category>
+            <category>
+                <name>Asia Blog</name>
+                <id>-1416</id>
+            </category>
+            <category>
+                <name>Twitter Friends</name>
+                <id>-1418</id>
+            </category>
+            <category>
+                <name>Friends of Friends</name>
+                <id>-1706</id>
+            </category>
+            <category>
+                <name>Suggested Messenger Contacts</name>
+                <id>-1702</id>
+            </category>
+        </relationsWithCategories>
+    </results>
+</query>
