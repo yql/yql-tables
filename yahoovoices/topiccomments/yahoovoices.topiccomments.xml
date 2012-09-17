@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+	<meta>
+		<author>HOUYHNHNM</author>
+		<description>Contributor Topic Recent Comments</description>
+		<documentationURL></documentationURL>
+		<sampleQuery>select * from {table} where topicurl="http://voices.yahoo.com/rss/feature_2.xml" and truncval=15 and truncval2=5 </sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<inputs>
+				<key id="topicurl" type="xs:string" paramType="variable" required="true"/>
+				<key id="truncval" type="xs:string" paramType="variable" required="true"/><!-- articles to extract from the topic feed-->
+				<key id="truncval2" type="xs:string" paramType="variable" required="true"/><!-- comments to extract from each article-->
+			</inputs>
+			<execute>
+				<![CDATA[ 
+					//numberinput1 articles to extract
+					//numberinput2 comments to extract from each article
+					response.object = y.pipe("3767deacd5538d11f2f40838d4d70854",{urlinput1: topicurl,numberinput1:truncval,numberinput2:truncval2}).results;
+				]]>
+			</execute>
+		</select>
+	</bindings>
+</table>
