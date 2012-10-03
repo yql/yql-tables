@@ -1,0 +1,1 @@
+use 'http://115.160.161.219/econdata/htmlpost.xml' as htmlpost; select * from htmlpost where url='http://chinese.tradingfloor.com/index.php/calendar/calendardata' and postdata='date=2012-10-03&country=all' and xpath='/html/body/h2[4] | /html/body/table[4]'
