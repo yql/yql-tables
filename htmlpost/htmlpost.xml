@@ -21,11 +21,11 @@ and postdata="date=".$date."&country=".$country and xpath="/html/body/h2[4] | /h
 </inputs>
 <execute>
 <![CDATA[
-var myRequest = y.rest(url).timeout(30000).get();
+var myRequest = y.rest(url).timeout(60000);
 var data = myRequest.accept('text/html').contentType("application/x-www-form-urlencoded").post(postdata).response;
 var xdata = y.xpath(data,xpath);
 response.object = <postresult>{xdata}</postresult>;
-response.maxAge = 900;
+response.maxAge = 60000;
 ]]>
 </execute>
 </select>
