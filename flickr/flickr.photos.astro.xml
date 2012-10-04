@@ -1,8 +1,9 @@
-<?xml version="1.0"?>
-<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-  <meta>
-    <author>Jim O'Donnell</author>
+<?xml version = "1.0"?>
+<table xmlns = "http://query.yahooapis.com/v1/schema/table.xsd" >
+  <meta >
+    <author > Jim O 'Donnell</author>
     <documentationURL>http://eatyourgreens.org.uk/archives/2009/05/searching-the-sky-with-yql-execute.html</documentationURL>
+    <sampleQuery description="Get up to 50 photos of M 42 (the Orion Nebula), starting at number 10.">select * from flickr.photos.astro(10,50) where astro_name='M 42'</sampleQuery>
   </meta>
   <bindings>
     <select produces="XML" itemPath="photos.photo">
@@ -10,103 +11,120 @@
 
         <url></url>
       </urls>
-	  <paging model="offset">
-		<start id="start" default="0"/>
-		<pagesize id="count" max="50"/>
-		<total default="20"/>
-	  </paging>
+    <paging model="offset">
+    <start id="start" default="0"/>
+    <pagesize id="count" max="250"/>
+    <total default="20"/>
+    </paging>
       <inputs>
+        <key id="text" type="xs:string" paramType="variable" />
+        <key id="astro_name" type="xs:string" paramType="variable" />
+        <key id="group_id" type="xs:string" paramType="variable" />
+		<key id="api_key" type="xs:string" paramType="variable" />
       </inputs>
-	  <execute><![CDATA[
-		var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%') and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='astro:RA=')";
-		var data = y.query(querystring);
-		var photos = parseAstrotags(data);
+    <execute><![CDATA[
+    var name_query = '';
+	var api_query = '';
+    if (text && text != '') name_query += " and text = '"+text.replace("'","\'")+"'";
+	if (api_key && api_key != '') api_query = " and api_key = '"+api_key+"'";
+    if (group_id && group_id != '') name_query += " and group_id = '"+group_id.replace("'","\'")+"'";
+    var machine_tags = 'astro:RA=';
+    if (astro_name && astro_name != '') machine_tags = 'astro:name="'+astro_name.replace("'","\'")+'"';
 
-		default xml namespace = '';
-		var respdata = <photos/>;
-		for each (var photo in photos) {
+    var querystring = "select farm, server, id, secret, title, owner.username, urls.url.content, tags.tag.raw from flickr.photos.info where (tags.tag.raw like 'astro:%')"+api_query+" and photo_id in (select id from flickr.photos.search("+start+","+count+") where machine_tags='"+machine_tags+"'"+name_query+api_query+")";
+    var data = y.query(querystring);
+    var photos = parseAstrotags(data);
 
-			var node = <photo>
-						<id>{photo.id}</id>
-						<title>{photo.title}</title>
-						<url>{photo.url}</url>
-						<imgroot>{photo.imgroot}</imgroot>
-						<username>{photo.username}</username>
-						<ra>{photo.RA}</ra>
-						<dec>{photo.Dec}</dec>
-						<orientation>{photo.orientation}</orientation>
-					</photo>;
-			if(photo.fov) {
-				node.photo += <fov>
-								<x>{photo.fov.x}</x>
-								<y>{photo.fov.y}</y>
-							</fov>;
+    default xml namespace = '';
+    var respdata = <photos/>;
+    for each (var photo in photos) {
 
-			}
-			for(i=0; i<photo.name.length; i++) {
-				node.photo += <name>{photo.name[i]}</name>;
-			}
-			respdata.photos += node;
-		}
+      var node = <photo>
+            <id>{photo.id}</id>
+            <title>{photo.title}</title>
+            <url>{photo.url}</url>
+            <imgroot>{photo.imgroot}</imgroot>
+            <username>{photo.username}</username>
+            <ra>{photo.RA}</ra>
+            <dec>{photo.Dec}</dec>
+            <orientation>{photo.orientation}</orientation>
+          </photo>;
+      if(photo.fov) {
+        node.photo += <fov>
+                <x>{photo.fov.x}</x>
+                <y>{photo.fov.y}</y>
+              </fov>;
 
-		response.object = respdata;
+      }
+      for(i=0; i<photo.name.length; i++) {
+        node.photo += <name>{photo.name[i]}</name>;
+      }
+      respdata.photos += node;
+    }
+    
+    // try extending cache time as these
+    // results don't change very often.
+    response.maxAge = 1800;
+    response.object = respdata;
+    
+    function parseAstrotags(data) {
 
-		function parseAstrotags(data) {
+      var tag; 
+      var tmp;
+      var photo;
+      var id;
+      var o = {};
+      o.id = '';
+      var photos = [];
 
-			var tag; 
-			var tmp;
-			var photo;
-			var id;
-			var o = {};
+      /* Walk through the returned data and build an array of
+      photos. */
+      for each (var photo in data.results.photo) {
+        id = photo.@['id'].toString();
 
-			/* Walk through the returned data and build an associative array of
-			photos, o, keyed on photo id. (yeah, I know JavaScript doesn't really use
-			associative arrays).*/
-			for each (var photo in data.results.photo) {
-				id = photo.@['id'].toString();
+        if (o.id != id) {
+          o = {};
+          photos.push(o);
+          o['name'] = [];
+          o['id'] = id;
+          o['title']=photo.title.toString();
+          o['url'] = photo.urls.url.toString();
+          o['username'] = photo.owner.@['username'].toString();
+          o['imgroot'] = 'http://farm'+photo.@['farm'].toString()+'.static.flickr.com/'+photo.@['server'].toString()+'/'+id+'_'+photo.@['secret'].toString();          
+        }
+        tag = photo.tags.tag.@['raw'].toString();
+        //split machine tag name and value
+        tmp = tag.split('=');
+        //discard namespace from tag name by splitting tmp[0] on :
+        // store data as o[id][predicate] = value eg. o[id].RA = 85.123456
+        var tagname = tmp[0].split(':')[1];
+        if (tagname == 'name') {
+          o['name'].push(tmp[1]);
+        } else {
+          o[tagname] = tmp[1];
+        }
+        //fieldsize is a string in degrees, arcminutes or arcseconds.
+        //We will standardise on a value in degrees.
+        if (tmp[0] == 'astro:fieldsize') {
+          //convert fieldsize string into a numeric value in degrees, using the width of the photo.
+          tmp = o.fieldsize.split(' ');
+          o.fov = {};
+          o.fov.x = parseFloat(tmp[0]);
+          o.fov.y = parseFloat(tmp[2]);
+          if (tmp[3] == 'arcminutes') {
+            o.fov.x = o.fov.x/60;
+            o.fov.y = o.fov.y/60;
+          }
+          if (tmp[3] == 'arcseconds') {
+            o.fov.x = o.fov.x/3600;
+            o.fov.y = o.fov.y/3600;
+          }
+        }
+      }
 
-				if (!o[id]) { 
-					o[id] = {};
-					o[id]['name'] = [];
-					o[id]['id'] = id;
-					o[id]['title']=photo.title.toString();
-					o[id]['url'] = photo.urls.url.toString();
-					o[id]['username'] = photo.owner.@['username'].toString();
-					o[id]['imgroot'] = 'http://farm'+photo.@['farm'].toString()+'.static.flickr.com/'+photo.@['server'].toString()+'/'+id+'_'+photo.@['secret'].toString();					
-				}
-				tag = photo.tags.tag.@['raw'].toString();
-				//split machine tag name and value
-				tmp = tag.split('=');
-				//discard namespace from tag name by splitting tmp[0] on :
-				// store data as o[predicate] = value eg. o[id].RA = 85.123456
-				var tagname = tmp[0].split(':')[1];
-				if (tagname == 'name') {
-					o[id]['name'].push(tmp[1]);
-				} else {
-					o[id][tagname] = tmp[1];
-				}
-				//fieldsize is a string in degrees, arcminutes or arcseconds.
-				//We will standardise on a value in degrees.
-				if (tmp[0] == 'astro:fieldsize') {
-					//convert fieldsize string into a numeric value in degrees, using the width of the photo.
-					tmp = o[id].fieldsize.split(' ');
-					o[id].fov = {};
-					o[id].fov.x = parseFloat(tmp[0]);
-					o[id].fov.y = parseFloat(tmp[2]);
-					if (tmp[3] == 'arcminutes') {
-						o[id].fov.x = o[id].fov.x/60;
-						o[id].fov.y = o[id].fov.y/60;
-					}
-					if (tmp[3] == 'arcseconds') {
-						o[id].fov.x = o[id].fov.x/3600;
-						o[id].fov.y = o[id].fov.y/3600;
-					}
-				}
-			}
-
-			return o;
-		}		
-	 ]]></execute>
+      return photos;
+    }   
+   ]]></execute>
     </select>
   </bindings>
 </table>

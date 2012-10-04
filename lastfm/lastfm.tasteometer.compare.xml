@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jamie Matthews</author>
+    <description>YQL table for Last.fm Tasteometer.compare API method. Get a Tasteometer score from two inputs, along with a list of shared artists. If the input is a User or a Myspace URL, some additional information is returned.</description>
+    <documentationURL>http://www.last.fm/api/show?service=258</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://ws.audioscrobbler.com/2.0/?method=tasteometer.compare</url>
+      </urls>
+      <inputs>
+        <key id="type[1|2]" type="xs:string" paramType="query" required="false" />
+        <key id="value[1|2]" type="xs:string" paramType="query" required="false" />
+        <key id="limit" type="xs:string" paramType="query" required="false" />
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        
+      </inputs>
+    </select>
+  </bindings>
+</table>

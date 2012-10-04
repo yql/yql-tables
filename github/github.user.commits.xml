@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Dan Beam</author>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where id='danbeam'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="commits.commit" produces="XML">
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <execute><![CDATA[
+
+        // pull down the tables required
+        y.use("http://www.datatables.org/github/github.user.repos.xml", "github.user.repos");
+        y.use("http://www.datatables.org/github/github.repo.commits.xml", "github.repo.commits");
+
+        // make the query
+        var commit, match,
+            useful  = <commits></commits>;
+            commits = y.query('select commit from github.repo.commits where id="' + id + '" and repo in (select repository.name from github.user.repos where id="' + id + '")');
+
+        // TODO: what's the best way to handle failure?
+        if (commits.results) {
+            // look through each commit
+            for each (commit in commits.results.commits.commit) {
+                // filter only our login
+                if (id === commit.author.login.toString()) {
+                    if (match = commit.url.match(/\/[^\/]+\/([^\/]+)\/.+/)) {
+                        commit.repository = match[1];
+                    }
+                    // add this commit to our useful list
+                    useful.commits += commit
+                }
+            }
+        }
+
+        // only send back the useful results
+        response.object = useful;
+
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

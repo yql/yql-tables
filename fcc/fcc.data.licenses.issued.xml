@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://reboot.fcc.gov/developer/license-view-api</documentationURL>
+	    <sampleQuery description="View number of licenses that were issued by the Commission on a yearly basis for Verizon Wireless">select * from {table} where commonName="Verizon Wireless" and limit="3"</sampleQuery>      
+		<description>This API returns the number of licenses that were issued by the Commission on a yearly basis. The data returned includes the year and the total number of licenses issued. This API provides summary information on the volume of licenses issued by the Commission in the past.
+		</description>
+    </meta>
+	<bindings>
+		<select itemPath="Response.Stats" produces="XML">  
+			<urls>
+				<url>http://data.fcc.gov/api/license-view/licenses/getIssued</url>
+			</urls>  
+			<inputs>
+				<key id="commonName" type="xs:string" paramType="query" required="false"/>
+				<key id="limit"      type="xs:string" paramType="query" required="false" default="10"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>	

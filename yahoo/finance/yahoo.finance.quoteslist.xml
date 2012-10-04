@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<sampleQuery>
+			select * from {table} where symbol='^IBEX'
+		</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="quotes.quote" produces="XML">
+			<urls><url>http://download.finance.yahoo.com/d/quotes.csv?s={-listjoin|,|symbol}</url></urls>
+
+			<inputs>
+				<key id='f' type='xs:string' const='true' default='sl1d1t1c1ohgv' paramType='query' />
+				<key id='e' type='xs:string' const='true' default='.csv' paramType='query' />
+				<key id='h' type='xs:string' const='true' default='0' paramType='query' />
+				<key id='symbol' type='xs:string' batchable='true' maxBatchItems='20' paramType='path' required='true'/>
+			</inputs>
+			<execute><![CDATA[
+				var results = y.query("select * from csv where url=@url and columns='Symbol,LastTradePriceOnly,LastTradeDate,LastTradeTime,Change,Open,DaysHigh,DaysLow,Volume'",{url:request.url});
+				var quotes = <quotes/>;
+				var rows=results.results.row;
+				for each (var row in rows) {
+					for each (var item in row.*) {
+						var elname = item.localName();
+						var txt = item.text().toString();
+						if (txt=="N/A") txt=""; else if (txt=="-") txt=""; else {
+							txt = txt.replace(/"/g, '');
+						}
+						row[elname]=txt;
+					}
+					//split % change out
+					//var txt = row["Change_PercentChange"].text().toString();
+					//row["PercentChange"]=txt.substring(txt.indexOf(" - ")+2);	
+				    quotes.quote += <quote symbol={row.Symbol.text().toString()}>{row.*}</quote>;
+				}
+				response.object = quotes;
+      ]]></execute>
+		</select>
+	</bindings>
+</table>

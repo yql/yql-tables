@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Peter Baumgartner</author>
+        <documentationURL>http://madrobby.github.com/freckle-apidocs/entries.html</documentationURL>
+        <description>Insert/Select time entries from Freckle</description>
+        <sampleQuery>SELECT * FROM freckle.entries WHERE site="apitest" AND token="lx3gi6pxdjtjn57afp8c2bv1me7g89j"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="entries.entry" produces="XML">
+            <urls>
+                <url>https://{site}.letsfreckle.com/api/entries.xml</url>
+            </urls>
+            <inputs>
+                <key id="site" type="xs:string" paramType="path" required="true"/>
+                <key id="X-FreckleToken" as="token" type="xs:string" paramType="header" required="true" private="true"/>
+                
+                <!-- search queries -->
+                <key id="search[people]" as="people" type="xs:string" paramType="query" required="false"/>
+                <key id="search[projects]" as="projects" type="xs:string" paramType="query" required="false"/>
+                <key id="search[tags]" as="tags" type="xs:string" paramType="query" required="false"/>
+                <key id="search[from]" as="from" type="xs:date" paramType="query" required="false"/>
+                <key id="search[to]" as="to" type="xs:date" paramType="query" required="false"/>
+                <key id="search[billable]" as="billable" type="xs:boolean" paramType="query" required="false"/>
+            </inputs>
+        </select>
+        
+        <insert itemPath="entry" produces="XML">
+            <urls>
+                <url>https://{site}.letsfreckle.com/api/entries.xml</url>
+            </urls>
+            <inputs>
+                <key id="site" type="xs:string" paramType="path" required="true"/>
+                <key id="X-FreckleToken" as="token" type="xs:string" paramType="header" required="true" private="true"/>
+                
+                <key id="minutes" type="xs:string" paramType="variable" required="true"/>
+                <key id="user" type="xs:string" paramType="variable" required="true"/>
+                <key id="project_id" type="xs:string" paramType="variable" required="false"/>
+                <key id="description" type="xs:string" paramType="variable" required="false"/>
+                <key id="date" type="xs:date" paramType="variable" required="false"/>
+            </inputs>
+            <execute><![CDATA[
+                var entry = {
+                    "entry": {
+                        "minutes":minutes,
+                        "user":user
+                    }
+                };
+                if (project_id) {
+                    entry.entry["project-id"] = project_id;
+                }
+                if (description) {
+                    entry.entry.description = description;
+                }
+                if (date) {
+                    entry.entry.date = date;
+                }
+                response.object = request.contentType('application/xml')
+                                         .post(y.jsonToXml(entry).toXMLString())
+                                         .response;
+      ]]></execute>
+        </insert>
+    </bindings>
+</table>

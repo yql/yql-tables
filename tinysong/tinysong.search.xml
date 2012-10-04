@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Steffen Bruchmann</author>
+    <documentationURL>http://tinysong.com/api</documentationURL>
+    <sampleQuery>select * from tinysong.search where query='black sabbath' and method='b' and key='xxx'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="JSON">
+      <urls>
+        <url>http://tinysong.com/{method}/{query}?key={key}&format=json</url>
+      </urls>
+      <inputs>
+        <key id="key" type="xs:string" paramType="path" required="true"/>
+        <key id="method" type="xs:string" paramType="path" required="true"/>
+        <key id="query" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Andrew Guyton</author>
+		<documentationURL>https://partner.steamgames.com/documentation/community_data</documentationURL>
+		<sampleQuery>select * from {table} where id='76561197968575517' and appid='500'</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>http://steamcommunity.com/profiles/{id}/statsfeed/{appid}/?xml=1&schema=1</url>
+			</urls>
+			<inputs>
+				<key id="id" type="xs:string" paramType="path" required="true" />
+				<key id="appid" type="xs:string" paramType="path" required="true" />
+			</inputs>
+		</select>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>http://steamcommunity.com/profiles/{customurl}/statsfeed/{appid}/?xml=1&schema=1</url>
+			</urls>
+			<inputs>
+				<key id="customurl" type="xs:string" paramType="path" required="true" />
+				<key id="appid" type="xs:string" paramType="path" required="true" />
+			</inputs>
+		</select>
+	</bindings>
+</table>

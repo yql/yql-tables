@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Retrieve list of results from Digital NZ</description>
+    <documentationURL>http://www.digitalnz.org/developer/api-docs/search-records/</documentationURL>
+    <sampleQuery description="Search for all records attributed to social welfare">select * from {table} where search_text='social welfare' and api_key='{key}';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="hash.results.result" produces="XML">
+        <urls>
+            <url>http://api.digitalnz.org/records/v1.xml/</url>
+        </urls>
+   <paging model="offset">
+	<start id="start" default="1"/>
+	<pagesize id="num_results" max="100"/>
+	<total default="20"/>
+   </paging>
+	<inputs>
+            <key id="search_text" type="xs:string" paramType="query" required="false" />
+            <key id="sort" type="xs:string" paramType="query" required="false" />
+	    <key id="direction" type="xs:string" paramType="query" required="false" />
+	    <key id="facets" type="xs:string" paramType="query" required="false" />
+	    <key id="facet_start" type="xs:string" paramType="query" required="false" />
+	    <key id="facet_num_results" type="xs:string" paramType="query" required="false" />
+            <key id="api_key" type="xs:string" paramType="query" required="true" private="true"/>
+	</inputs>
+    </select>
+</bindings>
+</table>

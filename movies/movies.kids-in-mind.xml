@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<sampleQuery description="Get recent Kids-in-Mind Ratings">select * from {table}</sampleQuery>
+		<description>
+		Scrapes rating infomation from Kids-In-Mind.com website. Most
+		pages of the Kids-in-Mind site are supported including search by
+		rating and search by keyword. Movie information varies by page,
+		so some elements may not be present in every result set.
+		Searches default to returning only first page results. Keyword
+		search results may not include all result pages due to non-movie
+		results on page. Effectiveness of scraping subject to change
+		without notice due to source site redesigns.
+		</description>
+		<author>David Robarts</author>
+	</meta>
+	<bindings>
+		<select itemPath="/KIM/movie" produces="XML">
+			<urls>
+				<url>http://www.kids-in-mind.com/</url>
+			</urls>
+			<inputs>
+				<key id="url" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute><![CDATA[
+			var reURI = /^https?:\/\/(?:www\.)?kids-in-mind.com\//i;
+			var xpath="";
+			var page = url.replace(reURI, "");
+			var base = url.replace(/[^\/]*$/, "");
+			var reHome = /^(?:index\.htm)?$/;
+			var reMovie = /^([a-z])\/(?!index\.htm)\1/;
+			switch (true){
+			case reHome.test(page):
+				xpath="//p[@class='t11bold']/a/../../../..";
+				break;
+			case reMovie.test(page):
+				xpath="/html"
+				base = url;
+				break;
+			case /^inline/.test(page):
+				xpath="//a/parent::p";
+				break;
+			case /^[a-z]$/.test(page):
+				url+="/";
+				base = url;
+			default:
+				xpath="//td[@width=640]//a/parent::p";
+			}
+			var source = y.query('select * from html where url=@url and xpath=@xpath', {url:url, xpath:xpath});
+			var reKIM = /\b(\d{1,2})\.(\d{1,2})\.(\d{1,2})\b/;
+			var reMPAA = /\[\s*(?:\d+:\d{2})?\s*-?\s*((NR)|(G)|(PG)|(PG-13)|(R)|(NC-17))\s*\]/;
+			var reTime = /\[\s*(\d+:\d{2})[^\]]*\]/;
+			var reYear = /\[(\d{4})\]/;
+			var reTitle = /^[^-\[]*/;
+			var reOfficial = /<a href="([^"]*)"[^>]*>Official\s+Site<\/a>/;
+			var reIMDb = /<a href="([^"]*)"[^>]*>IMDb\s+Listing<\/a>/;
+			String.prototype.normalizeSpace = function() {
+				return this.replace(/^\s*|\s(?=\s)|\s*$/g, "");
+			}
+			var reBackpath = /\/[^\/]+\/\.\.(?=\/)/;
+			var target = <KIM />;
+			switch (true){
+			case reHome.test(page):
+				for each (var m in source.results.*) {
+					m.movie.title = m.tr.td.p.(@['class'] == 't11bold').a.toString().normalizeSpace();
+					m.movie.link = m.tr.td.p.(@['class'] == 't11bold').a.@href;
+				}
+				break;
+			case reMovie.test(page):
+				m = source.results..td.(@width == "640");
+				m.info = source.results.html.head.title.toString();
+				m.movie.title = reTitle.exec(m.info)[0].normalizeSpace();
+				m.movie.link = "";
+				break;
+			default:
+				for each (var m in source.results..a) {
+					var follow = m.parent().children()[m.childIndex()+1];
+					if (reKIM.test(m)) {
+						m.movie.title = reTitle.exec(m)[0].normalizeSpace();
+						m.movie.link = m.@href;
+					} else if (reKIM.test(follow)) {
+						m.movie.title = m.toString().normalizeSpace();
+						m.movie.link = m.@href;
+						m.info = follow;
+					}
+				}
+			}
+			for each (var movie in source.results..movie) {
+				if (reURI.test(movie.link) == false)
+					movie.link = base + movie.link;
+					while (reBackpath.test(movie.link)) {
+						movie.link = movie.link.toString().replace(reBackpath, "")
+					}
+				var m = movie.parent();
+				var temp = reKIM.exec(m.toString());
+				movie.rating.sex = temp[1];
+				movie.rating.violence = temp[2];
+				movie.rating.language = temp[3];
+				if (reMPAA.test(m)) {
+					temp = reMPAA.exec(m);
+					movie.rating.MPAA = temp[1];
+					movie.rating.MPAA.@index = temp.slice(2).indexOf(temp[1]);
+				}
+				if (reTime.test(m))
+					movie.runTime = reTime.exec(m)[1];
+				if (reYear.test(m))
+					movie.year = reYear.exec(m)[1];
+				if (reOfficial.test(m))
+					movie.OfficialSite = reOfficial.exec(m)[1];
+				if (reIMDb.test(m))
+					movie.IMDb = reIMDb.exec(m)[1];
+				target.appendChild(movie);
+			}
+				response.object = target;
+			]]></execute> 
+		</select>
+		<select itemPath="/KIM/movie" produces="XML">
+			<urls>
+				<url>http://www.kids-in-mind.com/cgi-bin/search/search.pl</url>
+			</urls>
+			<paging model="offset">
+				<start id="stpos" default="0" />
+				<pagesize max="55" />
+				<total default="55" />
+			</paging>
+			<inputs>
+				<key id="q" as="keyword" type="xs:string" paramType="query" required="true" />
+			</inputs>
+			<execute><![CDATA[
+			var xpath="//td[@width=640]//a/parent::p";
+			var source = y.query('select * from html where url=@url and xpath=@xpath', {url:request.url, xpath:xpath});
+			var reKIM = /\b(\d{1,2})\.(\d{1,2})\.(\d{1,2})\b/;
+			var reMPAA = /\[\s*(?:\d+:\d{2})?\s*-?\s*((NR)|(G)|(PG)|(PG-13)|(R)|(NC-17))\s*\]/;
+			var reYear = /\[(\d{4})\]/;
+			var reTitle = /^[^-\[]*/;
+			String.prototype.normalizeSpace = function() {
+				return this.replace(/^\s*|\s(?=\s)|\s*$/g, "");
+			}
+			var target = <KIM />;
+			for each (var m in source.results..a) {
+				var follow = m.parent().children()[m.childIndex()+1];
+				if (reKIM.test(m)) {
+					m.movie.title = reTitle.exec(m)[0].normalizeSpace();
+					m.movie.link = m.@href;
+				} else if (reKIM.test(follow)) {
+					m.movie.title = m.toString().normalizeSpace();
+					m.movie.link = m.@href;
+					m.info = follow;
+				}
+			}
+			for each (var movie in source.results..movie) {
+				var m = movie.parent();
+				var temp = reKIM.exec(m.toString());
+				movie.rating.sex = temp[1];
+				movie.rating.violence = temp[2];
+				movie.rating.language = temp[3];
+				if (reMPAA.test(m)) {
+					temp = reMPAA.exec(m);
+					movie.rating.MPAA = temp[1];
+					movie.rating.MPAA.@index = temp.slice(2).indexOf(temp[1]);
+				}
+				if (reYear.test(m))
+					movie.year = reYear.exec(m)[1];
+				target.appendChild(movie);
+			}
+				response.object = target;
+			]]></execute> 
+		</select>
+		<select itemPath="/KIM/movie" produces="XML">
+			<urls>
+				<url>http://www.kids-in-mind.com/cgi-bin/listbyrating/search.pl</url>
+			</urls>
+			<paging model="offset">
+				<start id="stpos" default="0" />
+				<pagesize max="34" />
+				<total default="34" />
+			</paging>
+			<inputs>
+				<key id="s1" as="sexMin" type="integer" paramType="query" />
+				<key id="s2" as="sexMax" type="integer" paramType="query" />
+				<key id="v1" as="violenceMin" type="integer" paramType="query" />
+				<key id="v2" as="violenceMax" type="integer" paramType="query" />
+				<key id="p1" as="languageMin" type="integer" paramType="query" />
+				<key id="p2" as="languageMax" type="integer" paramType="query" />
+				<key id="MPAA" type="string" paramType="variable" batchable="true" />
+			</inputs>
+			<execute><![CDATA[
+			var xpath="//td[@width=640]//a/parent::p";
+			if ((uneval(request.queryParams) == '{"stpos":"0"}') && (MPAA === null)) {
+				var url = "http://www.kids-in-mind.com/";
+				xpath="//p[@class='t11bold']/a/../../../..";
+			} else {
+				if (typeof(s1)=='undefined')
+					request.query("s1","0");
+				if (typeof(s2)=='undefined')
+					request.query("s2","10");
+				if (typeof(v1)=='undefined')
+					request.query("v1","0");
+				if (typeof(v2)=='undefined')
+					request.query("v2","10");
+				if (typeof(p1)=='undefined')
+					request.query("p1","0");
+				if (typeof(p2)=='undefined')
+					request.query("p2","10");
+				if (MPAA === null) {
+					var url = request.url + "&m=1&m=2&m=3&m=4";
+				} else {
+					url = request.url;
+					for each (r in MPAA) {
+						url += "&m=" + ["NR","G","PG","PG-13","R","NC-17"].indexOf(r);
+					}
+				}
+			}
+			var source = y.query('select * from html where url=@url and xpath=@xpath', {url:url, xpath:xpath});
+			var reKIM = /\b(\d{1,2})\.(\d{1,2})\.(\d{1,2})\b/;
+			var reMPAA = /\[\s*(?:\d+:\d{2})?\s*-?\s*((NR)|(G)|(PG)|(PG-13)|(R)|(NC-17))\s*\]/;
+			var reYear = /\[(\d{4})\]/;
+			var reTitle = /^[^-\[]*/;
+			var reTime = /\[\s*(\d+:\d{2})[^\]]*\]/;
+			String.prototype.normalizeSpace = function() {
+				return this.replace(/^\s*|\s(?=\s)|\s*$/g, "");
+			}
+			var target = <KIM />;
+			if ((uneval(request.queryParams) == '{"stpos":"0"}') && (MPAA === null)) {
+				for each (var m in source.results.*) {
+					m.movie.title = m.tr.td.p.(@['class'] == 't11bold').a.toString().normalizeSpace();
+					m.movie.link = "http://www.kids-in-mind.com/" + m.tr.td.p.(@['class'] == 't11bold').a.@href;
+				}
+			} else {
+				for each (var m in source.results..a) {
+					var follow = m.parent().children()[m.childIndex()+1];
+					if (reKIM.test(m)) {
+						m.movie.title = reTitle.exec(m)[0].normalizeSpace();
+						m.movie.link = m.@href;
+					} else if (reKIM.test(follow)) {
+						m.movie.title = m.toString().normalizeSpace();
+						m.movie.link = m.@href;
+						m.info = follow;
+					}
+				}
+			}
+			for each (var movie in source.results..movie) {
+				var m = movie.parent();
+				var temp = reKIM.exec(m.toString());
+				movie.rating.sex = temp[1];
+				movie.rating.violence = temp[2];
+				movie.rating.language = temp[3];
+				if (reMPAA.test(m)) {
+					temp = reMPAA.exec(m);
+					movie.rating.MPAA = temp[1];
+					movie.rating.MPAA.@index = temp.slice(2).indexOf(temp[1]);
+				}
+				if (reYear.test(m))
+					movie.year = reYear.exec(m)[1];
+				if (reTime.test(m))
+					movie.runTime = reTime.exec(m)[1];
+				target.appendChild(movie);
+			}
+			response.object = target;
+			]]></execute> 
+		</select>
+	</bindings>
+</table>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get postcode data for a latlon pair</description>
+    <documentationURL>http://www.uk-postcodes.com/api.php</documentationURL>
+    <sampleQuery description="Search for postcode associated with a point">select * from {table} where lat='51.5181' and lon='-0.127115' and format='xml';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="result" produces="XML">
+        <urls>
+            <url>http://www.uk-postcodes.com/latlng/{lat},{lon}.{format}</url>
+        </urls>
+	<inputs>
+            <key id="lat" type="xs:string" paramType="path" required="true" />
+	    <key id="lon" type="xs:string" paramType="path" required="true" />
+            <key id="format" type="xs:string" paramType="path" required="true" />
+	    
+	</inputs>
+    </select>
+</bindings>
+</table>

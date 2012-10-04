@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Zach Graves (zachg@yahoo-inc.com)</author>
+		<description>Twitter OAuth API</description>
+		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
+		<sampleQuery>select * from {table} where user='twitterapi';</sampleQuery>
+		<sampleQuery>select * from {table} where user='twitterapi' and id='team';</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="lists_list" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/{user}/lists.{format}</url>
+			</urls>
+			<inputs>
+				<key id="user" type="xs:string" paramType="path" required="true"/>
+				<key id="cursor" type="xs:string" paramType="query" required="false"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+response.object = sendRequest({
+   action: request.url,
+   method: "GET",
+   accessor: accessor,
+   parameters: null
+});
+				]]>
+			</execute>
+		</select>
+		<select itemPath="list" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/{user}/lists/{id}.{format}</url>
+			</urls>
+			<inputs>
+				<key id="user" type="xs:string" paramType="path" required="true"/>
+				<key id="id" type="xs:string" paramType="path" required="true"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+response.object = sendRequest({
+   action: request.url,
+   method: "GET",
+   accessor: accessor,
+   parameters: null
+});
+				]]>
+			</execute>
+		</select>
+		<insert itemPath="list" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/{user}/lists.{format}</url>
+			</urls>
+			<inputs>
+				<key id="user" type="xs:string" paramType="path" required="true"/>
+				<key id="name" type="xs:string" paramType="variable" required="true"/>
+				<key id="mode" type="xs:string" paramType="variable" required="false"/>
+				<key id="description" type="xs:string" paramType="variable" required="false"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+var parameters = [];
+parameters.push(["name",name]);
+
+if(mode) parameters.push(["mode",mode]);
+if(description) parameters.push(["description",description]);
+
+response.object = sendRequest({
+   action: request.url,
+   method: "POST",
+   accessor: accessor,
+   parameters: parameters
+});
+				]]>
+			</execute>
+		</insert>
+		<update itemPath="list" produces="XML">
+			<urls>
+				<url>http://api.twitter.com/1/{user}/lists/{id}.{format}</url>
+			</urls>
+			<inputs>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+				
+				<value id="user" type="xs:string" paramType="path" required="true"/>
+				<value id="id" type="xs:string" paramType="path" required="true"/>
+				<value id="name" type="xs:string" paramType="variable" required="false"/>
+				<value id="mode" type="xs:string" paramType="variable" required="false"/>
+				<value id="description" type="xs:string" paramType="variable" required="false"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+var parameters = [];
+if(name) parameters.push(["name",name]);
+if(mode) parameters.push(["mode",mode]);
+if(description) parameters.push(["description",description]);
+
+response.object = sendRequest({
+   action: request.url,
+   method: "POST",
+   accessor: accessor,
+   parameters: parameters
+});
+				]]>
+			</execute>
+		</update>
+		<delete>
+			<urls>
+				<url>http://api.twitter.com/1/{user}/lists/{id}.{format}</url>
+			</urls>
+			<inputs>
+				<key id="user" type="xs:string" paramType="path" required="true"/>
+				<key id="id" type="xs:string" paramType="path" required="true"/>
+				<key id="format" type="xs:string" paramType="path" default="xml"/>
+				
+				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_consumer_secret" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://www.datatables.org/oauth/oauth.utils.js");
+
+var accessor = {};
+accessor.consumerKey = oauth_consumer_key;
+accessor.consumerSecret = oauth_consumer_secret;
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+response.object = sendRequest({
+   action: request.url,
+   method: "DELETE",
+   accessor: accessor,
+   parameters: null
+});
+				]]>
+			</execute>
+		</delete>
+	</bindings>
+</table>

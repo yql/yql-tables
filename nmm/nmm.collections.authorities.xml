@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jim O'Donnell</author>
+    <documentationURL>http://www.nmm.ac.uk/collections/feeds/docs/</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="authority.record">
+		<urls>
+		<url>http://www.nmm.ac.uk/collections/feeds/authorityXML.cfm?authority={authority}&amp;title={title}</url>
+		</urls>
+		<inputs>
+			<key id="authority" type="xs:string" paramType="path" required="false" default="category"/>
+			<key id="title" type="xs:string" paramType="path" required="false" default=""/>
+		</inputs>
+	</select>
+  </bindings>
+</table>

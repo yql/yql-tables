@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/dir/category/v1/category.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="CategoryResult" produces="XML">
+            <urls>
+                <url>http://dir.yahooapis.jp/Category/V1/Category</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="id" type="xs:string" paramType="query" required="false" />
+                <key id="path" type="xs:string" paramType="query" required="false" />
+                <key id="type" type="xs:string" paramType="query" required="false" />
+                <key id="expand" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

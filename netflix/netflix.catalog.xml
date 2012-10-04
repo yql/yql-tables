@@ -20,6 +20,8 @@
                 <key id="cks" type="xs:string" paramType="variable" required="true" />
           </inputs>
           <execute><![CDATA[
+// Get around a bug where oauth.js assumes a browser is running the code
+var document = {getElementsByTagName:function(value) { return null; }};
 // Include the OAuth libraries from oauth.net
 y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
 y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");

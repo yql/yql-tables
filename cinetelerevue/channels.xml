@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>fred.ac</author>
+        <description>Cinetelerevue channels</description>
+        <sampleQuery><![CDATA[
+            select * from channels;
+        ]]></sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="channels.channel" produces="XML">
+            <urls>
+                <url>http://www.cinetelerevue.be/fr/programmes-tele.html</url>
+            </urls>
+            <inputs>
+            </inputs>
+            <execute><![CDATA[
+   	/*var data = y.rest(request.url)
+	   .accept('text/html')
+	   .get().response;*/
+	   
+	var data = y.query("select * from html where url='" + request.url  + "' and charset='iso-8859-1'").results.children();
+	   
+	if (data == null) {
+		y.log("no response from cinetelerevue");
+		exit(0);
+	}
+	
+	var channels = <channels/>;
+
+	var xdata = y.xpath(data, "//select[@id='selCat2']");
+	if (xdata) {
+		for each (var option in xdata.option) {
+			if (option.@value != "") {
+				var channel = <channel/>;
+				channel.node += <id>{option.@value.toString()}</id>;
+				channel.node += <name>{option.toString()}</name>;
+				channel.node += <iconUrl>http://tv.ctr-ns.be/logos_chaines/{option.@value.toString()}.jpg</iconUrl>;
+				channels.node += channel;
+			}
+		}		
+	}
+	response.object = channels;
+]]>
+            </execute>
+        </select>
+    </bindings>
+</table>

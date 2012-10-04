@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+	    <author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+	    <description>Retrieve up to 5 users that the given user is an influencer of.</description>
+      <documentationURL>http://developer.klout.com/docs/read/api/SOI_Methods</documentationURL>
+	    <sampleQuery>SELECT * FROM {table} WHERE users='davewiner' AND api_key='yourKeyGoesHere'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="json.users" produces="JSON">
+            <urls>
+                <url>http://api.klout.com/1/soi/influencer_of.json?users={-listjoin|,|users}</url>
+            </urls>
+            <inputs>
+                <key id="users" type="xs:string" paramType="path" required="true" batchable="true" maxBatchItems="5"/>
+                <key id="key" as="api_key" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>

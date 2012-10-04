@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Country Queries WorldBank Data API</description>
+	   	<documentationURL>http://data.worldbank.org/node/18</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE country_id = "GHA"</sampleQuery>		
+	</meta>
+	<bindings>
+		<!-- either a list of all countries, or a country with a specific ID -->
+		<!-- countries for a specific income level. see: http://data.worldbank.org/node/207 -->
+		<!-- countries for a specific lending type. see: http://data.worldbank.org/node/208 -->
+		<select itemPath="wb:countries.wb:country" produces="XML">
+			<urls>
+        		<url env="all">http://api.worldbank.org/countries/{-listjoin|;|country_id}</url>
+      		</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="200" />
+				<total default="10" />
+			</paging>
+	      	<inputs>
+				<key id="country_id" type="xs:string" paramType="path" batchable="true" />
+		        <key id="incomeLevel" as="income_level" type="xs:string" paramType="query" />
+				<key id="lendingType" as="lending_type" type="xs:string" paramType="query" />
+				
+				<key id="format" type="xs:string" paramType="query" default="xml" const="true" />
+	      	</inputs>
+    	</select>		
+		
+		<!--
+		<select itemPath="wb:countries.wb:country" produces="XML">
+			<urls>
+        		<url env="all">http://api.worldbank.org/countries/{country_id}</url>
+      		</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="per_page" max="100" />
+				<total default="10" />
+			</paging>
+	      	<inputs>
+		        <key id="country_id" type="xs:string" paramType="path" />
+	      	</inputs>
+    	</select>
+		-->
+	
+  	</bindings>
+</table>

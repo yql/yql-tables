@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all documents available">SELECT * FROM euparliament.eurlex.document WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get information on document 200000">SELECT * FROM euparliament.eurlex.document WHERE id="200000" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. This API contains a list of all EUR-Lex documents.
+For each document we have obtained information on the form, author, legal basis, directory codes, a reference to the original information at Eur-Lex, the date of the document, the date it was printed in the Official Journal of the European Union and the date of effect and of end of validity. </description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/eurlex/document/?id=200000 -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/eurlex/document/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- id (optional) 	
+				Get number of documents and links to a specific year -->
+				<key id="id" type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	

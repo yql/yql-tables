@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sam Pullara</author>
+        <documentationURL>http://www.sfmta.com/cms/asite/nextmunidata.htm</documentationURL>
+        <description>
+            Using this table you can get information about NextBus vehicles on routes.
+            Forms:
+              route: List of vehicles and location
+
+            Include the last time you checked to see only those that have changed since then.
+        </description>
+        <sampleQuery>select * from {table} where route='N'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="body.vehicle" produces="XML">
+            <urls>
+                <url>http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations</url>
+            </urls>
+            <inputs>
+                <key id="a" paramType="query" as="agency" default="sf-muni"/>
+                <key id="r" paramType="query" as="route" required="true"/>
+                <key id="t" paramType="query" as="last" default="0"/>
+            </inputs>
+        </select>
+    </bindings>
+</table>

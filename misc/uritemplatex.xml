@@ -1,0 +1,47 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Nagesh Susarla</author>
+        <description>Extended uritemplate table that allows URI's with specific reserved characters to be created. Users must pass in the uri.key as well as uri.key.separator='value' to indicate how the uri.key must be split.
+	</description>
+        <sampleQuery>select * from {table} where template='http://example.org/{data}' and uri.data ='some/example/page' and uri.data.separator='/'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id='template' type='xs:string' paramType='variable' required='true'/>
+                <map id='uri' type='xs:string' paramType='variable'
+		     required='true'/>
+            </inputs>
+            <execute><![CDATA[
+               var mymap = {};
+               var idx = 0;
+               var query = 'select * from uritemplate where template=@template ';
+
+               function endsWith(str, search) {
+                   var offset = str.length - search.length;
+                   return offset >= 0 && str.lastIndexOf(search) == offset;
+               }
+
+               for (var word in uri) {
+                 if (endsWith(word,'.separator')) continue;
+                 var value = uri[word];
+                 var sep = uri[word + '.separator'];
+                 if (sep) {
+                   template  = template.replace(new RegExp('{' + word + '}', 'g'), 
+                                              '{-listjoin|' + sep + '|' + word + '}');
+                   y.log(template);
+                   value = value.split(sep);                   
+                 } 
+                 var k = 'value' + idx++;
+                 mymap[k] = value;                   
+                 query += ' and ' + word + '=@' + k;
+               }
+               mymap['template'] = template;
+               response.object = y.query(query, mymap).results;
+             ]]></execute>
+        </select>
+    </bindings>
+</table>

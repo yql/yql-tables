@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd"
+	https="true">
+	<meta>
+		<sampleQuery> select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature AND StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Environment="sandbox"</sampleQuery>
+		<sampleQuery> select * from {table} WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature AND StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Payer="your-payer-email-that-youwant-to-narrow-down-results" AND Environment="sandbox"</sampleQuery>
+		 <sampleQuery>SELECT * FROM paypal.transaction.details WHERE APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature" AND TransactionID in (SELECT PaymentTransactions.TransactionID FROM {table} WHERE StartDate="YYYY-MM-DDThh:MM:ss.mmmZ" AND Payer="your-payer-email-that-youwant-to-narrow-down-results" AND APIUsername="your_api_username" AND APIPassword="your_api_password" AND Signature="your_api_aignature") AND Environment="sandbox"</sampleQuery>
+		<description>The PayPal Transaction Search API allows you to search through a PayPal business account's transaction history to create compelling reporting apps. Please note that inorder to be able to use the API to search a PayPal business account's transaction history, you must either be the owner of the account or have obtained API access from the corresponding account owner. Please refer to the TransactionSearch API documentation on x.com to understand how each of the input parameters help in navigating through the transaction history. You can as well combine results from this table with PayPal Transaction Details table to obtain information specific to each transaction (Eg. Address, Payer, etc.) and use that information with other tables (Geo, Maps, etc.) to produce useful data for building cool reporting tools. </description>
+		<documentationURL>https://www.x.com/community/ppx/transaction_information</documentationURL>
+	</meta>
+	<bindings>
+		<select itemPath="Envelope.Body.TransactionSearchResponse"
+			produces="XML">
+			
+			<inputs>
+                        	  <key id='Environment' type='xs:string' paramType='variable' default="sandbox" />
+				<key id='APIUsername' type='xs:string' paramType='variable'
+					required="true" />
+				<key id='APIPassword' type='xs:string' paramType='variable'
+					required="true" />
+				<key id='Signature' type='xs:string' paramType='variable'
+					required="true" />
+				<key id='StartDate' type='xs:string' paramType='variable'
+					required="true" />
+				<key id='EndDate' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='Payer' type='xs:string' paramType='variable' required="false" />
+				<key id='Receiver' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='ReceiptID' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='TransactionID' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='InvoiceID' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='CardNumber' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='AuctionItemNumber' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='Status' type='xs:string' paramType='variable' required="false" />
+				<key id='PayerFirstName' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='PayerLastName' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='PayerMiddleName' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='PayerSalutation' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='PayerSuffix' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='Amount' type='xs:string' paramType='variable' required="false" />
+				<key id='CurrencyCode' type='xs:string' paramType='variable'
+					required="false" />
+				<key id='TransactionClass' type='xs:string' paramType='variable'
+					required="false" />
+			</inputs>
+			<execute><![CDATA[
+var txn_req = '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Header><RequesterCredentials soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next" soapenv:mustUnderstand="1" xmlns="urn:ebay:api:PayPalAPI"><ebl:Credentials xmlns:ebl="urn:ebay:apis:eBLBaseComponents"><ebl:Username>'
+		+ APIUsername
+		+ '</ebl:Username><ebl:Password>'
+		+ APIPassword
+		+ '</ebl:Password><ebl:Signature>'
+		+ Signature
+		+ '</ebl:Signature><ebl:Subject></ebl:Subject></ebl:Credentials></RequesterCredentials></soapenv:Header><soapenv:Body><TransactionSearchReq xmlns="urn:ebay:api:PayPalAPI"><TransactionSearchRequest><ns1:Version xmlns:ns1="urn:ebay:apis:eBLBaseComponents">78.0</ns1:Version>';
+
+
+	txn_req += '<StartDate>' + StartDate + '</StartDate>';
+
+
+if (EndDate) {
+	txn_req += '<EndDate>' + EndDate + '</EndDate>';
+}
+if (Payer) {
+	txn_req += '<Payer>' + Payer + '</Payer>';
+}
+if (Receiver) {
+	txn_req += '<Receiver>' + Receiver + '</Receiver>';
+}
+if (ReceiptID) {
+	txn_req += '<ReceiptID>' + ReceiptID + '</ReceiptID>';
+}
+if (TransactionID) {
+	txn_req += '<TransactionID>' + TransactionID + '</TransactionID>';
+}
+if (InvoiceID) {
+	txn_req += '<InvoiceID>' + InvoiceID + '</InvoiceID>';
+}
+if (CardNumber) {
+	txn_req += '<CardNumber>' + CardNumber + '</CardNumber>';
+}
+
+if (PayerFirstName || PayerLastName) {
+	txn_req += '<PayerName>';
+	if (PayerSalutation) {
+		txn_req += '<ns2:Salutation xmlns:ns2="urn:ebay:apis:eBLBaseComponents">' + PayerSalutation + '</ns2:Salutation>';
+	}
+	if (PayerFirstName) {
+		txn_req += '<ns3:FirstName xmlns:ns3="urn:ebay:apis:eBLBaseComponents">' + PayerFirstName + '</ns3:FirstName>';
+	}
+	if (PayerMiddleName) {
+		txn_req += '<ns3:MiddleName xmlns:ns3="urn:ebay:apis:eBLBaseComponents">' + PayerMiddleName + '</ns3:MiddleName>';
+	}
+	if (PayerLastName) {
+		txn_req += '<ns3:LastName xmlns:ns3="urn:ebay:apis:eBLBaseComponents">' + PayerLastName + '</ns3:LastName>';
+	}
+	if (PayerSuffix) {
+		txn_req += '<ns3:Suffix xmlns:ns3="urn:ebay:apis:eBLBaseComponents">' + PayerSuffix + '</ns3:Suffix>';
+	}
+	txn_req += '</PayerName>';
+}
+
+if (AuctionItemNumber) {
+	txn_req += '<AuctionItemNumber>' + AuctionItemNumber + '</AuctionItemNumber>';
+}
+if (TransactionClass) {
+	txn_req += '<TransactionClass>' + TransactionClass + '</TransactionClass>';
+}
+if (Amount) {
+	txn_req += '<Amount currencyID="';
+	if (CurrencyCode) {
+		txn_req += CurrencyCode;
+	} else {
+		txn_req += 'USD';
+	}
+	txn_req += '">' + Amount + '</Amount>';
+}
+if (CurrencyCode) {
+	txn_req += '<CurrencyCode>' + CurrencyCode + '</CurrencyCode>';
+}
+if (Status) {
+	txn_req += '<Status>' + Status + '</Status>';
+}
+txn_req += '</TransactionSearchRequest></TransactionSearchReq></soapenv:Body></soapenv:Envelope>';
+
+      
+        if(inputs['Environment'] == 'live') {
+       		           
+             try {
+	         response.object = y.rest("https://api.paypal.com/2.0/").contentType("text/xml").header("SOAPAction", '""').timeout(30000).post(txn_req).response;                 
+       	     }
+		catch (e){
+			y.log(e);
+		} 
+                          
+        } else {
+                          
+                          
+                try {
+	         response.object = y.rest("https://api.sandbox.paypal.com/2.0/").contentType("text/xml").header("SOAPAction", '""').timeout(30000).post(txn_req).response;                 
+       	     }
+		catch (e){
+			y.log(e);
+		} 
+                          
+                          
+        }
+                         
+
+      ]]></execute>
+		</select>
+	</bindings>
+
+</table>

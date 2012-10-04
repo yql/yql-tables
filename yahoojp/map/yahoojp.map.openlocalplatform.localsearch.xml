@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/map/openlocalplatform/v1/localsearch.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="YDF" produces="XML">
+            <urls>
+                <url>http://search.olp.yahooapis.jp/OpenLocalPlatform/V1/localSearch</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="cid" type="xs:string" paramType="query" required="true" />
+                <key id="gid" type="xs:string" paramType="query" required="false" />
+                <key id="query" type="xs:string" paramType="query" required="false" />
+                <key id="sort" type="xs:string" paramType="query" required="false" />
+                <key id="start" type="xs:string" paramType="query" required="false" />
+                <key id="results" type="xs:string" paramType="query" required="false" />
+                <key id="detail" type="xs:string" paramType="query" required="false" />
+                <key id="lat" type="xs:string" paramType="query" required="false" />
+                <key id="lon" type="xs:string" paramType="query" required="false" />
+                <key id="bbox" type="xs:string" paramType="query" required="false" />
+                <key id="dist" type="xs:string" paramType="query" required="false" />
+                <key id="ac" type="xs:string" paramType="query" required="false" />
+                <key id="uid" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

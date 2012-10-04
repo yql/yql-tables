@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any"	https="false">   
+	<meta>
+	    <author>Ted Drake, Yahoo! Inc.</author>
+	    <documentationURL>http://api.epdb.eu/#doc</documentationURL>
+	    <sampleQuery description="Get list of all years available">SELECT * FROM euparliament.prelex.document WHERE  key="yourkey"</sampleQuery>
+	    <sampleQuery description="Get information for document COM 1990/316. .">SELECT * FROM euparliament.prelex.document WHERE id="64900" AND key="yourkey"</sampleQuery> 	       
+		<description>Please request a unique API key from contact@buhlrasmussen.eu. 
+		This part of the API consist of 30.567 documents found using the PreLex search engine. Each dossier has been parsed to extract the meta data given in the API. 
+		The earliest dated document is from 1975-05-26. The newest document is dated 2011-04-19.
+		It contains a list of the a list of all PreLex documents.
+For each document we have obtained information on the document number (most often COM-number), the link to the PreLex file and a link to EUR-Lex, the DG responsible, the legal basis, the legislative procedure, the directory codes, the title of the act, the responsible Commissioner, the dates of the different events in the legislative process.    
+		</description>
+    </meta>
+	<bindings>
+		<!-- http://api.epdb.eu/prelex/document/?id=64900 -->
+		<select produces="JSON">  
+			<urls>
+				<url>http://api.epdb.eu/prelex/document/</url>
+			</urls> 
+			<inputs>
+				<!-- key (required) Please request a unique API key from contact@buhlrasmussen.eu.  -->
+				<key id="key" type="xs:string" paramType="query" required="true"  />
+				<!-- id (optional) 	
+				Get information on legislature by id -->
+				<key id="id"  type="xs:string" paramType="query" required="false" />				
+			</inputs>
+		</select>
+
+	</bindings>
+</table>	

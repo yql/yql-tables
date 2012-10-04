@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Daniel Pett</author>
+    <description>Get publications from the Museum of London Archaeology Service archive</description>
+    <documentationURL>http://www.museumoflondon.org.uk/museumoflondon/food/rest.aspx</documentationURL>
+    <sampleQuery description="Search for publication id 62 in xml format">select * from {table} where pid='62' and mode='xml';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="NewDataSet.Table" produces="XML">
+        <urls>
+            <url>http://www.museumoflondon.org.uk/MuseumofLondon/food/rest.aspx?source=pubs</url>
+        </urls>
+	<inputs>
+            <key id="mode" type="xs:string" paramType="query" required="false" />
+	    <key id="date" type="xs:string" paramType="query" required="false" />
+            <key id="key" type="xs:string" paramType="query" required="false" />
+	    <key id="period" type="xs:string" paramType="query" required="false" />
+	    <key id="region" type="xs:string" paramType="query" required="false" />
+	    <key id="avail" type="xs:integer" paramType="query" required="false" />
+	    <key id="topic" type="xs:string" paramType="query" required="false" />
+	    <key id="series" type="xs:integer" paramType="query" required="false" />
+	    <key id="minavail" type="xs:integer" paramType="query" required="false" />
+	    <key id="sitecode" type="xs:string" paramType="query" required="false" />
+	    <key id="pid" type="xs:integer" paramType="query" required="false" />
+	</inputs>
+    </select>
+</bindings>
+</table>

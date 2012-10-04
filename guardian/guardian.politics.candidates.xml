@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Steve King steve@stevenking.com.au</author>
+		<description>There is a lot of data returned by this endpoint. It gives you all of the candidates who took part in a specific election. This information is grouped by constituency.</description>
+		<documentationURL>http://www.guardian.co.uk/open-platform/politics-api/getting-started</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE year=1992</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="json.constituencies" produces="JSON">
+			<urls>
+				<url>http://www.guardian.co.uk/politics/api/general-election/{year}/candidates/json</url>
+			</urls>
+			<inputs>
+        		<key id="year" type="xs:string" paramType="path" required="true" />
+			</inputs>
+		</select>
+	</bindings>
+</table>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>HOUYHNHNM</author>
+    <description> Gets the list of articles started with most recent from a Yahoo Contributor or Yahoo Voices member</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where query="http://contributor.yahoo.com/user/270293/carol_rucker.html"</sampleQuery>
+    <sampleQuery>select * from {table} where query="http://contributor.yahoo.com/user/1167189/r_salley.html"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='query' type='xs:string' paramType='variable' required="true" batchable="true" maxBatchItems="1000"/>
+      </inputs>
+    <execute>
+      <![CDATA[ 
+      var str1="select * from html where url=\"";
+      var str2="\" and xpath='//ul[@class=\"results_list\"]/li[@class=\"clearfix\"]'";
+      var yqlquery=y.query(str1+query+str2);
+      var yqlresults=yqlquery.results;
+      var yqlcounter=parseInt(yqlresults.li.length());
+      var index=0;
+      var xmlret=new XML();
+      xmlret=<root><count>{yqlcounter}</count></root>;
+      while(index<yqlcounter)
+      {
+      if(parseInt(yqlresults.li[index].div.length())>1)
+      {
+      if((yqlresults.li[index].div[1].div[0])&&(yqlresults.li[index].div[1].div[1])&&(yqlresults.li[index].div[1].a)&&(yqlresults.li[index].div[1].div[1])&&(yqlresults.li[index].div[1].a.@href)&&(yqlresults.li[index].div[1].div[0].p)&&(yqlresults.li[index].div[0].img.@src))
+      {
+      xmlret.root+=<node>
+      <title>{yqlresults.li[index].div[1].a.text()}</title>
+      <description>{yqlresults.li[index].div[1].div[1]}</description>
+      <link>{yqlresults.li[index].div[1].a.@href}</link>
+      <pubdate>{yqlresults.li[index].div[1].div[0].p.text()}</pubdate>
+      <thumbnail>{yqlresults.li[index].div[0].img.@src}</thumbnail>
+      </node>
+      }
+      }
+      else
+      {
+      if((yqlresults.li[index].div.div[0])&&(yqlresults.li[index].div.div[1])&&(yqlresults.li[index].div.a)&&(yqlresults.li[index].div.div[1].p)&&(yqlresults.li[index].div.a.@href)&&(yqlresults.li[index].div.div[0].p))
+      {
+      xmlret.root+=<node>
+      <title>{yqlresults.li[index].div.a.text()}</title>
+      <description>{yqlresults.li[index].div.div[1].p.text()}</description>
+      <link>{yqlresults.li[index].div.a.@href}</link>
+      <pubdate>{yqlresults.li[index].div.div[0].p.text()}</pubdate>
+      </node>
+      }
+      }
+      index++;
+      }
+      response.object=xmlret;
+      ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

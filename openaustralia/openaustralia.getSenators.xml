@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery></sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="result.match" produces="XML">
+      <urls>
+        <url>http://www.openaustralia.org/api/getSenators</url>
+      </urls>
+      <inputs>
+          <key id='key' type='xs:string' paramType='query' const="true" private="true" default="CgzDvxCyur6dGVSXidBnvrZw" />
+          <key id='output' type='xs:string' paramType='query' const="true" default="xml" />
+          <key id='date' type='xs:string' paramType='query' required="false" />
+          <key id='party' type='xs:string' paramType='query' required="false" />
+          <key id='state' type='xs:string' paramType='query' required="false" />
+          <key id='search' type='xs:string' paramType='query' required="false" />
+      </inputs>
+    </select> 
+  </bindings>
+</table>

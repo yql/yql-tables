@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/webapi/map/openlocalplatform/v1/getgid.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="YDF" produces="XML">
+            <urls>
+                <url>http://storage.olp.yahooapis.jp/OpenLocalPlatform/V1/getGid</url>
+            </urls>
+            <inputs>
+                <key id="appid" type="xs:string" paramType="query" required="true" />
+                <key id="name" type="xs:string" paramType="query" required="true" />
+                <key id="lat" type="xs:string" paramType="query" required="true" />
+                <key id="lon" type="xs:string" paramType="query" required="true" />
+                <key id="address" type="xs:string" paramType="query" required="false" />
+                <key id="phone" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+    </bindings>
+</table>

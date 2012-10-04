@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<sampleQuery>
+			select * from {table} where symbol in ("DE0005200000")
+		</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls><url></url></urls>
+			<inputs>
+				<key id='symbol' type='xs:string' paramType='variable' required='true' />
+			</inputs>
+			<execute><![CDATA[
+    // pad string with leading char
+    String.prototype.pad = function (padchar, padlen) {
+	s = this
+	while (s.length < padlen) {
+	    s = padchar + s;
+	}
+	return s;
+    }
+    
+    String.prototype.trim = function () {
+	var	str = this.replace(/^\s\s*/, ''),
+	        ws = /\s/,
+	        i = str.length;
+	while (ws.test(str.charAt(--i)));
+	return str.slice(0, i + 1);
+    }
+
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var ebitQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"EBIT-Marge\")]]/td[2]'" ,
+	{url:url});
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var eqratioQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"Eigenkapitalquote \")]]/td[2]'" ,
+	{url:url});
+
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per1Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV\")]]/td[2]'" ,
+	{url:url});
+    
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per2Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV\")]]/td[3]'" ,
+	{url:url});
+    
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per3Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV\")]]/td[4]'" ,
+	{url:url});
+	
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per4Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV\")]]/td[5]'" ,
+	{url:url});
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var per5Query = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"KGV\")]]/td[6]'" ,
+	{url:url});
+	
+    var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var analystsQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//dl[@class = \"ANALYSEN_DETAILS\"]/dd[4]'" ,
+	{url:url});	
+	
+    var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var upgradeQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tbody/tr[./td[contains(.,\"Heraufstufungen\")]]/td[@class = \"KENNZAHL\"]'" ,
+	{url:url});
+
+var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var confirmationQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tbody/tr[./td[contains(.,\"Bestätigungen\")]]/td[@class = \"KENNZAHL\"]'" ,
+	{url:url});
+	
+    var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
+    var downgradeQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//tbody/tr[./td[contains(.,\"Herabstufungen\")]]/td[@class = \"KENNZAHL\"]'" ,
+	{url:url});	
+
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = ebitQuery.results;
+    stock.EbitMarge = results.td.p.toString().trim();
+    
+    var results = eqratioQuery.results;
+    stock.EquityRatio = results.td.p.toString().trim();
+    
+    var results = per1Query.results;
+    stock.PER1 = results.td.p.toString().trim();
+    
+    var results = per2Query.results;
+    stock.PER2 = results.td.p.toString().trim();
+    
+    var results = per3Query.results;
+    stock.PER3 = results.td.p.toString().trim();
+    
+    var results = per4Query.results;
+    stock.PER4 = results.td.p.toString().trim();
+    
+    var results = per5Query.results;
+    stock.PER5 = results.td.p.toString().trim();
+    
+    var results = analystsQuery.results;
+    stock.Analysts = results.dd.p.toString().trim();
+    
+    var results = upgradeQuery.results;
+    stock.Upgrade = results.td.p.toString().trim();
+
+    var results = confirmationQuery.results;
+    stock.Confirmation = results.td.p.toString().trim();
+    
+    var results = downgradeQuery.results;
+    stock.Downgrade = results.td.p.toString().trim();
+    
+    response.object = stock
+
+]]></execute>
+		</select>
+	</bindings>
+</table>

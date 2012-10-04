@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>fred.ac</author>
+        <description>Cinetelerevue programs</description>
+        <sampleQuery><![CDATA[
+        select * from programs where channel=164 and date="2010-08-15";
+        ]]></sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="programs.program" produces="XML">
+            <urls>
+                <url>http://www.cinetelerevue.be/fr/</url>
+            </urls>
+            <inputs>
+                <key id="channel" type="xs:int" required="true" paramType="variable"/>
+            </inputs>
+            <execute><![CDATA[
+            
+    function dateFormat(date) {
+    	var d  = date.getDate();
+		var day = (d < 10) ? '0' + d : d;
+		var m = date.getMonth() + 1;
+		var month = (m < 10) ? '0' + m : m;
+		return date.getFullYear() + "-" + month + "-" + day;
+    }
+            
+	function parse(date, xdata) {
+		channel_ = xdata.div.(@["class"] == "prgLogo").img.@alt.toString()
+		for each (var a in xdata.a) {
+			var program = <program/>;
+			var diffusionId = a.@href.toString().match(/(\d+)/);
+			program.node += <id>{diffusionId[1]}</id>;
+			program.node += <url>{request.url + a.@href.toString()}</url>;
+			program.node += <channel>{channel_}</channel>;
+			program.node += <startTime>{a.span.(@["class"] == "horaire").toString()}</startTime>;
+			detail = a.span.(@["class"] == "detail"); 
+			program.node += <title>{detail.strong.strong.toString()}</title>;
+			genre = detail.span.toString();
+			if (genre) {
+				program.node += <genre>{genre}</genre>;
+			}
+			description = a.span.(@["class"] == "detail2").strong.toString();
+			if (description) {
+				program.node += <description>{description}</description>;
+			} 
+			picture = a.span.(@["class"] == "imgPrg").img.@src.toString();
+			if (picture) {
+				var pictureUrl = picture.match(/base=(.+)&/);
+				if (pictureUrl) {
+					program.node += <pictureUrl>{pictureUrl[1]}</pictureUrl>;	
+				}					
+			}
+			if (a.@["class"] == "grilleProg gpPrime") {
+				program.node += <head>true</head>;
+			}
+			program.node += <date>{date}</date>;
+			programs.node += program;
+		}		
+	}
+    
+    var programs = <programs></programs>;
+    
+    for (i=1; i<=3; i++) {       
+	    var date = new Date();
+	          	    
+	   	/*var data = y.rest(request.url + "programmes-tele.html?period=" + i + "&chaine=" + channel)
+		   .accept('text/html')
+		   .get().response;*/
+		   
+		var data = y.query("select * from html where url='" + request.url + "programmes-tele.html?period=" + i + "&chaine=" + channel + "' and charset='iso-8859-1'").results.children();
+		
+		if (data == null) {
+			y.log("no response from cinetelerevue");
+			exit(0);
+		}
+		
+		var xdata = y.xpath(data, "//div[@id='date']/*");
+		var date = new Date();
+		date.setTime(Date.parse(xdata.toString().replace(/\s/g, "")));
+		
+		var xdata = y.xpath(data, "//div[@class='prgcolumn pcFirst']");
+		if (xdata) {
+			parse(dateFormat(date), xdata);		
+		}
+		var xdata = y.xpath(data, "//div[@class='prgcolumn']");
+		if (xdata) {
+			for each (var div in xdata) {
+				date.setDate(date.getDate() + 1);
+				parse(dateFormat(date), div);
+			}		
+		}
+    }
+	response.object = programs;
+]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
+

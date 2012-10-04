@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <sampleQuery>select * from {table} where expression = "(.*)" and text</sampleQuery>
+    <sampleQuery>select * from {table} where expression = "(.*)" and text = "The quick brown fox leaps over the lazy dog";</sampleQuery>
+    <author>Tom Hughes-Croucher (croucher@yahoo-inc.com, @sh1mmer)</author>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
@@ -12,28 +13,44 @@
           <key id='text' type='type' paramType='variable' required="true" />
           <key id='expression' type='type' paramType='variable' required="true" />
           <key id='modifiers' type='type' paramType='variable' required="false" />
+          <key id='replacement' type='xs:string' paramType='variable' required="false" />
           <key id='showempty' type='type' paramType='variable' required="false" />
       </inputs>
 	 <execute><![CDATA[
-
+		var re, match, matches, myResponse;
         if (modifiers) {
             re = new RegExp(expression, modifiers);
         } else {
             re = new RegExp(expression);
         }
-        matches = re.exec(text);
         
-        if (matches) {
+        //if there is a replacement for matches
+        if (replacement) {
+            
+            match = text.replace(re, replacement);
+            
             myResponse = <matches></matches>;
+            myResponse.match0 += <match0>{match}</match0>
+
             
-            for (i=0;i<matches.length;i++) {
-               myResponse.node += <match{i}>{matches[i]}</match{i}>;
-            }
+        } else {
             
-            response.object = myResponse;
-	    } else if (showempty) {
-	        response.object = <matches />;
-	    }
+            matches = re.exec(text);
+
+            if (matches) {
+                myResponse = <matches></matches>;
+
+                for (i=0;i<matches.length;i++) {
+                   myResponse.node += <match{i}>{matches[i]}</match{i}>;
+                }
+
+    	    } else if (showempty) {
+    	        myResponse = <matches />;
+    	    }
+
+        }
+        
+        response.object = myResponse;
 
 	    
 	 ]]></execute>

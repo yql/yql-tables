@@ -6,22 +6,24 @@
     <bindings>
         <insert itemPath="" produces="XML">
             <urls>
-                <url></url>
+                <url/>
+
             </urls>
             <inputs>
-                <key id='username' type='xs:string' paramType='variable' required="true" />
-                <key id='password' type='xs:string' paramType='variable' required="true" />
-                <key id='blogurl' type='xs:string' paramType='variable' required="true" />
-                <value id='allow_comments' type='xs:string' paramType='variable' required="false" default="1" />
-                <value id='tags' type='xs:string' paramType='variable' required="false"/>
-                <value id='keywords' type='xs:string' paramType='variable' required="false"/>
-                <value id='convert_breaks' type='xs:string' paramType='variable' required="false" default="0" />
-                <value id='title' type='xs:string' paramType='variable' required="true" />
-                <value id='excerpt' type='xs:string' paramType='variable' required="false"/>
-                <value id='description' type='xs:string' paramType='variable' required="true"/>
-                <value id='moretext' type='xs:string' paramType='variable' required="false"/>
-                <value id='allow_pings' type='xs:string' paramType='variable' required="false" default= "0" />
-                <value id='publish' type='xs:string' paramType='variable' required="false" default= "1" />
+                <key id="username" type="xs:string" paramType="variable" required="true"/>
+                <key id="password" type="xs:string" paramType="variable" required="true"/>
+                <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
+                <value id="allow_comments" type="xs:string" paramType="variable" required="false" default="1"/>
+                <value id="tags" type="xs:string" paramType="variable" required="false"/>
+                <value id="keywords" type="xs:string" paramType="variable" required="false"/>
+                <value id="convert_breaks" type="xs:string" paramType="variable" required="false" default="0"/>
+
+                <value id="title" type="xs:string" paramType="variable" required="true"/>
+                <value id="excerpt" type="xs:string" paramType="variable" required="false"/>
+                <value id="description" type="xs:string" paramType="variable" required="true"/>
+                <value id="moretext" type="xs:string" paramType="variable" required="false"/>
+                <value id="allow_pings" type="xs:string" paramType="variable" required="false" default="0"/>
+                <value id="publish" type="xs:string" paramType="variable" required="false" default="1"/>
             </inputs>
             <execute><![CDATA[
 
@@ -192,25 +194,28 @@
 
              ]]></execute>
             </insert>
+
             <update itemPath="" produces="XML">
                 <urls>
-                    <url></url>
+                    <url/>
                 </urls>
                 <inputs>
-                    <key id='username' type='xs:string' paramType='variable' required="true" />
-                    <key id='password' type='xs:string' paramType='variable' required="true" />
-                    <key id='blogurl' type='xs:string' paramType='variable' required="true" />
-                    <key id='postid' type='xs:string' paramType='variable' required="true" />
-                    <value id='allow_comments' type='xs:string' paramType='variable' required="true" />
-                    <value id='tags' type='xs:string' paramType='variable' required="true"/>
-                    <value id='keywords' type='xs:string' paramType='variable' required="true"/>
-                    <value id='convert_breaks' type='xs:string' paramType='variable' required="true" />
-                    <value id='title' type='xs:string' paramType='variable' required="true" />
-                    <value id='excerpt' type='xs:string' paramType='variable' required="true"/>
-                    <value id='description' type='xs:string' paramType='variable' required="true"/>
-                    <value id='moretext' type='xs:string' paramType='variable' required="true"/>
-                    <value id='allow_pings' type='xs:string' paramType='variable' required="true" />
-                    <value id='publish' type='xs:string' paramType='variable' required="true"/>
+                    <key id="username" type="xs:string" paramType="variable" required="true"/>
+                    <key id="password" type="xs:string" paramType="variable" required="true"/>
+                    <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
+                    <key id="postid" type="xs:string" paramType="variable" required="true"/>
+
+                    <value id="allow_comments" type="xs:string" paramType="variable" required="false"/>
+                    <value id="tags" type="xs:string" paramType="variable" required="false"/>
+                    <value id="keywords" type="xs:string" paramType="variable" required="false"/>
+                    <value id="convert_breaks" type="xs:string" paramType="variable" required="false"/>
+                    <value id="title" type="xs:string" paramType="variable" required="true"/>
+                    <value id="excerpt" type="xs:string" paramType="variable" required="false"/>
+                    <value id="description" type="xs:string" paramType="variable" required="true"/>
+                    <value id="moretext" type="xs:string" paramType="variable" required="false"/>
+                    <value id="allow_pings" type="xs:string" paramType="variable" required="false"/>
+
+                    <value id="publish" type="xs:string" paramType="variable" required="true"/>
                 </inputs>
                 <execute><![CDATA[
                 if (allow_comments == "true") {
@@ -232,11 +237,11 @@
                 }
     
                 postData = <methodCall>
-                    <methodName>metaWeblog.newPost</methodName>
+                    <methodName>metaWeblog.editPost</methodName>
                     <params>
                         <param>
                             <value>
-                                <string>1</string>
+                                <string>{postid}</string>
                             </value>
                         </param>
                         <param>
@@ -364,17 +369,32 @@
                         </value>
                     </member>;
                 }
+                
+                url = blogurl + "/xmlrpc.php";
+                myRequest = y.rest(url);
+                myRequest.contentType("text/xml");
+                //myRequest.accept("text/xml");
+                myRequest.header("Connection", "close");
+                results = myRequest.post('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
+        
+
+                //code = results.params.param.value.boolean.toString();
+        
+                response.object = results;
+                //response.object = <code>{code}</code>;
+ 
             ]]></execute>
         </update> 
         <select itemPath="" produces="XML">
             <urls>
-                <url></url>
+                <url/>
             </urls>
             <inputs>
-                <key id='postid' type='xs:string' paramType='variable' required="true" />
-                <key id='blogurl' type='xs:string' paramType='variable' required="true" />
-                <key id='username' type='xs:string' paramType='variable' required="true" />
-                <key id='password' type='xs:string' paramType='variable' required="true" />
+
+                <key id="postid" type="xs:string" paramType="variable" required="true"/>
+                <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
+                <key id="username" type="xs:string" paramType="variable" required="true"/>
+                <key id="password" type="xs:string" paramType="variable" required="true"/>
             </inputs>
             <execute><![CDATA[
             postData = <methodCall>
@@ -407,5 +427,64 @@
                 response.object = results;
             ]]></execute>
         </select> 
+        <delete itemPath="" produces="XML">
+                <urls>
+
+                    <url/>
+                </urls>
+                <inputs>
+                    <key id="username" type="xs:string" paramType="variable" required="true"/>
+                    <key id="password" type="xs:string" paramType="variable" required="true"/>
+                    <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
+                    <key id="postid" type="xs:string" paramType="variable" required="true"/>
+                </inputs>
+                <execute><![CDATA[
+                postData = <methodCall>
+                    <methodName>metaWeblog.deletePost</methodName>
+                    <params>
+                         <param>
+                            <value>
+                                <string>1</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{postid}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{username}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{password}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <boolean>1</boolean>
+                            </value>
+                        </param>
+                    </params>
+                </methodCall>;
+    
+                url = blogurl + "/xmlrpc.php";
+                myRequest = y.rest(url);
+                myRequest.contentType("text/xml");
+                //myRequest.accept("text/xml");
+                myRequest.header("Connection", "close");
+                results = myRequest.post('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
+        
+
+                //code = results.params.param.value.boolean.toString();
+        
+                response.object = results;
+                //response.object = <code>{code}</code>;
+ 
+            ]]></execute>
+
+        </delete> 
     </bindings>
 </table>

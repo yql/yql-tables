@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
+		<description>presseportal.de - Public service news</description>
+	  <documentationURL>http://api.presseportal.de/doc/</documentationURL>
+		<sampleQuery>SELECT * FROM {table}</sampleQuery>
+		<sampleQuery>SELECT * FROM {table} WHERE region="nrw"</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE region="nrw" AND media="image"</sampleQuery>	
+		<sampleQuery>SELECT * FROM {table} WHERE office="11187"</sampleQuery>			
+	</meta>
+	<bindings>
+		<!-- 
+			/article/publicservice/region/code [/media]
+		-->
+		<select itemPath="json.content.story" produces="JSON">
+			<urls>
+				<url env="all">http://api.presseportal.de/api/article/publicservice/region/{region}/{media}</url>
+		  </urls>
+			<paging model="offset">
+				<start id="start" default="0" />
+				<pagesize id="limit" max="50" />
+				<total default="20" />
+			</paging>
+		 	<inputs>
+		    <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+	
+				<key id="media" type="xs:string" paramType="path" description="requested media type (only image or document). See http://api.presseportal.de/doc/value/media"/>
+		    <key id="teaser" type="xs:string" paramType="query" description="stories with teaser instead of fulltext"/>	
+		
+				<key id="region" type="xs:string" paramType="path" required="true" description="region code. http://api.presseportal.de/doc/value/region"/>		
+		 	</inputs>
+		</select>
+		
+		<!-- 
+			/article/publicservice/office/id [/media]
+		-->
+		<select itemPath="json.content.story" produces="JSON">
+			<urls>
+				<url env="all">http://api.presseportal.de/api/article/publicservice/office/{office}/{media}</url>
+		  </urls>
+			<paging model="offset">
+				<start id="start" default="0" />
+				<pagesize id="limit" max="50" />
+				<total default="20" />
+			</paging>
+		 	<inputs>
+		    <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+	
+				<key id="media" type="xs:string" paramType="path" description="requested media type (only image or document). See http://api.presseportal.de/doc/value/media"/>
+		    <key id="teaser" type="xs:string" paramType="query" description="stories with teaser instead of fulltext"/>	
+		
+				<key id="office" type="xs:string" paramType="path" required="true" description="id of the public service office"/>		
+		 	</inputs>
+		</select>
+		
+		<!-- 
+			/article/publicservice [/media]
+		-->
+		<select itemPath="json.content.story" produces="JSON">
+			<urls>
+				<url env="all">http://api.presseportal.de/api/article/publicservice/{media}</url>
+		  </urls>
+			<paging model="offset">
+				<start id="start" default="0" />
+				<pagesize id="limit" max="50" />
+				<total default="20" />
+			</paging>
+		 	<inputs>
+		    <key id="api_key" type="xs:string" paramType="query" required="true"/>
+				<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+	
+				<key id="media" type="xs:string" paramType="path" description="requested media type (only image or document). See http://api.presseportal.de/doc/value/media"/>
+		    <key id="teaser" type="xs:string" paramType="query" description="stories with teaser instead of fulltext"/>		
+		 	</inputs>
+		</select>		
+
+  </bindings>
+</table>

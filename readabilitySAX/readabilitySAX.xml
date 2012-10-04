@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Felix Boehm</author>
+		<documentationURL>http://www.feedic.com/</documentationURL>
+		<sampleQuery>select * from {table} where url="http://www.phoboslab.org/log/2011/06/javascriptcore-project-files-for-ios"</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url/>
+			</urls>
+			<inputs>
+				<key id="html" type="xs:string" paramType="variable"/>
+				<key id="url" type="xs:string" paramType="variable"/>
+				<key id="type" type="xs:string" paramType="variable" default="html"/>
+				<key id="expand_url" type="xs:string" paramType="variable" default="t"/>
+				<!--<key id="linksToSkip" type="xs:string" paramType="variable" default="{}" />-->
+			</inputs>
+			<execute><![CDATA[
+			//polyfill for string#trim
+			if (!String.prototype.trim) {
+				   //http://blog.stevenlevithan.com/archives/faster-trim-javascript
+				   var trimBeginRegexp = /^\s\s*/;
+				   var trimEndRegexp = /\s\s*$/;
+				   String.prototype.trim = function () {
+					   return String(this).replace(trimBeginRegexp, '').replace(trimEndRegexp, '');
+				   };
+			}
+			//polyfill for function#bind
+			if (!Function.prototype.bind) {
+				 Function.prototype.bind = function (oThis) {
+				   if (typeof this !== "function") {
+					 // closest thing possible to the ECMAScript 5 internal IsCallable function
+					 throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+				   }
+			
+				   var fSlice = Array.prototype.slice,
+					   aArgs = fSlice.call(arguments, 1), 
+					   fToBind = this, 
+					   fNOP = function () {},
+					   fBound = function () {
+						 return fToBind.apply(this instanceof fNOP
+												? this
+												: oThis,
+											  aArgs.concat(fSlice.call(arguments)));
+					   };
+			
+				   fNOP.prototype = this.prototype;
+				   fBound.prototype = new fNOP();
+			
+				   return fBound;
+				 };
+			}
+			
+			y.include("https://raw.github.com/FB55/yql-tables/master/readabilitySAX/E4XasSAX.js");
+			y.include("https://raw.github.com/FB55/readabilitySAX/master/readabilitySAX.js");
+			
+			if(expand_url === "t"){
+				y.include("https://raw.github.com/FB55/yql-tables/master/longurl/long_url.js");
+				url = getLongURL(url);
+			}
+			
+			var doc;
+			
+			if(typeof html === "undefined" || !html)
+				doc = y.tidy(y.rest(url).get().response);
+			else
+				doc = y.tidy(html);
+			
+			//linksToSkip = y.jsonParse(linksToSkip);
+			
+			var skipLevel = 0;
+			var contentLength = 0;
+			var article;
+			var r = new Readability({
+				log:function(){y.log(Array.prototype.join.call(arguments, " "));},
+				//linksToSkip: linksToSkip,
+				pageURL: url
+			});
+			
+			while(contentLength < 250 && skipLevel < 4){
+				r.setSkipLevel(skipLevel);
+				saxParser(doc, r);
+				
+				article = r.getArticle(type);
+				contentLength = article.textLength;
+				skipLevel += 1;
+			}
+			y.log("got article");
+			
+			article.url = url;
+			
+			response.object = article;
+			]]></execute>
+		</select>
+	</bindings>
+</table>

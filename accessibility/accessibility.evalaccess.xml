@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Willian Massami Watanabe (willian@yahoo-inc.com)</author>
+    <description>Validate WCAG 1.0 conformance using EvalAccess (http://sipt07.si.ehu.es/evalaccess2/)</description>
+    <documentationURL>http://sipt07.si.ehu.es/evalaccess2/howto.html</documentationURL>
+    <sampleQuery>SELECT * FROM evalaccess WHERE url='http://www.watinha.com';</sampleQuery>
+    <sampleQuery>SELECT * FROM evalaccess WHERE url='http://www.yahoo.com' AND levels='1';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://{evalaccess_url}/evalaccess2/servlet/Evaluate</url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="query" required="true" />
+        <key id="levels" type="xs:string" paramType="query" default="123" />
+        <key id="errors" type="xs:string" paramType="query" default="checked" />
+        <key id="warnings" type="xs:string" paramType="query" default="checked" />
+        <key id="action" type="xs:string" paramType="query" default="Accessibility Evaluation" />
+	<key id="evalaccess_url" type="xs:string" paramType="path" default="sipt07.si.ehu.es" />
+      </inputs>
+      <execute>
+      <![CDATA[
+	var params = {url: url, levels: levels, errors: errors, warnings: warnings, action: action};
+	var response_text = request.contentType('application/text').accept('application/text').query(params).post().response;
+
+	if (response_text){
+		// removing extra data before parsing the HTML content
+		var table_beginning = response_text.search('<h3 class="post">Detailed accessibility evaluation report</h3>');
+		var table_end = response_text.search('<h3 class="post">Checkpoint verification times</h3>');
+		var results = response_text.substring(table_beginning, table_end);
+
+		// getting the json representation for parsing after removing extraoneus content
+    results = '<result>' + results + '</result>';
+		results = new XML(results);
+		results = y.xmlToJson(results);
+		
+    var response_xml = <result>{""}</result>;
+    // if there is no table in the document then there are no errors and warnings to be reported
+    if (!results.result.table) {
+      response.object = "0 errors and warnings";
+    }else{
+      // moving through the tables looking for errors and warnings
+      for (var i in results.result.table){
+        var kind_of_message, table;
+        table = results.result.table[i];
+
+        // identifying if it is an error or a warning and the priority of the checkpoint
+        kind_of_message = (table.summary.search('errors') >= 0 ? 'error' : 'warning');
+        priority = table.summary.substring(0, 11);
+
+        // for each issue identified we move along to create the xml element
+        for (var j in table.tr){
+          var row = table.tr[j];
+          if (row.td){
+            var checkpoint, description, more_information, html_element, lines; 
+            checkpoint = row.td[0];
+            description = row.td[1].content;
+            if (row.td[1].p.a)
+              more_information = row.td[1].p.a.href;
+            else
+              more_information = "";
+            html_element = row.td[2];
+            lines = row.td[3].tt;
+
+            var issue;  
+            if (kind_of_message == 'error') 
+              issue = <error></error>;
+            else
+              issue = <warning></warning>;
+    
+            issue.appendChild(<priority>{priority}</priority>);
+            issue.appendChild(<checkpoint>{checkpoint}</checkpoint>);
+            issue.appendChild(<description>{description}</description>);
+            issue.appendChild(<more_information>{more_information}</more_information>);
+            issue.appendChild(<html_element>{html_element}</html_element>);
+            issue.appendChild(<lines>{lines}</lines>);
+          }
+          response_xml.appendChild(issue);
+        }
+        
+      }
+    }
+		response.object = response_xml;
+	}
+	]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
