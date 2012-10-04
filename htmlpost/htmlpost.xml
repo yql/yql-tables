@@ -21,7 +21,7 @@ and postdata="date=".$date."&country=".$country and xpath="/html/body/h2[4] | /h
 </inputs>
 <execute>
 <![CDATA[
-var myRequest = y.rest(url).timeout(3000);
+var myRequest = y.rest(url).timeout(5000);
 var data = myRequest.accept('text/html').contentType("application/x-www-form-urlencoded").post(postdata).response;
 var xdata = y.xpath(data,xpath);
 response.object = <postresult>{xdata}</postresult>;
