@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Vic Mortelmans</author>
-    <description>HTML selector that returns a flat, escaped string rather than a node tree. Suitable for use with applications wishing to embed XML in JSON(P) for cross-domain XML transfer.</description>
+    <description>Returns a flat, escaped string rather than a node tree. Suitable for use with applications wishing to embed XML in JSON(P) for cross-domain XML transfer.</description>
     <sampleQuery>use 'http://github.com/vicmortelmans/yql-tables/raw/master/data/xmlstring.xml' as xmlstring;
 select * from xmlstring where url = "http://feeds.developer.yahoo.net/YDNBlog?format=xml"</sampleQuery>
     <documentationURL>https://docs.google.com/document/pub?id=1ATBRllWB72-ZirrcrEXHZsjGg2ublp1dRTqUjmi4ibA</documentationURL>
