@@ -10,7 +10,7 @@ and postdata="date=".$date."&country=".$country and xpath="/html/body/h2[4] | /h
 <documentationURL></documentationURL>
 </meta>
 <bindings>
-<select itemPath="" pollingFrequencySeconds="900" produces="XML">
+<select itemPath="" pollingFrequencySeconds="900" produces="JSON">
 <urls>
 <url>{url}</url>
 </urls>
