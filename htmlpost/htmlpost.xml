@@ -10,7 +10,7 @@ and postdata="date=".$date."&country=".$country and xpath="/html/body/h2[4] | /h
 <documentationURL></documentationURL>
 </meta>
 <bindings>
-<select itemPath="" pollingFrequencySeconds="3600" produces="XML">
+<select itemPath="" pollingFrequencySeconds="900" produces="XML">
 <urls>
 <url>{url}</url>
 </urls>
@@ -25,7 +25,7 @@ var myRequest = y.rest(url).timeout(60000);
 var data = myRequest.accept('text/html').contentType("application/x-www-form-urlencoded").post(postdata).response;
 var xdata = y.xpath(data,xpath);
 response.object = <postresult>{xdata}</postresult>;
-response.maxAge = 60000;
+response.maxAge = 900;
 ]]>
 </execute>
 </select>
