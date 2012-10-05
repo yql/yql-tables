@@ -3,7 +3,7 @@
   <meta>
     <author>Zach Graves (zachg@yahoo-inc.com)</author>
     <documentationURL>http://vimeo.com/api/docs/simple-api</documentationURL>
-    <sampleQuery>select * from {table} where channelname='6967'</sampleQuery>
+    <sampleQuery>select * from {table} where channelname='6967' and page='1'</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
@@ -12,6 +12,7 @@
       </urls>
       <inputs>
         <key id="channelname" type="xs:string" paramType="path" required="true" />
+        <key id="page" type="xs:string" paramType="path" required="false" />
       </inputs>
     </select> 
   </bindings>
