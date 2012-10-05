@@ -3,7 +3,7 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table breaks down complex bible references to a list of references to single verses. Also includes the OSISid format of the verse references.</description>
-    <sampleQuery>use "http://github.com/vicmortelmans/yql-tables/raw/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17"</sampleQuery>
+    <sampleQuery>use "https://raw.github.com/vicmortelmans/yql-tables/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17"</sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_200fmmzdthf</documentationURL>
   </meta>
   <bindings>
@@ -13,6 +13,7 @@
       </urls>
       <inputs>
         <key id="bibleref" type="xs:string" paramType="variable" required="true"/>
+        <key id="language" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
         RegExp.quote = function(str) {
@@ -23,14 +24,17 @@
 
         var book = "";
         var osisbook = "";
+        var localbook = "";
         var bookrecord;
         var bookoutlinerecord;
         var openchapter = 0;
         var chapterseparator;
         var listseparator;
         var rangeseparator;
+        var chapterversereference;
         
         var bibleref;
+        var language;
         var biblerefs = <biblerefs/>; // XML
         for each (bibleref in parse_reference(bibleref)) 
         {
@@ -70,7 +74,7 @@
         function bookquery(book)
         {
           var booksquery, books;
-          booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/books.xml" and book.input matches "(?i)$book"';
+          booksquery = 'select book from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/books.xml" and book.input matches "(?i)$book"';
           booksquery = booksquery.replace("$book",book);
           books = y.query(booksquery).results.books;
           if (books.book.length() < 1) {
@@ -86,10 +90,14 @@
         {
           return bookrecord.code.(@service == 'osis').toString();
         }
+        function getlocalbook(bookrecord, lang)
+        {
+          return bookrecord.input.(@language.toString().match(lang)).toString();
+        }
         function bookoutlinequery(osisbook)
         {
           var booksquery, books;
-          booksquery = 'select book from xml where url="http://github.com/vicmortelmans/BibleConfiguration/raw/master/bible-outline.xml" and book.name = "$osisbook"';
+          booksquery = 'select book from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/bible-outline.xml" and book.name = "$osisbook"';
           booksquery = booksquery.replace("$osisbook",osisbook);
           books = y.query(booksquery).results.books;
           if (books.book.length() < 1) {
@@ -111,8 +119,13 @@
         }
         function listrecord(book,chapter,verse,phrase,osisbook)
         {
+          var v = verseinbook(chapter,verse);
           return <bibleref>
           <book>{book}</book>
+          <localbook>{localbook}</localbook>
+          <osisbook>{osisbook}</osisbook>
+          <chapterversereference>{chapterversereference}</chapterversereference>
+          <verseinbook>{v}</verseinbook>
           <chapter>{chapter}</chapter>
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
@@ -145,6 +158,10 @@
           book = book + split2.before;
           bookrecord = bookquery(book);
           osisbook = getosisbook(bookrecord);
+          if (language)
+          {
+            localbook = getlocalbook(bookrecord,language);
+          }
           bookoutlinerecord = bookoutlinequery(osisbook);
           /* determine the functions of the separators being used */
           separatorsOrder = getSeparators(split2.after);
@@ -160,6 +177,7 @@
           {
             try
             {
+              chapterversereference = split2.after.replace(chapterseparator,':').replace(listseparator,',').replace(rangeseparator,'-');
               parseResult = parse_list("explicit",split2.after);
               parseSuccess = 1;
             }
@@ -178,7 +196,7 @@
               else
               {
                 y.log("Invalid bible reference syntax.");
-                y.exit(0);
+                y.exit();
               }
             }
           }
@@ -214,15 +232,21 @@
           {
             throw("Fallback: Invalid bible chapter range");
           }
+          debug && y.log("iterating chapters " + begin.chapter + " to " + end.chapter); 
           for (chapter = begin.chapter; chapter <= end.chapter; chapter++)
           {
             var number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
             var chapterbeginversenumber = chapter==begin.chapter?begin.verse.number:1;
             var chapterendversenumber = chapter==end.chapter?end.verse.number:number_of_verses;
-            debug &&  y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); 
+            if (chapterbeginversenumber > chapterendversenumber)
+            {
+              throw("Fallback: Invalid bible verse range");
+            }
+            debug && y.log("iterating verses " + chapterbeginversenumber + " to " + chapterendversenumber); 
             for (versenumber = chapterbeginversenumber; versenumber <= chapterendversenumber; versenumber++)
             {
-              if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) {
+              if (begin.chapter == end.chapter && begin.verse.number == end.verse.number) 
+              {
                 if (!begin.verse.phrase != !end.verse.phrase) /* implementation of XOR */ 
                 {
                   throw("Fallback: Invalid reference; to indicate a range within a verse: Ester 8:9a-9b");
@@ -231,30 +255,30 @@
                 {
                   var i;
                   phrases = "abcdefghijkl";
-                  for (i = phrases.indexOf(begin.verse.phrases); phrases.charAt(i) <= end.verse.phrase; i++)
+                  for (i = phrases.indexOf(begin.verse.phrase); phrases.charAt(i) <= end.verse.phrase; i++)
                   {
-                    debug &&  y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
+                    debug &&  y.log("adding [1] " + book + " | " + chapter + " | " + begin.verse.number + phrases.charAt(i) + " | " + osisbook); 
                     list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook);
                   }
                 }  
                 else 
                 {
-                  debug &&  y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
+                  debug &&  y.log("adding [2] " + book + " | " + chapter + " | " + begin.verse.number + begin.verse.phrase + " | " + osisbook); 
                   list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook);
                 }
               }
               else
               {
-                var phrase;
-                if (chapter==begin.chapter && versenumber==begin.verse.number)
+                var phrase = '';
+                if (chapter == begin.chapter && versenumber == begin.verse.number)
                 {
                   phrase = begin.verse.phrase?(begin.verse.phrase + '-'):'';
                 }
-                else if (chapter==end.chapter && versenumber==end.verse.number)
+                else if (chapter == end.chapter && versenumber == end.verse.number)
                 {
                   phrase = end.verse.phrase?('-' + end.verse.phrase):'';
                 }
-                debug && y.log("adding " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
+                debug && y.log("adding [3] " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
                 list += listrecord(book, chapter, versenumber, phrase, osisbook);
               }
             }
@@ -303,6 +327,7 @@
           else if (string.match(/^[ivxlc]+$/i))
           {
             chapter = deromanize(string);
+            chapterversereference = chapterversereference.replace(string,chapter);
           }
           else
           {
@@ -339,6 +364,19 @@
           while (m = token.exec(str))
             num += key[m[0]];
           return num;
+        }
+        function verseinbook(chapter,verse)
+        {
+          var sum = 0;
+          for each (var c in bookoutlinerecord.*)
+          {
+            if (Number(c.@number) < chapter)
+            {
+              sum += Number(c.@number_of_verses);
+            }
+          }
+          sum += verse;
+          return sum;
         }
         
         /* functions for determining the function of separators */

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vic Mortelmans</author>
+    <description>The table reads a textfile and returns a feed in which lines of the textfile are provided as new items, according to a user-defined frequency. The lines can be shortened to e.g. 140 characters, suitable for twittering.</description>
+    <sampleQuery>use 'http://github.com/vicmortelmans/yql-tables/raw/master/data/twittertextfeed.xml' as twittertextfeed;
+select * from twittertextfeed where url = "http://users.telenet.be/vicmortelmans/ecclesiasticus.txt"
+and frequency = "1"
+and startdate = "2011/01/01"
+and length = "140"</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" required="true"/>
+        <key id="frequency" type="xs:number" paramType="variable" required="true"/>
+        <key id="startdate" type="xs:string" paramType="variable" required="true"/>
+        <key id="length" type="xs:number" paramType="variable" required="false"/>
+      </inputs>
+      <execute><![CDATA[
+      
+        var textquery = 'select * from csv where url="$url"';
+        textquery = textquery.replace("$url",url);
+        var text = y.query(textquery).results.row;
+        //y.log(text.toXMLString());
+        //y.log(text.length());
+        
+        var today = new Date();
+        //y.log(today.toString());
+        var startdate = new Date(startdate);
+        //y.log(startdate.toString());
+        var position = Math.floor((today.getTime() - startdate.getTime()) * frequency /1000/60/60/24) % text.length();
+        //y.log(position);
+        
+        result = new XMLList();
+        for (i = Math.max(0,position-10); i <= position; i++) {
+          var line = stringListValue(text[i]).slice(0,-1);
+          //y.log(line);
+          result += <item line={shorten(line)}></item>;
+        }
+        //y.log(result.toXMLString());
+        
+        response.object = <results>{result}</results>;
+        
+        function shorten(string) {
+          var max = 140;
+          if (string.length <= max) {
+            return string;
+          } else {
+            // find the longest word with vowels inside
+            var word = longestshortenableword(string);
+            if (word.match(/\S+/)) {
+              var patt1=/^[aeiouy]+|[^aeiouy]+|[aeiouy]+$/gi;
+              var shortword = word.match(patt1).join('');
+              return shorten(string.replace(word,shortword));
+            } else {
+              return string.substring(0,max-4) + '...';
+            }
+          }
+        }
+
+        function longestshortenableword(string) {
+          var matches = string.match(/\S+/);
+          var firstword = matches ? matches[0] : '';
+          var remainder = string.replace(firstword,'');
+          if (!firstword.match(/[bcdfghjklmnpqrstvwxz][aeiouy]+[bcdfghjklmnpqrstvwxz]/gi)) {
+            return remainder.match(/\S+/) ? longestshortenableword(remainder) : '';
+          } else if ( firstword.match(/[bcdfghjklmnpqrstvwxz]/gi).length < 2) {
+            return longestshortenableword(remainder);
+          } else if (!remainder.match(/\S+/)) {
+            return firstword;
+          } else {
+            var longestwordinremainder = longestshortenableword(remainder);
+            return firstword.length > longestwordinremainder.length ? firstword : longestwordinremainder;
+          } 
+        }  
+
+        function stringListValue(node) {
+            var value = new String();
+            if (node.hasSimpleContent()) {
+                value = node.toString();
+            } else {
+                for each (var c in node.children()) {
+                    value += stringListValue(c) + ",";
+                }
+            }
+            return value;
+        }
+
+]]></execute>
+      </select>
+  </bindings>
+</table>
