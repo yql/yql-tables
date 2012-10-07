@@ -87,7 +87,8 @@
 		var urlstring3="&sort=";
 		var yqlstring2="\" and xpath=\"//li[@class='hbox groupsSearch-result-entry']\"";
 
-		var yqlquery=y.query(yqlstring1+urlstring1+query+urlstring2+String(pagevar)+urlstring3+typevar+yqlstring2);
+		var inputstring=new String(query);
+		var yqlquery=y.query(yqlstring1+urlstring1+encodeURIComponent(inputstring)+urlstring2+String(pagevar)+urlstring3+typevar+yqlstring2);
 		var yqlresults=yqlquery.results;
 		var yqlcounter=parseInt(yqlresults.li.length());
 		var index=0;
