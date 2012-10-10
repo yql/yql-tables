@@ -13,7 +13,10 @@
         <key id='range' type='xs:integer' paramType='variable' required="false" default="1"/>
       </inputs>
       <execute><![CDATA[
+        var t4 = 'prxzprxznqwynqwyjmtvjmtvhksuhksu57eg57eg46df46df139c139c028b028b';
+        var t8 = 'bcfguvyzbcfguvyz89destwx89destwx2367kmqr2367kmqr0145hjnp0145hjnp';
         var output = <></>;
+
         for (var i = -range; i <= range; i++) {
             for (var j = -range; j <= range; j++) {
                    var g;
@@ -77,8 +80,6 @@
             return t8.charAt(p2);
         };
 
-        var t4 = 'prxzprxznqwynqwyjmtvjmtvhksuhksu57eg57eg46df46df139c139c028b028b';
-        var t8 = 'bcfguvyzbcfguvyz89destwx89destwx2367kmqr2367kmqr0145hjnp0145hjnp';
         
       ]]></execute>
     </select>
