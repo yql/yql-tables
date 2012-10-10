@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>use "https://raw.github.com/vicmortelmans/yql-tables/master/geo/geo.geohash.xml" as geo.geohash;
+        select * from geo.geohash where place="Antwerpen,be"</sampleQuery>
+    <author>Vic Mortelmans</author>
+    <documentationURL></documentationURL>  
+    <description>Gives the geohash for the location</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id="place" type="xs:string" paramType="variable" required="true"/>
+        <key id="precision" type="xs:integer" paramType="variable" required="false" default="12"/>
+      </inputs>
+      <execute><![CDATA[
+        
+        var res = y.query("select * from geo.places(1) where text='" + 
+                          place + "'").results;
+        var lat = res.place.centroid.latitude;
+        var lon = res.place.centroid.longitude;
+
+        response.object = <geohash>{encodeGeoHash(lat,lon)}</geohash>;
+        
+        // copied from https://github.com/davetroy/geohash-js/blob/master/geohash.js
+        function encodeGeoHash(latitude, longitude) {
+            var BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+            var is_even=1;
+        	var i=0;
+        	var lat = []; var lon = [];
+        	var bit=0;
+        	var ch=0;
+        	//var precision = 12; // parametrized
+        	geohash = "";
+        
+        	lat[0] = -90.0;  lat[1] = 90.0;
+        	lon[0] = -180.0; lon[1] = 180.0;
+        
+        	while (geohash.length < precision) {
+        	  if (is_even) {
+        			mid = (lon[0] + lon[1]) / 2;
+        	    if (longitude > mid) {
+        				ch |= BITS[bit];
+        				lon[0] = mid;
+        	    } else
+        				lon[1] = mid;
+        	  } else {
+        			mid = (lat[0] + lat[1]) / 2;
+        	    if (latitude > mid) {
+        				ch |= BITS[bit];
+        				lat[0] = mid;
+        	    } else
+        				lat[1] = mid;
+        	  }
+        
+        		is_even = !is_even;
+        	  if (bit < 4)
+        			bit++;
+        	  else {
+        			geohash += BASE32[ch];
+        			bit = 0;
+        			ch = 0;
+        	  }
+        	}
+        	return geohash;
+        }        
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
