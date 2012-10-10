@@ -24,6 +24,7 @@
         
         // copied from https://github.com/davetroy/geohash-js/blob/master/geohash.js
         function encodeGeoHash(latitude, longitude) {
+            var BITS = [16, 8, 4, 2, 1];
             var BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
             var is_even=1;
         	var i=0;
