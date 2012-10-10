@@ -10,7 +10,7 @@
     <select itemPath="" produces="XML">
       <inputs>
         <key id='geohash' type='xs:string' paramType='variable' required="true" />
-        <key id='range' type='xs:integer' paramType='variable' required="no" default="1"/>
+        <key id='range' type='xs:integer' paramType='variable' required="false" default="1"/>
       </inputs>
       <execute><![CDATA[
         var output = </>;
