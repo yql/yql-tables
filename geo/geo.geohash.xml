@@ -22,8 +22,8 @@
         
         var res = y.query("select * from geo.places where text='" + 
                           place + "'").results;
-        var lat = res.yahoo::place.centroid.latitude;
-        var lon = res.yahoo::place.centroid.longitude;
+        var lat = res.yahoo::place.yahoo::centroid.yahoo::latitude;
+        var lon = res.yahoo::place.yahoo::centroid.yahoo::longitude;
 
         response.object = <geohash>{encodeGeoHash(lat,lon)}</geohash>;
         
