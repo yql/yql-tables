@@ -15,7 +15,7 @@
       </inputs>
       <execute><![CDATA[
         
-        var res = y.query("select * from geo.places(1) where text='" + 
+        var res = y.query("select * from geo.places where text='" + 
                           place + "'").results;
         var lat = res.place.centroid.latitude; y.log("latitude: " + lat);
         var lon = res.place.centroid.longitude; y.log("longitude: " + lon);
