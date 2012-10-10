@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <sampleQuery>select * from geo.geohash.neighbors where geohash="u155ku" and range="5"</sampleQuery>
+    <sampleQuery>use "https://raw.github.com/vicmortelmans/yql-tables/master/geo/geo.geohash.neighbors.xml" as geo.geohash.neighbors; select * from geo.geohash.neighbors where geohash="u155ku" and range="5"</sampleQuery>
     <author>Vic Mortelmans</author>
-    <documentationURL></documentationURL>  
+    <documentationURL>https://github.com/vicmortelmans/yql-tables/blob/master/geo/geo.geohash.neighbors.xml</documentationURL>  
     <description>Gives you a list of geohash id's that are neighbors of the input id. Setting range to values higher than 1 includes also neighbor's neighbors, etc.</description>
   </meta>
   <bindings>
@@ -24,7 +24,7 @@
                    output += <geohash>{g}</geohash>;
             }
         }
-        response.object = <passage>{output}</passage>;
+        response.object = <neighbors>{output}</neighbors>;
         
         function moveLong(g,d) {
             // g is a geohash
