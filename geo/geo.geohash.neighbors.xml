@@ -13,7 +13,7 @@
         <key id='range' type='xs:integer' paramType='variable' required="false" default="1"/>
       </inputs>
       <execute><![CDATA[
-        var output = </>;
+        var output = <></>;
         for (var i = -range; i <= range; i++) {
             for (var j = -range; j <= range; j++) {
                    var g;
