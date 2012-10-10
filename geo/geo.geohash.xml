@@ -15,6 +15,7 @@
       </inputs>
       <execute><![CDATA[
         
+        default xml namespace = "http://where.yahooapis.com/v1/schema.rng";
         var res = y.query("select * from geo.places where text='" + 
                           place + "'").results; y.log(res);
         var lat = res.place.centroid.latitude; y.log("latitude: " + lat);
