@@ -15,15 +15,15 @@
       </inputs>
       <execute><![CDATA[
         
-        default xml namespace = "http://where.yahooapis.com/v1/schema.rng";
+        var yahoo = new Namespace("http://where.yahooapis.com/v1/schema.rng");
         // namespace is needed because the <place> element in the results of the geo.places
         // table is in this namespace, and otherwise it will not be addressed by simply
         // saying res.place
         
         var res = y.query("select * from geo.places where text='" + 
                           place + "'").results;
-        var lat = res.place.centroid.latitude;
-        var lon = res.place.centroid.longitude;
+        var lat = res.yahoo::place.centroid.latitude;
+        var lon = res.yahoo::place.centroid.longitude;
 
         response.object = <geohash>{encodeGeoHash(lat,lon)}</geohash>;
         
