@@ -20,11 +20,18 @@
         // table is in this namespace, and otherwise it will not be addressed by simply
         // saying res.place
         
-        var res = y.query("select * from geo.places where text='" + 
-                          place + "'").results;
-        var lat = res.yahoo::place.yahoo::centroid.yahoo::latitude;
-        var lon = res.yahoo::place.yahoo::centroid.yahoo::longitude;
-
+        var lat,lon;
+        
+        if ( /^[0-9.]+,[0-9.]+$/.test(place) ) {
+            lat = place.match(/^[0-9.]+/);
+            lon = place.match(/[0-9.]+$/);
+        } else {
+            var res = y.query("select * from geo.places where text='" + 
+                              place + "'").results;
+            lat = res.yahoo::place.yahoo::centroid.yahoo::latitude;
+            lon = res.yahoo::place.yahoo::centroid.yahoo::longitude;
+        }
+        
         response.object = <geohash>{encodeGeoHash(lat,lon)}</geohash>;
         
         // copied from https://github.com/davetroy/geohash-js/blob/master/geohash.js
