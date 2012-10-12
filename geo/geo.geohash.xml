@@ -32,7 +32,7 @@
             lon = res.yahoo::place.yahoo::centroid.yahoo::longitude;
         }
         
-        response.object = <geohash>{encodeGeoHash(lat,lon)}</geohash>;
+        response.object = <item><geohash>{encodeGeoHash(lat,lon)}</geohash></item>;
         
         // copied from https://github.com/davetroy/geohash-js/blob/master/geohash.js
         function encodeGeoHash(latitude, longitude) {
