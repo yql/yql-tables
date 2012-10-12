@@ -29,7 +29,7 @@
             var res = y.query("select * from google.geocoding where q='" + 
                               place + "'").results;
             lat = res..Point.coordinates[1];
-            lon = res..Point.coordinates[2];
+            lon = res..Point.coordinates[0];
         }
         
         response.object = <item><geohash>{encodeGeoHash(lat,lon)}</geohash></item>;
