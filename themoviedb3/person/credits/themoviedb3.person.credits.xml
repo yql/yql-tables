@@ -15,7 +15,6 @@
             <inputs>
                 <key id="nick" type="xs:string" paramType="path" required="true" />
                 <key id="api_key" type="xs:string" paramType="variable" required="true" />
-                <key id="language" type="xs:string" paramType="query" required="false" />              
                 <key id="Accept" type="xs:string" paramType="header" required="true" /> 
                 <key id="language" type="xs:string" paramType="query" required="false" />              
             </inputs>
