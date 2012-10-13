@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>robust (antiabuse@mail.ru)</author>
+      <description>The MovieDB v3 API => person's credits</description>
+        <documentationURL>http://docs.themoviedb.apiary.io/#people</documentationURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+        <apiKeyURL></apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://api.themoviedb.org/3/person/{nick}/credits</url>
+            </urls>
+            <inputs>
+                <key id="nick" type="xs:string" paramType="path" required="true" />
+                <key id="api_key" type="xs:string" paramType="variable" required="true" />
+                <key id="language" type="xs:string" paramType="query" required="false" />              
+                <key id="Accept" type="xs:string" paramType="header" required="true" /> 
+                <key id="language" type="xs:string" paramType="query" required="false" />              
+            </inputs>
+            <execute>
+                <![CDATA[
+
+              // response.object = y.rest(url).accept('application/json').jsonCompat('new').get().response;
+              //               y.sync();
+		
+              //  request.accept('application/json').contentType('application/json');
+              // request.accept('application/json');
+              
+              // <key id="Accept" type="xs:string" paramType="header" const="true" default="application/json" />
+              
+              // const="true" default="application/json" 
+              // y.rest('http://api.themoviedb.org/3/person/190/credits').accept('application/json').get().response
+              
+              
+              
+              
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
