@@ -8,32 +8,18 @@
         <apiKeyURL></apiKeyURL>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select itemPath="" produces="JSON">
             <urls>
-                <url>http://api.themoviedb.org/3/person/{nick}/credits</url>
+                <url>http://api.themoviedb.org/3/person/{id}/credits</url>
             </urls>
             <inputs>
-                <key id="nick" type="xs:string" paramType="path" required="true" />
-                <key id="api_key" type="xs:string" paramType="variable" required="true" />
-                <key id="Accept" type="xs:string" paramType="header" required="true" /> 
+                <key id="id" type="xs:string" paramType="path" required="true" />
+                <key id="api_key" type="xs:string" paramType="query" required="true" />
                 <key id="language" type="xs:string" paramType="query" required="false" />              
             </inputs>
             <execute>
                 <![CDATA[
-
-              // response.object = y.rest(url).accept('application/json').jsonCompat('new').get().response;
-              //               y.sync();
-		
-              //  request.accept('application/json').contentType('application/json');
-              // request.accept('application/json');
-              
-              // <key id="Accept" type="xs:string" paramType="header" const="true" default="application/json" />
-              
-              // const="true" default="application/json" 
-              // y.rest('http://api.themoviedb.org/3/person/190/credits').accept('application/json').get().response
-              
-              
-              
+              response.object = y.rest(request.url).accept('application/json').jsonCompat('new').get().response;
               
                 ]]>
             </execute>
