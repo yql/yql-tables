@@ -31,7 +31,7 @@
 	var checkvar4="";
 	while(startindex<yqlcounter)
 	{
-		checkvar=yqlresults.a[startindex].@href;
+		checkvar=new String(yqlresults.a[startindex].@href);
 		if(checkvar.match(messageindex)!=null)
 		{
 			checkvar2=new String("http://groups.yahoo.com");
