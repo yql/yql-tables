@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author> Marcel Duran / SD05 </author>
+        <description>request a URL and retrieves its content and headers. User Agent string (ua) is optional.</description>
+        <documentationURL>https://github.com/kincrew/xClient/wiki</documentationURL>
+        <sampleQuery>select * from {table} where url="http://www.yahoo.com/"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <inputs>
+				<key id="authorization" type="xs:string" paramType="variable" required="false"/>
+				<key id="charset" type="xs:string" paramType="variable" required="false"/>
+				<key id="content" type="xs:string" paramType="variable" required="false"/>
+				<key id="contenttype" type="xs:string" paramType="variable" required="false"/>
+				<key id="cookie" type="xs:string" paramType="variable" required="false"/>
+				<key id="css" type="xs:string" paramType="variable" required="false"/>
+				<key id="header" type="xs:string" paramType="variable" required="false"/>
+				<key id="json" type="xs:string" paramType="variable" required="false"/>
+				<key id="method" type="xs:string" paramType="variable" required="false"/>
+				<key id="oauth" type="xs:string" paramType="variable" required="false"/>
+				<key id="param" type="xs:string" paramType="variable" required="false"/>
+				<key id="referer" type="xs:string" paramType="variable" required="false"/>
+				<key id="tidy" type="xs:string" paramType="variable" required="false"/>
+				<key id="timeout" type="xs:string" paramType="variable" required="false"/>
+				<key id="ua" type="xs:string" paramType="variable" required="false"/>
+				<key id="url" type="xs:string" paramType="variable" required="true"/>
+				<key id="xpath" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+					var location,
+						JSON,
+						method = method || "get",
+						reTagCase = /(^|\-)(\w)/g,
+						tagCase = function (a, b, c) { return b + c.toUpperCase();};
+					// PREPARING REQUEST
+					var request = y.rest(url);
+					if (ua) request.header('User-Agent', ua);
+					if (cookie) request.header('Cookie', cookie);
+					if (referer) request.header('Referer', referer);
+					if (authorization) request.header('Authorization', authorization);
+					request.header('Accept-Encoding', 'gzip,deflate');
+					request.decompress(true);
+					if (charset) request.forceCharset(charset);
+					if (contenttype) request.contentType(contenttype);
+					request.fallbackCharset("utf-8, euc-kr, iso-8859-1");
+					if (timeout) request.timeout(timeout);
+					if (param) {
+						if (!JSON) y.include('http://www.datatables.org/javascript/json2.js');
+						request.query(JSON.parse(param));
+					}
+					if (json) request.jsonCompat('new');
+
+					// SENDING HTTP REQUEST
+                    var resp ;
+					if (method == "get") resp = request.get();
+					else resp = (content) ? request.post(content) : request.post();
+					// RECIEVING DATA
+                    y.log('response length: ' + (resp.response && resp.response.length));
+					var data = <resources/>;
+                    var redirect = y.diagnostics.redirect;
+                    var count = redirect && redirect.length();
+					if (count) {
+						for (var i = 0; i < count; i += 1) {
+							var redir = redirect[i];
+							y.log('redirect: ' + redir.@status + ' = ' + redir.toString());
+							location = redir.toString();
+							if (location) {
+								data.resources +=
+									<redirect>
+										<url>{url}</url>
+										<status>{redir.@status}</status>
+										<headers>
+											<Location>{location}</Location>
+										</headers>
+									</redirect>;
+								url = location;
+							}
+						}
+					}	
+                    // response headers
+					var headers = <headers/>;
+					var tag;
+                    for (header in resp.headers) {
+						var headerValue = resp.headers[header];
+						if (typeof headerValue == "object") {							
+							if (!JSON) y.include('http://www.datatables.org/javascript/json2.js');
+							headerValue = JSON.stringify(headerValue);
+						} 
+						tag = header.replace(reTagCase, tagCase);
+						headers.headers += <{tag}>{headerValue}</{tag}>;
+                    }
+					// set result
+					data.resources += <url>{url}</url>;
+					data.resources += <status>{resp.status}</status>;
+					data.resources += headers;
+
+					// get uncompressed response content for non-binary
+					var header = resp.headers;
+					var content;
+					header = (header && header['content-type']) || '';
+					if (header.indexOf('image') && header.indexOf('x-shockwave-flash') < 0) {
+						try {
+							content = resp.response;
+						} catch (err) {
+							y.log(err);
+							content = '';
+						}
+					} else content = '';
+					y.log(typeof content)
+					if (xpath || css) {
+						if (css) {
+							y.include("http://css2xpath.googlecode.com/svn/trunk/build/css2xpath.min.js");
+							var xpath = css2xpath(css);
+						}
+						content = y.xpath(y.tidy(content), xpath);
+						data.resources += <length>{content.length()}</length>;
+						if (!tidy) content = content.toXMLString();
+					}
+					if (tidy && (typeof content != "xml")) {
+						content = y.tidy(content);
+					} else if (!tidy && typeof content == "xml") content = content.toXMLString();
+					data.resources += <content>{content}</content>;
+					response.maxAge = 300;
+					response.object = data;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
