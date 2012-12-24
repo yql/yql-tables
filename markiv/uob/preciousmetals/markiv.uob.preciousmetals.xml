@@ -15,6 +15,12 @@
               	    var trs = html.tr;
                     var prices = [];    
               
+                    if(metal !== null){
+                        for(var i = 0 ; i < metal.length ; i++){
+                            metal[i] = unescape(metal[i]);
+                        }  
+                    }
+              
                     //Date
                     var date = trs[0].td.div.p.toString().replace('Rates as at ','');
               
@@ -29,7 +35,7 @@
                                 prices.push(runningMetalNode);
               
                             var runningMetal = tds[0].strong.toString();
-              		    if(metal === null || metal.indexOf(escape(runningMetal)) >= 0){
+              		    if(metal === null || metal.indexOf(runningMetal) >= 0){
                                 runningMetalNode = {'name' : runningMetal, 'date' : date, 'units' : []};
                             }
                             else
@@ -44,7 +50,6 @@
                             runningMetalNode.units.push({'unit' : unitName, 'bankSells' : bankSells, 'bankBuys' : bankBuys});
                         }
                     }
-              
                     response.object = {'preciousmetals' : prices};
                 ]]>
             </execute>
