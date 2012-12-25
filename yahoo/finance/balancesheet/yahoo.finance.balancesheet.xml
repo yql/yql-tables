@@ -2,13 +2,13 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>
-            Thomas Fowler
+            Ryan Hoium
         </author>
         <description>
-            Yahoo Finance Quotes - Options Chain
+            Yahoo Finance Financial Statements - Income Statement
         </description>
         <sampleQuery>
-            SELECT * FROM {table} WHERE symbol='GOOG' AND expiration='2010-06'
+            SELECT * FROM {table} WHERE symbol='GOOG'
         </sampleQuery>
     </meta>
     <bindings>
@@ -19,7 +19,6 @@
             </urls>
             <inputs>
             	<key id="symbol" type="xs:string" paramType="variable" required="true" />
-            	<key id="expiration" type="xs:string" paramType="variable" required="false" />
             </inputs>
             <execute>
                 <![CDATA[
@@ -157,7 +156,7 @@
 
 				var dateRes = dateRegEx.exec( results[0] );
 				
-				var dd;
+                var dd;
 
 				if ( dateRes != null &&
 					dateRes[ 1 ] != null )
