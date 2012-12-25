@@ -201,7 +201,7 @@
 			var expiryDay = getExpiration();
 					
 			var optionsChain;
- 			var expDate = expiration;
+ 			var expDate = 2013-06;
 
 			if ( queryHasExpiration == true )
 			{
