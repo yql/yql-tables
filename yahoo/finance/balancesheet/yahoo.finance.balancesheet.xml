@@ -2,13 +2,13 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>
-            Ryan Hoium
+            Thomas Fowler
         </author>
         <description>
-            Yahoo Finance - Balance Sheet
+            Yahoo Finance Quotes - Options Chain
         </description>
         <sampleQuery>
-            SELECT * FROM {table} WHERE symbol='GOOG'
+            SELECT * FROM {table} WHERE symbol='GOOG' AND expiration='2010-06'
         </sampleQuery>
     </meta>
     <bindings>
@@ -19,6 +19,7 @@
             </urls>
             <inputs>
             	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+            	<key id="expiration" type="xs:string" paramType="variable" required="false" />
             </inputs>
             <execute>
                 <![CDATA[
