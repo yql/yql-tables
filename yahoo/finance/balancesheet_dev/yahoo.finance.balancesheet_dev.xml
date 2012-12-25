@@ -201,7 +201,11 @@
 			var expiryDay = getExpiration();
 					
 			var optionsChain;
+<<<<<<< HEAD
  			var expDate = "2013-06";
+=======
+ 			var expDate = expiration;
+>>>>>>> parent of 0766ef0... Added yahoo/finance/balancesheet_dev/yahoo.finance.balancesheet_dev.xml (unfiltered) via YQL Table Editor
 
 			if ( queryHasExpiration == true )
 			{
