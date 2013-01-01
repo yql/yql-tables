@@ -7,7 +7,7 @@
       <bindings>
         <select itemPath="catalog_titles.catalog_title" produces="XML" >
           <urls>
-            <url env="all">http://api.netflix.com/catalog/titles/</url>
+            <url env="all">http://api-public.netflix.com/catalog/titles/</url>
           </urls>
          <paging model="offset">
            <start id="start_index" default="0" />
