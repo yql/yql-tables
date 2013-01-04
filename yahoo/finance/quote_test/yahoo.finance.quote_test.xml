@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<sampleQuery>
+			select * from {table} where symbol in ("YHOO","AAPL","GOOG","MSFT")
+		</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="quotes.quote" produces="XML">
+			<urls><url>http://download.finance.yahoo.com/d/quotes.csv?s={-listjoin|,|symbol}</url></urls>
+			<inputs>
+				<key id='f' type='xs:string' const='true' default='aa2bb2b3b4cc1c3c6c8dd1d2ee1e7e8e9ghjkg1g3g4g5g6ii5j1j3j4j5j6k1k2k4k5ll1l2l3mm2m3m4m5m6m7m8nn4opp1p2p5p6qrr1r2r5r6r7ss1s7t1t7t8vv1v7ww1w4xy' paramType='query' />
+				<key id='symbol' type='xs:string' batchable='true' maxBatchItems='20' paramType='path' required='true'/>
+			</inputs>
+			<execute><![CDATA[
+				var results = y.query("select * from csv where url=@url and columns='Ask,AverageDailyVolume,Bid,AskRealtime,BidRealtime,BookValue,Change&PercentChange,Change,Commission,ChangeRealtime,AfterHoursChangeRealtime,DividendShare,LastTradeDate,TradeDate,EarningsShare,ErrorIndicationreturnedforsymbolchangedinvalid,EPSEstimateCurrentYear,EPSEstimateNextYear,EPSEstimateNextQuarter,DaysLow,DaysHigh,YearLow,YearHigh,HoldingsGainPercent,AnnualizedGain,HoldingsGain,HoldingsGainPercentRealtime,HoldingsGainRealtime,MoreInfo,OrderBookRealtime,MarketCapitalization,MarketCapRealtime,EBITDA,ChangeFromYearLow,PercentChangeFromYearLow,LastTradeRealtimeWithTime,ChangePercentRealtime,ChangeFromYearHigh,PercebtChangeFromYearHigh,LastTradeWithTime,LastTradePriceOnly,HighLimit,LowLimit,DaysRange,DaysRangeRealtime,FiftydayMovingAverage,TwoHundreddayMovingAverage,ChangeFromTwoHundreddayMovingAverage,PercentChangeFromTwoHundreddayMovingAverage,ChangeFromFiftydayMovingAverage,PercentChangeFromFiftydayMovingAverage,Name,Notes,Open,PreviousClose,PricePaid,ChangeinPercent,PriceSales,PriceBook,ExDividendDate,PERatio,DividendPayDate,PERatioRealtime,PEGRatio,PriceEPSEstimateCurrentYear,PriceEPSEstimateNextYear,Symbol,SharesOwned,ShortRatio,LastTradeTime,TickerTrend,OneyrTargetPrice,Volume,HoldingsValue,HoldingsValueRealtime,YearRange,DaysValueChange,DaysValueChangeRealtime,StockExchange,DividendYield'",{url:request.url});
+				var quotes = <quotes/>;
+				var rows=results.results.row;
+				for each (var row in rows) {
+					for each (var item in row.*) {
+						var elname = item.localName();
+						var txt = item.text().toString();
+						if (txt=="N/A") txt=""; else if (txt=="-") txt=""; else {
+							txt = txt.replace(/"/g, '');
+						}
+						row[elname]=txt;
+					}
+					//split % change out
+					var txt = row["Change_PercentChange"].text().toString();
+					row["PercentChange"]=txt.substring(txt.indexOf(" - ")+2);	
+				    quotes.quote += <quote symbol={row.Symbol.text().toString()}>{row.*}</quote>;
+				}
+				response.object = quotes;
+      ]]></execute>
+		</select>
+	</bindings>
+</table>
