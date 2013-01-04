@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jed Wood</author>
+    <description>Fetch movie and TV show details from Clicker.com, which has no official API.</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>
+      select * from {table} where title='tron legacy'
+    </sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="result.matches" produces="JSON">
+      <urls>
+        <url>http://www.clicker.com/s2</url>
+      </urls>
+      <inputs>
+        <key id="q" as="title" type="xs:string" paramType="query"/>        
+        <key id="max_len" type="xs:string" paramType="query" default="38"/> <!-- the length of the title, NOT the number of results -->
+        <key id="fmt" type="xs:string" paramType="query" const="true" default="2"/>
+        <key id="mediaid" type="xs:string" paramType="query" default="4"/> <!-- override/remove that if you want to also search for TV shows -->
+        <key id="feelingLucky" type="xs:boolean" paramType="variable" default="true" /> <!-- fetch and include the details for the first match -->
+      </inputs>
+      
+      <execute><![CDATA[
+// WAT? I know, it's crazy. Can't figure out how else to keep the final object from being buried in query.results.results
+// Even when setting jsonCompat('new), the YQL engine first converts the json response to XML.
+var asJson = y.xmlToJson(request.contentType('application/json').jsonCompat('new').get().response);
+var retObj = {'matches' : asJson.json.results};
+for (var i=0; i<retObj.matches.length; i++) {
+  //strip out the bold tags and change "value" attribute to "title"
+  retObj.matches[i].title = retObj.matches[i].value.replace(/<\/?b>/gi, '');
+  delete retObj.matches[i].value;
+  if (feelingLucky === "true" && i === 0 && retObj.matches[i].type == "movie") {
+    var watchOptionsQ = y.query('select content from html where url="http://www.clicker.com' + retObj.matches[i].url + '" and xpath=\'//div[@class="watchAtSourceBtn"]/a/span/strong\'');
+    var watchOptions = [];
+    var qResults = y.xmlToJson(XML(watchOptionsQ.results));
+    if (typeof(qResults.results) !== 'undefined') {
+      watchOptions = qResults.results.strong;
+    }
+    retObj.matches[i].watchOptions = watchOptions;
+  }
+}
+response.object = retObj;	  
+      ]]></execute>        
+      
+    </select>
+  </bindings>
+</table>
