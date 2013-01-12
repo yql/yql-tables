@@ -9,6 +9,9 @@
         </description>
         <sampleQuery>
             SELECT * FROM {table} WHERE symbol='GOOG'
+            use "http://raw.github.com/canada4663/yql-tables/master/yahoo/finance/keystats/yahoo.finance.keystats.xml" as keystats; select * from keystats where symbol="goog";
+
+
         </sampleQuery>
     </meta>
     <bindings>
