@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Tom Powers</author>
+    <author>Ryan Hoium</author>
     <description>Yahoo Finance Industry Index - Sector + Industries</description>
     <sampleQuery>select * from {table}</sampleQuery>
     <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL> 
