@@ -44,7 +44,7 @@
                 var content = "test";
                 i++;
                 if(td.p !== undefined){content = td.p}
-                else if (td.span.text !== undefined) {content = td.span}
+                else if (td.span !== undefined) {content = td.span}
                 else (content = "N/A")
                 statsdata.appendChild(<row>{content}</row>);
                 
