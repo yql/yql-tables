@@ -40,6 +40,10 @@ xpath='//table[@class="yfnc_mod_table_title1"]/table[@class="yfnc_datamodoutline
 
 Key Statistics:
 
+github live for yql:
+use "http://raw.github.com/canada4663/yql-tables/master/yahoo/finance/keystats/yahoo.finance.keystats.xml" as keystats; select * from keystats where symbol="goog";
+
+
 raw for development: 
 select * from html where url="http://finance.yahoo.com/q/ks?s=TXN" and xpath='//table[@class="yfnc_datamodoutline1"]/tr/td/table/tr/td[@class="yfnc_tabledata1" or @class="yfnc_tablehead1"]'
    Outputs:

@@ -41,8 +41,12 @@
             var i = 0;
             for each ( var td in keystatsquery )
 			{
+                var content = '';
                 i++;
-                statsdata.appendChild(<row>{i} {td.*.p}</row>);
+                if(td.p !== undefined){content = td.p.text}
+                else if (td.span.text !== undefined) {content = td.span.text}
+                else (content = "N/A")
+                statsdata.appendChild(<row>{i} {content}</row>);
                 
 			}		
 		    }
