@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>robust (antiabuse@mail.ru)</author>
+      <description>The MovieDB v3 API => person's credits</description>
+        <documentationURL>http://docs.themoviedb.apiary.io/#people</documentationURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+        <apiKeyURL></apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>http://api.themoviedb.org/3/person/{id}/credits</url>
+            </urls>
+            <inputs>
+                <key id="id" type="xs:string" paramType="path" required="true" />
+                <key id="api_key" type="xs:string" paramType="query" required="true" />
+                <key id="language" type="xs:string" paramType="query" required="false" />              
+            </inputs>
+            <execute>
+                <![CDATA[
+              response.object = y.rest(request.url).accept('application/json').jsonCompat('new').get().response;
+              
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>

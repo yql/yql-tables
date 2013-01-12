@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jed Wood</author>
+    <description>Simple wrapper for RottenTomatoes.com API (free api key required)</description>
+    <documentationURL>http://developer.rottentomatoes.com/docs/read/json/v10/Movies_Search</documentationURL>
+    <sampleQuery>
+	select * from {table} where title='tron legacy' and apikey='ABC123'
+    </sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="result.movies" produces="JSON">
+      <urls>
+        <url>http://api.rottentomatoes.com/api/public/v1.0/movies.json</url>
+      </urls>
+      <inputs>
+        <key id="apikey" type="xs:string" paramType="query" required="true"/>                
+        <key id="q" as="title" type="xs:string" paramType="query"/>        
+        <key id="page_length" type="xs:string" paramType="query" default="3"/>
+        <key id="page" type="xs:string" paramType="query"/>
+      </inputs>
+      
+      <execute><![CDATA[
+        var rtSearchQ = request.contentType('application/json').jsonCompat('new').get();
+        var asJson = eval('(' + rtSearchQ.response + ');');
+        var retObj = asJson;	        
+	response.object = retObj;	  
+      ]]></execute>        
+      
+    </select>
+  </bindings>
+</table>
