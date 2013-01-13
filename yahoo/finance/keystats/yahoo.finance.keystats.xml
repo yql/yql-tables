@@ -49,7 +49,7 @@
                 content = content.replace(/:/g,"");
                 attr = String(content.match(/\(.*\)/));
                 attr = attr.replace(/[\(\)]/g,"");
-                statsdata.appendChild(<row>{attr}</row>);
+                statsdata.appendChild(<row>{attr} {content}</row>);
                 
 			}		
 		    }
