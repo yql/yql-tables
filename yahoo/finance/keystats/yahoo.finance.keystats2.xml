@@ -26,7 +26,17 @@
             <execute>
                 <![CDATA[
 			
-			// Setup Query to
+		    //UTILITY: trim whitespace		 
+			String.prototype.trim = function ()
+			{
+				var str = this.replace( /^\s\s*/, "" ),
+				ws = /\s/,
+				i = str.length;
+				while ( ws.test( str.charAt( --i ) ) );
+				return str.slice( 0, i + 1 );
+			}
+            
+            // Setup Query to
             var url="http://finance.yahoo.com/q/ks?s=" + symbol;
 			var restquery = y.rest( url );	
 			var rawresult = restquery.accept( "text/html" ).get().response;
@@ -89,15 +99,7 @@
 				return s;
 			}
 			
-            //UTILITY: trim whitespace		 
-			String.prototype.trim = function ()
-			{
-				var str = this.replace( /^\s\s*/, "" ),
-				ws = /\s/,
-				i = str.length;
-				while ( ws.test( str.charAt( --i ) ) );
-				return str.slice( 0, i + 1 );
-			}
+          
 			
             //UTILITY: convert string to INTEGER		 
 			String.prototype.toInt = function ()
