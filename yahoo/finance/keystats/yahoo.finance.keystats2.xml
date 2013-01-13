@@ -82,14 +82,12 @@
 
                 // Process Value Information
                 if (td_value !== undefined){
-                    if (td_value.p !== undefined){
                         value = td_value.p.text().toString();
                         
                         // Catch When it is Span Tag instead of P tag
-                        if( value == null){
+                        if( value.length() < 1){
                             value = td_value.span.text().toString();
                         }
-                    }
                 }
                 //if (td.span.text() !== undefined) {param_name = td.span.text();}
 
