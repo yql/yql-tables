@@ -111,7 +111,7 @@
                 }
 
                 if(attr !== "null"){ statsdata.appendChild(<{param_name} term={attr}> {value} </{param_name}>);}
-                else {  statsdata.appendChild(<param name={param_name}> {value} </param>);}
+                else {  statsdata.appendChild(<{param_name}> {value} </{param_name}>);}
 
 			}		
 		    }
