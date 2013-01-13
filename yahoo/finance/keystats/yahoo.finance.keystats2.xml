@@ -101,7 +101,8 @@
                     value = td_value.span.text().toString();
                 }
 
-                statsdata.appendChild(<param name={param_name} term={attr}> {value} </param>);
+                if(attr){ statsdata.appendChild(<param name={param_name} term={attr}> {value} </param>);}
+                else {  statsdata.appendChild(<param name={param_name}> {value} </param>);}
 
 			}		
 		    }
