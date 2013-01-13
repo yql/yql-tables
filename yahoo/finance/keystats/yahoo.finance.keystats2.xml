@@ -85,19 +85,15 @@
                     if (td_value.p !== undefined){
                         value = td_value.p.text().toString();
                         // Catch When it is Span Tag instead of P tag
-                        if( value == undefined){
+                        if( value == "N/A"){
                             value = td_value.span.text().toString();
                         }
                     }
                 }
                 //if (td.span.text() !== undefined) {param_name = td.span.text();}
 
-                if( attr !== null){
-                    statsdata.appendChild(<param name={param_name} term={attr} i={i}> {value} </param>);
-                }
-                else
-                    statsdata.appendChild(<param name={param_name} i={i}> {value} </param>);
-                }
+                statsdata.appendChild(<param name={param_name} term={attr} i={i}> {value} </param>);
+
 			}		
 		    }
             response.object = statsdata;
@@ -137,170 +133,6 @@
 				return parseInt( str );
 			}
 					 
-			function getOptionsChain()
-			{
-				// Get the Options Chain for the given symbol from the Options page
-				
-				var results = optionsChainQuery;
-						
-				elements = results.*.length();
-				
-				if ( elements == 0 )
-				{
-					return false;
-				}
-				
-				var optionElem;
-				
-				var strikePrice;
-				var optionSymbol;
-				var optionType;
-				var lastPrice;
-				var change;
-				var changeDir;
-				var bid;
-				var ask;
-				var vol;
-				var volStr;
-				var openInt;
-				var openIntStr;
-					
-				var optTypeMatch;
-
-				for each ( var tr in results )
-				{
-					strikePrice = parseFloat( tr.td[0].a.strong.text() );
-					optionSymbol = tr.td[1].a.text();
-					
-					// Check to see what type of option
-					// the current option is
-
-					optTypeMatch = optionSymbol.match( /^[\w]{7,}([P|C])/ );
-
-					if ( optTypeMatch != null )
-					{
-						optionType = optTypeMatch[1];
-					}
-
-					lastPrice = tr.td[2].strong.text();
-					change = tr.td[3].span.strong.text();
-					changeDir = tr.td[3].span.img.@alt.toString();
-					bid = parseFloat( tr.td[4].p.text() );
-					ask = parseFloat( tr.td[5].p.text() );
-					volStr = tr.td[6].p.text();
-					vol = volStr.toInt();
-					openIntStr = tr.td[7].p.text(); 
-					openInt = openIntStr.toInt();
-							
-					if ( changeDir.toLowerCase() == "down" )
-					{
-						change = parseFloat( change ) * -1;
-					}
-					else
-					{
-						change = parseFloat( change );
-					}
-							
-					optionElem = <option symbol={optionSymbol} type={optionType}></option>;
-					optionElem.appendChild(<strikePrice>{strikePrice}</strikePrice>);
-					optionElem.appendChild(<lastPrice>{lastPrice}</lastPrice>);
-					optionElem.appendChild(<change>{change}</change>);
-					optionElem.appendChild(<changeDir>{changeDir}</changeDir>);
-					optionElem.appendChild(<bid>{bid}</bid>);
-					optionElem.appendChild(<ask>{ask}</ask>);
-					optionElem.appendChild(<vol>{vol}</vol>);
-					optionElem.appendChild(<openInt>{openInt}</openInt>);
-					
-					optionsChain.appendChild( optionElem );
-				}
-						
-				return true;
-			}
-
-			function getExpiration()
-			{
-				var results = expiresQuery;
-
-				y.log( "results.length(): " + results.length() );
-			
-				elements = results.*.length();
-						
-				if ( elements == 0 )
-				{
-					y.log( "no elements" );
-					return "";
-				}
-
-				var dateRegEx = /.*([\d]{2})\,\s+?[\d]{4}/g;
-
-				var dateRes = dateRegEx.exec( results[0] );
-				
-				var dd;
-
-				if ( dateRes != null &&
-					dateRes[ 1 ] != null )
-				{
-					dd = dateRes[ 1 ];
-				}
-
-				return dd;
-			}
-
-function EXCLUDE(){					 
-			// Queue the query
-			 
-			var optionsChainURL = "http://finance.yahoo.com/q/op?s=" + symbol;
-			var queryHasExpiration = false;
-
-			if ( expiration != null )
-			{
-				var expPattern = /^[\d]{4}\-[\d]{2}$/;
-				
-				if ( expPattern.test( expiration ) )
-				{
-					optionsChainURL += "&m=" + expiration;
-					queryHasExpiration = true;
-				}
-			}
-
-			var yQuery = y.rest( optionsChainURL );	
-			var data = yQuery.accept( "text/html" ).get().response;
-			
-			var optionsChainQuery = y.xpath(
-							data, 
-							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
-							"@class='yfnc_tabledata1']]"
-			);
-			
-			var expiresQuery = y.xpath( 
-				data,
-				"//table[@class='yfnc_mod_table_title1']/tr/td[last()]/p"
-			);
-
-			var expiryDay = getExpiration();
-					
-			var optionsChain;
- 			var expDate = expiration;
-
-			if ( queryHasExpiration == true )
-			{
-				if ( expiryDay != null && 
-					expiryDay != "" )
-				{
-					expDate += "-" + expiryDay;
-				}
-
-				optionsChain = <optionsChain symbol={symbol} expiration={expDate}></optionsChain>;
-			}
-			else
-			{
-				optionsChain = <optionsChain symbol={symbol}></optionsChain>;
-			}
-
-			getOptionsChain();
-					
-			response.object = optionsChain;
-}
 					 
 		]]>
             </execute>
