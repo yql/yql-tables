@@ -56,7 +56,7 @@
                     param_name = String(param_name.replace(/:/g,""));
                     attr = String(param_name.match(/\(.*\)/));
                     attr = attr.replace(/[\(\)]/g,"");
-                    param_name = param_name.replace(/\(.*\)/g,"");
+                    param_name = param_name.replace(/\(.*\)/g,"").trim();
                     statsdata.appendChild(<param_name>{param_name} {attr}</param_name>);
                 }
                 }
