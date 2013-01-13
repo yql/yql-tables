@@ -99,7 +99,7 @@
                 param_name = String(param_name.replace(/\&/g,""));
                 param_name = String(param_name.replace(/\//g,""));
                 param_name = String(param_name.replace(/\%/g,"Percentage"));
-                param_name = String(param_name.replace(/-/g,"_"));
+                //param_name = String(param_name.replace(/-/g,"_"));
                 param_name = param_name.trim();
 
                 // Process Value Information
@@ -109,7 +109,7 @@
                     value = td_value.span.text().toString();
                 }
 
-                if(attr !== "null"){ statsdata.appendChild(<P{param_name} term={attr}> {value} </P{param_name}>);}
+                if(attr !== "null"){ statsdata.appendChild(<-{param_name} term={attr}> {value} </-{param_name}>);}
                 else {  statsdata.appendChild(<param name={param_name}> {value} </param>);}
 
 			}		
