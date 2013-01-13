@@ -50,6 +50,7 @@
                 var value = "N/A"
                 
                 // Process Parameter Name and any Associated Attributes (Timeframe, Stock Split Info)
+                if (td_param_name !== undefined){
                 if (td_param_name.p !== undefined){
                     param_name = td_param_name.p.text().toString();
                     param_name = String(param_name.replace(/:/g,""));
@@ -58,11 +59,14 @@
                     attr = attr.replace(/[\(\)]/g,"");
                     statsdata.appendChild(<param_name>{param_name} {attr}</param_name>);
                 }
+                }
 
                 // Process Value Information
+                if (td_value !== undefined){
                 if (td_value.p !== undefined){
                     value = td_value.p.text().toString();
                     statsdata.appendChild(<value>{value}</value>);
+                }
                 }
                 //if (td.span.text() !== undefined) {param_name = td.span.text();}
 			}		
