@@ -98,6 +98,8 @@
                 param_name = String(param_name.replace(/\s/g,""));
                 param_name = String(param_name.replace(/\&/g,""));
                 param_name = String(param_name.replace(/\//g,""));
+                param_name = String(param_name.replace(/\%/g,"Percentage"));
+                param_name = String(param_name.replace(/-/g,"_"));
                 param_name = param_name.trim();
 
                 // Process Value Information
