@@ -83,6 +83,9 @@
                 // Setup to Process Two 'td' Elements at a Time - Name and Value Pairs
                 var td_param_name = keystatsquery[i];
                 var td_value = keystatsquery[i+1];
+                var param_name = "";
+                var attr = "";
+                var value = "";
                 i = i + 2;
                 
                 // Process Parameter Name and any Associated Attributes (Timeframe, Stock Split Info)
