@@ -68,9 +68,10 @@
                     attr = String(param_name.match(/\(.*\)/));
                     attr = String(attr.trim());
                     attr = attr.replace(/[\(\)]/g,"");
-                    param_name = param_name.replace(/\(.*\)/g,"");
-                    statsdata.appendChild(<param_name>{param_name}</param_name>);
-                    statsdata.appendChild(<attr>{attr}</attr>);
+                    param_name = String(param_name.replace(/\(.*\)/g,""));
+                    param_name = param_name.replace(/\s/g,"");
+//                    statsdata.appendChild(<param_name>{param_name}</param_name>);
+//                    statsdata.appendChild(<attr>{attr}</attr>);
                 }
                 }
 
@@ -82,10 +83,14 @@
                     if( value == "N/A"){
                         value = td_value.span.text().toString();
                     }
-                    statsdata.appendChild(<value>{value}</value>);
+//                    statsdata.appendChild(<value>{value}</value>);
+
                 }
                 }
                 //if (td.span.text() !== undefined) {param_name = td.span.text();}
+
+                statsdata.appendChild(<{param_name}> <attr>{attr}</attr> <value>{value}</value> </param_name>);
+
 			}		
 		    }
             response.object = statsdata;
