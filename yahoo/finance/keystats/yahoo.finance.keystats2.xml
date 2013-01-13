@@ -76,24 +76,19 @@
                     attr = String(attr.trim());
                     attr = attr.replace(/[\(\)]/g,"");
                     param_name = String(param_name.replace(/\(.*\)/g,""));
-                    param_name = param_name.replace(/\s]/g,"");
-                    //param_name = param_name.CleanInvalidXmlChars();
-//                    statsdata.appendChild(<param_name>{param_name}</param_name>);
-//                    statsdata.appendChild(<attr>{attr}</attr>);
+                    param_name = param_name.trim();
                 }
                 }
 
                 // Process Value Information
                 if (td_value !== undefined){
-                if (td_value.p !== undefined){
-                    value = td_value.p.text().toString();
-                    // Catch When it is Span Tag instead of P tag
-                    if( value == "N/A"){
-                        value = td_value.span.text().toString();
+                    if (td_value.p !== undefined){
+                        value = td_value.p.text().toString();
+                        // Catch When it is Span Tag instead of P tag
+                        if( value == "N/A"){
+                            value = td_value.span.text().toString();
+                        }
                     }
-//                  statsdata.appendChild(<value>{value}</value>);
-
-                }
                 }
                 //if (td.span.text() !== undefined) {param_name = td.span.text();}
 
