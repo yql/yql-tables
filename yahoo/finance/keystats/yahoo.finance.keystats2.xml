@@ -54,9 +54,10 @@
                 if (td_param_name.p !== undefined){
                     param_name = td_param_name.p.text().toString();
                     param_name = String(param_name.replace(/:/g,""));
+                    param_name = String(param_name.trim());
                     attr = String(param_name.match(/\(.*\)/));
                     attr = attr.replace(/[\(\)]/g,"");
-                    param_name = param_name.replace(/\(.*\)/g,"").trim();
+                    param_name = param_name.replace(/\(.*\)/g,"");
                     statsdata.appendChild(<param_name>{param_name} {attr}</param_name>);
                 }
                 }
