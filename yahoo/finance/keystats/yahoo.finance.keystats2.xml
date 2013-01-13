@@ -92,7 +92,7 @@
                 }
                 //if (td.span.text() !== undefined) {param_name = td.span.text();}
 
-                statsdata.appendChild(<param name={param_name} attr={attr}> {value} </param>);
+                statsdata.appendChild(<param name={param_name} term={attr}> {value} </param>);
 
 			}		
 		    }
