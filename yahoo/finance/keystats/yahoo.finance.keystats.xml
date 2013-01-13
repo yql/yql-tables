@@ -39,32 +39,19 @@
 			if ( keystatsquery.*.length() != 0 )
 			{
             var i = 0;
-            while ( i < keystatsquery.*.length()) 
+            for each ( var td in keystatsquery )
 			{
-                // Setup to Process Two 'td' Elements at a Time - Name and Value Pairs
-                var td_param_name = keystatsquery[i];
-                var td_value = keystatsquery[i+1];
-                i = i + 2;
-                var param_name = "N/A";
+                var content = "N/A";
                 var attr = "N/A"
-                var value = "N/A"
+                i++;
+                if (td.p !== undefined){content = td.p.text().toString();}
+                //if (td.span.text() !== undefined) {content = td.span.text();}
+                content = String(content.replace(/:/g,""));
+                content = content.replace(/\(.*\)/g,"");
+                attr = String(content.match(/\(.*\)/));
+                attr = attr.replace(/[\(\)]/g,"");
+                statsdata.appendChild(<row>{attr} {content}</row>);
                 
-                // Process Parameter Name and any Associated Attributes (Timeframe, Stock Split Info)
-                if (td_param_name.p !== undefined){
-                    param_name = td_param_name.p.text().toString();
-                    param_name = String(param_name.replace(/:/g,""));
-                    param_name = param_name.replace(/\(.*\)/g,"");
-                    attr = String(param_name.match(/\(.*\)/));
-                    attr = attr.replace(/[\(\)]/g,"");
-                    statsdata.appendChild(<param_name>{param_name} {attr}</param_name>);
-                }
-
-                // Process Value Information
-                if (td_value.p !==undefined){
-                    value = td_value.p.text().toString();
-                    statsdata.appendChild(<value>{value}</value>);
-                }
-                //if (td.span.text() !== undefined) {param_name = td.span.text();}
 			}		
 		    }
             response.object = statsdata;
