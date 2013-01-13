@@ -86,7 +86,7 @@
                         value = td_value.p.text().toString();
                         
                         // Catch When it is Span Tag instead of P tag
-                        if( i == 2){
+                        if( value == null){
                             value = td_value.span.text().toString();
                         }
                     }
