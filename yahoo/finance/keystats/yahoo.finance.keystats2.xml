@@ -88,7 +88,6 @@
                 // Process Parameter Name and any Associated Attributes (Timeframe, Stock Split Info)
                 param_name = td_param_name.p.text().toString();
                 param_name = String(param_name.replace(/:/g,""));
-                param_name = String(param_name.trim());
                 attr = String(param_name.match(/\(.*\)/));
                 attr = String(attr.trim());
                 attr = attr.replace(/[\(\)]/g,"");
