@@ -86,7 +86,7 @@
                         value = td_value.p.text().toString();
                         
                         // Catch When it is Span Tag instead of P tag
-                        if( typeof value == string){
+                        if( typeof value !== '[object String]'){
                             value = td_value.span.text().toString();
                         }
                     }
