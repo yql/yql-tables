@@ -92,8 +92,12 @@
                 }
                 //if (td.span.text() !== undefined) {param_name = td.span.text();}
 
-                statsdata.appendChild(<param name={param_name} term={attr} i={i}> {value} </param>);
-
+                if( attr !== null){
+                    statsdata.appendChild(<param name={param_name} term={attr} i={i}> {value} </param>);
+                }
+                else
+                    statsdata.appendChild(<param name={param_name} i={i}> {value} </param>);
+                }
 			}		
 		    }
             response.object = statsdata;
