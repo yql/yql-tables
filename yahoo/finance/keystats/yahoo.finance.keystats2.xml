@@ -63,8 +63,8 @@
                 var td_value = keystatsquery[i+1];
                 i = i + 2;
                 var param_name = "N/A";
-                var attr = "N/A"
-                var value = "N/A"
+                var attr = "N/A";
+                var value = null;
                 
                 // Process Parameter Name and any Associated Attributes (Timeframe, Stock Split Info)
                 if (td_param_name !== undefined){
@@ -86,7 +86,7 @@
                         value = td_value.p.text().toString();
                         
                         // Catch When it is Span Tag instead of P tag
-                        if( typeof value !== '[object String]'){
+                        if( value == null){
                             value = td_value.span.text().toString();
                         }
                     }
