@@ -110,9 +110,9 @@
                 if( value == false){
                     value = td_value.span.text().toString();
                 }
-                if(value.match(/[Bb]$/){ value = value.replace(/[Bb]$/,""); value = value * 1000000000;}
-                else if(value.match(/[Mm]$/){ value = value.replace(/[Mm]$/,""); value = value * 1000000;}
-                else if(value.match(/[Kk]$/){ value = value.replace(/[Kk]$/,""); value = value * 1000;}
+                if(value.match(/[Bb]$/)){ value = value.replace(/[Bb]$/,""); value = value * 1000000000;}
+                else if(value.match(/[Mm]$/)){ value = value.replace(/[Mm]$/,""); value = value * 1000000;}
+                else if(value.match(/[Kk]$/)){ value = value.replace(/[Kk]$/,""); value = value * 1000;}
 
                 if(attr !== "null"){ statsdata.appendChild(<{param_name} term={attr}> {value} </{param_name}>);}
                 else {  statsdata.appendChild(<{param_name}> {value} </{param_name}>);}
