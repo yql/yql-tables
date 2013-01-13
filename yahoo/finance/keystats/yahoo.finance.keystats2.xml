@@ -8,10 +8,7 @@
             Yahoo Finance - Key Statistics by Stock Symbol
         </description>
         <sampleQuery>
-            SELECT * FROM {table} WHERE symbol='GOOG'
-            use "http://raw.github.com/canada4663/yql-tables/master/yahoo/finance/keystats/yahoo.finance.keystats.xml" as keystats; select * from keystats where symbol="goog";
-
-
+            SELECT * FROM {table} WHERE symbol='T'
         </sampleQuery>
     </meta>
     <bindings>
@@ -65,7 +62,7 @@
 				return str.slice( 0, i + 1 );
 			}
             
-            // Setup Query to
+            // Setup Query from finance.yahoo.com
             var url="http://finance.yahoo.com/q/ks?s=" + symbol;
 			var restquery = y.rest( url );	
 			var rawresult = restquery.accept( "text/html" ).get().response;
@@ -74,6 +71,9 @@
                                     "//table[@class='yfnc_datamodoutline1']/tr/td/table/tr" +
                                     "/td[@class='yfnc_tabledata1' or @class='yfnc_tablehead1']"
                                 );	
+
+
+            // Process Results
             var statsdata = <stats symbol={symbol}></stats>;
 			if ( keystatsquery.*.length() != 0 )
 			{
@@ -110,15 +110,18 @@
                 if( value == false){
                     value = td_value.span.text().toString();
                 }
+                //Replace B, M, K with Proper Trailing Zeroes/Decimal Handling
                 if(value.match(/[Bb]$/)){ value = value.replace(/[Bb]$/,""); value = value * 1000000000;}
                 else if(value.match(/[Mm]$/)){ value = value.replace(/[Mm]$/,""); value = value * 1000000;}
                 else if(value.match(/[Kk]$/)){ value = value.replace(/[Kk]$/,""); value = value * 1000;}
 
+                // Append Value Pair to XML Structure
                 if(attr !== "null"){ statsdata.appendChild(<{param_name} term={attr}> {value} </{param_name}>);}
                 else {  statsdata.appendChild(<{param_name}> {value} </{param_name}>);}
 
 			}		
 		    }
+            // Return statsdata strucuture
             response.object = statsdata;
 
 
