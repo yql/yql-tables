@@ -69,7 +69,7 @@
                     attr = String(attr.trim());
                     attr = attr.replace(/[\(\)]/g,"");
                     param_name = String(param_name.replace(/\(.*\)/g,""));
-                    param_name = param_name.replace(/[\\\s]/g,"");
+                    param_name = param_name.replace(/[\\\/\s]/g,"");
 //                    statsdata.appendChild(<param_name>{param_name}</param_name>);
 //                    statsdata.appendChild(<attr>{attr}</attr>);
                 }
