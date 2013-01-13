@@ -48,7 +48,7 @@
                 //if (td.span.text() !== undefined) {content = td.span.text();}
                 content = content.replace(/:/g,"");
                 attr = String(content.match(/\(.*\)/));
-                attr = attr.replace(/]\(\)]/g,"");
+                attr = attr.replace(/[\(\)]/g,"");
                 statsdata.appendChild(<row>{attr}</row>);
                 
 			}		
