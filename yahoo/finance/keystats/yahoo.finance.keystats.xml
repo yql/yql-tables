@@ -41,13 +41,14 @@
             var i = 0;
             for each ( var td in keystatsquery )
 			{
-                var content = "test";
+                var content = "N/A";
+                var timeframe = "N/A"
                 i++;
                 if (td.p !== undefined){content = td.p.text().toString();}
                 //if (td.span.text() !== undefined) {content = td.span.text();}
                 content = content.replace(/:/g,"");
-                content = content.match(/\((.*)\)/);
-                statsdata.appendChild(<row>{content}</row>);
+                timeframe = content.match(/\((.*)\)/);
+                statsdata.appendChild(<row>{timeframe}</row>);
                 
 			}		
 		    }
