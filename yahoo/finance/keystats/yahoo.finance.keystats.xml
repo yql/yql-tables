@@ -43,8 +43,9 @@
 			{
                 var content = "test";
                 i++;
-                if (td.p !== undefined){content = td.p.text().replace(/:/g, '');}
+                if (td.p !== undefined){content = td.p.text();}
                 //if (td.span.text() !== undefined) {content = td.span.text();}
+                content = content.replace(/:/g,"");
                 statsdata.appendChild(<row>{content}</row>);
                 
 			}		
