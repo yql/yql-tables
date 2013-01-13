@@ -56,7 +56,7 @@
 			if ( keystatsquery.*.length() != 0 )
 			{
             var i = 0;
-            while ( i < keystatsquery.*.length()) 
+            while ( i < keystatsquery.length()) 
 			{
                 // Setup to Process Two 'td' Elements at a Time - Name and Value Pairs
                 var td_param_name = keystatsquery[i];
