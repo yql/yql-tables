@@ -40,7 +40,7 @@
             String.prototype.CleanInvalidXmlChars = function ()
             {
                 var re = "[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD\x10000-x10FFFF]";
-                return this.Replace(this, re, "");
+                return this.replace(this, re, "");
             }
             
             // Setup Query to
