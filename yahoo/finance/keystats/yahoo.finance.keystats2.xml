@@ -37,13 +37,13 @@
 			}
             
             //UTILITY: clean xml invalid characters
-            public static string CleanInvalidXmlChars( this string text)
+            String.prototype.CleanInvalidXmlChars = function ()
             {
                 // From xml spec valid chars:
                 // #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]    
                 // any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
                 string re = @"[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD\x10000-x10FFFF]";
-                return Regex.Replace(text, re, "");
+                return Regex.Replace(this, re, "");
             }
             
             // Setup Query to
@@ -80,7 +80,7 @@
                     attr = attr.replace(/[\(\)]/g,"");
                     param_name = String(param_name.replace(/\(.*\)/g,""));
                     param_name = param_name.replace(/\s]/g,"");
-                    param_name = CleanInvalidXmlChars(param_name);
+                    param_name = param_name.CleanInvalidXmlChars();
 //                    statsdata.appendChild(<param_name>{param_name}</param_name>);
 //                    statsdata.appendChild(<attr>{attr}</attr>);
                 }
