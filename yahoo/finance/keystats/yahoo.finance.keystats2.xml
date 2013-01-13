@@ -25,7 +25,36 @@
             </inputs>
             <execute>
                 <![CDATA[
+		    //UTILITY: pad string with leading char		
+			String.prototype.pad = function ( padchar, padlen )
+			{
+				s = this
+				
+				while (s.length < padlen)
+				{
+					s = padchar + s;
+				}
+						
+				return s;
+			}
 			
+            //UTILITY: convert string to INTEGER		 
+			String.prototype.toInt = function ()
+			{
+				// remove leading 0's because otherwise 
+				// str can be interpreted as Octal
+				var str = this.replace( /^0+/, '' );
+
+				// also the thousands comma was cousing trouble
+				str = str.trim()
+                str = str.replace( /\,/g, '' );
+
+                // replace M with 6 ZEROs, B with 9 ZEROs (UPDATE THIS - ACCOUNT FOR DECIMAL!!
+                //str = str.replace(/M/g,'000000');
+                //str = str.replace(/B/g,'000000000');
+
+				return parseInt( str );
+			}	
 		    //UTILITY: trim whitespace		 
 			String.prototype.trim = function ()
 			{
@@ -35,13 +64,6 @@
 				while ( ws.test( str.charAt( --i ) ) );
 				return str.slice( 0, i + 1 );
 			}
-            
-            //UTILITY: clean xml invalid characters
-            String.prototype.CleanInvalidXmlChars = function ()
-            {
-                var re = "/[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD\x10000-x10FFFF]/";
-                return this.replace(this, re, "");
-            }
             
             // Setup Query to
             var url="http://finance.yahoo.com/q/ks?s=" + symbol;
@@ -88,38 +110,7 @@
 
 
 	
-			//UTILITY: pad string with leading char		
-			String.prototype.pad = function ( padchar, padlen )
-			{
-				s = this
-				
-				while (s.length < padlen)
-				{
-					s = padchar + s;
-				}
-						
-				return s;
-			}
-			
-          
-			
-            //UTILITY: convert string to INTEGER		 
-			String.prototype.toInt = function ()
-			{
-				// remove leading 0's because otherwise 
-				// str can be interpreted as Octal
-				var str = this.replace( /^0+/, '' );
 
-				// also the thousands comma was cousing trouble
-				str = str.trim()
-                str = str.replace( /\,/g, '' );
-
-                // replace M with 6 ZEROs, B with 9 ZEROs (UPDATE THIS - ACCOUNT FOR DECIMAL!!
-                //str = str.replace(/M/g,'000000');
-                //str = str.replace(/B/g,'000000000');
-
-				return parseInt( str );
-			}
 					 
 					 
 		]]>
