@@ -75,7 +75,7 @@
 			var query = y.xpath( rawresult, "//table[@class='yfnc_tabledata1']/tr/td/table/tr");	
 
             // Process Results
-            var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></stats>;
+            var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></{reporttype}>;
 			if ( query.*.length() !== 0 )
 			{
                 var y = 0; var x = 0;
