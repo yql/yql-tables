@@ -77,8 +77,8 @@
 
 
             // Process Results
-            var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></stats>;
-			if ( query.*.length() != 0 )
+            //var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></stats>;
+			if ( query.*.length() !== 0 )
 			{
                 var y = 0; var x = 0;
                 var numcolumns = 0;
