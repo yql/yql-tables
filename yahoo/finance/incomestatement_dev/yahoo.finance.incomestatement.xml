@@ -85,7 +85,7 @@
                 // Read Column Headings
                 for each ( var column in query[0])
                 {
-                    data_array[x][0] = column.*.text().toString();
+                    data_array[x][0] = column.text().toString();
                     x++;
                 }
                 numcolumns = x;
