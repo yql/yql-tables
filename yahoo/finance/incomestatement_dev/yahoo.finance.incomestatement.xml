@@ -101,52 +101,14 @@
                 
                 var row = query[y];
                 x = 0;
+                // read each column in row
                 for each (var column in row){
                     data_array[x][y] = column.*.text().toString();
+                    //TODO: cycle through rows, load into 2D matrix
+                    //TODO: transpose into financial statement's by time period
+                    outputdata.appendChild(<row>{data_array[x][y]}</row>); 
                 }
-
-                // Setup to Process Two 'td' Elements at a Time - Name and Value Pairs
-                
-
-                var td_param_name = query[i];
-                var td_value = query[i+1];
-                var param_name = "";
-                var attr = "";
-                var value = "";
-                i = i + 2;
-                
-                // Process Parameter Name and any Associated Attributes (Timeframe, Stock Split Info)
-                param_name = td_param_name.p.text().toString();
-                param_name = String(param_name.replace(/:/g,""));
-                attr = String(param_name.match(/\(.*\)/));
-                attr = String(attr.trim());
-                attr = attr.replace(/[\(\)]/g,"");
-                param_name = String(param_name.replace(/\(.*\)/g,""));
-                param_name = String(param_name.replace(/\s/g,""));
-                param_name = String(param_name.replace(/\&/g,""));
-                param_name = String(param_name.replace(/\//g,""));
-                param_name = String(param_name.replace(/\%/g,"Percentage"));
-                param_name = String(param_name.replace(/-/g,"_"));
-                if(param_name.match(/^\d/)){ param_name = String("p_" + param_name);}
-                param_name = param_name.trim();
-
-                // Process Value Information
-                value = td_value.p.text().toString();
-                // Catch When it is Span Tag instead of P tag
-                if( value == false){
-                    value = td_value.span.text().toString();
-                }
-                //Replace B, M, K with Proper Trailing Zeroes/Decimal Handling
-                if(value.match(/[Bb]$/)){ value = value.replace(/[Bb]$/,""); value = value * 1000000000;}
-                else if(value.match(/[Mm]$/)){ value = value.replace(/[Mm]$/,""); value = value * 1000000;}
-                else if(value.match(/[Kk]$/)){ value = value.replace(/[Kk]$/,""); value = value * 1000;}
-
-                // Append Value Pair to XML Structure
-                if(attr !== "null"){ outputdata.appendChild(<{param_name} term={attr}> {value} </{param_name}>);}
-                else {  outputdata.appendChild(<{param_name}> {value} </{param_name}>);}
-
-			}		
-		    }
+            }
             // Return statsdata strucuture
             response.object = outputdata;
 
