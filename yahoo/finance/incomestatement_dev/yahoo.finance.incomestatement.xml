@@ -80,7 +80,7 @@
 			{
                 var y = 0; var x = 0;
                 var numcolumns = 0;
-                var data_array[][];
+                var data_array;
             
                 // Read Column Headings
                 for each ( var column in query[0])
