@@ -5,7 +5,7 @@
             Ryan Hoium
         </author>
         <description>
-            Yahoo Finance - Key Statistics by Stock Symbol
+            Yahoo Finance - Income Statement
         </description>
         <sampleQuery>
             SELECT * FROM {table} WHERE symbol='T'
@@ -19,9 +19,11 @@
             </urls>
             <inputs>
             	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+            	<key id="reporttype" type="xs:string" paramType="variable" default={table} required="optional" />
+            	<key id="timeframe" type="xs:string" paramType="variable" default="quarterly" required="optional" />
             </inputs>
             <execute>
-                <![CDATA[
+            <![CDATA[
 		    //UTILITY: pad string with leading char		
 			String.prototype.pad = function ( padchar, padlen )
 			{
@@ -63,27 +65,51 @@
 			}
             
             // Setup Query from finance.yahoo.com
-            var url="http://finance.yahoo.com/q/ks?s=" + symbol;
+            var reporttype_code = "";
+            if(reporttype == "incomestatement"){reporttype_code = "is";}
+            else if(reporttype == "balancesheet"){reporttype_code = "bs";}
+            else if(reporttype == "cashflow"){reporttype_code = "cf";}
+            var url="http://finance.yahoo.com/q/"+ reporttype_code + "?s=" + symbol + "&" + timeframe;
 			var restquery = y.rest( url );	
 			var rawresult = restquery.accept( "text/html" ).get().response;
-			var keystatsquery = y.xpath(
+			var query = y.xpath(
                                     rawresult,
-                                    "//table[@class='yfnc_datamodoutline1']/tr/td/table/tr" +
-                                    "/td[@class='yfnc_tabledata1' or @class='yfnc_tablehead1']"
+                                    "//table[@class="yfnc_tabledata1"]/tr/td/table/tr"
                                 );	
 
 
             // Process Results
-            var statsdata = <stats symbol={symbol}></stats>;
-			if ( keystatsquery.*.length() != 0 )
+            var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></stats>;
+			if ( query.*.length() != 0 )
 			{
 
-            var i = 0;
-            while ( i < keystatsquery.length()) 
+            var y = 0; var x = 0;
+            var numcolumns = 0;
+            var data_array = '';
+            
+            // Read Column Headings
+            for each ( var column in query[0]){
+                data_array[x][0] = column.*.text().toString();
+                x++;
+            }
+            numcolumns = x;
+
+            // Read Rows
+            y = 1;            
+            while ( y < query.length()) 
 			{
+                
+                var row = query[y];
+                x = 0;
+                for each (var column in row){
+                    data_array[x][y] = column.*.text().toString();
+                }
+
                 // Setup to Process Two 'td' Elements at a Time - Name and Value Pairs
-                var td_param_name = keystatsquery[i];
-                var td_value = keystatsquery[i+1];
+                
+
+                var td_param_name = query[i];
+                var td_value = query[i+1];
                 var param_name = "";
                 var attr = "";
                 var value = "";
@@ -116,13 +142,13 @@
                 else if(value.match(/[Kk]$/)){ value = value.replace(/[Kk]$/,""); value = value * 1000;}
 
                 // Append Value Pair to XML Structure
-                if(attr !== "null"){ statsdata.appendChild(<{param_name} term={attr}> {value} </{param_name}>);}
-                else {  statsdata.appendChild(<{param_name}> {value} </{param_name}>);}
+                if(attr !== "null"){ outputdata.appendChild(<{param_name} term={attr}> {value} </{param_name}>);}
+                else {  outputdata.appendChild(<{param_name}> {value} </{param_name}>);}
 
 			}		
 		    }
             // Return statsdata strucuture
-            response.object = statsdata;
+            response.object = outputdata;
 
 
 	
