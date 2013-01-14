@@ -69,7 +69,7 @@
             if(reporttype == "incomestatement"){reporttype_code = "is";}
             else if(reporttype == "balancesheet"){reporttype_code = "bs";}
             else if(reporttype == "cashflow"){reporttype_code = "cf";}
-            var url="http://finance.yahoo.com/q/"+ reporttype_code + "?s=" + symbol + "&" + timeframe;
+            var url="http://finance.yahoo.com/q/"+ reporttype + "?s=" + symbol + "&" + timeframe;
 			var restquery = y.rest( url );	
 			var rawresult = restquery.accept( "text/html" ).get().response;
 			var query = y.xpath( rawresult, "//table[@class='yfnc_tabledata1']/tr/td/table/tr");	
