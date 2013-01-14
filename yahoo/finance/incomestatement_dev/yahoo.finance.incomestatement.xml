@@ -19,7 +19,7 @@
             </urls>
             <inputs>
             	<key id="symbol" type="xs:string" paramType="variable" required="true" />
-            	<key id="reporttype" type="xs:string" paramType="variable" default="{table}" required="false" />
+            	<key id="reporttype" type="xs:string" paramType="variable" default={table} required="false" />
             	<key id="timeframe" type="xs:string" paramType="variable" default="quarterly" required="false" />
             </inputs>
             <execute>
