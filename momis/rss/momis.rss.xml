@@ -8,7 +8,7 @@
         <apiKeyURL></apiKeyURL>
     </meta>
     <bindings>
-        <select itemPath="feed.entry" produces="XML">
+        <select itemPath="" produces="XML">
             <urls>
                 <url>http://momisbtt.blogspot.com/feeds/posts/default</url>
             </urls>
