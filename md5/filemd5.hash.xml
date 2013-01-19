@@ -2,14 +2,14 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any" https="false">
   <meta>
     <author>John Tregoning</author>
-    <documentationURL>http://www.filemd5.net/api</documentationURL>
+    <documentationURL>http://md5.jt.io/api</documentationURL>
     <description>Returns the MD5 hash/checksum of any file online</description>
     <sampleQuery>SELECT * FROM {table} WHERE url="http://www.yahoo.com/favicon.ico"</sampleQuery>
   </meta>
   <bindings>
     <select produces="XML">
       <urls>
-        <url env="all">http://api.filemd5.net/{version}/hash</url>
+        <url env="all">http://md5.jt.io/{version}/hash</url>
       </urls>
       <inputs>
 	<key id="url" type="xs:string" paramType="query" required="true" batchable="false" />
