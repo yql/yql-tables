@@ -1,33 +1,82 @@
-This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-<meta>
-<author>Alan Verga</author>
-<description>Yahoo Finance Quotes - Options Contract Months</description>
-<sampleQuery>SELECT * FROM {table} WHERE symbol='YHOO'</sampleQuery>
-</meta>
-  <diagnostics>  
-     <publiclyCallable>true</publiclyCallable>  
-     <cache execution-start-time="89" execution-stop-time="90" execution-time="1" method="PUT" type="MEMCACHED"><![CDATA[debug:1492ed2c-d3ba-4376-a731-1382bcdd41e6]]>  
-     </cache>  
-    <url execution-start-time="1" execution-stop-time="90" execution-time="89" id="1492ed2c-d3ba-4376-a731-1382bcdd41e6"><![CDATA[http://where.yahooapis.com/v1/places.q(sunnyvale);start=0;count=10]]>  
-    </url>  
-    <user-time>91</user-time>  
-    <service-time>90</service-time>  
-    <build-version>30549</build-version>  
-  </diagnostics> 
-<bindings>
-<select itemPath="" produces="XML">
-<urls>
-<url></url>
-</urls>
-<inputs>
-<key id="symbol" type="xs:string" paramType="variable" required="true"/>
-</inputs>
-<execute>
-<![CDATA[
-function getContracts() { var results = optionsPath; elements = results.*.length(); if ( elements == 0 ) { return false; } var yearRegEx = /\d{4}/; var monthRegEx = /\-\d{2}/; for each ( var a in results ) { //grab the link w/ href containing date var contract = a.@href.text(); //YYYY-MM format var result = yearRegEx.exec(contract) + monthRegEx.exec(contract); var contractElem = <contract>{result}</contract>; //maintain sorted ordering by date if (a == results[results.length()-1]) { contractList.prependChild( contractElem ); } else { contractList.appendChild( contractElem ); } }	 return true; } //build the query string var StockquoteURL = "http://finance.yahoo.com/q/op?s=" + symbol; //get thy results var yQuery = y.rest( StockquoteURL );	 var data = yQuery.accept( "text/html" ).get().response; //grab the appropriate path var optionsPath = y.xpath(data, "//table[@id='yfncsumtab']/tr/td/table/tr/td/p/a"); var contractList = <option symbol={symbol}></option>; getContracts(); response.object = contractList;
-]]>
-</execute>
-</select>
-</bindings>
+  <meta>
+    <author>
+      Alan Verga
+    </author>
+    <description>
+      Yahoo Finance Quotes - Options Contract Months
+    </description>
+    <sampleQuery>
+      SELECT * FROM {table} WHERE symbol='YHOO'
+    </sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+	<url>
+	</url>
+      </urls>
+      <inputs>
+	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+      </inputs>
+      <execute>
+	<![CDATA[
+	
+	    function getContracts()
+	    {
+		var results = optionsPath;
+
+		elements = results.*.length();
+
+		if ( elements == 0 )
+		{
+		    return false;
+		}
+
+		var yearRegEx = /\d{4}/;
+		var monthRegEx = /\-\d{2}/;
+
+		for each ( var a in results )
+		{
+		    //grab the link w/ href containing date
+		    var contract = a.@href.text();
+
+		    //YYYY-MM format
+		    var result = yearRegEx.exec(contract) + monthRegEx.exec(contract);
+
+		    var contractElem = <contract>{result}</contract>;
+
+		    //maintain sorted ordering by date
+		    if (a == results[results.length()-1]) {
+			contractList.prependChild( contractElem );
+		    }
+		    else {
+			contractList.appendChild( contractElem );
+		    }
+
+		}	    
+		return true;
+	    }
+
+
+	    //build the query string
+	    var StockquoteURL = "http://finance.yahoo.com/q/op?s=" + symbol;
+
+	    //get thy results
+	    var yQuery = y.rest( StockquoteURL );	
+	    var data = yQuery.accept( "text/html" ).get().response;
+
+	    //grab the appropriate path
+	    var optionsPath = y.xpath(data, "//table[@id='yfncsumtab']/tr/td/table/tr/td/p/a");
+
+	    var contractList = <option symbol={symbol}></option>;
+
+	    getContracts();
+
+	    response.object = contractList;
+	]]>
+      </execute>
+    </select>
+  </bindings>
 </table>
