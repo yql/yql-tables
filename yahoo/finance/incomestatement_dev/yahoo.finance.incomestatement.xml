@@ -5,7 +5,7 @@
             Ryan Hoium
         </author>
         <description>
-            Yahoo Finance - Income Statement
+            Yahoo Finance - Income Statement v0.1
         </description>
         <sampleQuery>
             SELECT * FROM {table} WHERE symbol='T'
