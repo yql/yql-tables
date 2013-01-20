@@ -106,8 +106,8 @@
                             if("spacer" in column)
                             {}
                             else{
-                            //data_array[x][y] = column.*.text().toString();
-                            outputdata.appendChild(<row>{column.*.text()}</row>); 
+                            data_array[x][y] = column.*.text().toString();
+                            outputdata.appendChild(<row x={x} y={y}>{data_array[x][y]}</row>); 
                             }
                         }
                     }
