@@ -80,14 +80,16 @@
 			{
                 var y = 0; var x = 1;
                 var numcolumns = 0;
-                var data_array;
+                var data_array = new Array();
             
                 // Read Column Headings
-                //data_array[0][0] = "HeadingNames";
+                data_array[0] = new Array();
                 for each ( var th in query[0].th)
                 {
                     //data_array[x][0] = column.text().toString();
-                    outputdata.appendChild(<column>{th.*.text()}</column>);
+                    data_array[x] = new Array();
+                    data_array[x][y] = th.*.text().toString();
+                    outputdata.appendChild(<column>{data_array[x][y]}</column>);
                     x++;
                 }
                 numcolumns = x;
