@@ -98,15 +98,16 @@
                 y = 1;            
                 while ( y < query.length()) 
 			    {
-                
                     var row = query[y];
-                    x = 0;
-                    // read each column in row
-                    for each (var column in row.td){
-                        //data_array[x][y] = column.*.text().toString();
-                        //TODO: cycle through rows, load into 2D matrix
-                        //TODO: transpose into financial statement's by time period
-                        outputdata.appendChild(<row>{column.*.text()}</row>); 
+                    if(row.length() >= numcolumns){
+                        x = 0;
+                        // read each column in row
+                        for each (var column in row.td){
+                            //data_array[x][y] = column.*.text().toString();
+                            //TODO: cycle through rows, load into 2D matrix
+                            //TODO: transpose into financial statement's by time period
+                            outputdata.appendChild(<row>{column.*.text()}</row>); 
+                        }
                     }
                     y++;
                 }
