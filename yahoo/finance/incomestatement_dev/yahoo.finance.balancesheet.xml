@@ -90,7 +90,7 @@
                 {
                     data_array[x] = new Array();
                     data_array[x][y] = th.*.text().toString();
-                    outputdata.appendChild(<column x={x} y={y}>{data_array[x][y]}</column>);
+                    //outputdata.appendChild(<column x={x} y={y}>{data_array[x][y]}</column>);
                     x++;
                 }
                 numcolumns = x;
@@ -118,7 +118,7 @@
                                     dataitem = Number(dataitem) * 1000;
                                 }
                                 data_array[x][y] = dataitem;
-                                outputdata.appendChild(<row x={x} y={y}>{dataitem}</row>); 
+                                //outputdata.appendChild(<row x={x} y={y}>{dataitem}</row>); 
                                 x++;
                             }
                         }
