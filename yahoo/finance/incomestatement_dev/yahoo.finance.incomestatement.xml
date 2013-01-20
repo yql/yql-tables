@@ -89,7 +89,7 @@
                     //data_array[x][0] = column.text().toString();
                     data_array[x] = new Array();
                     data_array[x][y] = th.*.text().toString();
-                    outputdata.appendChild(<column>{data_array[x][y]}</column>);
+                    outputdata.appendChild(<column x={x} y={y}>{data_array[x][y]}</column>);
                     x++;
                 }
                 numcolumns = x;
