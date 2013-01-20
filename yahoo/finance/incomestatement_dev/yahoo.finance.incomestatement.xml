@@ -105,6 +105,7 @@
                         //TODO: transpose into financial statement's by time period
                         //outputdata.appendChild(<row>{data_array[x][y]}</row>); 
                     }
+                    y++;
                 }
             }
             // Return statsdata strucuture
