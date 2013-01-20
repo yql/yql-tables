@@ -96,9 +96,10 @@
 
                 // Read Rows
                 y = 1;            
-                while ( y < query.length()) 
+                var i = 1;
+                while ( i < query.length()) 
 			    {
-                    var row = query[y];
+                    var row = query[i];
                     if(row.td.length() >= numcolumns){
                         x = 0;
                         // read each column in row
@@ -111,8 +112,9 @@
                             x++;
                             }
                         }
+                        y++;
                     }
-                    y++;
+                    i++;
                 }
             }
             // Return statsdata strucuture
