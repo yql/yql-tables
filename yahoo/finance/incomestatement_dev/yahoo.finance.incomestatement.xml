@@ -99,7 +99,7 @@
                 while ( y < query.length()) 
 			    {
                     var row = query[y];
-                    if(row.length() >= numcolumns){
+                    if(row.*.length() >= numcolumns){
                         x = 0;
                         // read each column in row
                         for each (var column in row.td){
