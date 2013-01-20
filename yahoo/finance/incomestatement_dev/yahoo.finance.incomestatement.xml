@@ -111,7 +111,7 @@
                                 dataitem = String(dataitem.replace(/\s+/g,""));
                                 dataitem = String(dataitem.replace(/,/g,""));
                                 dataitem = String(dataitem.replace(/\//g,"_"));
-                                if(dataitem.match(/^[\(\)]/){
+                                if(dataitem.match(/^[\(\)]/)){
                                     dataitem = "-" + String(dataitem.match(/\(.*\)/));
                                     dataitem = dataitem * 1000;
                                 } else if(dataitem.match(/^[0-9]{1,}$/)){
