@@ -127,7 +127,7 @@
                 }
                 var numrows = y;
                 x = 0; y = 0;
-                for(i = x; x <= numcolumns; x++){
+                for(x = 1; x <= numcolumns; x++){
                     var period = data_array[x][0];
                     var financial_period = <statement period={period}></statement>;
                     //for(y = 1; y <= numrows; y++){
