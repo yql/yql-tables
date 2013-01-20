@@ -83,7 +83,7 @@
                 var data_array;
             
                 // Read Column Headings
-                data_array[0][0] = "HeadingNames";
+                //data_array[0][0] = "HeadingNames";
                 for each ( var th in query[0].th)
                 {
                     //data_array[x][0] = column.text().toString();
