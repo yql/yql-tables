@@ -108,6 +108,7 @@
                             else{
                             data_array[x][y] = column.*.text().toString();
                             outputdata.appendChild(<row x={x} y={y}>{data_array[x][y]}</row>); 
+                            x++;
                             }
                         }
                     }
