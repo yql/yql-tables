@@ -79,14 +79,14 @@
             var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></{reporttype}>;
 			if ( query.*.length() !== 0 )
 			{
-                var y = 0; var x = 1;
+                var y = 0; var x = 0;
                 var numcolumns = 0;
                 var data_array = new Array();
             
                 // Read Column Headings
                 data_array[0] = new Array()
-                data_array[0][0] = "Headings"
-                for each ( var th in query[0].th)
+                //data_array[0][0] = "Headings"
+                for each ( var th in query[0].td)
                 {
                     data_array[x] = new Array();
                     data_array[x][y] = th.*.text().toString();
