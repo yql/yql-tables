@@ -19,7 +19,7 @@
             </urls>
             <inputs>
             	<key id="symbol" type="xs:string" paramType="variable" required="true" />
-            	<key id="reporttype" type="xs:string" paramType="variable" default="incomestatement" required="false" />
+            	<key id="reporttype" type="xs:string" paramType="variable" default="" required="false" />
             	<key id="timeframe" type="xs:string" paramType="variable" default="quarterly" required="false" />
             </inputs>
             <execute>
@@ -66,6 +66,7 @@
             
             // Setup Query from finance.yahoo.com
             var reporttype_code = "";
+            reporttype = table;
             if(reporttype == "incomestatement"){reporttype_code = "is";}
             else if(reporttype == "balancesheet"){reporttype_code = "bs";}
             else if(reporttype == "cashflow"){reporttype_code = "cf";}
