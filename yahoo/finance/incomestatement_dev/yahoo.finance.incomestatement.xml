@@ -110,6 +110,15 @@
                                 var dataitem = column.*.text().toString();
                                 dataitem = String(dataitem.replace(/\s+/g,""));
                                 dataitem = String(dataitem.replace(/,/g,""));
+                                dataitem = String(dataitem.replace(/\//g,"_"));
+                                if(dataitem.match(/^[\(\)]/){
+                                    dataitem = "-" + String(dataitem.match(/\(.*\)/));
+                                    dataitem = dataitem * 1000;
+                                } else if(dataitem.match(/^[0-9]{1,}$/)){
+                                    dataitem = dataitem * 1000;
+                                } else if(dataitem.match(/^-$/)){
+                                    dataitem = "NaN";
+                                }
                                 data_array[x][y] = dataitem;
                                 outputdata.appendChild(<row x={x} y={y}>{data_array[x][y]}</row>); 
                                 x++;
