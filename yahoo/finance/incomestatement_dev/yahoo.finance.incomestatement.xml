@@ -127,15 +127,15 @@
                 }
                 var numrows = y;
                 x = 0; y = 0;
-                for(x = 1; x <= numcolumns; x++){
-                    //var period = data_array[x][0];
-                    //var financial_period = <statement period={period}></statement>;
+                for(x = 1; x < numcolumns; x++){
+                    var period = data_array[x][0];
+                    var financial_period = <statement period={period}></statement>;
                     //for(y = 1; y <= numrows; y++){
                       //  row_name = data_array[0][y];
                         //data = data_array[x][y];
                         //financial_period.appendChild(<{row_name} report_row={y}>{data}</{row_name}>);
                     //}
-                    //outputdata.appendChild(financial_period);
+                    outputdata.appendChild(financial_period);
                 }
             }
             // Return statsdata strucuture
