@@ -104,7 +104,7 @@
                         //data_array[x][y] = column.*.text().toString();
                         //TODO: cycle through rows, load into 2D matrix
                         //TODO: transpose into financial statement's by time period
-                        outputdata.appendChild(column); 
+                        outputdata.appendChild(<row>{column.text()}</row>); 
                     }
                     y++;
                 }
