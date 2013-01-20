@@ -103,7 +103,7 @@
                         x = 0;
                         // read each column in row
                         for each (var column in row.td){
-                            if("spacer" not in column){
+                            if("spacer" in column){
                             //data_array[x][y] = column.*.text().toString();
                             outputdata.appendChild(<row>{column.*.text()}</row>); 
                             }
