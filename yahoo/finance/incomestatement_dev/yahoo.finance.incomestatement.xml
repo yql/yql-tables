@@ -103,10 +103,10 @@
                         x = 0;
                         // read each column in row
                         for each (var column in row.td){
+                            if(column.*.text() !== null){
                             //data_array[x][y] = column.*.text().toString();
-                            //TODO: cycle through rows, load into 2D matrix
-                            //TODO: transpose into financial statement's by time period
                             outputdata.appendChild(<row>{column.*.text()}</row>); 
+                            }
                         }
                     }
                     y++;
