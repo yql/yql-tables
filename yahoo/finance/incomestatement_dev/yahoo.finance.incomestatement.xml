@@ -87,7 +87,7 @@
                 for each ( var th in query[0].th)
                 {
                     //data_array[x][0] = column.text().toString();
-                    outputdata.appendChild(<row>{th.*.text()}</row>);
+                    outputdata.appendChild(<column>{th.*.text()}</column>);
                     x++;
                 }
                 numcolumns = x;
@@ -104,7 +104,7 @@
                         //data_array[x][y] = column.*.text().toString();
                         //TODO: cycle through rows, load into 2D matrix
                         //TODO: transpose into financial statement's by time period
-                        //outputdata.appendChild(<row>{column.*.text()}</row>); 
+                        outputdata.appendChild(<row>{column.*.text()}</row>); 
                     }
                     y++;
                 }
