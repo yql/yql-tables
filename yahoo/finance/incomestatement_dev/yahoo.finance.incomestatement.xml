@@ -84,7 +84,7 @@
             
                 // Read Column Headings
                 //data_array[0][0] = "HeadingNames";
-                for each ( var th in query[0].*)
+                for each ( var th in query[0])
                 {
                     //data_array[x][0] = column.text().toString();
                     outputdata.appendChild(<row>{th.*.text()}</row>);
@@ -100,11 +100,11 @@
                     var row = query[y];
                     x = 0;
                     // read each column in row
-                    for each (var column in row){
+                    for each (var column in row.td){
                         //data_array[x][y] = column.*.text().toString();
                         //TODO: cycle through rows, load into 2D matrix
                         //TODO: transpose into financial statement's by time period
-                        //outputdata.appendChild(<row>{data_array[x][y]}</row>); 
+                        outputdata.appendChild(<row>{column.*.text()}</row>); 
                     }
                     y++;
                 }
