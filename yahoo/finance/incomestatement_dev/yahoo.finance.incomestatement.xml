@@ -134,7 +134,7 @@
                         row_name = data_array[0][y];
                         data = data_array[x][y];
                         financial_period.appendChild(<{row_name} report_row={y}>{data}</{row_name}>);
-                    //}
+                    }
                     outputdata.appendChild(financial_period);
                 }
             }
