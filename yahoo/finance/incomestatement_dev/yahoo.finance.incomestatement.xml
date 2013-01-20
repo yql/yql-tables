@@ -109,7 +109,7 @@
                             else{
                                 var dataitem = column.*.text().toString();
                                 dataitem = String(dataitem.replace(/\s+/g,""));
-                                dataitem = String(dataitem.replace/,/g,""));
+                                dataitem = String(dataitem.replace(/,/g,""));
                                 data_array[x][y] = dataitem;
                                 outputdata.appendChild(<row x={x} y={y}>{data_array[x][y]}</row>); 
                                 x++;
