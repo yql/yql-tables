@@ -112,7 +112,7 @@
                                 dataitem = String(dataitem.replace(/,/g,""));
                                 dataitem = String(dataitem.replace(/\//g,"_"));
                                 if(dataitem.match(/^[\(\)]/)){
-                                    dataitem =  Number(dataitem.match(/\(.*\)/)) * -1000;
+                                    dataitem =  Number(dataitem.replace(/[\(\)]/g,"")) * -1000;
                                 } else if(dataitem.match(/^[0-9]{1,}$/)){
                                     dataitem = Number(dataitem) * 1000;
                                 }
