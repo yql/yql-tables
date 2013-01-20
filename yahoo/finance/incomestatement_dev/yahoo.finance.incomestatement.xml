@@ -83,7 +83,7 @@
                 var data_array;
             
                 // Read Column Headings
-                for each ( var column in query[0])
+                for each ( var column in query[0].tr)
                 {
                     //data_array[x][0] = column.text().toString();
                     outputdata.appendChild(column);
