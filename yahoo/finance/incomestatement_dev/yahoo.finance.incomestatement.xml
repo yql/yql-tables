@@ -78,15 +78,16 @@
             var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></{reporttype}>;
 			if ( query.*.length() !== 0 )
 			{
-                var y = 0; var x = 0;
+                var y = 0; var x = 1;
                 var numcolumns = 0;
                 var data_array;
             
                 // Read Column Headings
-                for each ( var th in query[0])
+                data_array[0][0] = "HeadingNames"
+                for each ( var th in query[0].th)
                 {
                     //data_array[x][0] = column.text().toString();
-                    outputdata.appendChild(th.th[2]);
+                    outputdata.appendChild(th);
                     x++;
                 }
                 numcolumns = x;
