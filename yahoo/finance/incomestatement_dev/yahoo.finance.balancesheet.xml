@@ -117,8 +117,8 @@
                                 } else if(dataitem.match(/^[0-9]{1,}$/)){
                                     dataitem = Number(dataitem) * 1000;
                                 }
-                                data_array[x][y] = dataitem;
-                                outputdata.appendChild(<row x={x} y={y}>{data_array[x][y]}</row>); 
+                                //data_array[x][y] = dataitem;
+                                outputdata.appendChild(<row x={x} y={y}></row>); 
                                 x++;
                             }
                         }
