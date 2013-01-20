@@ -86,7 +86,7 @@
                 for each ( var th in query[0])
                 {
                     //data_array[x][0] = column.text().toString();
-                    outputdata.appendChild(th.th[2].text().toString());
+                    outputdata.appendChild(th.th[2]);
                     x++;
                 }
                 numcolumns = x;
