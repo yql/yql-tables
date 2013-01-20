@@ -66,7 +66,7 @@
             
             // Setup Query from finance.yahoo.com
             var reporttype_code = "";
-            reporttype = table;
+            reporttype = {table};
             if(reporttype == "incomestatement"){reporttype_code = "is";}
             else if(reporttype == "balancesheet"){reporttype_code = "bs";}
             else if(reporttype == "cashflow"){reporttype_code = "cf";}
