@@ -1,82 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-  <meta>
-    <author>
-      Alan Verga
-    </author>
-    <description>
-      Yahoo Finance Quotes - Options Contract Months
-    </description>
-    <sampleQuery>
-      SELECT * FROM {table} WHERE symbol='YHOO'
-    </sampleQuery>
-  </meta>
-  <bindings>
-    <select itemPath="" produces="XML">
-      <urls>
-	<url>
-	</url>
-      </urls>
-      <inputs>
-	<key id="symbol" type="xs:string" paramType="variable" required="true" />
-      </inputs>
-      <execute>
-	<![CDATA[
-	
-	    function getContracts()
-	    {
-		var results = optionsPath;
+    <meta>
+        <author>
+            Thomas Fowler
+        </author>
+        <description>
+            Yahoo Finance Quotes - Options Chain
+        </description>
+        <sampleQuery>
+            SELECT * FROM {table} WHERE symbol='GOOG' AND expiration='2010-06'
+        </sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>
+                </url>
+            </urls>
+            <inputs>
+            	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+            	<key id="expiration" type="xs:string" paramType="variable" required="true" />
+              	<key id="type" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+				
+			// pad string with leading char
+					
+			String.prototype.pad = function ( padchar, padlen )
+			{
+				s = this
+				
+				while (s.length < padlen)
+				{
+					s = padchar + s;
+				}
+						
+				return s;
+			}
+					 
+			String.prototype.trim = function ()
+			{
+				var str = this.replace( /^\s\s*/, "" ),
+				ws = /\s/,
+				i = str.length;
+				while ( ws.test( str.charAt( --i ) ) );
+				return str.slice( 0, i + 1 );
+			}
+					 
+			String.prototype.toInt = function ()
+			{
+				// remove leading 0's because otherwise 
+				// str can be interpreted as Octal
+				var str = this.replace( /^0+/, '' );
 
-		elements = results.*.length();
+				// also the thousands comma was cousing trouble
+				str = str.replace( /\,/g, '' );
 
-		if ( elements == 0 )
-		{
-		    return false;
-		}
+				return parseInt( str );
+			}
+					 
+			function getOptionsChain()
+			{
+				// Get the Options Chain for the given symbol from the Options page
+				
+				var results = optionsChainQuery;
+						
+				elements = results.*.length();
+				
+				if ( elements == 0 )
+				{
+					return false;
+				}
+				
+				var optionElem;
+				
+				var strikePrice;
+				var optionSymbol;
+				var optionType;
+				var lastPrice;
+				var change;
+				var changeDir;
+				var bid;
+				var ask;
+				var vol;
+				var volStr;
+				var openInt;
+				var openIntStr;
+					
+				var optTypeMatch;
 
-		var yearRegEx = /\d{4}/;
-		var monthRegEx = /\-\d{2}/;
+				for each ( var tr in results )
+				{
+					strikePrice = parseFloat( tr.td[0].a.strong.text().toString().replace(/\,/g,'') );
+					optionSymbol = tr.td[1].a.text();
+					
+					// Check to see what type of option
+					// the current option is
 
-		for each ( var a in results )
-		{
-		    //grab the link w/ href containing date
-		    var contract = a.@href.text();
+					optTypeMatch = optionSymbol.match( /^[\w]{7,}([P|C])/ );
 
-		    //YYYY-MM format
-		    var result = yearRegEx.exec(contract) + monthRegEx.exec(contract);
+					if ( optTypeMatch != null )
+					{
+						optionType = optTypeMatch[1];
+					}
 
-		    var contractElem = <contract>{result}</contract>;
+					lastPrice = tr.td[2].strong.text();
+					change = tr.td[3].span.strong.text();
+					changeDir = tr.td[3].span.img.@alt.toString();
+					bid = parseFloat( tr.td[4].p.text() );
+					ask = parseFloat( tr.td[5].p.text() );
+					volStr = tr.td[6].p.text();
+					vol = volStr.toInt();
+					openIntStr = tr.td[7].p.text(); 
+					openInt = openIntStr.toInt();
+							
+					if ( changeDir.toLowerCase() == "down" )
+					{
+						change = parseFloat( change ) * -1;
+					}
+					else
+					{
+						change = parseFloat( change );
+					}
+							
+					optionElem = <option symbol={optionSymbol}</option>;
+                                        optionElem.appendChild(<t>{optionType}</t>;
+					optionElem.appendChild(<sp>{strikePrice}</sp>);
+					optionElem.appendChild(<pr>{lastPrice}</pr>);
+					optionElem.appendChild(<ch>{change}</ch>);
+					optionsChain.appendChild( optionElem );
+				}
+						
+				return true;
+			}
 
-		    //maintain sorted ordering by date
-		    if (a == results[results.length()-1]) {
-			contractList.prependChild( contractElem );
-		    }
-		    else {
-			contractList.appendChild( contractElem );
-		    }
+			function getExpiration()
+			{
+				var results = expiresQuery;
 
-		}	    
-		return true;
-	    }
+				y.log( "results.length(): " + results.length() );
+			
+				elements = results.*.length();
+						
+				if ( elements == 0 )
+				{
+					y.log( "no elements" );
+					return "";
+				}
 
+				var dateRegEx = /.*([\d]{2})\,\s+?[\d]{4}/g;
 
-	    //build the query string
-	    var StockquoteURL = "http://finance.yahoo.com/q/op?s=" + symbol;
+				var dateRes = dateRegEx.exec( results[0] );
+				
+				var dd;
 
-	    //get thy results
-	    var yQuery = y.rest( StockquoteURL );	
-	    var data = yQuery.accept( "text/html" ).get().response;
+				if ( dateRes != null &&
+					dateRes[ 1 ] != null )
+				{
+					dd = dateRes[ 1 ];
+				}
 
-	    //grab the appropriate path
-	    var optionsPath = y.xpath(data, "//table[@id='yfncsumtab']/tr/td/table/tr/td/p/a");
+				return dd;
+			}
 
-	    var contractList = <option symbol={symbol}></option>;
+					 
+			// Queue the query
+			 
+			var optionsChainURL = "http://finance.yahoo.com/q/op?s=" + symbol;
+			var queryHasExpiration = false;
 
-	    getContracts();
+			if ( expiration != null )
+			{
+				var expPattern = /^[\d]{4}\-[\d]{2}$/;
+				
+				if ( expPattern.test( expiration ) )
+				{
+					optionsChainURL += "&m=" + expiration;
+					queryHasExpiration = true;
+				}
+			}
 
-	    response.object = contractList;
-	]]>
-      </execute>
-    </select>
-  </bindings>
+			var yQuery = y.rest( optionsChainURL );	
+			var data = yQuery.accept( "text/html" ).get().response;
+			
+			var optionsChainQuery = y.xpath(
+							data, 
+							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
+							"@class='yfnc_tabledata1']]"
+			);
+			
+			var expiresQuery = y.xpath( 
+				data,
+				"//table[@class='yfnc_mod_table_title1']/tr/td[last()]/p"
+			);
+
+			var expiryDay = getExpiration();
+					
+			var optionsChain;
+ 			var expDate = expiration;
+
+			if ( queryHasExpiration == true )
+			{
+				if ( expiryDay != null && 
+					expiryDay != "" )
+				{
+					expDate += "-" + expiryDay;
+				}
+
+				optionsChain = <optionsChain symbol={symbol} expiration={expDate}></optionsChain>;
+			}
+			else
+			{
+				optionsChain = <optionsChain symbol={symbol}></optionsChain>;
+			}
+
+			getOptionsChain();
+					
+			response.object = optionsChain;
+					 
+		]]>
+            </execute>
+        </select>
+    </bindings>
 </table>
