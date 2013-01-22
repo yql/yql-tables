@@ -80,13 +80,6 @@
 				var optionType;
 				var lastPrice;
 				var change;
-				var changeDir;
-				var bid;
-				var ask;
-				var vol;
-				var volStr;
-				var openInt;
-				var openIntStr;
 					
 				var optTypeMatch;
 
@@ -99,21 +92,15 @@
 					// the current option is
 
 					optTypeMatch = optionSymbol.match( /^[\w]{7,}([P|C])/ );
-
+              
 					if ( optTypeMatch != null )
 					{
 						optionType = optTypeMatch[1];
 					}
-
+               
 					lastPrice = tr.td[2].strong.text();
 					change = tr.td[3].span.strong.text();
 					changeDir = tr.td[3].span.img.@alt.toString();
-					bid = parseFloat( tr.td[4].p.text() );
-					ask = parseFloat( tr.td[5].p.text() );
-					volStr = tr.td[6].p.text();
-					vol = volStr.toInt();
-					openIntStr = tr.td[7].p.text(); 
-					openInt = openIntStr.toInt();
 							
 					if ( changeDir.toLowerCase() == "down" )
 					{
@@ -123,13 +110,17 @@
 					{
 						change = parseFloat( change );
 					}
-							
-					optionElem = <option symbol={optionSymbol}</option>;
-                                        optionElem.appendChild(<t>{optionType}</t>;
-					optionElem.appendChild(<sp>{strikePrice}</sp>);
-					optionElem.appendChild(<pr>{lastPrice}</pr>);
-					optionElem.appendChild(<ch>{change}</ch>);
-					optionsChain.appendChild( optionElem );
+
+                                        if (type.toUpperCase() === optionType)
+                                        {
+                                          optionElem = <option sym={optionSymbol}></option>;
+                                          optionElem.appendChild(<t>{optionType}</t>);
+                                          optionElem.appendChild(<sp>{strikePrice}</sp>);
+                                          optionElem.appendChild(<pr>{lastPrice}</pr>);
+                                          optionElem.appendChild(<ch>{change}</ch>);
+                                          optionsChain.appendChild( optionElem );
+                                          optionsChainCount++;
+                                        }
 				}
 						
 				return true;
@@ -169,6 +160,7 @@
 			 
 			var optionsChainURL = "http://finance.yahoo.com/q/op?s=" + symbol;
 			var queryHasExpiration = false;
+                        var optionsChainCount = 0;
 
 			if ( expiration != null )
 			{
@@ -208,7 +200,7 @@
 					expDate += "-" + expiryDay;
 				}
 
-				optionsChain = <optionsChain symbol={symbol} expiration={expDate}></optionsChain>;
+				optionsChain = <optionsChain symbol={symbol} expiration={expDate} count={optionsChainCount}></optionsChain>;
 			}
 			else
 			{
