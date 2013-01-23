@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>
+           Prem Ramanathan
+        </author>
+        <description>
+            Yahoo Finance Option Quotes
+        </description>
+        <sampleQuery>
+            SELECT * FROM {table} WHERE symbol='MSFT130125C00026000'
+        </sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>
+                </url>
+            </urls>
+            <inputs>
+            	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+              
+	
+  var optionQuoteUrl = "http://finance.yahoo.com/q?s=" + symbol,
+    yQuery = y.rest(optionQuoteUrl),
+    data = yQuery.accept("text/html").get().response;
+
+var summaryXpath = "//div[@class='yfi_rt_quote_summary_rt_top']",
+    priceXpath = summaryXpath + "//span[@class='time_rtq_ticker']/span",
+    changeXpath = summaryXpath + "/p/span[2]/span[1]",
+    quoteListXpath = "//div[@id='yfi_quote_summary_data']/table";
+
+var summary = y.xpath(data, summaryXpath),
+    price = y.xpath(data, priceXpath).text(),
+    change = y.xpath(data, changeXpath).text(),
+	quoteList = y.xpath(data, quoteListXpath);
+			
+if (summary.hasComplexContent()) {
+    var quote = <option sym={symbol}></option>;
+
+    quote.appendChild(<price>{price}</price>);
+    quote.appendChild(<change>{change}</change>);
+
+    quote.appendChild(<prevClose>{quoteList.tr[0].td.p.text()}</prevClose>);
+    quote.appendChild(<open>{quoteList.tr[1].td.p.text()}</open>);
+    quote.appendChild(<bid>{quoteList.tr[2].td.p.text()}</bid>);
+    quote.appendChild(<ask>{quoteList.tr[3].td.p.text()}</ask>);
+    quote.appendChild(<strike>{quoteList.tr[4].td.p.text()}</strike>);
+    quote.appendChild(<expire>{quoteList.tr[5].td.p.text()}</expire>);
+    // quote.appendChild(<daysRange>{quoteList.tr[6].td.p.text()}</daysRange>);
+    // quote.appendChild(<contractRange>{quoteList.tr[7].td.p.text()}</contractRange>);
+    quote.appendChild(<volume>{quoteList.tr[8].td.span.text()}</volume>);
+    quote.appendChild(<openInterest>{quoteList.tr[9].td.p.text()}</openInterest>);
+
+    response.object = quote;
+}
+
+
+
+
+					 
+		]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
