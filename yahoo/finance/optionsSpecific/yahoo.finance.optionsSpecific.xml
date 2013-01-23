@@ -200,7 +200,7 @@
 					expDate += "-" + expiryDay;
 				}
 
-				optionsChain = <optionsChain symbol={symbol} expiration={expDate} count={optionsChainCount}></optionsChain>;
+				optionsChain = <optionsChain symbol={symbol} expiration={expDate}></optionsChain>;
 			}
 			else
 			{
@@ -208,7 +208,7 @@
 			}
 
 			getOptionsChain();
-					
+			optionsChain.@["count"] = optionsChainCount;
 			response.object = optionsChain;
 					 
 		]]>
