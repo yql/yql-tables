@@ -17,17 +17,19 @@
 				var quotes = <quotes/>;
 				var rows=results.results.row;
                 var neededValues = {
-                    "AverageDailyVolume" : true,
+                    "Name" : true,
+                    "Symbol" : true,
+                    "LastTradePriceOnly": true,
                     "Change" : true,
+                    "AverageDailyVolume" : true,
+                    "MarketCapitalization" : true,
+                    "PercentChange": true,
                     "DaysLow" : true,
                     "DaysHigh" : true,
                     "YearLow" : true,
                     "YearHigh" : true,
-                    "MarketCapitalization" : true,
                     "DaysRange" : true,
-                    "Name" : true,
-                    "ChangeinPercent" : true,
-                    "Symbol" : true,
+                    "PercentChange" : true,
                     "Volume" : true,
                     "StockExchange" : true
                 };
