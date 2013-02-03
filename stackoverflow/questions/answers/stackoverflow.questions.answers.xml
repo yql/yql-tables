@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Nathan Breit</author>
+		<description>Gets answers to questions on stack overflow.</description>
+		<sampleQuery>select * from {table} where id=9200513;</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="JSON">
+			<urls>
+				<url>http://api.stackexchange.com/2.1/questions/{id}/answers</url>
+			</urls>
+			<inputs>
+				<key id="id" type="xs:integer" paramType="path" required="true"/>
+
+				<key id="order"  type="xs:string" paramType="query" required="false" default="desc"/>
+				<key id="sort"   type="xs:string" paramType="query" required="false" default="activity"/>
+				<key id="site"   type="xs:string" paramType="query" required="false" default="stackoverflow"/>
+				<key id="filter" type="xs:string" paramType="query" required="false" default="withbody"/>
+                          	<key id="key"    type="xs:string" paramType="query" required="false" default="UI7fqGbBXBBEJky5T*qltw(("/>
+			</inputs>
+		</select>
+	</bindings>
+</table>
