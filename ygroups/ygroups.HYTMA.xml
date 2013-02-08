@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
   <meta>
     <author>HOUYHNHNM</author>
-    <description>Returns the indexed message from a public yahoo group</description>
+    <description>Returns the indexed message from a public yahoo group, type Topical</description>
     <documentationURL>http://meme.yahoo.com/h_dev/p/Hn6ZWy3/</documentationURL>
     <sampleQuery>select * from {table} where url="URL OF YAHOO GROUP" AND messageindex="SOME NUMBER"</sampleQuery>
  </meta>
@@ -31,7 +31,7 @@
 	var checkvar4="";
 	while(startindex<yqlcounter)
 	{
-		checkvar=yqlresults.a[startindex].@href;
+		checkvar=new String(yqlresults.a[startindex].@href);
 		if(checkvar.match(messageindex)!=null)
 		{
 			checkvar2=new String("http://groups.yahoo.com");

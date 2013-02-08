@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
   <meta>
     <author>HOUYHNHNM</author>
-    <description>gets a message from a public group</description>
+    <description>gets a message from a public group, type Simple</description>
     <documentationURL>http://meme.yahoo.com/h_dev/p/Jw1GcO-/</documentationURL>
     <sampleQuery>select * from {table} where url="URL OF YAHOO GROUP" AND messageindex="yahoo"</sampleQuery>
  </meta>
