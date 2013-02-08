@@ -4,7 +4,7 @@
 		<author>HOUYHNHNM</author>
 		<description>Contributor Recent Comments of User, Fans, and Favorites Recent and Featured Articles AND Recent Articles</description>
 		<documentationURL></documentationURL>
-		<sampleQuery>select * from {table} where userurl="http://contributor.yahoo.com/user/houyhnhnmvoice/" and truncval1=15 and truncval2=5 truncval3=3</sampleQuery>
+		<sampleQuery>select * from {table} where userurl="http://contributor.yahoo.com/user/houyhnhnmvoice/" and truncval1=15 and truncval2=5 and truncval3=3</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="" produces="XML">
