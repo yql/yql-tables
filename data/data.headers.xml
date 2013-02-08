@@ -65,10 +65,7 @@
                     }
 
                     // get headers
-                    for (header in resp.headers) {
-                        tag = header.replace(reTagCase, tagCase);
-                        headers.headers += <{tag}>{resp.headers[header]}</{tag}>;
-                    }
+                    headers.headers = y.jsonToXml(resp.headers);
                     
                     // set result
                     data.resources += <url>{url}</url>;
