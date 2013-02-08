@@ -1,0 +1,87 @@
+Financial Statements
+http://finance.yahoo.com/q/{statement_type}?s={SYMBOL}&{annual|quarterly}
+  statement_type = is = income statements, bs = balance sheet, cf = cash flow
+
+Analyst
+http://finance.yahoo.com/q/ae?s=VZ+Analyst+Estimates
+  ae = analyst estimate
+  ao = analyst opionon
+
+
+YQL Java Code to Parse finance.yahoo.com tables (example from options chain):
+
+		var yQuery = y.rest( optionsChainURL );	
+			var data = yQuery.accept( "text/html" ).get().response;
+			
+			var optionsChainQuery = y.xpath(
+							data, 
+							"//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
+							"@class='yfnc_tabledata1']]"
+			);
+			
+			var expiresQuery = y.xpath( 
+				data,
+				"//table[@class='yfnc_mod_table_title1']/tr/td[last()]/p"
+			);
+
+
+** xpath( method is used to pull just the rows requested
+          find the @class parameter inside using safari view source mode
+
+Income Statement:
+
+var incomestatementURL = "http://finance.yahoo.com/q/is?s=" + symbol + "&annual";
+var yQuery = y.rest (incomestatementURL);
+var data = yQuery.accept("text/html").get().response;
+var financials_query = y.xpath(
+                        data,
+                        "//tr[@class='yfnc_modtitle1'/th/tr/td/p")
+
+github live for yql:
+
+raw for development with console:
+select * from html where url="http://finance.yahoo.com/q/is?s=T" and xpath='//table[@class="yfnc_tabledata1"]/tr/td/table/tr'
+
+Key Statistics (COMPLETE)
+
+github live for yql:
+use "http://raw.github.com/canada4663/yql-tables/master/yahoo/finance/yahoo.finance.keystats.xml" as keystats; select * from keystats where symbol="T";
+
+raw for development: 
+select * from html where url="http://finance.yahoo.com/q/ks?s=TXN" and xpath='//table[@class="yfnc_datamodoutline1"]/tr/td/table/tr/td[@class="yfnc_tabledata1" or @class="yfnc_tablehead1"]'
+   Outputs:
+
+        <results>
+        <td class="yfnc_tablehead1" width="74%">
+            <p>Market Cap (intraday)
+                                <font size="-1">
+                    <sup>5</sup>
+                </font>:</p>
+        </td>
+        <td class="yfnc_tabledata1">
+            <span id="yfs_j10_txn">34.67B</span>
+        </td>
+        <td class="yfnc_tablehead1" width="74%">
+            <p>Enterprise Value (Dec 26, 2012)
+                                <font size="-1">
+                    <sup>3</sup>
+                </font>:</p>
+        </td>
+        <td class="yfnc_tabledata1">
+            <p>36.70B</p>
+        </td>
+        <td class="yfnc_tablehead1" width="74%">
+            <p>Trailing P/E (ttm, intraday):</p>
+        </td>
+        <td class="yfnc_tabledata1">
+            <p>20.30</p>
+        </td>
+        <td class="yfnc_tablehead1" width="74%">
+            <p>Forward P/E (fye Dec 31, 2013)
+                                <font size="-1">
+                    <sup>1</sup>
+                </font>:</p>
+        </td>
+        **** END EXAMPLE ****
+
+ 0
