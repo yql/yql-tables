@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Ryuichi Okumura</author>
+        <documentationURL>http://developer.yahoo.co.jp/yconnect/userinfo.html</documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>https://userinfo.yahooapis.jp/yconnect/v1/attribute</url>
+            </urls>
+            <inputs>
+                <key id="schema" type="xs:string" paramType="query" required="true" />
+                <key id="access_token" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+                response.object = request.header("Authorization", "Bearer " + access_token).get().response;
+            </execute>
+        </select>
+    </bindings>
+</table>
