@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Karthik Vasudevan</author>
+		<documentationURL>http://www.kaartz.in/htmle/docu/index.php</documentationURL>
+		<sampleQuery>select * from {table} where url="http://ca.music.yahoo.com/" and xpath="where url="//*[@class='txt']//*[@class='accd']/span[1]"</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="query.results" produces="XML">
+			<urls>
+				<url>http://query.yahooapis.com/v1/public/yql?q=select * from html where url={urle} and xpath={xpath1}</url>
+			</urls>
+			<inputs>
+				<key id="urle" type="xs:string" paramType="path" />
+				<key id="xpath1" type="xs:string" paramType="path" />
+			</inputs>
+		</select>
+	</bindings>
+</table>
