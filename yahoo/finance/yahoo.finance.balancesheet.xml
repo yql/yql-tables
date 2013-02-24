@@ -65,11 +65,11 @@
 			}
             
             // Setup Query from finance.yahoo.com
-            var reporttype_code = "";
+            var reporttype_code = "bs";
             reporttype = y.context.table;
-            if(reporttype == "incomestatement"){reporttype_code = "is";}
-            else if(reporttype == "balancesheet"){reporttype_code = "bs";}
-            else if(reporttype == "cashflow"){reporttype_code = "cf";}
+            if( reporttype.match(/incomestatement/) ){reporttype_code = "is";}
+            else if( reporttype.match(/balancesheet/) ){reporttype_code = "bs";}
+            else if( reporttype.match(/cashflow/) ){reporttype_code = "cf";}
             var url="http://finance.yahoo.com/q/"+ reporttype_code + "?s=" + symbol + "&" + timeframe;
 			var restquery = y.rest( url );	
 			var rawresult = restquery.accept( "text/html" ).get().response;
@@ -130,7 +130,7 @@
                 x = 0; y = 0;
                 for(x = 1; x < numcolumns; x++){
                     var period = data_array[x][0];
-                    var financial_period = <statement period={period}></statement>;
+                    var financial_period = <statement context={reporttype} period={period}></statement>;
                     for(y = 1; y < numrows; y++){
                         row_name = data_array[0][y];
                         data = data_array[x][y];
