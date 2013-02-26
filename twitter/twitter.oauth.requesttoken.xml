@@ -10,7 +10,7 @@
 	<bindings>
 		<select itemPath="" produces="XML">
 			<urls>
-				<url>http://twitter.com/oauth/request_token</url>
+				<url>https://api.twitter.com/oauth/request_token</url>
 			</urls>
 			<inputs>
 				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
