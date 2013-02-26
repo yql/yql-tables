@@ -19,7 +19,7 @@
             </inputs>
             <execute>
                 <![CDATA[
-                    
+                    select * from mites
                 ]]>
             </execute>
         </select>
