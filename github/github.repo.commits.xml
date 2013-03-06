@@ -6,7 +6,7 @@
     <sampleQuery>select * from {table} where id='yui' and repo='yui3' and sha="1b74670d4ac487d1f616e14be88046c24fa45438"</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="commits" produces="XML">
+    <select itemPath="commits" produces="JSON">
       <urls>
         <url>https://api.github.com/repos/{id}/{repo}/git/commits/{sha}</url>
       </urls>
