@@ -8,7 +8,7 @@
   <bindings>
     <select itemPath="json" produces="JSON">
       <urls>
-        <url>https://api.github.com/users/{id}/repos}</url>
+        <url>https://api.github.com/users/{id}/repos</url>
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true"/>
