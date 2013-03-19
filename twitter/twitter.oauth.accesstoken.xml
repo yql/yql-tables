@@ -3,7 +3,7 @@
 	<meta>
 		<author>Zach Graves (zachg@yahoo-inc.com)</author>
 		<description>Twitter OAuth API</description>
-		<documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
+		<documentationURL>https://dev.twitter.com/docs/api/1/post/oauth/access_token</documentationURL>
 		<sampleQuery>select * from {table} where oauth_verifier=@verifier 
 			and oauth_consumer_key=@consumer_key and oauth_consumer_secret=@consumer_secret 
 			and oauth_token=@token and oauth_token_secret=@token_secret;</sampleQuery>
@@ -11,7 +11,7 @@
 	<bindings>
 		<select itemPath="" produces="XML">
 			<urls>
-				<url>http://twitter.com/oauth/access_token</url>
+				<url>https://api.twitter.com/oauth/access_token</url>
 			</urls>
 			<inputs>
 				<key id="oauth_consumer_key" type="xs:string" paramType="variable" required="true"/>
