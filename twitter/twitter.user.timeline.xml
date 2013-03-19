@@ -2,13 +2,13 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Paul Daniel and Hugo Lopes Tavares</author>
-    <documentationURL>http://apiwiki.twitter.com/Twitter-API-Documentation</documentationURL>
+    <documentationURL>https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline</documentationURL>
     <sampleQuery>select * from {table} where screen_name='screen_name'</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="statuses" produces="XML">
       <urls>
-        <url>http://twitter.com/statuses/user_timeline.{format}</url>
+        <url>https://api.twitter.com/1.1/statuses/user_timeline.json</url>
       </urls>
       <paging model="page">
         <start default="0" id="page"/>
