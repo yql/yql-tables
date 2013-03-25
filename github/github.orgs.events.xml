@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+  <meta>
+    <author>Matthias Kadenbach, https://github.com/mattes</author>
+    <documentationURL>http://developer.github.com/v3/activity/events/</documentationURL>
+    <description>List public events for an organization. Events are optimized for polling with the ETag header. If no new events have been triggered, you will see a 304 Not Modified response, and your current rate limit will be untouched.</description>
+    <sampleQuery>select * from {table} where org='jungpark'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="json.json" produces="JSON">
+      <urls>
+        <url>https://api.github.com/orgs/{org}/events</url>
+      </urls>
+      <inputs>
+        <key id="org" type="xs:string" paramType="path" required="true"/>
+        <key id="If-None-Match" type="xs:string" paramType="header" required="false"/>
+        <!-- @todo get ETag from headers and return it -->
+      </inputs>
+      <paging model="page">  
+        <start id="page" default="1" />  
+        <pagesize id="per_page" max="30" />  
+        <total default="30" />  
+      </paging>
+    </select>
+  </bindings>
+</table>
+
+
