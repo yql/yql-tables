@@ -6,9 +6,9 @@
     <sampleQuery>select * from {table} where id='spullara' and repo='yql-tables'</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="network" produces="XML">
+    <select itemPath="json" produces="JSON">
       <urls>
-        <url>http://github.com/api/v2/xml/repos/show/{id}/{repo}/network</url>
+        <url>https://api.github.com/repos/{id}/{repo}/forks</url>
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true"/>

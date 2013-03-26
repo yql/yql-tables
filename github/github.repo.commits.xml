@@ -3,17 +3,17 @@
   <meta>
     <author>Dav Glass</author>
     <documentationURL></documentationURL>
-    <sampleQuery>select * from {table} where id='spullara' and repo='yql-tables'</sampleQuery>
+    <sampleQuery>select * from {table} where id='yui' and repo='yui3' and sha="1b74670d4ac487d1f616e14be88046c24fa45438"</sampleQuery>
   </meta>
   <bindings>
-    <select itemPath="commits" produces="XML">
+    <select itemPath="json" produces="JSON">
       <urls>
-        <url>http://github.com/api/v2/xml/commits/list/{id}/{repo}/{branch}</url>
+        <url>https://api.github.com/repos/{id}/{repo}/git/commits/{sha}</url>
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true"/>
         <key id="repo" type="xs:string" paramType="path" required="true"/>
-        <key id="branch" type="xs:string" paramType="path" default="master" />
+        <key id="sha" type="xs:string" paramType="path" required="true" />
       </inputs>
     </select>
   </bindings>
