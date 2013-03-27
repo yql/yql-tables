@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Matthias Kadenbach, http://matthiaskadenbach.de</author>
+    <description>return skype status (requires the skype privacy setting set to true)</description>
+    <documentationURL>https://gist.github.com/mattes/5253271</documentationURL>
+    <sampleQuery>select * from {table} where user='mkadenbach'</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="JSON">
+      <urls>
+        <url>http://mystatus.skype.com/{user}.xml</url>
+      </urls>
+      <inputs>
+        <key id="user" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+      <execute>
+        <![CDATA[ 
+        var result = y.xmlToJson(request.get().response)["RDF"]["Status"];
+        var lang = {};
+        for(var i=0; i < result["presence"].length; i++) {
+          if(result["presence"][i]["lang"] !== "NUM")
+            lang[ result["presence"][i]["lang"] ] = result["presence"][i]["content"];
+        }
+        response.object = {"status": result["statusCode"]["content"], "message": lang};
+      ]]> 
+      </execute>  
+    </select>
+  </bindings>
+</table>
