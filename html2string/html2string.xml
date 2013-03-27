@@ -1,0 +1,3 @@
+var results = y.rest(url).forceCharset(charset).accept('text/html').get().response;
+if (xpath) results = y.xpath(results, xpath);
+response.object = results.toXMLString();
