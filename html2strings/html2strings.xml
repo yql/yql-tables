@@ -1,0 +1,21 @@
+<table>
+  <meta>
+    <author>Todd Vierling</author>
+    <description>HTML selector that returns a flat, escaped string rather than a node tree. Suitable for use with Pipes and other applications wishing to embed HTML in another XML-like container.</description>
+    <sampleQuery>select * from {table} where url='http://www.yahoo.com/' and xpath='//a'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML"><urls><url>{url}</url></urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" required="true"/>
+        <key id="xpath" type="xs:string" paramType="variable" required="false"/>
+        <key id="charset" type="xs:string" paramType="variable" required="false" />
+      </inputs>
+      <execute>
+var results = y.rest(url).forceCharset(charset).accept('text/html').get().response;
+if (xpath) results = y.xpath(results, xpath);
+response.object = results.toXMLString();
+      </execute>
+  </select>
+  </bindings>
+</table>
