@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Vikram Bodicherla</author>
+        <sampleQuery>select * from markiv.uob.preciousmetals where metal in ('PAMP GOLD BARS','UBS GOLD KINEBARS')</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="result.preciousmetals" produces="JSON">
+            <inputs>
+                <key id='metal' batchable='true' type='xs:string' paramType='query' required='false'/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var html = y.query("select * from html where url='https://uniservices1.uobgroup.com/secure/online_rates/gold_and_silver_prices.jsp' and xpath='//table[4]/*'").results;
+              	    var trs = html.tr;
+                    var prices = [];    
+              
+                    if(metal !== null){
+                        for(var i = 0 ; i < metal.length ; i++){
+                            metal[i] = unescape(metal[i]);
+                        }  
+                    }
+              
+                    //Date
+                    var date = trs[0].td.div.p.toString().replace('Rates as at ','');
+              
+                    //Prices
+                    var runningMetalNode = null;
+                    for(var i = 2; i < trs.length(); i++){
+                        var tds = trs[i].td;
+                            
+                        if(tds[0].hasOwnProperty('strong')){
+                            //Change of running metal
+                            if(runningMetalNode != null)
+                                prices.push(runningMetalNode);
+              
+                            var runningMetal = tds[0].strong.toString();
+              		    if(metal === null || metal.indexOf(runningMetal) >= 0){
+                                runningMetalNode = {'name' : runningMetal, 'date' : date, 'units' : []};
+                            }
+                            else
+              			runningMetalNode = null;
+                        }
+			
+                        if(runningMetalNode !== null){
+                            var unitName = tds[2].p.toString();
+                            var bankSells = tds[3].p.toString();
+                            var bankBuys = tds[4].p.toString();
+              		
+                            runningMetalNode.units.push({'unit' : unitName, 'bankSells' : bankSells, 'bankBuys' : bankBuys});
+                        }
+                    }
+                    response.object = {'preciousmetals' : prices};
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
