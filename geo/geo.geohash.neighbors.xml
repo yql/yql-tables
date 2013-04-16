@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>use "https://raw.github.com/vicmortelmans/yql-tables/master/geo/geo.geohash.neighbors.xml" as geo.geohash.neighbors; select * from geo.geohash.neighbors where geohash="u155ku" and range="5"</sampleQuery>
+    <author>Vic Mortelmans</author>
+    <documentationURL>https://github.com/vicmortelmans/yql-tables/blob/master/geo/geo.geohash.neighbors.xml</documentationURL>  
+    <description>Gives you a list of geohash id's that are neighbors of the input id. Setting range to values higher than 1 includes also neighbor's neighbors, etc.</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='geohash' type='xs:string' paramType='variable' required="true" />
+        <key id='range' type='xs:integer' paramType='variable' required="false" default="1"/>
+      </inputs>
+      <execute><![CDATA[
+        var t4 = 'prxzprxznqwynqwyjmtvjmtvhksuhksu57eg57eg46df46df139c139c028b028b';
+        var t8 = 'bcfguvyzbcfguvyz89destwx89destwx2367kmqr2367kmqr0145hjnp0145hjnp';
+        var output = <></>;
+
+        for (var i = -range; i <= range; i++) {
+            for (var j = -range; j <= range; j++) {
+                   var g;
+                   g = moveLat(moveLong(geohash,i),j);
+                   output += <geohash>{g}</geohash>;
+            }
+        }
+        response.object = <neighbors>{output}</neighbors>;
+        
+        function moveLong(g,d) {
+            // g is a geohash
+            // d is the number of tiles to move in longitudinal direction
+            var last = g.length - 1;
+            var l = last; // start at the last characer of the geohash
+            while (d !== 0) {
+                var grid = l % 2 == 0 ? 8 : 4; 
+                var t = l % 2 == 0 ? t8 : t4;
+                var d2 = d % grid;
+                var c = g.charAt(l);
+                var c2 = l % 2 == 0 ? move8(c,d2) : move4(c,d2);
+                if ( t.indexOf(c2) < t.indexOf(c) ) d += grid;
+                g = g.substring(0,l) + c2 + g.substring(l+1,last+1); // replace the character in the geohash
+                // note that substring() does *not* include the character at the end index
+                l--; // continue to see if the preceding character of the geohash is affected by the move
+                d = Math.floor(d / grid);
+            }
+            return g;
+        };
+        
+        function moveLat(g,d) {
+            // g is a geohash
+            // d is the number of tiles to move in longitudinal direction
+            var last = g.length - 1;
+            var l = last; // start at the last characer of the geohash
+            while (d !== 0) {
+                var grid = l % 2 !== 0 ? 8 : 4; 
+                var t = l % 2 !== 0 ? t8 : t4;
+                var d2 = d % grid;
+                var c = g.charAt(l);
+                var c2 = l % 2 !== 0 ? move8(c,d2) : move4(c,d2);
+                if ( t.indexOf(c2) < t.indexOf(c) ) d += grid;
+                g = g.substring(0,l) + c2 + g.substring(l+1,last+1); // replace the character in the geohash
+                // note that substring() does *not* include the character at the end index
+                l--; // continue to see if the preceding character of the geohash is affected by the move
+                d = Math.floor(d / grid);
+            }
+            return g;
+        };
+        
+        function move4(c,d) {
+            d = d > 0 ? d : 4 + d; // turn negative distances into positive
+            var p = t4.indexOf(c);
+            var p2 = p + d;
+            return t4.charAt(p2);
+        };
+        
+        function move8(c,d) {
+            d = d > 0 ? d : 8 + d; // turn negative distances into positive
+            var p = t8.indexOf(c);
+            var p2 = p + d;
+            return t8.charAt(p2);
+        };
+
+        
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
