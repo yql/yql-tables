@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>Vikram Bodicherla</author>
-        <sampleQuery>select * from markiv.uob.preciousmetals where metal in ('PAMP GOLD BARS','UBS GOLD KINEBARS')</sampleQuery>
+        <sampleQuery>select * from {table} where metal in ('PAMP GOLD BARS','UBS GOLD KINEBARS')</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="result.preciousmetals" produces="JSON">
