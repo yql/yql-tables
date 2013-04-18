@@ -31,7 +31,7 @@
             lat = res..Point.coordinates[1];
             lon = res..Point.coordinates[0];
 */
-            var req = y.request("http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address=" + encodeURIComponent(place));
+            var req = y.rest("http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address=" + encodeURIComponent(place));
             y.log(req);
             var res = req.get().result;
             y.log(res);
