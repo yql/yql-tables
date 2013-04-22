@@ -26,20 +26,19 @@
             lat = place.match(/^[0-9.]+/);
             lon = place.match(/[0-9.]+$/);
         } else {
-/*            var res = y.query("use 'http://www.datatables.org/google/google.geocoding.xml' as google.geocoding; select * from google.geocoding where q='" + 
+/*          OLD CODE, BEFORE google.geocoding BROKE DOWN
+            var res = y.query("use 'http://www.datatables.org/google/google.geocoding.xml' as google.geocoding; select * from google.geocoding where q='" + 
                               place + "'").results;
             lat = res..Point.coordinates[1];
             lon = res..Point.coordinates[0];
 */
             var req = y.rest("http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address=" + encodeURIComponent(place));
-            y.log("req: ");y.log(req);
             var res = req.get();
-            y.log("res: ");y.log(res.response);
             lat = res.response..geometry[0].location.lat;
-            y.log("lat: ");y.log(lat);
             lon = res.response..geometry[0].location.lng;
-            y.log("lon: ");y.log(lon);
         }
+        
+        y.log("The geo.geohash YQL open table uses the Google Geocoding API, which is subject to usage limitations documented on the Google Developers website: https://developers.google.com/maps/documentation/geocoding/#Limits");
         
         response.object = <item><geohash>{encodeGeoHash(lat,lon)}</geohash></item>;
         
