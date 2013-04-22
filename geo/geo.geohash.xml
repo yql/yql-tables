@@ -33,7 +33,7 @@
 */
             var req = y.rest("http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address=" + encodeURIComponent(place));
             y.log("req: ");y.log(req);
-            var res = req.get().result;
+            var res = req.get();
             y.log("res: ");y.log(req.get());
             lat = res..geometry[0].location.lat;
             y.log("lat: ");y.log(lat);
