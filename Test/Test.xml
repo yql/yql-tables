@@ -17,7 +17,7 @@
             <execute>
                 <![CDATA[
               		response.object = y.pipe("de44c37a43709abfbd346835eb12c310").results;
-              		for (var i = 0; i < response.object.length; i++) {
+              		for (var i = 0; i < response.object.length; i++)
   				response.object[i] = response.object[i][2];
                 ]]>
             </execute>
