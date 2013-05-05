@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+      <author>Killerwolf http://h4md1.fr</author>
+        <description>Accesing Open Data API of JCDecaux bike sharing system</description>
+        <documentationURL>https://developer.jcdecaux.com</documentationURL>
+        <sampleQuery>select * from {table} where contract_name="Paris" apiKey="1f7df45ggffgsd25f4ds6f3d4"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+              <url>https://api.jcdecaux.com/vls/v1/stations/{station_number}/?{contract}{apiKey}</url>
+            </urls>
+            <inputs>
+                <key id="apiKey" type="xs:string" paramType="query" required="true" />
+                  <key id="station_number" type="xs:string" paramType="path" required="false" />
+              	<key id="contract" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+     </bindings>
+</table>
