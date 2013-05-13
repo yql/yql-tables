@@ -1,25 +1,25 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-<meta>
-<author>Eren Inan Canpolat</author>
-<description>
-Makes the HTML results into a string. Useful for pipes.yahoo.com
-</description>
-</meta>
-<bindings>
-<select itemPath="" produces="XML">
-<urls>
-<url/>
-</urls>
-<inputs>
-<key id="url" type="xs:string" paramType="variable" required="true"/>
-<key id="xpath" type="xs:string" paramType="variable" required="true"/>
-<key id="charset" type="xs:string" paramType="variable" required="true"/>
-</inputs>
-<execute>
+  <meta>
+    <author>Eren Inan Canpolat</author>
+    <description>
+      Makes the Turkish HTML results into a string. Useful for pipes.yahoo.com. Based on Paul Donnelly's table.
+    </description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url/>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="variable" required="true"/>
+        <key id="xpath" type="xs:string" paramType="variable" required="true"/>
+        <key id="charset" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
 <![CDATA[
 var q = y.query('select * from html where url=@url and xpath=@xpath and charset=@charset limit 1',{url:url,xpath:xpath,charset:charset}); var myresults = q.results; response.object = myresults.toString();
 ]]>
-</execute>
-</select>
-</bindings>
+      </execute>
+    </select>
+  </bindings>
 </table>
