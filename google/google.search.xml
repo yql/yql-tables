@@ -13,7 +13,7 @@
       <paging model="offset">
         <start id="start" default="0" />
         <pagesize id="rsz" max="8" />
-        <total default="8" />
+        <total default="10000" />
       </paging>
       <inputs>
         <key id='q' type='xs:string' paramType='query' />
