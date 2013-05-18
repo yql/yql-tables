@@ -10,7 +10,7 @@
   <bindings>
     <select itemPath="root.Query" produces="XML">
       <urls>
-        <url>https://raw.github.com/yesboyhongtai/yql-data/master/query_eta_1.xml</url>
+        <url>https://raw.github.com/yesboyhongtai/yql-data/master/query_eta_2.xml</url>
       </urls>
     </select>
   </bindings>
