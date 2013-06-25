@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Vikram Bodicherla</author>
+        <sampleQuery>select * from {table} where data in ('news', 'nowcase','further_outlook', '3_day_outlook', 'psi_update', 'heavy_rain_warning')</sampleQuery>
+    </meta>
+    <bindings>
+        <inputs>
+            <key id='data' type='xs:string' paramType='query' required='true'/>
+        </inputs>
+        <execute>
+            <![CDATA[
+                var data = {};
+
+                if(data.indexOf('nowcast') > -1){
+                    var nowcastRss = y.query('http://www.weather.gov.sg/wip/pp/rndops/web/rss/rssNcast_NEW.xml#sthash.Oj9mHS9h.dpuf').rest;
+                    var entry = nowcastRss.feed.entry;
+
+                    data.nowcast = entry;
+                }
+
+                response.object = data;
+            ]]>
+        </execute>
+     </bindings>
+</table>
