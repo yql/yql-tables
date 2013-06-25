@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+  <meta>  
+    <author>David Young;davidbeckham2901@gmail.com</author>  
+    <documentationURL>http://www.flickr.com/services/api/flickr.photos.getInfo.html</documentationURL>  
+    <sampleQuery>select * from {table} where photo_id="109722179" and api_key="4fb031bf5b2f138576d011ff37f31565"</sampleQuery>  
+  </meta>  
+  <bindings>  
+   <select itemPath="rsp.photo" produces="XML">  
+      <urls>  
+        <url env="all">http://api.flickr.com/services/rest/?method=flickr.photos.getInfo</url>  
+      </urls>  
+      <inputs>  
+        <key id="photo_id" type="xs:string" paramType="query" />  
+        <key id="api_key" type="xs:string" private="true" paramType="query" default="4fb031bf5b2f138576d011ff37f31565"/>   
+      </inputs>  
+    </select>  
+  </bindings>  
+</table>
