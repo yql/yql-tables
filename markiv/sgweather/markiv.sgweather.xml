@@ -2,25 +2,109 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>Vikram Bodicherla</author>
-        <sampleQuery>select * from {table} where data in ('news', 'nowcase','further_outlook', '3_day_outlook', 'psi_update', 'heavy_rain_warning')</sampleQuery>
+        <sampleQuery>select * from {table} where scope in ('now','twelve-hour-forecast','three-day-forecast')</sampleQuery>
     </meta>
     <bindings>
-        <inputs>
-            <key id='data' type='xs:string' paramType='query' required='true'/>
-        </inputs>
-        <execute>
-            <![CDATA[
-                var data = {};
+        <select>
+            <inputs>
+                <key id='scope' batchable='true' type='xs:string' paramType='query' required='true'/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var htmlSummaryElementParser = function(response){
+                        return y.xmlToJson(response).feed.entry.summary;
+                    };
 
-                if(data.indexOf('nowcast') > -1){
-                    var nowcastRss = y.query('http://www.weather.gov.sg/wip/pp/rndops/web/rss/rssNcast_NEW.xml#sthash.Oj9mHS9h.dpuf').rest;
-                    var entry = nowcastRss.feed.entry;
+                    var psiRssParser = function(response){
+                        var rssItems = y.xmlToJson(response).rss.channel.item;
+                    
+                        var psiElements = [];
+                        if(rssItems){
+                            for(var i = 0, length = rssItems.length; i < length; i++){
+                                var rssItem = rssItems[i];
+                                psiElements.push({psi: rssItem.psi, pubDate: rssItem.pubDate});
+                            }                       
+                        }   
+                        return psiElements;
+                    };
 
-                    data.nowcast = entry;
-                }
+                    var elements = {
+                        'nowcast': {
+                            url: 'http://www.weather.gov.sg/wip/pp/rndops/web/rss/rssNcast_NEW.xml',
+                            parser: htmlSummaryElementParser
+                        },
+                        'twelve-hour-forecast': {
+                            url: 'http://www.weather.gov.sg/wip/pp/rndops/web/rss/rssForecast_new.xml',
+                            parser: htmlSummaryElementParser
+                        },
+                        'three-day-forecast': {
+                            url: 'http://www.weather.gov.sg/wip/pp/rndops/web/rss/3Day_RSS.xml',
+                            parser: htmlSummaryElementParser
+                        },
+                        'psi-update': {
+                            url: 'http://app2.nea.gov.sg/data/rss/nea_psi.xml',
+                            parser: psiRssParser
+                        },
+                        'heavy-rain-warnings': {
+                            url: 'http://www.weather.gov.sg/wip/pp/rndops/web/rss/rssHeavyRain_new.xml',
+                            parser: htmlSummaryElementParser
+                        }
+                    };
 
-                response.object = data;
-            ]]>
-        </execute>
-     </bindings>
+                    var scopes = {
+                        'now': ['nowcast', 'psi-update', 'heavy-rain-warnings'],
+                        'twelve-hour-forecast': ['twelve-hour-forecast'],
+                        'three-day-forecast': ['three-day-forecast']
+                    };
+                                  
+                    var getter = function(url, options){
+                        var tries = 0;
+                        options = options || {retries: 1};
+                    
+                        var response = null;
+                        while(tries < options.retries){
+                            var result = null;
+                            try{
+                                result = y.rest(url).get();
+                            }
+                            catch(e){
+                                y.log('Get error: ' + e);
+                                result = null;
+                            }
+                            if(result && !result.timeout && result.status == 200){
+                                response = result.response;
+                                break;
+                            }
+                            y.log('Retrying ' + (tries + 1) + ' time...');
+                            tries++;
+                        }
+              
+                        return response;
+                    };
+
+                    y.log('Asked for scopes: ' + scope);
+                    var responseObj = {};
+                    for(var i = 0, length = scope.length; i < length; i++){
+                        var scopeDefinition = scopes[scope[i]];
+                        if(scopeDefinition){
+              		    responseObj[scope[i]] = {};
+                            for(var j = 0, length2 = scopeDefinition.length; j < length2; j++){
+                                var elementDefinition = elements[scopeDefinition[j]];
+              			y.log('Getting ' + elementDefinition.url + ' for ' + scopeDefinition[j]);              
+                                var response = getter(elementDefinition.url, {retries: 3});
+                                var elementData = elementDefinition.parser(response);
+
+                                responseObj[scope[i]][scopeDefinition[j]] = elementData;
+                            }
+                        }
+                    }
+              	    y.log('+++');              
+                    y.log(responseObj);
+              	    y.log('+++');
+                    response.object = {data: responseObj};
+              	    y.log(response.object.data);	
+                ]]>
+            </execute>
+        </select>
+    </bindings>
 </table>
