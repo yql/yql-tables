@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Jai Santhosh</author>
+        <description>Face recognition API from rekognition.com</description>
+        <documentationURL>http://v2.rekognition.com/developer/docs</documentationURL>
+        <sampleQuery>select * from {table} where api_key="your_api_key" and api_secret="your_api_secret" and image_url="image url"</sampleQuery>
+        <apiKeyURL>http://v2.rekognition.com/developer/docs</apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://rekognition.com/func/api/?api_key={api_key}&amp;api_secret={api_secret}&amp;jobs=face_gender_emotion&amp;urls={image_url}</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="path" required="true"/>
+        <key id="api_secret" type="xs:string" paramType="path" required="true"/>
+        <key id="image_url" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+     </bindings>
+</table>
