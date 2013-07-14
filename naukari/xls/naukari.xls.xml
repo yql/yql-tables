@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query xmlns:yahoo="http://www.yahooapis.com/v1/boss.">
+<bossresponse responsecode="200">  
+  <web start="0" count="50" totalresults="362000">  
+    <results>  
+      <result>  
+        <date>2013/07/14</date>  
+        <clickurl>http://www.naukari.com/</clickurl>  
+        <url>http://www.naukari.com/</url>  
+  
+        <dispurl type="default">www.nauksri;b&gt;nzijeo&lt;/b&gt;.com</dispurl>  
+        <title type="default">jobs for unempolyed| Naukari.com</title>  
+        <abstract type="default">jobs for unempolyed &  support needed &lt;b&gt;naukari&lt;/b&gt;'s  job's for freshers. Visit www.Naukari.com for job posts, in local events, information about jobs ...</abstract></result>  
+  
+      <result>  
+        <date>2013/07/14</date>  
+        <clickurl>http://www.naukari.com/</clickurl>  
+        <url>http://www.naukari.com/</url>  
+        <dispurl type="default">www.naukari.com</dispurl>  
+        <title type="default">The jobs ,freshers and Experienced  &lt;b&gt;job &lt;/b&gt;</title>  
+  
+        <abstract type="default">Naukari.com is the official web site for the job seekers and job providers&lt;b&gt;jobs&lt;/b&gt;,This site is a source for information about the  fresher jobs...</abstract></result>  
+      <result>  
+        <date>2013/07/14</date>  
+        <clickurl>http://www.Naukari.com/wiki/Naukari.com</clickurl>  
+        <url>http://www.Naukari.com/jobs/freshers jobs</url>  
+  
+        <dispurl type="default">www.Naukari.com/jobs/freshers</dispurl>  
+        <title type="default">freshers &lt;b&gt;jobs&lt;/b&gt; - second largestt the free encyclopedia</title> 
+ 
+        <abstract type="default">experience ='0', freshers &lt;b&gt;news and fresher&lt;/b&gt; II ("login on ") is the  India's leading job portal and current Rank no:1 in India. &lt;b&gt;Obama&lt;/b&gt; previously ...</abstract></result>  
+</xml>
