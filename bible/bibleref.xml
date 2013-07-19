@@ -130,7 +130,7 @@
           <verse>{verse}</verse>
           <phrase>{phrase}</phrase>
           <osisref>{osisbook + '.' + chapter + '.' + verse + (phrase?'!':'') + phrase}</osisref>
-          <sequence>{osisbook + (1000 * chapter + verse)}</sequence>
+          <sequence>{osisbook + (1000000+ 1000 * chapter + verse)}</sequence>
           </bibleref>;
         }
         function parse_reference(bibleref)
