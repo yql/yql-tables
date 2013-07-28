@@ -179,9 +179,9 @@
             try
             {
               chapterversereference = split2.after
-                .replaceAll(chapterseparator,':')
-                .replaceAll(listseparator,',')
-                .replaceAll(rangeseparator,'-');
+                .replace(new RegExp('\\' + chapterseparator,'g'),':')
+                .replace(new RegExp('\\' + listseparator,'g'),',')
+                .replace(new RegExp('\\' + rangeseparator,'g'),'-');
               parseResult = parse_list("explicit",split2.after);
               parseSuccess = 1;
             }
