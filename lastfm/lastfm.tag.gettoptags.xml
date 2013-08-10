@@ -12,7 +12,7 @@
       </urls>
       <inputs>
         <key id="api_key" type="xs:string" paramType="query" required="true" />
-        
+        <key id="tag" type="xs:string" paramType="query" required="true" />
       </inputs>
     </select>
   </bindings>
