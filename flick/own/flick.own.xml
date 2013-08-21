@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery></sampleQuery>
+    <author>Adrian Statescu</author>
+    <documentationURL></documentationURL>  
+    <description></description>
+  </meta>
+
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>        
+      <key id='username' type='xs:string' paramType="variable" required='true' />
+      <key id='amount' type='xs:string' paramType="variable" required='false' />
+      <key id='size' type='xs:string' paramType="variable" required='false' />
+      <key id='tags' type='xs:string' paramType="variable" required='false' />
+      </inputs>
+      <execute><![CDATA[
+         var amt = amount || 20; 
+         var sz = size || 'l';
+         var query = "select * from flickr.photos.search("+ amt +")"+" where user_id = '57957837@N03' and api_key='0880ed5b7148c338f6767493fd6be08e'";
+         if(tags !== null) {
+             query += "and tags='"+ tags + "'| reverse()";
+         } 
+         var res = y.query(query).results;
+         var out = <ul/>;
+         for each(var curr in res.photo) {
+             var li = <li/>;
+          	var a = <a/>;
+		var url = 'http://farm' + curr.@farm + '.static.flickr.com/' + curr.@server + '/' + curr.@id + '_' + curr.@secret + '.jpg';
+        	a.@["title"] = curr.@title;          
+        	a.@["src"] = url;
+                  li.a = a;
+                  out.li += li;                    
+         }
+         response.object = out;  
+      ]]></execute>
+    </select>
+
+  </bindings>
+</table>
