@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author><!-- your name or company name --></author>
+        <description><!-- description of the table --></description>
+        <documentationURL><!-- url for API documentation --></documentationURL>
+        <apiKeyURL><!-- url for getting an API key if needed --></apiKeyURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url><!-- REST endpoint to select data from --></url>
+            </urls>
+            <inputs>
+                <key id="" type="xs:string" paramType="query" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
