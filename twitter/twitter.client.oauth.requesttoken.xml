@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Tanny Tales (proyin@naver.com)</author>
+		<description>Twitter ClientSide OAuth API
+Accesskey must be from this app link
+https://dev.twitter.com/apps/ and OAuth Tool [tab]
+copy 'Authorization header' and don't include header :: 'Authorization: '
+		</description>
+		<documentationURL>https://dev.twitter.com/docs/api/1/post/oauth/request_token</documentationURL>
+		<sampleQuery>select * from {table} where Authorization="";</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>
+				<url>https://api.twitter.com/oauth/request_token</url>
+			</urls>
+			<inputs>
+				<key id="Authorization" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+request.header("Authorization",Authorization);
+response.object=request.post("").response
+				]]>
+			</execute>
+		</select>
+	</bindings>
+</table>
