@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table https="false" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>ericfeh</author>
+        <description>stuff</description>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <inputs>
+                <key id="url" paramType="variable" required="true"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+
+//
+var ctv = (function () {
+    //
+    var instance = {};
+    //
+    instance.log = function () {
+        y.log("[ctv] " + Array.slice(arguments).join(", "));
+    };
+    //
+    instance.dump = function (source) {
+        var item = {};
+        
+        if (this.typeOf(source) == "object") {
+            for (item in source) {
+                this.log(item + ":" + source[item]);
+            }
+        }
+    };
+    //
+    instance.merge = function (first, second) {
+        var prop = null;
+        
+        for (prop in second) {
+            if (second.hasOwnProperty(prop)) {
+                first[prop] = String(second[prop]);
+            }
+        }
+        
+        return first;
+    };
+    //
+    instance.typeOf = function (source) {
+        if (source == undefined) {
+            return false;
+        }
+        
+        switch (source.constructor) {
+            case Object:
+                return "object";
+            case Array:
+                return "array";
+            case Number:
+                return isFinite(source) ? "number" : false;
+            case Date:
+                return "date";
+            case Function:
+                return "function";
+            default:
+                if (typeof(source.length) === "number") {
+                    if (source.callee) {
+                        return "arguments";
+                    } else if (source.item) {
+                        return "collection";
+                    }
+                }
+                if (source.nodeName) {
+                    return source.nodeName;
+                }
+        }
+        
+        return typeof(source);
+    };
+    //
+    instance.isEmpty = function (source) {
+        if (source == null) {
+            return true;
+        }
+        var type = ctv.typeOf(source);
+        switch (type) {
+            case "array":
+                return (source.length > 0) ? false : true;
+            case "string":
+                return (source.length > 0) ? false : true;
+            case "number":
+                return false;
+            case "object":
+                for (var property in source) {
+                    if (source.hasOwnProperty(property)) {
+                        return false;
+                    }
+                }
+                return true;
+            default:
+                return type ? false : true;
+        }
+    };
+    //
+    return instance;
+})();
+//
+ctv.ttml = (function () {
+    //
+    var instance = {};
+    //
+    var structureList = function (data, namespace) {
+        list = namespace.split(".");
+        parent = data[list[0]];
+        result = {};
+        
+        if (parent) {
+            node = parent[list[1]];
+            if (node) {
+                // we know we only get a list or a single object
+                entry = (ctv.typeOf(node) ==  "array") ? node : [node];
+                index = 0;
+                item = {};
+                items = {};
+                
+                for (index = 0; index < entry.length; index++) {
+                    item = entry[index];
+                    items[item.id] = item;
+                    delete item.id;
+                }
+                
+                result = items;
+            }
+        }
+        
+        return result;
+    };
+    //
+    instance.xsl = (function () {
+        return '' +
+'<?xml version="1.0"?>' +
+    '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' +
+    '<xsl:output indent="no" method="xml" encoding="utf-8" omit-xml-declaration="no" />' +
+    '<xsl:strip-space elements="*" />' +
+    '<xsl:template match="*">' +
+        '<xsl:element name="{local-name()}">' +
+            '<xsl:apply-templates select="@* | node()"/>' +
+        '</xsl:element>' +
+    '</xsl:template>' +
+    '<xsl:template match="@*">' +
+        '<xsl:attribute name="{local-name()}">' +
+            '<xsl:value-of select="."/>' +
+        '</xsl:attribute>' +
+    '</xsl:template>' +
+    '<xsl:template match="comment() | text() | processing-instruction()">' +
+        '<xsl:copy/>' +
+    '</xsl:template>' +
+'</xsl:stylesheet>';
+    })();
+    //
+    instance.normalize = function (url) {
+        var query = "select * from feednormalizer where url='" + url + "' and prexsl='" + this.xsl + "'"
+        var results = y.query(query).results;
+        
+        return this.processResults(results);
+    };
+    //
+    instance.processResults = function (results) {
+        return {
+            config: this.processConfig(results),
+            head: this.processHead(results),
+            body: this.processBody(results)
+        };
+    };
+    //
+    instance.processConfig = function (results) {
+        return this.getAttributes(results.tt);
+    };
+    //
+    instance.processHead = function (results) {
+        var data = y.xmlToJson(results.tt.head).head;
+        var list = [];
+        var node = {};
+        var result = {};
+        var entry = [];
+        var index = 0;
+        var item = {};
+        var items = {};
+        var parent = {};
+        
+        var head = {styling: {style: {}}, layout: {region: {}}};
+        
+        head.styling.style = structureList(data, "styling.style");
+        
+        head.layout.region = structureList(data, "layout.region");
+        
+        if (ctv.isEmpty(head.layout.region)) {
+            head.layout.region["anonymous"] = {};
+        }
+        
+        return head;
+    };
+    //
+    instance.processBody = function (results) {
+        var data = results.tt.body;
+        var body = this.getAttributes(data);
+        var contents = data.div.p;
+        var entry = {};
+        var content = null;
+        var index = 0;
+        var removeAttributes = ["id"];
+        
+        body.div = [];
+        
+        for (index = 0; index < contents.length(); index++) {
+            entry = {};
+            content = contents[index];
+            entry.content = this.getStringValue(content);
+            if (!entry.content) {
+                continue;
+            }
+            body.div.push(ctv.merge(entry, this.getAttributes(content, removeAttributes)));
+        }
+        
+        return body;
+    };
+    //
+    instance.getStringValue = function (node) {
+        var value = "";
+        var childStr = "";
+        var child = {};
+        
+        if (node) {
+            if (node.hasSimpleContent()) {
+                value = node.toString();
+            } else {
+                for each (child in node.children()) {
+                    childStr = this.getStringValue(child);
+                    value += (childStr.length <= 0) ? "<br/>" : childStr;
+                }
+            }
+        }
+        
+        return value;
+    };
+    //
+    instance.getAttributes = function (el, trimList) {
+        var output = {};
+        var attributes = {};
+        var attribute = null;
+        var attributeName = null;
+        var index = 0;
+        
+        if (el) {
+            attributes = el.attributes();
+            attribute = null;
+            attributeName = null;
+            index = 0;
+            
+            for (index = 0; index < attributes.length(); index++) {
+                attribute = attributes[index];
+                attributeName = attribute.name().toString();
+                if (!trimList || (trimList && (trimList.indexOf(attributeName) == -1))) {
+                    output[attributeName] = attribute.toString();
+                }
+            }
+        }
+        
+        return output;
+    };
+    //
+    return instance;
+})();
+//
+
+response.object = ctv.ttml.normalize(url);
+
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
