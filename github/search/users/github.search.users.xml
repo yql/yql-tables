@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Jai Santhosh</author>
+        <description>Searches users on Github</description>
+        <documentationURL>http://developer.github.com/v3/search/#search-users</documentationURL>
+        <sampleQuery>select * from {table} where keywords="jaisanth"</sampleQuery>
+        <apiKeyURL></apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="json" produces="JSON">
+      <urls>
+        <url>https://api.github.com/legacy/user/search/{keywords}</url>
+      </urls>
+      <inputs>
+        <key id="keywords" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+     </bindings>
+</table>
