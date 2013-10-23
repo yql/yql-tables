@@ -159,43 +159,18 @@ ctv.ttml = (function () {
         var query = "select * from feednormalizer where url='" + url + "' and prexsl='" + this.xsl + "'"
         var results = y.query(query).results;
         
-        return this.processResults(results);
-    };
-    //
-    instance.processResults = function (results) {
-        return {
-            config: this.processConfig(results),
-            head: this.processHead(results),
-            body: this.processBody(results)
-        };
-    };
-    //
-    instance.processConfig = function (results) {
-        return this.getAttributes(results.tt);
+		var output = {};
+		output.tt = this.getAttributes(results.tt);
+  		output.tt.head = this.processHead(results);
+		output.tt.body = this.processBody(results);
+		
+        return output;
     };
     //
     instance.processHead = function (results) {
         var data = y.xmlToJson(results.tt.head).head;
-        var list = [];
-        var node = {};
-        var result = {};
-        var entry = [];
-        var index = 0;
-        var item = {};
-        var items = {};
-        var parent = {};
-        
-        var head = {styling: {style: {}}, layout: {region: {}}};
-        
-        head.styling.style = structureList(data, "styling.style");
-        
-        head.layout.region = structureList(data, "layout.region");
-        
-        if (ctv.isEmpty(head.layout.region)) {
-            head.layout.region["anonymous"] = {};
-        }
-        
-        return head;
+		delete data.metadata;
+		return data;
     };
     //
     instance.processBody = function (results) {
@@ -207,7 +182,7 @@ ctv.ttml = (function () {
         var index = 0;
         var removeAttributes = ["id"];
         
-        body.div = [];
+        body.div = {p: []};
         
         for (index = 0; index < contents.length(); index++) {
             entry = {};
@@ -216,7 +191,7 @@ ctv.ttml = (function () {
             if (!entry.content) {
                 continue;
             }
-            body.div.push(ctv.merge(entry, this.getAttributes(content, removeAttributes)));
+            body.div.p.push(ctv.merge(entry, this.getAttributes(content, removeAttributes)));
         }
         
         return body;
@@ -233,7 +208,7 @@ ctv.ttml = (function () {
             } else {
                 for each (child in node.children()) {
                     childStr = this.getStringValue(child);
-                    value += (childStr.length <= 0) ? "<br/>" : childStr;
+                    value += (childStr.length <= 0) ? "\n" : childStr;
                 }
             }
         }
