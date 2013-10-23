@@ -9,7 +9,7 @@
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-       <url>http://biz.yahoo.com/ic/{id}_cl_pub.html</url>
+       <url>http://biz.yahoo.com/p/{id}conameu.html</url>
       </urls>
       <inputs>
 	<key id="id" type='xs:string' paramType='path' required='true'/>
@@ -29,24 +29,21 @@
 	"select * from html " +
 	"where url=@url and " + 
 	"xpath='" +
-	"//table[@width=\"100%\"]/tr/td/font[@size=\"-1\"]/strong | " +
-	"//td[@width=\"50%\"]//font[@size=\"-1\"]/a'",
+	"//tr/td/font[@face=\"arial\" and a[contains(@href,\"finance\")]] |" + 
+	"//tr/td/font[a/@href=\"http://biz.yahoo.com/ic/"+id+".html\"]/strong'",
 	{url:request.url});
     var results = industryQuery.results;
 
-    var name = results.strong.a[1].text().toString().trim().replace(/\s+/g, " ");
+    var name = results.strong.text().toString().replace(/>/g,'').trim();
     var industry = <industry id={id} name={name}/>;
 
-    for each (var a in results.a){
-	match = a.@href.toString().match(/q\?s=(.*)$/);
-	if (match == null) {
-	    companyName = a.text().toString().trim();
-	    companyName = companyName.replace(/\s+/g, " ");
-	} else {
-	    symbol = match[1];
-	    company = <company symbol={symbol} name={companyName} />
-	    industry.appendChild(company);
-	}
+    for each (var company in results.font){
+	companyName = company.a[0];
+	symbol = company.a[1];
+	if(symbol == undefined)
+	    symbol = company.text().toString().replace(/[()]/g,'').trim();
+    	company = <company symbol={symbol} name={companyName} />
+    	industry.appendChild(company);
     }
     
     response.object = industry;
