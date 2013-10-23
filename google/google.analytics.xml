@@ -8,27 +8,30 @@
   <bindings>
     <select>
       <urls>
-        <url>https://www.google.com/accounts/ClientLogin</url>
+        <url>https://accounts.google.com/o/oauth2/token</url>
       </urls>
       <inputs>
-        <key id="accountType" paramType="variable" default="GOOGLE"/>
-        <key id="Email" paramType="variable" required="true"/>
-        <key id="Passwd" paramType="variable" required="true"/>
-        <key id="service" paramType="variable" default="analytics"/>
-        <key id="source" paramType="variable" default="sampullara-yql-1.0"/>
+        <key id="client_id" paramType="variable" required="true"/>
+        <key id="client_secret" paramType="variable" required="true"/>
+        <key id="refresh_token" paramType="variable" required="true"/>
+        <key id="grant_type" paramType="variable" required="true"/>
+        <key id="scope" paramType="variable" required="true"/>
       </inputs>
-      <execute><![CDATA[
-var content = "accountType=" + encodeURIComponent(accountType) +
-              "&Email=" + encodeURIComponent(Email) +
-              "&Passwd=" + encodeURIComponent(Passwd) +
-              "&service=" + encodeURIComponent(service) +
-              "&source=" + encodeURIComponent(source);
-response.object = request.contentType("application/x-www-form-urlencoded").header("GData-Version", "2").post(content).response;
-      ]]></execute>
+      <execute>
+      <![CDATA[
+      var content = "client_id=" + encodeURIComponent(client_id) +
+      "&client_secret=" + encodeURIComponent(client_secret) +
+      "&refresh_token=" + encodeURIComponent(refresh_token) +
+      "&grant_type=" + encodeURIComponent(grant_type) + 
+      "&scope=" + encodeURIComponent(scope);
+      response.maxAge = 3600;
+      response.object = request.contentType("application/x-www-form-urlencoded").post(content).response;
+      ]]>
+      </execute>
     </select>
-    <select itemPath="" produces="XML">
+    <select itemPath="" produces="JSON">
       <urls>
-        <url>https://www.google.com/analytics/feeds/data</url>
+        <url>https://www.googleapis.com/analytics/v3/data/ga</url>
       </urls>
       <inputs>
         <key id="ids" type="xs:string" paramType="query" required="true"/>
@@ -43,7 +46,7 @@ response.object = request.contentType("application/x-www-form-urlencoded").heade
       </inputs>
       <execute><![CDATA[
       y.log(request.url);
-response.object = request.header("GData-Version", "2").header("Authorization", "GoogleLogin Auth=" + auth).get().response;
+      response.object = request.header("Authorization", "Bearer " + auth).get().response;
       ]]></execute>
     </select>
     <select>
