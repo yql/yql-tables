@@ -6,7 +6,7 @@
   <bindings>
     <select itemPath="json" produces="JSON">
       <urls>
-        <url>http://translate.google.com/translate_a/t?client=t&amp;text={q}&amp;sl={source}&amp;tl={target}</url>
+        <url>http://translate.google.com/translate_a/t?client=x&amp;text={q}&amp;sl={source}&amp;tl={target}</url>
       </urls>
       <inputs>
         <key id='q' type='xs:string' paramType='query' required="true" />
