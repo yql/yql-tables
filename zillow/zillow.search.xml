@@ -2,7 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>Paul Donnelly</author>
-        <documentationURL>http://www.zillow.com/howto/api/GetSearchResults.htm</documentationURL>
+        <documentationURL>http://www.zillow.com/howto/api/GetDeepSearchResults.htm</documentationURL>
         <sampleQuery>select * from {table} where address = "1835 73rd Ave NE" and citystatezip = "98039" and zwsid = "X1-ZWz1cse68iatcb_13bwv"</sampleQuery> 
     </meta>
     <bindings>
