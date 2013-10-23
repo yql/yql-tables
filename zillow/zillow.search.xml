@@ -14,6 +14,7 @@
                 <key id="address" type="xs:string" paramType="query" required="true" />
                 <key id="citystatezip" type="xs:string" paramType="query" required="true" />
                 <key id="zwsid" type="xs:string" paramType="path" required="true" />
+                <key id="rentzestimate" type="xs:string" paramType="path" required="false" />
             </inputs>
         </select>
     </bindings>
