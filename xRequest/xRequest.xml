@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+	<meta>  
+		<sampleQuery>SELECT * FROM {table} WHERE url='http://www.google.com' AND  parameters='{"headers": [["Referrer", "http://geeklad.com/"]]}';</sampleQuery>  
+	</meta>  
+	<bindings>  
+		<select itemPath="" produces="XML">  
+			<urls>  
+				<url></url>
+			</urls>  
+			<inputs>  
+				<key id='url' type='xs:string' paramType='variable' required="true" />
+				<key id='parameters' type='xs:string' paramType='variable' />
+			</inputs>  
+			<execute><![CDATA[ 
+				var output = {"method" : "GET"};
+				var key;
+				var inner_key;
+				var remoteRequest = y.rest(url);
+				remoteRequest.followRedirects(false);
+				var original_parameters = parameters;
+				if(parameters) {
+					try {
+						eval("parameters="+parameters);
+					}
+					catch(err){
+						output.error = "Unable to evaluate parameters.  Please ensure that parameters is a properly formed JSON object.  Following string was provided: \n\n" + original_parameters;
+						parameters = false;
+					}
+					if(parameters) {
+						for(key in parameters) {
+							switch(key) {
+								case "headers":
+									for(inner_key in parameters.headers) {
+										remoteRequest.header(parameters.headers[inner_key][0], parameters.headers[inner_key][1]);
+									}
+									break;
+
+								case "method":
+									switch(parameters.method) {
+										case "POST":
+											if(!parameters.postbody) {
+												output.error = "POST method specified without postbody.";
+											}
+											else {
+												output.method = "POST";
+											}
+											break;
+
+										default:
+											output.method = "GET";
+											break;
+									}
+									break;
+							}
+						}
+					}
+				}
+				else {
+					parameters = {"postbody" : false}
+				}
+				if (output.error) {
+					response.object = {"error": output.error};
+				}
+				else {
+					switch(output.method) {
+						case "POST":
+							output.response = remoteRequest.contentType("application/x-www-form-urlencoded").post(parameters.postbody);
+							break;
+
+						default:
+							output.response = remoteRequest.get();
+							break;
+					}
+					response.object = {"method" : output.method, "url": url, "request_headers" : remoteRequest.headers, "post_body" : parameters.postbody, "status" : output.response.status, "response_headers": output.response.headers, "html" : output.response.response};
+				}
+			]]></execute>  
+		</select>   
+	</bindings>  
+</table>
