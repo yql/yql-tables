@@ -168,8 +168,13 @@ ctv.ttml = (function () {
     };
     //
     instance.processHead = function (results) {
-        var data = y.xmlToJson(results.tt.head).head;
-		delete data.metadata;
+        var data = null;
+		if ("head" in results.tt) {
+			data = y.xmlToJson(results.tt.head).head;
+            if ("metadata" in data) {
+                delete data.metadata;
+            }
+		}
 		return data;
     };
     //
