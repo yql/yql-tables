@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Gang Liang</author>
+        <description>
+            Yahoo Finance - Analyst Estimate by Stock Symbol
+        </description>
+        <sampleQuery>
+            SELECT * FROM {table} WHERE symbol='PRLB'
+        </sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>
+                </url>
+            </urls>
+            <inputs>
+                <key id="symbol" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                function getelement(row)
+                {
+                    if(row.hasOwnProperty("p")) return(row.p.text());
+                    return(row.font.text());
+                }
+
+                // Setup Query from finance.yahoo.com
+                var url="http://finance.yahoo.com/q/ae?s=" + symbol;
+                var restquery = y.rest( url );
+                var rawresult = restquery.accept( "text/html" ).get().response;
+                var aequery = y.xpath(
+                        rawresult,
+                        "//table[@class='yfnc_tableout1']/tr[count(td)=0]/parent::*|" +
+                        "//table[@class='yfnc_tableout1']/tr/td/table"
+                    );
+
+                // Process Results
+                var aedata = <results symbol={symbol}></results>;
+                var i = 0;
+                while(i < aequery.length())
+                {
+                    var table  = aequery[i];
+                    var thead  = table.tr[0];
+                    var tname  = thead.th[0].strong.text().toString().replace(/ /g, "");
+                    var fname1 = thead.th[1].p.text().toString().replace(/\n.*/, "");
+                    var fname2 = thead.th[2].p.text().toString().replace(/\n.*/, "");
+                    var fname3 = thead.th[3].p.text().toString().replace(/\n.*/, "");
+                    var fname4 = thead.th[4].p.text().toString().replace(/\n.*/, "");
+                    fname1 = fname1.replace(/[\s\.]+/g, "").replace(/\&/,"");
+                    fname2 = fname2.replace(/[\s\.]+/g, "").replace(/\&/,"");
+                    fname3 = fname3.replace(/[\s\.]+/g, "").replace(/\&/,"");
+                    fname4 = fname4.replace(/[\s\.]+/g, "").replace(/\&/,"");
+
+                    var tblval = <{tname}></{tname}>;
+                    var j = 1;
+                    while(j < table.tr.length())
+                    {
+                        var row   = table.tr[j].td;
+                        var rname = row[0].p.text().toString().replace(/[\s\.]+/g, "");
+                        rname = rname.replace(/\(.*\)/g,"").replace(/\%/,"").replace(/^(\d)/,"_$1");
+                        rname = rname.replace(/\//, "");
+                        var rval1 = getelement(row[1]);
+                        var rval2 = getelement(row[2]);
+                        var rval3 = getelement(row[3]);
+                        var rval4 = getelement(row[4]);
+                        tblval.appendChild(<{rname}>
+                                              <{fname1}>{rval1}</{fname1}>
+                                              <{fname2}>{rval2}</{fname2}>
+                                              <{fname3}>{rval3}</{fname3}>
+                                              <{fname4}>{rval4}</{fname4}>
+                                           </{rname}>);
+                        j = j + 1;
+                    }
+                    aedata.appendChild(tblval);
+                    i = i + 1;
+                }
+
+                // Return aedata strucuture
+                response.object = aedata;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
+
