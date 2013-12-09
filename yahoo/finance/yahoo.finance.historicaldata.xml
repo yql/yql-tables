@@ -56,7 +56,7 @@
 				var quotes = <quotes/>;
 				rows=results.results.row;
 				for each (var row in rows) {
-					quotes.quote += <quote date={row.Date.text().toString()}>{row.*}</quote>;
+					quotes.quote += <quote Symbol={symbol}>{row.*}</quote>;
 				}
 				response.object = quotes;
 				
