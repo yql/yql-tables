@@ -46,8 +46,8 @@ if (summary.hasComplexContent()) {
 
     quote.appendChild(<prevClose>{quoteList.tr[0].td.p.text()}</prevClose>);
     quote.appendChild(<open>{quoteList.tr[1].td.p.text()}</open>);
-    quote.appendChild(<bid>{quoteList.tr[2].td.p.text()}</bid>);
-    quote.appendChild(<ask>{quoteList.tr[3].td.p.text()}</ask>);
+    quote.appendChild(<bid>{quoteList.tr[2].td.span.text()}</bid>);
+    quote.appendChild(<ask>{quoteList.tr[3].td.span.text()}</ask>);
     quote.appendChild(<strike>{quoteList.tr[4].td.p.text()}</strike>);
     quote.appendChild(<expire>{quoteList.tr[5].td.p.text()}</expire>);
     // quote.appendChild(<daysRange>{quoteList.tr[6].td.p.text()}</daysRange>);
