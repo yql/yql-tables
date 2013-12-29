@@ -22,7 +22,7 @@
       <execute><![CDATA[ 
         String.prototype.trim = function() {
           // Strip leading and trailing white-space
-          return this.replace(/^[ ]*|[ ]*$/g, "");
+          return this.replace(/^\s+|\s+$/g, "");
         }
       
         var debug = 0;
