@@ -150,7 +150,7 @@
           queryoutput = queryoutput.trim();
           var verseIndication = queryoutput.match(/^[0-9]+/);
           if ( verseIndication && verseIndication[0] === biblerefxml.verse.toString()) {
-            queryoutput = queryoutput.replace(/^[0-9]+/,'');
+            queryoutput = queryoutput.replace(/^[0-9]+[.\s]*/,'');
           }
           debug && y.log(queryoutput);
           if (biblerefxml.phrase != '') {
