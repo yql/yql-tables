@@ -71,6 +71,7 @@
                 <phrase/>
             </bibleref>
           </biblerefs>;
+          bibleref = book + ' ' + chapter + ':' + verse;
         } else {
           var biblerefsquery = "use 'https://raw.github.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref'";
           biblerefsquery = biblerefsquery.replace("$bibleref",bibleref);
@@ -82,6 +83,11 @@
         }
         debug && y.log("Bible references: ");
         debug && y.log(biblerefsxml);
+        var localbiblerefsquery = "use 'https://raw.github.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref' and language='$language'";
+        localbiblerefsquery = localbiblerefsquery.replace("$bibleref",bibleref);
+        localbiblerefsquery = localbiblerefsquery.replace("$language",language);
+        localbiblerefsxml = y.query(localbiblerefsquery).results.biblerefs;
+        localbibleref = localbiblerefsxml.bibleref[0].localbook + ' ' + localbiblerefsxml.bibleref[0].chapterversereference;
         book = biblerefsxml.bibleref[0].book.toString();
         var booksquery = 'select book from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/books.xml" and book.input matches "(?i)$book"';
         booksquery = booksquery.replace("$book",book);
@@ -175,7 +181,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
-        response.object = <passage>{output}</passage>;
+        response.object = <><passage>{output}</passage><bibleref>{localbibleref}</bibleref></>;
 
         function stringValue(node) {
             var value = new String();
