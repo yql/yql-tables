@@ -166,6 +166,7 @@
           output += (queryoutput + ' ');
         }
         output = output.trim();
+        output = output.replace(/\s+/g, ' ');
         var punctuation = output.match(/[.?!,:;]$/);
         if (!punctuation) {
           output += '.';
