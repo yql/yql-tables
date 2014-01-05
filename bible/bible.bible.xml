@@ -181,7 +181,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
-        response.object = <><passage>{output}</passage><bibleref>{localbibleref}</bibleref></>;
+        response.object = <passage bibleref="{localbibleref}">{output}</passage>;
 
         function stringValue(node) {
             var value = new String();
