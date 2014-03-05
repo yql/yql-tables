@@ -174,6 +174,7 @@
         else if (punctuation[0].match(/[,:;]/)) {
           output = output.replace(/[,:;]$/,'.');
         }
+        output = output.charAt(0).toUpperCase() + output.slice(1);
         if ( -1 != output.indexOf("’") && 
              -1 == output.substring(0,output.indexOf("’")).indexOf("‘") ) {
           output = '‘' + output;
