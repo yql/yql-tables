@@ -9,7 +9,7 @@
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-        <url>http://www.ddservice.ebay.com/feeds/new/xml?offset=0&count=1500</url>
+        <url>http://www.ddservice.ebay.com/feeds/new/xml?offset=0&amp;count=1500</url>
       </urls>
       <inputs>
       </inputs>
