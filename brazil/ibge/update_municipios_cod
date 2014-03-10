@@ -14,7 +14,7 @@
 		<execute>
 			<![CDATA[ 
 			
-		var url = "http://cidades.ibge.gov.br/xtras/perfil.php?codmun=="+query;
+		var url = "http://cidades.ibge.gov.br/xtras/perfil.php?codmun="+query;
     	var querystring = "select * from html where url = '"+url+"' and xpath=\"//a/@href\" and charset='latin1'"; 
     	q = y.query(querystring);
 		
