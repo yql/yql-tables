@@ -4,8 +4,7 @@
     <author>Pedro Valente</author>
 	<description></description>
     <documentationURL></documentationURL>
-    <sampleQuery>select * from {table} where query="florianopolis"</sampleQuery>
-	<sampleQuery>select * from {table} where query="sao paulo" and state="SP"</sampleQuery>
+    <sampleQuery>select * from {table} where query="1500602"</sampleQuery>
   </meta>
   <bindings>
    <select itemPath="results.city" produces="XML">
@@ -15,7 +14,7 @@
 		<execute>
 			<![CDATA[ 
 			
-		var url = "http://ibge.gov.br/cidadesat/xtras/pesqmun.php?nomemun="+query;
+		var url = "http://cidades.ibge.gov.br/xtras/perfil.php?codmun="+query;
     	var querystring = "select * from html where url = '"+url+"' and xpath=\"//a/@href\" and charset='latin1'"; 
     	q = y.query(querystring);
 		
