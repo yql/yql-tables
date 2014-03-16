@@ -36,7 +36,7 @@ var summaryXpath = "//div[@class='yfi_rt_quote_summary_rt_top sigfig_promo_1']",
 var summary = y.xpath(data, summaryXpath),
     price = y.xpath(data, priceXpath).text(),
     change = y.xpath(data, changeXpath).text(),
-	quoteList = y.xpath(data, quoteListXpath);
+    quoteList = y.xpath(data, quoteListXpath);
 			
 if (summary.hasComplexContent()) {
     var quote = <option sym={symbol}></option>;
