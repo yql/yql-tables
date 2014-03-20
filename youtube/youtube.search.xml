@@ -55,6 +55,8 @@
             video.appendChild( <author>{video_entry.atom::author.atom::name.toString()}</author> );
             video.appendChild( <duration>{video_entry.media::group.yt::duration.@seconds}</duration> );
             video.appendChild( <comment_count>{video_entry.gd::comments.gd::feedLink.@countHint}</comment_count> );
+            video.appendChild( <published>{video_entry.atom::published.toString()}</published> );
+            video.appendChild( <updated>{video_entry.atom::updated.toString()}</updated> );
         
             for each(category in video_entry.media::group.media::category){
               categories.appendChild( <category>{category.@label}</category> );
