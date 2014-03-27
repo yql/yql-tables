@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>select * from {table} where id='123'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>http://cl.ly/{id}</url>
+            </urls>
+            <inputs>
+                <key id="id" type="xs:string" paramType="path" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    response.object = request.accept('application/json').contentType('application/json').get().response;
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
