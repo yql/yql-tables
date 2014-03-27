@@ -28,7 +28,7 @@
     yQuery = y.rest(optionQuoteUrl),
     data = yQuery.accept("text/html").get().response;
 
-var summaryXpath = "//div[@class='yfi_rt_quote_summary_rt_top']",
+var summaryXpath = "//div[@class='yfi_rt_quote_summary_rt_top sigfig_promo_1']",
     priceXpath = summaryXpath + "//span[@class='time_rtq_ticker']/span",
     changeXpath = summaryXpath + "/p/span[2]/span[1]",
     quoteListXpath = "//div[@id='yfi_quote_summary_data']/table";
@@ -36,7 +36,7 @@ var summaryXpath = "//div[@class='yfi_rt_quote_summary_rt_top']",
 var summary = y.xpath(data, summaryXpath),
     price = y.xpath(data, priceXpath).text(),
     change = y.xpath(data, changeXpath).text(),
-	quoteList = y.xpath(data, quoteListXpath);
+    quoteList = y.xpath(data, quoteListXpath);
 			
 if (summary.hasComplexContent()) {
     var quote = <option sym={symbol}></option>;
