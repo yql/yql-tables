@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Kuba Kuźma</author>
+    <sampleQuery>SELECT * FROM nbp.tables WHERE id = "LastA";</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="tabela_kursow" produces="XML">
+      <urls>
+        <url>http://www.nbp.pl/kursy/xml/{id}.xml</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

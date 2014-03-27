@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Kuba Kuźma</author>
+    <sampleQuery>SELECT * FROM nbp.dir;</sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="result.tables" produces="JSON">
+      <urls>
+        <url>http://www.nbp.pl/kursy/xml/dir.txt</url>
+      </urls>
+      <execute><![CDATA[
+        var dir = request.get().response;
+
+        var results = dir.split("\n").map(function (row) {
+          return {
+            id: row,
+            typ: row.substr(0, 1).toUpperCase(),
+            numer: row.substr(1, 3).replace(/^0+/, ""),
+            data_publikacji: "20" + row.substr(5, 2) + "-" + row.substr(7, 2) + "-" + row.substr(9, 2)
+          };
+        });
+
+        response.object = { tables: results };
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
