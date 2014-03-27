@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Vijay Chandrasegaran</author>
+    <description>eBay Deals API</description>
+    <documentationURL>https://go.developer.ebay.com/developers/ebay</documentationURL>
+    <sampleQuery>select * from {table};</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://www.ddservice.ebay.com/feeds/new/xml?offset=0&amp;count=1500</url>
+      </urls>
+      <inputs>
+      </inputs>
+      <execute>
+      </execute>
+    </select>
+  </bindings>
+</table>
