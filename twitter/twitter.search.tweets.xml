@@ -5,7 +5,7 @@
     <author>Zach Graves (zachg@yahoo-inc.com)</author>
     <author>Matthias Kadenbach (https://github.com/mattes)</author>
 
-    <description>RReturns a collection of relevant Tweets matching a specified query. Requires user context (OAuth keys). Create app at https://dev.twitter.com/apps to obtain your personal OAuth keys. The result is a string, make sure to parse it as JSON.</description>
+    <description>Returns a collection of relevant Tweets matching a specified query. Requires user context (OAuth keys). Create app at https://dev.twitter.com/apps to obtain your personal OAuth keys. The result is a string, make sure to parse it as JSON.</description>
     <documentationURL>https://dev.twitter.com/docs/api/1.1/get/search/tweets</documentationURL>
 
     <!-- you may want to create your own oauth keys ... -->
