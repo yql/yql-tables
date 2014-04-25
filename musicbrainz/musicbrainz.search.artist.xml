@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Maggie Pong</author>
+        <description>MusicBrainz artist search</description>
+        <documentationURL>http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search</documentationURL>
+        <sampleQuery>SELECT * FROM {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="metadata.artist-list" produces="XML">
+            <urls>
+                <url>https://musicbrainz.org/ws/2/artist</url>
+            </urls>
+            <inputs>
+                <key id="query" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+
+            <paging model="offset">
+                <start id="offset" default="0" />
+                <pagesize id="limit" max="100" />
+                <total default="25" />
+            </paging>
+        </select>
+     </bindings>
+</table>
