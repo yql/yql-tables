@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" >
+  <meta>
+    <author>Rui Gonçalves (ruippeixotog@gmail.com)</author>
+    <author>Zach Graves (zachg@yahoo-inc.com)</author>
+    <author>Matthias Kadenbach (https://github.com/mattes)</author>
+
+    <description>Returns a collection of relevant Tweets matching a specified query. Requires user context (OAuth keys). Create app at https://dev.twitter.com/apps to obtain your personal OAuth keys. The result is a string, make sure to parse it as JSON.</description>
+    <documentationURL>https://dev.twitter.com/docs/api/1.1/get/search/tweets</documentationURL>
+
+    <!-- you may want to create your own oauth keys ... -->
+    <sampleQuery>select * FROM {table} WHERE q="yahoo" AND consumer_key="08ZNcNfdoCgYTzR7qcW1HQ" AND consumer_secret="PTMIdmhxAavwarH3r4aTnVF7iYbX6BRfykNBHIaB8" AND access_token="1181240586-JIgvJe4ev3NHdHnAqnovHINWfpo0qB2S2kZtVRI" AND access_token_secret="1nodv0LBsi7jS93e38KiW8cHOA5iUc6FT4L6De7kgk"</sampleQuery>
+
+  </meta>
+  <bindings>
+    <select produces="JSON">
+      <urls>
+        <url>https://api.twitter.com/1.1/search/tweets.json</url>
+      </urls>
+      <inputs>
+        <key id="q" type="xs:string" paramType="query" required="true"/>
+          
+        <key id="geocode" type="xs:string" paramType="query" required="false"/>
+        <key id="lang" type="xs:string" paramType="query" required="false"/>
+        <key id="locale" type="xs:string" paramType="query" required="false"/>
+        <key id="result_type" type="xs:string" paramType="query" required="false"/>
+        <key id="count" type="xs:string" paramType="query" required="false"/>
+        <key id="until" type="xs:string" paramType="query" required="false"/>
+        <key id="since_id" type="xs:string" paramType="query" required="false"/>
+        <key id="max_id" type="xs:string" paramType="query" required="false"/>
+        <key id="include_entities" type="xs:string" paramType="query" required="false"/>
+
+        <!-- Create app at https://dev.twitter.com/apps to obtain your personal OAuth keys. -->
+        <key id="consumer_key" type="xs:string" paramType="variable" required="true"/>
+        <key id="consumer_secret" type="xs:string" paramType="variable" required="true"/>
+        <key id="access_token" type="xs:string" paramType="variable" required="true"/>
+        <key id="access_token_secret" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute>
+        <![CDATA[
+        y.include("http://www.datatables.org/oauth/oauth.utils.js");
+        /* @todo parse json result here?! */
+        response.object = sendRequest({
+          action: request.url,
+          method: 'GET',
+          accessor: {
+            consumerKey: consumer_key,
+            consumerSecret: consumer_secret,
+            realm: request.url,
+            token: access_token,
+            tokenSecret: access_token_secret
+          },
+          parameters: null
+        });
+        ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
