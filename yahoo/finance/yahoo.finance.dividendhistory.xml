@@ -18,7 +18,7 @@
         <key id='d' as="endMonth" type='xs:string' paramType='query' required='false' default='12' />
         <key id='e' as="endDay" type='xs:string' paramType='query' required='false' default='31' />
         <key id='f' as="endYear" type='xs:string' paramType='query' required='false' default='2014' />
-        <key id='g' type='xs:string'  paramType='query' required='false' const='true' default='d' />
+        <key id='g' type='xs:string'  paramType='query' required='false' const='true' default='v' />
       </inputs>
       <execute>
                 <![CDATA[
