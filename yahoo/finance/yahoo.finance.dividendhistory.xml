@@ -3,7 +3,7 @@
   <meta>
     <author>Matt Chan</author>
     <description>Yahoo Finance Dividend History</description>
-    <sampleQuery>select * from {table} where symbol = "KO" and startDate = "1962-01-01" and endDate = "2013-12-31"</sampleQuery>
+    <sampleQuery>select * from yahoo.finance.dividendhistory where symbol = "KO" and startDate = "1962-01-01" and endDate = "2013-12-31"</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="quotes.quote" produces="XML">
