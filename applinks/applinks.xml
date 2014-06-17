@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Clarence Leung</author>
+        <description>YQL index for App Links metadata</description>
+        <documentationURL>http://applinks.org/documentation/</documentationURL>
+        <sampleQuery>SELECT url, android.url from applinks WHERE url IN ("movietickets.com", "pinterest.com")</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="url" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var url       = inputs['url'],
+                        platforms = ['ios', 'iphone', 'ipad', 'android', 'windows_phone', 'web', 'blackberry'],
+                        query     = y.query("select * from html where url = \"" + url 
+                                     + "\" and compat = 'html5' and xpath='//meta[contains(@property, \"al:\")]'")
+                                     .format('json');
+
+                    var data     = query.results.meta,
+                        applinks = { url: url },
+                        output   = {},
+                        i, j;
+
+                    for (i = 0; i < platforms.length; i++) {
+                        var platform = platforms[i];
+                        applinks[platform] = {};
+                    }
+
+                    for (j = 0; j < data.length; j++) {
+                        var item = data[j],
+                            metadata = item.property.split(':'),
+                            itemPlatform = metadata[1],
+                            property = metadata[2];
+
+                        applinks[itemPlatform][property] = item.content;
+                    }
+
+                    output.applinks = applinks;
+                    response.object = output;
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
