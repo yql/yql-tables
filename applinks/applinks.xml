@@ -17,7 +17,7 @@
             <execute>
                 <![CDATA[
                     var url       = inputs['url'],
-                        platforms = ['ios', 'iphone', 'ipad', 'android', 'windows_phone', 'web', 'blackberry'],
+                        platforms = ['ios', 'iphone', 'ipad', 'android', 'windows_phone', 'web'],
                         query     = y.query("select * from html where url = \"" + url 
                                      + "\" and compat = 'html5' and xpath='//meta[contains(@property, \"al:\")]'")
                                      .format('json');
