@@ -19,6 +19,9 @@
       <inputs>
         <key id='q' type='xs:string' paramType='query' />
         <key id='topic' type='xs:string' paramType='query'/>
+        <key id='callback' type='xs:string' paramType='query'/>
+        <key id='context' type='xs:string' paramType='query'/>
+        <key id='hl' type='xs:string' paramType='query'/>
         <key id="ned" type="xs:string" paramType="query" required="false" default="us"/>
         <key id="geo" type="xs:string" paramType="query" />
         <key id="key" type="xs:string" paramType="query" />
