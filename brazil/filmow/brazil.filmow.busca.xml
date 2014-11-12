@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Bruno Tripoloni</author>
+    <description>Pesquisa na lista de filmes no Filmow</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where query="Os mercenarios 3"</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML">
+      <urls>
+        <url>http://filmow.com/buscar/?q={q}</url>
+      </urls>
+      <inputs>
+        <key id="q" as="query" type="xs:string" paramType="query" required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var results = [];
+        var data = request.accept('text/html').get().response;
+        var products = y.xpath(data, "//*[@id="body_wrapper"]/div/div/div/div[1]/div[3]");
+        for each (var item in products) {
+          results.push({
+            image: y.xpath(item, "//div[1]/div[1]/a/img/@src"),
+            title: y.xpath(item, "//div[1]/div[2]/h4/a/text()"),
+          });
+        }
+
+        if (results.length) {
+          var output = <movies></movies>;
+
+          for (item in results) {
+            output.node += <entry>
+              <title>{results[item].title}</title>
+              <description>{results[item].description}</description>
+            </entry>;
+          }
+
+          /*output.@items = total_entries.match(/\d+$/)[0];*/
+        }
+
+        response.object = output;
+        ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
