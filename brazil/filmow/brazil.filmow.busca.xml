@@ -23,12 +23,12 @@
           url = "http://filmow.com/" + url + "/ficha-tecnica/";
           var querystring = "select * from html where url = '"+url+"'";
           q = y.query(querystring);
-          var info = {
+          /*var info = {
             year: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()"),
             lenght: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()").replace('minutos', '').trim(),
             details: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/div/text()")
-          }
-          return info;
+          }*/
+          return q;
         }
 
         for each (var item in products) {
