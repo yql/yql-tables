@@ -31,7 +31,7 @@
           for (item in results) {
             output.node += <entry>
               <title>{results[item].title}</title>
-              <description>{results[item].description}</description>
+              <image>{results[item].image}</image>
             </entry>;
           }
 
