@@ -18,10 +18,24 @@
         var results = [];
         var data = request.accept('text/html').get().response;
         var products = y.xpath(data, "//*[@id='body_wrapper']/div/div/div/div[1]/div[3]");
+
+        var get_info = function(url){
+          url = "http://filmow.com/" + url + "/ficha-tecnica/";
+          var querystring = "select * from html where url = '"+url+"'";
+          q = y.query(querystring);
+          var info = {
+            year: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()"),
+            lenght: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()").replace('minutos', '').trim(),
+            details: y.xpath(q, "//*[@id="body_wrapper"]/div[4]/div[2]/div/div[1]/div/text()")
+          }
+          return info;
+        }
+
         for each (var item in products) {
           results.push({
             image: y.xpath(item, "//div[1]/div[1]/a/img/@src"),
             title: y.xpath(item, "//div[1]/div[2]/h4/a/text()"),
+            info : get_info(y.xpath(item, "//*[@id='body_wrapper']/div/div/div/div[1]/div[3]/div[1]/div[2]/h4/a"))
           });
         }
 
