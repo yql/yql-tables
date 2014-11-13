@@ -26,7 +26,7 @@
           var info = {
             year: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()"),
             lenght: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()").replace('minutos', '').trim(),
-            details: y.xpath(q, "//*[@id="body_wrapper"]/div[4]/div[2]/div/div[1]/div/text()")
+            details: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/div/text()")
           }
           return info;
         }
