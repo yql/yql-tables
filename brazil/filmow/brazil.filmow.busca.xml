@@ -46,6 +46,7 @@
             output.node += <entry>
               <title>{results[item].title}</title>
               <image>{results[item].image}</image>
+              <info>{results[item].info}</info>
             </entry>;
           }
 
@@ -58,3 +59,4 @@
     </select>
   </bindings>
 </table>
+
