@@ -32,10 +32,11 @@
         }
 
         for each (var item in products) {
+          var movie_url = y.xpath(item, "//*[@id='body_wrapper']/div/div/div/div[1]/div[3]/div[1]/div[2]/h4/a")['href']
           results.push({
             image: y.xpath(item, "//div[1]/div[1]/a/img/@src"),
             title: y.xpath(item, "//div[1]/div[2]/h4/a/text()"),
-            info : get_info(y.xpath(item, "//*[@id='body_wrapper']/div/div/div/div[1]/div[3]/div[1]/div[2]/h4/a").href)
+            info : get_info(movie_url)
           });
         }
 
