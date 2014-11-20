@@ -20,19 +20,17 @@
         var products = y.xpath(data, "//*[@id='body_wrapper']/div/div/div/div[1]/div[3]");
 
         var get_info = function(url){
-          url = "http://filmow.com/" + url + "/ficha-tecnica/";
+          url = "http://filmow.com" + url + "ficha-tecnica/";
           var querystring = "select * from html where url = '"+url+"'";
           q = y.query(querystring);
-          /*var info = {
-            year: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()"),
-            lenght: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td/text()").replace('minutos', '').trim(),
-            details: y.xpath(q, "//*[@id='body_wrapper']/div[4]/div[2]/div/div[1]/div/text()")
-          }*/
-          return q;
+          var info = <info><year>{q.results.body.div[1].div[6].div[1].div.div[0].table.tr[1].td.p.text()}</year>
+            <lenght>{q.results.body.div[1].div[6].div[1].div.div[0].table.tr[4].td.span.text()}</lenght>
+            <details>{q.results.body.div[1].div[6].div[1].div.div[0].div.p.text()}</details></info>;
+          return info;
         }
 
         for each (var item in products) {
-          var movie_url = y.xpath(item, "//*[@id='body_wrapper']/div/div/div/div[1]/div[3]/div[1]/div[2]/h4/a")['href']
+          var movie_url = y.xpath(item, "//div[1]/div[2]/h4/a/@href")
           results.push({
             image: y.xpath(item, "//div[1]/div[1]/a/img/@src"),
             title: y.xpath(item, "//div[1]/div[2]/h4/a/text()"),
