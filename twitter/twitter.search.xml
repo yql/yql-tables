@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by: Arie Murdianto
+Date: 17 July 2009
+-->
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Arie Murdianto</author>
+		<documentationURL>http://apiwiki.twitter.com/Twitter-Search-API-Method%3A-search</documentationURL>
+		<sampleQuery>select * from {table} where q="my query" and username="twitterusername" and password="twitterpassword"</sampleQuery>
+	</meta>
+	<select produces="JSON">
+		<urls>
+			<url>http://search.twitter.com/search.json?callback={callback}</url>
+		</urls>
+		<inputs>
+			<key id="q" type="string" required="true" paramType="query"/>
+			<key id="callback" type="string" required="true" paramType="path" default="search"/>
+			<key id="username" type="string" required="true" paramType="variable"/>
+			<key id="password" type="string" required="true" paramType="variable"/>
+		</inputs>
+		<execute><![CDATA[
+      var r = null;
+      if (username && password) {
+         y.include("http://yqlblog.net/samples/base64.js");
+         var authheader = "Basic "+Base64.encode(username+":"+password);
+         r = request.header("Authorization",authheader).get().response;
+      } else {
+         r = request.get().response;
+      }
+      response.object = r;
+      ]]></execute>
+	</select>
+	<select produces="JSON">
+		<urls>
+			<url>http://search.twitter.com/trends.json</url>
+		</urls>
+		<inputs>
+			<key id="username" type="string" required="true" paramType="variable"/>
+			<key id="password" type="string" required="true" paramType="variable"/>
+		</inputs>
+		<execute><![CDATA[
+      var r = null;
+      if (username && password) {
+         y.include("http://yqlblog.net/samples/base64.js");
+         var authheader = "Basic "+Base64.encode(username+":"+password);
+         r = request.header("Authorization",authheader).get().response;
+      } else {
+         r = request.get().response;
+      }
+      response.object = r;
+      ]]></execute>
+	</select>
+</table>

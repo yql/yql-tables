@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by: Arie Murdianto
+Date: 17 July 2009
+-->
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Arie Murdianto</author>
+		<sampleQuery>select * from {table} where username="twitterusername" and password="twitterpassword"</sampleQuery>
+	</meta>
+	<bindings>
+		<select produces="JSON" itemPath="" >
+			<urls>
+				<url>http://twitter.com/statuses/friends_timeline.json</url>
+			</urls>
+			<inputs>
+				<key id="username" type="string" required="true" paramType="variable"/>
+				<key id="password" type="string" required="true" paramType="variable"/>
+				<key id="since_id" type="integer" required="false" paramType="query"/>
+				<key id="max_id" type="integer" required="false" paramType="query"/>
+				<key id="count" type="integer" required="false" paramType="query"/>
+				<key id="page" type="integer" required="false" paramType="query"/>
+			</inputs>
+			<execute><![CDATA[
+      y.include("http://yqlblog.net/samples/base64.js");
+      var authheader = "Basic "+Base64.encode(username+":"+password);
+      response.object =
+request.header("Authorization",authheader).get().response;
+      ]]></execute>
+		</select>
+	</bindings>
+</table>
