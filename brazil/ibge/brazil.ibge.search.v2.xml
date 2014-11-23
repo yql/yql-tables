@@ -4,7 +4,7 @@
     <author>Pedro Valente</author>
 	<description></description>
     <documentationURL></documentationURL>
-    <sampleQuery>select * from {table} where query="1500602"</sampleQuery>
+    <sampleQuery>select * from {table} where query="150030"</sampleQuery>
   </meta>
   <bindings>
    <select itemPath="results.city" produces="XML">
