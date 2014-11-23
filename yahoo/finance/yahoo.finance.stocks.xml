@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Tom Powers</author>
+    <author>Tom Powers, Updated by Raymond Li</author>
     <description>Yahoo Finance Stock Summary Information</description>
     <sampleQuery>select * from {table} where symbol="yhoo"</sampleQuery>
+    <sampleQuery>select * from {table} where symbol in ("yhoo", "ntap", "ge")</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
@@ -16,122 +17,209 @@
 <execute><![CDATA[
     // pad string with leading char
     String.prototype.pad = function (padchar, padlen) {
-	s = this
-	while (s.length < padlen) {
-	    s = padchar + s;
-	}
-	return s;
+	    s = this
+	    while (s.length < padlen) {
+	        s = padchar + s;
+	    }
+	    return s;
     }
 
     String.prototype.trim = function () {
-	var	str = this.replace(/^\s\s*/, ''),
-	        ws = /\s/,
-	        i = str.length;
-	while (ws.test(str.charAt(--i)));
-	return str.slice(0, i + 1);
+	    var str = this.replace(/^\s\s*/, ''),
+	            ws = /\s/,
+	            i = str.length;
+	    while (ws.test(str.charAt(--i)));
+	    return str.slice(0, i + 1);
     }
 
     function getQuoteInfo() {
-	// Get company name & market from Yahoo Quotes Summary page
-	var results = quoteQuery.results;
-	elements = results.*.length();
-	if (elements == 0)
-	    return false;
-
-	stock.CompanyName = results.h1.text().toString().trim();
-	var marketSymbolStr = results.div.span.toString();
-	//var match = marketSymbolStr.match(/^[^:]+:\s+([^)]+)\)$/); matches stock symbol
-	var match = marketSymbolStr.match(/^\(([^:]+):/);
-	if (match != null) {
-	    stock.CompanyName += <Market>{match[1]}</Market>;
-	}
-	return true;
-    }
-
-    function getHistoricalPrice() {
-	// Get the Historical Price Range
-	var results = historicalQuery.results;
-	elements = results.*.length();
-	if (elements < 6)
-	    return false;
-	startMonth = String(parseInt(results.option[0].@value)+1).pad("0", 2);
-	startDay = results.input[0].@value.toString().pad("0", 2);
-	startYear = results.input[1].@value.toString();
-	endMonth = String(parseInt(results.option[1].@value)+1).pad("0", 2);
-	endDay = results.input[2].@value.toString().pad("0", 2);
-	endYear = results.input[3].@value.toString();
-
-	startDate = startYear + "-" + startMonth + "-" + startDay;
-	endDate = endYear + "-" + endMonth + "-" + endDay;
-
-	stock.appendChild(<start>{startDate}</start>);
-	stock.appendChild(<end>{endDate}</end>);
-	return true;
-    }
-
-    function getProfileInfo() {
-	// Get the Sector, Industry, Full Time Employees from Profile page
-	var results = profileQuery.results;
-	elements = results.*.length();
-	if (elements == 0)
-	    return false;
-	for each (var tr in results.tr){
-	    //Remove trailing colon, and strip whitespace
-	    var property = tr.td[0].p.text()
-		.toString().slice(0, -1)
-		.replace(/\s+/g, "");
-	    switch (property.toLowerCase()) {
-	        case 'indexmembership':
-		    continue;
-		    break;
-		case 'fulltimeemployees':
-		    //Strip commas
-		    value = tr.td[1].*.text().toString().replace(/,/g, "");
-		    break;
-		default:
-		    //Convert whitespace to single space
-		    value = tr.td[1].*.text().toString().replace(/\s+/g, " ");
-		    break;
+	    // Get company name & market from Yahoo Quotes Summary page
+	    var results = quoteQuery.results;
+	    elements = results.*.length();
+	    if (elements == 0)
+	        return false;
+	
+	    // process quote summary table data
+	    var quoteSummaryLeft = results.div.table[0].tbody;
+	    var quoteSummaryRight = results.div.table[1].tbody;   
+	
+	    for each (var tr in quoteSummaryLeft.tr){
+	        //Remove trailing colon, and strip whitespace
+	        var property = tr.th.text()
+	            .toString().slice(0, -1)
+	            .replace(/\s+/g, "");
+	
+	        switch (property.toLowerCase()) {
+	            case '1ytargetest':
+	            property = property.replace("1y", "OneYear");
+	            value = tr.td.text().toString().replace(/\s+/g, " ");
+	            break;
+	        case 'bid':
+	        case 'ask':
+	            continue;
+	            break;
+	        default:
+	            //Convert whitespace to single space
+	            value = tr.td.text().toString().replace(/\s+/g, " ");            
+	            break;
+	        }
+	
+	        stock.appendChild(<{property}>{value}</{property}>);
 	    }
-	    stock.appendChild(<{property}>{value}</{property}>);
-	}
-	return true;
+	
+	    for each (var tr in quoteSummaryRight.tr){
+	        //Remove trailing colon, and strip whitespace
+	        var property = tr.th.text().toString().slice(0, -1)
+	                       .replace(/[^a-zA-Z0-9]/g, "");
+	
+	        if (tr.th.span) {
+	            property = property + tr.th.span.text().toString().slice(0, -1)
+	                       .replace(/[^a-zA-Z0-9]/g, "");
+	        }
+	
+	        var rangeFrom;
+	        var rangeTo; 
+	        var isRange = false;
+	
+	        switch (property.toLowerCase()) {
+	            case '52wkrange':
+	                isRange = true;
+	                property = property.replace("52wk", "FiftyTwoWk");
+	                var fromValue = tr.td.span[0].text().toString().replace(/\s+/g, " ");
+	                rangeFrom = <From>{fromValue}</From>;
+	                var toValue = tr.td.span[1].text().toString().replace(/\s+/g, " ");
+	                rangeTo = <To>{toValue}</To>;
+	                break;
+	
+	            case 'daysrange':
+	                isRange = true;
+	                var fromValue = tr.td.span[0].span.text().toString().replace(/\s+/g, " ");
+	                rangeFrom = <From>{fromValue}</From>;
+	                var toValue = tr.td.span[1].span.text().toString().replace(/\s+/g, " ");
+	                rangeTo = <To>{toValue}</To>;            
+	                break;
+	
+	            default:
+	                //Convert whitespace to single space and remove commas
+	                // Don't know how to distingush "tr.td.span.text" and "tr.td.text"
+	                // use the this workaround for now 
+	                value = tr.td.span.text().toString().replace(/\s+/g, " ").replace(/,/g, "");            
+	                value = value + tr.td.text().toString().replace(/\s+/g, " ").replace(/,/g, "");            
+	                
+	                
+	                break;
+	        }
+	        
+	        if (isRange) {
+	            var range = <{property}></{property}>;
+	            range.appendChild(rangeFrom);
+	            range.appendChild(rangeTo);
+	            stock.appendChild(range);
+	        } else {
+	            stock.appendChild(<{property}>{value}</{property}>);
+	        }
+	    }
+	    return true;
+    }
+
+    function getStartEndDate() {
+	    // Get the Historical Price Range
+	    var results = historicalQuery.results;
+	    elements = results.*.length();
+	    if (elements < 6)
+	        return false;
+	    startMonth = String(parseInt(results.option[0].@value)+1).pad("0", 2);
+	    startDay = results.input[0].@value.toString().pad("0", 2);
+	    startYear = results.input[1].@value.toString();
+	    endMonth = String(parseInt(results.option[1].@value)+1).pad("0", 2);
+	    endDay = results.input[2].@value.toString().pad("0", 2);
+	    endYear = results.input[3].@value.toString();
+	
+	    startDate = startYear + "-" + startMonth + "-" + startDay;
+	    endDate = endYear + "-" + endMonth + "-" + endDay;
+	
+	    stock.appendChild(<start>{startDate}</start>);
+	    stock.appendChild(<end>{endDate}</end>);
+	    return true;
+	    }
+	
+	    function getProfileInfo() {
+	    // Get the Sector, Industry, Full Time Employees from Profile page
+	    var results = profileQuery.results;
+	    elements = results.*.length();
+	    if (elements == 0)
+	        return false;
+	
+	    if (results.b) {
+	        var company = 'CompanyName'; 
+	        value = results.b.text().toString().replace(/\s+/g, " ");
+	        stock.appendChild(<{company}>{value}</{company}>);
+	    }
+	
+	    for each (var tr in results.tr){
+	        //Remove trailing colon, and strip whitespace
+	        var property = tr.td[0].text()
+	            .toString().slice(0, -1)
+	            .replace(/\s+/g, "");
+	
+	        switch (property.toLowerCase()) {
+	            case 'indexmembership':
+	            continue;
+	            break;
+	        case 'fulltimeemployees':
+	            //Strip commas
+	            value = tr.td[1].text().toString().replace(/,/g, "");
+	            break;
+	        default:
+	            //Convert whitespace to single space
+	            if (tr.td[1].a) {
+	                value = tr.td[1].a.text().toString().replace(/\s+/g, " ");
+	            } else {
+	                value = tr.td[1].text().toString().replace(/\s+/g, " ");
+	            }
+	            break;
+	        }
+	
+	        stock.appendChild(<{property}>{value}</{property}>);
+	    }
+	
+	    return true;
     }
 
     // Queue the queries
     var url = "http://finance.yahoo.com/q/pr?s="+symbol;
     var profileQuery = y.query(
-	"select * from html " +
-	"where url=@url and " + 
-	"xpath='//table[@class=\"yfnc_datamodoutline1\"]/tr/td/table/tr' " +
-	"limit 4",
-	{url:url});
+    "select * from html " +
+	    "where url=@url and " + "compat=\"html5\" and " + 
+	    "xpath='//table[@class=\"yfnc_datamodoutline1\"]/tbody/tr/td/table/tbody/tr | //td[@class=\"yfnc_modtitlew1\"]/b' " +
+        "limit 5",
+        {url:url});
 
     var url = "http://finance.yahoo.com/q?s="+symbol;
     var quoteQuery = y.query(
-	"select * from html " +
-	"where url=@url and " +
-	"xpath='" +
-	"//div[@id=\"yfi_investing_head\"]/h1 | " +
-	"//div[@class=\"yfi_quote_summary\"]/div[1]'" ,
-	{url:url});
+	    "select * from html " +
+	    "where url=@url and " + "compat=\"html5\" and " + 
+	    "xpath='" +
+	    "//div[@id=\"yfi_investing_head\"]/h1 | " +
+	    "//div[@class=\"yfi_quote_summary\"]/div[1]'" ,
+	    {url:url});
 
     var url = "http://finance.yahoo.com/q/hp?s="+symbol;
     var historicalQuery = y.query(
-	"select * from html " +
-	"where url=@url and " + 
-	"xpath='" +
-	"//option[@selected=\"selected\"] | " + 
-	"//input[@maxlength=\"2\"] | " +
-	"//input[@maxlength=\"4\"]'",
-	{url:url});
+	    "select * from html " +
+	    "where url=@url and " + "compat=\"html5\" and " + 
+	    "xpath='" +
+	    "//option[@selected=\"selected\"] | " + 
+	    "//input[@maxlength=\"2\"] | " +
+	    "//input[@maxlength=\"4\"]'",
+	    {url:url});
 
-    var stock = <stock symbol={symbol}></stock>;
+    var stock = <stock symbol={symbol}></stock>;   
 
-    getQuoteInfo();
-    getHistoricalPrice();
+    getStartEndDate();
     getProfileInfo();
-    
+    getQuoteInfo();
+
     response.object = stock
 
 ]]></execute>
