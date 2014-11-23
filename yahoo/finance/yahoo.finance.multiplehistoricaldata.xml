@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
 	<meta>
-		<author>Luigi Conti - iMobile.it</author>
+		<author>Satori-stan based on yahoo.finance.historicaldata</author>
 		<description>Yahoo Finance Stock historical prices</description>
-		<sampleQuery>select * from {table} where symbol = "YHOO" and startDate = "2009-09-11" and endDate = "2010-03-10"</sampleQuery>
+		<sampleQuery>select * from ydata where symbol in ("YHOO","MSFT") and startDate = "2009-09-11" and endDate = "2010-03-10"</sampleQuery>
 	</meta>
 	<bindings>
 		<select itemPath="quotes" produces="XML">
@@ -42,22 +42,48 @@
 				encodedUrl = encodedUrl.replace('e=30','e=' + getDay(endDate));
 				encodedUrl = encodedUrl.replace('f=2010','f=' + getYear(endDate));
 				
-				var results = y.query("select * from csv(0,1) where url=@url",{url:encodedUrl});
-				var colNames=''; 
-				var rows=results.results.row;
-				for each (var row in rows) {					
-					for each (var item in row.*) {
-						var txt = item.text().toString();
-						colNames=colNames + ',' + txt.replace(' ', '_');
+				var results;
+				var rows, row, item;
+				var column_names = [];
+				var txt = '';
+				results = y.query("select * from csv(0,1) where url=@url",{url:encodedUrl});
+				rows=results.results.row;
+				for each (row in rows) {					
+					for each (item in row.*) {
+						txt = item.text().toString();
+						column_names.push(txt.replace(' ', '_'));
 					}
-				}
-				colNames = colNames.substring(1);
-				results = y.query("select * from csv(2,0) where url=@url and columns=@columnsNames",{url:encodedUrl,columnsNames:colNames});
+				};
+				results = y.query("select * from csv(2,0) where url=@url and columns=@columnsNames",{url:encodedUrl,columnsNames:column_names.join()});
+				/*
+				ichart.finance.yahoo.com column mapping
+				0 Date
+				1 Open
+				2 Low
+				3 High
+				4 Close
+				5 Volume
+				6 Adj_Close
+				*/
 				var quotes = <quotes symbol={symbol} />;
 				rows=results.results.row;
 				for each (var row in rows) {
-					quotes.quote += <quote Symbol={symbol}>{row.*}</quote>;
+					quotes.appendChild(<quote date={row.Date.text().toString()}>{row.*}</quote>);
+					/*
+					quotes.appendChild(<quote date={row.Date.text().toString()} />);
+					var this_node = quotes.quote[quotes.length()-1];
+					var unique_columns = 0;
+					for each (item in row.*) {
+						if (unique_columns > 0){
+							//var node_name = column_names[unique_columns];
+							//y.log(this_node + '$ ' + node_name + ':' + item);
+							this_node.appendChild(item);
+						}
+						unique_columns++;
+					}
+					*/
 				}
+				delete quotes..Date;
 				response.object = quotes;
 				
 				function getDay(date) {
