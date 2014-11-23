@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Matjaž Lipuš</author>
+		<documentationURL>None</documentationURL>
+		<description>Get Elektro Maribor power offs</description>
+		<sampleQuery>SELECT * FROM {table} WHERE obmocje="Ptuj"</sampleQuery>
+	</meta>
+
+	<bindings>
+		<select itemPath="" produces="XML">
+		<urls><url/></urls>
+		<inputs>
+			<key id="obmocje" type="xs:string" paramType="variable"/>
+			<key id="postaja" type="xs:string" paramType="variable"/>
+			<key id="izvod"   type="xs:string" paramType="variable"/>
+			<key id="datum"   type="xs:date"   paramType="variable"/>
+		</inputs>
+		<execute><![CDATA[
+
+		String.prototype.trim = function () {
+		    return this.replace(/^\s*/, "").replace(/\s*$/, "");
+		};
+
+		function reverseDate(str)
+		{
+			return str.split("-").reverse().join(".");
+		}
+
+		function cleanData(str)
+		{
+			return str.replace(/\xa/g, "").replace(/[ ]{2,}/g, " ");
+		}
+
+		var res  = y.query('SELECT * FROM html WHERE url="http://www.elektro-maribor.si/sl/inside.cp2?cid=4BEAE43C-90CE-CDD5-412C-A32F8F36F5B3&linkid=announcementList" AND xpath="//ul[@id=\'announces\']/li"'),
+		    lis  = res.results.li,
+		    off  = <izklopi/>,
+		    li,
+			reqObmocje = obmocje,
+			reqPostaja = postaja,
+			reqIzvod   = izvod,
+			reqDatum   = reverseDate(datum || "");
+
+		for each(li in lis) {
+			var postajaData = cleanData(li.p[0].text().toString()),
+			    datum    = y.xpath(li.p[1], '//span').text().toString().split("od"),
+			    izvodPos = postajaData.indexOf("nizkonapetostni"),
+			    brPos    = postajaData.indexOf("Obmo"),
+				obmocje  =  postajaData.slice(brPos+9).trim(),
+				datumDo  = null,
+				uraDo    = null,
+				ura,
+				vzrok,
+			    postaja,
+				izvod,
+				el;
+
+			if (datum.length < 2) {
+				ura = null;
+			} else {
+				ura = datum[1].toString().trim();
+				if (ura.indexOf("do") > 0) {
+					datumDo = ura.slice(5, 15);
+					uraDo   = ura.slice(-5);
+					ura     = ura.slice(0,5);
+				} else {
+					ura     = ura.split("-");
+					if (ura.length > 1) {
+						uraDo = ura[1].trim();
+					}
+					ura     = ura[0].trim();
+				}
+			}
+			datum = datum[0].toString().trim();
+			if (!datumDo) {
+				datumDo = datum;
+			}
+
+			if (li.p[2]) {
+				vzrok   = cleanData(li.p[2].text().toString());
+			} else {
+				vzrok   = null;
+			}
+
+			if (izvodPos !== -1) {
+				postaja = postajaData.slice(26, izvodPos-2).trim();
+				izvod   = postajaData.slice(izvodPos+23, brPos-1);
+			} else {
+				postaja = postajaData.slice(26, brPos).trim();
+			}
+
+			if ((!reqObmocje || reqObmocje === obmocje) &&
+			    (!reqPostaja || reqPostaja === postaja) &&
+				(!reqDatum   || reqDatum   === datum)   &&
+				(!reqIzvod   || reqIzvod   === izvod))
+			{
+				el         = <izklop/>;
+				el.postaja = postaja;
+				el.obmocje = obmocje;
+				el.datumOd = datum;
+				el.uraOd   = ura;
+				el.datumDo = datumDo;
+				el.uraDo   = uraDo;
+
+				if (vzrok) {
+					el.vzrok   = vzrok;
+				}
+
+				if (izvod) {
+					el.izvod  = izvod;
+				}
+				off.x += el;
+			}
+		}
+
+		response.object = off;
+
+		]]></execute>
+		</select>
+	</bindings>
+</table>
