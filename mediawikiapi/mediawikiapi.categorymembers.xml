@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Toni Gruetze</author>
+    <sampleQuery>select * from {table} where category='Living people' and site='en.wikipedia.org'</sampleQuery>
+    <!--<documentationURL></documentationURL>-->
+  </meta>
+  <bindings>
+<!--<select itemPath="api.query.categorymembers.cm" produces="XML" > -->
+    <select itemPath="data.cm" produces="XML" >
+      <urls>
+        <url env="all">http://{site}/w/api.php?action=query&amp;list=categorymembers&amp;cmtitle=Category:{category}&amp;cmprop=ids%7ctitle%7ctype%7ctimestamp&amp;format=xml&amp;{cmcontinue}</url>
+      </urls>
+
+      <paging model="url">
+        <nextpage path="data.paging" />
+        <pagesize id="cmlimit" max="500" />
+        <total default="500"/>
+      </paging>
+      <inputs>
+        <key id="site" type="xs:string" paramType="path" default="en.wikipedia.org"/>
+        <key id="category" type="xs:string" paramType="path" required="true" />
+        <key id="cmcontinue" as="startAt" type="xs:string" paramType="query" />
+      </inputs>
+      <!-- inspired by https://github.com/yql/yql-tables -> mediawikiapi/mediawikiapi.test.recentchanges.xml (Jul 19, 2012 07b6a71f6905b6d9e808116232d7fdda62cdf1d6)-->
+      <execute><![CDATA[
+        // get uri without cmcontinue parameter
+        baseUrl = request.url.replace(/cmcontinue=[^&]+/g, '');
+        var rsp = request.get().response;
+
+        // parse data
+        var fetchedData = y.xpath(rsp, '/api/query/categorymembers/cm');
+        var cmcontinue = y.xpath(rsp, '/api/query-continue/categorymembers/@cmcontinue');
+        var result = <data/>;
+        
+        // add url to the data
+        for(var i=0;i<fetchedData.length();i++) {
+          if(fetchedData[i].@title) {
+            var url = 'http://' + site + '/wiki/';
+            url += fetchedData[i].@title.toString();
+            url = url.replace(/\s/g,'_');
+            fetchedData[i].@url = url;
+            fetchedData[i].@url_mobile = url.replace(/(.+:\/\/.*\.)([^\.\/]+\.[^\.\/]+\/.*)/, '$1m.$2');
+          }
+        }
+        if(fetchedData && fetchedData.length()>0) {
+          // ugly hack
+          for(var i=0;i<fetchedData.length()-1;i++) {
+            fetchedData[i].@continueAt = '';
+          }
+        }
+        if(cmcontinue) {
+          cmcontinueStr=cmcontinue.toString();
+          if(cmcontinueStr && cmcontinueStr.length > 0) {
+            if(fetchedData && fetchedData.length()>0) {
+              fetchedData[fetchedData.length()-1].@continueAt = cmcontinueStr;
+            } 
+            var paging = <paging/>;
+            
+            result.@paging = baseUrl + '&cmcontinue=' + encodeURIComponent(cmcontinueStr);
+          }
+        }
+        // add fetched results
+        result.data += fetchedData;
+        
+        response.object = result;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

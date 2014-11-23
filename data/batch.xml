@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Toni Gruetze</author>
+	<description>Batch executor that concatenates the results to item with the applied parameters.</description>
+	<sampleQuery>select * from {table} where cmd='select * from html where url=@url and xpath=@xpath' and param.url in ('http://en.m.wikipedia.org/wiki/Fred_Aandahl', 'http://en.m.wikipedia.org/wiki/Henry_Aaron') and param.xpath='//a[@href]';</sampleQuery>
+	<sampleQuery>select * from {table} where cmd='select * from html where url in (select url from uritemplate where template=@template and title=@title) and xpath=@xpath' and param.title in ('Fred_Aandahl', 'Henry_Aaron') and param.template='http://en.m.wikipedia.org/wiki/{title}' and param.xpath='//a[@href]';</sampleQuery>
+	<sampleQuery>select * from {table} where cmd='select * from html where url in (select url from uritemplate where template=@template and path=@path) and xpath=@xpath' and param.template='http://en.m.wikipedia.org/{path}' and param.path in (select href from html where url='http://en.m.wikipedia.org/wiki/Fred_Aandahl' and xpath='//a[@href]') and param.xpath='//p';</sampleQuery>
+    <!--<documentationURL></documentationURL>-->
+  </meta>
+  <bindings>
+    <select itemPath="item" produces="XML" >
+      <urls>
+        <url></url>
+      </urls>
+
+      <inputs>
+        <key id="cmd" type="xs:string" paramType="variable" required="true" />
+		<map id='param' type='xs:string' paramType='variable' required="true"/>
+      </inputs>
+      <execute><![CDATA[
+        var q = y.query(cmd, param);  
+
+        var fetchedData = y.xpath(q.results, '/results/*');
+        var result = <item>{fetchedData}</item>;
+        for (var key in param) {
+           result.@[key] = param[key];
+        }
+		response.object = result;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
