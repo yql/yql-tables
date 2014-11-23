@@ -2,8 +2,8 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>Bruno Tripoloni</author>
-    <description>Pesquisa na lista de filmes no Filmow</description>
-    <documentationURL></documentationURL>
+    <description>Search for movies in the filmow site</description>
+    <documentationURL>http://filmow.com</documentationURL>
     <sampleQuery>select * from {table} where query="Os mercenarios 3"</sampleQuery>
   </meta>
   <bindings>
