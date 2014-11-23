@@ -28,13 +28,28 @@
 	while (ws.test(str.charAt(--i)));
 	return str.slice(0, i + 1);
     }
+    
 
+        var isinQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[position() = 6 and ./td[contains(.,\"ENX\")]]/td[1]/a'" ,
+	{url:url});
+
+    
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = isinQuery.results;
+    stock.Isin = results.a.text().toString().trim();
+    
+    if (stock.Isin == ""){
     var url = "http://finance.yahoo.com/lookup?s="+symbol;
     var isinQuery = y.query(
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[contains(.,\"GER\")]]/td[1]/a'" ,
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[position() = 6 and ./td[contains(.,\"GER\")]]/td[1]/a'" ,
  	//"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[[./td[contains(.,\GER\")]] and @class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]/td[1]/a'" ,
 	{url:url});
 
@@ -42,6 +57,93 @@
     
     var results = isinQuery.results;
     stock.Isin = results.a.text().toString().trim();
+    }
+    
+        if (stock.Isin == ""){
+        var isinQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[position() = 6 and contains(.,\"FRA\")]]/td[1]/a'" ,
+	{url:url});
+    
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = isinQuery.results;
+    stock.Isin = results.a.text().toString().trim();
+    }
+    
+        if (stock.Isin == ""){
+        var isinQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[position() = 6 and contains(.,\"ENX\")]]/td[1]/a'" ,
+	{url:url});
+
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = isinQuery.results;
+    stock.Isin = results.a.text().toString().trim();
+    }
+    
+    
+           if (stock.Isin == ""){
+        var isinQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[position() = 6 and contains(.,\"VIE\")]]/td[1]/a'" ,
+	{url:url});
+
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = isinQuery.results;
+    stock.Isin = results.a.text().toString().trim();
+    }
+    
+        
+           if (stock.Isin == ""){
+        var isinQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[position() = 6 and contains(.,\"STU\")]]/td[1]/a'" ,
+	{url:url});
+
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = isinQuery.results;
+    stock.Isin = results.a.text().toString().trim();
+    }
+    
+               if (stock.Isin == ""){
+        var isinQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[position() = 6 and contains(.,\"BER\")]]/td[1]/a'" ,
+	{url:url});
+
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = isinQuery.results;
+    stock.Isin = results.a.text().toString().trim();
+    }
+    
+                   if (stock.Isin == ""){
+        var isinQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[position() = 6 and contains(.,\"HAM\")]]/td[1]/a'" ,
+	{url:url});
+
+    var stock = <stock symbol={symbol}></stock>;
+    
+    var results = isinQuery.results;
+    stock.Isin = results.a.text().toString().trim();
+    }
     
     response.object = stock
 

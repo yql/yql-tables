@@ -44,6 +44,30 @@
 	"xpath='" +
 	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"Eigenkapitalquote \")]]/td[2]'" ,
 	{url:url});
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var rOEQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"Eigenkapitalrendite\")]]/td[2]'" ,
+	{url:url});
+
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var epsAJQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"Gewinn pro Aktie\")]]/td[3]'" ,
+	{url:url});
+	
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var epsNJQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table[@class = \"weiss abst\"]/tr[./td[contains(.,\"Gewinn pro Aktie\")]]/td[2]'" ,
+	{url:url});
 
     var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
     var per1Query = y.query(
@@ -118,6 +142,14 @@ var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
 	"//tbody/tr[./td[contains(.,\"Herabstufungen\")]]/td[@class = \"KENNZAHL\"]'" ,
 	{url:url});	
 
+    var url = "http://www.onvista.de/aktien/kennzahlen/fundamental.html?ISIN="+symbol;
+    var branchQuery = y.query(
+	"select * from html " +
+	"where url=@url and " +
+	"xpath='" +
+	"//table/tr[./td[contains(.,\"Branche:\")]]/td[6]/a'" ,
+	{url:url});
+
     var stock = <stock symbol={symbol}></stock>;
     
     var results = ebitQuery.results;
@@ -125,6 +157,15 @@ var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
     
     var results = eqratioQuery.results;
     stock.EquityRatio = results.td.p.toString().trim();
+    
+    var results = rOEQuery.results;
+    stock.ROE = results.td.p.toString().trim();
+    
+    var results = epsNJQuery.results;
+    stock.EPSNJ = results.td.p.toString().trim();
+    
+    var results = epsAJQuery.results;
+    stock.EPSAJ = results.td.p.toString().trim();
     
     var results = per1Query.results;
     stock.PER1 = results.td.p.toString().trim();
@@ -152,6 +193,9 @@ var url = "http://www.onvista.de/analysen/analyzer/isin/"+symbol;
     
     var results = downgradeQuery.results;
     stock.Downgrade = results.td.p.toString().trim();
+    
+    var results = branchQuery.results;
+    stock.Branch = results.a.toString().trim();;
     
     response.object = stock
 
