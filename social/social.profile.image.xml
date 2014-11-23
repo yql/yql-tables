@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Bart Teeuwisse</author>
+    <description>Social Profile Image table</description>
+    <documentationURL>http://developer.yahoo.com/social/rest_api_guide/image-resource.html</documentationURL>
+    <sampleQuery>select * from social.profile.image where guid=me and size='32x32'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="image" produces="XML">
+      <urls>
+        <url>http://social.yahooapis.com/v1/user/{guid}/profile/image/{size}</url>
+      </urls>
+      <inputs>
+        <key id="guid" required="true" type="xs:string" paramType="path"/>
+        <key id="size" required="true" type="xs:string" paramType="path"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
