@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Shuchi Agarwal</author>
+    <documentationURL>None</documentationURL>
+    <description>Uses the XIgnites GetFundPerformance feed.</description>
+    <sampleQuery>SELECT * FROM {table} WHERE Identifier='VAAPX' and IdentifierType='Symbol'</sampleQuery>
+  </meta>
+
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://www.xignite.com/xFundData.asmx/GetFundPerformance</url>
+      </urls>
+    </select>
+  </bindings>
+</table>
