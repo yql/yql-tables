@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>John Greene</author>
+    <documentationURL>https://docs.urbanairship.com/display/DOCS/Server%3A+iOS+Push+API</documentationURL>
+    <sampleQuery>insert into iospush (device_tokens, message) VALUES("4fff21f1e529328bafe1f0baa2bc411109c89ac6247b47eb2fecd4cd9ef73cd6", "hi there")</sampleQuery>
+  </meta>
+  <bindings>
+    <insert itemPath="" produces="JSON">
+      <urls>
+        <url>https://go.urbanairship.com/api/push/</url>
+      </urls>
+      <inputs>
+        <key id="appKey" paramType="query" required="true" type="xs:string"/>
+        <key id="masterSecret" paramType="query" required="true" type="xs:string"/>
+        <key id="device_tokens" paramType="query" required="false" type="xs:string"/>
+        <key id="aliases" paramType="query" required="false" type="xs:string"/>
+        <key id="tags" paramType="query" required="false" type="xs:string"/>
+        <key id="message" paramType="query" required="true" type="xs:string"/>
+        <key id="badge" paramType="query" required="false" type="xs:string"/>
+        <key id="sound" paramType="query" required="false" type="xs:string"/>
+      </inputs>
+      <execute>
+        <![CDATA[
+          var authheader = "Basic " + y.crypto.encodeBase64(appKey + ":" + masterSecret);
+          var parameters = {};
+          if(device_tokens)
+              parameters.device_tokens = device_tokens.split(',');
+          if(aliases)
+              parameters.aliases = aliases.split(',');
+          if(tags)
+              parameters.tags = tags.split(',');
+          parameters.aps = {};
+          parameters.aps.alert = unescape(message);
+          if(badge) 
+            parameters.aps.badge = parseInt(badge);
+          if(sound)
+            parameters.aps.sound = sound;
+          if(device_tokens || aliases || tags) {
+            request.header("Authorization",authheader);
+            request.contentType('application/json');
+            response.object = request.post(parameters);
+          } else {
+            response.object = null;
+          }
+        ]]>
+      </execute>
+    </insert>
+  </bindings>
+</table>
