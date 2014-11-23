@@ -7,14 +7,15 @@
 	    <sampleQuery>select * from {table} where login='yourlogingoeshere' and apiKey='yourkeygoeshere' and hash='a4MSUH';</sampleQuery>
     </meta>
     <bindings>
-        <select itemPath="" produces="XML">
+        <select itemPath="json.*" produces="JSON">
             <urls>
                 <url>http://api.bit.ly/v3/referrers</url>
             </urls>
             <inputs>
-                <key id="login" type="xs:string" paramType="query"/>
-                <key id="apiKey" type="xs:string" paramType="query"/>
-                <key id="format" type="xs:string" paramType="query" default="xml"/>
+            	<key id="login" type="xs:string" paramType="query"/>
+             	<key id="apiKey" type="xs:string" paramType="query"/>
+             	<key id="format" type="xs:string" paramType="query" default="json" const="true"/>
+
                 <key id="shortUrl" type="xs:string" paramType="query"/>
                 <key id="hash" type="xs:string" paramType="query"/>
             </inputs>
