@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+ <meta>
+  <author>Peter Cowburn</author>
+  <documentationURL>http://code.google.com/apis/feedburner/</documentationURL>
+  <sampleQuery>select * from {table} where uri="mashable"</sampleQuery>
+  <sampleQuery>select * from {table} where uri="mashable" and dates="2009-07-01,2009-07-14"</sampleQuery>
+  <sampleQuery>select * from {table} where uri="mashable" and days="7"</sampleQuery>
+ </meta>
+ <bindings>
+  <select itemPath="rsp.feed.entry" produces="XML">
+   <urls>
+    <url>https://feedburner.google.com/api/awareness/1.0/GetFeedData</url>
+   </urls>
+   <inputs>
+    <key id="days" type="xs:string" paramType="variable" required="true"/>
+    <key id="uri" type="xs:string" paramType="query"/>
+   </inputs>
+   <execute><![CDATA[
+   
+   function formatDate(date) {
+    var year  = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day   = date.getDate();
+    
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    
+    return year + "-" + month + "-" + day;
+   }
+   
+   var today = new Date(), yesterday = new Date(), past = new Date();
+   yesterday.setDate(today.getDate() - 1);
+   past.setDate(today.getDate() - Math.abs(parseInt(days) || 1));
+   
+   var range = formatDate(past) + "," + formatDate(yesterday);
+   response.object = request.query("dates", range).get().response;
+   
+   ]]></execute>
+  </select>
+  <select itemPath="rsp.feed.entry" produces="XML">
+   <urls>
+    <url>https://feedburner.google.com/api/awareness/1.0/GetFeedData</url>
+   </urls>
+   <inputs>
+    <key id="uri" type="xs:string" paramType="query" required="true"/>
+    <key id="dates" type="xs:string" paramType="query"/>
+   </inputs>
+  </select>
+ </bindings>
+</table>
