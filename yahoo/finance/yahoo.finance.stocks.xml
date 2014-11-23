@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Tom Powers, Updated by Raymond Li</author>
+    <author>Tom Powers, Updated by Raymond Li, Daniel Ho</author>
     <description>Yahoo Finance Stock Summary Information</description>
     <sampleQuery>select * from {table} where symbol="yhoo"</sampleQuery>
     <sampleQuery>select * from {table} where symbol in ("yhoo", "ntap", "ge")</sampleQuery>
+    <sampleQuery>select * from {table} where symbol in ("yhoo", "nvt.ax")</sampleQuery>
   </meta>
   <bindings>
     <select itemPath="" produces="XML">
@@ -156,6 +157,12 @@
 	        stock.appendChild(<{company}>{value}</{company}>);
 	    }
 	
+	    if (results.p) {
+	        var companyDescription = 'companyDescription'; 
+	        value = results.p.text().toString().replace(/\s+/g, " ");
+	        stock.appendChild(<{companyDescription}>{value}</{companyDescription}>);
+	    }
+
 	    for each (var tr in results.tr){
 	        //Remove trailing colon, and strip whitespace
 	        var property = tr.td[0].text()
@@ -191,8 +198,8 @@
     var profileQuery = y.query(
     "select * from html " +
 	    "where url=@url and " + "compat=\"html5\" and " + 
-	    "xpath='//table[@class=\"yfnc_datamodoutline1\"]/tbody/tr/td/table/tbody/tr | //td[@class=\"yfnc_modtitlew1\"]/b' " +
-        "limit 5",
+	    "xpath='//table[@class=\"yfnc_datamodoutline1\"]/tbody/tr/td/table/tbody/tr | //td[@class=\"yfnc_modtitlew1\"]/b | //table[@class=\"yfnc_datamodoutline1\"]/following-sibling::p[1]' " +
+        "limit 6",
         {url:url});
 
     var url = "http://finance.yahoo.com/q?s="+symbol;
@@ -226,4 +233,3 @@
     </select>
   </bindings>
 </table>
-
