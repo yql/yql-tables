@@ -22,20 +22,20 @@
       <execute><![CDATA[ 
         String.prototype.trim = function() {
           // Strip leading and trailing white-space
-          return this.replace(/^[ ]*|[ ]*$/g, "");
+          return this.replace(/^\s+|\s+$/g, "");
         }
       
         var debug = 0;
         if (!edition && !language) {
           language = "en";
         }
-        var editionsquery = 'select edition from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/editions.xml" and edition.input like "%$edition%" and edition.language matches "(?i)$language"';
+        var editionsquery = 'select edition from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/editions.xml" and edition.input like "%$edition%" and edition.language matches "(?i)$language"';
         editionsquery = editionsquery.replace("$language",language?language:'.*');
         editionsquery = editionsquery.replace("$edition",edition?edition:'');
         var editions = y.query(editionsquery).results.editions;
         var edition;
         if (editions.edition.length() < 1) {
-          var supported_editionsquery = 'select edition from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/editions.xml"';
+          var supported_editionsquery = 'select edition from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/editions.xml"';
           var supported_editions = y.query(supported_editionsquery).results.editions;
           y.log('No bible edition found matching query parameters. Supported editions and languages:');
           y.log(listEditions(supported_editions));
@@ -71,8 +71,9 @@
                 <phrase/>
             </bibleref>
           </biblerefs>;
+          bibleref = book + ' ' + chapter + ':' + verse;
         } else {
-          var biblerefsquery = "use 'https://raw.github.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref'";
+          var biblerefsquery = "use 'https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref'";
           biblerefsquery = biblerefsquery.replace("$bibleref",bibleref);
           biblerefsxml = y.query(biblerefsquery).results.biblerefs;
           if (biblerefsxml.length() == 0) {
@@ -82,8 +83,13 @@
         }
         debug && y.log("Bible references: ");
         debug && y.log(biblerefsxml);
+        var localbiblerefsquery = "use 'https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref' and language='$language'";
+        localbiblerefsquery = localbiblerefsquery.replace("$bibleref",bibleref);
+        localbiblerefsquery = localbiblerefsquery.replace("$language",language);
+        localbiblerefsxml = y.query(localbiblerefsquery).results.biblerefs;
+        localbibleref = localbiblerefsxml.bibleref[0].localbook + ' ' + localbiblerefsxml.bibleref[0].chapterversereference;
         book = biblerefsxml.bibleref[0].book.toString();
-        var booksquery = 'select book from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/books.xml" and book.input matches "(?i)$book"';
+        var booksquery = 'select book from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/books.xml" and book.input matches "(?i)$book"';
         booksquery = booksquery.replace("$book",book);
         var books = y.query(booksquery).results.books;
         if (books.book.length() < 1) {
@@ -95,7 +101,7 @@
         }
         book = books.book[0];
         debug && y.log(book);
-        var servicesquery = 'select service from xml where url="https://raw.github.com/vicmortelmans/BibleConfiguration/master/services.xml" and service.name matches "(?i)$service"';
+        var servicesquery = 'select service from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/services.xml" and service.name matches "(?i)$service"';
         servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
         var services = y.query(servicesquery).results.services;
         if (services.service.length() < 1) {
@@ -150,7 +156,7 @@
           queryoutput = queryoutput.trim();
           var verseIndication = queryoutput.match(/^[0-9]+/);
           if ( verseIndication && verseIndication[0] === biblerefxml.verse.toString()) {
-            queryoutput = queryoutput.replace(/^[0-9]+/,'');
+            queryoutput = queryoutput.replace(/^[0-9]+[.\s]*/,'');
           }
           debug && y.log(queryoutput);
           if (biblerefxml.phrase != '') {
@@ -160,6 +166,7 @@
           output += (queryoutput + ' ');
         }
         output = output.trim();
+        output = output.replace(/\s+/g, ' ');
         var punctuation = output.match(/[.?!,:;]$/);
         if (!punctuation) {
           output += '.';
@@ -167,6 +174,7 @@
         else if (punctuation[0].match(/[,:;]/)) {
           output = output.replace(/[,:;]$/,'.');
         }
+        output = output.charAt(0).toUpperCase() + output.slice(1);
         if ( -1 != output.indexOf("’") && 
              -1 == output.substring(0,output.indexOf("’")).indexOf("‘") ) {
           output = '‘' + output;
@@ -175,7 +183,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
-        response.object = <passage>{output}</passage>;
+        response.object = <passage bibleref={localbibleref}>{output}</passage>;
 
         function stringValue(node) {
             var value = new String();
