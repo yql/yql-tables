@@ -5,10 +5,10 @@
             Ryan Hoium
         </author>
         <description>
-            Yahoo Finance - Income Statement v0.1
+            MSN Money - Income Statement v0.1
         </description>
         <sampleQuery>
-            SELECT * FROM {table} WHERE symbol='T'
+            SELECT * FROM {table} WHERE symbol='TXN'
         </sampleQuery>
     </meta>
     <bindings>
@@ -67,13 +67,15 @@
             // Setup Query from finance.yahoo.com
             var reporttype_code = "";
             //reporttype = y.context.table;
-            if(reporttype == "incomestatement"){reporttype_code = "is";}
-            else if(reporttype == "balancesheet"){reporttype_code = "bs";}
-            else if(reporttype == "cashflow"){reporttype_code = "cf";}
-            var url="http://finance.yahoo.com/q/"+ reporttype_code + "?s=" + symbol + "&" + timeframe;
+            if(reporttype == "incomestatement"){reporttype_code = "stock-income-statement";}
+            else if(reporttype == "balancesheet"){reporttype_code = "stock-balance-sheet";}
+            else if(reporttype == "cashflow"){reporttype_code = "stock-cash-flow";}
+            if(timeframe == "quarterly"){timeframe="Qtr";}
+            else if(timeframe == "annual"){timeframe="Ann";}
+            var url="http://investing.money.msn.com/investments/"+ reporttype_code + "/?symbol=" + symbol + "&stmtView=" + timeframe;
 			var restquery = y.rest( url );	
 			var rawresult = restquery.accept( "text/html" ).get().response;
-			var query = y.xpath( rawresult, "//table[@class='yfnc_tabledata1']/tr/td/table/tr");	
+			var query = y.xpath( rawresult, "//div[@class='stmt']/div/table/tbody/tr");	
 
             // Process Results
             var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></{reporttype}>;
@@ -86,11 +88,11 @@
                 // Read Column Headings
                 data_array[0] = new Array()
                 data_array[0][0] = "Headings"
-                for each ( var th in query[0].th)
+                for each ( var td in query[1].td)
                 {
                     data_array[x] = new Array();
-                    data_array[x][y] = th.*.text().toString();
-                    //outputdata.appendChild(<column x={x} y={y}>{data_array[x][y]}</column>);
+                    data_array[x][y] = td.*.text().toString();
+                    outputdata.appendChild(<column x={x} y={y}>{data_array[x][y]}</column>);
                     x++;
                 }
                 numcolumns = x;
@@ -100,14 +102,15 @@
                 var i = 1;
                 while ( i < query.length()) 
 			    {
+                    outputdata.appendChild(<debug>in row loop {query[i].td.length()} {numcolumns}</debug>);
                     var row = query[i];
+                    outputdata.appendChild(row);
                     if(row.td.length() >= numcolumns){
                         x = 0;
                         // read each column in row
+                        //outputdata.appendChild(<debug>in row loop - in column</debug>);
                         for each (var column in row.td){
-                            if("spacer" in column)
-                            {}
-                            else{
+                                outputdata.appendChild(<debug>in row loop - in column for loop</debug>);
                                 var dataitem = column.*.text().toString();
                                 dataitem = String(dataitem.replace(/\s+/g,""));
                                 dataitem = String(dataitem.replace(/,/g,""));
@@ -120,8 +123,7 @@
                                 data_array[x][y] = dataitem;
                                 //outputdata.appendChild(<row x={x} y={y}>{data_array[x][y]}</row>); 
                                 x++;
-                            }
-                        }
+                         }
                         y++;
                     }
                     i++;
@@ -134,7 +136,7 @@
                     for(y = 1; y < numrows; y++){
                         row_name = data_array[0][y];
                         data = data_array[x][y];
-                        //financial_period.appendChild(<{row_name} report_row={y}>{data}</{row_name}>);
+                        financial_period.appendChild(<{row_name} report_row={y}>{data}</{row_name}>);
                         financial_period.appendChild(<{row_name}>{data}</{row_name}>);
                     }
                     outputdata.appendChild(financial_period);
