@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>James Broad</author>
+    <documentationURL>http://developer.yahoo.com/answers/V1/getByUser.html</documentationURL>
+    <sampleQuery>select * from {table} where appid="YahooDemo" and user_id="YbaMGtHFaa"</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML" itemPath="ResultSet.Question">
+      <urls>
+        <url>http://answers.yahooapis.com/AnswersService/V1/getByUser</url>
+      </urls>
+      <paging model="offset">
+        <start default="0" id="start"/>
+        <pagesize max="100" id="results"/>
+        <total default="10"/>
+      </paging>
+      <inputs>
+        <key id="appid" type="xs:string" paramType="query" required="true"/>
+        <key id="user_id" type="xs:string" paramType="query" required="true"/>
+        <key id="type" type="xs:string" paramType="query"/>
+        <key id="filter" type="xs:string" paramType="query"/>
+        <key id="sort" type="xs:string" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
