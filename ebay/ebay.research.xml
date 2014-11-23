@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where QueryKeywords="ipod"</sampleQuery>
+    <documentationURL>http://developer.ebay.com</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="SearchResponse" produces="XML">
+      <urls>
+        <url>http://api.dataunison.com/rest</url>
+      </urls>
+      <inputs>
+        <key id="appid" type="xs:string" private="true" default="AvalaniC-c084-4516-bd2e-b2078fb890ac" paramType="query"/>
+	<key id="call_name" type="xs:string" private="true" default="GetPriceResearch" paramType="query"/>
+	<key id="version" type="xs:string" private="true" default="2" paramType="query"/>
+        <key id="QueryKeywords" type="xs:string" required="true" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
