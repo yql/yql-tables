@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="https://raw.github.com/spier/yql-tables/yql-stylesheet/prlog/yql-stylesheet.xsl" ?>
+<!-- <?xml-stylesheet type="text/xsl" href="yql-stylesheet.xsl" ?> -->
+
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
 			<author>Sebastian Spier (http://twitter.com/#!/sebastianspier/)</author>
