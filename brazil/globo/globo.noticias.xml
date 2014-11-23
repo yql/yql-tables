@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Irae Carvalho</author>
+		<description>Gets content from a single Globo news page.</description>
+		<documentationURL/>
+		<sampleQuery>select * from {table} where page="http://g1.globo.com/tecnologia/noticia/2011/09/pnbl-deve-chegar-150-cidades-em-2011-diz-presidente-da-telebras.html"</sampleQuery>
+	</meta>
+	<bindings>
+		<select produces="XML">
+			<inputs>
+				<key id="page" type="xs:string" paramType="query" required="true"/>
+			</inputs>
+			<execute><![CDATA[ 
+
+				var querystring = 'select * from html where url="'+decodeURIComponent(page)+'"';
+
+				q = y.query(querystring);
+
+				var data = q.results;
+
+				var title = (/<h1 class="entry-title">(.*?)<\/h1>/mi).exec(data)[1];
+
+				var body = (/entry-content[^>]*>((.|[\n\r])*)<\/div>[^>]*<[^<]*linkspatrocinados/im).exec(data)[1];
+
+				var date = (/<abbr class="published">([^>]*)<\/abbr>/im).exec(data)[1];
+
+				var author = (/class="[^"]*author[^"]*">((.|[\n\r])*?)<\/p>/im).exec(data)[1];
+
+				var resp = {
+					title: title,
+					body: body,
+					author: author,
+					date: date
+				};
+
+				response.object = resp;
+
+			]]></execute>
+		</select>
+	</bindings>
+</table>

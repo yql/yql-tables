@@ -1,25 +1,26 @@
 <?xml version="1.0"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-  <meta>
-	<author>New York Times</author>
-	<description>NYT Newswire - up to the minute NYT published items</description>
-	<documentationURL>http://developer.nytimes.com/docs/times_newswire_api/</documentationURL>
-  </meta>
-  <bindings>
-	<select produces="XML" itemPath="result_set.results.news_item">
-	  <urls>
-		<url>http://api.nytimes.com/svc/news/{version}/all/{time-period}.xml?api-key={apikey}</url>
-	  </urls>
-	  <paging model="offset">
-		<start default="0" id="offset"/>
-		<pagesize max="50" id="limit"/>
-		<total default="20"/>
-	  </paging>
-	  <inputs>
-		<key id="time-period" type="xs:string" paramType="path" required="true"/>
-		<key id="version" type="xs:string" paramType="path" default="v2"/>
-		<key id="apikey" type="xs:string" paramType="path" required="true"/>
-	  </inputs>
-	</select>
-  </bindings>
+	<meta>
+		<author>New York Times</author>
+		<description>NYT Newswire - up to the minute NYT published items</description>
+		<documentationURL>http://developer.nytimes.com/docs/times_newswire_api/</documentationURL>
+	</meta>
+	<bindings>
+		<select produces="XML" itemPath="result_set.results.news_item">
+			<urls>
+				<url>http://api.nytimes.com/svc/news/{version}/content/source/all.xml?api-key={apikey}</url>
+			</urls>
+			<paging model="offset">
+				<start default="0" id="offset"/>
+				<pagesize max="50" id="limit"/>
+				<total default="20"/>
+			</paging>
+			<inputs>
+				<key id="time-period" type="xs:string" paramType="path" />
+				<key id="item_type" type="xs:string" paramType="query" />
+				<key id="version" type="xs:string" paramType="path" default="v3"/>
+				<key id="apikey" type="xs:string" paramType="path" required="true"/>
+	  		</inputs>
+		</select>
+	</bindings>
 </table>
