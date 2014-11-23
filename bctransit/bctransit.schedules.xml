@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>select * from {table} where region="vic" and route="14" and direction="1" and day="1";</sampleQuery>
+    </meta>
+    <bindings>
+        <select produces="XML">
+            <urls>
+                <url>http://www.bctransit.com/regions/{region}/schedules/schedule_printable.cfm?route={route}:{direction}</url>
+            </urls>
+            <inputs>
+                <key id="region" paramType="path" required="true" type="xs:string"/>
+                <key id="route" paramType="path" required="true" type="xs:string"/>
+                <key id="direction" paramType="path" default="0" type="xs:string"/>
+                <key id="day" paramType="query" default="1" type="xs:string"/>
+            </inputs>
+            <execute><![CDATA[
+                var statement = [
+                        "select * from html",
+                        "where url=@url",
+                        "and xpath=@xpath"
+                    ].join( " " ),
+                    
+                    query = y.query( statement, {
+                        url: request.url,
+                        xpath: [
+                            '//strong[@class="css-header-title"]',
+                            '//td[@width="20"]',
+                            '//td[@class="css-sched-times" and @align="right"]'
+                        ].join( "|" )
+                    }),
+                    
+                    xml = <schedule>
+                        <waypoints/>
+                        <times/>
+                    </schedule>,
+                    title = query.results.strong.text();
+                    
+                xml.schedule += <title>{title}</title>;
+                
+                for each ( var p in query.results.td.( @width == "20" ).p ) {
+                    xml.waypoints.appendChild( <waypoint>{p.text()}</waypoint> );
+                }
+                
+                for each ( var p in query.results.td.( @["class"] =="css-sched-times" && @align == "right" ).p ) {
+                    xml.times.appendChild( <time>{p.text()}</time> );
+                }
+                
+                response.object = xml;
+            ]]></execute>
+        </select>
+    </bindings>
+</table>

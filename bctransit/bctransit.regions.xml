@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>select * from {table};</sampleQuery>
+    </meta>
+    <bindings>
+        <select produces="XML">
+            <urls>
+                <url>http://www.bctransit.com/</url>
+            </urls>
+            <execute><![CDATA[
+                var statement = [
+                        "select value, content from html",
+                        "where url=@url",
+                        "and xpath=@xpath",
+                        "and value matches @regex",
+                        '| sort(field="content")'
+                    ].join( " " ),
+                    
+                    regex = /\/regions\/([a-z]{3})\/.*$/i,
+                    
+                    query = y.query( statement, {
+                        url: request.url,
+                        xpath: '//select[@name="jumplist"]/option',
+                        regex: regex.source
+                    }),
+                    
+                    xml = <regions/>;
+
+                for each ( var option in query.results.option ) {
+                    var path = regex.exec( option.@value )[1],
+                        title = option.text();
+
+                    xml.regions += <region>
+                        <path>{path}</path>
+                        <title>{title}</title>
+                    </region>;
+                }
+                
+                response.object = xml;
+            ]]></execute>
+        </select>
+    </bindings>
+</table>

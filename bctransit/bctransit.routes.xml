@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>select * from {table} where region="vic";</sampleQuery>
+    </meta>
+    <bindings>
+        <select produces="XML">
+            <urls>
+                <url>http://www.bctransit.com/regions/{region}/</url>
+            </urls>
+            <inputs>
+                <key id="region" paramType="path" required="true" type="xs:string"/>
+            </inputs>
+            <execute><![CDATA[
+                var statement = [
+                        "select href, content from html",
+                        "where url=@url",
+                        "and xpath=@xpath",
+                        "and href matches @regex",
+                        '| unique(field="href", hideRepeatCount="true")'
+                    ].join( " " ),
+                
+                    regex = /.*line=([0-9]{1,3}).*$/i,
+                
+                    query = y.query( statement, {
+                        url: request.url,
+                        xpath: '//div[@id="dvSchedule"]//p[@class="rightmenusubitem"]/a',
+                        regex: regex.source
+                    }),
+                
+                    xml = <routes/>;
+
+                for each ( var a in query.results.a ) {
+                    var path = regex.exec( a.@href )[1],
+                        title = a.text();
+
+                    xml.routes += <route>
+                        <path>{path}</path>
+                        <title>{title}</title>
+                    </route>;
+                }
+
+                response.object = xml;
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
