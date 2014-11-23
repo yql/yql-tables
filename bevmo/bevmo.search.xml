@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Dan Beam</author>
+        <documentationURL><![CDATA[http://www.bevmo.com/]]></documentationURL>
+        <sampleQuery><![CDATA[select * from {table} where query='dom perignon']]></sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="results.result" produces="XML">
+            <inputs>
+                <key id="query" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+            <execute><![CDATA[
+
+                    // helper variables
+                var url         = 'http://www.bevmo.com/Shop/ProductList.aspx?Ntt=' + query + '&N=0&Ntx=mode%2bmatchall&Nty=1&D=' + query + '&Ntk=All&Dx=mode%2bmatchall&ShowAll=true',
+                    xpath       = '//td[@class="ProductListItemMiddleCol"]|//td[@class="ProductListItemLeftCol"]/a/img|//td[@class="ProductListItemRightCol"]/nobr/span[@class!="ProductListItemPrice_Strike"]',
+                    curYear     = ('' + (new Date).getFullYear()).slice(-2),
+                    pointsReg   = /([0-9]+) (?:pts|points)/i,
+                    ratedByReg  = /^[0-9]+ PTS([^\.]+)\./,
+                    trimReg     = /^(\s+)|(\s+)$/g,
+                    firstLtrReg = /^([a-z])|\s+([a-z])/g,
+                    newLines    = /[\s\r\n]+/g,
+                    commasReg   = /^,/g,
+                    descReg     = /^[0-9]+ PTS[^\.]+\.\s?/,
+                    mlOrL       = /([0-9\.]+) (L(?:TR)?|ML)/,
+                    lOrLtr      = /^(L|LTR)$/,
+                    yearApos    = /(?:^|\s)('[0-9]{2,4})(?:\s|$)/,
+                    yearNoApos  = /(?:^|\s)([0-9]{2,4})(?:\s|$)/,
+                    globalNum   = /[^0-9]/g,
+                    toReturn    = <results></results>,
+
+                    // trim and normalize whitespace
+                    normalWS = function (str) {
+                        return str.replace(newLines, ' ').replace(trimReg, '');
+                    },
+
+                    // crush the case and upper-case the first letter of each word
+                    ucWords = function (str) {
+                        return str.toLowerCase().replace(firstLtrReg, function ($1) { return $1.toUpperCase(); });
+                    },
+
+                    // from L or ML -> ML
+                    getML = function (vol) {
+                        var parts = (vol.match(mlOrL) || [0,'']).slice(1);
+                        return 1 === parts.length ? '' : (lOrLtr.test(parts[1]) ? '' + parseFloat(parts[0], 10) * 1000 : parts[0]);
+                    },
+
+                    // try to get a year from the title
+                    getYear = function (name) {
+                        // try to get the year from the title
+                        return (name.match(yearApos) || name.match(yearNoApos) || [0,''])[1];
+                    },
+
+                    // make a YQL query
+                    q = y.query("SELECT * FROM html WHERE url=@url and xpath=@xpath", {"url": url, "xpath": xpath});
+
+                // check for results, otherwise just return empty result set
+                if (q.results) {
+
+                    // do some sanity checks on our results
+                    if (q.results.td && q.results.span && q.results.img && q.results.td.length() === q.results.img.length() && q.results.img.length() === q.results.span.length()) {
+
+                        // look through all the results
+                        for (var i = 0, l = q.results.img.length(); i < l; ++i) {
+
+                                // do some clean-up on the results (and do some possibly faulty assumptions?)
+                            var tdText  = q.results.td[i].p.text().toString(),
+                                name    = normalWS(q.results.td.a[i].text().toString()),
+                                points  = normalWS((tdText.match(pointsReg) || [0,''])[1]),
+                                ratedBy = normalWS(ucWords((tdText.match(ratedByReg) || [0,''])[1].replace(commasReg, ''))),
+                                volume  = normalWS(getML(q.results.td[i].table && q.results.td[i].table.tr && q.results.td[i].table.tr.td && q.results.td[i].table.tr.td.p.text().toString() || '')),
+                                desc    = normalWS(tdText.replace(descReg, '')),
+                                price   = normalWS(q.results.span[i].text().toString().slice(1).replace(commasReg, '')),
+                                buyUrl  = 'http://www.bevmo.com' + normalWS(q.results.td[i].a.@href.toString()),
+                                thumb   = 'http://www.bevmo.com' + normalWS(q.results.img[i].@src.toString().slice(2)),
+                                large   = thumb.indexOf('ProductImagesPreview') >= 0 ? thumb.replace('ProductImagesPreview', 'ProductImagesFull') : '',
+                                year    = getYear(name);
+
+                            if ('' !== year) {
+                                // intentionally not global replacement (just first occurrence)
+                                name = name.replace(year, '').replace(trimReg, '');
+                            }
+
+                            // if year is XX or 'XX and XX > 11 (for 2011), assume 19XX, else 20XX
+                            if (2 === year.length || (3 === year.length && "'" === year[0])) {
+                                year = (year.slice(-2) > curYear ? '19' : '20') + year.replace(globalNum, '');
+                            }
+
+                            // add the result
+                            toReturn.results += <result>
+                                                    <name>{name}</name>
+                                                    <year>{year}</year>
+                                                    <description>{desc}</description>
+                                                    <points>{points}</points>
+                                                    <ratedBy>{ratedBy}</ratedBy>
+                                                    <price>{price}</price>
+                                                    <buyUrl>{buyUrl}</buyUrl>
+                                                    <images>
+                                                        <thumb>{thumb}</thumb>
+                                                        <large>{large}</large>
+                                                    </images>
+                                                </result>;
+
+                        }
+
+                    }
+
+                }
+
+                // pass back the object
+                response.object = toReturn;
+
+            ]]></execute>
+        </select>
+    </bindings>
+</table>
