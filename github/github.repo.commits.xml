@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-    <author>Dav Glass / Jerry Reptak</author>
+    <author>Dav Glass</author>
     <documentationURL></documentationURL>
     <sampleQuery>select * from {table} where id='yui' and repo='yui3'</sampleQuery>
   </meta>

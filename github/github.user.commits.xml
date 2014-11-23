@@ -9,29 +9,33 @@
     <select itemPath="commits.commit" produces="XML">
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true" />
+        <key id="email" type="xs:string" paramType="path" />
       </inputs>
       <execute><![CDATA[
 
         // pull down the tables required
-        y.use("http://www.datatables.org/github/github.user.repos.xml", "github.user.repos");
-        y.use("http://www.datatables.org/github/github.repo.commits.xml", "github.repo.commits");
+        y.use("http://danbeam.dyndns.org/github/github.user.repos.xml", "github.user.repos");
+        y.use("http://danbeam.dyndns.org/github/github.repo.commits.xml", "github.repo.commits");
 
         // make the query
         var commit, match,
-            useful  = <commits></commits>;
-            commits = y.query('select commit from github.repo.commits where id="' + id + '" and repo in (select repository.name from github.user.repos where id="' + id + '")');
+            prefix  = 'https://api.github.com/repos/' + id + '/';
+            useful  = <commits></commits>,
+            commits = y.query('select * from github.repo.commits where id="' + id + '" and repo in (select name from github.user.repos where id="' + id + '")');
 
         // TODO: what's the best way to handle failure?
         if (commits.results) {
             // look through each commit
-            for each (commit in commits.results.commits.commit) {
-                // filter only our login
-                if (id === commit.author.login.toString()) {
-                    if (match = commit.url.match(/\/[^\/]+\/([^\/]+)\/.+/)) {
-                        commit.repository = match[1];
-                    }
+            for each (commit in commits.results.commit) {
+                match = commit.url.substr(prefix.length).split('/');
+                if (match.length) {
+                    commit.repository = match[0];
+                }
+                commit.url = commit.url.replace('://api.', '://').replace('/repos', '').replace('/git/commits', '/commit');
+                // use only the given email if it exists
+                if (typeof email === 'undefined' || email === commit.committer.email.toString()) {
                     // add this commit to our useful list
-                    useful.commits += commit
+                    useful.commits += commit;
                 }
             }
         }
