@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Cristobal Baray</author>
+		<description>Status of today's MLB games</description>
+		<sampleQuery>USE "http://moon-watcher.com/sports/sports.mlb.xml" AS mlb;  
+			SELECT * FROM mlb;</sampleQuery>
+	</meta>
+  <bindings>
+    <select itemPath="games.game" produces="XML">
+      <execute><![CDATA[
+          // Your javascript goes here. We will run it on our servers
+
+
+          var rawData = y.rest("http://aud.sports.yahoo.com/mlb/games.txt").get().response;
+
+          var rows = rawData.split("\n");
+          var venues = new Array();
+          var games = new Array();
+
+          var output = <games/>;
+          var GAME_NUMBER_INDEX = 2;
+          var VENUE_INDEX = 3;
+          var HOME_TEAM_INDEX = 5;
+          var PERIOD_INDEX = 9;
+
+          var columns = new Array ("g", "longGameID", "gameNumber", "venueID", "awayTeamID",
+            "homeTeamID", "status", "storyStatus", "startTime", "period",
+ 	    "awayRuns", "awayHits", "awayErrors", "awayPitcher", "awayBatter", "awayAtBat",
+	    "homeRuns", "homeHits", "homeErrors", "homePitcher", "homeBatter", "homeAtBat",
+            "balls", "strikes", "outs", 
+            "runnerOnThird", "runnerOnSecond", "runnerOnFirst", "gameType"
+            );
+ 
+          for (i = 0; i < rows.length; i++)
+          {
+             var items = rows[i].split("|");
+             if (items[0] == "y")
+             {
+                venues[items[1]] = items;
+             }
+             else if (items[0] == "g")
+             {
+               var xmlrow = <game></game>;
+               for (j = 1; j < items.length; j++)
+               {
+                  xmlrow.node += <{columns[j]}>{items[j]}</{columns[j]}>;
+               }
+               var shortID = (items[HOME_TEAM_INDEX] * 10) + Number(items[GAME_NUMBER_INDEX]);
+               xmlrow.node += <gameID>{shortID}</gameID>;
+               var inning = Math.floor(items[PERIOD_INDEX] / 2) + 1;
+               var inningHalf = (0 == items[PERIOD_INDEX] % 2) ? "top" : "bot";
+               xmlrow.node += <inning>{inning}</inning>;
+               xmlrow.node += <inningHalf>{inningHalf}</inningHalf>;
+               var venueID = items[VENUE_INDEX]; 
+               if (venues[venueID])
+               {
+                  xmlrow.node += <venueName>{venues[venueID][2]}</venueName>;
+                  xmlrow.node += <venueCity>{venues[venueID][3]}</venueCity>;
+                  xmlrow.node += <venueState>{venues[venueID][4]}</venueState>;
+               }
+               games[shortID] = xmlrow;
+            
+               //output.row += xmlrow;
+             }
+             else if (items[0] == "f") // fielders
+             {
+                var xmlrow = games[items[1]];
+                var fieldersrow = <fielders></fielders>;
+
+                // hardcoded player indexes.
+                fieldersrow.node += <pitcher>{items[2]}</pitcher>;
+                fieldersrow.node += <catcher>{items[3]}</catcher>;
+                fieldersrow.node += <first>{items[4]}</first>;
+                fieldersrow.node += <second>{items[5]}</second>;
+                fieldersrow.node += <third>{items[6]}</third>;
+                fieldersrow.node += <shortstop>{items[7]}</shortstop>;
+                fieldersrow.node += <rightField>{items[8]}</rightField>;
+                fieldersrow.node += <centerField>{items[9]}</centerField>;
+                fieldersrow.node += <leftField>{items[10]}</leftField>;
+                xmlrow.node += fieldersrow;
+             }
+             else if (items[0] == "z") // pitcher results feed
+             {
+               var xmlrow = games[items[1]];
+               xmlrow.node += <winningPitcher>{items[2]}</winningPitcher>;
+               xmlrow.node += <losingPitcher>{items[3]}</losingPitcher>;
+               xmlrow.node += <savingPitcher>{items[4]}</savingPitcher>;
+             }
+             else if (items[0] == "a") // top performers feed
+             {
+               var xmlrow = games[items[1]];
+               xmlrow.node += <awayTopPerformer>{items[2]}</awayTopPerformer>;
+               xmlrow.node += <homeTopPerformer>{items[3]}</homeTopPerformer>;
+             }
+          }
+
+          for (var game in games)
+          {
+            output.row += games[game];
+          }
+
+          response.object = output;
+
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
+

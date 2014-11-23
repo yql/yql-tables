@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Cristobal Baray</author>
+		<description>Query for team information for the MLB.  Includes some stats.</description>
+		<sampleQuery>USE "http://moon-watcher.com/sports/sports.mlb.teams.xml" AS mlb.teams;  
+			SELECT * FROM mlb.teams;</sampleQuery>
+	</meta>
+	
+  <bindings>
+    <select itemPath="teams.team" produces="XML">
+
+      <execute><![CDATA[
+          // Your javascript goes here. We will run it on our servers
+
+          var rawData = y.rest("http://aud.sports.yahoo.com/mlb/teams.txt").get().response;
+
+          var rows = rawData.split("\n");
+
+          var output = <teams/>;
+
+          var columns = new Array ("t", "teamID", "location", "nickname",
+              "abbr", "code", 
+              "wins", "losses", "awayWins", "awayLosses",
+              "homeWins", "homeLosses");
+ 
+          for (i = 0; i < rows.length; i++)
+          {
+             var items = rows[i].split("|");
+             if (items[0] == "t")
+             {
+               var xmlrow = <team></team>;
+               for (j = 1; j < columns.length; j++)
+               {
+                  xmlrow.node += <{columns[j]}>{items[j]}</{columns[j]}>;
+               }
+
+               output.node += xmlrow;
+             }
+          }
+          response.object = output;
+
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
+

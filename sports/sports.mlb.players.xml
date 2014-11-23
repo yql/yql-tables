@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Cristobal Baray</author>
+		<description>Get the player stats for players active today</description>
+		<sampleQuery>USE "http://moon-watcher.com/sports/sports.mlb.players.xml" AS mlb.players;  
+			SELECT * FROM mlb.players where teamID=14;</sampleQuery>
+	</meta>
+	
+  <bindings>
+    <select itemPath="players.player" produces="XML">
+
+      <execute><![CDATA[
+          // Your javascript goes here. We will run it on our servers
+
+          var rawData = y.rest("http://aud.sports.yahoo.com/mlb/players.txt").get().response;
+
+          var rows = rawData.split("\n");
+
+          var output = <players/>;
+          var players = new Array();
+
+          var columns = new Array ("m", "playerID", "teamID", "firstName",
+              "lastName", "headshot");
+
+          var baseURL = "";
+ 
+          for (i = 0; i < rows.length; i++)
+          {
+             var items = rows[i].split("|");
+             if (items[0] == "m")
+             {
+               var xmlrow = <player/>;
+               var prefix = "";
+               for (j = 1; j < columns.length; j++)
+               {
+                  prefix = "";
+                  if (columns[j] == "headshot")
+                    prefix = baseURL;
+                  
+                  xmlrow.node += <{columns[j]}>{prefix + items[j]}</{columns[j]}>;
+               }
+               players[items[1]] = xmlrow;
+             }
+             else if (items[0] == "B")
+             {
+               baseURL = items[1];
+             }
+          }
+
+
+          var rawData = y.rest("http://aud.sports.yahoo.com/mlb/stats.txt").get().response;
+
+          var pitcherSeasonColumns = new Array("k", "playerID", "ip", "hits", "strikeouts",
+               "walks", "runs", "earnedRuns", "wins", "losses", "saves", "holds", "pitchStarts",
+               "completeGames", "shutouts");
+
+          var batterSeasonColumns = new Array("j", "playerID", "atBats", "hits", "singles",
+               "doubles", "triples", "homeRuns", "totalBases", "walks", "sacHits", "sacFlys",
+               "rbis", "strikeOuts", "hitByPitch", "runsScored");
+
+          var pitcherGameColumns = new Array("p", "playerID", "gameNumber", "seasonERA", 
+               "ip", "hitsAllowed", "earnedRuns", "walksAllowed", "strikeOutsPitched", 
+               "hrsAllowed", "wins", "losses", "saves", "holds", "pitchStarts", "completeGames",
+               "shutouts", "battersFaced", "intentionalWalksAllowed", "hitBatters", "wildPitches",
+               "balks", "stolenBasesAllowed", "batterHitIntoDP", "saveChances", "totalBasesAllowed",
+               "pitchCount", "singes", "doubles", "triples", "obp", "winningPct", "hitsPerNine",
+               "walksPerNine", "savePct", "blownSaves", "netSaves", "noHitters", "pickoffs",
+               "inheritedRunnersScored", "qualityStarts", "perfectGames", "reliefAppearances", 
+               "reliefWins", "reliefLosses");
+
+          var batterGameColumns = new Array("b", "playerID", "gameNumber", "battingOrder",
+               "seasonAvg", "atBats", "hits", "singles", "doubles", "triples", "hrs", "totalBases",
+               "walks", "sacHits", "sacFlys", "rbi", "strikeOuts", "hitByPitch", "runsScored",
+               "stolenBases", "caughtStealing", "gamesStated", "intentionalWalks", "doublePlays",
+               "catcherInt", "extraBaseHits", "netStolenBases", "stolenBasePct", "plateAppearances",
+               "cycles", "grandSlams");
+
+          var rows = rawData.split("\n");
+          for (i = 0; i < rows.length; i++)
+          {
+             var items = rows[i].split("|");
+             var xmlrow;
+             var statsRootElement;
+             var statsArray = null;
+
+             if (items[0] == "k")
+             {
+               xmlrow = players[items[1]];
+               statsRootElement = <pitchingSeasonStats/>;
+               statsArray = pitcherSeasonColumns;
+             }
+             else if (items[0] == "p")
+             {
+               xmlrow = players[items[1]];
+               statsRootElement = <pitchingGameStats/>;
+               statsArray = pitcherGameColumns;
+             }
+             else if (items[0] == "j")
+             {
+               xmlrow = players[items[1]];
+               statsRootElement = <battingSeasonStats/>;
+               statsArray = batterSeasonColumns;
+             }
+             else if (items[0] == "b")
+             {
+               xmlrow = players[items[1]];
+               statsRootElement = <battingGameStats/>;
+               statsArray = batterGameColumns;
+             }
+
+             if (statsArray != null)
+             {
+               for (j = 2; j < statsArray.length; j++)
+               {
+                  statsRootElement.node += <{statsArray[j]}>{items[j]}</{statsArray[j]}>;
+               }
+               xmlrow.node += statsRootElement;
+             }
+
+          }
+
+
+          for (var player in players)
+          {
+            output.row += players[player];
+          }
+
+          response.object = output;
+
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
+
