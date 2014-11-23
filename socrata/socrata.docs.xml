@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Socrata API - Access to all Documentation</description>
+	  <documentationURL>http://opendata.socrata.com/api/docs</documentationURL>
+		<sampleQuery>SELECT * FROM {table} </sampleQuery>		
+	</meta>
+	<bindings>
+		
+		<!-- general query. show all docs -->
+		<select itemPath="json" produces="JSON">
+			<urls>
+				<url env="all">http://opendata.socrata.com/api/docs.json</url>
+			</urls>
+			<inputs />
+    </select>
+
+		<!-- TODO: this second definition is not picked up yet  -->
+
+		<!-- query for only a single section of the docs -->
+		<select itemPath="json" produces="JSON">
+			<urls>
+				<url env="all">http://opendata.socrata.com/api/docs/{section}.json</url>
+			</urls>
+			<inputs>
+				<key id="section" type="xs:string" paramType="path" required="true"/>
+			</inputs>
+    </select>
+
+  </bindings>
+</table>

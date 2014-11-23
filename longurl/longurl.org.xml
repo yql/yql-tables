@@ -3,8 +3,10 @@
     <meta>
         <author>Quentin ADAM - waxzce</author>
         <documentationURL>http://longurl.org/api</documentationURL>
-        <sampleQuery description="get a long url and many other informations from a shorturl">select * from {table} where url='http://bit.ly/aFtKUB';</sampleQuery>
-        <sampleQuery description="get a long url and many other informations from a shorturl : google.com">select * from {table} where url='http://is.gd/w';</sampleQuery>
+        <sampleQuery description="get a long url and many other informations from a shorturl">select * from {table} where url='http://bit.ly/aFtKUB'</sampleQuery>
+        <sampleQuery description="get a long url and many other
+            informations from a shorturl : google.com">select * from {table}
+            where url='http://is.gd/w'</sampleQuery>
     </meta>
     <bindings>
         <select itemPath="response" produces="XML">
