@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+		<description>Calulate a set of maths terms in element yql_calc</description>
+        <documentationURL></documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="data" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+
+            <execute><![CDATA[
+			y.include("https://github.com/yql/yql-tables/raw/master/javascript/json2.js");
+			
+            var pdata = JSON.parse(data);
+            for (var i = 0; i < pdata.items.length; i++) {
+
+                pdata.items[i].yql_answer = (eval(pdata.items[i].yql_calc)).toString();
+	    }
+            response.object = y.jsonToXml(pdata);
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+</table>    
+

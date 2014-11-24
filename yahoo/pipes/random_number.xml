@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+		<description>Generate a random number given
+		a highest possible number (max)</description>
+        <documentationURL></documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+
+            </urls>
+            <inputs>
+                <key id="max" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+
+            <execute><![CDATA[
+            var rand_no = Math.ceil(max*Math.random());
+            response.object = <num>{rand_no}</num>
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+
+</table>    
+

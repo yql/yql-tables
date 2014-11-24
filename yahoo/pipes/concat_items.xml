@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+		<description>Take a feed where each item has an element called yql_string
+		  and concatenate these, using specified delimiter, into a new item as the last item.
+		</description>
+        <documentationURL></documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="data" type="xs:string" paramType="variable" required="true"/>
+                <key id="delim" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+
+            <execute><![CDATA[
+            y.include("http://hapdaniel.pwp.blueyonder.co.uk/pdaniel/yql/json2.js");
+
+            
+            var stuff = new Object;
+            stuff.yql_string='';			
+			 
+            var pdata = JSON.parse(data);
+            
+            for (var j = 0; j < pdata.items.length; j++) {
+                
+                     stuff.yql_string += pdata.items[j].yql_string + delim;
+                
+            }
+             
+            strlength = stuff.yql_string.length - delim.length;
+            stuff.yql_string = stuff.yql_string.substr(0,strlength);     
+            pdata.items.push(stuff);
+            response.object = pdata;
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+</table>    
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+ <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+   <meta>  
+   <author>Paul Daniel (hapdaniel)</author>
+   <description>Get rest response status. Could be charset issues</description>
+     <sampleQuery>select * from {table} where url="www.myfeed.rss"</sampleQuery>  
+	 <documentationURL>http://pipes.yahoo.com/pipes/pipe.edit?_id=a51c659678e857000b30e06e26b1b810</documentationURL>
+   </meta>  
+   <bindings>  
+   <select itemPath="" produces="XML">  
+     <urls>  
+       <url></url>  
+     </urls>  
+     <inputs>  
+       <key id="url" type="xs:string" paramType="variable" required="true" />  
+     </inputs>  
+       <execute><![CDATA[
+					var myData = y.rest(url).get().status;
+					y.log(myData);
+					response.object = myData
+
+
+       ]]></execute>  
+     </select>  
+   </bindings>  
+ </table>

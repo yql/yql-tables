@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+ <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+   <meta>
+     <author>Paul Daniel (hapdaniel)</author>
+     <description> Takes a given RSS feed and copies the feed's title and link
+	   to each item in the feed. Could be used to add the feed title
+	   to the title of each feed item.
+	 </description>
+     <sampleQuery>select * from {table} where url="www.myfeed.rss"</sampleQuery>  
+   </meta>  
+   <bindings>  
+   <select itemPath="results.rss.channel.item" produces="XML">  
+     <urls>  
+       <url></url>  
+     </urls>  
+     <inputs>  
+       <key id="url" type="xs:string" paramType="variable" required="true" />    
+     </inputs>  
+       <execute><![CDATA[ 
+    
+              var search = y.query("select * from xml where url=@url",{url:url}).results; 
+              
+              var header1 = search.rss.channel.title.toString();
+              var header2 = search.rss.channel.link.toString();
+              for each (var item in search.rss.channel.item) {
+                        item.header.title += <title>{header1}</title>;
+                        item.header.link += <link>{header2}</link>;
+                    }
+                    response.object = search;
+
+
+       ]]></execute>  
+     </select>  
+   </bindings>  
+ </table>

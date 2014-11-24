@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+ <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+   <meta>  
+   <author>Paul Daniel (hapdaniel)</author>
+   <description>Extracts the details of pipe modules for a specified pipe from
+     the pipe.info page. What was that myquery input meant to be for?
+   </description>
+   <documentationURL>http://pipes.yahoo.com/pipes/pipe.edit?_id=PonWO_iA3hGnE9dU_vrsUA</documentationURL>
+     <sampleQuery></sampleQuery>  
+   </meta>  
+   <bindings>  
+   <select itemPath="" produces="XML">  
+     <urls>  
+       <url></url>  
+     </urls>  
+     <inputs>  
+       <key id="myquery" type="xs:string" paramType="variable" required="false"	   />  
+	   <key id="pipe_id" type="xs:string" paramType="variable" required="true"/>
+     </inputs>  
+       <execute><![CDATA[
+				y.include("http://hapdaniel.pwp.blueyonder.co.uk/pdaniel/yql/json2.js");
+					mq = "select PIPE.working from json where url='http://pipes.yahoo.com/pipes/pipe.info?_out=json&_id=" + pipe_id + "'";
+					var myData = y.query(mq).results;
+					
+					var myString = myData.json.PIPE.working.toString();
+					myString = myString.replace(/,"terminaldata":\[[^\]]+\]/,'');
+					
+					response.object = JSON.parse(myString);
+
+
+       ]]></execute>  
+     </select>  
+   </bindings>  
+ </table>

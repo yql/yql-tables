@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+        <documentationURL></documentationURL>
+		<description>Perform regexs using YQL. Mainly of use because
+			pipes V1 cannot do global substitution using variables.
+			Params
+			text - the text to apply the regex to. (c. 2000 char limit??)
+			regex - the expression
+			replace_with - replace with
+			modifiers - g/i/s/m
+		</description>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="text" type="xs:string" paramType="variable" required="true"/>
+                <key id="regex" type="xs:string" paramType="variable" required="true"/>
+                <key id="replace_with" type="xs:string" paramType="variable" required="true"/>
+                <key id="modifiers" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+
+            <execute><![CDATA[
+            
+            var reg = new RegExp(regex,modifiers);
+            text = text.replace(reg,replace_with);
+            response.object = text;
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+</table>    
+

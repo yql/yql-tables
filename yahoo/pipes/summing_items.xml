@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+        <documentationURL>http://pipes.yahoo.com/pipes/pipe.edit?_id=9befade0fdcb2eb3b59aef14cbecf5d0</documentationURL>
+		<description>Sum of specified elements over items. Returns all data, so
+		it keeps the original items.
+		I think these must be top level elements e.g. no fig.sum.
+		</description>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="data" type="xs:string" paramType="variable" required="true"/>
+                <key id="eles" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+
+            <execute><![CDATA[
+            y.include("http://hapdaniel.pwp.blueyonder.co.uk/pdaniel/yql/json2.js");
+
+            var fields = eles.split(",");
+            var arr_len = fields.length;
+            
+            var totals = new Object;
+			for (var i = 0; i < arr_len; i++) {
+             totals[fields[i]] = 0;
+             }   
+			 
+            var pdata = JSON.parse(data);
+            
+            for (var j = 0; j < pdata.items.length; j++) {
+                for (var i = 0; i < arr_len; i++) {
+                     ele = "pdata.items[" + j + "]." + fields[i];
+                     totals[fields[i]] += Number(eval(ele)); 
+					 y.log(fields[i]);
+                }
+            }
+             for (var i = 0; i < arr_len; i++) {
+                  totals[fields[i]] = totals[fields[i]].toString(); 
+
+                }
+            totals.yql_count = pdata.items.length;
+            pdata.items.push(totals);
+            var output = pdata;
+            response.object = output;
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+</table>    
+

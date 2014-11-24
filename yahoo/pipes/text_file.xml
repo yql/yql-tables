@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+ <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+   <meta>
+	<author>Paul Daniel (hapdaniel)</author>
+	<description>Execute a REST query and return the result as a string
+		instead of the DOM.
+	</description>
+     <sampleQuery>select * from {table} where url="www.myfeed.com/stuff.txt"</sampleQuery>  
+   </meta>  
+   <bindings>  
+   <select itemPath="" produces="XML">  
+     <urls>  
+       <url></url>  
+     </urls>  
+     <inputs>  
+       <key id="url" type="xs:string" paramType="variable" required="true" />  
+		<key id="charset" type="xs:string" paramType="variable" required="false" />
+     </inputs>  
+       <execute><![CDATA[ 
+			if (!charset) {
+				charset = "UTF-8";
+				}
+              var text = y.rest(url)
+			  .forceCharset(charset)
+              .get().response; 
+              response.object = text;
+
+
+       ]]></execute>  
+     </select>  
+   </bindings>  
+ </table>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+ <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+   <meta>
+   <author>Paul Daniel (hapdaniel)</author>   
+   <description>Use Case - We want to pick the title,say from a specific item in a feed,
+       say number 10, and filter the whole feed based on part of that title.
+	   We can't split the feed and pass the title value selected in one path
+	   to the other path.
+	   We don't want to have to fetch the whole feed, select the title from the item
+	   and then pass that string to a sub-pipe that just gets the whole feed again.
+	   So:
+	   1. Get the feed as ana array
+	   2. Given a number we build a a string ${stuff.10.title} to pass to Regex module
+	      in the element yql_term
+	   3. Copy item.stuff to item. yql_array
+	   4. Use this table to add yql_term to each member of yql_array
+   </description>
+   <documentationURL>http://discuss.pipes.yahoo.com/Message_Boards_for_Pipes/threadview?bn=pip-DeveloperHelp&tid=10544&mid=10556
+   </documentationURL>
+     <sampleQuery></sampleQuery>  
+   </meta>  
+   <bindings>  
+   <select itemPath="" produces="XML">  
+     <urls>  
+       <url></url>  
+     </urls>  
+     <inputs>  
+	   <key id="data" type="xs:string" paramType="variable" required="true" />
+     </inputs>  
+       <execute><![CDATA[ 
+				y.include("http://hapdaniel.pwp.blueyonder.co.uk/pdaniel/yql/json2.js");
+				var pdata = JSON.parse(data);
+				var term = pdata.items[0]['yql_term'];
+				var ele = pdata.items[0]['yql_array'];
+				for (var i = 0; i < pdata.items[0][ele].length; i++) {
+					pdata.items[0][ele][i]['yql_term'] = term;
+
+				}
+				response.object = y.jsonToXml(pdata);
+
+
+       ]]></execute>  
+     </select>  
+   </bindings>  
+ </table>

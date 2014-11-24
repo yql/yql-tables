@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+        <documentationURL>http://hapdaniel.wordpress.com/2009/06/05/concatenation-revisited/</documentationURL>
+		<description>Takes text from an array (must be named yql_array)
+		and returns the concatenated contents into yql_array_string.
+		</description>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="data" type="xs:string" paramType="variable" required="true"/>
+                <key id="ele" type="xs:string" paramType="variable" required="false"/>
+                <key id="delim" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+
+            <execute><![CDATA[
+            y.include("http://hapdaniel.pwp.blueyonder.co.uk/pdaniel/yql/json2.js");
+
+            var str1 = "pdata.items[";
+            var str2 = "].yql_array["; 
+            
+            var pdata = JSON.parse(data);
+            for (var i = 0; i < pdata.items.length; i++) {
+                var outstr = "";
+                var pstr = str1 + i + str2;
+                    for (var j = 0; j < pdata.items[i].yql_array.length; j++) {
+                         if (ele) {
+                         ystr = pstr + j + "]." + ele;
+                    } else {
+                         ystr = pstr + j + "]";
+                    }
+                         outstr += eval(ystr);
+                         outstr += delim;
+                    }
+                    strlength = outstr.length - delim.length;
+                    pdata.items[i].yql_array_string = outstr.substr(0,strlength);
+	    }
+            
+            response.object = pdata;
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+</table>    
+
