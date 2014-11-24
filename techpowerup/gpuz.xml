@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>select * from {table} where id="wvk3m"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="id" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+<![CDATA[
+    y.include("https://raw.github.com/carschrotter/yql-tables/master/techpowerup/code.js");
+]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
