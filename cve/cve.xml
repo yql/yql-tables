@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>silverline</author>
+    <documentationURL>None</documentationURL>
+    <description>National Vulnerability Database - This feed contains the most recent CVE cyber vulnerabilities published within the National Vulnerability Database.</description>
+    <sampleQuery>SELECT * FROM {table} WHERE abbr="12th"</sampleQuery>
+  </meta>
+
+  <bindings>
+    <select itemPath="rdf:RDF.item" produces="XML">
+      <urls>
+        <url>http://nvd.nist.gov/download/nvd-rss.xml</url>
+      </urls>
+    </select>
+  </bindings>
+</table>
