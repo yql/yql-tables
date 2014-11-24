@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Premasagar Rose</author>
+    <sampleQuery>select * from {table} where url='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+        <key id='url' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+        response.object = y.rest(url).get().response;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
