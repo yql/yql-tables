@@ -1,0 +1,16 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd"> 
+  <meta> 
+    <author>Tom Hughes-Croucher</author> 
+  </meta> 
+  <bindings> 
+    <select itemPath="response.committees.committee" produces="XML"> 
+      <urls> 
+        <url>http://services.sunlightlabs.com/api/committees.allForLegislator.xml</url> 
+      </urls> 
+      <inputs> 
+          <key id='bioguide_id' type='xs:string' paramType='query' required="true" /> 
+          <key id='apikey' type='xs:string' paramType='query' required="true" /> 
+      </inputs> 
+    </select> 
+  </bindings> 
+</table>
