@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table
+    xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>
+          select * from {table}
+</sampleQuery>
+        <description>Get the lastest Fortune News from XinhuaNet</description>
+        <author>Yongle Wu</author>
+    </meta>
+    <bindings>
+        <select itemPath="results.li" produces="JSON" >
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id='url' type='xs:string' paramType='variable' default = 'http://www.xinhuanet.com/fortune/gd.htm'/>
+                <key id='xpath' type='xs:string' paramType='variable' default = '//div[@id="border3"]/ul/li'/>
+            </inputs>
+            <execute>
+                <![CDATA[
+response.object = y.query("select * from html where url = @url and xpath = @xpath",{url:url,xpath:xpath}).results;
+]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
