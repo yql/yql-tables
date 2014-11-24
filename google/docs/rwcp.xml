@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Andrew Wooldridge</author>
+        <documentationURL>http://readwritecodeplay.com</documentationURL>  
+  <sampleQuery>select * from {table} where type="something"</sampleQuery> 
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="type" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    /** js stuff **/
+                    var resultsPrefix = "select * from csv where url='https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0Al25RpMEgV12dGVNMDZzNHU3R2hfSTFEV0pMeW13SFE&output=csv' and columns='suggestion,type,duration,suggestedby' ";
+                    var resultsPostfix = "";
+                    var resultsSort = " | sort(field='type')";
+                    
+                    if(type != "*"){
+                        resultsPostfix = " and type='" + type + "'";
+
+                    } 
+                    results = y.query(resultsPrefix + resultsPostfix + resultsSort).results;
+                    y.log('testing with sort');
+                    y.log(results);
+                    response.object = <result>
+                        <data><type>{type}</type>
+                            {results}
+                        </data>    
+                    </result>
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
