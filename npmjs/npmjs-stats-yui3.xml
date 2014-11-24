@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Andrew Wooldridge</author>
+        <description>Display public stats for YUI</description>
+        <documentationURL></documentationURL>
+        <sampleQuery>select * from {table} where group="yui3"</sampleQuery>
+        <apiKeyURL></apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="group" type="xs:string" paramType="query" required="true"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+              /** setup vars **/
+              var res = <res><group>{group}</group></res>;
+              var statement = "";
+              var requests = [];
+              var npmtag = <npm></npm>;
+              var githubtag = <github></github>;
+              var group = unescape(inputs["group"]);
+              
+              y.log(group);
+              
+              
+              /** NPM **/
+              statement = "SELECT * FROM html WHERE url='https://npmjs.org/package/yui3' AND xpath='//table[@class=\"downloads\"]/tr[last()]/td[1]/p'";
+              requests[0] = y.query(statement);
+              
+              //y.log(requests[0]);
+              
+              for each(var child in requests[0].results.children()){
+                npmtag.appendChild(child);
+              }
+              
+              res.appendChild(npmtag);
+              
+              statement = "use 'store://kIfKmDunyT35ymUmFHJw0M' as yahoo.awooldri.github.repo; select watchers,forks from yahoo.awooldri.github.repo where id='yui' and repo='yui3'"
+              requests[1] = y.query(statement);
+              
+              for each(var child in requests[1].results.children()){
+                githubtag.appendChild(child);
+              }
+              
+              res.appendChild(githubtag);
+              
+              
+              response.object = res;
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
