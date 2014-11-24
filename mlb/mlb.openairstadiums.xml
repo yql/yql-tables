@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Zachary Forest Johnson</author>
+		<documentationURL>http://indiemaps.com/js-hit-locations-map/</documentationURL>
+		<sampleQuery>select * from mlb.openairstadiums</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="stadiums.stadium" produces="XML">
+			<urls>
+				<url>http://indiemaps.com/js-hit-locations-map/openairstadiums.xml</url>
+			</urls>
+		</select>
+	</bindings>
+	
+</table>
