@@ -1,0 +1,71 @@
+﻿<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>豆瓣OAuth认证成功</title>
+<style>
+</style>
+</head>
+<body>
+<script type="text/javascript" src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js"></script>
+<script>
+/** String 原型扩展 **/
+/*
+* @method toQueryParams 将“a=1&b=2&c=3”转化为{a=1,b=2,c=3}的hash对象
+* @return {Object} 转化过的hash对象
+*/
+if(!String.prototype.toQueryParams) {
+    String.prototype.toQueryParams=function () {
+        var hash={};
+        var params=this.split('&');
+        var rd=/([^=]*)=(.*)/;
+        for(var j=0;j<params.length;j++) {
+            var match=rd.exec(params[j]);
+            if(!match) continue;
+            var key=decodeURIComponent(match[1]);
+            var value=match[2]?decodeURIComponent(match[2]):undefined;
+            if(hash[key]!==undefined) {
+                if(hash[key].constructor!=Array)
+                    hash[key]=[hash[key]];
+                if(value)
+                    hash[key].push(value);
+            } else {
+                hash[key]=value;
+            }
+        }
+        return hash;
+    }
+}
+
+var api_key = '0995b7113482fff31cc125339d88ffd9',
+	api_secret = '441cbd9231518ada',
+	oauth_consumer_key = api_key,
+	oauth_consumer_secret = api_secret;
+
+YUI().use('node', 'yql', function(Y) {
+    var requestToken = localStorage.getItem('douban_req_token'),	
+		requestTokenSecret = localStorage.getItem('douban_req_token_secret'); 
+	
+	if(requestToken && requestTokenSecret){	
+
+		Y.YQL('select * from oauth where method="POST" and uri="http://www.douban.com/service/auth/access_token" and consumerKey="' + oauth_consumer_key + '" and consumerSecret="' + oauth_consumer_secret + '" and token="' + requestToken + '" and tokenSecret="' + requestTokenSecret + '"',function(r){
+			var resultStr = r.query.results.result,
+				resultObj = resultStr.toQueryParams(),
+				doubanUserId = resultObj.douban_user_id,
+				accessToken = resultObj.oauth_token,
+				accessTokenSecret = resultObj.oauth_token_secret; 
+			if(doubanUserId && requestToken && requestTokenSecret){
+				localStorage.setItem('douban_user_id',doubanUserId);	
+				localStorage.setItem('douban_access_token',accessToken);	
+				localStorage.setItem('douban_access_token_secret',accessTokenSecret);
+				localStorage.removeItem('douban_req_token');
+				localStorage.removeItem('douban_req_token_secret');
+				location.href = "http://swayweb.com/labs/douban/index.html";
+			}
+		});
+		
+	}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+  <meta>  
+    <author>Sway Deng</author>
+    <documentationURL>http://developers.digg.com/version2/search-search</documentationURL>  
+    <sampleQuery>select * from {table} where query="beatles"</sampleQuery>  
+  </meta>  
+  <bindings>  
+   <select itemPath="" produces="XML">
+      <urls>
+        <url>http://services.digg.com/2.0/search.search</url>
+      </urls>  
+      <inputs> 
+        <key id="domain" type="xs:string" paramType="query" />  
+        <key id="sort" type="xs:string" paramType="query" />  
+        <key id="offset" type="xs:string" paramType="query" />  
+        <key id="count" type="xs:string" paramType="query" /> 
+        <key id="topic" type="xs:string" paramType="query" /> 
+        <key id="medium" type="xs:string" paramType="query" /> 
+        <key id="query" type="xs:string" paramType="query" /> 
+        <key id="max_date" type="xs:string" paramType="query" /> 
+        <key id="min_date" type="xs:string" paramType="query" /> 
+      </inputs>
+    </select>  
+  </bindings>  
+</table>
