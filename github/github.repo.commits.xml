@@ -8,11 +8,12 @@
   <bindings>
     <select itemPath="json" produces="JSON">
       <urls>
-        <url>https://api.github.com/repos/{id}/{repo}/commits/</url>
+        <url>https://api.github.com/repos/{id}/{repo}/commits?{since}</url>
       </urls>
       <inputs>
         <key id="id" type="xs:string" paramType="path" required="true"/>
         <key id="repo" type="xs:string" paramType="path" required="true"/>
+        <key id="since" type="xs:string" paramType="query" required="false"/>
       </inputs>
     </select>
   </bindings>
