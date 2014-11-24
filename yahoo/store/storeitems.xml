@@ -1,0 +1,39 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sheridan C. Rawlins</author>
+    <sampleQuery>select * from {table} where storeID="finevines" and ID="acme"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="Catalog.Item" produces="XML">
+      <urls>
+        <url>http://{storeID}.stores.yahoo.net/catalog.xml</url>
+      </urls>
+      <inputs>
+        <key id="storeID" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+      var fetch = request.get().response;
+      var catalog = <Catalog></Catalog>;
+      for each(var item in fetch.Item) {
+          var itemtag = <Item ID={item.@["ID"]}></Item>;
+          for each(var field in item.ItemField) {
+              itemtag.Item += <{field.@["TableFieldID"]}>{field.@["Value"]}</{field.@["TableFieldID"]}>;
+          }
+          for each(var options in item.ItemFieldOptions) {
+	      var optionTags = <></>;
+	      for each (var option in options.Option) {
+                  var optionValues = <></>;
+		  for each (var optionValue in option.OptionValue) {
+		      optionValues += <Value>{optionValue.@["Value"]}</Value>;
+		  }
+	          optionTags += <{option.@["Key"]}>{optionValues}</{option.@["Key"]}>;
+	      }
+              itemtag.Item += <{options.@["TableFieldID"]}>{optionTags}</{options.@["TableFieldID"]}>;
+          }
+          catalog.Catalog += itemtag;
+      }
+      response.object = catalog;
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

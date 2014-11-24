@@ -1,0 +1,48 @@
+<html>
+<head><title>storetables</title>
+        <!-- YAHOO Global Object source file -->
+        <script type="text/javascript" charset="utf-8" src="http://yui.yahooapis.com/3.1.0/build/yui/yui-min.js"></script>
+	<!-- Additional source files go here -->
+</head>
+<body>
+
+<div id="hello">
+
+<h1>Hello world</h1>
+<p> This proof of concept shows StoreTags without the need for
+StoreTags.
+<p> Instead, it uses <a href="http://developer.yahoo.com/yql/">YQL</a>
+with Javascript to fetch the information about the item as given by
+the id parameter and write the contents
+<p> Here are a few sample parameters written by javascript:
+<table name="values" border=\"1\"><tr><th>param<th>value
+<script type="text/javascript">
+<!--
+//Create a YUI instance including support for IO and JSON modules:
+YUI().use('node','querystring','gallery-yql',function(Y) {
+    var helloNode = Y.one('#hello');
+
+    var qs = Y.QueryString.parse(window.location.search.substring(1));
+    var itemID = qs.id || qs.itemID || 'acme';
+    var storeID = qs.storeID || 'finevines';
+
+    tableNode = Y.one('#hello table');
+
+    new Y.yql('select * from ystore.catalog.items where storeID=@storeID and ID=@itemID', function(r) {
+        tableNode.append("<tr><td>ID<td>" + r.query.results.Item.ID);
+	tableNode.append("<tr><td>price<td>" + r.query.results.Item.price);
+	tableNode.append("<tr><td>product-url<td>" + "<a href=" + r.query.results.Item["product-url"] + ">" + r.query.results.Item["product-url"] + "</a>");
+    }, {
+        env : "http://github.com/scr/store-tables/raw/master/storetables.env",
+	storeID : storeID,
+	itemID : itemID,
+    });
+    
+});
+-->
+</script>
+
+</table>
+</div>
+</body>
+</html>

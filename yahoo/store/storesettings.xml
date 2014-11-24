@@ -1,0 +1,16 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sheridan C. Rawlins</author>
+    <sampleQuery>select * from {table} where storeID="finevines"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="StoreExport.Settings" produces="XML">
+      <urls>
+        <url>http://{storeID}.stores.yahoo.net/objinfo.xml</url>
+      </urls>
+      <inputs>
+        <key id="storeID" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
