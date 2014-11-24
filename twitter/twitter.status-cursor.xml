@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+		<description>Twitter friends and followers using cursors</description>
+        <documentationURL></documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="max_pages" type="xs:string" paramType="variable" required="true"/>
+				<key id="user" type="xs:string" paramType="variable" required="true"/>
+				<key id="type" type="xs:string" paramType="variable" required="true"/>
+            </inputs>
+
+            <execute><![CDATA[ 
+			y.include("http://hapdaniel.pwp.blueyonder.co.uk/pdaniel/yql/json2.js");
+            var thing = new Object;
+			var users = new Array();  
+			 var cursor = '-1';
+			 var url= 'http://api.twitter.com/1/statuses/' + type + '/' + user + '.xml?cursor=';
+			 
+            
+            for (var j = 1; j <= max_pages; j++) {
+                var link = url + cursor;
+				var res = y.rest(link)
+              .get().response;
+			  response.object = y.rest(link).get().response;
+				res = y.xmlToJson(res);
+				users.push(res.users_list.users);
+				cursor = res.users_list.next_cursor;
+				if (cursor==0) {
+					break;
+				}
+			  }
+            thing.users = users;
+            response.object = thing;
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+</table>    
+
