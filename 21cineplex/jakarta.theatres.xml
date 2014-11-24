@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where city=3;</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <!--url>http://21cineplex.com/searchtheater.cfm?search=st_city&q={city}</url-->
+	<url></url>
+      </urls>
+      <inputs>        
+        <key id='city' type='xs:string' paramType='variable' required="false" default="3" />
+      </inputs>
+      <execute><![CDATA[          
+         // Your javascript goes here. 
+         // We will run it on our servers
+	 y.include('http://json.org/json2.js');
+	 var result = y.rest('http://21cineplex.com/searchtheater.cfm').query('search', 'st_city').query('q', city).accept('text/plain').get().response;
+	 y.log(result);
+	 //y.log(result.length);
+	 //y.log(JSON.stringify({'foo':'bar', 'baz':5}));
+	 result = result.replace(/(oV|oT):/g, '"$1":').replace(/'/g, '"');
+	 y.log(result);
+	 result = JSON.parse(result);
+/*	 result = JSON.parse("[{oV: '0', oT: '-- Pilih Theater --'}, {oV: '15', oT: 'ANGGREK XXI'}, {oV: '34', oT: 'ARION'}, {oV: '245', oT: 'ARTHA GADING XXI'}, {oV: '19', oT: 'ATRIUM'}, {oV: '54', oT: 'BINTARO'}, {oV: '35', oT: 'BLOK M'}, {oV: '282', oT: 'BLOK M SQUARE'}, {oV: '133', oT: 'BUARAN'}, {oV: '232', oT: 'CIBUBUR'}, {oV: '134', oT: 'CIJANTUNG'}, {oV: '199', oT: 'CILANDAK'}, {oV: '37', oT: 'CITRA'}, {oV: '194', oT: 'DAAN MOGOT'}, {oV: '250', oT: 'DJAKARTA XXI'}, {oV: '277', oT: 'EMPORIUM PLUIT XXI'}, {oV: '39', oT: 'GADING'}, {oV: '218', oT: 'GADING XXI'}, {oV: '38', oT: 'GAJAH MADA'}, {oV: '36', oT: 'HOLLYWOOD KC'}, {oV: '40', oT: 'KALIBATA'}, {oV: '241', oT: 'LA PIAZZA'}, {oV: '45', oT: 'METROPOLE XXI'}, {oV: '280', oT: 'PEJATEN VILLAGE XXI'}, {oV: '270', oT: 'PLATINUM XXI'}, {oV: '279', oT: 'PLAZA INDONESIA XXI'}, {oV: '254', oT: 'PLAZA SENAYAN XXI'}, {oV: '264', oT: 'PLUIT JUNCTION XXI'}, {oV: '168', oT: 'PLUIT VILLAGE XXI'}, {oV: '32', oT: 'PONDOK INDAH'}, {oV: '221', oT: 'PONDOK INDAH XXI'}, {oV: '281', oT: 'PREMIERE EMPORIUM PLUIT'}, {oV: '255', oT: 'PREMIERE PLAZA SENAYAN'}, {oV: '229', oT: 'PREMIERE PONDOK INDAH'}, {oV: '285', oT: 'PREMIERE PURI'}, {oV: '243', oT: 'PREMIERE SENAYAN CITY'}, {oV: '201', oT: 'PREMIERE STUDIO'}, {oV: '153', oT: 'PURI XXI'}, {oV: '205', oT: 'SEMANGGI'}, {oV: '244', oT: 'SENAYAN CITY XXI'}, {oV: '212', oT: 'SETIABUDI'}, {oV: '240', oT: 'SLIPI JAYA'}, {oV: '202', oT: 'STUDIO XXI EX'}, {oV: '156', oT: 'SUNTER'}, {oV: '247', oT: 'TAMINI'}, {oV: '52', oT: 'TIM'}]");*/
+	 y.log(result);	
+	 var myitems = <items></items>;
+	 for (var i=0;i<result.length;i++) {
+	    var row = result[i];
+	    y.log(row);
+		myitems.items += <item>
+			<code>{row.oV}</code>
+			<name>{row.oT}</name>
+		      </item>;
+	 }
+	 default xml namespace = "";
+         response.object = myitems;
+	 /*response.object = <item>
+                             <url>{request.url}</url>
+                             <a>{city}</a>
+                           </item>;*/
+      ]]></execute>    
+    </select>  
+  </bindings>
+</table>

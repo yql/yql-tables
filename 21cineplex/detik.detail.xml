@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where city=3;</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <!--url>http://21cineplex.com/searchtheater.cfm?search=st_city&q={city}</url-->
+	<url></url>
+      </urls>
+      <inputs>        
+        <key id='url' type='xs:string' paramType='variable' required="true" />
+		<key id='openCalaisLicense' type='xs:string' paramType='variable' required="false" />
+      </inputs>
+      <execute><![CDATA[          
+         // Your javascript goes here. 
+         // We will run it on our servers
+	 
+	 /*
+	 use 'http://github.com/neofreko/21cineplex/raw/master/detik.detail.xml' as detik; select * from detik where url="http://www.detikhot.com/read/2009/11/21/180626/1246144/546/midnite-sale-di-grand-indonesia"
+	 */
+	 
+	 y.include('http://json.org/json2.js');	 
+
+	 var q = y.query('select * from html where url="' + url + '" and xpath="//div[@id=\'isiberita\']"');
+	 y.log(escape(q.results.div));
+	 //y.log(y.xpath(q.results, '//span[@class="judul"]'));
+	 var judul = String(y.xpath(q.results, '//span[@class="judul"]'));
+	 //var judul = q.results.span.(@['class']=="judul");
+	 var lokasi = String(y.xpath(q.results, '//strong')[2]); //location
+	 //lokasi = new RegExp(/<div class="tower">.*?<\/div><strong>(.*?)<\/strong>/m).exec(q.results);
+	 
+	 y.log(judul);
+	 y.log(lokasi);
+	 
+	 //woeid
+	 g = y.rest("http://maps.google.com/maps/geo").query("output","json").query('q', lokasi).accept("text/plain").get().response;
+	 woeid = JSON.parse(g);
+	 if (woeid.Placemark)
+	  woeid = woeid.Placemark[0].Point;	  
+	 else 
+	  woeid = {};
+	 
+	 calaisResult = null;
+	 if (openCalaisLicense) {
+		var calais = y.query('use "http://github.com/neofreko/21cineplex/raw/master/opencalais.xml" as opencalais; select * from opencalais where licenseID = "'+openCalaisLicense+'" and content = "'+escape(q.results.div)+'"');
+	 
+		y.log(calais);
+		calaisResult = calais.results;
+	 }
+	 
+	 var berita = {
+	    'judul': judul,
+	    'lokasi': lokasi,
+	    'woeid': woeid,
+		'calais': calaisResult
+	 };
+         response.object = berita;
+      ]]></execute>    
+    </select>  
+  </bindings>
+</table> 
