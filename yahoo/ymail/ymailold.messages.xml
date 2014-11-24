@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="user">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <i:bindings>
+   <i:select itemPath="" produces="XML" auth="yahooOauth">
+      <urls>
+        <url>http://mail.yahooapis.com/ws/mail/v1.1/jsonrpc</url>
+      </urls>
+      <inputs>
+		<key id="startMid" type='xs:string' paramType='variable' default='0' />
+        <key id="numMid" type='xs:string' paramType='variable' default='50' />
+        <key id="startInfo" type='xs:string' paramType='variable' default='0' />
+        <key id="numInfo" type='xs:string' paramType='variable' default='50' />
+        <key id="resetMessageUnseen" type='xs:string' paramType='variable' default='false' />
+        <key id="fid" type='xs:string' paramType='variable' default='Inbox' />
+        <key id="mid" type='xs:string' paramType='variable' />
+        <key id="pid" type='xs:string' paramType='variable' />
+       	<key id="sortKey" type='xs:string' paramType='variable' default='date' />
+        <key id="sortOrder" type='xs:string' paramType='variable' default='up' />
+      </inputs>
+	  <execute><![CDATA[
+       	var ymwsMethod = "ListMessages";
+        y.log("method = " + ymwsMethod);
+		y.log("queryParams are = " + inputs);
+
+        var content = '';
+        var params = '[{}]';
+		var fid = escape(inputs["fid"]);
+        // get parameters for the given cascade method
+       
+          
+        params = '[{' +
+                 '    "fid"           : "' + fid + '",' +
+                 '    "startMid"      : ' + inputs['startMid'] + ',' +
+                 '    "numMid"        : ' + inputs['numMid'] + ',' +
+                 '    "startInfo"     : ' + inputs['startInfo'] + ',' +
+                 '    "numInfo"       : ' + inputs['numInfo'] +
+                 '}]';
+
+		content = '{' +
+	           		'"method" : "' + ymwsMethod + '",' +
+		          	'"params" : ' + params +
+		          '}';
+		
+		y.log(content);
+
+		var returned_response = request.post(content).response;
+		response.object = returned_response;
+		
+	  ]]></execute>
+	  </i:select>
+	  <i:select itemPath="" produces="XML" auth="yahooOauth">
+	      <inputs>
+  		    <key id="query" type='xs:string' paramType='variable' required="true" />
+			<key id="startMid" type='xs:string' paramType='variable' default='0' />
+	        <key id="numMid" type='xs:string' paramType='variable' default='50' />
+	        <key id="startInfo" type='xs:string' paramType='variable' default='0' />
+	        <key id="numInfo" type='xs:string' paramType='variable' default='50' />
+	        <key id="resetMessageUnseen" type='xs:string' paramType='variable' default='false' />
+	        <key id="fid" type='xs:string' paramType='variable' default='Inbox' />
+	        <key id="mid" type='xs:string' paramType='variable' />
+	        <key id="pid" type='xs:string' paramType='variable' />
+	        <key id="search" type='xs:string' paramType='variable' />
+	        <key id="sortKey" type='xs:string' paramType='variable' default='date' />
+	        <key id="sortOrder" type='xs:string' paramType='variable' default='up' />
+	      </inputs>
+		  <execute><![CDATA[
+			var ymwsMethod = "SearchMessages";
+
+	        //Intialization
+	        var content = '';
+	        var params = '[{}]';
+			var fid = escape(inputs["fid"]);
+
+	        y.log("method = " + ymwsMethod);
+	        y.log("request = " +request);
+
+	        //Default ListMessage call with default params if no search clause mentioned 
+			//Execute ListMessages Call with default params
+
+	        //The moment we see the query having Subject,From, To,CC, BCC, Attachment.
+			var searchParams = new Array();
+
+
+		//	var builtSearchQuery = buildSearchQuery(inputs);
+
+
+	        // get parameters for the given cascade method
+
+	       params = '[{' +
+	              	'    "numInfo"       : ' + inputs['numInfo'] + ',' +
+	                '    "startMid"      : ' + inputs['startMid'] + ',' +
+	              	'    "startInfo"     : ' + inputs['startInfo'] + ',' +
+	                '    "numMid"        : ' + inputs['numMid'] + ',' +
+	           	 	'    "search" : [{' +
+			 						'    "query"	     : "' + inputs['query'] + '" '
+									'}]' + ',' +
+	                '    "sortKey"       : "' + inputs['sortKey'] + '",' +
+	                '    "sortOrder"     : "' + inputs['sortOrder'] + '"'
+	                '}]';
+
+	        content = '{' +
+	            '"method" : "' + ymwsMethod + '",' +
+	            '"params" : ' + params +
+	            '}';
+
+			y.log(params);
+				
+			var returned_response = request.post(content).response;
+			response.object = returned_response;
+			
+			/*
+	       	var ymwsMethod = "ListMessages";
+	        y.log("method = " + ymwsMethod);
+
+	        var content = '';
+	        var params = '[{}]';
+			var fid = escape(inputs["fid"]);
+	        // get parameters for the given cascade method
+
+
+	        params = '[{' +
+	                 '    "fid"           : "' + fid + '",' +
+	                 '    "startMid"      : ' + inputs['startMid'] + ',' +
+	                 '    "numMid"        : ' + inputs['numMid'] + ',' +
+	                 '    "startInfo"     : ' + inputs['startInfo'] + ',' +
+	                 '    "numInfo"       : ' + inputs['numInfo'] +
+	                 '}]';
+
+			content = '{' +
+		           		'"method" : "' + ymwsMethod + '",' +
+			          	'"params" : ' + params +
+			          '}';
+
+			var returned_response = request.post(content).response;
+			response.object = returned_response;*/
+
+		  ]]></execute>
+	  </i:select>
+	</i:bindings>
+</i:table>		
+				

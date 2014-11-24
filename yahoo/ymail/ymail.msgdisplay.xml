@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="user">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <i:bindings>
+   <i:select itemPath="json.result" produces="XML" auth="yahooOauth">
+      <urls>
+        <url>http://mail.yahooapis.com/ws/mail/v1.1/jsonrpc</url>
+      </urls>
+	  <inputs>
+  	    <key id="fid" type='xs:string' paramType='variable' default='Inbox'/>
+	    <key id="mid" type='xs:string' paramType='variable' />
+		<key id="mids" type='xs:string' paramType='variable' batchable='true' maxBatchItems='20' />
+	    <key id="truncateAt" type='xs:string' paramType='variable' default='1024000'/>
+	    <key id="charsetHint" type='xs:string' paramType='variable' default="" />
+	    <key id="blockImages" type='xs:string' paramType='variable' default="true" />
+	    <key id="restrictCSS" type='xs:string' paramType='variable' default="true" />
+	    <key id="expandCIDReferences" type='xs:string' paramType='variable' default="true" />
+	    <key id="enableWarnings" type='xs:string' paramType='variable' default="true" />
+		<key id="enableRetry" type='xs:string' paramType='variable' default="true" />
+	   </inputs>
+	   <execute><![CDATA[
+	
+		y.include("http://github.com/ramiyer/ymailtables/raw/master/messages.js");
+		y.include("http://github.com/ramiyer/ymailtables/raw/master/json2.js");								 
+		y.include("http://yui.yahooapis.com/3.1.1/build/yui/yui-min.js");
+
+		var ymwsMethod = "GetMessage";
+
+	   //Intialization
+	    var content = '';
+	    var params = '[{}]';
+
+	    y.log("method = " + ymwsMethod);
+	    y.log("request = " +request);
+	    
+		y.log("mid");
+		y.log(inputs['mids']);
+		y.log("input mids tostring");
+		y.log(inputs['mids'].toString());
+		
+		var tmpArray;
+		tmpArray = inputs['mids'].toString();
+		y.log("tmpArray");
+		y.log(tmpArray);
+	
+	
+		var msgs = buildMsgParams();
+		
+		
+		y.log("returned val from displayMessageParams are ");
+		y.log(msgs);
+	
+		var req = JSON.stringify(msgs);
+		y.log("req");
+		y.log(req);
+	
+		var returned_response = request.post(req).response;
+		response.object = returned_response;
+		
+	 ]]></execute>
+    </i:select>
+  </i:bindings>
+</i:table>
