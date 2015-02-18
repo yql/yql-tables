@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>kenorb</author>
+    <documentationURL>http://www.friday-ad.co.uk/</documentationURL>
+    <sampleQuery>select * from {table} where location="W2" and category="property-rentals" and terms="home"</sampleQuery>
+    <sampleQuery>select * from {table} where location="W2" and category="property-rentals" and terms="home" and range=20 and sort="relevance"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://www.friday-ad.co.uk/{location}/{category}-N-</url>
+      </urls>
+      <inputs>
+        <key id="location" type="xs:string" paramType="path" required="true" />
+        <key id="category" type="xs:string" paramType="path" required="true" />
+        <key id="terms" type="xs:string" paramType="query" required="true" />
+        <key id="Range" type="xs:string" paramType="query" required="false" />
+        <key id="AdsPerPage" type="xs:string" paramType="query" required="false" />
+        <key id="sort" type="xs:string" paramType="query" required="false" /><!-- relevance,latest,priceasc,pricedesc,nearest -->
+        <key id="CurrentLocation" type="xs:string" paramType="query" required="false" /><!-- The same as location -->
+        <key id="UrgentOnly" type="xs:string" paramType="query" required="false" /><!-- true or false -->
+        <key id="PhotosOnly" type="xs:string" paramType="query" required="false" /><!-- true or false -->
+      </inputs>
+    </select>
+  </bindings>
+</table>
