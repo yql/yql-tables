@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>SELCT * from {table} WHERE place1="paris" and place2="london"</sampleQuery>
+    <author>Adrian Statescu</author>
+    <documentationURL></documentationURL>  
+    <description>Gives you the distance of two places on earth in miles or kilometers.</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id='place1' type='xs:string' paramType='variable' required="true" />
+        <key id='place2' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+         default xml namespace = "http://where.yahooapis.com/v1/schema.rng";
+         var out = '';
+         var res1 = y.query('select * from geo.places(1) where text="'+place1+'"').results;
+         var res2 = y.query('select * from geo.places(1) where text="'+place2+'"').results;
+         var lat1 = res1.place.centroid.latitude;
+         var lon1 = res1.place.centroid.longitude;
+         var lat2 = res2.place.centroid.latitude;
+         var lon2 = res2.place.centroid.longitude;
+         var d = distance(lat1,lon1,lat2,lon2);
+
+           //computing distance using latitude and longitude coordinates
+           function distance(lat1,lon1,lat2,lon2) {
+
+                //earth diameter in miles
+                var R = 3960.0;
+
+                //convert latitude and longitude to spherical coordinates in radians
+                //phi = 90 - latitude
+                var phi_1 = (90.0 - lat1)*Math.PI / 180.0;
+
+                var phi_2 = (90.0 - lat2)*Math.PI / 180.0;
+
+                var theta_1 = lon1 * Math.PI / 180.0;
+
+                var theta_2 = lon2 * Math.PI / 180.0;
+
+                //compute spherical distance from spherical coordinates
+                var d = R * Math.acos(
+
+                    Math.sin(phi_1) *
+
+                    Math.sin(phi_2) *
+
+                    Math.cos(theta_1 - theta_2) +
+
+                    Math.cos(phi_1) *
+
+                    Math.cos(phi_2)
+                 );
+
+           return d;
+
+         }//end function
+
+             var miles = Math.round(d);
+             var kilometers = Math.round(1.609344*d); 
+             response.object = <distance>
+             <miles>{miles}</miles> 
+             <kilometers>{kilometers}</kilometers> 
+             {res1.place}{res2.place}
+             </distance>
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
