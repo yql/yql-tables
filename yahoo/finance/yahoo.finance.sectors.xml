@@ -13,52 +13,51 @@
       </urls>
       <inputs></inputs>
 <execute><![CDATA[
-
-    String.prototype.trim = function () {
-	var	str = this.replace(/^\s\s*/, ''),
-	        ws = /\s/,
-	        i = str.length;
-	while (ws.test(str.charAt(--i)));
-	return str.slice(0, i + 1);
-    }
-
-    // Queue the query
-    var url = "http://biz.yahoo.com/ic/ind_index.html";
-    var sectorQuery = y.query(
-	"select * from html " +
-	"where url=@url and " + 
-	"xpath='//td[@width=\"50%\"]/table/tr/td'",
-	{url:url});
-
-    var sectors = <sectors></sectors>;
-    var results = sectorQuery.results;
-    var sector = null;
-
-    for each (var td in results.td) {
-	if (td.@colspan == "2" && td.*.length() > 0) {
-	    if (sector != null)
-		sectors.appendChild(sector);
-
-	    sectorName = td..strong.text().toString().trim();
-	    sector = <sector name={sectorName} />
-	} else if (td.@width != "10") {
-	    href=td.a.@href.toString().trim();
-	    if (href.length > 0) {
-		industryID = td.a.@href.toString().match(/(\d+)\.html$/)[1];
-		industryName = td.a.font.text().toString().trim();
-		industryName = industryName.replace(/\s+/g, " ");
-		industry = <industry id={industryID} name={industryName} />;
-		sector.appendChild(industry);
-	    }
+	String.prototype.trim = function () {
+		var	str = this.replace(/^\s\s*/, ''),
+			ws = /\s/,
+			i = str.length;
+		while (ws.test(str.charAt(--i)));
+		return str.slice(0, i + 1);
 	}
-    }
-    if (sector != null)
-	sectors.appendChild(sector);
+	
+	var url = "http://biz.yahoo.com/ic/ind_index.html";
 
-response.object = sectors;
+	var yQuery = y.rest(url);	
+	var data = yQuery.accept("text/html").get().response;
+	var optionsChainQuery = y.xpath(
+		data,
+		"//td[@width=\'50%\']//table//tr//td"
+	);
+	
+	var sectors = <sectors></sectors>;
+	var sector = null;
 
+	for each (var td in optionsChainQuery) {
+		if (td.@colspan == "2" && td.*.length() > 0) {
+			if (sector != null)
+				sectors.appendChild(sector);
+			sectorName = td.font.b.text().toString().trim();
+			sectorName = sectorName.replace(/\n/g, " ");
+			sector = <sector name={sectorName} />
+		} else if (td.@width != "10") {
+			href = td.font.a.@href.toString().trim();
+			if (href.length > 0) {
+				industryID = href.match(/(\d+)\.html$/)[1];
+				industryName = td.font.a.text().toString().trim();
+				industryName = industryName.replace(/\s+/g, " ");
+				industryName = industryName.replace(/\n/g, " ");
+				industry = <industry id={industryID} name={industryName} />;
+				sector.appendChild(industry);
+			}
+		}
+	}
+	
+	if (sector != null)
+		sectors.appendChild(sector);
+	
+	response.object = sectors;
 ]]></execute>
     </select>
   </bindings>
 </table>
-
