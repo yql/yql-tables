@@ -2,13 +2,13 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>
-           Prem Ramanathan
+           Mike Miskulin 3/27/15
         </author>
         <description>
             Yahoo Finance Option Quotes
         </description>
         <sampleQuery>
-            SELECT * FROM {table} WHERE symbol='MSFT130125C00026000'
+            SELECT * FROM {table} WHERE symbol='MSFT170120C00045000'
         </sampleQuery>
     </meta>
     <bindings>
@@ -21,18 +21,39 @@
             	<key id="symbol" type="xs:string" paramType="variable" required="true" />
             </inputs>
             <execute>
-                <![CDATA[
-              
-	
-  var optionQuoteUrl = "http://finance.yahoo.com/q?s=" + symbol,
+              <![CDATA[
+		       
+// Notes for 3/27/15:
+// Yahoo has again changed the format/layout of their quote page
+// In particular, the previous code to extract table data fails
+// I was not able to determine exactly why - I am not an XML or
+// javascript expert and YQL diagnostics are limited. For documentation
+// purposes only, I have left and commented out a couple lines of
+// the previous working code to provide some background should anyone
+// need to pick this up again. The new code has been tested and returns
+// results consistently and in same format as prior version of oquote
+//
+// The default option symbol was chosen to be nearly two years in the
+// future to provide some assurance that the "default" will return a
+// meaningful result when using the YQL console. 
+
+
+var optionQuoteUrl = "http://finance.yahoo.com/q?s=" + symbol,
     yQuery = y.rest(optionQuoteUrl),
     data = yQuery.accept("text/html").get().response;
 
 var summaryXpath = "//div[@class='yfi_rt_quote_summary_rt_top sigfig_promo_1']",
-    priceXpath = summaryXpath + "//span[@class='time_rtq_ticker']/span",
-    changeXpath = summaryXpath + "/p/span[2]/span[1]",
-    quoteListXpath = "//div[@id='yfi_quote_summary_data']/table";
+    priceXpath = summaryXpath + "//span[@class='time_rtq_ticker']/span[1]",
+    changeXpath = summaryXpath + "//span[2]/span[1]",
+    quoteListXpath = "//td[@class='yfnc_tabledata1']";
 
+//  prior to this 3/27/15 version:
+//  priceXpath = summaryXpath + "//span[@class='time_rtq_ticker']/span",
+//  changeXpath = summaryXpath + "/p/span[2]/span[1]",
+//  quoteListXpath = "//div[@id='yfi_quote_summary_data']/table";
+
+
+    
 var summary = y.xpath(data, summaryXpath),
     price = y.xpath(data, priceXpath).text(),
     change = y.xpath(data, changeXpath).text(),
@@ -44,22 +65,37 @@ if (summary.hasComplexContent()) {
     quote.appendChild(<price>{price}</price>);
     quote.appendChild(<change>{change}</change>);
 
-    quote.appendChild(<prevClose>{quoteList.tr[0].td.p.text()}</prevClose>);
-    quote.appendChild(<open>{quoteList.tr[1].td.p.text()}</open>);
-    quote.appendChild(<bid>{quoteList.tr[2].td.span.text()}</bid>);
-    quote.appendChild(<ask>{quoteList.tr[3].td.span.text()}</ask>);
-    quote.appendChild(<strike>{quoteList.tr[4].td.p.text()}</strike>);
-    quote.appendChild(<expire>{quoteList.tr[5].td.p.text()}</expire>);
-    // quote.appendChild(<daysRange>{quoteList.tr[6].td.p.text()}</daysRange>);
-    // quote.appendChild(<contractRange>{quoteList.tr[7].td.p.text()}</contractRange>);
-    quote.appendChild(<volume>{quoteList.tr[8].td.span.text()}</volume>);
-    quote.appendChild(<openInterest>{quoteList.tr[9].td.p.text()}</openInterest>);
+
+    // For future debugging/modification, prior to this revision the 
+    // general format of these statements were as below:
+    //    quote.appendChild(<open>{quoteList.tr[1].td.p.text()}</open>);
+    //    quote.appendChild(<bid>{quoteList.tr[2].td.span.text()}</bid>);
+
+    quote.appendChild(<prevClose>{quoteList[0].text()}</prevClose>);
+    quote.appendChild(<open>{quoteList[1].text()}</open>);
+    quote.appendChild(<bid>{quoteList[2].span.text()}</bid>);
+    quote.appendChild(<ask>{quoteList[3].span.text()}</ask>);
+    quote.appendChild(<strike>{quoteList[4].text()}</strike>);
+    quote.appendChild(<expire>{quoteList[5].text()}</expire>);
+
+    // the two lines below have NOT been used in a very long time and should
+    // be considered DEPRECATED.  You will likely break someone else's scripts
+    // if you enable them in the future. If you need them, self host the oquote.xml
+    //
+    //    quote.appendChild(<daysRange>{quoteList.tr[6].td.p.text()}</daysRange>);
+    //    quote.appendChild(<contractRange>{quoteList.tr[7].td.p.text()}</contractRange>);
+
+    quote.appendChild(<volume>{quoteList[8].span.text()}</volume>);
+    quote.appendChild(<openInterest>{quoteList[9].text()}</openInterest>);
+
 
     response.object = quote;
+
+    // if you need to debug, the below gives back whatever is being
+    // returned for the quoteList object 
+    //    response.object=quoteList;
+    
 }
-
-
-
 
 					 
 		]]>
@@ -67,3 +103,4 @@ if (summary.hasComplexContent()) {
         </select>
     </bindings>
 </table>
+
