@@ -68,7 +68,7 @@
 			var rawresult = restquery.accept( "text/html" ).get().response;
 			var keystatsquery = y.xpath(
                                     rawresult,
-                                    "//table[@class='yfnc_datamodoutline1']/tr/td/table/tr" +
+                                    "//table[@class='yfnc_datamodoutline1']/tbody/tr/td/table/tbody/tr" +
                                     "/td[@class='yfnc_tabledata1' or @class='yfnc_tablehead1']"
                                 );	
 
