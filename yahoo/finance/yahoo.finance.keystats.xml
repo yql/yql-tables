@@ -68,7 +68,7 @@
             var rawresult = restquery.accept( "text/html" ).get().response;
             var keystatsquery = y.xpath(
                                     rawresult,
-                                    "//table[@class='yfnc_datamodoutline1']/tr/td/table/tr" +
+                                    "//table[@class='yfnc_datamodoutline1']/tbody/tr/td/table/tbody/tr" +
                                     "/td[@class='yfnc_tabledata1' or @class='yfnc_tablehead1']"
                                 );
 
@@ -90,7 +90,7 @@
                 i = i + 2;
 
                 // Process Parameter Name and any Associated Attributes (Timeframe, Stock Split Info)
-                param_name = td_param_name.p.text().toString();
+                param_name = td_param_name.text().toString();
                 param_name = String(param_name.replace(/:/g,""));
                 attr = String(param_name.match(/\(.*\)/));
                 attr = String(attr.trim());
@@ -105,7 +105,7 @@
                 param_name = param_name.trim();
 
                 // Process Value Information
-                value = td_value.p.text().toString();
+                value = td_value.text().toString();
                 // Catch When it is Span Tag instead of P tag
                 if( value == false){
                     value = td_value.span.text().toString();
