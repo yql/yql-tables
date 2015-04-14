@@ -18,55 +18,55 @@
                 </url>
             </urls>
             <inputs>
-            	<key id="symbol" type="xs:string" paramType="variable" required="true" />
-            	<key id="expiration" type="xs:string" paramType="variable" required="true" />
-              	<key id="type" type="xs:string" paramType="variable" required="true" />
+                <key id="symbol" type="xs:string" paramType="variable" required="true" />
+                <key id="expiration" type="xs:string" paramType="variable" required="true" />
+                <key id="type" type="xs:string" paramType="variable" required="true" />
             </inputs>
             <execute>
                 <![CDATA[
-				
-			function getOptionsChain()
+
+            function getOptionsChain()
 {
     // Get the Options Chain for the given symbol from the Options page
-				
+
     var results = optionsChainQuery;
-						
+
     elements = results.*.length();
-				
+
     if ( elements == 0 )
     {
         return false;
     }
-				
+
     var optionElem;
-				
+
     var strikePrice;
     var optionSymbol;
     var optionType;
     var lastPrice;
     var change;
-					
+
     var optTypeMatch;
 
     for each ( var tr in results )
     {
         strikePrice = parseFloat( tr.td[0].a.strong.text().toString().replace(/\,/g,'') );
         optionSymbol = tr.td[1].a.text();
-					
+
         // Check to see what type of option
         // the current option is
 
         optTypeMatch = optionSymbol.match( /^[\w]{7,}([P|C])/ );
-              
+
         if ( optTypeMatch != null )
     {
             optionType = optTypeMatch[1];
     }
-               
+
 lastPrice = tr.td[2].strong.text();
 change = tr.td[3].span.strong.text();
 changeDir = tr.td[3].span.img.@alt.toString();
-							
+
 if ( changeDir.toLowerCase() == "down" )
 {
     change = parseFloat( change ) * -1;
@@ -87,7 +87,7 @@ if (type.toUpperCase() === optionType)
     optionsChainCount++;
 }
 }
-						
+
 return true;
 }
 
@@ -96,9 +96,9 @@ function getExpiration()
     var results = expiresQuery;
 
     y.log( "results.length(): " + results.length() );
-			
+
     elements = results.*.length();
-						
+
     if ( elements == 0 )
     {
         y.log( "no elements" );
@@ -108,7 +108,7 @@ function getExpiration()
     var dateRegEx = /.*([\d]{2})\,\s+?[\d]{4}/g;
 
     var dateRes = dateRegEx.exec( results[0] );
-				
+
     var dd;
 
     if ( dateRes != null &&
@@ -120,9 +120,9 @@ function getExpiration()
     return dd;
 }
 
-					 
+
 // Queue the query
-			 
+
 var optionsChainURL = "http://finance.yahoo.com/q/op?s=" + symbol;
 var queryHasExpiration = false;
 var optionsChainCount = 0;
@@ -130,7 +130,7 @@ var optionsChainCount = 0;
 if ( expiration != null )
 {
     var expPattern = /^[\d]{4}\-[\d]{2}$/;
-				
+
     if ( expPattern.test( expiration ) )
     {
         optionsChainURL += "&m=" + expiration;
@@ -138,28 +138,28 @@ if ( expiration != null )
     }
 }
 
-var yQuery = y.rest( optionsChainURL );	
+var yQuery = y.rest( optionsChainURL );
 var data = yQuery.accept( "text/html" ).get().response;
-			
+
 var optionsChainQuery = y.xpath(
-                data, 
-                "//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " + 
+                data,
+                "//table[@class='yfnc_datamodoutline1']/tr/td/table/tr[td[@class='yfnc_h' or " +
                 "@class='yfnc_tabledata1']]"
 );
-			
-var expiresQuery = y.xpath( 
+
+var expiresQuery = y.xpath(
     data,
     "//table[@class='yfnc_mod_table_title1']/tr/td[last()]/p"
 );
 
 var expiryDay = getExpiration();
-					
+
 var optionsChain;
 var expDate = expiration;
 
 if ( queryHasExpiration == true )
 {
-    if ( expiryDay != null && 
+    if ( expiryDay != null &&
         expiryDay != "" )
     {
         expDate += "-" + expiryDay;
@@ -176,8 +176,8 @@ getOptionsChain();
 optionsChain.@["count"] = optionsChainCount;
 response.object = optionsChain;
 
-					 
-		]]>
+
+        ]]>
             </execute>
         </select>
     </bindings>

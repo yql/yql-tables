@@ -14,68 +14,68 @@
   <bindings>
     <select itemPath="" produces="XML">
       <urls>
-	<url>
-	</url>
+    <url>
+    </url>
       </urls>
       <inputs>
-	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+    <key id="symbol" type="xs:string" paramType="variable" required="true" />
       </inputs>
       <execute>
-	<![CDATA[
-	
-	    function getContracts()
-	    {
-		var results = optionsPath;
+    <![CDATA[
 
-		elements = results.*.length();
+        function getContracts()
+        {
+        var results = optionsPath;
 
-		if ( elements == 0 )
-		{
-		    return false;
-		}
+        elements = results.*.length();
 
-		var yearRegEx = /\d{4}/;
-		var monthRegEx = /\-\d{2}/;
+        if ( elements == 0 )
+        {
+            return false;
+        }
 
-		for each ( var a in results )
-		{
-		    //grab the link w/ href containing date
-		    var contract = a.@href.text();
+        var yearRegEx = /\d{4}/;
+        var monthRegEx = /\-\d{2}/;
 
-		    //YYYY-MM format
-		    var result = yearRegEx.exec(contract) + monthRegEx.exec(contract);
+        for each ( var a in results )
+        {
+            //grab the link w/ href containing date
+            var contract = a.@href.text();
 
-		    var contractElem = <contract>{result}</contract>;
+            //YYYY-MM format
+            var result = yearRegEx.exec(contract) + monthRegEx.exec(contract);
 
-		    //maintain sorted ordering by date
-		    if (a == results[results.length()-1]) {
-			contractList.prependChild( contractElem );
-		    }
-		    else {
-			contractList.appendChild( contractElem );
-		    }
+            var contractElem = <contract>{result}</contract>;
 
-		}	    
-		return true;
-	    }
+            //maintain sorted ordering by date
+            if (a == results[results.length()-1]) {
+            contractList.prependChild( contractElem );
+            }
+            else {
+            contractList.appendChild( contractElem );
+            }
+
+        }
+        return true;
+        }
 
 
-	    //build the query string
-	    var StockquoteURL = "http://finance.yahoo.com/q/op?s=" + symbol;
+        //build the query string
+        var StockquoteURL = "http://finance.yahoo.com/q/op?s=" + symbol;
 
-	    //get thy results
-	    var yQuery = y.rest( StockquoteURL );	
-	    var data = yQuery.accept( "text/html" ).get().response;
+        //get thy results
+        var yQuery = y.rest( StockquoteURL );
+        var data = yQuery.accept( "text/html" ).get().response;
 
-	    //grab the appropriate path
-	    var optionsPath = y.xpath(data, "//table[@id='yfncsumtab']/tr/td/table/tr/td/p/a");
+        //grab the appropriate path
+        var optionsPath = y.xpath(data, "//table[@id='yfncsumtab']/tr/td/table/tr/td/p/a");
 
-	    var contractList = <option symbol={symbol}></option>;
+        var contractList = <option symbol={symbol}></option>;
 
-	    getContracts();
+        getContracts();
 
-	    response.object = contractList;
-	]]>
+        response.object = contractList;
+    ]]>
       </execute>
     </select>
   </bindings>

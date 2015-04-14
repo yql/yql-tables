@@ -4,7 +4,7 @@
     <author>Tom Powers</author>
     <description>Yahoo Finance Industry Index - Sector + Industries</description>
     <sampleQuery>select * from {table}</sampleQuery>
-    <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL> 
+    <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL>
   </meta>
   <bindings>
     <select itemPath="sectors.sector" produces="XML">
@@ -15,45 +15,45 @@
 <execute><![CDATA[
 
     String.prototype.trim = function () {
-	var	str = this.replace(/^\s\s*/, ''),
-	        ws = /\s/,
-	        i = str.length;
-	while (ws.test(str.charAt(--i)));
-	return str.slice(0, i + 1);
+    var str = this.replace(/^\s\s*/, ''),
+            ws = /\s/,
+            i = str.length;
+    while (ws.test(str.charAt(--i)));
+    return str.slice(0, i + 1);
     }
 
     // Queue the query
     var url = "http://biz.yahoo.com/ic/ind_index.html";
     var sectorQuery = y.query(
-	"select * from html " +
-	"where url=@url and " + 
-	"xpath='//td[@width=\"50%\"]/table/tr/td'",
-	{url:url});
+    "select * from html " +
+    "where url=@url and " +
+    "xpath='//td[@width=\"50%\"]/table/tr/td'",
+    {url:url});
 
     var sectors = <sectors></sectors>;
     var results = sectorQuery.results;
     var sector = null;
 
     for each (var td in results.td) {
-	if (td.@colspan == "2" && td.*.length() > 0) {
-	    if (sector != null)
-		sectors.appendChild(sector);
+    if (td.@colspan == "2" && td.*.length() > 0) {
+        if (sector != null)
+        sectors.appendChild(sector);
 
-	    sectorName = td..strong.text().toString().trim();
-	    sector = <sector name={sectorName} />
-	} else if (td.@width != "10") {
-	    href=td.a.@href.toString().trim();
-	    if (href.length > 0) {
-		industryID = td.a.@href.toString().match(/(\d+)\.html$/)[1];
-		industryName = td.a.font.text().toString().trim();
-		industryName = industryName.replace(/\s+/g, " ");
-		industry = <industry id={industryID} name={industryName} />;
-		sector.appendChild(industry);
-	    }
-	}
+        sectorName = td..strong.text().toString().trim();
+        sector = <sector name={sectorName} />
+    } else if (td.@width != "10") {
+        href=td.a.@href.toString().trim();
+        if (href.length > 0) {
+        industryID = td.a.@href.toString().match(/(\d+)\.html$/)[1];
+        industryName = td.a.font.text().toString().trim();
+        industryName = industryName.replace(/\s+/g, " ");
+        industry = <industry id={industryID} name={industryName} />;
+        sector.appendChild(industry);
+        }
+    }
     }
     if (sector != null)
-	sectors.appendChild(sector);
+    sectors.appendChild(sector);
 
 response.object = sectors;
 

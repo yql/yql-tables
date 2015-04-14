@@ -18,52 +18,52 @@
                 </url>
             </urls>
             <inputs>
-            	<key id="symbol" type="xs:string" paramType="variable" required="true" />
-            	<key id="reporttype" type="xs:string" paramType="variable" default="balancesheet" required="false" />
-            	<key id="timeframe" type="xs:string" paramType="variable" default="quarterly" required="false" />
+                <key id="symbol" type="xs:string" paramType="variable" required="true" />
+                <key id="reporttype" type="xs:string" paramType="variable" default="balancesheet" required="false" />
+                <key id="timeframe" type="xs:string" paramType="variable" default="quarterly" required="false" />
             </inputs>
             <execute>
             <![CDATA[
-		    //UTILITY: pad string with leading char		
-			String.prototype.pad = function ( padchar, padlen )
-			{
-				s = this
-				
-				while (s.length < padlen)
-				{
-					s = padchar + s;
-				}
-						
-				return s;
-			}
-			
-            //UTILITY: convert string to INTEGER		 
-			String.prototype.toInt = function ()
-			{
-				// remove leading 0's because otherwise 
-				// str can be interpreted as Octal
-				var str = this.replace( /^0+/, '' );
+            //UTILITY: pad string with leading char
+            String.prototype.pad = function ( padchar, padlen )
+            {
+                s = this
 
-				// also the thousands comma was cousing trouble
-				str = str.trim()
+                while (s.length < padlen)
+                {
+                    s = padchar + s;
+                }
+
+                return s;
+            }
+
+            //UTILITY: convert string to INTEGER
+            String.prototype.toInt = function ()
+            {
+                // remove leading 0's because otherwise
+                // str can be interpreted as Octal
+                var str = this.replace( /^0+/, '' );
+
+                // also the thousands comma was cousing trouble
+                str = str.trim()
                 str = str.replace( /\,/g, '' );
 
                 // replace M with 6 ZEROs, B with 9 ZEROs (UPDATE THIS - ACCOUNT FOR DECIMAL!!
                 //str = str.replace(/M/g,'000000');
                 //str = str.replace(/B/g,'000000000');
 
-				return parseInt( str );
-			}	
-		    //UTILITY: trim whitespace		 
-			String.prototype.trim = function ()
-			{
-				var str = this.replace( /^\s\s*/, "" ),
-				ws = /\s/,
-				i = str.length;
-				while ( ws.test( str.charAt( --i ) ) );
-				return str.slice( 0, i + 1 );
-			}
-            
+                return parseInt( str );
+            }
+            //UTILITY: trim whitespace
+            String.prototype.trim = function ()
+            {
+                var str = this.replace( /^\s\s*/, "" ),
+                ws = /\s/,
+                i = str.length;
+                while ( ws.test( str.charAt( --i ) ) );
+                return str.slice( 0, i + 1 );
+            }
+
             // Setup Query from finance.yahoo.com
             var reporttype_code = "";
             //reporttype = y.context.table;
@@ -71,18 +71,18 @@
             else if(reporttype == "balancesheet"){reporttype_code = "bs";}
             else if(reporttype == "cashflow"){reporttype_code = "cf";}
             var url="http://finance.yahoo.com/q/"+ reporttype_code + "?s=" + symbol + "&" + timeframe;
-			var restquery = y.rest( url );	
-			var rawresult = restquery.accept( "text/html" ).get().response;
-			var query = y.xpath( rawresult, "//table[@class='yfnc_tabledata1']/tr/td/table/tr");	
+            var restquery = y.rest( url );
+            var rawresult = restquery.accept( "text/html" ).get().response;
+            var query = y.xpath( rawresult, "//table[@class='yfnc_tabledata1']/tr/td/table/tr");
 
             // Process Results
             var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></{reporttype}>;
-			if ( query.*.length() !== 0 )
-			{
+            if ( query.*.length() !== 0 )
+            {
                 var y = 0; var x = 0;
                 var numcolumns = 0;
                 var data_array = new Array();
-            
+
                 // Read Column Headings
                 data_array[0] = new Array()
                 data_array[0][0] = "Headings"
@@ -96,10 +96,10 @@
                 numcolumns = x;
 
                 // Read Rows
-                y = 1;            
+                y = 1;
                 var i = 1;
-                while ( i < query.length()) 
-			    {
+                while ( i < query.length())
+                {
                     var row = query[i];
                     if(row.td.length() >= numcolumns){
                         x = 0;
@@ -118,7 +118,7 @@
                                     dataitem = Number(dataitem) * 1000;
                                 }
                                 data_array[x][y] = dataitem;
-                                //outputdata.appendChild(<row x={x} y={y}>{dataitem}</row>); 
+                                //outputdata.appendChild(<row x={x} y={y}>{dataitem}</row>);
                                 x++;
                             }
                         }
@@ -141,7 +141,7 @@
             }
             // Return statsdata strucuture
             response.object = outputdata;
-		]]>
+        ]]>
             </execute>
         </select>
     </bindings>

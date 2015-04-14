@@ -18,12 +18,12 @@
                 </url>
             </urls>
             <inputs>
-            	<key id="symbol" type="xs:string" paramType="variable" required="true" />
+                <key id="symbol" type="xs:string" paramType="variable" required="true" />
             </inputs>
             <execute>
                 <![CDATA[
-              
-	
+
+
   var optionQuoteUrl = "http://finance.yahoo.com/q?s=" + symbol,
     yQuery = y.rest(optionQuoteUrl),
     data = yQuery.accept("text/html").get().response;
@@ -37,7 +37,7 @@ var summary = y.xpath(data, summaryXpath),
     price = y.xpath(data, priceXpath).text(),
     change = y.xpath(data, changeXpath).text(),
     quoteList = y.xpath(data, quoteListXpath);
-			
+
 if (summary.hasComplexContent()) {
     var quote = <option sym={symbol}></option>;
 
@@ -61,8 +61,8 @@ if (summary.hasComplexContent()) {
 
 
 
-					 
-		]]>
+
+        ]]>
             </execute>
         </select>
     </bindings>

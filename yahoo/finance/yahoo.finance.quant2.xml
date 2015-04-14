@@ -1,169 +1,169 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
-	<meta>
-		<sampleQuery>
-			select * from {table} where symbol in ("YHOO")
-		</sampleQuery>
-	</meta>
-	<bindings>
-		<select itemPath="" produces="XML">
-			<urls><url></url></urls>
-			<inputs>
-				<key id='symbol' type='xs:string' paramType='variable' required='true' />
-			</inputs>
-			<execute><![CDATA[
+    <meta>
+        <sampleQuery>
+            select * from {table} where symbol in ("YHOO")
+        </sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls><url></url></urls>
+            <inputs>
+                <key id='symbol' type='xs:string' paramType='variable' required='true' />
+            </inputs>
+            <execute><![CDATA[
     // pad string with leading char
     String.prototype.pad = function (padchar, padlen) {
-	s = this
-	while (s.length < padlen) {
-	    s = padchar + s;
-	}
-	return s;
+    s = this
+    while (s.length < padlen) {
+        s = padchar + s;
+    }
+    return s;
     }
 
     String.prototype.trim = function () {
-	var	str = this.replace(/^\s\s*/, ''),
-	        ws = /\s/,
-	        i = str.length;
-	while (ws.test(str.charAt(--i)));
-	return str.slice(0, i + 1);
-    }   
-    
+    var str = this.replace(/^\s\s*/, ''),
+            ws = /\s/,
+            i = str.length;
+    while (ws.test(str.charAt(--i)));
+    return str.slice(0, i + 1);
+    }
+
     var now = new Date();
     var day = now.getDate();
     var month = now.getMonth();
     var year = now.getYear();
-    
+
     if (year < 999)
        year += 1900;
-    
+
     if (month == 0){
-    	var lastMonth = 12;
-    	var lastYear = year-1;
+        var lastMonth = 12;
+        var lastYear = year-1;
     }
     else {
-    	var lastMonth = month - 1;
-    	var lastYear = year;
+        var lastMonth = month - 1;
+        var lastYear = year;
     }
-     
+
     if (lastMonth == 0 || lastMonth == 2 || lastMonth == 4 || lastMonth == 6 || lastMonth == 7 || lastMonth == 9 || lastMonth == 11){
-    	var lastDay = 31;
+        var lastDay = 31;
     }
     else if (lastMonth == 1){
-    	var lastDay = 28;
+        var lastDay = 28;
     }
     else {
-    	var lastDay = 30;
+        var lastDay = 30;
     }
 
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + lastMonth + "&b=" + lastDay + "&c=" + lastYear + "&d=" + lastMonth + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
     var lastMonthQuery = y.query(
-	"select * from html " +
-	"where url=@url and " +
-	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
-	{url:url});   
- 
- 
+    "select * from html " +
+    "where url=@url and " +
+    "xpath='" +
+    "//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
+    {url:url});
+
+
     if (lastMonth == 0){
-    	var twoMonthsAgo = 12;
-    	var lastYear = year-1;
+        var twoMonthsAgo = 12;
+        var lastYear = year-1;
     }
     else {
-    	var twoMonthsAgo = lastMonth - 1;
-    	var lastYear = year;
+        var twoMonthsAgo = lastMonth - 1;
+        var lastYear = year;
     }
-    
+
     if (twoMonthsAgo == 0 || twoMonthsAgo == 2 || twoMonthsAgo == 4 || twoMonthsAgo == 6 || twoMonthsAgo == 7 || twoMonthsAgo == 9 || twoMonthsAgo == 11){
-    	var lastDay = 31;
+        var lastDay = 31;
     }
     else if (twoMonthsAgo == 1){
-    	var lastDay = 28;
+        var lastDay = 28;
     }
     else {
-    	var lastDay = 30;
+        var lastDay = 30;
     }
- 
+
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + twoMonthsAgo + "&b=" + lastDay + "&c=" + lastYear + "&d=" + twoMonthsAgo + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
     var twoMonthsAgoQuery = y.query(
-	"select * from html " +
-	"where url=@url and " +
-	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
-	{url:url});
+    "select * from html " +
+    "where url=@url and " +
+    "xpath='" +
+    "//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
+    {url:url});
 
     if (twoMonthsAgo == 0){
-    	var threeMonthsAgo = 12;
-    	var lastYear = year-1;
+        var threeMonthsAgo = 12;
+        var lastYear = year-1;
     }
     else {
-    	var threeMonthsAgo = twoMonthsAgo - 1;
-    	var lastYear = year;
+        var threeMonthsAgo = twoMonthsAgo - 1;
+        var lastYear = year;
     }
-    
+
     if (threeMonthsAgo == 0 || threeMonthsAgo == 2 || threeMonthsAgo == 4 || threeMonthsAgo == 6 || threeMonthsAgo == 7 || threeMonthsAgo == 9 || threeMonthsAgo == 11){
-    	var lastDay = 31;
+        var lastDay = 31;
     }
     else if (threeMonthsAgo == 1){
-    	var lastDay = 28;
+        var lastDay = 28;
     }
     else {
-    	var lastDay = 30;
+        var lastDay = 30;
     }
 
 
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + threeMonthsAgo + "&b=" + lastDay + "&c=" + lastYear + "&d=" + threeMonthsAgo + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
     var threeMonthsAgoQuery = y.query(
-	"select * from html " +
-	"where url=@url and " +
-	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
-	{url:url});    
+    "select * from html " +
+    "where url=@url and " +
+    "xpath='" +
+    "//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
+    {url:url});
 
     if (threeMonthsAgo == 0){
-    	var fourMonthsAgo = 12;
-    	var lastYear = year-1;
+        var fourMonthsAgo = 12;
+        var lastYear = year-1;
     }
     else {
-    	var fourMonthsAgo = threeMonthsAgo - 1;
-    	var lastYear = year;
+        var fourMonthsAgo = threeMonthsAgo - 1;
+        var lastYear = year;
     }
-    
+
     if (fourMonthsAgo == 0 || fourMonthsAgo == 2 || fourMonthsAgo == 4 || fourMonthsAgo == 6 || fourMonthsAgo == 7 || fourMonthsAgo == 9 || fourMonthsAgo == 11){
-    	var lastDay = 31;
+        var lastDay = 31;
     }
     else if (fourMonthsAgo == 1){
-    	var lastDay = 28;
+        var lastDay = 28;
     }
     else {
-    	var lastDay = 30;
+        var lastDay = 30;
     }
-    
+
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + fourMonthsAgo + "&b=" + lastDay + "&c=" + lastYear + "&d=" + fourMonthsAgo + "&e=" + lastDay + "&f=" + lastYear + "&g=d";
     var fourMonthsAgoQuery = y.query(
-	"select * from html " +
-	"where url=@url and " +
-	"xpath='" +
-	"//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
-	{url:url}); 
+    "select * from html " +
+    "where url=@url and " +
+    "xpath='" +
+    "//table/tr/td[@class = \"yfnc_tabledata1\" and position() = 5]'",
+    {url:url});
 
     var stock = <stock symbol={symbol}></stock>;
-    
+
     var results = lastMonthQuery.results;
     stock.LastMonth = results.td.p.toString().trim();
-    
+
     var results = twoMonthsAgoQuery.results;
     stock.TwoMonthsAgo = results.td.p.toString().trim();
-    
+
     var results = threeMonthsAgoQuery.results;
     stock.ThreeMonthsAgo = results.td.p.toString().trim();
-    
+
     var results = fourMonthsAgoQuery.results;
     stock.FourMonthsAgo = results.td.p.toString().trim();
-    
+
     response.object = stock
 
 ]]></execute>
-		</select>
-	</bindings>
+        </select>
+    </bindings>
 </table>

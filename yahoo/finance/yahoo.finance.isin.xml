@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
-		<sampleQuery>
-			select * from {table} where symbol in ("US9843321061")
-		</sampleQuery>
-	</meta>
-	<bindings>
-		<select itemPath="" produces="XML">
-			<urls><url></url></urls>
-			<inputs>
-				<key id='symbol' type='xs:string' paramType='variable' required='true' />
-			</inputs>
-			<execute><![CDATA[
+        <sampleQuery>
+            select * from {table} where symbol in ("US9843321061")
+        </sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls><url></url></urls>
+            <inputs>
+                <key id='symbol' type='xs:string' paramType='variable' required='true' />
+            </inputs>
+            <execute><![CDATA[
     // pad string with leading char
     String.prototype.pad = function (padchar, padlen) {
-	s = this
-	while (s.length < padlen) {
-	    s = padchar + s;
-	}
-	return s;
+    s = this
+    while (s.length < padlen) {
+        s = padchar + s;
     }
-    
+    return s;
+    }
+
     String.prototype.trim = function () {
-	var	str = this.replace(/^\s\s*/, ''),
-	        ws = /\s/,
-	        i = str.length;
-	while (ws.test(str.charAt(--i)));
-	return str.slice(0, i + 1);
+    var str = this.replace(/^\s\s*/, ''),
+            ws = /\s/,
+            i = str.length;
+    while (ws.test(str.charAt(--i)));
+    return str.slice(0, i + 1);
     }
 
     var url = "http://finance.yahoo.com/lookup?s="+symbol;
     var isinQuery = y.query(
-	"select * from html " +
-	"where url=@url and " +
-	"xpath='" +
-	"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[contains(.,\"GER\")]]/td[1]/a'" ,
- 	//"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[[./td[contains(.,\GER\")]] and @class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]/td[1]/a'" ,
-	{url:url});
+    "select * from html " +
+    "where url=@url and " +
+    "xpath='" +
+    "//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[contains(.,\"GER\")]]/td[1]/a'" ,
+    //"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[[./td[contains(.,\GER\")]] and @class = \"yui-dt-odd\" or @class = \"yui-dt-even\"]/td[1]/a'" ,
+    {url:url});
 
     var stock = <stock symbol={symbol}></stock>;
-    
+
     var results = isinQuery.results;
     stock.Isin = results.a.text().toString().trim();
-    
+
     response.object = stock
 
 ]]></execute>
-		</select>
-	</bindings>
+        </select>
+    </bindings>
 </table>
