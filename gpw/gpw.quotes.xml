@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Kuba Kuzma</author>
+    <sampleQuery>SELECT * FROM gpw.quotes WHERE type = "1" AND date = "2015-04-17";</sampleQuery>
+    <description>Returns GPW quotes.</description>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="result.quotes" produces="JSON">
+      <urls>
+        <url>http://www.gpw.pl/notowania_archiwalne_full?type={type}&amp;date={date}</url>
+      </urls>
+      <inputs>
+        <key id="type" type="xs:string" paramType="query" required="true" />
+        <key id="date" type="xs:string" paramType="query" required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var quotes = [],
+            page = y.query("select * from html where url='" + request.url + "'").results;
+
+        function parse(string) {
+            return String(string).replace(/[^0-9,-]/, "").replace(",", ".");
+        }
+
+        for (var i in page..tr) {
+            var quote = page..tr[i];
+
+            if (i > 0) {
+                quotes.push({
+                    name: String(quote.td[0]),
+                    isin: String(quote.td[1]),
+                    currency: String(quote.td[2]),
+                    open: parse(quote.td[3]),
+                    high: parse(quote.td[4]),
+                    low: parse(quote.td[5]),
+                    price: parse(quote.td[6]),
+                    change: parse(quote.td[7]),
+                    c_vol: parse(quote.td[8]),
+                    number_of_trades: parse(quote.td[9]),
+                    c_val: parse(quote.td[10])
+                });
+            }
+        }
+
+        response.object = { quotes: quotes };
+      ]]></execute>
+    </select>
+  </bindings>
+</table>
