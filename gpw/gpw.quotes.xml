@@ -17,12 +17,15 @@
         <key id="date" type="xs:string" paramType="query" required="true" />
       </inputs>
       <execute><![CDATA[
-        var quotes = [],
+        var date,
+            quotes = [],
             page = y.query("select * from html where url='" + request.url + "'").results;
 
         function parse(string) {
             return String(string).replace(/[^0-9,-]/, "").replace(",", ".");
         }
+
+        date = y.xpath(page, "//div[@class='colFL']").split("-").reverse().join("-");
 
         for (var i in page..tr) {
             var quote = page..tr[i];
@@ -31,6 +34,7 @@
                 quotes.push({
                     name: String(quote.td[0]),
                     isin: String(quote.td[1]),
+                    date: date,
                     currency: String(quote.td[2]),
                     open: parse(quote.td[3]),
                     high: parse(quote.td[4]),
