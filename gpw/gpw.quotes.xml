@@ -10,7 +10,7 @@
   <bindings>
     <select itemPath="result.quotes" produces="JSON">
       <urls>
-        <url>http://www.gpw.pl/notowania_archiwalne_full?type={type}&amp;date={date}</url>
+        <url>http://www.gpw.pl/notowania_archiwalne_full?{type}&amp;{date}</url>
       </urls>
       <inputs>
         <key id="type" type="xs:string" paramType="query" required="true" />
@@ -19,7 +19,7 @@
       <execute><![CDATA[
         var date,
             quotes = [],
-            page = y.query("select * from html where url='" + request.url + "'").results;
+            page = y.query("SELECT * FROM html WHERE url=@url", { url: request.url }).results;
 
         function parse(string) {
             return String(string).replace(/[^0-9,-]/, "").replace(",", ".");
