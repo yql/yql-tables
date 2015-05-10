@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Tibor Kiss (github.com/tibkiss)</author>
+        <description>Yahoo Finance - Company Events by Stock Symbol</description>
+        <sampleQuery>select * from {table} where symbol = "DATA"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="symbol" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    var results = <companyEvents symbol={symbol}></companyEvents>;
+
+                    var url = "http://finance.yahoo.com/q/ce?s=" + symbol;
+                    var companyEventsQuery = y.query("select * from html " +
+                                                     "where url=@url and " +
+                                                     "xpath='" + 
+                                                     "//table[@class=\"yfnc_datamodoutline1\"]'", 
+                                                     {url:url});
+
+                    for (var tableNr in companyEventsQuery.results.table) {
+                        if (tableNr == 0) {
+                            eventType = "upcoming";
+                        } else if (tableNr == 1) {
+                            eventType = "recent";
+                        } else {
+                            eventType = "unknown";
+                        }
+                        
+                        // y.log(tableNr + ": " + eventType);
+
+                        for each (var elem in companyEventsQuery.results.table[tableNr]) {
+                            // y.log("recentEvents: " + elem);
+                            for each (var row in elem.tbody.tr.td.table.tbody.tr)  {
+                                // y.log("row: " + row);
+                                if (row.td[1] == undefined) { // Skip the header row and case when there is no event
+                                    continue;
+                                }
+
+                                eventDate = row.td[0].toString().trim();
+
+                                // A HREF is not provided in all cases.
+                                // If it is missing we need to ensure that we extract the event text from the TD tag
+                                if (!row.td[1].a.@href.toString()) {
+                                    eventText = row.td[1].text().toString().trim()
+                                    url = '';
+                                } else {
+                                    eventText = row.td[1].a.text().toString().trim()
+                                    url = row.td[1].a.@href.toString();
+                                }
+
+                                results.companyEvents += <event date={eventDate} type={eventType} url={url}>{eventText}</event>
+                            }
+                        }
+                    }
+
+                    response.object = results;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
