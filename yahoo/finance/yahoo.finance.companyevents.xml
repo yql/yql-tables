@@ -45,17 +45,21 @@
 
                                 eventDate = row.td[0].toString().trim();
 
-                                // A HREF is not provided in all cases.
-                                // If it is missing we need to ensure that we extract the event text from the TD tag
+                                /* A HREF is not provided in all cases.
+                                 * If it is missing we need to ensure that
+                                 * we extract the event text from the TD tag
+                                 */
                                 if (!row.td[1].a.@href.toString()) {
                                     eventText = row.td[1].text().toString().trim()
-                                    url = '';
+
+                                    results.companyEvents += <event date={eventDate} type={eventType}>{eventText}</event>
                                 } else {
                                     eventText = row.td[1].a.text().toString().trim()
                                     url = row.td[1].a.@href.toString();
+
+                                    results.companyEvents += <event date={eventDate} type={eventType} url={url}>{eventText}</event>
                                 }
 
-                                results.companyEvents += <event date={eventDate} type={eventType} url={url}>{eventText}</event>
                             }
                         }
                     }
