@@ -32,8 +32,8 @@
                 var rawresult = restquery.accept( "text/html" ).get().response;
                 var aequery = y.xpath(
                         rawresult,
-                        "//table[@class='yfnc_tableout1']/tr[count(td)=0]/parent::*|" +
-                        "//table[@class='yfnc_tableout1']/tr/td/table"
+                        "//table[@class='yfnc_tableout1']/tbody/tr[count(td)=0]/parent::*|" +
+                        "//table[@class='yfnc_tableout1']/tbody/tr/td/table"
                     );
 
                 // Process Results
