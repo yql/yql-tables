@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<sampleQuery>
+			select * from {table} where name = "yahoo"
+		</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="result.quotes" produces="JSON">
+			<urls><url>http://d.yimg.com/aq/autoc</url></urls>
+			<inputs>
+            	<key id='query' as="name" type='xs:string' required="true" paramType='query'/>
+            	<key id='lang' type='xs:string' paramType='query' default="en-US"/>
+            	<key id='region' type='xs:string' paramType='query' default="US"/>
+                <key id='callback' type='xs:string' paramType='query' default="YAHOO.util.ScriptNodeDataSource.callbacks"/>
+			</inputs>
+            <execute><![CDATA[
+			    // Get the content
+				var content = y.rest(request.url).get().response;
+
+				// Remove the callback from response, which leaves us with plain json
+				var json = content.replace('YAHOO.util.ScriptNodeDataSource.callbacks(', '').replace(')\n', '');
+
+    			// Get the quotes from the json string
+    			var quotes = JSON.parse(json).ResultSet.Result;
+
+    			// Return the quotes
+				response.object = {quotes:quotes}
+      ]]></execute>
+		</select>
+	</bindings>
+</table>
