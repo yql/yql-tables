@@ -2,10 +2,11 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
     <meta>
         <author>
-            Ryan Hoium
+            Original: Ryan Hoium
+            Updated by: James Dyer
         </author>
         <description>
-            Yahoo Finance - Balance Sheet v0.1
+            Yahoo Finance - Balance Sheet v1.0
         </description>
         <sampleQuery>
             SELECT * FROM {table} WHERE symbol='T'
@@ -24,83 +25,51 @@
             </inputs>
             <execute>
             <![CDATA[
-		    //UTILITY: pad string with leading char		
-			String.prototype.pad = function ( padchar, padlen )
-			{
-				s = this
-				
-				while (s.length < padlen)
-				{
-					s = padchar + s;
-				}
-						
-				return s;
-			}
-			
-            //UTILITY: convert string to INTEGER		 
-			String.prototype.toInt = function ()
-			{
-				// remove leading 0's because otherwise 
-				// str can be interpreted as Octal
-				var str = this.replace( /^0+/, '' );
-
-				// also the thousands comma was cousing trouble
-				str = str.trim()
-                str = str.replace( /\,/g, '' );
-
-                // replace M with 6 ZEROs, B with 9 ZEROs (UPDATE THIS - ACCOUNT FOR DECIMAL!!
-                //str = str.replace(/M/g,'000000');
-                //str = str.replace(/B/g,'000000000');
-
-				return parseInt( str );
-			}	
-		    //UTILITY: trim whitespace		 
-			String.prototype.trim = function ()
-			{
-				var str = this.replace( /^\s\s*/, "" ),
-				ws = /\s/,
-				i = str.length;
-				while ( ws.test( str.charAt( --i ) ) );
-				return str.slice( 0, i + 1 );
-			}
-            
             // Setup Query from finance.yahoo.com
             var reporttype_code = "";
-            //reporttype = y.context.table;
             if(reporttype == "incomestatement"){reporttype_code = "is";}
             else if(reporttype == "balancesheet"){reporttype_code = "bs";}
             else if(reporttype == "cashflow"){reporttype_code = "cf";}
             var url="http://finance.yahoo.com/q/"+ reporttype_code + "?s=" + symbol + "&" + timeframe;
-			var restquery = y.rest( url );	
-			var rawresult = restquery.accept( "text/html" ).get().response;
-			var query = y.xpath( rawresult, "//table[@class='yfnc_tabledata1']/tr/td/table/tr");	
+            var xpath = "//table[@class='yfnc_tabledata1']/tbody/tr/td/table/tbody/tr";
+            var query = y.query("select * from html where url=@url and compat='html5' and xpath=@xpath", {url:url, xpath:xpath});
+            var results = query.results;
 
             // Process Results
             var outputdata = <{reporttype} symbol={symbol} timeframe={timeframe}></{reporttype}>;
-			if ( query.*.length() !== 0 )
+            if(results.tr.length() !== 0)
 			{
                 var y = 0; var x = 0;
                 var numcolumns = 0;
                 var data_array = new Array();
             
-                // Read Column Headings
-                data_array[0] = new Array()
-                data_array[0][0] = "Headings"
-                for each ( var th in query[0].td)
+                // Read td column headings
+                data_array[0] = new Array();
+                data_array[0][0] = "Headings";
+                for each(var head in results.tr[0].td)
                 {
                     data_array[x] = new Array();
-                    data_array[x][y] = th.*.text().toString();
-                    //outputdata.appendChild(<column x={x} y={y}>{data_array[x][y]}</column>);
+                    if (head.b) {
+                    	data_array[x][y] = head.b.toString();
+                    }
                     x++;
                 }
+                
+                // Read th column headings
+                for each(var head in results.tr[0].th)
+                {
+                    data_array[x] = new Array();
+                    data_array[x][y] = head.toString();
+                    x++;
+                }
+                
                 numcolumns = x;
 
                 // Read Rows
                 y = 1;            
-                var i = 1;
-                while ( i < query.length()) 
+                for(var i = 1; i < results.tr.length(); i++) 
 			    {
-                    var row = query[i];
+                    var row = results.tr[i];
                     if(row.td.length() >= numcolumns){
                         x = 0;
                         // read each column in row
@@ -108,7 +77,14 @@
                             if("spacer" in column)
                             {}
                             else{
-                                var dataitem = column.*.text().toString();
+                                var dataitem;
+                                if ("content" in column) {
+				    dataitem = column.content.toString();
+				} else if ("strong" in column) {
+				    dataitem = column.strong.toString();
+				} else {
+				    dataitem = column.toString();
+				}
                                 dataitem = String(dataitem.replace(/\s+/g,""));
                                 dataitem = String(dataitem.replace(/,/g,""));
                                 dataitem = String(dataitem.replace(/\//g,"_"));
@@ -118,13 +94,11 @@
                                     dataitem = Number(dataitem) * 1000;
                                 }
                                 data_array[x][y] = dataitem;
-                                //outputdata.appendChild(<row x={x} y={y}>{dataitem}</row>); 
                                 x++;
                             }
                         }
                         y++;
                     }
-                    i++;
                 }
                 var numrows = y;
                 x = 0; y = 0;
@@ -139,7 +113,7 @@
                     outputdata.appendChild(financial_period);
                 }
             }
-            // Return statsdata strucuture
+            // Return statsdata structure
             response.object = outputdata;
 		]]>
             </execute>
