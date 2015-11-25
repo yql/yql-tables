@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Sanjoy Ghosh</author>
+        <description>Returns Analyst Opinions from the Yahoo Analyst Opinion page</description>
+        <documentationURL><!-- url for API documentation --></documentationURL>
+        <apiKeyURL><!-- url for getting an API key if needed --></apiKeyURL>
+        <sampleQuery>select * from {table} where symbol = 'aapl'</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>
+                </url>
+            </urls>
+            <inputs>
+                <key id="symbol" type="xs:string" paramType="variable" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                var url="https://finance.yahoo.com/q/ao?s=" + symbol + "+Analyst+Opinion";
+                var restquery = y.rest( url );
+                var rawresult = restquery.accept( "text/html" ).get().response;
+
+                var aedata = <analystOpinion symbol={symbol}></analystOpinion>;
+                
+    			
+    			var thisWeekQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'Mean Recommendation (this week):']/../../td[2]/p");
+				var thisWeek = thisWeekQuery.text();
+
+    			var lastWeekQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'Mean Recommendation (last week):']/../../td[2]/p");
+				var lastWeek = lastWeekQuery.text();
+                
+				var changeQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'Change:']/../../td[2]/p");
+				var change = changeQuery.text();
+
+       			var recommendationSummary = <recommendationSummary thisWeek={thisWeek} lastWeek={lastWeek} change={change}></recommendationSummary>;
+				aedata.appendChild(recommendationSummary);
+
+
+				var meanQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'Mean Target:']/../../td[2]/p");
+				var mean = meanQuery.text();
+
+    			var medianQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'Median Target:']/../../td[2]/p");
+				var median = medianQuery.text();
+
+    			var highQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'High Target:']/../../td[2]/p");
+				var high = highQuery.text();
+
+    			var lowQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'Low Target:']/../../td[2]/p");
+				var low = lowQuery.text();
+
+    			var numOfBrokersQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1 equaltable']//td/p[text() = 'No. of Brokers:']/../../td[2]/p");
+				var numOfBrokers = numOfBrokersQuery.text();
+
+    			var priceTargetSummary = <priceTargetSummary mean={mean} median={median} high={high} low={low} numOfBrokers={numOfBrokers}></priceTargetSummary>;
+				aedata.appendChild(priceTargetSummary);
+
+
+          		var strongBuyCurrentMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Strong Buy']/../../td[1]/p");
+				var strongBuyCurrentMonth = strongBuyCurrentMonthQuery[0].text();
+
+          		var strongBuyLastMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Strong Buy']/../../td[2]/p");
+				var strongBuyLastMonth = strongBuyLastMonthQuery[0].text();
+
+          		var strongBuyTwoMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Strong Buy']/../../td[3]/p");
+				var strongBuyTwoMonthsAgo = strongBuyTwoMonthsAgoQuery[0].text();
+
+            	var strongBuyThreeMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Strong Buy']/../../td[4]/p");
+				var strongBuyThreeMonthsAgo = strongBuyThreeMonthsAgoQuery[0].text();
+
+
+            	var buyCurrentMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Buy']/../../td[1]/p");
+				var buyCurrentMonth = buyCurrentMonthQuery[0].text();
+
+          		var buyLastMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Buy']/../../td[2]/p");
+				var buyLastMonth = buyLastMonthQuery[0].text();
+
+          		var buyTwoMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Buy']/../../td[3]/p");
+				var buyTwoMonthsAgo = buyTwoMonthsAgoQuery[0].text();
+
+          		var buyThreeMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Buy']/../../td[4]/p");
+				var buyThreeMonthsAgo = buyThreeMonthsAgoQuery[0].text();
+
+
+            	var holdCurrentMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Hold']/../../td[1]/p");
+				var holdCurrentMonth = holdCurrentMonthQuery[0].text();
+
+          		var holdLastMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Hold']/../../td[2]/p");
+				var holdLastMonth = holdLastMonthQuery[0].text();
+
+          		var holdTwoMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Hold']/../../td[3]/p");
+				var holdTwoMonthsAgo = holdTwoMonthsAgoQuery[0].text();
+
+          		var holdThreeMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Hold']/../../td[4]/p");
+				var holdThreeMonthsAgo = holdThreeMonthsAgoQuery[0].text();
+
+
+            	var underperformCurrentMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Underperform']/../../td[1]/p");
+				var underperformCurrentMonth = underperformCurrentMonthQuery[0].text();
+
+          		var underperformLastMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Underperform']/../../td[2]/p");
+				var underperformLastMonth = underperformLastMonthQuery[0].text();
+
+          		var underperformTwoMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Underperform']/../../td[3]/p");
+				var underperformTwoMonthsAgo = underperformTwoMonthsAgoQuery[0].text();
+
+          		var underperformThreeMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Underperform']/../../td[4]/p");
+				var underperformThreeMonthsAgo = underperformThreeMonthsAgoQuery[0].text();
+
+
+            	var sellCurrentMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Sell']/../../td[1]/p");
+				var sellCurrentMonth = sellCurrentMonthQuery[0].text();
+
+          		var sellLastMonthQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Sell']/../../td[2]/p");
+				var sellLastMonth = sellLastMonthQuery[0].text();
+
+          		var sellTwoMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Sell']/../../td[3]/p");
+				var sellTwoMonthsAgo = sellTwoMonthsAgoQuery[0].text();
+
+          		var sellThreeMonthsAgoQuery = y.xpath(rawresult,"//table[@class='yfnc_datamodoutline1']//th/p[text() = 'Sell']/../../td[4]/p");
+				var sellThreeMonthsAgo = sellThreeMonthsAgoQuery[0].text();
+
+
+       			var recommendationTrends = 	<recommendationTrends>
+												<currentMonth strongBuy={strongBuyCurrentMonth} buy={buyCurrentMonth} hold={holdCurrentMonth} underperform={underperformCurrentMonth} sell={sellCurrentMonth}></currentMonth>
+												<lastMonth strongBuy={strongBuyLastMonth} buy={buyLastMonth} hold={holdLastMonth} underperform={underperformLastMonth} sell={sellLastMonth}></lastMonth>
+												<twoMonthsAgo strongBuy={strongBuyTwoMonthsAgo} buy={buyTwoMonthsAgo} hold={holdTwoMonthsAgo} underperform={underperformTwoMonthsAgo} sell={sellTwoMonthsAgo}></twoMonthsAgo>
+												<threeMonthsAgo strongBuy={strongBuyThreeMonthsAgo} buy={buyThreeMonthsAgo} hold={holdThreeMonthsAgo} underperform={underperformThreeMonthsAgo} sell={sellThreeMonthsAgo}></threeMonthsAgo>
+											</recommendationTrends>;
+				aedata.appendChild(recommendationTrends);
+
+                response.object = aedata;
+                ]]>
+            </execute>
+        </select>
+    </bindings>
+</table>
