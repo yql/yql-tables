@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Bruno Tripoloni</author>
+    <description>Search for movies in the filmow site</description>
+    <documentationURL>http://filmow.com</documentationURL>
+    <sampleQuery>select * from {table} where query="Os mercenarios 3"</sampleQuery>
+  </meta>
+  <bindings>
+    <select produces="XML">
+      <urls>
+        <url>http://filmow.com/buscar/?q={q}</url>
+      </urls>
+      <inputs>
+        <key id="q" as="query" type="xs:string" paramType="query" required="true" />
+      </inputs>
+      <execute><![CDATA[
+        var results = [];
+        var data = request.accept('text/html').get().response;
+        var products = y.xpath(data, "//*[@id='body_wrapper']/div/div/div/div[1]/div[3]");
+
+        var get_info = function(url){
+          url = "http://filmow.com" + url + "ficha-tecnica/";
+          var querystring = "select * from html where url = '"+url+"'";
+          q = y.query(querystring);
+          var info = <info><year>{q.results.body.div[1].div[6].div[1].div.div[0].table.tr[1].td.p.text()}</year>
+            <lenght>{q.results.body.div[1].div[6].div[1].div.div[0].table.tr[4].td.span.text()}</lenght>
+            <details>{q.results.body.div[1].div[6].div[1].div.div[0].div.p.text()}</details></info>;
+          return info;
+        }
+
+        for each (var item in products) {
+          var movie_url = y.xpath(item, "//div[1]/div[2]/h4/a/@href")
+          results.push({
+            image: y.xpath(item, "//div[1]/div[1]/a/img/@src"),
+            title: y.xpath(item, "//div[1]/div[2]/h4/a/text()"),
+            info : get_info(movie_url)
+          });
+        }
+
+        if (results.length) {
+          var output = <movies></movies>;
+
+          for (item in results) {
+            output.node += <entry>
+              <title>{results[item].title}</title>
+              <image>{results[item].image}</image>
+              <info>{results[item].info}</info>
+            </entry>;
+          }
+
+          /*output.@items = total_entries.match(/\d+$/)[0];*/
+        }
+
+        response.object = output;
+        ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>
+
