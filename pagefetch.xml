@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where url="http://finance.yahoo.com/q?s=yhoo" and xpath='//div[@id="yfi_headlines"]/div[2]/ul/li/a'</sampleQuery>
+    <description>Retrieve HTML document fragments</description>
+  </meta>
+  <bindings>
+    <select itemPath="result.html" produces="JSON">
+		<inputs>
+			<key id="url" type="xs:string" paramType="variable" required="true"/>
+			<key id="xpath" type="xs:string" paramType="variable" required="true"/>
+		</inputs>
+		<execute><![CDATA[
+			var results = y.query("select * from html where url=@url and xpath=@xpath", {url:url, xpath:xpath}).results.*;
+			var html_strings = [];
+			for each (var item in results) html_strings.push(item.toXMLString());
+			response.object = {html: html_strings};
+		]]></execute>
+    </select>
+  </bindings>
+</table>
