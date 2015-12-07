@@ -7,7 +7,7 @@
     <documentationURL>http://wiki.github.com/tpowers/yql-tables</documentationURL> 
   </meta>
   <bindings>
-    <select itemPath="sectors.sector" produces="XML">
+    <select itemPath="sectors.sector">
       <urls>
        <url></url>
       </urls>
