@@ -8,7 +8,7 @@
   <bindings>
     <select itemPath="" produces="JSON">
       <urls>
-        <url>http://gws.maps.yahoo.com/FindLocation</url>
+        <url>http://gws2.maps.yahoo.com/FindLocation</url>
       </urls>
       <inputs>
         <!-- 
