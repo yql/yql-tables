@@ -128,9 +128,7 @@
                 query = query.replace(/\$chapter/g,biblerefxml.chapter.toString());
                 query = query.replace(/\$passage/g,biblerefxml.verse.toString());
                 query = query.replace(/\$url/g,url);
-                var rest = 'http://query.yahooapis.com/v1/public/yql?q=$query&diagnostics=true';
-                rest = rest.replace("$query",escape(query));
-                url = rest;
+                url = y.query(query).results.a.href;
                 debug && y.log(url);
               } else { // rest call
                 var rest = step.toString();
