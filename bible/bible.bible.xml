@@ -25,7 +25,7 @@
           return this.replace(/^\s+|\s+$/g, "");
         }
       
-        var debug = 0;
+        var debug = 1;
         if (!edition && !language) {
           language = "en";
         }
