@@ -128,7 +128,7 @@
                 query = query.replace(/\$chapter/g,biblerefxml.chapter.toString());
                 query = query.replace(/\$passage/g,biblerefxml.verse.toString());
                 query = query.replace(/\$url/g,url);
-                url = y.query(query).results.a.href;
+                url = y.query(query).results['a']['href'];
                 debug && y.log(url);
               } else { // rest call
                 var rest = step.toString();
