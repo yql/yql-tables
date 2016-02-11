@@ -122,15 +122,18 @@
           for each (var step in service.step) {
             if (step.@nr < service.step.length()) { 
               if (step.@yql.toString() == "true") { // yql query
+                debug && y.log("YQL query");
                 var query = step.toString();
                 query = query.replace(/\$book/g,bookcode);
                 query = query.replace(/\$edition/g,editioncode);
                 query = query.replace(/\$chapter/g,biblerefxml.chapter.toString());
                 query = query.replace(/\$passage/g,biblerefxml.verse.toString());
                 query = query.replace(/\$url/g,url);
-                url = y.query(query).results['a']['href'];
+                var results = y.query(query).results;
+                url = results.a.@href.toString();
                 debug && y.log(url);
               } else { // rest call
+                debug && y.log("REST query");
                 var rest = step.toString();
                 rest = rest.replace(/\$book/g,escape(bookcode));
                 rest = rest.replace(/\$edition/g,escape(editioncode));
@@ -141,6 +144,7 @@
                 debug && y.log(url);
               }
             } else { // last step is always yql query
+                debug && y.log("Final YQL query");
                 finalquery = step.toString();
                 finalquery = finalquery.replace(/\$book/g,bookcode);
                 finalquery = finalquery.replace(/\$edition/g,editioncode);
