@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Chris Hoffman</author>
+    <documentationURL>http://api.stackoverflow.com/1.0/help</documentationURL>
+  </meta>
+  <bindings>
+    <select produces="JSON" itemPath="">
+      <urls>
+        <url>http://api.stackoverflow.com/1.0/users/{id}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:integer" paramType="path" required="false"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

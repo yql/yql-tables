@@ -1,0 +1,24 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>SolDevv</author>
+    <documentationURL>http://instagram.com/developer/endpoints/users/#get_users_media_recent_with_client_id</documentationURL>
+    <description>Gets a user's recent media</description>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222"</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222" AND max_id="47499838839"</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222" AND count="100"</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222" AND max_id="47499838839" AND count="100"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>https://api.instagram.com/v1/users/{user_id}/media/recent?client_id={client_id}</url>
+      </urls>
+      <inputs>
+      <key id="client_id" as="client_id" type="xs:string" paramType="path" required="true" />
+      <key id="count" as="count" type="xs:string" paramType="query" required="false" default="20" />
+      <key id="max_id" as="max_id" type="xs:string" paramType="query" required="false" />
+      <key id="user_id" as="user_id" type="xs:string" paramType="path" required="true" />
+      </inputs> 
+    </select>
+  </bindings>
+</table>

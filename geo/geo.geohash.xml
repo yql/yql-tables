@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>use "https://raw.github.com/vicmortelmans/yql-tables/master/geo/geo.geohash.xml" as geo.geohash;
+        select * from geo.geohash where place="Antwerpen,be"</sampleQuery>
+    <author>Vic Mortelmans</author>
+    <documentationURL></documentationURL>  
+    <description>Gives the geohash for the location</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <inputs>
+        <key id="place" type="xs:string" paramType="variable" required="true"/>
+        <key id="precision" type="xs:integer" paramType="variable" required="false" default="12"/>
+      </inputs>
+      <execute><![CDATA[
+        
+        var yahoo = new Namespace("http://where.yahooapis.com/v1/schema.rng");
+        // namespace is needed because the <place> element in the results of the geo.places
+        // table is in this namespace, and otherwise it will not be addressed by simply
+        // saying res.place
+        
+        var lat,lon;
+        
+        if ( /^[0-9.]+,[0-9.]+$/.test(place) ) {
+            lat = place.match(/^[0-9.]+/);
+            lon = place.match(/[0-9.]+$/);
+        } else {
+/*          OLD CODE, BEFORE google.geocoding BROKE DOWN
+            var res = y.query("use 'http://www.datatables.org/google/google.geocoding.xml' as google.geocoding; select * from google.geocoding where q='" + 
+                              place + "'").results;
+            lat = res..Point.coordinates[1];
+            lon = res..Point.coordinates[0];
+*/
+            var req = y.rest("http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address=" + encodeURIComponent(place));
+            var res = req.get();
+            lat = res.response..geometry[0].location.lat;
+            lon = res.response..geometry[0].location.lng;
+        }
+        
+        y.log("The geo.geohash YQL open table uses the Google Geocoding API, which is subject to usage limitations documented on the Google Developers website: https://developers.google.com/maps/documentation/geocoding/#Limits");
+        
+        response.object = <item><geohash>{encodeGeoHash(lat,lon)}</geohash></item>;
+        
+        // copied from https://github.com/davetroy/geohash-js/blob/master/geohash.js
+        function encodeGeoHash(latitude, longitude) {
+            var BITS = [16, 8, 4, 2, 1];
+            var BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+            var is_even=1;
+        	var i=0;
+        	var lat = []; var lon = [];
+        	var bit=0;
+        	var ch=0;
+        	//var precision = 12; // parametrized
+        	geohash = "";
+        
+        	lat[0] = -90.0;  lat[1] = 90.0;
+        	lon[0] = -180.0; lon[1] = 180.0;
+        
+        	while (geohash.length < precision) {
+        	  if (is_even) {
+        			mid = (lon[0] + lon[1]) / 2;
+        	    if (longitude > mid) {
+        				ch |= BITS[bit];
+        				lon[0] = mid;
+        	    } else
+        				lon[1] = mid;
+        	  } else {
+        			mid = (lat[0] + lat[1]) / 2;
+        	    if (latitude > mid) {
+        				ch |= BITS[bit];
+        				lat[0] = mid;
+        	    } else
+        				lat[1] = mid;
+        	  }
+        
+        		is_even = !is_even;
+        	  if (bit < 4)
+        			bit++;
+        	  else {
+        			geohash += BASE32[ch];
+        			bit = 0;
+        			ch = 0;
+        	  }
+        	}
+        	return geohash;
+        }        
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

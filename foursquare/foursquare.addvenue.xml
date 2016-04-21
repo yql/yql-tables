@@ -8,7 +8,7 @@
 	<bindings>
 		<select itemPath="" produces="XML">
 			<urls>
-				<url>http://api.foursquare.com/v1/addvenue</url>
+				<url>https://api.foursquare.com/v1/addvenue</url>
 			</urls>
 			<inputs>
 				<key id="name" type="xs:string" paramType="query" required="true" />

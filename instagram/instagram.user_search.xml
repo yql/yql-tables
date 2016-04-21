@@ -1,0 +1,24 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>SolDevv</author>
+    <documentationURL>http://instagram.com/developer/endpoints/users/#get_users_search</documentationURL>
+    <description>Search for a user by name.</description>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND username="123344222"</sampleQuery> 
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND username="123344222" AND count="20"</sampleQuery> 
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>https://api.instagram.com/v1/users/search?client_id={client_id}</url>
+      </urls>
+      <inputs>
+      <key id="client_id" as="client_id" type="xs:string" paramType="path" required="true" />
+      <key id="count" as="count" type="xs:string" paramType="query" required="false" default="10" />
+      <key id="q" as="username" type="xs:string" paramType="query" required="true" />
+      </inputs>
+      <paging model="url">  
+            <nextpage path="json.pagination.next_url" />   
+      </paging>
+    </select>
+  </bindings>
+</table>

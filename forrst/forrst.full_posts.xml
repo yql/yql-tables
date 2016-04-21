@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+    <meta>
+        <author>Carson McDonald</author>
+        <description>Return data about a single post.</description>
+        <documentationURL>http://forrst.com/api#m-posts-show</documentationURL>
+        <sampleQuery>select * from {table} where id = 45114;</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>http://forrst.com/api/{version}/posts/show</url>
+            </urls>
+            <inputs>
+            	<key id="version" type="xs:string" paramType="path" required="true" default="v2" />
+
+            	<key id="id" type="xs:string" paramType="query" required="false" />
+            	<key id="tiny_id" type="xs:string" paramType="query" required="false" />
+            </inputs>
+        </select>
+     </bindings>
+</table>

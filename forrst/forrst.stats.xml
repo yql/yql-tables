@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+    <meta>
+        <author>Carson McDonald</author>
+        <description>Returns stats about your API usage.</description>
+        <documentationURL>http://forrst.com/api#m-stats</documentationURL>
+        <sampleQuery>select * from {table};</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>http://forrst.com/api/{version}/stats</url>
+            </urls>
+            <inputs>
+            	<key id="version" type="xs:string" paramType="path" required="true" default="v2" />
+            </inputs>
+        </select>
+     </bindings>
+</table>

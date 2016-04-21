@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>John Greene</author>
+    <documentationURL>https://docs.urbanairship.com/display/DOCS/Server%3A+Android+Push+API</documentationURL>
+    <sampleQuery>insert into androidpush (apids, message) VALUES("47ff153b-9194-48af-8ef5-4bd0ee55e17e", "hi there")</sampleQuery>
+    <sampleQuery>insert into androidpush (tags, message) VALUES("AndroidTestTag-4", "w00t!")</sampleQuery>
+  </meta>
+  <bindings>
+    <insert itemPath="" produces="JSON">
+      <urls>
+        <url>https://go.urbanairship.com/api/push/</url>
+      </urls>
+      <inputs>
+        <key id="appKey" paramType="query" required="true" type="xs:string"/>
+        <key id="masterSecret" paramType="query" required="true" type="xs:string"/>
+        <key id="apids" paramType="query" required="false" type="xs:string"/>
+        <key id="aliases" paramType="query" required="false" type="xs:string"/>
+        <key id="tags" paramType="query" required="false" type="xs:string"/>
+        <key id="message" paramType="query" required="true" type="xs:string"/>
+        <key id="extra" paramType="query" required="false" type="xs:string"/>
+      </inputs>
+      <execute>
+        <![CDATA[
+          var authheader = "Basic " + y.crypto.encodeBase64(appKey + ":" + masterSecret);
+          var parameters = {};
+          if(apids)
+              parameters.apids = apids.split(',');
+          if(aliases)
+              parameters.aliases = aliases.split(',');
+          if(tags)
+              parameters.tags = tags.split(',');
+          parameters.android = {};
+          parameters.android.alert = unescape(message);
+          if(extra) 
+            parameters.android.extra = extra;
+          if(apids || aliases || tags) {
+            request.header("Authorization",authheader);
+            request.contentType('application/json');
+            response.object = request.post(parameters);
+          } else {
+            response.object = null;
+          }
+        ]]>
+      </execute>
+    </insert>
+  </bindings>
+</table>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Socrata API for World Bank Finance data</description>
+	  <documentationURL>http://opendata.socrata.com/api/docs/views</documentationURL>
+		<sampleQuery description="first 10 views">SELECT * FROM {table}</sampleQuery>		
+		<sampleQuery description="first 20 views">SELECT id, name FROM {table}(0,20)</sampleQuery>	
+		<sampleQuery description="two specific views by ID">SELECT * FROM {table} WHERE view_id="ywh6-ej2m" OR view_id="daeh-46t7"</sampleQuery>	
+	</meta>
+	<bindings>
+		
+		<!-- query a single view -->
+		<select itemPath="view" produces="XML">
+			<urls>
+				<url env="all">https://finances.worldbank.org/api/views/{view_id}.xml</url>
+			</urls>
+			<inputs>
+				<key id="view_id" type="xs:string" paramType="path" required="true" />
+				
+				<!-- app_token is not required but recommended: http://dev.socrata.com/authentication -->
+				<key id="app_token" type="xs:string" paramType="query" />
+			</inputs>
+    </select>
+		
+		<!-- search for views -->
+		<select itemPath="response.view" produces="XML">
+			<urls>
+				<url env="all">https://finances.worldbank.org/api/views.xml</url>
+			</urls>
+			<paging model="page">
+				<start id="page" default="1" />
+				<pagesize id="limit" max="200" />
+				<total default="10" />
+			</paging>
+			<inputs>
+				<key id="name" type="xs:string" paramType="query" />
+				<key id="category" type="xs:string" paramType="query" />	
+				<key id="description" type="xs:string" paramType="query" />
+				<key id="tags" type="xs:string" paramType="query" />
+				<key id="full" type="xs:string" paramType="query" />
+				<!-- <key id="count" type="xs:string" paramType="query" /> -->
+				
+				<!-- app_token is not required but recommended: http://dev.socrata.com/authentication -->
+				<key id="app_token" type="xs:string" paramType="query" />
+			</inputs>
+    </select>
+
+  </bindings>
+</table>

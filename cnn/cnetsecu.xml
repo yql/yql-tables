@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>silverline</author>
+    <documentationURL>http://news.cnet.com/security/</documentationURL>
+    <description>Uses CNET RSS Feed.</description>
+    <sampleQuery>SELECT * FROM {table} WHERE abbr="12th"</sampleQuery>
+  </meta>
+
+  <bindings>
+    <select itemPath="rss.channel.item" produces="XML">
+      <urls>
+        <url>http://news.cnet.com/8300-1009_3-83.xml</url>
+      </urls>
+    </select>
+  </bindings>
+</table>

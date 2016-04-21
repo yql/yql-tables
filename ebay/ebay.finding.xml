@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where keywords="ipod"</sampleQuery>
+    <documentationURL>http://developer.ebay.com</documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="findItemsByKeywordsResponse.searchResult.item" produces="XML">
+      <urls>
+        <url>http://svcs.ebay.com/services/search/FindingService/v1</url>
+      </urls>
+      <inputs>
+        <key id="SECURITY-APPNAME" type="xs:string" private="true" default="AvalaniC-c084-4516-bd2e-b2078fb890ac" paramType="query"/>
+        <key id="OPERATION-NAME" type="xs:string" private="true" default="findItemsByKeywords" paramType="query"/>
+        <key id="SERVICE-VERSION" type="xs:string" private="true" default="1.0.0" paramType="query"/>
+        <key id="GLOBAL-ID" type="xs:string" private="true" default="EBAY-US" paramType="query"/>
+        <key id="paginationInput.entriesPerPage" type="xs:string" private="true" default="3" paramType="query"/>
+        <key id="keywords" type="xs:string" required="true" paramType="query"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

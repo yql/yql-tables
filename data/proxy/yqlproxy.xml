@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file contains the OpenTable that YQL needs to return raw url content.
+     Can be used for implementations to allow cross-domain XHR requests. -->
+
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jeff Simon</author>
+    <description>Returns raw data</description>
+    <sampleQuery>
+      <![CDATA[
+select * from {table} where
+url='http://bluesky.io]]>
+    </sampleQuery>
+    <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>{url}</url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" required="true" paramType="variable"/>
+      </inputs>
+      <execute>
+        <![CDATA[
+  var myRequest = y.rest(url);
+  response.object = myRequest.get().response;
+  ]]>
+      </execute>
+    </select>
+  </bindings>
+</table>

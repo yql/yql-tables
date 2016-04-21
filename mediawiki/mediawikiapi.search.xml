@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ryan Lane</author>
+    <sampleQuery>select * from {table} where query='search tag(s)'</sampleQuery>
+    <description>Open search of Wikipedia Articles</description>
+  </meta>
+  <bindings>
+    <select itemPath="SearchSuggestion.Section.Item.Text" produces="XML">
+      <urls>
+        <url>http://{site}/w/api.php?action=opensearch&amp;format=xml&amp;limit=100</url>
+      </urls>
+      <inputs>
+        <key id="site" type="xs:string" paramType="path" required="false" default="en.wikipedia.org"/>
+        <key id="search" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

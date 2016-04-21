@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Raine Lourie ( raineorshine@gmail.com )</author>
+    <description>Concatenate string values</description>
+    <documentationURL></documentationURL>
+	<sampleQuery><![CDATA[
+		select * from {table} where values='[1,2,3,4,5]' and delimiter='&' and formatString='num=%s';	
+	  ]]>
+	</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+	  <!--<urls>
+        <url></url>
+	  </urls>-->
+      <inputs>
+		<key id="data" type="xs:string" paramType="variable" required="true" /><!-- variable, path, or query? -->
+        <key id="formatString" type="xs:string" paramType="variable" default="%s" />
+        <key id="delimiter" type="xs:string" paramType="variable" default="," />
+      </inputs>
+      <execute>
+        <![CDATA[
+
+// includes and inputs
+y.include('http://www.datatables.org/javascript/json2.js');
+var values = JSON.parse(data);
+
+// helper functions
+var map = function(arr, f) {
+	var results = [];
+	for(var i=0; i<arr.length; i++) {
+		results.push(f(arr[i]));
+	}
+	return results;
+};
+Array.prototype.map = function(f) {
+	return map(this, f);
+};
+
+// output
+response.object = values.map(function(item) {
+	return formatString.replace("%s", item);
+}).join(delimiter);
+
+		]]>
+      </execute>
+
+    </select>
+  </bindings>
+</table>

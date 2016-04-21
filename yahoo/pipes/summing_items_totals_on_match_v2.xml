@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Paul Daniel (hapdaniel)</author>
+		<description>Sum of specified elements over items. Returns totals only</description>
+        <documentationURL></documentationURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="data" type="xs:string" paramType="variable" required="true"/>
+                <key id="eles" type="xs:string" paramType="variable" required="false"/>
+            </inputs>
+
+            <execute><![CDATA[
+            y.include("http://hapdaniel.pwp.blueyonder.co.uk/pdaniel/yql/json2.js");
+
+            var fields = eles.split(",");
+            var arr_len = fields.length;
+            var sums = new Array();
+            var totals = new Array();
+			var output = new Object;
+			item=0;
+			for (var i = 0; i < arr_len; i++) {
+             totals[fields[i]] = 0;
+             }
+			totals["yql_match"] = "";
+			 
+            var pdata = JSON.parse(data);
+            
+			var match_key = pdata.items[0].yql_match;
+			
+            for (var j = 0; j < pdata.items.length; j++) {
+              if (pdata.items[j].yql_match == match_key) {
+			  for (var i = 0; i < arr_len; i++) {
+                     ele = "pdata.items[" + j + "]." + fields[i];
+                     totals[fields[i]] += Number(eval(ele)); 
+
+                }}
+			  else {
+			    totals["yql_match"] = match_key;
+				match_key = pdata.items[j].yql_match;
+				for (var i = 0; i < arr_len; i++) {
+                  totals[fields[i]] = totals[fields[i]].toString(); 
+
+                }
+				sums.push(totals);
+				for (var i = 0; i < arr_len; i++) {
+                  totals[fields[i]] = 0; 
+				
+			  }
+            }
+			}
+             
+            //totals.yql_count = pdata.items.length;
+            //pdata.items.push(totals);
+            //output = JSON.stringify(sums);
+			y.log(sums.toString);
+            response.object = JSON.parse(sums);
+            ]]>
+            </execute>
+        </select>
+
+     </bindings>
+</table>    
+

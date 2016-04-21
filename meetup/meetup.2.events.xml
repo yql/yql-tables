@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+<meta>
+    <author>Carl Tanner (TableSaw)</author>
+    <description>
+    	Selects events from meetup by topic or location.  User key required. As per Meetup.com:
+
+		This method is in development and will continue to evolve. If possible, we'll give advance warning on the forum of any breaking changes.
+
+		This iteration of the Events method provides broad access to recent and upcoming events. You can query with just a topic or a location. There are no restrictions on the queried timespan and no default parameter values. However the dataset for the query is currently limited to upcoming events and those within the past 4 months. Events in private groups are excluded entirely. Use the existing Events method for queries related to a particular member or group.
+    </description>
+    <documentationURL>http://www.meetup.com/meetup_api/docs/#events2</documentationURL>
+    <sampleQuery>select * from {table} where key='...' and topic='flex';</sampleQuery>
+</meta>
+<bindings>
+    <select itemPath="results" produces="XML">
+        <urls>
+            <url><![CDATA[http://api.meetup.com/2/events.xml?key={key}]]></url>
+        </urls>
+        <inputs>
+			<key id="key" type="xs:string" paramType="path" required="true"/>
+			<key id="topic" type="xs:string" paramType="query" default="flex"/>
+			<key id="after" type="xs:string" paramType="query" default="0d"/>
+            <key id="zip" type="xs:string" paramType="query"/>
+            <key id="country" type="xs:string" paramType="query"/>
+            <key id="city" type="xs:string" paramType="query"/>
+            <key id="state" type="xs:string" paramType="query"/>
+            <key id="lat" type="xs:string" paramType="query"/>
+            <key id="lon" type="xs:string" paramType="query"/>
+            <key id="after" type="xs:string" paramType="query"/>
+            <key id="before" type="xs:string" paramType="query"/>
+            <key id="zip" type="xs:string" paramType="query"/>
+        </inputs>
+		<!--			<paging model="page">
+						<start id="offset" default="0" />
+						<pagesize id="page" max="200" />
+						<total default="200" />
+					</paging> -->
+    </select>
+</bindings>
+</table>

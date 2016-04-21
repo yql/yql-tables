@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+	<author>Sway Deng</author>
+    <documentationURL>http://swayweb.com</documentationURL>  
+    <description>The following Open Data Table allows you to see the status of Alitalk users. </description>
+    <sampleQuery>select * from {table} where uids='swaydsw;balibell';</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://amos.im.alisoft.com/mullidstatus.aw?beginnum={beginnum}</url>
+      </urls>
+      <inputs>
+        <key id='beginnum' type='xs:string' paramType='path' default="0" />
+        <key id='siteid' type='xs:string' paramType='variable' default="cnalichn" />
+        <key id='uids' type='xs:string' paramType='variable' required="true" />
+      </inputs>
+      <execute><![CDATA[
+		  var data, uidsStr,
+              statuses = new XML(),			  
+			  prefixed = [],
+			  ids = uids.split(';'),
+			  len = ids.length;
+			  
+		  for(var i=0; i<len; i++){
+			var id = ids[i];
+			prefixed[i] = id ? (siteid + id) : '';
+		  }
+		  uidsStr = prefixed.join(';');
+		  if(uidsStr){
+			data = request.query('uids',uidsStr).get().response;
+			var statusArr = data.match(/=\d/g);
+			for(var i=0,len=statusArr.length;i<len;i++){
+				var userName = ids[i],
+					userStatus = statusArr[i].split('=')[1];
+				if(userName && userStatus)	
+					statuses += <{ids[i]}>{statusArr[i].split('=')[1]}</{ids[i]}>;
+			}			
+		  }else{
+			uids = statuses = null;
+		  }
+		  
+          response.object = <info>
+								<request_url>{request.url}</request_url>
+								<uids>{uids}</uids>
+								<status>{statuses}</status>
+							</info>
+      ]]></execute>
+    </select>
+  </bindings>
+</table>

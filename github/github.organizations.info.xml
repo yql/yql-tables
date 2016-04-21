@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Jeremy Hubert</author>
+    <description>Information about a GitHub organization</description>
+    <documentationURL></documentationURL>
+    <sampleQuery>select * from {table} where org='github'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="repositories" produces="XML">
+      <urls>
+        <url>http://github.com/api/v2/xml/organizations/{org}</url>
+      </urls>
+      <inputs>
+        <key id="org" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

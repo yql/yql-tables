@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+	 <author>Sway Deng</author>
+	 <documentationURL>http://swayweb.com</documentationURL>
+    <sampleQuery>INSERT INTO {table} (content, oauth_token, oauth_token_secret) VALUES ('hello,douban!', 'your_access_token', 'your_access_token_secret')</sampleQuery>
+  </meta>
+  <bindings>
+  <insert itemPath="content" produces="XML">
+			<urls>
+				<url>http://api.douban.com/miniblog/saying</url>
+			</urls>
+			<inputs>
+				<key id="content" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token" type="xs:string" paramType="variable" required="true"/>
+				<key id="oauth_token_secret" type="xs:string" paramType="variable" required="true"/>
+			</inputs>
+			<execute>
+				<![CDATA[
+y.include("http://oauth.googlecode.com/svn/code/javascript/oauth.js");
+y.include("http://oauth.googlecode.com/svn/code/javascript/sha1.js");
+
+function oAuthSignRequest(args){
+   var accessor = args.accessor;
+   
+   var message = {};
+   message.action = args.action || request.url;
+   message.method = args.method || 'GET';
+   message.parameters = args.parameters || null;
+   
+   OAuth.setTimestampAndNonce(message);
+   OAuth.setParameter(message, "oauth_consumer_key", accessor.consumerKey);
+   OAuth.setParameter(message, "oauth_version", '1.0');
+
+   if(accessor.token) {
+      OAuth.setParameter(message, "oauth_token", accessor.token);
+   }
+
+   OAuth.SignatureMethod.sign(message, accessor);
+   
+   var realm = accessor.realm || '';
+   var header = OAuth.getAuthorizationHeader(realm, message.parameters);
+   var auth = {message:message, accessor:accessor, header:header};
+   
+   if(args.debug==true) {
+      y.log(auth);
+   }
+   
+   return auth;
+}
+
+function postRequest(args){
+   var auth = (args.accessor) ? oAuthSignRequest(args) : null;
+   var data = '<entry xmlns:ns0="http://www.w3.org/2005/Atom" xmlns:db="http://www.douban.com/xmlns/"><content>' + content + '</content></entry>';
+        
+   var rsp = null;
+   try {
+      if(auth) request.header('Authorization', auth.header);
+      request.header('Content-Type', 'application/atom+xml');
+      rsp = request.post(data).status; //request.post( data ).response
+   } catch(err) {
+      rsp = {'result':'failure', 'error': err};
+   }
+   return rsp;
+}
+
+var accessor = {};
+accessor.consumerKey = "0995b7113482fff31cc125339d88ffd9";
+accessor.consumerSecret = "441cbd9231518ada";
+accessor.realm = request.url;
+accessor.token = oauth_token;
+accessor.tokenSecret = oauth_token_secret;
+
+response.object = postRequest({
+   action: request.url,
+   method: "POST",
+   accessor: accessor,
+   parameters: []
+});
+				]]>
+			</execute>
+		</insert>
+  </bindings>
+</table>

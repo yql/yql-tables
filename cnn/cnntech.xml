@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>silverline</author>
+    <documentationURL>None</documentationURL>
+    <description>Uses CNN Technology RSS Page.</description>
+    <sampleQuery>SELECT * FROM {table} WHERE abbr="12th"</sampleQuery>
+  </meta>
+
+  <bindings>
+    <select itemPath="rss.channel.item" produces="XML">
+      <urls>
+        <url>http://rss.cnn.com/rss/cnn_tech.rss</url>
+      </urls>
+    </select>
+  </bindings>
+</table>

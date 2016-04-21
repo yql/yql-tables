@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Iraê Lambert de Carvalho</author>
+    <documentationURL>http://ergast.com/mrd/</documentationURL>
+    <description>The Ergast Developer API is an experimental web service which provides a historical record of motor racing data for non-commercial purposes.</description>
+	<sampleQuery>select * from formula1.race.results where season="2009" and race="5"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="MRData.RaceTable.Races" produces="JSON">
+      <urls>
+        <url>http://ergast.com/api/f1/{season}/{race}/results.json</url>
+      </urls>
+      <inputs>
+        <key id="season" paramType="path" required="true" />
+        <key id="race" paramType="path" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

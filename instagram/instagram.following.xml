@@ -1,0 +1,23 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>SolDevv</author>
+    <documentationURL>http://instagram.com/developer/endpoints/relationships/#get_users_follows</documentationURL>
+    <description>Get a list of users a person is following</description>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222"</sampleQuery> 
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>https://api.instagram.com/v1/users/{user_id}/follows?client_id={client_id}</url>
+      </urls>
+      <inputs>
+      <key id="client_id" as="client_id" type="xs:string" paramType="path" required="true" />
+      <key id="count" as="count" type="xs:string" paramType="query" required="false" default="100" />
+      <key id="user_id" as="user_id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+      <paging model="url">  
+            <nextpage path="json.pagination.next_url" />   
+      </paging>
+    </select>
+  </bindings>
+</table>

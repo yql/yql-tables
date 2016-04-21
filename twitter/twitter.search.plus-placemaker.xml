@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Kelvin Luck</author>
+    <sampleQuery>select * from {table} where q='#celebspot'</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url>http://fakeurl.com/?url=http://twitter.com/{id}</url>
+      </urls>
+      <inputs>
+        <key id="q" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[ 
+      	var tweets = <tweets />;
+      	var results = y.query("select * from twitter.search where q=@q", {q:q});
+      	for each(var result in results.results.results) {
+      		var placemakerQuery = y.query("select * from geo.placemaker where documentContent=@t and documentType=\"text/plain\" and appid=\"\"", {t:result.text});
+      		
+      		var tweet = <tweet id={result.id} from_user={result.from_user} created_at={result.created_at}>{result.text}{result.geo}<placemarker>{placemakerQuery.results.matches.*}</placemarker></tweet>
+      		tweets.tweet += tweet;
+      	}
+      	response.object = tweets; 
+      ]]></execute>  
+    </select>
+  </bindings>
+</table>

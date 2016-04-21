@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<i:table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="user">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <i:bindings>
+   <i:select itemPath="json.result" produces="JSON" auth="yahooOauth">
+      <urls>
+        <url>http://web31801.mail.mud.yahoo.com/ws/mail/v1.1/jsonrpc</url>
+      </urls>
+      <inputs>
+	  	    <key id="resetMessengerUnseen" type='xs:boolean' paramType='variable' default='true' />
+	   </inputs>
+	  <execute><![CDATA[
+	
+			//Intialization
+        	var content = '';
+        	var params = '[{'+ 
+						'"resetMessengerUnseen":'+ '"' +  inputs['resetMessengerUnseen'] +'"' + 
+			  '}]'
+	
+	    	content = '{' +
+                   '"method":' + '"ListFolders"' + ',' +
+                   '"params":' + params + '}';
+                   
+		var returned_response = request.post(content).response;
+		
+		response.object = returned_response;
+
+      ]]></execute>
+   </i:select>
+  </i:bindings>
+</i:table>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+	<meta>
+		<author>Sebastian Spier</author>
+		<description>Socrata API for World Bank Finance data</description>
+	  <documentationURL>http://opendata.socrata.com/api/docs/views</documentationURL>
+		<sampleQuery>SELECT * FROM {table} WHERE view_id="ax5s-vav5"</sampleQuery>		
+	</meta>
+	<bindings>
+		<select itemPath="response.view" produces="XML">
+		<!-- <select itemPath="json" produces="JSON"> -->
+			<urls>
+				<url env="all">https://finances.worldbank.org/api/views/{view_id}/rows.xml</url>
+			</urls>
+			<inputs>
+				<key id="view_id" type="xs:string" paramType="path" required="true" />
+				
+				<!-- app_token is not required but recommended: http://dev.socrata.com/authentication -->
+				<key id="app_token" type="xs:string" paramType="query" />
+			</inputs>
+    </select>
+  </bindings>
+</table>

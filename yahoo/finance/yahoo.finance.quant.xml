@@ -140,7 +140,7 @@
 	"select * from html " +
 	"where url=@url and " +
 	"xpath='" +
-	"//div[@id = \"yfi_quote_summary_data\"]/table/tr/td/big/strong/span'",
+	"//div[@id = \"yfi_quote_summary_data\"]/table/tr/td'",
 	{url:url});
 
     var url = "http://finance.yahoo.com/q/hp?s=" + symbol + "&a=" + month + "&b=" + day + "&c=" + (year-1) + "&d=" + month + "&e=" + day + "&f=" + (year-1) + "&g=d";
@@ -177,7 +177,7 @@
        year += 1900;
     
     if (month == 0){
-    	var lastMonth = 12;
+    	var lastMonth = 11;
     	var lastYear = year-1;
     }
     else {
@@ -205,12 +205,11 @@
  
  
     if (lastMonth == 0){
-    	var twoMonthsAgo = 12;
+    	var twoMonthsAgo = 11;
     	var lastYear = year-1;
     }
     else {
     	var twoMonthsAgo = lastMonth - 1;
-    	var lastYear = year;
     }
     
     if (twoMonthsAgo == 0 || twoMonthsAgo == 2 || twoMonthsAgo == 4 || twoMonthsAgo == 6 || twoMonthsAgo == 7 || twoMonthsAgo == 9 || twoMonthsAgo == 11){
@@ -232,12 +231,11 @@
 	{url:url});
 
     if (twoMonthsAgo == 0){
-    	var threeMonthsAgo = 12;
+    	var threeMonthsAgo = 11;
     	var lastYear = year-1;
     }
     else {
     	var threeMonthsAgo = twoMonthsAgo - 1;
-    	var lastYear = year;
     }
     
     if (threeMonthsAgo == 0 || threeMonthsAgo == 2 || threeMonthsAgo == 4 || threeMonthsAgo == 6 || threeMonthsAgo == 7 || threeMonthsAgo == 9 || threeMonthsAgo == 11){
@@ -260,12 +258,11 @@
 	{url:url});    
 
     if (threeMonthsAgo == 0){
-    	var fourMonthsAgo = 12;
+    	var fourMonthsAgo = 11;
     	var lastYear = year-1;
     }
     else {
     	var fourMonthsAgo = threeMonthsAgo - 1;
-    	var lastYear = year;
     }
     
     if (fourMonthsAgo == 0 || fourMonthsAgo == 2 || fourMonthsAgo == 4 || fourMonthsAgo == 6 || fourMonthsAgo == 7 || fourMonthsAgo == 9 || fourMonthsAgo == 11){

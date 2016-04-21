@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sencha, Inc.</author>
+  </meta>
+  <bindings>
+    <select itemPath="summary" produces="XML">
+      <urls>
+        <url></url>
+      </urls>
+      <inputs>
+          <key id='bill' type='xs:string' paramType='query' required="true" />
+          <key id='session' type='xs:string' paramType='query' required="false" />          
+      </inputs>
+      <execute><![CDATA[
+        session = session || 111;
+        var url = "http://www.govtrack.us/data/us/" + session + "/bills.summary/" + bill + ".summary.xml";
+        response.object = y.rest(url).get().response;
+]]></execute>
+    </select> 
+  </bindings>
+</table>

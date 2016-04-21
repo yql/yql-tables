@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Erik Eldridge</author>
+		<sampleQuery>select * from oauth where uri='http://example.com' and consumerKey='asd123' and consumerSecret='zxc456' and callbackUri='http://example.com';</sampleQuery>
+		<documentationURL>http://wiki.github.com/erikeldridge/yql-oauth-support/</documentationURL>
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<inputs>
+				<key id="method" type="xs:string" paramType="variable" default="GET"/>
+				<key id="uri" type="xs:string" paramType="variable" required="true"/>
+				<key id="consumerKey" type="xs:string" paramType="variable" required="true"/>
+				<key id="consumerSecret" type="xs:string" paramType="variable" required="true"/>
+				<key id="callbackUri" type="xs:string" paramType="variable"/>
+				<key id="token" type="xs:string" paramType="variable"/>
+				<key id="tokenSecret" type="xs:string" paramType="variable"/>
+				<key id="verifier" type="xs:string" paramType="variable"/>
+			</inputs>
+			<execute><![CDATA[
+			
+			y.include( "http://github.com/yql/yql-tables/raw/master/oauth/oauth.utils.js" );
+			
+			//http://github.com/kvz/phpjs/raw/master/functions/url/parse_url.js
+			y.include( 'store://O5Xv7RpWAXsyE9TqBe4NCk' );
+			 
+			var parsed = parse_url( uri );
+			var accessor = {
+				consumerKey: consumerKey,
+				consumerSecret: consumerSecret,
+				token: "",
+				tokenSecret: "",
+				realm: parsed['scheme'] + '://' + parsed['host']
+			};
+			
+			if ( token ) {
+				accessor.token = token;
+			}
+			if ( tokenSecret ) {
+				accessor.tokenSecret = tokenSecret;
+			}
+			
+			var args = {
+				method: method,
+				accessor: accessor,
+				parameters:[]
+			};
+			
+			if ( callbackUri ) {
+				args.parameters.push( [ "oauth_callback", callbackUri ] );
+			}
+			if ( verifier ) {
+				args.parameters.push( [ "oauth_verifier", verifier ] );
+			}
+			
+			var request = y.rest( uri );
+			response.object = sendRequest( args );
+      ]]></execute>
+		</select>
+	</bindings>
+</table>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <bindings>
+    <select itemPath="" produces="XML">
+      <urls>
+        <url/>    
+      </urls>
+      <inputs>
+        <key id="veeziAccessToken" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+  var req = y.rest("http://api.us.veezi.com/v1/websession");
+  req.header("Accept", "");
+  req.header("VeeziAccessToken", veeziAccessToken);
+  response.object = req.get().response;
+      ]]>
+      </execute>
+    </select>   
+  </bindings>
+</table>

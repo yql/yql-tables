@@ -14,8 +14,8 @@
             <inputs>
                 <key id="login" type="xs:string" paramType="query" required="true"/>
                 <key id="apiKey" type="xs:string" paramType="query" required="true"/>
-	            <key id="x_login" type="xs:string" paramType="query" required="true"/>
-	            <key id="x_password" type="xs:string" paramType="query" required="true"/>
+	            	<key id="x_login" type="xs:string" paramType="query" required="true"/>
+	            	<key id="x_password" type="xs:string" paramType="query" required="true"/>
                 <key id="format" type="xs:string" paramType="query" default="xml"/>
             </inputs>
         </select>

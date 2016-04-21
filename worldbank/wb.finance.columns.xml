@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
+    <meta>
+        <author>Sebastian Spier</author>
+        <description>Socrata API for World Bank Finance data</description>
+        <documentationURL>http://opendata.socrata.com/api/docs/views</documentationURL>
+        <sampleQuery>SELECT * FROM {table} WHERE view_id="sfv5-tf7p"</sampleQuery>
+        <sampleQuery>SELECT * FROM {table} WHERE view_id="sfv5-tf7p" AND column_id="2730792"</sampleQuery>			
+    </meta>
+    <bindings>
+        <!-- get the data of a specific column within the view -->
+        <select itemPath="response.viewColumn" produces="XML">
+            <urls>
+                <url env="all">https://finances.worldbank.org/api/views/{view_id}/columns/{column_id}.xml</url>
+            </urls>
+            <inputs>
+                <key id="view_id" type="xs:string" paramType="path" required="true" />
+                <key id="column_id" type="xs:string" paramType="path" required="true" />
+
+                <!-- app_token is not required but recommended: http://dev.socrata.com/authentication -->
+                <key id="app_token" type="xs:string" paramType="query" />
+            </inputs>
+        </select>
+
+        <!-- get the data for one view -->
+        <select itemPath="viewColumn" produces="XML">
+            <urls>
+                <url env="all">https://finances.worldbank.org/api/views/{view_id}/columns.xml</url>
+            </urls>
+            <inputs>
+                <key id="view_id" type="xs:string" paramType="path" required="true" />
+
+                <!-- app_token is not required but recommended: http://dev.socrata.com/authentication -->
+                <key id="app_token" type="xs:string" paramType="query" />
+            </inputs>
+        </select>
+
+    </bindings>
+</table>

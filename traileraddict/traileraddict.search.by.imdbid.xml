@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Dan Perovich</author>
+        <documentationURL>http://www.traileraddict.com/trailerapi</documentationURL>
+        <description>Retrieves trailer information for a movie given its IMDB ID (without the leading 'tt')</description>
+        <sampleQuery>select * from {table} where imdb = "1403865" and count = "1" and width = "650"</sampleQuery> 
+    </meta>
+    <bindings>
+        <select itemPath="trailers.trailer" produces="XML">
+            <urls>
+                <url env="all">http://api.traileraddict.com/?</url>
+            </urls>
+            <inputs>
+                <key id="width" type="xs:string" paramType="query" required="false" />
+                <key id="count" type="xs:string" paramType="query" required="false" />
+                <key id="imdb" type="xs:string" paramType="query" required="true" />
+            </inputs>
+        </select>
+    </bindings>
+</table>
+

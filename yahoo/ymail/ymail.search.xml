@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i:table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="user">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <i:bindings>
+   <i:select itemPath="json.result" produces="XML" auth="yahooOauth">
+      <urls>
+        <url>http://mail.yahooapis.com/ws/mail/v1.1/jsonrpc</url>
+      </urls>
+	  <inputs>
+  	    <key id="query" type='xs:string' paramType='variable' />
+	    <key id="fr" type='xs:string' paramType='variable' />
+   	    <key id="to" type='xs:string' paramType='variable' />
+ 	    <key id="subject" type='xs:string' paramType='variable'/>
+	    <key id="cc" type='xs:string' paramType='variable' />
+  	    <key id="bcc" type='xs:string' paramType='variable' />
+	    <key id="flags" type='xs:string' paramType='variable' />
+	    <key id="attachment" type='xs:string' paramType='variable' />
+	    <key id="attachmentcount" type='xs:string' paramType='variable' />
+	    <key id="attachmenttype" type='xs:string' paramType='variable' />
+	    <key id="attachmentname" type='xs:string' paramType='variable' />
+	    <key id="attachmentlanguages" type='xs:string' paramType='variable' />
+	  <!--  <key id="searchtype" type='xs:string' paramType='variable' default='whole' /> -->
+	    <key id="startMid" type='xs:string' paramType='variable' default='0' />
+	    <key id="numMid" type='xs:string' paramType='variable' default='50' />
+	    <key id="startInfo" type='xs:string' paramType='variable' default='0' />
+	    <key id="numInfo" type='xs:string' paramType='variable' default='50' />
+	    <key id="fid" type='xs:string' paramType='variable' />
+	    <key id="mid" type='xs:string' paramType='variable' />
+	    <key id="pid" type='xs:string' paramType='variable' />
+	    <key id="search" type='xs:string' paramType='variable' />
+	    <key id="sortKey" type='xs:string' paramType='variable' default='date' />
+	    <key id="sortOrder" type='xs:string' paramType='variable' default='up' />
+		<key id="refineBy" type='xs:string' paramType='variable' default='all' />
+	   </inputs>
+	   <execute><![CDATA[
+		
+		y.include("http://github.com/ramiyer/ymailtables/raw/master/messages.js");
+		y.include("http://github.com/ramiyer/ymailtables/raw/master/json2.js");
+	
+		var ymwsMethod = "SearchMessages";
+        //Intialization
+        var content = '';
+        var params = '[{}]';
+
+		var content = searchMessagesReq();
+		y.log(content);	
+		
+		var returned_response = request.post(content).response;
+		response.object = returned_response;
+		
+	 ]]></execute>
+    </i:select>
+  </i:bindings>
+</i:table>

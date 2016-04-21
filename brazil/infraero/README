@@ -1,0 +1,6 @@
+USAGE
+
+1. Go to the YQL console at http://developer.yahoo.com/yql/console
+
+2. Paste the following in there: 
+use 'http://github.com/pvalente/yql-tables/raw/master/infraero/infraero.arrivals.xml' as infraero; select * from infraero where airport='CGH' and flight='09541'

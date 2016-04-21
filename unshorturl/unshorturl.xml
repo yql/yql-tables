@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+  <meta>  
+    <author>Sway Deng</author>
+    <documentationURL>http://unshort.me/api.html</documentationURL>  
+    <sampleQuery>select * from {table} where url="http://tinyurl.com/cn3m36"</sampleQuery>  
+  </meta>  
+  <bindings>  
+   <select itemPath="" produces="XML">
+      <urls>
+        <url>http://api.unshort.me/</url>
+      </urls>  
+      <inputs> 
+        <key id="r" as="url" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>  
+  </bindings>  
+</table>

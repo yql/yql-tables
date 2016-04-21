@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+      <author>
+         Manuel Darveau
+        </author>
+      <description>
+         Yahoo Finance Quotes - Symbol Lookup
+        </description>
+      <sampleQuery>
+         SELECT * FROM {table} WHERE desc='apple'
+        </sampleQuery>
+   </meta>
+   <bindings>
+      <select itemPath="" produces="XML">
+         <urls>
+            <url>
+            </url>
+         </urls>
+         <inputs>
+            <key id="desc" type="xs:string" paramType="variable" required="true" />
+            <key id="resultOffset" type="xs:string" paramType="variable" required="false" />
+         </inputs>
+         <execute>
+                <![CDATA[
+         var stockOnly = true;
+         var usAndCanadaOnly = true;
+
+			// Queue the query
+			var queryURL = "http://finance.yahoo.com/lookup/stocks?s=" + desc;
+			var queryHasExpiration = false;
+
+         // Only stocks?
+         if ( stockOnly ){
+            queryURL += "&t=S";
+         }
+         
+         // Only US and Canada markets?
+         if ( usAndCanadaOnly ){
+            queryURL += "&m=US";
+         }
+         
+         // Add offset
+         if( resultOffset != null ){
+            queryURL += "&b=" + resultOffset;
+         }
+
+			var yQuery = y.rest( queryURL );	
+			var data = yQuery.accept( "text/html" ).get().response;
+	
+         var paginationQuery = y.xpath( data, "//div[@id='pagination']" );
+         if( !paginationQuery ){
+            var paginationString = paginationQuery.p.text();
+            var page = /Showing (\d*) - (\d*) of (\d*)/.exec(paginationString)
+            var firstResultIndex = page[1];
+            var lastResultIndex = page[2];
+            var totalResults = page[3];
+         } else {
+            var resultCount = y.xpath( data, "//table[@summary='YFT_SL_TABLE_SUMMARY']/tbody/tr" );
+            var firstResultIndex = 1;
+            var lastResultIndex = resultCount.length();
+            var totalResults = lastResultIndex;
+         }
+         
+			var lookupResult = <lookup desc={desc} firstResultIndex={firstResultIndex} lastResultIndex={lastResultIndex} totalResults={totalResults}></lookup>;
+
+         var lookupQuery = y.xpath( data, "//table[@class='yui-dt']/tbody/tr" );
+         for each ( var tr in lookupQuery )
+         {
+            var symbol = tr.td[0].a.text();
+            var name = tr.td[1].p.text();
+            var lastTrade = parseFloat( tr.td[2].p.text() );
+            var changeDir = tr.td[2].attribute('class').toString();
+            var type = tr.td[3].p.text();
+            var industryCategory = tr.td[4].a.text();
+            var exchange = tr.td[5].p.text();
+
+            var resultElem = <result></result>;            
+            resultElem.appendChild(<symbol>{symbol}</symbol>);
+            resultElem.appendChild(<name>{name}</name>);
+            
+            if( changeDir == '' ) {
+               resultElem.appendChild(<lastTrade>{lastTrade}</lastTrade>);
+            } else if ( changeDir.toLowerCase() == "ticker_down" ) {
+               resultElem.appendChild(<lastTrade dir="down">{lastTrade}</lastTrade>);
+            } else if ( changeDir.toLowerCase() == "ticker_up" ) {
+               resultElem.appendChild(<lastTrade dir="up">{lastTrade}</lastTrade>);
+            }
+            
+            resultElem.appendChild(<type>{type}</type>);
+            resultElem.appendChild(<industryCategory>{industryCategory}</industryCategory>);
+            resultElem.appendChild(<exchange>{exchange}</exchange>);
+            
+            lookupResult.appendChild( resultElem );
+         }
+
+			response.object = lookupResult;
+					 
+		]]>
+         </execute>
+      </select>
+   </bindings>
+</table>

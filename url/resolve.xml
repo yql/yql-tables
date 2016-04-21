@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where href="/yql/console" and base="http://developer.yahoo.com/"</sampleQuery>
+    <description>Resolve URIs to a full URL</description>
+    <author>Peter Cowburn</author>
+  </meta>
+  <bindings>
+    <select itemPath="result" produces="JSON">
+      <inputs>
+        <key id="href" type="xs:string" paramType="variable" required="true"/>
+        <key id="base" type="xs:string" paramType="variable" required="true"/>
+      </inputs>
+      <execute><![CDATA[
+y.include("store://github.com/uris");
+response.object = {url: (new URI(base)).resolveReference(href).toString(), href: href, base: base};
+]]></execute>
+    </select>
+  </bindings>
+</table>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Mixcrate LLC.</author>
+    <documentationURL>http://www.mixcrate.com/</documentationURL>
+    <sampleQuery>select * from {table} where id="116710"</sampleQuery>
+    <description>Queries Mixcrate DB</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://www.mixcrate.com/api/audio?id={id}</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

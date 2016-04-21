@@ -4,7 +4,7 @@
         <author>robust (antiabuse@mail.ru)</author>
       <description>The MovieDB v3 API => person's credits</description>
         <documentationURL>http://docs.themoviedb.apiary.io/#people</documentationURL>
-        <sampleQuery>select * from {table}</sampleQuery>
+        <sampleQuery>select * from {table} where id="190" and api_key="yourapikey"</sampleQuery>
         <apiKeyURL></apiKeyURL>
     </meta>
     <bindings>

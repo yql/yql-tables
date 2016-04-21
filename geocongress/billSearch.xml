@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Sencha, Inc.</author>
+  </meta>
+  <bindings>
+    <select itemPath="search-results.result" produces="XML">
+      <urls>
+        <url>http://www.govtrack.us/congress/billsearch_api.xpd</url>
+      </urls>
+      <inputs>
+          <key id='sponsor' type='xs:string' paramType='query' required="true" />
+      </inputs>
+    </select> 
+  </bindings>
+</table>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Alex Dergachev (@dergachev)</author>
+        <description>Returns Microsoft Datamarket access token required for Bing Translator.</description>
+        <documentationURL>http://msdn.microsoft.com/en-us/library/hh454950.aspx</documentationURL>
+        <sampleQuery>select * from {table} where client_id="" and client_secret=""</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>         
+            <inputs>
+                <key id="client_id" type="xs:string" paramType="query" required="true" />
+              	<key id="client_secret" type="xs:string" paramType="query" required="true" />
+              	<key id="scope" type="xs:string" paramType="query" default="http://api.microsofttranslator.com" />
+              	<key id="grant_type" type="xs:string" paramType="query" default="client_credentials" />
+            </inputs>
+            <execute>
+                <![CDATA[
+              		var params = "client_id="+client_id+"&client_secret="+client_secret+"&scope="+scope+"&grant_type="+grant_type;
+              		             
+              		var resp = y.rest("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13/").accept("application/json").contentType("application/x-www-form-urlencoded").post(params).response;                      
+              		response.object = resp;
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>

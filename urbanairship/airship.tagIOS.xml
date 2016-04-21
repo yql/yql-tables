@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>John Greene</author>
+    <documentationURL>https://docs.urbanairship.com/display/DOCS/Server%3A+Tag+API</documentationURL>
+    <sampleQuery>select * from iostag</sampleQuery>
+    <sampleQuery>select * from iostag where device_token='4fff21f1e529328bafe1f0baa2bc411109c89ac6247b47eb2fecd4cd9ef73cd6'</sampleQuery>
+    <sampleQuery>insert into iostag (tag) values ('elephant')</sampleQuery>
+    <sampleQuery>insert into iostag (tag, device_token) values ("meep", "4fff21f1e529328bafe1f0baa2bc411109c89ac6247b47eb2fecd4cd9ef73cd6")</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="json.tags" produces="XML">
+      <urls>
+        <url>https://go.urbanairship.com/api/tags/</url>
+      </urls>
+      <inputs>
+        <key id="appKey" paramType="query" required="true" type="xs:string"/>
+        <key id="masterSecret" paramType="query" required="true" type="xs:string"/>
+        <key id="device_token" paramType="query" required="false" type="xs:string"/>
+      </inputs>
+      <execute>
+        <![CDATA[
+          var authheader = "Basic " + y.crypto.encodeBase64(appKey + ":" + masterSecret);
+          request.header("Authorization",authheader);
+          var url = request.url;
+          if(device_token != null) {
+            url = "https://go.urbanairship.com/api/device_tokens/" + device_token + "/tags/";
+          }
+          response.object = y.rest(url).header("Authorization",authheader).accept('application/json').get().response;
+        ]]>
+      </execute>
+    </select>
+    <insert itemPath="" produces="XML">
+      <urls>
+        <url>https://go.urbanairship.com/api/tags/{tag}</url>
+      </urls>
+      <inputs>
+        <key id="appKey" paramType="query" required="true" type="xs:string"/>
+        <key id="masterSecret" paramType="query" required="true" type="xs:string"/>
+        <key id="device_token" paramType="query" required="false" type="xs:string"/>
+        <key id="tag" paramType="query" required="true" type="xs:string"/>
+      </inputs>
+      <execute>
+        <![CDATA[
+          var authheader = "Basic " + y.crypto.encodeBase64(appKey + ":" + masterSecret);
+          var url = request.url;
+          if(device_token != null) {
+            url = "https://go.urbanairship.com/api/device_tokens/" + device_token + "/tags/" + tag;
+          }
+          myRequest = y.rest(url);
+          myRequest.header("Authorization", authheader);
+          results = myRequest.put('').response;
+          response.object = {results: results};
+        ]]>
+      </execute>
+    </insert>
+  </bindings>
+</table>

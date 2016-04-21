@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ryan Lane</author>
+    <sampleQuery>select * from {table} where title='article name'</sampleQuery>
+    <!--<documentationURL></documentationURL>-->
+    <description>Retrieve content of Wikipedia Articles by title</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>http://www.troynotes.com/r/vadd/ezineparse.php</url>
+      </urls>
+      <inputs>
+        <key id="cache" type="xs:string" paramType="query" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

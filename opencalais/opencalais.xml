@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <sampleQuery>select * from {table} where url=x;</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+<!--         <url>http://api.opencalais.com/enlighten/rest/?licenseID={licenseID}&content={content}&paramXML={paramXML}</url> -->
+	<url></url>
+      </urls>
+      <inputs>        
+        <key id='licenseID' type='xs:string' paramType='variable' required="true" />
+		<key id='content' type='xs:string' paramType='variable' required="true" />
+		<key id='paramsXML' type='xs:string' paramType='variable' required="false" />
+		<key id='url' type='xs:string' paramType='variable' required="false" />
+      </inputs>
+      <execute><![CDATA[          
+         // Your javascript goes here. 
+         // We will run it on our servers
+		 //y.include('http://json.org/json2.js');
+		 
+		 function resolveReferences(flatdb) {
+      for (var element in flatdb)
+            for (var attribute in flatdb[element]) {
+                  var val = flatdb[element][attribute];
+                  if (typeof val == 'string')
+                        if (flatdb[val] != null)
+                              flatdb[element][attribute] = flatdb[val];
+            }
+}
+function createHierarchy(flatdb) {
+      var hdb = new Object();
+      for (var element in flatdb) {
+            var elementType = flatdb[element]._type;
+            var elementGroup = flatdb[element]._typeGroup;
+            if (elementGroup != null) {
+                  if (hdb[elementGroup] == null)
+                        hdb[elementGroup] = new Object();
+                  if (elementType != null) {
+                        if (hdb[elementGroup][elementType] == null)
+                              hdb[elementGroup][elementType] = new Object();
+                        hdb[elementGroup][elementType][element] = flatdb[element];
+                  } else
+                        hdb[elementGroup][element] = flatdb[element];
+            } else
+                  hdb[element] = flatdb[element];
+      }
+      return hdb;
+}
+
+		 //if (!paramsXML)
+		  paramsXML=<c:params xmlns:c="http://s.opencalais.com/1/pred/" 
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <c:processingDirectives 
+        c:contentType="text/xml" 
+        c:outputFormat="application/json">
+    </c:processingDirectives>
+    <c:userDirectives />
+    <c:externalMetadata />
+        </c:params>;
+		 //q = y.rest('http://api.opencalais.com/enlighten/rest/').accept('text/plain').query('licenseID', licenseID).query('content', content).query('paramsXML', paramsXML).get().response;
+		 data=<licenseID>{licenseID}</licenseID>
+		 <content>{content}</content>;
+		 data+=paramsXML;
+		 q = y.rest('http://api.opencalais.com/enlighten/rest/').accept('text/plain').contentType('application/xml').post(data).response;
+		 y.log(q);
+		 
+		 var jsonObject = null;
+var simpleJSON = null;
+
+try
+{
+    //jsonObject = JSON.parse(q);
+	jsonObject = y.xmlToJson(q);  
+	//y.log(jsonObject);
+        resolveReferences(jsonObject.json);
+    simpleJSON = createHierarchy(jsonObject.json);
+    // start using simpleJSON
+}
+catch    (e)
+{
+         // handle errors
+}   
+
+	     response.object = simpleJSON;
+      ]]></execute>    
+    </select>  
+  </bindings>
+</table> 

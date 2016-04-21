@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+ <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+   <meta>  
+   <author>Paul Daniel (hapdaniel)</author>
+   <description>Get the rest query response headers for a specified URL
+     Not tested really, e.g. can be charset issues.
+   </description>
+     <sampleQuery>select * from {table} where url="www.myfeed.rss"</sampleQuery>  
+   </meta>  
+   <bindings>  
+   <select itemPath="" produces="XML">  
+     <urls>  
+       <url></url>  
+     </urls>  
+     <inputs>  
+       <key id="url" type="xs:string" paramType="variable" required="true" />  
+     </inputs>  
+       <execute><![CDATA[
+					var myData = y.rest(url).get().headers;
+					y.log(myData);
+					response.object = myData
+
+
+       ]]></execute>  
+     </select>  
+   </bindings>  
+ </table>

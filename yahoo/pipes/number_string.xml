@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+ <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+   <meta>  
+   <author>Paul Daniel (hapdaniel)</author>
+   <description> Given a count n produces a string of nnumber 0,1,2,n-1</description>
+     <sampleQuery>select * from {table} where count="10"</sampleQuery>  
+   </meta>  
+   <bindings>  
+   <select itemPath="" produces="XML">  
+     <urls>  
+       <url></url>  
+     </urls>  
+     <inputs>  
+       <key id="count" type="xs:string" paramType="variable" required="true" />    
+     </inputs>  
+       <execute><![CDATA[ 
+    
+              var nums = "";
+                            
+               for (var i = 0; i < count; i++){
+               nums += i + ",";
+              }
+              nums = nums.substr(0,nums.length - 1);
+              response.object = nums;
+			  
+       ]]></execute>  
+     </select>  
+   </bindings>  
+ </table>

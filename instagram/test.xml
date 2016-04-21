@@ -1,0 +1,73 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>SolDevv</author>
+    <documentationURL>http://instagram.com/developer/endpoints/users/#get_users_media_recent_with_client_id</documentationURL>
+    <description>Gets a user's recent media</description>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222"</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222" AND max_id="47499838839"</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222" AND count="100"</sampleQuery>
+    <sampleQuery>SELECT * FROM {table} WHERE client_id="client id" AND user_id="123344222" AND max_id="47499838839" AND count="100"</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>https://api.instagram.com/v1/users/{user_id}/media/recent?client_id={client_id}</url>
+      </urls>
+      <inputs>
+      <key id="client_id" as="client_id" type="xs:string" paramType="path" required="true" />
+      <key id="count" as="count" type="xs:string" paramType="query" required="false" default="20" />
+      <key id="max_id" as="max_id" type="xs:string" paramType="query" required="false" />
+      <key id="user_id" as="user_id" type="xs:string" paramType="path" required="true" />
+      </inputs> 
+       <execute>
+        <![CDATA[ 
+        var obj = request.contentType('application/json').get(); 
+          var month = new Array();
+          month[0] = "January";
+          month[1] = "February";
+          month[2] = "March";
+          month[3] = "April";
+          month[4] = "May";
+          month[5] = "June";
+          month[6] = "July";
+          month[7] = "August";
+          month[8] = "September";
+          month[9] = "October";
+          month[10] = "November";
+          month[11] = "December";
+          
+          var weekday = new Array(7);
+          weekday[0]=  "Sunday";
+          weekday[1] = "Monday";
+          weekday[2] = "Tuesday";
+          weekday[3] = "Wednesday";
+          weekday[4] = "Thursday";
+          weekday[5] = "Friday";
+          weekday[6] = "Saturday";
+          
+          function format__(date)
+          { 
+	           var d_ = new Date(parseInt(date) * 1000);
+	          return d_;
+          }
+          
+         for each(im in obj.response.data)
+         {
+             
+            var d = format__(parseInt(im.created_time) + 3600); 
+            im.appendChild(<create_month>{month[d.getMonth()]}</create_month>);
+            im.appendChild(<create_day>{weekday[d.getDay()]}</create_day>);
+            im.appendChild(<create_date>{d.getDate()}</create_date>);
+            im.appendChild(<create_year>{d.getFullYear()}</create_year>);
+            im.appendChild(<create_fulltime>{d.toString()}</create_fulltime>);
+         }
+         
+         
+        //for(var i=0; i<datalength; i++) obj.response.data[i].day = "Monday";
+        response.object =  obj.response;
+         //result.response.query.results.json.data.addednode = "Author Ayodeji";
+        ]]>
+      </execute>
+    </select> 
+  </bindings> 
+</table>

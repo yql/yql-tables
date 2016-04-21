@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Rasmus Lerdorf</author>
+    <author>Reid Burke</author>
+    <documentationURL>http://developer.etsy.com/docs</documentationURL>
+    <description>Etsy.com Listings API</description>
+    <sampleQuery>select * from etsy.listings where color='AAAA22' and api_key=123456789</sampleQuery>
+  </meta>
+  <bindings>
+
+   <select itemPath="json.results" produces="JSON">
+      <urls>
+        <url env="all">http://openapi.etsy.com/v2/public/listings/{listing_id}</url>
+      </urls>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        <key id="listing_id" type="xs:number" paramType="path" required="true"/>
+      </inputs>
+   </select>
+
+   <!-- Keeps compatibility with v1 table by using as attributes. -->
+
+   <select itemPath="json.results" produces="JSON">
+      <urls>
+        <url env="all">http://openapi.etsy.com/v2/public/listings/active</url>
+      </urls>
+      <paging model="offset">
+        <start id="offset" default="0" />
+        <pagesize id="limit" max="50" />
+        <total default="10" />
+      </paging>
+      <inputs>
+        <key id="api_key" type="xs:string" paramType="query" required="true" />
+        <key id="keywords" as="search_terms" type="xs:string" paramType="query" />
+        <key id="color" type="xs:string" paramType="query" />
+        <key id="color_accuracy" as="wiggle" type="xs:number" paramType="query" />
+        <key id="category" type="xs:string" paramType="query" />
+        <key id="includes" type="xs:string" paramType="query" />
+        <key id="min_price" type="xs:float" paramType="query" />
+        <key id="max_price" type="xs:float" paramType="query" />
+        <key id="search_description" type="xs:boolean" paramType="query" />
+        <key id="sort_order" type="xs:string" paramType="query" />
+        <key id="sort_on" type="xs:string" paramType="query" />
+      </inputs>
+   </select>
+
+  </bindings>
+</table>

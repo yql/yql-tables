@@ -38,9 +38,9 @@
         encodedUrl = encodedUrl.replace('a=1','a=' + getMonth(startDate));
         encodedUrl = encodedUrl.replace('b=1','b=' + getDay(startDate));
         encodedUrl = encodedUrl.replace('c=2010','c=' + getYear(startDate));
-        encodedUrl = encodedUrl.replace('d=1','d=' + getMonth(endDate));
-        encodedUrl = encodedUrl.replace('e=30','e=' + getDay(endDate));
-        encodedUrl = encodedUrl.replace('f=2010','f=' + getYear(endDate));
+        encodedUrl = encodedUrl.replace('d=12','d=' + getMonth(endDate));
+        encodedUrl = encodedUrl.replace('e=31','e=' + getDay(endDate));
+        encodedUrl = encodedUrl.replace('f=2014','f=' + getYear(endDate));
         
         var results = y.query("select * from csv(0,1) where url=@url",{url:encodedUrl});
         var colNames=''; 

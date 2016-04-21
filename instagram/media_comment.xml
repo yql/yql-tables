@@ -1,0 +1,26 @@
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>SolDevv</author>
+    <documentationURL>http://instagram.com/developer/endpoints/users/#get_users_media_recent_with_client_id</documentationURL>
+    <description>Gets a user's recent media</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+        <url>https://api.instagram.com/v1/media/{media_id}/likes</url>
+      </urls>
+      <inputs>
+      <key id="access_token" as="access_token" type="xs:string" paramType="query" required="true" />
+      <key id="comment_text" as="comment_text" type="xs:string" paramType="variable" required="false" default="20" />
+      <key id="media_id" as="media_id" type="xs:string" paramType="path" required="true" /> 
+      </inputs> 
+       <execute>
+        <![CDATA[ 
+        var content = "text="+comment_text;
+        var obj = request.contentType('application/json').post(content);  
+        response.object =  obj.response;  
+        ]]>
+      </execute>
+    </select> 
+  </bindings> 
+</table>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Ryan Lane</author>
+    <sampleQuery>select * from {table} where query='article name' and b=5</sampleQuery>
+    <!--<documentationURL></documentationURL>-->
+    <description>Retrieve content of Wikipedia Articles by title</description>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="JSON">
+      <urls>
+		<url>http://api.search.live.net/json.aspx?Appid=6535673B312DA6517D714D5138246103923E6823&amp;query=site:ezinearticles.com+{query}&amp;sources=web&amp;web.count=5&amp;web.offset={b}</url>
+      </urls>
+      <inputs>
+        <key id="query" type="xs:string" paramType="path" required="true"/>
+        <key id="b" type="xs:string" paramType="path" required="true"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>

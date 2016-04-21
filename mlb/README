@@ -1,0 +1,5 @@
+These files create tables in Yahoo's new YQL to allow you to query part of MLB Gameday's massive Pitchf/x database. MLB makes this data freely available, but no API is provided. These tables form an easily-queriable interface to MLB's data.
+
+If you're logged into Yahoo, you can try em out by loading up the YQL console with the mlb.gd2.env file:
+
+http://developer.yahoo.com/yql/console/?env=http://github.com/indiemaps/js-hit-locations-map/raw/master/yql/mlb.gd2.env

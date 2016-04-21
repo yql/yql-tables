@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>  
+    <author>Adrian Short</author>  
+    <documentationURL>http://projects.adrianshort.co.uk/yql/</documentationURL>  
+    <sampleQuery>select * from {table} WHERE id=187</sampleQuery>  
+  </meta>
+  <bindings>  
+    <select itemPath="member" produces="XML">
+      <urls>
+        <url env="all">http://openlylocal.com/members/{id}.xml</url>
+      </urls>
+      <inputs>
+        <key id="id" type="xs:string" paramType="path" required="true" />
+      </inputs>
+    </select>
+  </bindings>
+</table>

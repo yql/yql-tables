@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>Kees Prins</author>
+    <documentationURL>http://data.worldbank.org/developers/api-overview</documentationURL>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <bindings>
+    <select itemPath="indicators.indicator" produces="XML">
+      <urls>
+        <url>http://open.worldbank.org/countries/{iso2Code}/indicators</url>
+      </urls>
+		<paging model="page">  
+		  <start id="page" default="1" />  
+		  <pagesize id="per_page" max="50" />  
+		  <total default="50" />  
+		</paging> 	  
+		<inputs>
+			<key id='iso2Code' type='xs:string' paramType='path' required="true" />
+		</inputs>	
+    </select>
+  </bindings>
+</table>

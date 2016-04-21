@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+   <meta>
+      <author>Zach Graves (zachg@yahoo-inc.com)</author>
+      <description>Gowalla API</description>
+      <documentationURL>http://gowalla.com/api/explorer#/spots/18568</documentationURL>
+      <documentationURL>http://gowalla.com/api/explorer#/spots?lat=30.2697&amp;lng=-97.7494&amp;radius=50</documentationURL>
+      <sampleQuery>select * from {table} where id=18568 and api_key='fa574894bddc43aa96c556eb457b4009';</sampleQuery>
+      <sampleQuery>select * from {table} where lat='30.2697' and lng='-97.7494' and radius='50' and api_key='fa574894bddc43aa96c556eb457b4009';</sampleQuery>
+   </meta>
+   <bindings>
+      <select itemPath="json" produces="JSON">
+         <urls>
+            <url>http://api.gowalla.com/spots/{id}</url>
+         </urls>
+         <inputs>
+            <key id="id" type="xs:string" paramType="path" required="true"/>
+            <key id="api_key" type="xs:string" paramType="variable" required="true"/>
+         </inputs>
+         <execute>
+            <![CDATA[
+response.object = request.header('X-Gowalla-API-Key', api_key).header('Accept', 'application/json').get().response;
+            ]]>
+         </execute>
+      </select>
+      <select itemPath="json" produces="JSON">
+         <urls>
+            <url>http://api.gowalla.com/spots</url>
+         </urls>
+         <inputs>
+            <key id="lat" type="xs:string" paramType="query" required="true"/>
+            <key id="lng" type="xs:string" paramType="query" required="true"/>
+            <key id="radius" type="xs:string" paramType="query"/>
+            <key id="api_key" type="xs:string" paramType="variable" required="true"/>
+         </inputs>
+         <execute>
+            <![CDATA[
+response.object = request.header('X-Gowalla-API-Key', api_key).header('Accept', 'application/json').get().response;
+            ]]>
+         </execute>
+      </select>
+   </bindings>
+</table>

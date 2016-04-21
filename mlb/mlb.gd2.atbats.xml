@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Zachary Forest Johnson</author>
+		<documentationURL>http://indiemaps.com/js-hit-locations-map/</documentationURL>
+		<sampleQuery>select * from mlb.gd2.atbats where gid="gid_2009_07_16_milmlb_cinmlb_1"</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="result.atbat" produces="JSON">
+			<urls>
+				<url>http://gd2.mlb.com/components/game/mlb/</url>
+			</urls>
+
+			<inputs>
+				<key id="gid" type="xs:string" paramType="variable" required="true" />
+			</inputs>
+
+			<execute>
+				<![CDATA[				
+				var year 	= gid.substr( 4, 4 );
+				var month 	= gid.substr( 9, 2 );
+				var day 	= gid.substr( 12, 2 );
+				
+				var baseURI = "http://gd2.mlb.com/components/game/mlb/";
+        		var datePart = "year_" + year + "/month_" + month + "/day_" + day;
+        		var gameURL = baseURI + datePart + "/" + gid + "/";
+        		var inningHitXML = y.rest( gameURL + "inning/inning_hit.xml" ).get().response;
+        		
+        		// this will be the response object
+        		var atbatsObject = { 'atbat' : new Array() };
+        		
+        		var inningNumber = 1;
+        		while ( true ) {
+        			var inningURL = gameURL + "inning/inning_" + inningNumber + ".xml";
+        			var inningXML = y.rest( inningURL ).get().response;
+        			
+        			if ( !inningXML ) {
+        				break;
+        			}
+        			        			
+        			for each ( var atbat in inningXML..atbat ) {
+        				var hip = inningHitXML..hip.( @[ 'inning' ] == inningNumber && @[ 'batter' ] == atbat.@batter && @[ 'pitcher' ] == atbat.@pitcher );
+        				
+        				var atBat = {
+        					'inning'	: inningNumber,
+        					'num'		: parseInt( atbat.@num.toString() ),
+        					'ball'		: parseInt( atbat.@b.toString() ),
+        					'strike'	: parseInt( atbat.@s.toString() ),
+        					'outs'		: parseInt( atbat.@o.toString() ),
+        					'batter'	: atbat.@batter.toString(),
+        					'pitcher'	: atbat.@pitcher.toString(),
+        					'stand'		: atbat.@stand.toString(),
+        					'des'		: atbat.@des.toString(),
+        					'event'		: atbat.@event.toString(),
+        					'hit_x'		: parseFloat( hip.@x.toString() ),
+        					'hit_y'		: parseFloat( hip.@y.toString() ),
+        					'hit_type'	: hip.@type.toString()
+        				};
+        				
+        				atbatsObject.atbat.push( atBat );
+        			}
+        			inningNumber += 1;
+        		}
+        		
+        		response.object = atbatsObject;
+        			
+      			]]>
+			</execute>
+		</select>
+	</bindings>
+</table>

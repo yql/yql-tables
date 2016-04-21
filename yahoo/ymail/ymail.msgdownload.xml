@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<i:table xmlns:i="http://query.yahooapis.com/v1/schema/internalTable.xsd" xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="user">
+  <meta>
+    <author>Yahoo! Inc.</author>
+    <sampleQuery>select * from {table}</sampleQuery>
+  </meta>
+  <i:bindings>
+   <i:select itemPath="json.result" produces="JSON" auth="yahooOauth">
+      <urls>
+        <url>http://mail.yahooapis.com/ya/download</url>
+      </urls>
+      <inputs>
+	  	    <key id="fid" type='xs:string' paramType='variable' required='true' />
+			<key id="mid" type='xs:string' paramType='variable' required='true' />
+			<key id="pid" type='xs:string' paramType='variable' required='true' />
+			<key id="clean" type='xs:string' paramType='variable' default='0' />
+	  </inputs>
+	  <execute><![CDATA[
+		
+		y.include("http://github.com/ramiyer/ymailtables/raw/master/messages.js");
+
+	
+        //Intialization
+        var content = '';
+
+        params = '[{' +
+		           	 '"fid" : "' + fid + '",' +
+		           	 '"mid" : "' + mid + '",' +
+		        	 '"pid" : "' + pid + '",' +
+					 '"clean" : "' +inputs['clean']+ '"' +
+				'}]';
+	
+	
+        content = '{' +
+                   	'"method":' + '"DownloadAttachment",' +
+                   	'"params":' + params + 
+				  '}';
+                   
+		y.log(content);
+		y.log(request.toString());
+		var returned_response = request.post(content).response;
+		y.log(returned_response);
+		
+		response.object = returned_response;
+
+      ]]></execute>
+   </i:select>
+  </i:bindings>
+</i:table>

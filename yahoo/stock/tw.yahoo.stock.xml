@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table
+    xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <sampleQuery>
+          select * from {table}
+</sampleQuery>
+        <description> 	股市 > 財經新聞 > 重大要聞 </description>
+        <author>Yongle Wu</author>
+    </meta>
+    <bindings>
+        <select itemPath="results" produces="JSON" >
+            <urls>
+                <url>https://tw.stock.yahoo.com/news_list/url/d/e/N1.html</url>
+            </urls>
+            <inputs>
+                <key id='url' type='xs:string' paramType='variable' required = 'true' default = 'https://tw.stock.yahoo.com/news_list/url/d/e/N1.html' />
+                <key id='xpath' type='xs:string' paramType='variable' default = '//a[@class = "mbody" and @href!="#"]|//span[@class="t1"]'/>
+            </inputs>
+            <execute>
+                <![CDATA[
+response.object = y.query("select * from html where url = @url and xpath = @xpath",{url:url,xpath:xpath}).results;
+]]>
+            </execute>
+        </select>
+    </bindings>
+</table>

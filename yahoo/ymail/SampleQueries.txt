@@ -1,0 +1,26 @@
+
+Few Sample Queries
+
+For get message 
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.messages.xml' as messages; use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.msgcontent.xml' as displaymessages; select * from displaymessages where (fid,mids) in (select folder.folderInfo.fid,mid from messages where query="Yahoo" limit 1)
+
+
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.msgcontent.xml' as m;use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.messages.xml' as mm; select * from m where (fid,mids) in (select folder.folderInfo.fid,mid from mm where query='attachmenttype:jpeg' limit 1)
+
+
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.msgcontent.xml' as m;use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.messages.xml' as mm; select message.mid from m where (fid,mids) in (select folder.folderInfo.fid,mid from mm where query='attachmenttype:jpeg' limit 1)
+
+For searching mailbox via 
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.messages.xml' as mm; select * from mm where query="Yahoo" 
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.messages.xml' as mm; select mid from mm where query="Yahoo" and numMid='2' 
+
+Also note for searching with from="someid" you need to have the request as - This is to handle Yql dependency on 'from' which is also used for specifying table name
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.messages.xml' as mm; select mid from mm where fr="someid@yahoo.com"; 
+
+
+For ListMessages call - Listing 5 messages in your mailbox
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.messages.xml' as mm; select * from mm where numMid='5';
+
+
+For folders 
+use 'http://github.com/ramiyer/ymailtables/raw/master/ymail.folders.xml' as ymail.folders; select * from ymail.folders;

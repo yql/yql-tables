@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="false">
+	<meta>
+		<author>Dan Harvey (dan.harvey@mendeley.com)</author>
+		<description>Mendeley OAPI</description>
+		<documentationURL>http://www.mendeley.com/oapi/methods/</documentationURL>
+		<sampleQuery>select * from {table}</sampleQuery>
+	</meta>
+	<bindings>
+		<select itemPath="json" produces="JSON">
+			<urls>
+				<url>http://www.mendeley.com/oapi/documents/categories/</url>
+			</urls>
+			<inputs>
+				<key id="consumer_key" type="xs:string" paramType="query" default="d838ad2d90ed761088d24eaf310c1b6804c1ceacc" private="true"/>
+			</inputs>
+		</select>
+	</bindings>
+</table>

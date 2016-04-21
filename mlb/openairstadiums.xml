@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stadiums>
+
+	<stadium id="2680" name="PETCO Park" venue_w_chan_loc="USCA0982" location="San Diego, CA">
+		<geo>
+			<home_plate latitude="32.707030" longitude="-117.157045" />
+			<orientation degrees="1" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.36</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+		
+	<stadium id="19" name="Coors Field" venue_w_chan_loc="USCO0105" location="Denver, CO">
+		<geo>
+			<home_plate latitude="39.75571" longitude="-104.994184" />
+			<orientation degrees="-4.3" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.199</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="32" name="Miller Park" venue_w_chan_loc="USWI0455" location="Milwaukee, WI">
+		<geo>
+			<home_plate latitude="43.028414" longitude="-87.971618" />
+			<orientation degrees="-129" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.186</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="2395" name="AT&amp;T Park" venue_w_chan_loc="USCA0987" location="San Francisco, CA">
+		<geo>
+			<home_plate latitude="37.778362" longitude="-122.389892" />
+			<orientation degrees="-84.75" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.26</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="3313" name="Yankee Stadium" venue_w_chan_loc="USNY0172" location="Bronx, NY">
+		<geo>
+			<home_plate latitude="40.826938" longitude="-73.928389" />
+			<orientation degrees="-88" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.194</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>	
+	
+	<stadium id="17" name="Wrigley Field" venue_w_chan_loc="USIL0225" location="Chicago, IL">
+		<geo>
+			<home_plate latitude="41.947912" longitude="-87.655815" />
+			<orientation degrees="-38" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.222</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="2" name="Oriole Park at Camden Yards" venue_w_chan_loc="USMD0018" location="Baltimore, MD">
+		<geo>
+			<home_plate latitude="39.283509" longitude="-76.621908" />
+			<orientation degrees="-31.5" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.17</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="4" name="U.S. Cellular Field" venue_w_chan_loc="USIL0225" location="Chicago, IL">
+		<geo>
+			<home_plate latitude="41.830181" longitude="-87.634227" />
+			<orientation degrees="-128" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="128" y="210" />
+				<pixels_per_foot>2.326</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="2602" name="Great American Ball Park" venue_w_chan_loc="USOH0188" location="Cincinnati, OH">
+		<geo>
+			<home_plate latitude="39.097482" longitude="-84.507028" />
+			<orientation degrees="-124.5" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.27</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="2889" name="Busch Stadium" venue_w_chan_loc="USMO0787" location="St. Louis, MO">
+		<geo>
+			<home_plate latitude="38.622399" longitude="-90.193379" />
+			<orientation degrees="-63" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.247</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="680" name="Safeco Field" venue_w_chan_loc="USWA0395" location="Seattle, WA">
+		<geo>
+			<home_plate latitude="47.591116" longitude="-122.332886" />
+			<orientation degrees="-50" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.25</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="10" name="Oakland Coliseum" venue_w_chan_loc="USCA0791" location="Oakland, CA">
+		<geo>
+			<home_plate latitude="37.751325" longitude="-122.201055" />
+			<orientation degrees="-55" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="127" y="198" />
+				<pixels_per_foot>2.25</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="22" name="Dodger Stadium" venue_w_chan_loc="USCA0638" location="Los Angeles, CA">
+		<geo>
+			<home_plate latitude="34.073433" longitude="-118.240206" />
+			<orientation degrees="-27" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.225</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="1" name="Angel Stadium of Anaheim" venue_w_chan_loc="USCA0027" location="Anaheim, CA">
+		<geo>
+			<home_plate latitude="33.799914" longitude="-117.883149" />
+			<orientation degrees="-44" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.36</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="13" name="Rangers Ballpark in Arlington" venue_w_chan_loc="USTX0045" location="Arlington, TX">
+		<geo>
+			<home_plate latitude="32.751587" longitude="-97.082999" />
+			<orientation degrees="-135" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="129" y="210" />
+				<pixels_per_foot>2.186</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="5" name="Progressive Field" venue_w_chan_loc="USOH0195" location="Cleveland, OH">
+		<geo>
+			<home_plate latitude="41.495555" longitude="-81.685303" />
+			<orientation degrees="1.5" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.166</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="31" name="PNC Park" venue_w_chan_loc="USPA1290" location="Pittsburgh, PA">
+		<geo>
+			<home_plate latitude="40.447066" longitude="-80.006182" />
+			<orientation degrees="-117" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="127" y="210" />
+				<pixels_per_foot>2.25</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="2394" name="Comerica Park" venue_w_chan_loc="USMI0229" location="Detroit, MI">
+		<geo>
+			<home_plate latitude="42.339447" longitude="-83.048949" />
+			<orientation degrees="-151" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="127" y="210" />
+				<pixels_per_foot>2.246</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="7" name="Kauffman Stadium" venue_w_chan_loc="USMO0460" location="Kansas City, MO">
+		<geo>
+			<home_plate latitude="39.051173" longitude="-94.480835" />
+			<orientation degrees="-45" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.28</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="3309" name="Nationals Park" venue_w_chan_loc="USDC0001" location="Washington, DC">
+		<geo>
+			<home_plate latitude="38.872555" longitude="-77.007725" />
+			<orientation degrees="-29" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="128" y="210" />
+				<pixels_per_foot>2.23</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="3" name="Fenway Park" venue_w_chan_loc="USMA0046" location="Boston, MA">
+		<geo>
+			<home_plate latitude="42.346233" longitude="-71.097767" />
+			<orientation degrees="-45" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="125" y="210" />
+				<pixels_per_foot>2.17</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="16" name="Turner Field" venue_w_chan_loc="USGA0028" location="Atlanta, GA">
+		<geo>
+			<home_plate latitude="33.735064" longitude="-84.389743" />
+			<orientation degrees="-28.5" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="130" y="210" />
+				<pixels_per_foot>2.25</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+	<stadium id="2681" name="Citizens Bank Park" venue_w_chan_loc="USPA1276" location="Philadelphia, PA">
+		<geo>
+			<home_plate latitude="39.905574" longitude="-75.166597" />
+			<orientation degrees="-9" />
+		</geo>
+		
+		<gameday>
+			<year2009>
+				<home_plate x="127" y="207" />
+				<pixels_per_foot>2.36</pixels_per_foot>
+			</year2009>
+		</gameday>
+	</stadium>
+	
+</stadiums>

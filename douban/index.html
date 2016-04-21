@@ -1,0 +1,52 @@
+﻿<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>首页</title>
+<style>
+body{margin:0;padding:0;}
+#container{width:600px;margin:0 auto;background:#E9F4E9;}
+#hd h1{color:#494949;font-size:25px;font-weight:bold;line-height:1.1;margin:0;padding:0 0 15px;}
+#saying-txt-box{margin:8px;}
+#saying-txt{border:1px solid #CCCCCC;height:72px;overflow:auto;vertical-align:bottom;width:100%;}
+#saying-submit-box{margin:8px;}
+#saying-submit{border:1px solid #005500;height:32px;overflow:auto;vertical-align:bottom;width:100%;}
+</style>
+</head>
+<body>
+<div id="container">
+	<div id="hd">
+		<h1>豆瓣广播</h1>
+	</div>
+	<div id="db-saying-form-box">
+		<form id="db-saying-form">
+			<div id="saying-txt-box">
+				<textarea id="saying-txt"></textarea>
+			</div>
+			<div id="saying-submit-box">
+				<input id="saying-submit" type="button" value=" 我说 " />
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js"></script>
+<script>
+var api_key = '0995b7113482fff31cc125339d88ffd9',
+	api_secret = '441cbd9231518ada',
+	oauth_consumer_key = api_key,
+	oauth_consumer_secret = api_secret;
+
+YUI().use('node', 'yql', function(Y) {
+    var doubanUserId = localStorage.getItem('douban_user_id'),
+		accessToken = localStorage.getItem('douban_access_token'),	
+		accessTokenSecret = localStorage.getItem('douban_access_token_secret');
+	if(accessToken && accessTokenSecret){
+		var submitBtn = Y.one('#saying-submit');
+		submitBtn.on('click',function(){
+			alert(Y.one('#saying-txt').get('value'));
+		});
+	}
+});
+</script>
+</body>
+</html>

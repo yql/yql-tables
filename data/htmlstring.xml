@@ -13,9 +13,12 @@
     <inputs>
       <key id="url" type="xs:string" paramType="variable" required="true" />
       <key id="xpath" type="xs:string" paramType="variable" required="false" />
+      <key id="charset" type="xs:string" paramType="variable" required="false" />
     </inputs>
       <execute><![CDATA[
-var results = y.rest(url).accept('text/html').get().response;
+var urlRest = y.rest(url);
+if (charset) urlRest.forceCharset(charset);
+var results = urlRest.accept('text/html').get().response;
 if (xpath) results = y.xpath(results, xpath);
 response.object = results.toXMLString();
       ]]></execute>

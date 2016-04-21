@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Harshad Sabne, https://github.com/harshadsabne</author>
+        <description>Get math.stackexchange answers from question id</description>
+        <sampleQuery>select * from {table} where id=21199;</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="JSON">
+            <urls>
+                <url>http://api.stackexchange.com/2.2/questions/{id}/answers</url>
+            </urls>
+            <inputs>
+                <key id="" type="xs:integer" paramType="path" required="true"/>
+                <key id="order"  type="xs:string" paramType="query" required="false" default="desc"/>
+				        <key id="sort"   type="xs:string" paramType="query" required="false" default="activity"/>
+				        <key id="site"   type="xs:string" paramType="query" required="false" default="math"/>
+				        <key id="filter" type="xs:string" paramType="query" required="false" default="withbody"/>
+            </inputs>
+        </select>
+     </bindings>
+</table>
