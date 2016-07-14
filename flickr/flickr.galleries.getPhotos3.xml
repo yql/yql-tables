@@ -4,7 +4,7 @@
     <author>绣财</author>
     <author>Iker Azpeitia</author>
     <documentationURL>https://www.flickr.com/services/api/flickr.galleries.getPhotos.html</documentationURL>
-    <sampleQuery>select * from {table} where gallery_id="21419642-72157622726567018"</sampleQuery>
+    <sampleQuery>select * from {table} where gallery_id="21419642-72157622726567018" </sampleQuery>
   </meta>
   <bindings>
    <select itemPath="rsp.photos" produces="XML">
@@ -19,7 +19,7 @@
       <inputs>
         <key id="gallery_id" type="xs:string" paramType="query" />
         <key id="extras" type="xs:string" paramType="query" />
-        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="you are key"/>
+        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="2c894ba749b4137b6f7ab127c86890ec"/>
       </inputs>
     </select>
   </bindings>
