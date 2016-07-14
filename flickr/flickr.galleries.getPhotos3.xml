@@ -2,6 +2,7 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
   <meta>
     <author>绣财</author>
+    <author>Iker Azpeitia</author>
     <documentationURL>https://www.flickr.com/services/api/flickr.galleries.getPhotos.html</documentationURL>
     <sampleQuery>select * from {table} where gallery_id="21419642-72157622726567018"</sampleQuery>
   </meta>
