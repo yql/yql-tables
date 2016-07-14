@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+    <author>绣财</author>
+    <documentationURL>https://www.flickr.com/services/api/flickr.galleries.getPhotos.html</documentationURL>
+    <sampleQuery>select * from {table} where gallery_id="21419642-72157622726567018"</sampleQuery>
+  </meta>
+  <bindings>
+   <select itemPath="rsp.photos" produces="XML">
+      <urls>
+        <url env="all">http://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos</url>
+      </urls>
+      <paging model="page">
+        <start id="page" default="1" />
+        <pagesize id="per_page" max="500" />
+        <total default="10" />
+      </paging>      
+      <inputs>
+        <key id="gallery_id" type="xs:string" paramType="query" />
+        <key id="extras" type="xs:string" paramType="query" />
+        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="you are key"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
