@@ -9,7 +9,7 @@
   <bindings>
    <select itemPath="rsp.photos" produces="XML">
       <urls>
-        <url env="all">http://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos</url>
+        <url env="all">https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos</url>
       </urls>
       <paging model="page">
         <start id="page" default="1" />
