@@ -7,6 +7,11 @@
   </meta>
   <bindings>
     <select itemPath="json" produces="JSON">
+      <paging model="page">
+        <pagesize id="per_page" max="100" />
+        <start id="page" default="1" />
+        <total default="30" />
+      </paging>
       <urls>
         <url>https://api.github.com/users/{id}/repos</url>
       </urls>
