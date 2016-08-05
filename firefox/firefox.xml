@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author></author>
+        <description></description>
+        <documentationURL></documentationURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>y.use("store://Z2vJXblOESd8WbBPO5WRNc","safari");
+            </urls>
+            <inputs>
+                <key id="" type="xs:string" paramType="query" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    
+                ]]>y.env("store://UzHDaaaX94DUKBBu2kNR7O"); //Untitled
+            </execute>
+        </select>
+     </bindings>
+</table>y.include("store://iHwWCJIUhGybagFpPKFxms"); //something
