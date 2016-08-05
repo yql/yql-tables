@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+	<meta>
+		<author>Yohann TANGUY</author>
+		<description>Parse RinkHockey results</description>
+		<sampleQuery>
+			<![CDATA[ 
+select * from {table} where
+idchamp= 
+and journee=""]]>
+		</sampleQuery>
+
+	</meta>
+	<bindings>
+		<select itemPath="" produces="XML">
+			<urls>  
+				<url/>  
+			</urls> 
+			<inputs>
+				<key id="idchamp" type="xs:string" required="true" paramType="variable"/>
+				<key id="journee" type="xs:string" required="true" paramType="variable"/>
+			</inputs>
+			<execute>
+				<![CDATA[ 
+   
+		url = 'http://stat.ffrs.asso.fr/stats/match/resultats/'+idchamp;
+		postdata='numero=ALL';
+   var query = null; 
+
+      query = y.query("select * from htmlpost where url=@url postdata=@postdata and xpath=\""//select/option | //tr"\"",{url:url,postdata:postdata}); 
+  
+   response.object = query.results; 
+      ]]>
+			</execute>  
+		</select> 
+	</bindings>
+</table>

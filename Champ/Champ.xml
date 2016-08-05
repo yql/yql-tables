@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" securityLevel="any">
+	<meta>
+		<author>Yohann TANGUY</author>
+		<description>Parse RinkHockey results</description>
+		<documentationURL>http://developer.ap.org/docs</documentationURL>
+<sampleQuery>SELECT * FROM {table}</sampleQuery>
+          
+	</meta>
+    
+	<bindings>
+		<select itemPath="" produces="JSON">
+			<urls>  
+				<url/>  
+			</urls> 
+			<inputs>
+        			<key id='idchamp' type='xs:string' paramType='variable' required="true" />
+                    <key id='journee' type='xs:string' paramType='variable' required="false" />
+			</inputs>
+			<execute>
+<![CDATA[ 
+
+                          var j=0;
+                          var numMatch=0;
+                          var results = <root></root>;
+                          
+                   function createMatch(id,jId,eqA,eqB,scA,scB,daMatch) {
+                        
+                          var ma=<match/>;
+                          ma.id=id;
+                          ma.journee_id=jId;
+                          ma.dateMatch=daMatch;
+                          ma.equipea=eqA.toString();
+                          ma.equipeb=eqB.toString();
+                         
+                          ma.scorea=parseInt(scA.toString().replace(/\s/g,''));	
+                          ma.scoreb=parseInt(scB.toString().replace(/\s/g,''));
+                           if (isNaN(ma.scorea)) ma.scorea='';
+                          if (isNaN(ma.scoreb)) ma.scoreb='';
+             			if (scA=='') ma.scorea=' ';
+                          if (scB=='') ma.scoreb=' ';
+                          return ma;
+                          }
+
+                          
+                   function parseJournee(table,idJourEnCours) {
+                         
+                          
+                          idjour = table.tr.td[1].*;
+                         
+				var journee = <journee></journee>;
+                          
+                           if ((idjour-idJourEnCours)==0) {
+                        
+                           	journee.@["selected"]="true";
+                          }
+                          	
+                          	journee.@["id"]=table.tr.td[1].*;
+                          	journee.@["nom"]='Journée ' + table.tr.td[1].*;
+                         	journee.@["datejour"]=table.caption;
+                          
+                          	var countJournee = results..journee.(@id == idjour.toString()).length();
+ 			 
+                       
+                          	for each(var m in table.tr){
+                          		if (m.td.*[1]!=undefined) {                       
+                                  		var domScore= m.td[5]..*.text();      
+                          
+                                  		var score= domScore.split('-');
+                                  		if (countJournee==0) {
+                                          		journee.matchs+=createMatch(numMatch++,journee.@["id"],m.td[4]..*.text(),m.td[6]..*.text(),score[0],score[1],journee.@["datejour"]);
+                                  	} else {
+                          			results..journee.(@id == idjour.toString()).matchs+=createMatch(numMatch++,journee.@["id"],m.td[4]..*.text(),m.td[6]..*.text(),score[0],score[1],journee.@["datejour"]);
+                          		}
+						}
+                           
+							
+                          		}
+                       	  if (countJournee==0) {
+                          
+                          	results.root+=journee;
+
+  			  } 
+
+                          }
+                       var url = 'http://stat.ffrs.asso.fr/stats/match/resultats/'+idchamp;
+		
+   		var query = null; 
+                          
+                          
+                          query = y.query("select * from html where url=@url and xpath='//option[@selected]'",{url:url}); 
+                          
+                          journeeEnCours=query.results.option.@["value"];
+							if (journee== undefined) {journee=journeeEnCours;};
+                        
+                          
+                          query = y.query("select * from htmlpost where url=@url and postdata='numero="+journee+"' and xpath='//table[@class=\"resultat\"]'",{url:url}); 
+                      
+
+                          
+   		
+		
+                        
+                        
+                         
+   response.object = query.results.postresult.table;
+                          
+      ]]>
+			</execute>  
+		</select> 
+	</bindings>
+</table>
