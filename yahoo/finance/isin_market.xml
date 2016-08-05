@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+<sampleQuery>
+select * from {table} where symbol in ("US9843321061") and market = 'MIL'
+</sampleQuery>
+</meta>
+<bindings>
+<select itemPath="" produces="XML">
+<urls><url></url></urls>
+<inputs>
+<key id='isin' type='xs:string' paramType='variable' required='true' />
+<key id='market' type='xs:string' paramType='variable' required='true' />
+</inputs>
+<execute><![CDATA[
+// pad string with leading char
+String.prototype.pad = function (padchar, padlen) {
+s = this
+while (s.length < padlen) {
+s = padchar + s;
+}
+return s;
+}
+String.prototype.trim = function () {
+var str = this.replace(/^\s\s*/, ''),
+ws = /\s/,
+i = str.length;
+while (ws.test(str.charAt(--i)));
+return str.slice(0, i + 1);
+}
+
+var url = "http://finance.yahoo.com/lookup?s="+isin;
+var isinQuery = y.query(
+"select * from html " +
+"where url=@url and " +
+"xpath='" +
+"//table[@summary = \"YFT_SL_TABLE_SUMMARY\"]/tbody/tr[./td[contains(.,\"" + market +"\")]]/td[1]/a'" ,
+{url:url});
+
+var stock = <stock Isin={isin}></stock>;
+var results = isinQuery.results;
+stock.symbol = results.a.text().toString().trim();
+response.object = stock
+
+]]></execute>
+</select>
+</bindings>
+</table>
