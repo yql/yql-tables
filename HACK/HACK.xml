@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author></author>
+        <description></description>
+        <documentationURL></documentationURL>
+        <sampleQuery>insert into HACK (name,number) values ("new tweet from YQL", "twitterusernamehere")</sampleQuery> 
+      	<sampleQuery>select * from HACK</sampleQuery> 
+        <apiKeyURL></apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="name" type="xs:string" required="false" paramType="variable" />
+              	<key id="number" type="xs:string" required="false" paramType="variable" />
+            </inputs>
+        </select>
+      	<insert itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <value id="name" type="xs:string" required="true" paramType="variable" />
+              	<value id="number" type="xs:string" required="true" paramType="variable" />
+            </inputs>
+        </insert>
+     </bindings>
+</table>
