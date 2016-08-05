@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  <author>Johannes Charman</author>
+  <description>JSON pages that need post data (this table is based on htmlpost by Christian Heilmann)</description>
+  <sampleQuery>select * from {table} where url='http://search.twitter.com/search.json' and postdata="q=test"</sampleQuery>
+  <documentationURL></documentationURL>
+  </meta>
+  <bindings>
+    <select itemPath="" produces="XML">
+    <urls>
+      <url>{url}</url>
+    </urls>
+    <inputs>
+      <key id="url" type="xs:string" required="true" paramType="variable"/>
+      <key id="postdata" type="xs:string" required="true" paramType="variable"/>
+      
+    </inputs>
+    <execute>
+    <![CDATA[
+      var myRequest = y.rest(url);  
+      var data = myRequest.accept('application/json').
+                 contentType("application/json").
+                 post(postdata).response;
+     
+      response.object = <postresult>{data}</postresult>;
+    ]]>
+    </execute>
+  </select>    
+  </bindings>
+</table>
