@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+  <meta>
+  	<author>Robert Sedovšek</author>
+    <sampleQuery>select * from {table} where url="http://www.flickr.com/groups/naconf"</sampleQuery>
+    <description>Returns a group NSID, given the url to a group's page or photo pool.</description>
+    <documentationURL>http://www.flickr.com/services/api/flickr.urls.lookupGroup.html</documentationURL>
+  </meta>
+  <bindings>
+   <select itemPath="" produces="XML">
+      <urls>
+        <url env="all">http://api.flickr.com/services/rest/?method=flickr.urls.lookupGroup</url>
+      </urls>
+      <inputs>
+        <key id="url" type="xs:string" paramType="query" />
+        <key id="api_key" type="xs:string" const="true" private="true" paramType="query" default="99e6ff5dc72b286c254e35207eb7e0ad"/>
+      </inputs>
+    </select>
+  </bindings>
+</table>
