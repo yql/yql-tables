@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author></author>
+        <description></description>
+        <documentationURL></documentationURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>         
+            <inputs>
+                <key id="" type="xs:string" paramType="query" />
+            </inputs>
+            <execute>
+                <![CDATA[
+              		response.object = y.pipe("de44c37a43709abfbd346835eb12c310").results;
+              		for (var i = 0; i < response.object.length; i++)
+  				response.object[i] = response.object[i][2];
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
