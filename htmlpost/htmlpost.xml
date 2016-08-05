@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<meta>
+<author>Econ Data Testing</author>
+<description>HTML pages that need post data</description>
+<sampleQuery><![CDATA[
+select * from {table} where
+url='http://chinese.tradingfloor.com/index.php/calendar/calendardata'
+and postdata="date=".$date."&country=".$country and xpath="/html/body/h2[4] | /html/body/table[4]"]]></sampleQuery>
+<documentationURL></documentationURL>
+</meta>
+<bindings>
+<select itemPath="" pollingFrequencySeconds="3600" produces="XML">
+<urls>
+<url>{url}</url>
+</urls>
+<inputs>
+<key id="url" type="xs:string" required="true" paramType="variable"/>
+<key id="postdata" type="xs:string" required="true" paramType="variable"/>
+<key id="xpath" type="xs:string" required="true" paramType="variable"/>
+</inputs>
+<execute>
+<![CDATA[
+var myRequest = y.rest(url).timeout(60000);
+var data = myRequest.accept('text/html').contentType("application/x-www-form-urlencoded").post(postdata).response;
+var xdata = y.xpath(data,xpath);
+response.object = <postresult>{xdata}</postresult>;
+response.maxAge = 60000;
+]]>
+</execute>
+</select>
+</bindings>
+</table>
