@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table https="true" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author></author>
+        <documentationURL></documentationURL>
+        <description></description>
+        <sampleQuery></sampleQuery>
+        <apiKeyURL></apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="" as="" type="" paramType="variable" required="true"/>
+            </inputs>
+        </select>
+        <insert itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="" type="" paramType="variable" required="true"/>
+            </inputs>
+            <execute>
+                <![CDATA[
+                    
+                ]]>
+            </execute>
+        </insert>
+    </bindings>
+</table>
