@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author></author>
+        <description></description>
+        <documentationURL></documentationURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+        <apiKeyURL></apiKeyURL>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url></url>
+            </urls>
+            <inputs>
+                <key id="numberOfEmp" type="xs:string" paramType="query" />
+              <key id="presentEmployees" type="xs:string" paramType="query"  />
+              <key id="absentEmployees" type="xs:string" paramType="query" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    select * from mites
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
