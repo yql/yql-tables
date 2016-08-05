@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author></author>
+        <description></description>
+        <documentationURL></documentationURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="tf.sampletable" produces="XML">
+            <urls>
+                <url>http://68.169.62.214:8080/RESTfulExample/json/product/get</url>
+            </urls>
+            <inputs>
+                <key id="" type="xs:string" paramType="query" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    
+                ]]>
+            </execute>
+        </select>
+      <select itemPath="json.tf.sampletable" produces="JSON">  
+      <urls>  
+         <url>http://68.169.62.214:8080/RESTfulExample/json/product/get</url>     </urls>  
+      <inputs>  
+        <key id="artist" type="xs:string" paramType="path" />  
+      </inputs>  
+    </select>  
+     </bindings>
+</table>
