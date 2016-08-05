@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng"
+    yahoo:count="10" yahoo:created="2012-12-06T20:33:18Z" yahoo:lang="en-US">
+    <diagnostics>
+        <publiclyCallable>true</publiclyCallable>
+        <user-time>20</user-time>
+        <service-time>9</service-time>
+        <build-version>32561</build-version>
+    </diagnostics> 
+    <results>
+        <Result id="25757358" xmlns="urn:yahoo:lcl">
+            <Title>Mega Video</Title>
+            <Address>9425 Telegraph Rd, #119</Address>
+            <City>Pico Rivera</City>
+            <State>CA</State>
+            <Phone>(562) 949-1926</Phone>
+            <Latitude>33.9554</Latitude>
+            <Longitude>-118.101747</Longitude>
+            <Rating>
+                <AverageRating>NaN</AverageRating>
+                <TotalRatings>0</TotalRatings>
+                <TotalReviews>0</TotalReviews>
+                <LastReviewDate/>
+                <LastReviewIntro/>
+            </Rating>
+            <Distance>2.02</Distance>
+            <Url>http://local.yahoo.com/info-25757358-mega-video-pico-rivera</Url>
+            <ClickUrl>http://local.yahoo.com/info-25757358-mega-video-pico-rivera</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-25757358-mega-video-pico-rivera?viewtype=map</MapUrl>
+            <BusinessUrl>http://megavideo.com/</BusinessUrl>
+            <BusinessClickUrl>http://megavideo.com/</BusinessClickUrl>
+            <Categories>
+                <Category id="96935380">Video Games</Category>
+                <Category id="96936834">Home Theater</Category>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+        <Result id="26939035" xmlns="urn:yahoo:lcl">
+            <Title>Gamestop</Title>
+            <Address>8764 Washington Blvd</Address>
+            <City>Pico Rivera</City>
+            <State>CA</State>
+            <Phone>(562) 222-1800</Phone>
+            <Latitude>33.984493</Latitude>
+            <Longitude>-118.099898</Longitude>
+            <Rating>
+                <AverageRating>2.5</AverageRating>
+                <TotalRatings>2</TotalRatings>
+                <TotalReviews>2</TotalReviews>
+                <LastReviewDate>1260795092</LastReviewDate>
+                <LastReviewIntro>answered the phone on the 3rd ring. friendly service.</LastReviewIntro>
+            </Rating>
+            <Distance>0.70</Distance>
+            <Url>http://local.yahoo.com/info-26939035-gamestop-pico-rivera</Url>
+            <ClickUrl>http://local.yahoo.com/info-26939035-gamestop-pico-rivera</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-26939035-gamestop-pico-rivera?viewtype=map</MapUrl>
+            <BusinessUrl>http://www.gamestop.com/</BusinessUrl>
+            <BusinessClickUrl>http://www.gamestop.com/</BusinessClickUrl>
+            <Categories>
+                <Category id="96928635">Electronics Retailers</Category>
+                <Category id="96935380">Video Games</Category>
+                <Category id="96928602">Other Arts &amp; Crafts</Category>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+                <Category id="96935377">Toys</Category>
+            </Categories>
+        </Result>
+        <Result id="20562409" xmlns="urn:yahoo:lcl">
+            <Title>Blockbuster Video</Title>
+            <Address>5006 Rosemead Blvd</Address>
+            <City>Pico Rivera</City>
+            <State>CA</State>
+            <Phone>(562) 948-4282</Phone>
+            <Latitude>34.001019</Latitude>
+            <Longitude>-118.083725</Longitude>
+            <Rating>
+                <AverageRating>NaN</AverageRating>
+                <TotalRatings>0</TotalRatings>
+                <TotalReviews>0</TotalReviews>
+                <LastReviewDate/>
+                <LastReviewIntro/>
+            </Rating>
+            <Distance>1.32</Distance>
+            <Url>http://local.yahoo.com/info-20562409-blockbuster-video-pico-rivera</Url>
+            <ClickUrl>http://local.yahoo.com/info-20562409-blockbuster-video-pico-rivera</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-20562409-blockbuster-video-pico-rivera?viewtype=map</MapUrl>
+            <BusinessUrl>http://www.blockbuster.com/</BusinessUrl>
+            <BusinessClickUrl>http://www.blockbuster.com/</BusinessClickUrl>
+            <Categories>
+                <Category id="96937293">Media Consulting &amp; Production</Category>
+                <Category id="96936834">Home Theater</Category>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+        <Result id="20511724" xmlns="urn:yahoo:lcl">
+            <Title>Gamestop</Title>
+            <Address>4435 Slauson Ave</Address>
+            <City>Maywood</City>
+            <State>CA</State>
+            <Phone>(323) 771-9961</Phone>
+            <Latitude>33.987386</Latitude>
+            <Longitude>-118.186653</Longitude>
+            <Rating>
+                <AverageRating>3</AverageRating>
+                <TotalRatings>8</TotalRatings>
+                <TotalReviews>8</TotalReviews>
+                <LastReviewDate>1231086765</LastReviewDate>
+                <LastReviewIntro>not bad it has good service and good games as well....</LastReviewIntro>
+            </Rating>
+            <Distance>5.67</Distance>
+            <Url>http://local.yahoo.com/info-20511724-gamestop-maywood</Url>
+            <ClickUrl>http://local.yahoo.com/info-20511724-gamestop-maywood</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-20511724-gamestop-maywood?viewtype=map</MapUrl>
+            <BusinessUrl>http://www.gamestop.com/</BusinessUrl>
+            <BusinessClickUrl>http://www.gamestop.com/</BusinessClickUrl>
+            <Categories>
+                <Category id="96928635">Electronics Retailers</Category>
+                <Category id="96935380">Video Games</Category>
+                <Category id="96928602">Other Arts &amp; Crafts</Category>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+                <Category id="96935377">Toys</Category>
+            </Categories>
+        </Result>
+        <Result id="20533677" xmlns="urn:yahoo:lcl">
+            <Title>Top 40 Video</Title>
+            <Address>5416 Norwalk Blvd, Ste B4</Address>
+            <City>Whittier</City>
+            <State>CA</State>
+            <Phone>(562) 908-1708</Phone>
+            <Latitude>33.998307</Latitude>
+            <Longitude>-118.055572</Longitude>
+            <Rating>
+                <AverageRating>NaN</AverageRating>
+                <TotalRatings>0</TotalRatings>
+                <TotalReviews>0</TotalReviews>
+                <LastReviewDate/>
+                <LastReviewIntro/>
+            </Rating>
+            <Distance>2.16</Distance>
+            <Url>http://local.yahoo.com/info-20533677-top-40-video-whittier</Url>
+            <ClickUrl>http://local.yahoo.com/info-20533677-top-40-video-whittier</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-20533677-top-40-video-whittier?viewtype=map</MapUrl>
+            <BusinessUrl/>
+            <BusinessClickUrl/>
+            <Categories>
+                <Category id="96935380">Video Games</Category>
+                <Category id="96936834">Home Theater</Category>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+        <Result id="38533738" xmlns="urn:yahoo:lcl">
+            <Title>Japan Video Games</Title>
+            <Address>9548 Las Tunas Dr</Address>
+            <City>Temple City</City>
+            <State>CA</State>
+            <Phone>(626) 287-7850</Phone>
+            <Latitude>34.106399</Latitude>
+            <Longitude>-118.062061</Longitude>
+            <Rating>
+                <AverageRating>4</AverageRating>
+                <TotalRatings>5</TotalRatings>
+                <TotalReviews>5</TotalReviews>
+                <LastReviewDate>1253153216</LastReviewDate>
+                <LastReviewIntro>This place is da BOMB! They got a good selection of Import Nintendo DS games. The ones that you would never find at gamestop. If you like Japanese DS games....this is definetely the place for you.</LastReviewIntro>
+            </Rating>
+            <Distance>8.71</Distance>
+            <Url>http://local.yahoo.com/info-38533738-japan-video-games-temple-city</Url>
+            <ClickUrl>http://local.yahoo.com/info-38533738-japan-video-games-temple-city</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-38533738-japan-video-games-temple-city?viewtype=map</MapUrl>
+            <BusinessUrl>http://www.japanvideogames.com</BusinessUrl>
+            <BusinessClickUrl>http://www.japanvideogames.com</BusinessClickUrl>
+            <Categories>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+        <Result id="20749158" xmlns="urn:yahoo:lcl">
+            <Title>2000 Video &amp; Games</Title>
+            <Address>15221 Gale Ave</Address>
+            <City>City Of Industry</City>
+            <State>CA</State>
+            <Phone>(626) 330-8244</Phone>
+            <Latitude>34.014867</Latitude>
+            <Longitude>-117.97523</Longitude>
+            <Rating>
+                <AverageRating>NaN</AverageRating>
+                <TotalRatings>0</TotalRatings>
+                <TotalReviews>0</TotalReviews>
+                <LastReviewDate/>
+                <LastReviewIntro/>
+            </Rating>
+            <Distance>6.85</Distance>
+            <Url>http://local.yahoo.com/info-20749158-2000-video-games-city-of-industry</Url>
+            <ClickUrl>http://local.yahoo.com/info-20749158-2000-video-games-city-of-industry</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-20749158-2000-video-games-city-of-industry?viewtype=map</MapUrl>
+            <BusinessUrl/>
+            <BusinessClickUrl/>
+            <Categories>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+        <Result id="20535696" xmlns="urn:yahoo:lcl">
+            <Title>Fastlane Video</Title>
+            <Address>12726 Hadley St, Ste 102</Address>
+            <City>Whittier</City>
+            <State>CA</State>
+            <Phone>(562) 698-3313</Phone>
+            <Latitude>33.982593</Latitude>
+            <Longitude>-118.040511</Longitude>
+            <Rating>
+                <AverageRating>5</AverageRating>
+                <TotalRatings>3</TotalRatings>
+                <TotalReviews>3</TotalReviews>
+                <LastReviewDate>1278392221</LastReviewDate>
+                <LastReviewIntro>Great Service!! Transfered Wedding VHS to DVD the next day for only $19.99. They also have a great selection of movies to rent on Blu-ray and DVD.</LastReviewIntro>
+            </Rating>
+            <Distance>2.73</Distance>
+            <Url>http://local.yahoo.com/info-20535696-fastlane-video-whittier</Url>
+            <ClickUrl>http://local.yahoo.com/info-20535696-fastlane-video-whittier</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-20535696-fastlane-video-whittier?viewtype=map</MapUrl>
+            <BusinessUrl>http://fastlanevideo.com/</BusinessUrl>
+            <BusinessClickUrl>http://fastlanevideo.com/</BusinessClickUrl>
+            <Categories>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+        <Result id="20562474" xmlns="urn:yahoo:lcl">
+            <Title>Target</Title>
+            <Address>8800 Whittier Blvd</Address>
+            <City>Pico Rivera</City>
+            <State>CA</State>
+            <Phone>(562) 949-6200</Phone>
+            <Latitude>34.00089</Latitude>
+            <Longitude>-118.08651</Longitude>
+            <Rating>
+                <AverageRating>4.5</AverageRating>
+                <TotalRatings>4</TotalRatings>
+                <TotalReviews>4</TotalReviews>
+                <LastReviewDate>1280491941</LastReviewDate>
+                <LastReviewIntro>Target rocks. I love the prices. Everything is easy to find. The staff is great.</LastReviewIntro>
+            </Rating>
+            <Distance>1.29</Distance>
+            <Url>http://local.yahoo.com/info-20562474-target-pico-rivera</Url>
+            <ClickUrl>http://local.yahoo.com/info-20562474-target-pico-rivera</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-20562474-target-pico-rivera?viewtype=map</MapUrl>
+            <BusinessUrl>http://www.target.com/</BusinessUrl>
+            <BusinessClickUrl>http://www.target.com/</BusinessClickUrl>
+            <Categories>
+                <Category id="96927157">Music Stores</Category>
+                <Category id="96929016">Clothing Stores</Category>
+                <Category id="96928503">Clothing Retailers</Category>
+                <Category id="96927745">Home Furnishings</Category>
+                <Category id="96925834">Grocery Stores</Category>
+                <Category id="96935912">Baby Apparel</Category>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+        <Result id="20545884" xmlns="urn:yahoo:lcl">
+            <Title>Blockbuster Video</Title>
+            <Address>11819 Whittier Blvd</Address>
+            <City>Whittier</City>
+            <State>CA</State>
+            <Phone>(562) 908-6570</Phone>
+            <Latitude>33.980859</Latitude>
+            <Longitude>-118.050423</Longitude>
+            <Rating>
+                <AverageRating>NaN</AverageRating>
+                <TotalRatings>0</TotalRatings>
+                <TotalReviews>0</TotalReviews>
+                <LastReviewDate/>
+                <LastReviewIntro/>
+            </Rating>
+            <Distance>2.16</Distance>
+            <Url>http://local.yahoo.com/info-20545884-blockbuster-video-whittier</Url>
+            <ClickUrl>http://local.yahoo.com/info-20545884-blockbuster-video-whittier</ClickUrl>
+            <MapUrl>http://local.yahoo.com/info-20545884-blockbuster-video-whittier?viewtype=map</MapUrl>
+            <BusinessUrl>http://www.blockbuster.com/</BusinessUrl>
+            <BusinessClickUrl>http://www.blockbuster.com/</BusinessClickUrl>
+            <Categories>
+                <Category id="96927261">Video Rental &amp; Retail</Category>
+            </Categories>
+        </Result>
+    </results>
+</query>
