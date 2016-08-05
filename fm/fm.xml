@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Daniel Park</author>
+        <description>Last.FM API for searching songs</description>
+        <documentationURL>http://www.last.fm/api/show/track.search</documentationURL>
+        <sampleQuery>select * from {table}</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="" produces="XML">
+            <urls>
+                <url>http://ws.audioscrobbler.com/2.0/?method=track.search</url>
+            </urls>
+            <inputs>
+                <key id="track" type="xs:string" paramType="query" required="true" />
+                <key id="api_key" type="xs:string" paramType="query" required="true" />
+            </inputs>
+            <execute>
+                <![CDATA[
+                    
+                ]]>
+            </execute>
+        </select>
+     </bindings>
+</table>
