@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <author>Wells</author>
+        <description>Fetches company information from SEC.gov</description>
+        <documentationURL>http://www.sec.gov</documentationURL>
+        <sampleQuery>select * from {table} where q="XOM"</sampleQuery>
+    </meta>
+    <bindings>
+        <select itemPath="companyFilings.companyInfo" produces="XML">
+            <urls>
+                <url>http://www.sec.gov/cgi-bin/browse-edgar</url>
+            </urls>
+            <inputs>
+                <key id="CIK" as="q" type="xs:string" paramType="query" required="true" />
+                <key id="type" type="xs:string" paramType="query" />
+                <key id="count" type="xs:integer" paramType="query" default="100" />
+                <key id="owner" type="xs:string" paramType="query" default="exclude" />
+                <key id="output" type="xs:string" paramType="query" const="true" default="xml" />
+                <key id="action" type="xs:string" paramType="query" const="true" default="getcompany" />
+            </inputs>
+        </select>
+     </bindings>
+</table>
