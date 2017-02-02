@@ -3,7 +3,7 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table contains the complete bible. Each passage is a record, identified by its citation reference.</description>
-    <sampleQuery>select * from bible.bible where language='en' and bibleref='Luke 11:10'</sampleQuery>
+    <sampleQuery>select * from bible.bible where language='en' and bibleref='Luke 11:10' and tolerance='true'</sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_155t6rwmkhp</documentationURL>
   </meta>
   <bindings>
@@ -18,6 +18,7 @@
         <key id="chapter" type="xs:integer" paramType="variable" required="false"/>
         <key id="passage" type="xs:integer" paramType="variable" required="false"/>
         <key id="bibleref" type="xs:string" paramType="variable" required="false"/>
+        <key id="tolerance" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
         String.prototype.trim = function() {
@@ -28,6 +29,9 @@
         var debug = 0;
         if (!edition && !language) {
           language = "en";
+        }
+        if (!tolerance) {
+          tolerance = "false";
         }
         var editionsquery = 'select edition from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/editions.xml" and edition.input like "%$edition%" and edition.language matches "(?i)$language"';
         editionsquery = editionsquery.replace("$language",language?language:'.*');
@@ -73,8 +77,9 @@
           </biblerefs>;
           bibleref = book + ' ' + chapter + ':' + verse;
         } else {
-          var biblerefsquery = "use 'https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref'";
+          var biblerefsquery = "use 'https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref' and tolerance='$tolerance'";
           biblerefsquery = biblerefsquery.replace("$bibleref",bibleref);
+          biblerefsquery = biblerefsquery.replace("$tolerance",tolerance);
           biblerefsxml = y.query(biblerefsquery).results.biblerefs;
           if (biblerefsxml.length() == 0) {
             y.log('Invalid bible reference.');
@@ -83,9 +88,10 @@
         }
         debug && y.log("Bible references: ");
         debug && y.log(biblerefsxml);
-        var localbiblerefsquery = "use 'https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref' and language='$language'";
+        var localbiblerefsquery = "use 'https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref' and language='$language' and tolerance='$tolerance'";
         localbiblerefsquery = localbiblerefsquery.replace("$bibleref",bibleref);
         localbiblerefsquery = localbiblerefsquery.replace("$language",language);
+        localbiblerefsquery = localbiblerefsquery.replace("$tolerance",tolerance);
         localbiblerefsxml = y.query(localbiblerefsquery).results.biblerefs;
         localbibleref = localbiblerefsxml.bibleref[0].localbook + ' ' + localbiblerefsxml.bibleref[0].chapterversereference;
         book = biblerefsxml.bibleref[0].book.toString();
@@ -185,7 +191,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
-        response.object = <passage bibleref={localbibleref}>{output}</passage>;
+        response.object = <passage bibleref={localbibleref} islastverse={biblerefsxml.bibleref[0].islastverse}>{output}</passage>;
 
         function stringValue(node) {
             var value = new String();

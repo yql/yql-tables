@@ -3,7 +3,7 @@
   <meta>
     <author>Vic Mortelmans</author>
     <description>The table breaks down complex bible references to a list of references to single verses. Also includes the OSISid format of the verse references.</description>
-    <sampleQuery>use "https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17"</sampleQuery>
+    <sampleQuery>use "https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml" as bible.bibleref; select * from bible.bibleref where bibleref="john 3:16,17" and tolerance="true"</sampleQuery>
     <documentationURL>http://docs.google.com/View?id=ddq89pzk_200fmmzdthf</documentationURL>
   </meta>
   <bindings>
@@ -14,6 +14,7 @@
       <inputs>
         <key id="bibleref" type="xs:string" paramType="variable" required="true"/>
         <key id="language" type="xs:string" paramType="variable" required="false"/>
+        <key id="tolerance" type="xs:string" paramType="variable" required="false"/>
       </inputs>
       <execute><![CDATA[ 
         RegExp.quote = function(str) {
@@ -22,6 +23,9 @@
 
         var debug = 1;
 
+        if (!tolerance) {
+          tolerance = "false";
+        }
         var book = "";
         var osisbook = "";
         var localbook = "";
@@ -318,7 +322,7 @@
           {
             throw("Fallback: non-existent verse: " + verse.number + " (chapter has " + number_of_verses + " verses)");
           }
-          if (mode == "implicit" && verse.number > number_of_verses)
+          if (tolerance == "true" && mode == "implicit" && verse.number > number_of_verses)
           // although it's wrong, I'm accepting it as 'till end of chapter'
           {
             chapterversereference = chapterversereference.replace(verse.number.toString(),number_of_verses.toString());
