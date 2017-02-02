@@ -321,6 +321,7 @@
           if (mode == "implicit" && verse.number > number_of_verses)
           // although it's wrong, I'm accepting it as 'till end of chapter'
           {
+            chapterversereference = chapterversereference.replace(str(verse.number),str(number_of_verses));
             verse.number = number_of_verses;
           }
           verse.islastverse = false;
