@@ -117,7 +117,7 @@
           debug && y.log("Number of verses in chapter " + chapternr + " is " + number_of_verses); 
           return number_of_verses;
         }
-        function listrecord(book,chapter,verse,phrase,osisbook)
+        function listrecord(book,chapter,verse,phrase,osisbook,islastverse)
         {
           var v = verseinbook(chapter,verse);
           return <bibleref>
@@ -131,6 +131,7 @@
           <phrase>{phrase}</phrase>
           <osisref>{osisbook + '.' + chapter + '.' + verse + (phrase?'!':'') + phrase}</osisref>
           <sequence>{osisbook + (1000000 + 1000 * chapter + verse)}</sequence>
+          <islastverse>{islastverse}</islastverse>
           </bibleref>;
         }
         function parse_reference(bibleref)
@@ -262,13 +263,13 @@
                   for (i = phrases.indexOf(begin.verse.phrase); phrases.charAt(i) <= end.verse.phrase; i++)
                   {
                     debug &&  y.log("adding [1] " + book + " | " + chapter + " | " + begin.verse.number + phrases.charAt(i) + " | " + osisbook); 
-                    list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook);
+                    list += listrecord(book, chapter, begin.verse.number, phrases.charAt(i), osisbook, end.verse.islastverse);
                   }
                 }  
                 else 
                 {
                   debug &&  y.log("adding [2] " + book + " | " + chapter + " | " + begin.verse.number + begin.verse.phrase + " | " + osisbook); 
-                  list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook);
+                  list += listrecord(book, chapter, begin.verse.number, begin.verse.phrase, osisbook, end.verse.islastverse);
                 }
               }
               else
@@ -283,7 +284,7 @@
                   phrase = end.verse.phrase?('-' + end.verse.phrase):'';
                 }
                 debug && y.log("adding [3] " + book + " | " + chapter + " | " + versenumber + phrase + " | " + osisbook); 
-                list += listrecord(book, chapter, versenumber, phrase, osisbook);
+                list += listrecord(book, chapter, versenumber, phrase, osisbook, end.verse.islastverse);
               }
             }
           }
@@ -313,9 +314,19 @@
             throw("Fallback: invalid verse number: " + location);
           }
           number_of_verses = get_number_of_verses(bookoutlinerecord, chapter);
-          if (verse.number > number_of_verses)
+          if (mode == "explicit" && verse.number > number_of_verses)
           {
             throw("Fallback: non-existent verse: " + verse.number + " (chapter has " + number_of_verses + " verses)");
+          }
+          if (mode == "implicit" && verse.number > number_of_verses)
+          // although it's wrong, I'm accepting it as 'till end of chapter'
+          {
+            verse.number = number_of_verses;
+          }
+          verse.islastverse = false;
+          if (verse.number == number_of_verses)
+          {
+            verse.islastverse = true;
           }
           openchapter = chapter;
           return {chapter:chapter, verse:verse};
