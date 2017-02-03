@@ -191,7 +191,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
-        response.object = <passage bibleref={localbibleref} islastverse={biblerefsxml.bibleref[0].islastverse}>{output}</passage>;
+        response.object = <passage bibleref={localbibleref} remainingverses={biblerefsxml.bibleref[0].remainingverses}>{output}</passage>;
 
         function stringValue(node) {
             var value = new String();
