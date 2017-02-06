@@ -98,6 +98,10 @@
         {
           return bookrecord.input.(@language.toString().match(lang)).toString();
         }
+        function getspokenbook(bookrecord, lang)
+        {
+          return bookrecord.input.(@spoken.toString().match(lang)).toString();
+        }
         function bookoutlinequery(osisbook)
         {
           var booksquery, books;
@@ -136,6 +140,7 @@
           <osisref>{osisbook + '.' + chapter + '.' + verse + (phrase?'!':'') + phrase}</osisref>
           <sequence>{osisbook + (1000000 + 1000 * chapter + verse)}</sequence>
           <remainingverses>{remainingverses}</remainingverses>
+          <spoken>{spokenbook}</spoken>
           </bibleref>;
         }
         function parse_reference(bibleref)
@@ -167,6 +172,7 @@
           if (language)
           {
             localbook = getlocalbook(bookrecord,language);
+            spokenbook = getspokenbook(bookrecord,language);
           }
           bookoutlinerecord = bookoutlinequery(osisbook);
           /* determine the functions of the separators being used */
