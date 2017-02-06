@@ -29,6 +29,7 @@
         var book = "";
         var osisbook = "";
         var localbook = "";
+        var spokenbook = "";
         var bookrecord;
         var bookoutlinerecord;
         var openchapter = 0;
