@@ -21,7 +21,7 @@
           return str.replace(/([.?*+^$[\]\\(){}-])/g, "\\$1");
         };
 
-        var debug = 0;
+        var debug = 1;
 
         if (!tolerance) {
           tolerance = "false";
