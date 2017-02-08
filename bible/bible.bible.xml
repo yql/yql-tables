@@ -124,6 +124,7 @@
         var queryoutput = new String();
         var output = new String();
         var versecount = 1;
+        var remainingversesinpassage = 0;
         if (chunk && chunksize) {
           var versechunkstart = (chunk - 1) * chunksize + 1; 
           var versechunkend = chunk * chunksize;
@@ -183,6 +184,9 @@
             output += (queryoutput + ' ');
           }
         }
+        if (chunk && chunksize) {
+          remainingversesinpassage = versecount - versechunkend;
+        }
         output = output.trim();
         output = output.replace(/\s+/g, ' ');
         var punctuation = output.match(/[.?!,:;]$/);
@@ -201,7 +205,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
-        response.object = <passage bibleref={localbibleref} remainingverses={biblerefsxml.bibleref[0].remainingverses} spoken={localbiblerefsxml.bibleref[0].spoken}>{output}</passage>;
+        response.object = <passage bibleref={localbibleref} remainingversesinpassage={remainingversesinpassage} remainingversesinchapter={biblerefsxml.bibleref[0].remainingverses} spoken={localbiblerefsxml.bibleref[0].spoken}>{output}</passage>;
 
         function stringValue(node) {
             var value = new String();
