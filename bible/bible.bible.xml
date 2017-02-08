@@ -129,10 +129,12 @@
           var versechunkstart = (chunk - 1) * chunksize + 1; 
           var versechunkend = chunk * chunksize;
         }
+        var endverse;
         for each (var biblerefxml in biblerefsxml.*) {
           versecount++;
           if (!chunk || (versechunkstart <= versecount && versecount <= versechunkend)) {
             debug && y.log(biblerefxml);
+            endverse = biblerefxml;
             var url = new String();
             var finalquery = new String();
             for each (var step in service.step) {
@@ -205,7 +207,7 @@
              -1 == output.substring(output.lastIndexOf("‘"),output.length-1).indexOf("’") ) {
           output += '’';
         }
-        response.object = <passage bibleref={localbibleref} remainingversesinpassage={remainingversesinpassage} remainingversesinchapter={biblerefsxml.bibleref[0].remainingverses} book={localbiblerefsxml.bibleref[0].book} spoken={localbiblerefsxml.bibleref[0].spoken}>{output}</passage>;
+        response.object = <passage bibleref={localbibleref} remainingversesinpassage={remainingversesinpassage} remainingversesinchapter={endverse.remainingverses} book={endverse.book} chapter={endverse.chapter} endverse={endverse.verse} spoken={localbiblerefsxml.bibleref[0].spoken}>{output}</passage>;
 
         function stringValue(node) {
             var value = new String();
