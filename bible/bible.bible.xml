@@ -187,7 +187,7 @@
           }
         }
         if (chunk && chunksize) {
-          remainingversesinpassage = versecount - versechunkend;
+          remainingversesinpassage = Math.max(0,versecount - versechunkend);
         }
         output = output.trim();
         output = output.replace(/\s+/g, ' ');
