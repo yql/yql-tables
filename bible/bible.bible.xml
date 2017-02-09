@@ -123,7 +123,7 @@
         var editioncode = edition.code.(@service == service.editionskey.toString()).toString();
         var queryoutput = new String();
         var output = new String();
-        var versecount = 1;
+        var versecount = 0;
         var remainingversesinpassage = 0;
         if (chunk && chunksize) {
           var versechunkstart = (chunk - 1) * chunksize + 1; 
