@@ -110,15 +110,21 @@
         }
         book = books.book[0];
         debug && y.log(book);
-        var servicesquery = 'select service from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/services.xml" and service.name matches "(?i)$service"';
-        servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
-        var services = y.query(servicesquery).results.services;
-        if (services.service.length() < 1) {
-            var error_message = 'Internal error';
-            y.log(error_message);
-            y.exit();
+        if (!service) {
+          var servicesquery = 'select service from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/services.xml" and service.name matches "(?i)$service"';
+          servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
+          var services = y.query(servicesquery).results.services;
+          if (services.service.length() < 1) {
+              var error_message = 'Internal error';
+              y.log(error_message);
+              y.exit();
+          }
+          service = services.service[0];
+        } else {
+          var error_message = 'Using $service because of manual override... fingers crossed.';
+          error_message = error_message.replace ("$service",service);
+          y.log(error_message);
         }
-        service = services.service[0];
         debug && y.log(service);
         var bookcode = book.code.(@service == service.bookskey.toString()).toString();
         var editioncode = edition.code.(@service == service.editionskey.toString()).toString();
@@ -182,7 +188,7 @@
               }
               queryoutput = stringListValue(y.query(finalquery).results);
               queryoutput = queryoutput.trim();
-              if (queryoutput.length() > 0) {
+              if (queryoutput.length > 0) {
                 break; // success
               } else {
                 if (editionsfallback) {
