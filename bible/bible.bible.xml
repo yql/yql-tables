@@ -14,6 +14,7 @@
       <inputs>
         <key id="language" type="xs:string" paramType="variable" required="false"/>
         <key id="edition" type="xs:string" paramType="variable" required="false"/>
+        <key id="service" type="xs:string" paramType="variable" required="false"/>
         <key id="book" type="xs:string" paramType="variable" required="false"/>
         <key id="chapter" type="xs:integer" paramType="variable" required="false"/>
         <key id="passage" type="xs:integer" paramType="variable" required="false"/>
@@ -135,45 +136,63 @@
           if (!chunk || (versechunkstart <= versecount && versecount <= versechunkend)) {
             debug && y.log(biblerefxml);
             endverse = biblerefxml;
-            var url = new String();
-            var finalquery = new String();
-            for each (var step in service.step) {
-              if (step.@nr < service.step.length()) { 
-                if (step.@yql.toString() == "true") { // yql query
-                  debug && y.log("YQL query");
-                  var query = step.toString();
-                  query = query.replace(/\$book/g,bookcode);
-                  query = query.replace(/\$edition/g,editioncode);
-                  query = query.replace(/\$chapter/g,biblerefxml.chapter.toString());
-                  query = query.replace(/\$passage/g,biblerefxml.verse.toString());
-                  query = query.replace(/\$url/g,url);
-                  var results = y.query(query).results;
-                  url = results.a.@href.toString();
-                  debug && y.log(url);
-                } else { // rest call
-                  debug && y.log("REST query");
-                  var rest = step.toString();
-                  rest = rest.replace(/\$book/g,escape(bookcode));
-                  rest = rest.replace(/\$edition/g,escape(editioncode));
-                  rest = rest.replace(/\$chapter/g,escape(biblerefxml.chapter.toString()));
-                  rest = rest.replace(/\$passage/g,escape(biblerefxml.verse.toString()));
-                  rest = rest.replace(/\$url/g,escape(url));
-                  url = rest;
-                  debug && y.log(url);
-                }
-              } else { // last step is always yql query
-                  debug && y.log("Final YQL query");
-                  finalquery = step.toString();
-                  finalquery = finalquery.replace(/\$book/g,bookcode);
-                  finalquery = finalquery.replace(/\$edition/g,editioncode);
-                  finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter.toString());
-                  finalquery = finalquery.replace(/\$passage/g,biblerefxml.verse.toString());
-                  finalquery = finalquery.replace(/\$url/g,url);
-                  debug && y.log(finalquery);
+            editionsfallback = [];
+            for (var e = 0; e++; e < editions.edition.length()) {
+              if (editions.edition[e] != edition) {
+                editionsfallback.push(editions.edition[e]);
               }
             }
-            queryoutput = stringListValue(y.query(finalquery).results);
-            queryoutput = queryoutput.trim();
+            while (1) {
+              var url = new String();
+              var finalquery = new String();
+              for each (var step in service.step) {
+                if (step.@nr < service.step.length()) { 
+                  if (step.@yql.toString() == "true") { // yql query
+                    debug && y.log("YQL query");
+                    var query = step.toString();
+                    query = query.replace(/\$book/g,bookcode);
+                    query = query.replace(/\$edition/g,editioncode);
+                    query = query.replace(/\$chapter/g,biblerefxml.chapter.toString());
+                    query = query.replace(/\$passage/g,biblerefxml.verse.toString());
+                    query = query.replace(/\$url/g,url);
+                    var results = y.query(query).results;
+                    url = results.a.@href.toString();
+                    debug && y.log(url);
+                  } else { // rest call
+                    debug && y.log("REST query");
+                    var rest = step.toString();
+                    rest = rest.replace(/\$book/g,escape(bookcode));
+                    rest = rest.replace(/\$edition/g,escape(editioncode));
+                    rest = rest.replace(/\$chapter/g,escape(biblerefxml.chapter.toString()));
+                    rest = rest.replace(/\$passage/g,escape(biblerefxml.verse.toString()));
+                    rest = rest.replace(/\$url/g,escape(url));
+                    url = rest;
+                    debug && y.log(url);
+                  }
+                } else { // last step is always yql query
+                    debug && y.log("Final YQL query");
+                    finalquery = step.toString();
+                    finalquery = finalquery.replace(/\$book/g,bookcode);
+                    finalquery = finalquery.replace(/\$edition/g,editioncode);
+                    finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter.toString());
+                    finalquery = finalquery.replace(/\$passage/g,biblerefxml.verse.toString());
+                    finalquery = finalquery.replace(/\$url/g,url);
+                    debug && y.log(finalquery);
+                }
+              }
+              queryoutput = stringListValue(y.query(finalquery).results);
+              queryoutput = queryoutput.trim();
+              if (queryoutput.length() > 0) {
+                break; // success
+              } else {
+                if (editionsfallback) {
+                  edition = shift(editionsfallback);
+                } else {
+                  y.log('No bible edition found that produces any output. This is a severe error. Please report to info@gelovenleren.net.');
+                  y.exit();
+                }
+              }
+            } // while (1)  
             var verseIndication = queryoutput.match(/^[0-9]+/);
             if ( verseIndication && verseIndication[0] === biblerefxml.verse.toString()) {
               queryoutput = queryoutput.replace(/^[0-9]+[.\s]*/,'');
@@ -185,7 +204,7 @@
             debug && y.log(queryoutput);
             output += (queryoutput + ' ');
           }
-        }
+        } // for each biblerefxml
         if (chunk && chunksize) {
           remainingversesinpassage = Math.max(0,versecount - versechunkend);
         }
