@@ -110,15 +110,15 @@
         }
         book = books.book[0];
         debug && y.log(book);
+        var servicesquery = 'select service from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/services.xml" and service.name matches "(?i)$service"';
+        servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
+        var services = y.query(servicesquery).results.services;
+        if (services.service.length() < 1) {
+            var error_message = 'Internal error';
+            y.log(error_message);
+            y.exit();
+        }
         if (!service) {
-          var servicesquery = 'select service from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/services.xml" and service.name matches "(?i)$service"';
-          servicesquery = servicesquery.replace("$service",edition.code.(@default_ == "true").@service.toString());
-          var services = y.query(servicesquery).results.services;
-          if (services.service.length() < 1) {
-              var error_message = 'Internal error';
-              y.log(error_message);
-              y.exit();
-          }
           service = services.service[0];
         } else {
           var error_message = 'Using $service because of manual override... fingers crossed.';
@@ -193,6 +193,7 @@
               } else {
                 if (editionsfallback) {
                   edition = shift(editionsfallback);
+                  y.log('');
                 } else {
                   y.log('No bible edition found that produces any output. This is a severe error. Please report to info@gelovenleren.net.');
                   y.exit();
