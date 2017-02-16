@@ -36,7 +36,9 @@
         if (!tolerance) {
           tolerance = "false";
         }
+
         // parse the bible reference into a list of verse references
+
         var biblerefsxml;
         if (!bibleref) {
           if (!book && !chapter) {
@@ -62,9 +64,10 @@
             y.exit()
           }
         }
-        debug && y.log("Bible references: ");
-        debug && y.log(biblerefsxml);
+        debug && y.log("Bible references = " + biblerefsxml);
+
         // get some localized info
+
         var localbiblerefsquery = "use 'https://raw.githubusercontent.com/vicmortelmans/yql-tables/master/bible/bibleref.xml' as bible.bibleref;select * from bible.bibleref where bibleref='$bibleref' and language='$language' and tolerance='$tolerance'";
         localbiblerefsquery = localbiblerefsquery.replace("$bibleref",bibleref);
         localbiblerefsquery = localbiblerefsquery.replace("$language",language);
@@ -83,48 +86,57 @@
             y.exit();
         }
         book = books.book[0];
-        debug && y.log(book);
+        debug && y.log("book = " + book);
+
         // get the configuration data for editions and services
+
+        // query for all editions for the specified language
         var editionsquery = 'select edition from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/editions.xml" and edition.language matches "(?i)$language"';
         editionsquery = editionsquery.replace("$language",language?language:'.*');
         var editionsxml = y.query(editionsquery).results.editions.edition;
-        debug && y.log("Editions: ");
-        debug && y.log(editionsxml);
+        debug && y.log("editionsxml (all editions for the language) = " + editionsxml);
+        // make inventory of all editions and listed services and prioritize based on specified edition and service (if applicable)
         var priority = 0;
         var editionservices = [];
         for each (var editionxml in editionsxml) {
           for each (var servicexml in editionxml.code) {
-            var editionservicepriority = priority++;
-            if (edition && editionxml.(input == edition))
-              editionservicepriority += 10;
-            else if (editionxml.default_ == "true")
-              editionservicepriority += 50;
-            else if (service && servicexml.(input == service))
+            var editionservicepriority = priority--;
+            for each (var input in editionxml.input) {
+              if (edition && input == edition) {
+                debug && y.log("edition = " + edition + " matches " + input);
+                editionservicepriority += 500
+              }
+            }
+            if (editionxml.default_ == "true") {
               editionservicepriority += 100;
-            else if (servicexml.@default_ == "true")
-              editionservicepriority += 500;
-            else 
-              editionservicepriority += 1000;
+              debug && y.log("editionxml.default_ = " + editionxml.default_);
+            }
+            if (service && servicexml.@service == service) {
+              editionservicepriority += 50;
+              debug && y.log("service = " + service + " matches " + servicexml.@service);
+            }
+            if (servicexml.@default_ == "true") {
+              editionservicepriority += 10;
+              debug && y.log("servicexml.default_ = " + servicexml.default_);
+            }
             editionservices.push({
               "edition": editionxml,
-              "servicename": servicexml.input.text(),
+              "servicename": servicexml.@service.text().toString(),
               "priority": editionservicepriority
             });
-            debug && y.log('Edition: ' + editionxml.input[0].text() + '; Service: ' + servicexml.input[0].text() + '; Priority: ' + editionservicepriority);
+            debug && y.log('Edition: ' + editionxml.input[0].text() + ' Service: ' + servicexml.@service.text() + ' Priority: ' + editionservicepriority);
           }
         }
         editionservices.sort(function(a,b) {
-          return a.priority - b.priority;
+          return b.priority - a.priority;
         });
         editionservice = editionservices.shift();
-        y.log('Using: ');
-        y.log(editionservice.edition.input[0].text());
-        y.log(editionservice.servicename);
+        y.log('Using: ' + editionservice.edition.input[0].text() + ' via ' + editionservice.servicename);
         if (editionservice.edition.copyright.text()) {
           y.log('Copyright: ');
-          y.log(edition.copyright.text());
+          y.log(editionservice.edition.copyright.text());
         }
-        debug && y.log(editionservice);
+        debug && y.log("editionservice = " + editionservice);
         var queryoutput = new String();
         var output = new String();
         var versecount = 0;
@@ -137,14 +149,14 @@
         for each (var biblerefxml in biblerefsxml.*) {
           versecount++;
           if (!chunk || (versechunkstart <= versecount && versecount <= versechunkend)) {
-            debug && y.log(biblerefxml);
+            debug && y.log("biblerefxml = " + biblerefxml);
             endverse = biblerefxml;
             while (1) {
               var url = new String();
               var finalquery = new String();
               if (!editionservice.service) {
                 var servicesquery = 'select service from xml where url="https://raw.githubusercontent.com/vicmortelmans/BibleConfiguration/master/services.xml" and service.name matches "(?i)$service"';
-                servicesquery = servicesquery.replace("$service",editionservice.service.input.text());
+                servicesquery = servicesquery.replace("$service",editionservice.servicename);
                 var services = y.query(servicesquery).results.services;
                 if (services.service.length() < 1) {
                     var error_message = 'Internal error';
@@ -152,43 +164,52 @@
                     y.exit();
                 }
                 editionservice.service = services.service[0];
-                debug && y.log(editionservice.service);
-                var bookcode = book.code.(@service == editionservice.service.bookskey.text()).text();
-                var editioncode = edition.code.(@service == editionservice.service.editionskey.text()).text();
+                debug && y.log("editionservice.service = " + editionservice.service);
+                debug && y.log("edition = " + edition);
+                var bookcode = book.code.(@service == editionservice.service.bookskey.text()).text().toString();
+                debug && y.log("bookcode = " + bookcode);
+                var editioncode = editionservice.edition.code.(@service == editionservice.service.editionskey.text()).text().toString();
+                debug && y.log("editioncode = " + editioncode);
               }
               for each (var step in editionservice.service.step) {
+                var chapter = biblerefxml.chapter.text().toString();
+                var verse = biblerefxml.chapter.text().toString();
                 if (step.@nr < editionservice.service.step.length()) { 
                   if (step.@yql.text() == "true") { // yql query
                     debug && y.log("YQL query");
-                    var query = step.text();
+                    var query = step.text().toString();
                     query = query.replace(/\$book/g,bookcode);
                     query = query.replace(/\$edition/g,editioncode);
-                    query = query.replace(/\$chapter/g,biblerefxml.chapter.text());
-                    query = query.replace(/\$passage/g,biblerefxml.verse.text());
+                    query = query.replace(/\$chapter/g,chapter);
+                    query = query.replace(/\$passage/g,verse);
                     query = query.replace(/\$url/g,url);
                     var results = y.query(query).results;
                     url = results.a.@href.text();
-                    debug && y.log(url);
+                    debug && y.log("url = " + url);
                   } else { // rest call
                     debug && y.log("REST query");
-                    var rest = step.text();
+                    var rest = step.text().toString();
                     rest = rest.replace(/\$book/g,escape(bookcode));
                     rest = rest.replace(/\$edition/g,escape(editioncode));
-                    rest = rest.replace(/\$chapter/g,escape(biblerefxml.chapter.text()));
-                    rest = rest.replace(/\$passage/g,escape(biblerefxml.verse.text()));
+                    rest = rest.replace(/\$chapter/g,escape(chapter));
+                    rest = rest.replace(/\$passage/g,escape(verse));
                     rest = rest.replace(/\$url/g,escape(url));
                     url = rest;
-                    debug && y.log(url);
+                    debug && y.log("url = " + url);
                   }
                 } else { // last step is always yql query
                     debug && y.log("Final YQL query");
-                    finalquery = step.text();
+                    finalquery = step.text().toString();
+                    y.log("finalquery is a " + typeof(finalquery));
+                    y.log("bookcode is a " + typeof(bookcode));
                     finalquery = finalquery.replace(/\$book/g,bookcode);
                     finalquery = finalquery.replace(/\$edition/g,editioncode);
-                    finalquery = finalquery.replace(/\$chapter/g,biblerefxml.chapter.text());
-                    finalquery = finalquery.replace(/\$passage/g,biblerefxml.verse.text());
-                    finalquery = finalquery.replace(/\$url/g,url);
-                    debug && y.log(finalquery);
+                    finalquery = finalquery.replace(/\$chapter/g,chapter);
+                    finalquery = finalquery.replace(/\$passage/g,verse);
+                    if (url.length > 0) {
+                      finalquery = finalquery.replace(/\$url/g,url);
+                    }
+                    debug && y.log("finalquery = " + finalquery);
                 }
               }
               queryoutput = stringListValue(y.query(finalquery).results);
@@ -196,16 +217,15 @@
               if (queryoutput.length > 0) {
                 break; // success
               } else {
-                if (editionservices) {
+                y.log('NO RESULTS USING: ' + editionservice.edition.input[0].text() + ' via ' + editionservice.servicename);
+                if (editionservices.length > 0) {
                   editionservice = editionservices.shift();
-                  y.log('Using: ');
-                  y.log(editionservice.edition.input.text());
-                  y.log(editionservice.service.input.text());
+                  debug && y.log("editionservices = " + editionservices);
+                  y.log('Using: ' + editionservice.edition.input[0].text() + ' via ' + editionservice.servicename);
                   if (editionservice.edition.copyright.text()) {
                     y.log('Copyright: ');
-                    y.log(edition.copyright.text());
+                    y.log(editionservice.edition.copyright.text());
                   }
-                  debug && y.log(editionservice);
                 } else {
                   y.log('No bible service found that produces any output. This is a severe error. Please report to info@gelovenleren.net.');
                   y.exit();
@@ -262,7 +282,7 @@
         function stringListValue(node) {
             var value = new String();
             if (node.hasSimpleContent()) {
-                value = node.text();
+                value = node.text().toString();
             } else {
                 for each (var c in node.children()) {
                     value += stringValue(c) + " ";
@@ -293,8 +313,6 @@
           var index = "abcdefghijkl".indexOf(phrasechar);
           var i = 0;
           var result = new String();
-          var before = phrase.match(/^-/);
-          debug && y.log("before: " + before);
           var after = phrase.match(/-$/);
           debug && y.log("after: " + after);
           for each (var p in phrases) {
