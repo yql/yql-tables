@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd"> 
+  <meta> 
+    <author>Jon Iturrioz</author>
+        <description>Instagram LDW</description>
+        <documentationURL>https://www.instagram.com/developer/endpoints/</documentationURL>
+        <apiKeyURL>https://www.instagram.com/developer/</apiKeyURL>
+   </meta> 
+  <bindings> 
+   <select itemPath="" produces="JSON"> 
+      <urls> 
+          <url env="all">https://api.instagram.com/v1/media/{media_id}?access_token={access_token}</url> 
+      </urls> 
+      <inputs> 
+        <key id="media_id" type="xs:string" paramType="path" />   
+        <key id="access_token" type="xs:string" private="true" paramType="path" required="true" default="4821542541.6ac95bb.85d9220cc8774723853f4ebd4096f950"/>  
+      </inputs> 
+    </select> 
+  </bindings> 
+</table>
