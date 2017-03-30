@@ -4,7 +4,7 @@
     <author>Jon Iturrioz</author>
         <description>Instagram LDW</description>
         <documentationURL>https://www.instagram.com/developer/endpoints/</documentationURL>
-        <apiKeyURL>http://instagram.pixelunion.net/</apiKeyURL>
+        <apiKeyURL>https://www.instagram.com/developer/</apiKeyURL>
    </meta> 
   <bindings> 
    <select itemPath="" produces="JSON"> 
