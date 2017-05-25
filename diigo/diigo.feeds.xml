@@ -29,7 +29,7 @@
         <key id="tag3" type="xs:string" paramType="path"/>
       </inputs>
     </select>
-    <select itemPath="rss.channel.item" produces="XML">
+    <select itemPath="rss.channel" produces="XML">
       <urls>
         <url>http://www.diigo.com/rss/</url>
       </urls>
