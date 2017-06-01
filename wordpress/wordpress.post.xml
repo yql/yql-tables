@@ -390,7 +390,6 @@
                 <url/>
             </urls>
             <inputs>
-
                 <key id="postid" type="xs:string" paramType="variable" required="true"/>
                 <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
                 <key id="username" type="xs:string" paramType="variable" required="true"/>
@@ -413,6 +412,52 @@
                         <param>
                             <value>
                                 <string>{password}</string>
+                            </value>
+                        </param>
+                    </params>
+                </methodCall>;
+                
+                url = blogurl + "/xmlrpc.php";
+                myRequest = y.rest(url);
+                myRequest.contentType("text/xml");
+                //myRequest.accept("text/xml");
+                myRequest.header("Connection", "close");
+                results = myRequest.post('<?xml version="1.0" encoding="UTF-8"?>' + postData.toString()).response;
+                response.object = results;
+            ]]></execute>
+        </select> 
+                <select itemPath="" produces="XML">
+            <urls>
+                <url/>
+            </urls>
+            <inputs>
+                <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
+                <key id="username" type="xs:string" paramType="variable" required="true"/>
+                <key id="password" type="xs:string" paramType="variable" required="true"/>
+                <key id="numberOfPosts" type="xs:integer" paramType="variable" required="false" default="100"/>
+            </inputs>
+            <execute><![CDATA[
+            postData = <methodCall>
+                <methodName>metaWeblog.getRecentPosts</methodName>
+                    <params>
+                        <param>
+                            <value>
+                                <string>0000</string>
+                            </value>
+                        </param>
+                       <param>
+                            <value>
+                                <string>{username}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{password}</string>
+                            </value>
+                        </param>
+                        <param>
+                            <value>
+                                <string>{numberOfPosts}</string>
                             </value>
                         </param>
                     </params>
