@@ -442,11 +442,6 @@
                     <params>
                         <param>
                             <value>
-                                <string>{postid}</string>
-                            </value>
-                        </param>
-                        <param>
-                            <value>
                                 <string>{username}</string>
                             </value>
                         </param>
