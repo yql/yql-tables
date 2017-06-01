@@ -390,7 +390,6 @@
                 <url/>
             </urls>
             <inputs>
-
                 <key id="postid" type="xs:string" paramType="variable" required="true"/>
                 <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
                 <key id="username" type="xs:string" paramType="variable" required="true"/>
@@ -435,7 +434,7 @@
                 <key id="blogurl" type="xs:string" paramType="variable" required="true"/>
                 <key id="username" type="xs:string" paramType="variable" required="true"/>
                 <key id="password" type="xs:string" paramType="variable" required="true"/>
-                <key id="numberOfPosts" type="xs:integer" paramType="variable" required="false" default=100/>
+                <key id="numberOfPosts" type="xs:integer" paramType="variable" required="false" default="100"/>
             </inputs>
             <execute><![CDATA[
             postData = <methodCall>
